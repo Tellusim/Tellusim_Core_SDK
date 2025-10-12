@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+LDFLAGS = gdi32.lib user32.lib d3d12.lib dxgi.lib shcore.lib
+
+include ..\..\Makefile.win.mk

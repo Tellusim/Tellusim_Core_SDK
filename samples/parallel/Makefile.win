@@ -1,0 +1,10 @@
+TESTS = \
+	fluid_2d \
+	fourier_2d \
+	radix_sort \
+	spatial_grid \
+	spatial_tree \
+	tensor_mnist \
+	tensor_torch
+
+include ..\Makefile.win

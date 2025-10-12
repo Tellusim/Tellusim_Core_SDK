@@ -1,0 +1,6 @@
+SRCS = main.cpp \
+	source/TellusimVK.cpp
+
+FLAGS = $(FLAGS) /I$(TSROOT)\plugins\platform\vulkan\extern
+
+include ..\..\Makefile.win.mk

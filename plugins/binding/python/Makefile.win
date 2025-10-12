@@ -1,0 +1,37 @@
+# Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+# https://tellusim.com/
+
+TSROOT = $(MAKEDIR)\..\..\..
+
+#
+# Default target
+#
+TARGET = TellusimPy_$(ARCH)$(POSTFIX).dll
+
+#
+# Default configuration
+#
+CFLAGS = $(CFLAGS) /DTS_PYEXPORT=1 /I$(PYTHONROOT)\include
+LDFLAGS = $(LDFLAGS) /dll /libpath:$(PYTHONROOT)\libs
+
+#
+# Sources
+#
+SRCS = source/TellusimPyBase.cpp \
+	source/TellusimPyMath.cpp \
+	source/TellusimPyAPI.cpp
+
+#
+# Build
+#
+!include $(TSROOT)\build\Makefile.win.mk
+
+#
+# Install
+#
+install:
+	@$(ECHO) b "Install $(TARGET)"
+	@del /f $(TSROOT)\bin\tellusim$(POSTFIX).pyd
+	@del /f $(TSROOT)\bin\Tellusim_$(ARCH)$(POSTFIX).dll
+	@mklink $(TSROOT)\bin\tellusim$(POSTFIX).pyd ..\plugins\binding\python\$(TARGET)
+	@mklink $(TSROOT)\bin\Tellusim_$(ARCH)$(POSTFIX).dll ..\source\Tellusim_$(ARCH)$(POSTFIX).dll

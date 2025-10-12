@@ -1,0 +1,20 @@
+TOOLS = \
+	blob \
+	browser \
+	image \
+	mesh \
+	noise \
+	project \
+	shader
+
+MAKE = nmake.exe /nologo -f Makefile.win
+EXEC = $(TSROOT)\bin\ts_exec.bat
+
+all:
+	@$(EXEC) -s "cmd /c 'cd @ && $(MAKE) $(OPTIONS)'" $(TOOLS)
+
+install:
+	@$(EXEC) "cmd /c 'cd @ && $(MAKE) $(OPTIONS) install'" $(TOOLS)
+
+clean:
+	@$(EXEC) -p "cmd /c 'cd @ && $(MAKE) clean'" $(TOOLS)

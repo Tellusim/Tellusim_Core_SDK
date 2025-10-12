@@ -1,0 +1,58 @@
+# Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+# https://tellusim.com/
+
+TSROOT = $(MAKEDIR)\..\..\..
+
+#
+# Default target
+#
+TARGET = TellusimC_$(ARCH)$(POSTFIX).dll
+TARGET_LIB = TellusimC_$(ARCH)$(POSTFIX).lib
+
+#
+# Default configuration
+#
+CFLAGS = $(CFLAGS) /DTS_CEXPORT=1
+LDFLAGS = $(LDFLAGS) /dll
+
+#
+# Sources
+#
+SRCS = source/TellusimCBase.cpp \
+	source/TellusimCMath.cpp \
+	source/TellusimCAPI.cpp
+
+#
+# Main target
+#
+MAIN_TARGET = main$(POSTFIX).exe
+MAIN_OBJS = main.obj
+
+#
+# Clean targets
+#
+CLEAN = $(MAIN_TARGET) $(MAIN_OBJS)
+
+#
+# Build
+#
+!include $(TSROOT)\build\Makefile.win.mk
+
+#
+# Main
+#
+all: $(MAIN_TARGET)
+
+.c.obj:
+	@$(CXX) /nologo /Wall /Os /c /Fo$@ $<
+
+$(MAIN_TARGET): $(MAIN_OBJS) $(TARGET)
+	@$(LINK) /nologo /out:$@ $(MAIN_OBJS) $(TARGET_LIB)
+
+#
+# Install
+#
+install:
+	@$(ECHO) b "Install $(TARGET)"
+	@del /f $(TSROOT)\bin\$(TARGET)
+	@mklink $(TSROOT)\bin\$(TARGET) ..\plugins\binding\capi\$(TARGET)

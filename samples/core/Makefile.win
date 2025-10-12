@@ -1,0 +1,18 @@
+TESTS = \
+	array \
+	async \
+	blob \
+	directory \
+	function \
+	pointer \
+	pool \
+	socket \
+	sort \
+	source \
+	string \
+	system \
+	thread \
+	time \
+	tree
+
+include ..\Makefile.win

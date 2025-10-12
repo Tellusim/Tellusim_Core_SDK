@@ -1,0 +1,17 @@
+PLUGINS = \
+	capi
+
+!if "$(VSVERSION)" > "150"
+PLUGINS = $(PLUGINS) csharp
+!endif
+!if defined(PYTHONROOT)
+PLUGINS = $(PLUGINS) python
+!endif
+!if [where /q rustc.exe] == 0
+PLUGINS = $(PLUGINS) rust
+!endif
+!if [where /q javac.exe] == 0
+PLUGINS = $(PLUGINS) java
+!endif
+
+include ..\Makefile.win

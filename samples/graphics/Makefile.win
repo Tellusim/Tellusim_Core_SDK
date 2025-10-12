@@ -1,0 +1,32 @@
+TESTS = \
+	cube_filter \
+	decoder_jpeg \
+	encoder_astc \
+	encoder_bc67 \
+	geometry \
+	indirect \
+	lights \
+	line \
+	mesh_tracing \
+	mesh_tree \
+	meshlet \
+	model \
+	morph \
+	multi_window \
+	parallax_2d \
+	parallax_cube \
+	separable_filter \
+	shadow_esm \
+	shadow_pcf \
+	shadow_tracing \
+	shadow_tree \
+	skinned \
+	skinned_tracing \
+	skinned_tree \
+	tangent \
+	tessellation \
+	tracing \
+	transparency \
+	traversal
+
+include ..\Makefile.win

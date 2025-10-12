@@ -1,0 +1,4 @@
+SRCS = main.cpp \
+	source/TellusimControlSlider.cpp
+
+include ..\..\Makefile.win.mk

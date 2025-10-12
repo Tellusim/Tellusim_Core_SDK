@@ -1,0 +1,6 @@
+SRCS = main.cpp \
+	source/TellusimONNX.cpp
+
+LIB = $(LIB);extern\lib\windows\$(ARCH)
+
+include ..\..\Makefile.win.mk

@@ -1,0 +1,60 @@
+# Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+# https://tellusim.com/
+
+CSC = csc.exe
+
+CSFLAGS = /langversion:8.0 /define:_WIN32
+
+#
+# Arch configuration
+#
+!if "$(ARCH)" == "arm64"
+CSFLAGS = $(CSFLAGS) /platform:arm64 /define:TS_ARM64
+!endif
+
+#
+# Debug configuration
+#
+!if "$(DEBUG)" != "0"
+CSFLAGS = $(CSFLAGS) /debug:full /define:TS_DEBUG
+POSTFIX = $(POSTFIX)d
+!else
+CSFLAGS = $(CSFLAGS) /o
+!endif
+
+#
+# Library target
+#
+LIBRARY = TellusimCS$(POSTFIX).dll
+
+SRCS = source/TellusimCSBase.cs \
+	source/TellusimCSMath.cs \
+	source/TellusimCSAPI.cs
+
+#
+# Main target
+#
+TARGET = main$(POSTFIX).exe
+
+MAIN = main.cs
+
+#
+# Build rules
+#
+all: $(TARGET)
+
+$(LIBRARY): $(SRCS)
+	@$(CSC) /nologo /target:library $(CSFLAGS) /out:$@ $(SRCS)
+	@echo Done $@
+
+$(TARGET): $(MAIN) $(LIBRARY)
+	@$(CSC) /nologo /target:exe $(CSFLAGS) /out:$@ /reference:$(LIBRARY) $(MAIN)
+	@echo Done $@
+
+run: $(MAKEDIR)
+	@echo Running %|fF
+	@$(TARGET)
+
+clean: $(MAKEDIR)
+	@echo Cleaning %|fF
+	@del /f $(LIBRARY) $(TARGET) *.pdb 2>nul

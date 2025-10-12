@@ -1,0 +1,5 @@
+TESTS = \
+	controller \
+	desktop
+
+include ..\Makefile.win

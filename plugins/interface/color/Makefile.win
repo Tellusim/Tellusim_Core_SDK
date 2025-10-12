@@ -1,0 +1,5 @@
+SRCS = main.cpp \
+	Plugins.cpp \
+	source/TellusimControlColor.cpp
+
+include ..\..\Makefile.win.mk

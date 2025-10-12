@@ -1,0 +1,6 @@
+SRCS = main.cpp \
+	source/TellusimCU.cpp
+
+FLAGS = $(FLAGS) /I$(TSROOT)\plugins\platform\cuda\extern
+
+include ..\..\Makefile.win.mk

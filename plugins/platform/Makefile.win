@@ -1,0 +1,7 @@
+PLUGINS = \
+	cuda \
+	opengl \
+	openxr \
+	vulkan
+
+include ..\Makefile.win

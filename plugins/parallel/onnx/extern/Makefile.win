@@ -1,0 +1,11 @@
+TARGET = onnxpb.lib
+
+PREFIX = nanopb.git
+
+SRCS = $(PREFIX)\onnx_pb.c \
+	$(PREFIX)\pb_common.c \
+	$(PREFIX)\pb_decode.c \
+
+CFLAGS = /I$(PREFIX)
+
+include ..\..\..\build\Makefile.win.mk

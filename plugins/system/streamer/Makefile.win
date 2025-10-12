@@ -1,0 +1,4 @@
+SRCS = main.cpp \
+	source/TellusimStreamer.cpp
+
+include ..\..\Makefile.win.mk

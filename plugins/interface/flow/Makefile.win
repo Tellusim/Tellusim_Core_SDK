@@ -1,0 +1,9 @@
+SRCS = main.cpp \
+	Plugins.cpp \
+	source/TellusimControlFlow.cpp \
+	source/TellusimControlFlowCPP.cpp \
+	source/TellusimControlFlowGLSL.cpp
+
+CLEAN = test_save*
+
+include ..\..\Makefile.win.mk

@@ -1,0 +1,6 @@
+SRCS = main.cpp \
+	source/TellusimFormatGMSH.cpp
+
+CLEAN = test_save*
+
+include ..\..\Makefile.win.mk

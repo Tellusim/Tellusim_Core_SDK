@@ -1,0 +1,10 @@
+TESTS = \
+	canvas \
+	control \
+	controls \
+	dialogs \
+	layer \
+	shape \
+	svg
+
+include ..\Makefile.win

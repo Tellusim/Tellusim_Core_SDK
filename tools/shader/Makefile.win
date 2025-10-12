@@ -1,0 +1,7 @@
+TARGET = shader$(POSTFIX).exe
+
+RESOURCES = shader.rc
+
+SRCS = shader.cpp
+
+include ..\Makefile.win.mk

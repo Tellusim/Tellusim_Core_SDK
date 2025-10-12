@@ -1,0 +1,96 @@
+TARGET = project$(POSTFIX).exe
+
+RESOURCES = project.rc
+
+SRCS = project.cpp \
+	Controls.cpp \
+	Plugins.cpp
+
+include ..\Makefile.win.mk
+
+blob:
+	@ts_blob ./templates/cmake.txt
+	@ts_blob ./templates/makefile.txt
+	@ts_blob ./templates/makefile_and.txt
+	@ts_blob ./templates/makefile_ios.txt
+	@ts_blob ./templates/makefile_tvos.txt
+	@ts_blob ./templates/makefile_win.txt
+	@ts_blob ./templates/makefile_ems.txt
+	@ts_blob ./templates/vcxproj.xml
+	@ts_blob ./templates/pbxproj.txt
+	@ts_blob ./templates/pbxscheme.xml
+	@ts_blob ./templates/pbxproj_ios.txt
+	@ts_blob ./templates/pbxscheme_ios.xml
+	@ts_blob ./templates/pbxproj_tvos.txt
+	@ts_blob ./templates/pbxscheme_tvos.xml
+	@ts_blob ./templates/gradle_and_apk.xml
+	@ts_blob ./templates/gradle_and_cmake.txt
+	@ts_blob ./templates/gradle_and_build.txt
+	@ts_blob ./templates/gradle_and_settings.txt
+	@ts_blob ./templates/cpp/app_core.cpp
+	@ts_blob ./templates/cpp/app_core_canvas.cpp
+	@ts_blob ./templates/cpp/app_core_compute.cpp
+	@ts_blob ./templates/cpp/app_core_fragment.cpp
+	@ts_blob ./templates/cpp/app_engine.cpp
+	@ts_blob ./templates/cpp/app_engine_plugins.cpp
+	@ts_blob ./templates/csharp/app_core.cs
+	@ts_blob ./templates/csharp/app_core_canvas.cs
+	@ts_blob ./templates/csharp/app_core_compute.cs
+	@ts_blob ./templates/csharp/app_core_fragment.cs
+	@ts_blob ./templates/csharp/app_engine.cs
+	@ts_blob ./templates/csharp/csproj.xml
+	@ts_blob ./templates/csharp/makefile.txt
+	@ts_blob ./templates/java/app_main.java
+	@ts_blob ./templates/java/app_activity.java
+	@ts_blob ./templates/java/app_core.java
+	@ts_blob ./templates/java/app_core_canvas.java
+	@ts_blob ./templates/java/app_core_compute.java
+	@ts_blob ./templates/java/app_core_fragment.java
+	@ts_blob ./templates/java/app_engine.java
+	@ts_blob ./templates/java/gradle_build.txt
+	@ts_blob ./templates/java/gradle_settings.txt
+	@ts_blob ./templates/java/gradle_and_apk.xml
+	@ts_blob ./templates/java/gradle_and_build.txt
+	@ts_blob ./templates/java/gradle_and_settings.txt
+	@ts_blob ./templates/rust/app_core.rs
+	@ts_blob ./templates/rust/app_core_canvas.rs
+	@ts_blob ./templates/rust/app_core_compute.rs
+	@ts_blob ./templates/rust/app_core_fragment.rs
+	@ts_blob ./templates/rust/app_engine.rs
+	@ts_blob ./templates/rust/build.rs
+	@ts_blob ./templates/rust/cargo.toml
+	@ts_blob ./templates/rust/tellusim.toml
+	@ts_blob ./templates/swift/app_core.swift
+	@ts_blob ./templates/swift/app_core_canvas.swift
+	@ts_blob ./templates/swift/app_core_compute.swift
+	@ts_blob ./templates/swift/app_core_fragment.swift
+	@ts_blob ./templates/swift/app_engine.swift
+	@ts_blob ./templates/swift/app_delegate.swift
+	@ts_blob ./templates/swift/package.swift
+	@ts_blob ./templates/swift/info.plist
+	@ts_blob ./templates/swift/module.modulemap
+	@ts_blob ./templates/swift/pbxproj_ios.txt
+	@ts_blob ./templates/python/app_core.py
+	@ts_blob ./templates/python/app_core_canvas.py
+	@ts_blob ./templates/python/app_core_compute.py
+	@ts_blob ./templates/python/app_core_fragment.py
+	@ts_blob ./templates/python/app_engine.py
+	@ts_blob ./templates/javascript/app_core.js
+	@ts_blob ./templates/javascript/app_core_canvas.js
+	@ts_blob ./templates/javascript/app_core_compute.js
+	@ts_blob ./templates/javascript/app_core_fragment.js
+	@ts_blob ./templates/javascript/app_index.html
+	@ts_blob ./templates/javascript/app_indexd.html
+	@ts_blob ./templates/javascript/main_sh.txt
+	@ts_blob ./templates/javascript/main_bat.txt
+	@ts_blob ./templates/resources/app_core_compute.shader
+	@ts_blob ./templates/resources/app_core_fragment.shader
+	@ts_blob ./templates/resources/app_engine_scene.graphx
+	@ts_blob ./templates/resources/app_icon.ico
+	@ts_blob ./templates/resources/app_image.png
+	@ts_blob ./templates/resources/app_page.html
+	@ts_blob ./templates/resources/app_resource.rc
+	@ts_blob ./templates/gradle/wrapper.jar
+	@ts_blob ./templates/gradle/properties.txt
+	@ts_blob ./templates/gradle/gradlew_sh.txt
+	@ts_blob ./templates/gradle/gradlew_bat.txt

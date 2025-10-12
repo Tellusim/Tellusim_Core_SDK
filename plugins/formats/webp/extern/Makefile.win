@@ -1,0 +1,16 @@
+TARGET = webp.lib
+
+PREFIX = libwebp.git
+
+SRCS = \
+	$(PREFIX)\src\dec\*.c \
+	$(PREFIX)\src\demux\*.c \
+	$(PREFIX)\src\dsp\*.c \
+	$(PREFIX)\src\enc\*.c \
+	$(PREFIX)\src\mux\*.c \
+	$(PREFIX)\src\utils\*.c \
+	$(PREFIX)\sharpyuv\*.c
+
+CFLAGS = /I$(PREFIX)
+
+include ..\..\..\build\Makefile.win.mk

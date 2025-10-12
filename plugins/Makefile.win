@@ -1,0 +1,24 @@
+!ifndef PLUGINS
+
+PLUGINS = \
+	binding \
+	formats \
+	interface \
+	network \
+	parallel \
+	platform \
+	system
+
+!endif
+
+MAKE = nmake.exe /nologo -f Makefile.win
+EXEC = $(TSROOT)\bin\ts_exec.bat
+
+all:
+	@$(EXEC) -s "cmd /c 'cd @ && $(MAKE) $(OPTIONS)'" $(PLUGINS)
+
+run:
+	@$(EXEC) -s "cmd /c 'cd @ && $(MAKE) $(OPTIONS) run'" $(PLUGINS)
+
+clean:
+	@$(EXEC) -p "cmd /c 'cd @ && $(MAKE) clean'" $(PLUGINS)

@@ -1,0 +1,4 @@
+SRCS = main.cpp \
+	source/TellusimManipulator.cpp
+
+include ..\..\Makefile.win.mk

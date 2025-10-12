@@ -1,0 +1,8 @@
+TESTS = \
+	archive \
+	image \
+	json \
+	mesh \
+	xml
+
+include ..\Makefile.win
