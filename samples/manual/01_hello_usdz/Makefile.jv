@@ -1,0 +1,3 @@
+SRCS = main.java
+
+include $(TSROOT)/plugins/binding/java/Makefile.mk

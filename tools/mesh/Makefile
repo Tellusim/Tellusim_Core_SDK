@@ -1,0 +1,17 @@
+TARGET = mesh$(POSTFIX)
+
+SRCS = mesh.cpp \
+	Plugins.cpp
+
+FLAGS += -I$(TSROOT)/plugins/formats/draco/extern
+FLAGS += -I$(TSROOT)/plugins/formats/webp/extern
+
+ifeq "$(shell uname -s)" "Linux"
+	LIBS += -L$(TSROOT)/plugins/formats/draco/extern/lib/linux/$(ARCH) -ldraco
+	LIBS += -L$(TSROOT)/plugins/formats/webp/extern/lib/linux/$(ARCH) -lwebp
+else ifeq "$(shell uname -s)" "Darwin"
+	LIBS += -L$(TSROOT)/plugins/formats/draco/extern/lib/macos/$(ARCH) -ldraco
+	LIBS += -L$(TSROOT)/plugins/formats/webp/extern/lib/macos/$(ARCH) -lwebp
+endif
+
+include ../Makefile.unx.mk
