@@ -1,0 +1,15 @@
+PLUGINS = \
+	button \
+	color \
+	element \
+	flow \
+	imgui \
+	manipulator \
+	modal \
+	plotter \
+	progress \
+	slider \
+	svg \
+	tooltip
+
+include ../Makefile.ios

@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsGraphicsTangent
+
+ASSETS = main.shader tangent.glb tangent.exr
+
+include ../../Makefile.ios.mk

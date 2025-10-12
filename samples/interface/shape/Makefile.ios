@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+IPA = tsInterfaceShape
+
+include ../../Makefile.ios.mk

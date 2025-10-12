@@ -31484,6 +31484,15 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(uint32_t)getFamily {
 		return [self ref].getFamily();
 	}
+	-(void)setSwapChain: (VkSwapchainKHR)swap_chain {
+		[self ref].setSwapChain(swap_chain);
+	}
+	-(void)setSwapChain_: (VkSwapchainKHR)swap_chain {
+		[self ref].setSwapChain(swap_chain);
+	}
+	-(VkSwapchainKHR)getSwapChain {
+		return [self ref].getSwapChain();
+	}
 	-(void)setColorImage: (VkImage)image {
 		[self ref].setColorImage(image);
 	}
@@ -32303,6 +32312,12 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(BOOL)getMouseButton_1_: (TS_WindowButton)button clear: (BOOL)clear {
 		return [self ref].getMouseButton((Tellusim::Window::Button)button, (bool)clear);
 	}
+	-(BOOL)wasMouseButtonReleased: (TS_WindowButton)button {
+		return [self ref].wasMouseButtonReleased((Tellusim::Window::Button)button);
+	}
+	-(BOOL)wasMouseButtonReleased_: (TS_WindowButton)button {
+		return [self ref].wasMouseButtonReleased((Tellusim::Window::Button)button);
+	}
 	-(void)releaseMouseButtons: (TS_WindowButton)buttons {
 		[self ref].releaseMouseButtons((Tellusim::Window::Button)buttons);
 	}
@@ -32407,6 +32422,18 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	}
 	-(BOOL)getKeyboardKey_1_: (uint32_t)key clear: (BOOL)clear {
 		return [self ref].getKeyboardKey(key, (bool)clear);
+	}
+	-(BOOL)wasKeyboardKeyPressed: (uint32_t)key {
+		return [self ref].wasKeyboardKeyPressed(key);
+	}
+	-(BOOL)wasKeyboardKeyPressed_: (uint32_t)key {
+		return [self ref].wasKeyboardKeyPressed(key);
+	}
+	-(BOOL)wasKeyboardKeyReleased: (uint32_t)key {
+		return [self ref].wasKeyboardKeyReleased(key);
+	}
+	-(BOOL)wasKeyboardKeyReleased_: (uint32_t)key {
+		return [self ref].wasKeyboardKeyReleased(key);
 	}
 	-(void)setKeyboardPressedCallback: (id<TSWindowKeyboardPressedCallback>)func {
 		[self ref].setKeyboardPressedCallback(Tellusim::makeTSWindowKeyboardPressedCallback(func));
@@ -45355,6 +45382,18 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	}
 	-(BOOL)getButton_1_: (TS_ControllerButton)button clear: (BOOL)clear {
 		return [self ref].getButton((Tellusim::Controller::Button)button, (bool)clear);
+	}
+	-(BOOL)wasButtonPressed: (TS_ControllerButton)button {
+		return [self ref].wasButtonPressed((Tellusim::Controller::Button)button);
+	}
+	-(BOOL)wasButtonPressed_: (TS_ControllerButton)button {
+		return [self ref].wasButtonPressed((Tellusim::Controller::Button)button);
+	}
+	-(BOOL)wasButtonReleased: (TS_ControllerButton)button {
+		return [self ref].wasButtonReleased((Tellusim::Controller::Button)button);
+	}
+	-(BOOL)wasButtonReleased_: (TS_ControllerButton)button {
+		return [self ref].wasButtonReleased((Tellusim::Controller::Button)button);
 	}
 	-(void)setButtonValue: (TS_ControllerButton)button value: (float32_t)value {
 		[self ref].setButtonValue((Tellusim::Controller::Button)button, value);

@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+IPA = tsManualHelloControls
+
+include ../../Makefile.ios.mk

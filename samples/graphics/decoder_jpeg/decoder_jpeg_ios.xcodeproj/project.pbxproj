@@ -1,0 +1,319 @@
+{
+	archiveVersion = 1;
+	classes = { };
+	objectVersion = 45;
+	objects = {
+		64DAF59F0C7847BD6BC0000A = { isa = PBXBuildFile; fileRef = 64DAF59F0C7847BD6BC0001A; };
+		64DAF59F0C7847BD6BC0001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		64DAF59F0C7847BD6BC0002A = { isa = PBXBuildFile; fileRef = 64DAF59F0C7847BD6BC0003A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		64DAF59F0C7847BD6BC0003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
+		64DAF59F0C7847BD6BC0004A = { isa = PBXBuildFile; fileRef = 64DAF59F0C7847BD6BC0005A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		64DAF59F0C7847BD6BC0005A = { isa = PBXFileReference; path = texture_420.jpg; sourceTree = "<group>"; };
+		64DAF59F0C7847BD6BC0006A = { isa = PBXBuildFile; fileRef = 64DAF59F0C7847BD6BC0007A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		64DAF59F0C7847BD6BC0007A = { isa = PBXFileReference; path = texture_422h.jpg; sourceTree = "<group>"; };
+		64DAF59F0C7847BD6BC0008A = { isa = PBXBuildFile; fileRef = 64DAF59F0C7847BD6BC0009A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		64DAF59F0C7847BD6BC0009A = { isa = PBXFileReference; path = texture_422v.jpg; sourceTree = "<group>"; };
+		64DAF59F0C7847BD6BC000AA = { isa = PBXBuildFile; fileRef = 64DAF59F0C7847BD6BC000BA; settings = { ATTRIBUTES = ("--decompress"); }; };
+		64DAF59F0C7847BD6BC000BA = { isa = PBXFileReference; path = texture_444.jpg; sourceTree = "<group>"; };
+		64DAF59F0C7847BD6BC0012A = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsGraphicsDecoderJPEG.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		64DAF59F0C7847BD6BC0010A = {
+			isa = PBXGroup;
+			children = (
+				64DAF59F0C7847BD6BC0001A,
+				64DAF59F0C7847BD6BC0003A,
+				64DAF59F0C7847BD6BC0005A,
+				64DAF59F0C7847BD6BC0007A,
+				64DAF59F0C7847BD6BC0009A,
+				64DAF59F0C7847BD6BC000BA,
+				64DAF59F0C7847BD6BC0011A,
+			);
+			sourceTree = "<group>";
+		};
+		64DAF59F0C7847BD6BC0011A = {
+			isa = PBXGroup;
+			children = (
+				64DAF59F0C7847BD6BC0012A,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		64DAF59F0C7847BD6BC0013A = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 64DAF59F0C7847BD6BC0014A;
+			buildPhases = (
+				64DAF59F0C7847BD6BC0017A,
+				64DAF59F0C7847BD6BC0018A,
+			);
+			buildRules = ( );
+			dependencies = ( );
+			name = "tsGraphicsDecoderJPEG";
+			productName = "tsGraphicsDecoderJPEG";
+			productReference = 64DAF59F0C7847BD6BC0012A;
+			productType = "com.apple.product-type.application";
+		};
+		64DAF59F0C7847BD6BC000CA = {
+			isa = PBXProject;
+			attributes = { BuildIndependentTargetsInParallel = YES; };
+			buildConfigurationList = 64DAF59F0C7847BD6BC000DA;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = ( en, Base );
+			mainGroup = 64DAF59F0C7847BD6BC0010A;
+			productRefGroup = 64DAF59F0C7847BD6BC0011A;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				64DAF59F0C7847BD6BC0013A,
+			);
+		};
+		64DAF59F0C7847BD6BC0017A = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				64DAF59F0C7847BD6BC0000A,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		64DAF59F0C7847BD6BC0018A = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				64DAF59F0C7847BD6BC0002A,
+				64DAF59F0C7847BD6BC0004A,
+				64DAF59F0C7847BD6BC0006A,
+				64DAF59F0C7847BD6BC0008A,
+				64DAF59F0C7847BD6BC000AA,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		64DAF59F0C7847BD6BC000EA = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../../include",
+					"$(PROJECT_DIR)/../../../plugins",
+					"$(PROJECT_DIR)/../../../samples",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"_IOS=1",
+					"DEBUG=1",
+					"TS_DEBUG=1",
+					"$(inherited)",
+				);
+				ENABLE_TESTABILITY = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++11";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEAD_CODE_STRIPPING = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		64DAF59F0C7847BD6BC000FA = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../../include",
+					"$(PROJECT_DIR)/../../../plugins",
+					"$(PROJECT_DIR)/../../../samples",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"_IOS=1",
+					"NDEBUG=1",
+					"$(inherited)",
+				);
+				ENABLE_TESTABILITY = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++11";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				DEAD_CODE_STRIPPING = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		64DAF59F0C7847BD6BC0015A = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "tsGraphicsDecoderJPEG";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tellusim.tsGraphicsDecoderJPEG;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = metal;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = Default;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../../lib/ios/arm64",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-fobjc-arc",
+					"$(OTHER_CFLAGS)",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-e,_clay_main",
+					"-lTellusim_arm64d",
+					"-framework Foundation",
+					"-framework QuartzCore",
+					"-framework GameController",
+					"-framework UIKit",
+					"-framework Metal",
+				);
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path",
+					"$(inherited)",
+				);
+				IPHONE_OPTIMIZE_OPTIONS = "-skip-PNGs";
+				WARNING_CFLAGS = "-Wno-undefined-var-template";
+				CODE_SIGN_STYLE = Manual;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		64DAF59F0C7847BD6BC0016A = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "tsGraphicsDecoderJPEG";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tellusim.tsGraphicsDecoderJPEG;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = metal;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = Default;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../../lib/ios/arm64",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-fobjc-arc",
+					"$(OTHER_CFLAGS)",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-e,_clay_main",
+					"-lTellusim_arm64",
+					"-framework Foundation",
+					"-framework QuartzCore",
+					"-framework GameController",
+					"-framework UIKit",
+					"-framework Metal",
+				);
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path",
+					"$(inherited)",
+				);
+				IPHONE_OPTIMIZE_OPTIONS = "-skip-PNGs";
+				WARNING_CFLAGS = "-Wno-undefined-var-template";
+				CODE_SIGN_STYLE = Manual;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		64DAF59F0C7847BD6BC000DA = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				64DAF59F0C7847BD6BC000EA,
+				64DAF59F0C7847BD6BC000FA,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		64DAF59F0C7847BD6BC0014A = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				64DAF59F0C7847BD6BC0015A,
+				64DAF59F0C7847BD6BC0016A,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+	};
+	rootObject = 64DAF59F0C7847BD6BC000CA;
+}

@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsParallelRadixSort
+
+ASSETS = main.shader
+
+include ../../Makefile.ios.mk

@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsGraphicsParallax2D
+
+ASSETS = main.shader model.dae height.png normal.png
+
+include ../../Makefile.ios.mk

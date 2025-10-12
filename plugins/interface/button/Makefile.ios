@@ -1,0 +1,6 @@
+SRCS = main.cpp \
+	source/TellusimControlButton.cpp
+
+IPA = tsInterfaceControlButton
+
+include ../../Makefile.ios.mk

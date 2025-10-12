@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsInterfaceLayer
+
+ASSETS = sansb.ttf
+
+include ../../Makefile.ios.mk

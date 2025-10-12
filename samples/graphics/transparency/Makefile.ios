@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsGraphicsTransparency
+
+ASSETS = main.shader
+
+include ../../Makefile.ios.mk

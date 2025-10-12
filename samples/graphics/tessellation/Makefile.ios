@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsGraphicsTessellation
+
+ASSETS = main.shader model.dae
+
+include ../../Makefile.ios.mk

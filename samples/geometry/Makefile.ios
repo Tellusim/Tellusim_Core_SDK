@@ -1,0 +1,5 @@
+TESTS = \
+	reduce \
+	refine
+
+include ../Makefile.ios

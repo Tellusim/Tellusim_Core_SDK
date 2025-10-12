@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsGraphicsSeparableFilter
+
+ASSETS = main.shader texture.exr
+
+include ../../Makefile.ios.mk

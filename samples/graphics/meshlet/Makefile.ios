@@ -1,0 +1,11 @@
+SRCS = main.cpp
+
+IPA = tsGraphicsMeshlet
+
+ASSETS = main.shader model.glb
+
+FLAGS = -ObjC++ -fobjc-arc
+
+LIBS += -framework Metal
+
+include ../../Makefile.ios.mk

@@ -1,0 +1,36 @@
+ifndef TESTS
+
+TESTS = \
+	geometry \
+	graphics \
+	interface \
+	manual \
+	parallel \
+	platform \
+	system
+
+endif
+
+MAKE = make -f Makefile.ios
+EXEC = $(TSROOT)/bin/ts_exec.sh
+
+all:
+	+@$(EXEC) -s "$(MAKE) -s -C @" $(TESTS)
+
+ipa:
+	+@$(EXEC) -p "$(MAKE) -s -C @ ipa" $(TESTS)
+
+install:
+	+@$(EXEC) -s "$(MAKE) -s -C @ install" $(TESTS)
+
+run:
+	+@$(EXEC) -s "$(MAKE) -s -C @ run" $(TESTS)
+
+debug:
+	+@$(EXEC) -s "$(MAKE) -s -C @ debug" $(TESTS)
+
+remove:
+	+@$(EXEC) -s "$(MAKE) -s -C @ remove" $(TESTS)
+
+clean:
+	+@$(EXEC) -p "$(MAKE) -s -C @ clean" $(TESTS)

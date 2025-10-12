@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+IPA = tsPlatformWindow
+
+include ../../Makefile.ios.mk

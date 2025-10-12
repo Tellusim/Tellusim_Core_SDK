@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsPlatformLayers
+
+ASSETS = main.shader
+
+include ../../Makefile.ios.mk

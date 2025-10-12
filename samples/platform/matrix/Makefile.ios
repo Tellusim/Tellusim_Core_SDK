@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsPlatformMatrix
+
+ASSETS = main.shader
+
+include ../../Makefile.ios.mk

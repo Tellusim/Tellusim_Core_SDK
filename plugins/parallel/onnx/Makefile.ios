@@ -1,0 +1,10 @@
+SRCS = main.cpp \
+	source/TellusimONNX.cpp
+
+IPA = tsParallelONNX
+
+ASSETS = data
+
+LIBS += -Lextern/lib/ios/$(ARCH) -lonnxpb
+
+include ../../Makefile.ios.mk

@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsParallelFluid2D
+
+ASSETS = main.shader image.jpg
+
+include ../../Makefile.ios.mk

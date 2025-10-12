@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsGraphicsEncoderBC67
+
+ASSETS = texture.png
+
+include ../../Makefile.ios.mk

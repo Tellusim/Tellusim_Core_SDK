@@ -1,0 +1,4 @@
+TESTS = \
+	controller
+
+include ../Makefile.ios

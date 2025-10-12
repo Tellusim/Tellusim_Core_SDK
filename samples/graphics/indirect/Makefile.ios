@@ -1,0 +1,11 @@
+SRCS = main.cpp
+
+IPA = tsGraphicsIndirect
+
+ASSETS = main.shader
+
+FLAGS = -ObjC++ -fobjc-arc
+
+LIBS += -framework Metal
+
+include ../../Makefile.ios.mk

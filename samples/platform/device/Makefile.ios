@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+IPA = tsPlatformDevice
+
+include ../../Makefile.ios.mk

@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsParallelTensorMnist
+
+ASSETS = main.shader model.bin texture.png numbers.png
+
+include ../../Makefile.ios.mk

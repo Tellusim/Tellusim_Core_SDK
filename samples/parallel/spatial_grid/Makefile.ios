@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsParallelSpatialGrid
+
+ASSETS = main.shader
+
+include ../../Makefile.ios.mk

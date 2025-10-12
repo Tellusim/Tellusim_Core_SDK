@@ -1,0 +1,37 @@
+TESTS = \
+	alpha \
+	atomic \
+	barycentric \
+	bindless \
+	blending \
+	buffers \
+	clipping \
+	command \
+	compute \
+	device \
+	dynamic \
+	fence \
+	formats \
+	indirect \
+	integer \
+	layers \
+	matrix \
+	multisample \
+	precision \
+	preprocessor \
+	printf \
+	reference \
+	samplers \
+	samples \
+	stencil \
+	storage \
+	subgroup \
+	surface \
+	table \
+	texel \
+	texture \
+	tracing \
+	viewports \
+	window
+
+include ../Makefile.ios
