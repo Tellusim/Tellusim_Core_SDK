@@ -1,0 +1,1984 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.1.2 effective-5.10 (swiftlang-6.1.2.1.2 clang-1700.0.13.5)
+// swift-module-flags: -target arm64-apple-macosx15.0 -enable-objc-interop -enable-library-evolution -static -Osize -module-name Tellusim
+// swift-module-flags-ignorable:  -interface-compiler-version 6.1.2
+import Swift
+@_exported import Tellusim
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public let MINI8: Swift.Int32
+public let MAXI8: Swift.Int32
+public let MAXU8: Swift.UInt32
+public let Mini16: Swift.Int32
+public let Maxi16: Swift.Int32
+public let Maxu16: Swift.UInt32
+public let Mini32: Swift.Int32
+public let Maxi32: Swift.Int32
+public let Maxu32: Swift.UInt32
+public let Mini64: Swift.Int64
+public let Maxi64: Swift.Int64
+public let Maxu64: Swift.UInt64
+public let Minf16: Swift.Float32
+public let Maxf16: Swift.Float32
+public let Maxf32: Swift.Float32
+public let Pi: Swift.Float32
+public let Pi2: Swift.Float32
+public let Pi05: Swift.Float32
+public let Sqrt2: Swift.Float32
+public let Deg2Rad: Swift.Float32
+public let Rad2Deg: Swift.Float32
+public let Maxf64: Swift.Double
+public let Pid: Swift.Double
+public let Pi2d: Swift.Double
+public let Pi05d: Swift.Double
+public let Sqrt2d: Swift.Double
+public let Deg2Radd: Swift.Double
+public let Rad2Degd: Swift.Double
+extension Tellusim.Log {
+  public static func printf(_ format: Swift.String, _ args: any Swift.CVarArg...)
+  public static func printf(_ level: Tellusim.Log.Level, _ format: Swift.String, _ args: any Swift.CVarArg...)
+  public static func printef(_ level: Tellusim.Log.Level, _ format: Swift.String, _ args: any Swift.CVarArg...)
+}
+extension Tellusim.TSColor {
+  public init(_ c: Swift.Float32)
+  public init(_ l: Swift.Float32, _ a: Swift.Float32)
+  public init(_ r: Swift.Float32, _ g: Swift.Float32, _ b: Swift.Float32, _ a: Swift.Float32)
+  public init(_ c: [Swift.Float32])
+  public func gammaToLinear() -> Tellusim.TSColor
+  public func linearToGamma() -> Tellusim.TSColor
+  public func sRGBtoLinear() -> Tellusim.TSColor
+  public func linearToSRGB() -> Tellusim.TSColor
+  public mutating func setRGBAu8(_ color: Swift.UInt32)
+  public func getRGBAu8() -> Swift.UInt32
+  public mutating func setBGRAu8(_ color: Swift.UInt32)
+  public func getBGRAu8() -> Swift.UInt32
+  public mutating func setABGRu8(_ color: Swift.UInt32)
+  public func getABGRu8() -> Swift.UInt32
+  public static func html(_ src: Swift.String) -> Tellusim.TSColor
+  public static func hsv(_ h: Swift.Float32, _ s: Swift.Float32, _ v: Swift.Float32) -> Tellusim.TSColor
+  public static func temperature(_ t: Swift.Float32) -> Tellusim.TSColor
+  public static let zero: Tellusim.TSColor
+  public static let black: Tellusim.TSColor
+  public static let white: Tellusim.TSColor
+  public static let gray: Tellusim.TSColor
+  public static let red: Tellusim.TSColor
+  public static let yellow: Tellusim.TSColor
+  public static let green: Tellusim.TSColor
+  public static let cyan: Tellusim.TSColor
+  public static let blue: Tellusim.TSColor
+  public static let magenta: Tellusim.TSColor
+}
+extension Tellusim.TSColor : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public func * (c0: Tellusim.TSColor, c1: Swift.Float32) -> Tellusim.TSColor
+public func / (c0: Tellusim.TSColor, c1: Swift.Float32) -> Tellusim.TSColor
+public func + (c0: Tellusim.TSColor, c1: Swift.Float32) -> Tellusim.TSColor
+public func - (c0: Tellusim.TSColor, c1: Swift.Float32) -> Tellusim.TSColor
+public func * (c0: Tellusim.TSColor, c1: Tellusim.TSColor) -> Tellusim.TSColor
+public func / (c0: Tellusim.TSColor, c1: Tellusim.TSColor) -> Tellusim.TSColor
+public func + (c0: Tellusim.TSColor, c1: Tellusim.TSColor) -> Tellusim.TSColor
+public func - (c0: Tellusim.TSColor, c1: Tellusim.TSColor) -> Tellusim.TSColor
+public func min(_ c0: Tellusim.TSColor, _ c1: Tellusim.TSColor) -> Tellusim.TSColor
+public func max(_ c0: Tellusim.TSColor, _ c1: Tellusim.TSColor) -> Tellusim.TSColor
+public func clamp(_ c: Tellusim.TSColor, _ c0: Tellusim.TSColor, _ c1: Tellusim.TSColor) -> Tellusim.TSColor
+public func saturate(_ c: Tellusim.TSColor) -> Tellusim.TSColor
+public func lerp(_ c: Tellusim.TSColor, _ c0: Tellusim.TSColor, _ c1: Tellusim.TSColor, k: Swift.Float32) -> Tellusim.TSColor
+extension Tellusim.TSImageColor {
+  public init(_ c: Swift.Int32)
+  public init(_ c: Swift.UInt32)
+  public init(_ c: Swift.UInt16)
+  public init(_ c: Swift.Float32)
+  public init(_ l: Swift.Int32, _ a: Swift.Int32)
+  public init(_ l: Swift.UInt32, _ a: Swift.UInt32)
+  public init(_ l: Swift.UInt16, _ a: Swift.UInt16)
+  public init(_ l: Swift.Float32, _ a: Swift.Float32)
+  public init(_ r: Swift.Int32, _ g: Swift.Int32, _ b: Swift.Int32, _ a: Swift.Int32)
+  public init(_ r: Swift.UInt32, _ g: Swift.UInt32, _ b: Swift.UInt32, _ a: Swift.UInt32)
+  public init(_ r: Swift.UInt16, _ g: Swift.UInt16, _ b: Swift.UInt16, _ a: Swift.UInt16)
+  public init(_ r: Swift.Float32, _ g: Swift.Float32, _ b: Swift.Float32, _ a: Swift.Float32)
+  public init(_ c: Tellusim.TSColor, _ format: Swift.UInt32)
+  public mutating func set(_ src: Tellusim.TSColor, _ format: Swift.UInt32)
+  public func get(_ dest: inout Tellusim.TSColor, _ format: Swift.UInt32)
+}
+extension Tellusim.TSImageColor : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+extension Tellusim.TSBoundRectf {
+  public init(_ min: Tellusim.TSVector2f, _ max: Tellusim.TSVector2f)
+  public init(_ br: Tellusim.TSBoundRectf)
+  public init(_ br: Tellusim.TSBoundRectd)
+  public init(_ bc: Tellusim.TSBoundCirclef)
+  public mutating func expand(_ v: Tellusim.TSVector2f)
+  public mutating func expand(_ br: Tellusim.TSBoundRectf)
+  public func inside(_ v: Tellusim.TSVector2f) -> Swift.Bool
+  public func inside(_ br: Tellusim.TSBoundRectf) -> Swift.Bool
+  public func distance(_ v: Tellusim.TSVector2f) -> Swift.Float32
+}
+public func * (m: Tellusim.TSMatrix4x3f, b: Tellusim.TSBoundRectf) -> Tellusim.TSBoundRectf
+public func * (m: Tellusim.TSMatrix4x4f, b: Tellusim.TSBoundRectf) -> Tellusim.TSBoundRectf
+extension Tellusim.TSBoundRectd {
+  public init(_ min: Tellusim.TSVector2d, _ max: Tellusim.TSVector2d)
+  public init(_ br: Tellusim.TSBoundRectd)
+  public init(_ br: Tellusim.TSBoundRectf)
+  public init(_ bc: Tellusim.TSBoundCircled)
+  public mutating func expand(_ v: Tellusim.TSVector2d)
+  public mutating func expand(_ br: Tellusim.TSBoundRectd)
+  public func inside(_ v: Tellusim.TSVector2d) -> Swift.Bool
+  public func inside(_ br: Tellusim.TSBoundRectd) -> Swift.Bool
+  public func distance(_ v: Tellusim.TSVector2d) -> Swift.Float64
+}
+public func * (m: Tellusim.TSMatrix4x3d, b: Tellusim.TSBoundRectd) -> Tellusim.TSBoundRectd
+public func * (m: Tellusim.TSMatrix4x4d, b: Tellusim.TSBoundRectd) -> Tellusim.TSBoundRectd
+extension Tellusim.TSBoundCirclef {
+  public init(_ center: Tellusim.TSVector2f, _ radius: Swift.Float32)
+  public init(_ bc: Tellusim.TSBoundCirclef)
+  public init(_ bc: Tellusim.TSBoundCircled)
+  public init(_ br: Tellusim.TSBoundRectf)
+  public mutating func expand(_ v: Tellusim.TSVector2f)
+  public mutating func expand(_ bc: Tellusim.TSBoundCirclef)
+  public mutating func expandRadius(_ v: Tellusim.TSVector2f)
+  public mutating func expandRadius(_ bc: Tellusim.TSBoundCirclef)
+  public func inside(_ v: Tellusim.TSVector2f) -> Swift.Bool
+  public func inside(_ bc: Tellusim.TSBoundCirclef) -> Swift.Bool
+  public func distance(_ v: Tellusim.TSVector2f) -> Swift.Float32
+}
+public func * (m: Tellusim.TSMatrix4x3f, b: Tellusim.TSBoundCirclef) -> Tellusim.TSBoundCirclef
+public func * (m: Tellusim.TSMatrix4x4f, b: Tellusim.TSBoundCirclef) -> Tellusim.TSBoundCirclef
+extension Tellusim.TSBoundCircled {
+  public init(_ center: Tellusim.TSVector2d, _ radius: Swift.Float64)
+  public init(_ bc: Tellusim.TSBoundCircled)
+  public init(_ bc: Tellusim.TSBoundCirclef)
+  public init(_ br: Tellusim.TSBoundRectd)
+  public mutating func expand(_ v: Tellusim.TSVector2d)
+  public mutating func expand(_ bc: Tellusim.TSBoundCircled)
+  public mutating func expandRadius(_ v: Tellusim.TSVector2d)
+  public mutating func expandRadius(_ bc: Tellusim.TSBoundCircled)
+  public func inside(_ v: Tellusim.TSVector2d) -> Swift.Bool
+  public func inside(_ bc: Tellusim.TSBoundCircled) -> Swift.Bool
+  public func distance(_ v: Tellusim.TSVector2d) -> Swift.Float64
+}
+public func * (m: Tellusim.TSMatrix4x3d, b: Tellusim.TSBoundCircled) -> Tellusim.TSBoundCircled
+public func * (m: Tellusim.TSMatrix4x4d, b: Tellusim.TSBoundCircled) -> Tellusim.TSBoundCircled
+extension Tellusim.TSBoundBoxf {
+  public init(_ min: Tellusim.TSVector3f, _ max: Tellusim.TSVector3f)
+  public init(_ bb: Tellusim.TSBoundBoxf)
+  public init(_ bb: Tellusim.TSBoundBoxd)
+  public init(_ bs: Tellusim.TSBoundSpheref)
+  public mutating func expand(_ v: Tellusim.TSVector3f)
+  public mutating func expand(_ bb: Tellusim.TSBoundBoxf)
+  public func inside(_ v: Tellusim.TSVector3f) -> Swift.Bool
+  public func inside(_ bb: Tellusim.TSBoundBoxf) -> Swift.Bool
+  public func distance(_ v: Tellusim.TSVector3f) -> Swift.Float32
+}
+public func * (m: Tellusim.TSMatrix4x3f, b: Tellusim.TSBoundBoxf) -> Tellusim.TSBoundBoxf
+public func * (m: Tellusim.TSMatrix4x4f, b: Tellusim.TSBoundBoxf) -> Tellusim.TSBoundBoxf
+extension Tellusim.TSBoundBoxd {
+  public init(_ min: Tellusim.TSVector3d, _ max: Tellusim.TSVector3d)
+  public init(_ bb: Tellusim.TSBoundBoxd)
+  public init(_ bb: Tellusim.TSBoundBoxf)
+  public init(_ bs: Tellusim.TSBoundSphered)
+  public mutating func expand(_ v: Tellusim.TSVector3d)
+  public mutating func expand(_ bb: Tellusim.TSBoundBoxd)
+  public func inside(_ v: Tellusim.TSVector3d) -> Swift.Bool
+  public func inside(_ bb: Tellusim.TSBoundBoxd) -> Swift.Bool
+  public func distance(_ v: Tellusim.TSVector3d) -> Swift.Float64
+}
+public func * (m: Tellusim.TSMatrix4x3d, b: Tellusim.TSBoundBoxd) -> Tellusim.TSBoundBoxd
+public func * (m: Tellusim.TSMatrix4x4d, b: Tellusim.TSBoundBoxd) -> Tellusim.TSBoundBoxd
+extension Tellusim.TSBoundSpheref {
+  public init(_ center: Tellusim.TSVector3f, _ radius: Swift.Float32)
+  public init(_ bs: Tellusim.TSBoundSpheref)
+  public init(_ bs: Tellusim.TSBoundSphered)
+  public init(_ bb: Tellusim.TSBoundBoxf)
+  public mutating func expand(_ v: Tellusim.TSVector3f)
+  public mutating func expand(_ bs: Tellusim.TSBoundSpheref)
+  public mutating func expandRadius(_ v: Tellusim.TSVector3f)
+  public mutating func expandRadius(_ bs: Tellusim.TSBoundSpheref)
+  public func inside(_ v: Tellusim.TSVector3f) -> Swift.Bool
+  public func inside(_ bs: Tellusim.TSBoundSpheref) -> Swift.Bool
+  public func distance(_ v: Tellusim.TSVector3f) -> Swift.Float32
+}
+public func * (m: Tellusim.TSMatrix4x3f, b: Tellusim.TSBoundSpheref) -> Tellusim.TSBoundSpheref
+public func * (m: Tellusim.TSMatrix4x4f, b: Tellusim.TSBoundSpheref) -> Tellusim.TSBoundSpheref
+extension Tellusim.TSBoundSphered {
+  public init(_ center: Tellusim.TSVector3d, _ radius: Swift.Float64)
+  public init(_ bs: Tellusim.TSBoundSphered)
+  public init(_ bs: Tellusim.TSBoundSpheref)
+  public init(_ bb: Tellusim.TSBoundBoxd)
+  public mutating func expand(_ v: Tellusim.TSVector3d)
+  public mutating func expand(_ bs: Tellusim.TSBoundSphered)
+  public mutating func expandRadius(_ v: Tellusim.TSVector3d)
+  public mutating func expandRadius(_ bs: Tellusim.TSBoundSphered)
+  public func inside(_ v: Tellusim.TSVector3d) -> Swift.Bool
+  public func inside(_ bs: Tellusim.TSBoundSphered) -> Swift.Bool
+  public func distance(_ v: Tellusim.TSVector3d) -> Swift.Float64
+}
+public func * (m: Tellusim.TSMatrix4x3d, b: Tellusim.TSBoundSphered) -> Tellusim.TSBoundSphered
+public func * (m: Tellusim.TSMatrix4x4d, b: Tellusim.TSBoundSphered) -> Tellusim.TSBoundSphered
+extension Tellusim.TSBoundFrustumf {
+  public init(_ bf: Tellusim.TSBoundFrustumd)
+  public init(_ p: Tellusim.TSMatrix4x4f, _ m: Tellusim.TSMatrix4x4f, _ a: Swift.Float32 = 1.0)
+  public mutating func set(_ p: Tellusim.TSMatrix4x4f, _ m: Tellusim.TSMatrix4x4f, _ a: Swift.Float32 = 1.0)
+  public func inside(_ bb: Tellusim.TSBoundBoxf) -> Swift.Bool
+  public func inside(_ bs: Tellusim.TSBoundSpheref) -> Swift.Bool
+}
+extension Tellusim.TSBoundFrustumd {
+  public init(_ bf: Tellusim.TSBoundFrustumf)
+  public init(_ p: Tellusim.TSMatrix4x4d, _ m: Tellusim.TSMatrix4x4d, _ a: Swift.Float64 = 1.0)
+  public mutating func set(_ p: Tellusim.TSMatrix4x4d, _ m: Tellusim.TSMatrix4x4d, _ a: Swift.Float64 = 1.0)
+  public func inside(_ bb: Tellusim.TSBoundBoxd) -> Swift.Bool
+  public func inside(_ bs: Tellusim.TSBoundSphered) -> Swift.Bool
+}
+extension Tellusim.TSRect {
+  public init(_ value: Swift.Float32)
+  public init(_ horizontal: Swift.Float32, _ vertical: Swift.Float32)
+  public init(_ left: Swift.Float32, _ right: Swift.Float32, _ bottom: Swift.Float32, _ top: Swift.Float32)
+}
+extension Tellusim.TSFontStyle {
+  public init(_ size: Swift.UInt32)
+  public init(_ color: Tellusim.Color)
+  public init(_ size: Swift.UInt32, _ color: Tellusim.Color)
+}
+extension Tellusim.TSStrokeStyle {
+  public init(_ width: Swift.Float32)
+  public init(_ color: Tellusim.Color)
+  public init(_ width: Swift.Float32, _ offset: Swift.Float32)
+  public init(_ width: Swift.Float32, _ color: Tellusim.Color)
+  public init(_ width: Swift.Float32, _ offset: Swift.Float32, _ color: Tellusim.Color)
+}
+extension Tellusim.TSGradientStyle {
+  public init(_ c0: Tellusim.Color, _ c1: Tellusim.Color)
+  public init(_ radius: Swift.Float32, _ center: Tellusim.Vector2f)
+  public init(_ length: Swift.Float32, _ center: Tellusim.Vector2f, _ axis: Tellusim.Vector2f)
+  public init(_ radius: Swift.Float32, _ center: Tellusim.Vector2f, _ c0: Tellusim.Color, _ c1: Tellusim.Color)
+  public init(_ length: Swift.Float32, _ center: Tellusim.Vector2f, _ axis: Tellusim.Vector2f, _ c0: Tellusim.Color, _ c1: Tellusim.Color)
+}
+extension Tellusim.MeshAttribute {
+  public func set<Type>(_ index: Swift.UInt32, _ value: Type)
+}
+extension Tellusim.TSOrigin {
+  public init(_ x: Swift.UInt32, _ y: Swift.UInt32)
+  public init(_ x: Swift.UInt32, _ y: Swift.UInt32, _ z: Swift.UInt32)
+}
+extension Tellusim.TSSize {
+  public init(_ width: Swift.UInt32, _ height: Swift.UInt32)
+  public init(_ width: Swift.UInt32, _ height: Swift.UInt32, _ depth: Swift.UInt32)
+}
+extension Tellusim.TSRegion {
+  public init(_ width: Swift.UInt32, _ height: Swift.UInt32)
+  public init(_ width: Swift.UInt32, _ height: Swift.UInt32, _ depth: Swift.UInt32)
+  public init(_ x: Swift.UInt32, _ y: Swift.UInt32, _ width: Swift.UInt32, _ height: Swift.UInt32)
+  public init(_ x: Swift.UInt32, _ y: Swift.UInt32, _ z: Swift.UInt32, _ width: Swift.UInt32, _ height: Swift.UInt32, _ depth: Swift.UInt32)
+}
+extension Tellusim.App {
+  @objc convenience override dynamic public init()
+  convenience public init(_ arguments: [Swift.String])
+}
+extension Tellusim.Command {
+  public func setUniform<Type>(_ index: Swift.UInt32, _ data: inout Type)
+  public func setUniform<Type>(_ index: Swift.UInt32, _ data: inout [Type])
+  public func setStorage<Type>(_ index: Swift.UInt32, _ data: inout Type)
+  public func setStorage<Type>(_ index: Swift.UInt32, _ data: inout [Type])
+  public func setVertices<Type>(_ index: Swift.UInt32, _ data: inout [Type])
+  public func setIndices(_ data: inout [Swift.UInt32])
+  public func setIndices(_ data: inout [Swift.UInt16])
+  public func setIndices<Type>(_ format: Tellusim.Format, _ data: inout [Type])
+}
+extension Tellusim.Compute {
+  public func setUniform<Type>(_ index: Swift.UInt32, _ data: inout Type)
+  public func setUniform<Type>(_ index: Swift.UInt32, _ data: inout [Type])
+  public func setStorage<Type>(_ index: Swift.UInt32, _ data: inout Type)
+  public func setStorage<Type>(_ index: Swift.UInt32, _ data: inout [Type])
+}
+extension Tellusim.TSTensor {
+  public init(_ width: Swift.UInt32 = 0)
+  public init(_ buffer: Tellusim.Buffer)
+  public init(_ buffer: Tellusim.Buffer, _ offset: Swift.Int = 0)
+  public init(_ buffer: Tellusim.Buffer, _ format: Tellusim.Format, _ width: Swift.UInt32 = 0, _ height: Swift.UInt32 = 1, _ depth: Swift.UInt32 = 1, _ layers: Swift.UInt32 = 1)
+  public init(_ tensor: Tellusim.TSTensor, _ width: Swift.UInt32 = 0, _ height: Swift.UInt32 = 1, _ depth: Swift.UInt32 = 1, _ layers: Swift.UInt32 = 1)
+  public func setAxis(_ axis: Swift.UInt32) -> Tellusim.TSTensor
+  public func setKernel(_ kernel: Swift.UInt32) -> Tellusim.TSTensor
+  public func setStride(_ stride: Swift.UInt32) -> Tellusim.TSTensor
+  public func setPadding(_ padding: Swift.UInt32) -> Tellusim.TSTensor
+  public func setDilation(_ dilation: Swift.UInt32) -> Tellusim.TSTensor
+  public func setScaleBias(_ scale: Swift.Float32, _ bias: Swift.Float32) -> Tellusim.TSTensor
+  public func setScale(_ scale: Swift.Float32) -> Tellusim.TSTensor
+  public func setBias(_ bias: Swift.Float32) -> Tellusim.TSTensor
+}
+extension Tellusim.TSTensor : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public func min(_ v0: Swift.Int32, _ v1: Swift.Int32, _ v2: Swift.Int32) -> Swift.Int32
+public func max(_ v0: Swift.Int32, _ v1: Swift.Int32, _ v2: Swift.Int32) -> Swift.Int32
+public func min(_ v0: Swift.Int32, _ v1: Swift.Int32, _ v2: Swift.Int32, _ v3: Swift.Int32) -> Swift.Int32
+public func max(_ v0: Swift.Int32, _ v1: Swift.Int32, _ v2: Swift.Int32, _ v3: Swift.Int32) -> Swift.Int32
+public func mid(_ v0: Swift.Int32, _ v1: Swift.Int32, _ v2: Swift.Int32) -> Swift.Int32
+public func clamp(_ v: Swift.Int32, _ v0: Swift.Int32, _ v1: Swift.Int32) -> Swift.Int32
+public func min(_ v0: Swift.Int64, _ v1: Swift.Int64, _ v2: Swift.Int64) -> Swift.Int64
+public func max(_ v0: Swift.Int64, _ v1: Swift.Int64, _ v2: Swift.Int64) -> Swift.Int64
+public func min(_ v0: Swift.Int64, _ v1: Swift.Int64, _ v2: Swift.Int64, _ v3: Swift.Int64) -> Swift.Int64
+public func max(_ v0: Swift.Int64, _ v1: Swift.Int64, _ v2: Swift.Int64, _ v3: Swift.Int64) -> Swift.Int64
+public func mid(_ v0: Swift.Int64, _ v1: Swift.Int64, _ v2: Swift.Int64) -> Swift.Int64
+public func clamp(_ v: Swift.Int64, _ v0: Swift.Int64, _ v1: Swift.Int64) -> Swift.Int64
+public func ispot(_ x: Swift.UInt32) -> Swift.Bool
+public func isaligned(_ a: Swift.UInt32, _ b: Swift.UInt32) -> Swift.Bool
+public func npot(_ x: Swift.UInt32) -> Swift.UInt32
+public func align(_ a: Swift.UInt32, _ b: Swift.UInt32) -> Swift.UInt32
+public func udiv(_ a: Swift.UInt32, _ b: Swift.UInt32) -> Swift.UInt32
+public func min(_ v0: Swift.UInt32, _ v1: Swift.UInt32, _ v2: Swift.UInt32) -> Swift.UInt32
+public func max(_ v0: Swift.UInt32, _ v1: Swift.UInt32, _ v2: Swift.UInt32) -> Swift.UInt32
+public func min(_ v0: Swift.UInt32, _ v1: Swift.UInt32, _ v2: Swift.UInt32, _ v3: Swift.UInt32) -> Swift.UInt32
+public func max(_ v0: Swift.UInt32, _ v1: Swift.UInt32, _ v2: Swift.UInt32, _ v3: Swift.UInt32) -> Swift.UInt32
+public func mid(_ v0: Swift.UInt32, _ v1: Swift.UInt32, _ v2: Swift.UInt32) -> Swift.UInt32
+public func clamp(_ v: Swift.UInt32, _ v0: Swift.UInt32, _ v1: Swift.UInt32) -> Swift.UInt32
+public func ispot(_ x: Swift.UInt64) -> Swift.Bool
+public func isaligned(_ a: Swift.UInt64, _ b: Swift.UInt64) -> Swift.Bool
+public func npot(_ x: Swift.UInt64) -> Swift.UInt64
+public func align(_ a: Swift.UInt64, _ b: Swift.UInt64) -> Swift.UInt64
+public func udiv(_ a: Swift.UInt64, _ b: Swift.UInt64) -> Swift.UInt64
+public func min(_ v0: Swift.UInt64, _ v1: Swift.UInt64, _ v2: Swift.UInt64) -> Swift.UInt64
+public func max(_ v0: Swift.UInt64, _ v1: Swift.UInt64, _ v2: Swift.UInt64) -> Swift.UInt64
+public func min(_ v0: Swift.UInt64, _ v1: Swift.UInt64, _ v2: Swift.UInt64, _ v3: Swift.UInt64) -> Swift.UInt64
+public func max(_ v0: Swift.UInt64, _ v1: Swift.UInt64, _ v2: Swift.UInt64, _ v3: Swift.UInt64) -> Swift.UInt64
+public func mid(_ v0: Swift.UInt64, _ v1: Swift.UInt64, _ v2: Swift.UInt64) -> Swift.UInt64
+public func clamp(_ v: Swift.UInt64, _ v0: Swift.UInt64, _ v1: Swift.UInt64) -> Swift.UInt64
+public func min(_ v0: Swift.Float32, _ v1: Swift.Float32, _ v2: Swift.Float32) -> Swift.Float32
+public func max(_ v0: Swift.Float32, _ v1: Swift.Float32, _ v2: Swift.Float32) -> Swift.Float32
+public func min(_ v0: Swift.Float32, _ v1: Swift.Float32, _ v2: Swift.Float32, _ v3: Swift.Float32) -> Swift.Float32
+public func max(_ v0: Swift.Float32, _ v1: Swift.Float32, _ v2: Swift.Float32, _ v3: Swift.Float32) -> Swift.Float32
+public func mid(_ v0: Swift.Float32, _ v1: Swift.Float32, _ v2: Swift.Float32) -> Swift.Float32
+public func clamp(_ v: Swift.Float32, _ v0: Swift.Float32, _ v1: Swift.Float32) -> Swift.Float32
+public func saturate(_ v: Swift.Float32) -> Swift.Float32
+public func lerp(_ v0: Swift.Float32, _ v1: Swift.Float32, _ k: Swift.Float32) -> Swift.Float32
+public func min(_ v0: Swift.Float64, _ v1: Swift.Float64, _ v2: Swift.Float64) -> Swift.Float64
+public func max(_ v0: Swift.Float64, _ v1: Swift.Float64, _ v2: Swift.Float64) -> Swift.Float64
+public func min(_ v0: Swift.Float64, _ v1: Swift.Float64, _ v2: Swift.Float64, _ v3: Swift.Float64) -> Swift.Float64
+public func max(_ v0: Swift.Float64, _ v1: Swift.Float64, _ v2: Swift.Float64, _ v3: Swift.Float64) -> Swift.Float64
+public func mid(_ v0: Swift.Float64, _ v1: Swift.Float64, _ v2: Swift.Float64) -> Swift.Float64
+public func clamp(_ v: Swift.Float64, _ v0: Swift.Float64, _ v1: Swift.Float64) -> Swift.Float64
+public func saturate(_ v: Swift.Float64) -> Swift.Float64
+public func lerp(_ v0: Swift.Float64, _ v1: Swift.Float64, _ k: Swift.Float64) -> Swift.Float64
+public func f32tof16(_ f: Swift.Float32) -> Swift.UInt16
+public func f16tof32(_ h: Swift.UInt16) -> Swift.Float32
+public func f32tof21(_ f: Swift.Float32) -> Swift.UInt32
+public func f21tof32(_ h: Swift.UInt32) -> Swift.Float32
+public func f32tof24(_ f: Swift.Float32) -> Swift.UInt32
+public func f24tof32(_ h: Swift.UInt32) -> Swift.Float32
+extension Tellusim.TSVector2i {
+  public init(_ v: Swift.Int32)
+  public init(_ x: Swift.Int32, _ y: Swift.Int32)
+  public init(_ v: Tellusim.TSVector2u)
+  public init(_ v: Tellusim.TSVector2f)
+  public init(_ v: Tellusim.TSVector2d)
+  public init(_ v: Tellusim.TSVector3i)
+  public init(_ v: Tellusim.TSVector4i)
+  public init(_ v: [Swift.Int32])
+  public static let zero: Tellusim.TSVector2i
+  public static let one: Tellusim.TSVector2i
+}
+extension Tellusim.TSVector2i : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+prefix public func - (v: Tellusim.TSVector2i) -> Tellusim.TSVector2i
+public func * (v0: Tellusim.TSVector2i, v1: Swift.Int32) -> Tellusim.TSVector2i
+public func / (v0: Tellusim.TSVector2i, v1: Swift.Int32) -> Tellusim.TSVector2i
+public func + (v0: Tellusim.TSVector2i, v1: Swift.Int32) -> Tellusim.TSVector2i
+public func - (v0: Tellusim.TSVector2i, v1: Swift.Int32) -> Tellusim.TSVector2i
+public func & (v0: Tellusim.TSVector2i, v1: Swift.Int32) -> Tellusim.TSVector2i
+public func | (v0: Tellusim.TSVector2i, v1: Swift.Int32) -> Tellusim.TSVector2i
+public func ^ (v0: Tellusim.TSVector2i, v1: Swift.Int32) -> Tellusim.TSVector2i
+public func << (v0: Tellusim.TSVector2i, v1: Swift.Int32) -> Tellusim.TSVector2i
+public func >> (v0: Tellusim.TSVector2i, v1: Swift.Int32) -> Tellusim.TSVector2i
+public func * (v0: Tellusim.TSVector2i, v1: Tellusim.TSVector2i) -> Tellusim.TSVector2i
+public func / (v0: Tellusim.TSVector2i, v1: Tellusim.TSVector2i) -> Tellusim.TSVector2i
+public func + (v0: Tellusim.TSVector2i, v1: Tellusim.TSVector2i) -> Tellusim.TSVector2i
+public func - (v0: Tellusim.TSVector2i, v1: Tellusim.TSVector2i) -> Tellusim.TSVector2i
+public func & (v0: Tellusim.TSVector2i, v1: Tellusim.TSVector2i) -> Tellusim.TSVector2i
+public func | (v0: Tellusim.TSVector2i, v1: Tellusim.TSVector2i) -> Tellusim.TSVector2i
+public func ^ (v0: Tellusim.TSVector2i, v1: Tellusim.TSVector2i) -> Tellusim.TSVector2i
+public func abs(_ v: Tellusim.TSVector2i) -> Tellusim.TSVector2i
+public func min(_ v0: Tellusim.TSVector2i, _ v1: Tellusim.TSVector2i) -> Tellusim.TSVector2i
+public func max(_ v0: Tellusim.TSVector2i, _ v1: Tellusim.TSVector2i) -> Tellusim.TSVector2i
+public func clamp(_ v: Tellusim.TSVector2i, _ v0: Tellusim.TSVector2i, _ v1: Tellusim.TSVector2i) -> Tellusim.TSVector2i
+extension Tellusim.TSVector2u {
+  public init(_ v: Swift.UInt32)
+  public init(_ x: Swift.UInt32, _ y: Swift.UInt32)
+  public init(_ v: Tellusim.TSVector2i)
+  public init(_ v: Tellusim.TSVector2f)
+  public init(_ v: Tellusim.TSVector2d)
+  public init(_ v: Tellusim.TSVector3u)
+  public init(_ v: Tellusim.TSVector4u)
+  public init(_ v: [Swift.UInt32])
+  public static let zero: Tellusim.TSVector2u
+  public static let one: Tellusim.TSVector2u
+}
+extension Tellusim.TSVector2u : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public func * (v0: Tellusim.TSVector2u, v1: Swift.UInt32) -> Tellusim.TSVector2u
+public func / (v0: Tellusim.TSVector2u, v1: Swift.UInt32) -> Tellusim.TSVector2u
+public func + (v0: Tellusim.TSVector2u, v1: Swift.UInt32) -> Tellusim.TSVector2u
+public func - (v0: Tellusim.TSVector2u, v1: Swift.UInt32) -> Tellusim.TSVector2u
+public func & (v0: Tellusim.TSVector2u, v1: Swift.UInt32) -> Tellusim.TSVector2u
+public func | (v0: Tellusim.TSVector2u, v1: Swift.UInt32) -> Tellusim.TSVector2u
+public func ^ (v0: Tellusim.TSVector2u, v1: Swift.UInt32) -> Tellusim.TSVector2u
+public func << (v0: Tellusim.TSVector2u, v1: Swift.UInt32) -> Tellusim.TSVector2u
+public func >> (v0: Tellusim.TSVector2u, v1: Swift.UInt32) -> Tellusim.TSVector2u
+public func * (v0: Tellusim.TSVector2u, v1: Tellusim.TSVector2u) -> Tellusim.TSVector2u
+public func / (v0: Tellusim.TSVector2u, v1: Tellusim.TSVector2u) -> Tellusim.TSVector2u
+public func + (v0: Tellusim.TSVector2u, v1: Tellusim.TSVector2u) -> Tellusim.TSVector2u
+public func - (v0: Tellusim.TSVector2u, v1: Tellusim.TSVector2u) -> Tellusim.TSVector2u
+public func & (v0: Tellusim.TSVector2u, v1: Tellusim.TSVector2u) -> Tellusim.TSVector2u
+public func | (v0: Tellusim.TSVector2u, v1: Tellusim.TSVector2u) -> Tellusim.TSVector2u
+public func ^ (v0: Tellusim.TSVector2u, v1: Tellusim.TSVector2u) -> Tellusim.TSVector2u
+public func min(_ v0: Tellusim.TSVector2u, _ v1: Tellusim.TSVector2u) -> Tellusim.TSVector2u
+public func max(_ v0: Tellusim.TSVector2u, _ v1: Tellusim.TSVector2u) -> Tellusim.TSVector2u
+public func clamp(_ v: Tellusim.TSVector2u, _ v0: Tellusim.TSVector2u, _ v1: Tellusim.TSVector2u) -> Tellusim.TSVector2u
+extension Tellusim.TSVector2f {
+  public init(_ v: Swift.Float32)
+  public init(_ x: Swift.Float32, _ y: Swift.Float32)
+  public init(_ v: Tellusim.TSVector2i)
+  public init(_ v: Tellusim.TSVector2u)
+  public init(_ v: Tellusim.TSVector2d)
+  public init(_ v: Tellusim.TSVector3f)
+  public init(_ v: Tellusim.TSVector4f)
+  public init(_ v: [Swift.Float32])
+  public static let zero: Tellusim.TSVector2f
+  public static let one: Tellusim.TSVector2f
+}
+extension Tellusim.TSVector2f : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+prefix public func - (v: Tellusim.TSVector2f) -> Tellusim.TSVector2f
+public func * (v0: Tellusim.TSVector2f, v1: Swift.Float32) -> Tellusim.TSVector2f
+public func / (v0: Tellusim.TSVector2f, v1: Swift.Float32) -> Tellusim.TSVector2f
+public func + (v0: Tellusim.TSVector2f, v1: Swift.Float32) -> Tellusim.TSVector2f
+public func - (v0: Tellusim.TSVector2f, v1: Swift.Float32) -> Tellusim.TSVector2f
+public func * (v0: Tellusim.TSVector2f, v1: Tellusim.TSVector2f) -> Tellusim.TSVector2f
+public func / (v0: Tellusim.TSVector2f, v1: Tellusim.TSVector2f) -> Tellusim.TSVector2f
+public func + (v0: Tellusim.TSVector2f, v1: Tellusim.TSVector2f) -> Tellusim.TSVector2f
+public func - (v0: Tellusim.TSVector2f, v1: Tellusim.TSVector2f) -> Tellusim.TSVector2f
+public func abs(_ v: Tellusim.TSVector2f) -> Tellusim.TSVector2f
+public func min(_ v0: Tellusim.TSVector2f, _ v1: Tellusim.TSVector2f) -> Tellusim.TSVector2f
+public func max(_ v0: Tellusim.TSVector2f, _ v1: Tellusim.TSVector2f) -> Tellusim.TSVector2f
+public func clamp(_ v: Tellusim.TSVector2f, _ v0: Tellusim.TSVector2f, _ v1: Tellusim.TSVector2f) -> Tellusim.TSVector2f
+public func saturate(_ v: Tellusim.TSVector2f) -> Tellusim.TSVector2f
+public func dot(_ v0: Tellusim.TSVector2f, _ v1: Tellusim.TSVector2f) -> Swift.Float32
+public func cross(_ v0: Tellusim.TSVector2f, _ v1: Tellusim.TSVector2f) -> Swift.Float32
+public func length2(_ v: Tellusim.TSVector2f) -> Swift.Float32
+public func length(_ v: Tellusim.TSVector2f) -> Swift.Float32
+public func normalize(_ v: Tellusim.TSVector2f) -> Tellusim.TSVector2f
+public func lerp(_ v0: Tellusim.TSVector2f, _ v1: Tellusim.TSVector2f, k: Swift.Float32) -> Tellusim.TSVector2f
+public func lerp(_ v0: Tellusim.TSVector2f, _ v1: Tellusim.TSVector2f, k: Tellusim.TSVector2f) -> Tellusim.TSVector2f
+extension Tellusim.TSVector2d {
+  public init(_ v: Swift.Float64)
+  public init(_ x: Swift.Float64, _ y: Swift.Float64)
+  public init(_ v: Tellusim.TSVector2i)
+  public init(_ v: Tellusim.TSVector2u)
+  public init(_ v: Tellusim.TSVector2f)
+  public init(_ v: Tellusim.TSVector3d)
+  public init(_ v: Tellusim.TSVector4d)
+  public init(_ v: [Swift.Float64])
+  public static let zero: Tellusim.TSVector2d
+  public static let one: Tellusim.TSVector2d
+}
+extension Tellusim.TSVector2d : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+prefix public func - (v: Tellusim.TSVector2d) -> Tellusim.TSVector2d
+public func * (v0: Tellusim.TSVector2d, v1: Swift.Float64) -> Tellusim.TSVector2d
+public func / (v0: Tellusim.TSVector2d, v1: Swift.Float64) -> Tellusim.TSVector2d
+public func + (v0: Tellusim.TSVector2d, v1: Swift.Float64) -> Tellusim.TSVector2d
+public func - (v0: Tellusim.TSVector2d, v1: Swift.Float64) -> Tellusim.TSVector2d
+public func * (v0: Tellusim.TSVector2d, v1: Tellusim.TSVector2d) -> Tellusim.TSVector2d
+public func / (v0: Tellusim.TSVector2d, v1: Tellusim.TSVector2d) -> Tellusim.TSVector2d
+public func + (v0: Tellusim.TSVector2d, v1: Tellusim.TSVector2d) -> Tellusim.TSVector2d
+public func - (v0: Tellusim.TSVector2d, v1: Tellusim.TSVector2d) -> Tellusim.TSVector2d
+public func abs(_ v: Tellusim.TSVector2d) -> Tellusim.TSVector2d
+public func min(_ v0: Tellusim.TSVector2d, _ v1: Tellusim.TSVector2d) -> Tellusim.TSVector2d
+public func max(_ v0: Tellusim.TSVector2d, _ v1: Tellusim.TSVector2d) -> Tellusim.TSVector2d
+public func clamp(_ v: Tellusim.TSVector2d, _ v0: Tellusim.TSVector2d, _ v1: Tellusim.TSVector2d) -> Tellusim.TSVector2d
+public func saturate(_ v: Tellusim.TSVector2d) -> Tellusim.TSVector2d
+public func dot(_ v0: Tellusim.TSVector2d, _ v1: Tellusim.TSVector2d) -> Swift.Float64
+public func cross(_ v0: Tellusim.TSVector2d, _ v1: Tellusim.TSVector2d) -> Swift.Float64
+public func length2(_ v: Tellusim.TSVector2d) -> Swift.Float64
+public func length(_ v: Tellusim.TSVector2d) -> Swift.Float64
+public func normalize(_ v: Tellusim.TSVector2d) -> Tellusim.TSVector2d
+public func lerp(_ v0: Tellusim.TSVector2d, _ v1: Tellusim.TSVector2d, k: Swift.Float64) -> Tellusim.TSVector2d
+public func lerp(_ v0: Tellusim.TSVector2d, _ v1: Tellusim.TSVector2d, k: Tellusim.TSVector2d) -> Tellusim.TSVector2d
+extension Tellusim.TSVector3i {
+  public init(_ v: Swift.Int32)
+  public init(_ x: Swift.Int32, _ y: Swift.Int32, _ z: Swift.Int32)
+  public init(_ v: Tellusim.TSVector2i, _ z: Swift.Int32)
+  public init(_ v: Tellusim.TSVector3u)
+  public init(_ v: Tellusim.TSVector3f)
+  public init(_ v: Tellusim.TSVector3d)
+  public init(_ v: Tellusim.TSVector4i)
+  public init(_ v: [Swift.Int32])
+  public static let zero: Tellusim.TSVector3i
+  public static let one: Tellusim.TSVector3i
+}
+extension Tellusim.TSVector3i : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+prefix public func - (v: Tellusim.TSVector3i) -> Tellusim.TSVector3i
+public func * (v0: Tellusim.TSVector3i, v1: Swift.Int32) -> Tellusim.TSVector3i
+public func / (v0: Tellusim.TSVector3i, v1: Swift.Int32) -> Tellusim.TSVector3i
+public func + (v0: Tellusim.TSVector3i, v1: Swift.Int32) -> Tellusim.TSVector3i
+public func - (v0: Tellusim.TSVector3i, v1: Swift.Int32) -> Tellusim.TSVector3i
+public func & (v0: Tellusim.TSVector3i, v1: Swift.Int32) -> Tellusim.TSVector3i
+public func | (v0: Tellusim.TSVector3i, v1: Swift.Int32) -> Tellusim.TSVector3i
+public func ^ (v0: Tellusim.TSVector3i, v1: Swift.Int32) -> Tellusim.TSVector3i
+public func << (v0: Tellusim.TSVector3i, v1: Swift.Int32) -> Tellusim.TSVector3i
+public func >> (v0: Tellusim.TSVector3i, v1: Swift.Int32) -> Tellusim.TSVector3i
+public func * (v0: Tellusim.TSVector3i, v1: Tellusim.TSVector3i) -> Tellusim.TSVector3i
+public func / (v0: Tellusim.TSVector3i, v1: Tellusim.TSVector3i) -> Tellusim.TSVector3i
+public func + (v0: Tellusim.TSVector3i, v1: Tellusim.TSVector3i) -> Tellusim.TSVector3i
+public func - (v0: Tellusim.TSVector3i, v1: Tellusim.TSVector3i) -> Tellusim.TSVector3i
+public func & (v0: Tellusim.TSVector3i, v1: Tellusim.TSVector3i) -> Tellusim.TSVector3i
+public func | (v0: Tellusim.TSVector3i, v1: Tellusim.TSVector3i) -> Tellusim.TSVector3i
+public func ^ (v0: Tellusim.TSVector3i, v1: Tellusim.TSVector3i) -> Tellusim.TSVector3i
+public func abs(_ v: Tellusim.TSVector3i) -> Tellusim.TSVector3i
+public func min(_ v0: Tellusim.TSVector3i, _ v1: Tellusim.TSVector3i) -> Tellusim.TSVector3i
+public func max(_ v0: Tellusim.TSVector3i, _ v1: Tellusim.TSVector3i) -> Tellusim.TSVector3i
+public func clamp(_ v: Tellusim.TSVector3i, _ v0: Tellusim.TSVector3i, _ v1: Tellusim.TSVector3i) -> Tellusim.TSVector3i
+extension Tellusim.TSVector3u {
+  public init(_ v: Swift.UInt32)
+  public init(_ x: Swift.UInt32, _ y: Swift.UInt32, _ z: Swift.UInt32)
+  public init(_ v: Tellusim.TSVector2u, _ z: Swift.UInt32)
+  public init(_ v: Tellusim.TSVector3i)
+  public init(_ v: Tellusim.TSVector3f)
+  public init(_ v: Tellusim.TSVector3d)
+  public init(_ v: Tellusim.TSVector4u)
+  public init(_ v: [Swift.UInt32])
+  public static let zero: Tellusim.TSVector3u
+  public static let one: Tellusim.TSVector3u
+}
+extension Tellusim.TSVector3u : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public func * (v0: Tellusim.TSVector3u, v1: Swift.UInt32) -> Tellusim.TSVector3u
+public func / (v0: Tellusim.TSVector3u, v1: Swift.UInt32) -> Tellusim.TSVector3u
+public func + (v0: Tellusim.TSVector3u, v1: Swift.UInt32) -> Tellusim.TSVector3u
+public func - (v0: Tellusim.TSVector3u, v1: Swift.UInt32) -> Tellusim.TSVector3u
+public func & (v0: Tellusim.TSVector3u, v1: Swift.UInt32) -> Tellusim.TSVector3u
+public func | (v0: Tellusim.TSVector3u, v1: Swift.UInt32) -> Tellusim.TSVector3u
+public func ^ (v0: Tellusim.TSVector3u, v1: Swift.UInt32) -> Tellusim.TSVector3u
+public func << (v0: Tellusim.TSVector3u, v1: Swift.UInt32) -> Tellusim.TSVector3u
+public func >> (v0: Tellusim.TSVector3u, v1: Swift.UInt32) -> Tellusim.TSVector3u
+public func * (v0: Tellusim.TSVector3u, v1: Tellusim.TSVector3u) -> Tellusim.TSVector3u
+public func / (v0: Tellusim.TSVector3u, v1: Tellusim.TSVector3u) -> Tellusim.TSVector3u
+public func + (v0: Tellusim.TSVector3u, v1: Tellusim.TSVector3u) -> Tellusim.TSVector3u
+public func - (v0: Tellusim.TSVector3u, v1: Tellusim.TSVector3u) -> Tellusim.TSVector3u
+public func & (v0: Tellusim.TSVector3u, v1: Tellusim.TSVector3u) -> Tellusim.TSVector3u
+public func | (v0: Tellusim.TSVector3u, v1: Tellusim.TSVector3u) -> Tellusim.TSVector3u
+public func ^ (v0: Tellusim.TSVector3u, v1: Tellusim.TSVector3u) -> Tellusim.TSVector3u
+public func min(_ v0: Tellusim.TSVector3u, _ v1: Tellusim.TSVector3u) -> Tellusim.TSVector3u
+public func max(_ v0: Tellusim.TSVector3u, _ v1: Tellusim.TSVector3u) -> Tellusim.TSVector3u
+public func clamp(_ v: Tellusim.TSVector3u, _ v0: Tellusim.TSVector3u, _ v1: Tellusim.TSVector3u) -> Tellusim.TSVector3u
+extension Tellusim.TSVector3f {
+  public init(_ v: Swift.Float32)
+  public init(_ x: Swift.Float32, _ y: Swift.Float32, _ z: Swift.Float32)
+  public init(_ v: Tellusim.TSVector2f, _ z: Swift.Float32)
+  public init(_ v: Tellusim.TSVector3i)
+  public init(_ v: Tellusim.TSVector3u)
+  public init(_ v: Tellusim.TSVector3d)
+  public init(_ v: Tellusim.TSVector4f)
+  public init(_ v: [Swift.Float32])
+  public static let zero: Tellusim.TSVector3f
+  public static let one: Tellusim.TSVector3f
+}
+extension Tellusim.TSVector3f : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+prefix public func - (v: Tellusim.TSVector3f) -> Tellusim.TSVector3f
+public func * (v0: Tellusim.TSVector3f, v1: Swift.Float32) -> Tellusim.TSVector3f
+public func / (v0: Tellusim.TSVector3f, v1: Swift.Float32) -> Tellusim.TSVector3f
+public func + (v0: Tellusim.TSVector3f, v1: Swift.Float32) -> Tellusim.TSVector3f
+public func - (v0: Tellusim.TSVector3f, v1: Swift.Float32) -> Tellusim.TSVector3f
+public func * (v0: Tellusim.TSVector3f, v1: Tellusim.TSVector3f) -> Tellusim.TSVector3f
+public func / (v0: Tellusim.TSVector3f, v1: Tellusim.TSVector3f) -> Tellusim.TSVector3f
+public func + (v0: Tellusim.TSVector3f, v1: Tellusim.TSVector3f) -> Tellusim.TSVector3f
+public func - (v0: Tellusim.TSVector3f, v1: Tellusim.TSVector3f) -> Tellusim.TSVector3f
+public func abs(_ v: Tellusim.TSVector3f) -> Tellusim.TSVector3f
+public func min(_ v0: Tellusim.TSVector3f, _ v1: Tellusim.TSVector3f) -> Tellusim.TSVector3f
+public func max(_ v0: Tellusim.TSVector3f, _ v1: Tellusim.TSVector3f) -> Tellusim.TSVector3f
+public func clamp(_ v: Tellusim.TSVector3f, _ v0: Tellusim.TSVector3f, _ v1: Tellusim.TSVector3f) -> Tellusim.TSVector3f
+public func saturate(_ v: Tellusim.TSVector3f) -> Tellusim.TSVector3f
+public func dot(_ v0: Tellusim.TSVector3f, _ v1: Tellusim.TSVector3f) -> Swift.Float32
+public func dot32(_ v0: Tellusim.TSVector3f, _ v1: Tellusim.TSVector3f) -> Swift.Float32
+public func dot23(_ v0: Tellusim.TSVector3f, _ v1: Tellusim.TSVector3f) -> Swift.Float32
+public func dot22(_ v0: Tellusim.TSVector3f, _ v1: Tellusim.TSVector3f) -> Swift.Float32
+public func cross(_ v0: Tellusim.TSVector3f, _ v1: Tellusim.TSVector3f) -> Tellusim.TSVector3f
+public func length2(_ v: Tellusim.TSVector3f) -> Swift.Float32
+public func length(_ v: Tellusim.TSVector3f) -> Swift.Float32
+public func normalize(_ v: Tellusim.TSVector3f) -> Tellusim.TSVector3f
+public func lerp(_ v0: Tellusim.TSVector3f, _ v1: Tellusim.TSVector3f, k: Swift.Float32) -> Tellusim.TSVector3f
+public func lerp(_ v0: Tellusim.TSVector3f, _ v1: Tellusim.TSVector3f, k: Tellusim.TSVector3f) -> Tellusim.TSVector3f
+extension Tellusim.TSVector3d {
+  public init(_ v: Swift.Float64)
+  public init(_ x: Swift.Float64, _ y: Swift.Float64, _ z: Swift.Float64)
+  public init(_ v: Tellusim.TSVector2d, _ z: Swift.Float64)
+  public init(_ v: Tellusim.TSVector3i)
+  public init(_ v: Tellusim.TSVector3u)
+  public init(_ v: Tellusim.TSVector3f)
+  public init(_ v: Tellusim.TSVector4d)
+  public init(_ v: [Swift.Float64])
+  public static let zero: Tellusim.TSVector3d
+  public static let one: Tellusim.TSVector3d
+}
+extension Tellusim.TSVector3d : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+prefix public func - (v: Tellusim.TSVector3d) -> Tellusim.TSVector3d
+public func * (v0: Tellusim.TSVector3d, v1: Swift.Float64) -> Tellusim.TSVector3d
+public func / (v0: Tellusim.TSVector3d, v1: Swift.Float64) -> Tellusim.TSVector3d
+public func + (v0: Tellusim.TSVector3d, v1: Swift.Float64) -> Tellusim.TSVector3d
+public func - (v0: Tellusim.TSVector3d, v1: Swift.Float64) -> Tellusim.TSVector3d
+public func * (v0: Tellusim.TSVector3d, v1: Tellusim.TSVector3d) -> Tellusim.TSVector3d
+public func / (v0: Tellusim.TSVector3d, v1: Tellusim.TSVector3d) -> Tellusim.TSVector3d
+public func + (v0: Tellusim.TSVector3d, v1: Tellusim.TSVector3d) -> Tellusim.TSVector3d
+public func - (v0: Tellusim.TSVector3d, v1: Tellusim.TSVector3d) -> Tellusim.TSVector3d
+public func abs(_ v: Tellusim.TSVector3d) -> Tellusim.TSVector3d
+public func min(_ v0: Tellusim.TSVector3d, _ v1: Tellusim.TSVector3d) -> Tellusim.TSVector3d
+public func max(_ v0: Tellusim.TSVector3d, _ v1: Tellusim.TSVector3d) -> Tellusim.TSVector3d
+public func clamp(_ v: Tellusim.TSVector3d, _ v0: Tellusim.TSVector3d, _ v1: Tellusim.TSVector3d) -> Tellusim.TSVector3d
+public func saturate(_ v: Tellusim.TSVector3d) -> Tellusim.TSVector3d
+public func dot(_ v0: Tellusim.TSVector3d, _ v1: Tellusim.TSVector3d) -> Swift.Float64
+public func dot32(_ v0: Tellusim.TSVector3d, _ v1: Tellusim.TSVector3d) -> Swift.Float64
+public func dot23(_ v0: Tellusim.TSVector3d, _ v1: Tellusim.TSVector3d) -> Swift.Float64
+public func dot22(_ v0: Tellusim.TSVector3d, _ v1: Tellusim.TSVector3d) -> Swift.Float64
+public func cross(_ v0: Tellusim.TSVector3d, _ v1: Tellusim.TSVector3d) -> Tellusim.TSVector3d
+public func length2(_ v: Tellusim.TSVector3d) -> Swift.Float64
+public func length(_ v: Tellusim.TSVector3d) -> Swift.Float64
+public func normalize(_ v: Tellusim.TSVector3d) -> Tellusim.TSVector3d
+public func lerp(_ v0: Tellusim.TSVector3d, _ v1: Tellusim.TSVector3d, k: Swift.Float64) -> Tellusim.TSVector3d
+public func lerp(_ v0: Tellusim.TSVector3d, _ v1: Tellusim.TSVector3d, k: Tellusim.TSVector3d) -> Tellusim.TSVector3d
+extension Tellusim.TSVector4i {
+  public init(_ v: Swift.Int32)
+  public init(_ x: Swift.Int32, _ y: Swift.Int32, _ z: Swift.Int32, _ w: Swift.Int32)
+  public init(_ v: Tellusim.TSVector2i, _ z: Swift.Int32, _ w: Swift.Int32)
+  public init(_ v: Tellusim.TSVector3i, _ w: Swift.Int32)
+  public init(_ v: Tellusim.TSVector4u)
+  public init(_ v: Tellusim.TSVector4f)
+  public init(_ v: Tellusim.TSVector4d)
+  public init(_ v: [Swift.Int32])
+  public static let zero: Tellusim.TSVector4i
+  public static let one: Tellusim.TSVector4i
+}
+extension Tellusim.TSVector4i : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+prefix public func - (v: Tellusim.TSVector4i) -> Tellusim.TSVector4i
+public func * (v0: Tellusim.TSVector4i, v1: Swift.Int32) -> Tellusim.TSVector4i
+public func / (v0: Tellusim.TSVector4i, v1: Swift.Int32) -> Tellusim.TSVector4i
+public func + (v0: Tellusim.TSVector4i, v1: Swift.Int32) -> Tellusim.TSVector4i
+public func - (v0: Tellusim.TSVector4i, v1: Swift.Int32) -> Tellusim.TSVector4i
+public func & (v0: Tellusim.TSVector4i, v1: Swift.Int32) -> Tellusim.TSVector4i
+public func | (v0: Tellusim.TSVector4i, v1: Swift.Int32) -> Tellusim.TSVector4i
+public func ^ (v0: Tellusim.TSVector4i, v1: Swift.Int32) -> Tellusim.TSVector4i
+public func << (v0: Tellusim.TSVector4i, v1: Swift.Int32) -> Tellusim.TSVector4i
+public func >> (v0: Tellusim.TSVector4i, v1: Swift.Int32) -> Tellusim.TSVector4i
+public func * (v0: Tellusim.TSVector4i, v1: Tellusim.TSVector4i) -> Tellusim.TSVector4i
+public func / (v0: Tellusim.TSVector4i, v1: Tellusim.TSVector4i) -> Tellusim.TSVector4i
+public func + (v0: Tellusim.TSVector4i, v1: Tellusim.TSVector4i) -> Tellusim.TSVector4i
+public func - (v0: Tellusim.TSVector4i, v1: Tellusim.TSVector4i) -> Tellusim.TSVector4i
+public func & (v0: Tellusim.TSVector4i, v1: Tellusim.TSVector4i) -> Tellusim.TSVector4i
+public func | (v0: Tellusim.TSVector4i, v1: Tellusim.TSVector4i) -> Tellusim.TSVector4i
+public func ^ (v0: Tellusim.TSVector4i, v1: Tellusim.TSVector4i) -> Tellusim.TSVector4i
+public func abs(_ v: Tellusim.TSVector4i) -> Tellusim.TSVector4i
+public func min(_ v0: Tellusim.TSVector4i, _ v1: Tellusim.TSVector4i) -> Tellusim.TSVector4i
+public func max(_ v0: Tellusim.TSVector4i, _ v1: Tellusim.TSVector4i) -> Tellusim.TSVector4i
+public func clamp(_ v: Tellusim.TSVector4i, _ v0: Tellusim.TSVector4i, _ v1: Tellusim.TSVector4i) -> Tellusim.TSVector4i
+extension Tellusim.TSVector4u {
+  public init(_ v: Swift.UInt32)
+  public init(_ x: Swift.UInt32, _ y: Swift.UInt32, _ z: Swift.UInt32, _ w: Swift.UInt32)
+  public init(_ v: Tellusim.TSVector2u, _ z: Swift.UInt32, _ w: Swift.UInt32)
+  public init(_ v: Tellusim.TSVector3u, _ w: Swift.UInt32)
+  public init(_ v: Tellusim.TSVector4i)
+  public init(_ v: Tellusim.TSVector4f)
+  public init(_ v: Tellusim.TSVector4d)
+  public init(_ v: [Swift.UInt32])
+  public static let zero: Tellusim.TSVector4u
+  public static let one: Tellusim.TSVector4u
+}
+extension Tellusim.TSVector4u : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public func * (v0: Tellusim.TSVector4u, v1: Swift.UInt32) -> Tellusim.TSVector4u
+public func / (v0: Tellusim.TSVector4u, v1: Swift.UInt32) -> Tellusim.TSVector4u
+public func + (v0: Tellusim.TSVector4u, v1: Swift.UInt32) -> Tellusim.TSVector4u
+public func - (v0: Tellusim.TSVector4u, v1: Swift.UInt32) -> Tellusim.TSVector4u
+public func & (v0: Tellusim.TSVector4u, v1: Swift.UInt32) -> Tellusim.TSVector4u
+public func | (v0: Tellusim.TSVector4u, v1: Swift.UInt32) -> Tellusim.TSVector4u
+public func ^ (v0: Tellusim.TSVector4u, v1: Swift.UInt32) -> Tellusim.TSVector4u
+public func << (v0: Tellusim.TSVector4u, v1: Swift.UInt32) -> Tellusim.TSVector4u
+public func >> (v0: Tellusim.TSVector4u, v1: Swift.UInt32) -> Tellusim.TSVector4u
+public func * (v0: Tellusim.TSVector4u, v1: Tellusim.TSVector4u) -> Tellusim.TSVector4u
+public func / (v0: Tellusim.TSVector4u, v1: Tellusim.TSVector4u) -> Tellusim.TSVector4u
+public func + (v0: Tellusim.TSVector4u, v1: Tellusim.TSVector4u) -> Tellusim.TSVector4u
+public func - (v0: Tellusim.TSVector4u, v1: Tellusim.TSVector4u) -> Tellusim.TSVector4u
+public func & (v0: Tellusim.TSVector4u, v1: Tellusim.TSVector4u) -> Tellusim.TSVector4u
+public func | (v0: Tellusim.TSVector4u, v1: Tellusim.TSVector4u) -> Tellusim.TSVector4u
+public func ^ (v0: Tellusim.TSVector4u, v1: Tellusim.TSVector4u) -> Tellusim.TSVector4u
+public func min(_ v0: Tellusim.TSVector4u, _ v1: Tellusim.TSVector4u) -> Tellusim.TSVector4u
+public func max(_ v0: Tellusim.TSVector4u, _ v1: Tellusim.TSVector4u) -> Tellusim.TSVector4u
+public func clamp(_ v: Tellusim.TSVector4u, _ v0: Tellusim.TSVector4u, _ v1: Tellusim.TSVector4u) -> Tellusim.TSVector4u
+extension Tellusim.TSVector4f {
+  public init(_ v: Swift.Float32)
+  public init(_ x: Swift.Float32, _ y: Swift.Float32, _ z: Swift.Float32, _ w: Swift.Float32)
+  public init(_ v: Tellusim.TSVector2f, _ z: Swift.Float32, _ w: Swift.Float32)
+  public init(_ v: Tellusim.TSVector3f, _ w: Swift.Float32)
+  public init(_ v: Tellusim.TSVector4i)
+  public init(_ v: Tellusim.TSVector4u)
+  public init(_ v: Tellusim.TSVector4d)
+  public init(_ v: [Swift.Float32])
+  public static let zero: Tellusim.TSVector4f
+  public static let one: Tellusim.TSVector4f
+}
+extension Tellusim.TSVector4f : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+prefix public func - (v: Tellusim.TSVector4f) -> Tellusim.TSVector4f
+public func * (v0: Tellusim.TSVector4f, v1: Swift.Float32) -> Tellusim.TSVector4f
+public func / (v0: Tellusim.TSVector4f, v1: Swift.Float32) -> Tellusim.TSVector4f
+public func + (v0: Tellusim.TSVector4f, v1: Swift.Float32) -> Tellusim.TSVector4f
+public func - (v0: Tellusim.TSVector4f, v1: Swift.Float32) -> Tellusim.TSVector4f
+public func * (v0: Tellusim.TSVector4f, v1: Tellusim.TSVector4f) -> Tellusim.TSVector4f
+public func / (v0: Tellusim.TSVector4f, v1: Tellusim.TSVector4f) -> Tellusim.TSVector4f
+public func + (v0: Tellusim.TSVector4f, v1: Tellusim.TSVector4f) -> Tellusim.TSVector4f
+public func - (v0: Tellusim.TSVector4f, v1: Tellusim.TSVector4f) -> Tellusim.TSVector4f
+public func abs(_ v: Tellusim.TSVector4f) -> Tellusim.TSVector4f
+public func min(_ v0: Tellusim.TSVector4f, _ v1: Tellusim.TSVector4f) -> Tellusim.TSVector4f
+public func max(_ v0: Tellusim.TSVector4f, _ v1: Tellusim.TSVector4f) -> Tellusim.TSVector4f
+public func clamp(_ v: Tellusim.TSVector4f, _ v0: Tellusim.TSVector4f, _ v1: Tellusim.TSVector4f) -> Tellusim.TSVector4f
+public func saturate(_ v: Tellusim.TSVector4f) -> Tellusim.TSVector4f
+public func dot(_ v0: Tellusim.TSVector4f, _ v1: Tellusim.TSVector4f) -> Swift.Float32
+public func dot(_ v0: Tellusim.TSVector4f, _ v1: Tellusim.TSVector3f) -> Swift.Float32
+public func dot(_ v0: Tellusim.TSVector3f, _ v1: Tellusim.TSVector4f) -> Swift.Float32
+public func dot3(_ v0: Tellusim.TSVector4f, _ v1: Tellusim.TSVector3f) -> Swift.Float32
+public func dot3(_ v0: Tellusim.TSVector3f, _ v1: Tellusim.TSVector4f) -> Swift.Float32
+public func dot43(_ v0: Tellusim.TSVector4f, _ v1: Tellusim.TSVector4f) -> Swift.Float32
+public func dot34(_ v0: Tellusim.TSVector4f, _ v1: Tellusim.TSVector4f) -> Swift.Float32
+public func dot33(_ v0: Tellusim.TSVector4f, _ v1: Tellusim.TSVector4f) -> Swift.Float32
+public func cross(_ v0: Tellusim.TSVector4f, _ v1: Tellusim.TSVector4f) -> Tellusim.TSVector4f
+public func length2(_ v: Tellusim.TSVector4f) -> Swift.Float32
+public func length23(_ v: Tellusim.TSVector4f) -> Swift.Float32
+public func length(_ v: Tellusim.TSVector4f) -> Swift.Float32
+public func length3(_ v: Tellusim.TSVector4f) -> Swift.Float32
+public func normalize(_ v: Tellusim.TSVector4f) -> Tellusim.TSVector4f
+public func normalize3(_ v: Tellusim.TSVector4f) -> Tellusim.TSVector4f
+public func lerp(_ v0: Tellusim.TSVector4f, _ v1: Tellusim.TSVector4f, k: Swift.Float32) -> Tellusim.TSVector4f
+public func lerp(_ v0: Tellusim.TSVector4f, _ v1: Tellusim.TSVector4f, k: Tellusim.TSVector4f) -> Tellusim.TSVector4f
+extension Tellusim.TSVector4d {
+  public init(_ v: Swift.Float64)
+  public init(_ x: Swift.Float64, _ y: Swift.Float64, _ z: Swift.Float64, _ w: Swift.Float64)
+  public init(_ v: Tellusim.TSVector2d, _ z: Swift.Float64, _ w: Swift.Float64)
+  public init(_ v: Tellusim.TSVector3d, _ w: Swift.Float64)
+  public init(_ v: Tellusim.TSVector4i)
+  public init(_ v: Tellusim.TSVector4u)
+  public init(_ v: Tellusim.TSVector4f)
+  public init(_ v: [Swift.Float64])
+  public static let zero: Tellusim.TSVector4d
+  public static let one: Tellusim.TSVector4d
+}
+extension Tellusim.TSVector4d : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+prefix public func - (v: Tellusim.TSVector4d) -> Tellusim.TSVector4d
+public func * (v0: Tellusim.TSVector4d, v1: Swift.Float64) -> Tellusim.TSVector4d
+public func / (v0: Tellusim.TSVector4d, v1: Swift.Float64) -> Tellusim.TSVector4d
+public func + (v0: Tellusim.TSVector4d, v1: Swift.Float64) -> Tellusim.TSVector4d
+public func - (v0: Tellusim.TSVector4d, v1: Swift.Float64) -> Tellusim.TSVector4d
+public func * (v0: Tellusim.TSVector4d, v1: Tellusim.TSVector4d) -> Tellusim.TSVector4d
+public func / (v0: Tellusim.TSVector4d, v1: Tellusim.TSVector4d) -> Tellusim.TSVector4d
+public func + (v0: Tellusim.TSVector4d, v1: Tellusim.TSVector4d) -> Tellusim.TSVector4d
+public func - (v0: Tellusim.TSVector4d, v1: Tellusim.TSVector4d) -> Tellusim.TSVector4d
+public func abs(_ v: Tellusim.TSVector4d) -> Tellusim.TSVector4d
+public func min(_ v0: Tellusim.TSVector4d, _ v1: Tellusim.TSVector4d) -> Tellusim.TSVector4d
+public func max(_ v0: Tellusim.TSVector4d, _ v1: Tellusim.TSVector4d) -> Tellusim.TSVector4d
+public func clamp(_ v: Tellusim.TSVector4d, _ v0: Tellusim.TSVector4d, _ v1: Tellusim.TSVector4d) -> Tellusim.TSVector4d
+public func saturate(_ v: Tellusim.TSVector4d) -> Tellusim.TSVector4d
+public func dot(_ v0: Tellusim.TSVector4d, _ v1: Tellusim.TSVector4d) -> Swift.Float64
+public func dot(_ v0: Tellusim.TSVector4d, _ v1: Tellusim.TSVector3d) -> Swift.Float64
+public func dot(_ v0: Tellusim.TSVector3d, _ v1: Tellusim.TSVector4d) -> Swift.Float64
+public func dot3(_ v0: Tellusim.TSVector4d, _ v1: Tellusim.TSVector3d) -> Swift.Float64
+public func dot3(_ v0: Tellusim.TSVector3d, _ v1: Tellusim.TSVector4d) -> Swift.Float64
+public func dot43(_ v0: Tellusim.TSVector4d, _ v1: Tellusim.TSVector4d) -> Swift.Float64
+public func dot34(_ v0: Tellusim.TSVector4d, _ v1: Tellusim.TSVector4d) -> Swift.Float64
+public func dot33(_ v0: Tellusim.TSVector4d, _ v1: Tellusim.TSVector4d) -> Swift.Float64
+public func cross(_ v0: Tellusim.TSVector4d, _ v1: Tellusim.TSVector4d) -> Tellusim.TSVector4d
+public func length2(_ v: Tellusim.TSVector4d) -> Swift.Float64
+public func length23(_ v: Tellusim.TSVector4d) -> Swift.Float64
+public func length(_ v: Tellusim.TSVector4d) -> Swift.Float64
+public func length3(_ v: Tellusim.TSVector4d) -> Swift.Float64
+public func normalize(_ v: Tellusim.TSVector4d) -> Tellusim.TSVector4d
+public func normalize3(_ v: Tellusim.TSVector4d) -> Tellusim.TSVector4d
+public func lerp(_ v0: Tellusim.TSVector4d, _ v1: Tellusim.TSVector4d, k: Swift.Float64) -> Tellusim.TSVector4d
+public func lerp(_ v0: Tellusim.TSVector4d, _ v1: Tellusim.TSVector4d, k: Tellusim.TSVector4d) -> Tellusim.TSVector4d
+extension Tellusim.TSMatrix3x2f {
+  public init(_ row_0: Tellusim.TSVector3f, _ row_1: Tellusim.TSVector3f)
+  public init(_ m: Tellusim.TSMatrix3x2d)
+  public init(_ m: [Swift.Float32], _ row_major: Swift.Bool = true)
+  public mutating func set(_ src: [Swift.Float32], _ row_major: Swift.Bool = true)
+  public func get(_ dest: inout [Swift.Float32], _ row_major: Swift.Bool = true)
+  public static func scale(_ s: Swift.Float32) -> Tellusim.TSMatrix3x2f
+  public static func scale(_ x: Swift.Float32, _ y: Swift.Float32) -> Tellusim.TSMatrix3x2f
+  public static func scale(_ s: Tellusim.TSVector2f) -> Tellusim.TSMatrix3x2f
+  public static func translate(_ x: Swift.Float32, _ y: Swift.Float32) -> Tellusim.TSMatrix3x2f
+  public static func translate(_ t: Tellusim.TSVector2f) -> Tellusim.TSMatrix3x2f
+  public static func rotate(_ angle: Swift.Float32) -> Tellusim.TSMatrix3x2f
+  public static let zero: Tellusim.TSMatrix3x2f
+  public static let identity: Tellusim.TSMatrix3x2f
+}
+extension Tellusim.TSMatrix3x2f : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public func * (m: Tellusim.TSMatrix3x2f, v: Tellusim.TSVector2f) -> Tellusim.TSVector2f
+public func * (v: Tellusim.TSVector2f, m: Tellusim.TSMatrix3x2f) -> Tellusim.TSVector2f
+public func * (m0: Tellusim.TSMatrix3x2f, m1: Tellusim.TSMatrix3x2f) -> Tellusim.TSMatrix3x2f
+public func transpose(_ m: Tellusim.TSMatrix3x2f) -> Tellusim.TSMatrix3x2f
+public func inverse(_ m: Tellusim.TSMatrix3x2f) -> Tellusim.TSMatrix3x2f
+extension Tellusim.TSMatrix3x2d {
+  public init(_ row_0: Tellusim.TSVector3d, _ row_1: Tellusim.TSVector3d)
+  public init(_ m: Tellusim.TSMatrix3x2f)
+  public init(_ m: [Swift.Float64], _ row_major: Swift.Bool = true)
+  public mutating func set(_ src: [Swift.Float64], _ row_major: Swift.Bool = true)
+  public func get(_ dest: inout [Swift.Float64], _ row_major: Swift.Bool = true)
+  public static let zero: Tellusim.TSMatrix3x2d
+  public static let identity: Tellusim.TSMatrix3x2d
+}
+extension Tellusim.TSMatrix3x2d : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public func * (m: Tellusim.TSMatrix3x2d, v: Tellusim.TSVector2d) -> Tellusim.TSVector2d
+public func * (v: Tellusim.TSVector2d, m: Tellusim.TSMatrix3x2d) -> Tellusim.TSVector2d
+public func * (m0: Tellusim.TSMatrix3x2d, m1: Tellusim.TSMatrix3x2d) -> Tellusim.TSMatrix3x2d
+public func transpose(_ m: Tellusim.TSMatrix3x2d) -> Tellusim.TSMatrix3x2d
+public func inverse(_ m: Tellusim.TSMatrix3x2d) -> Tellusim.TSMatrix3x2d
+extension Tellusim.TSMatrix4x3f {
+  public init(_ m: Tellusim.TSMatrix4x4f)
+  public init(_ m: Tellusim.TSMatrix4x3d)
+  public init(_ row_0: Tellusim.TSVector4f, _ row_1: Tellusim.TSVector4f, _ row_2: Tellusim.TSVector4f)
+  public init(_ m: [Swift.Float32], _ row_major: Swift.Bool = true)
+  public init(_ q: Tellusim.TSQuaternionf)
+  public mutating func set(_ src: [Swift.Float32], _ row_major: Swift.Bool = true)
+  public func get(_ dest: inout [Swift.Float32], _ row_major: Swift.Bool = true)
+  public mutating func set(_ q: Tellusim.TSQuaternionf)
+  public func get(_ q: inout Tellusim.TSQuaternionf)
+  public static func scale(_ s: Swift.Float32) -> Tellusim.TSMatrix4x3f
+  public static func scale(_ x: Swift.Float32, _ y: Swift.Float32, _ z: Swift.Float32) -> Tellusim.TSMatrix4x3f
+  public static func scale(_ s: Tellusim.TSVector3f) -> Tellusim.TSMatrix4x3f
+  public static func translate(_ x: Swift.Float32, _ y: Swift.Float32, _ z: Swift.Float32) -> Tellusim.TSMatrix4x3f
+  public static func translate(_ t: Tellusim.TSVector3f) -> Tellusim.TSMatrix4x3f
+  public static func rotateX(_ angle: Swift.Float32) -> Tellusim.TSMatrix4x3f
+  public static func rotateY(_ angle: Swift.Float32) -> Tellusim.TSMatrix4x3f
+  public static func rotateZ(_ angle: Swift.Float32) -> Tellusim.TSMatrix4x3f
+  public static func rotate(_ axis: Tellusim.TSVector3f, _ angle: Swift.Float32) -> Tellusim.TSMatrix4x3f
+  public static func lookAt(_ from: Tellusim.TSVector3f, _ to: Tellusim.TSVector3f, _ up: Tellusim.TSVector3f) -> Tellusim.TSMatrix4x3f
+  public static func placeTo(_ to: Tellusim.TSVector3f, _ from: Tellusim.TSVector3f, _ up: Tellusim.TSVector3f) -> Tellusim.TSMatrix4x3f
+  public static func compose(_ t: Tellusim.TSVector3f, _ r: Tellusim.TSQuaternionf, _ s: Tellusim.TSVector3f) -> Tellusim.TSMatrix4x3f
+  public static func basis(_ normal: Tellusim.TSVector3f, _ t: Tellusim.TSVector3f) -> Tellusim.TSMatrix4x3f
+  public static let zero: Tellusim.TSMatrix4x3f
+  public static let identity: Tellusim.TSMatrix4x3f
+}
+extension Tellusim.TSMatrix4x3f : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public func * (m: Tellusim.TSMatrix4x3f, v: Tellusim.TSVector2f) -> Tellusim.TSVector2f
+public func * (m: Tellusim.TSMatrix4x3f, v: Tellusim.TSVector3f) -> Tellusim.TSVector3f
+public func * (m: Tellusim.TSMatrix4x3f, v: Tellusim.TSVector4f) -> Tellusim.TSVector4f
+public func * (v: Tellusim.TSVector2f, m: Tellusim.TSMatrix4x3f) -> Tellusim.TSVector2f
+public func * (v: Tellusim.TSVector3f, m: Tellusim.TSMatrix4x3f) -> Tellusim.TSVector3f
+public func * (v: Tellusim.TSVector4f, m: Tellusim.TSMatrix4x3f) -> Tellusim.TSVector4f
+public func * (m0: Tellusim.TSMatrix4x3f, m1: Tellusim.TSMatrix4x3f) -> Tellusim.TSMatrix4x3f
+public func normalize(_ m: Tellusim.TSMatrix4x3f) -> Tellusim.TSMatrix4x3f
+public func transpose(_ m: Tellusim.TSMatrix4x3f) -> Tellusim.TSMatrix4x3f
+public func inverse(_ m: Tellusim.TSMatrix4x3f) -> Tellusim.TSMatrix4x3f
+public func inverse33(_ m: Tellusim.TSMatrix4x3f) -> Tellusim.TSMatrix4x3f
+public func lerp(_ m0: Tellusim.TSMatrix4x3f, _ m1: Tellusim.TSMatrix4x3f, _ k: Swift.Float32) -> Tellusim.TSMatrix4x3f
+extension Tellusim.TSMatrix4x3d {
+  public init(_ m: Tellusim.TSMatrix4x4d)
+  public init(_ m: Tellusim.TSMatrix4x3f)
+  public init(_ row_0: Tellusim.TSVector4d, _ row_1: Tellusim.TSVector4d, _ row_2: Tellusim.TSVector4d)
+  public init(_ m: [Swift.Float64], _ row_major: Swift.Bool = true)
+  public init(_ q: Tellusim.TSQuaterniond)
+  public mutating func set(_ src: [Swift.Float64], _ row_major: Swift.Bool = true)
+  public func get(_ dest: inout [Swift.Float64], _ row_major: Swift.Bool = true)
+  public mutating func set(_ q: Tellusim.TSQuaterniond)
+  public func get(_ q: inout Tellusim.TSQuaterniond)
+  public static func scale(_ s: Swift.Float64) -> Tellusim.TSMatrix4x3d
+  public static func scale(_ x: Swift.Float64, _ y: Swift.Float64, _ z: Swift.Float64) -> Tellusim.TSMatrix4x3d
+  public static func scale(_ s: Tellusim.TSVector3d) -> Tellusim.TSMatrix4x3d
+  public static func translate(_ x: Swift.Float64, _ y: Swift.Float64, _ z: Swift.Float64) -> Tellusim.TSMatrix4x3d
+  public static func translate(_ t: Tellusim.TSVector3d) -> Tellusim.TSMatrix4x3d
+  public static func rotateX(_ angle: Swift.Float64) -> Tellusim.TSMatrix4x3d
+  public static func rotateY(_ angle: Swift.Float64) -> Tellusim.TSMatrix4x3d
+  public static func rotateZ(_ angle: Swift.Float64) -> Tellusim.TSMatrix4x3d
+  public static func rotate(_ axis: Tellusim.TSVector3d, _ angle: Swift.Float64) -> Tellusim.TSMatrix4x3d
+  public static func lookAt(_ from: Tellusim.TSVector3d, _ to: Tellusim.TSVector3d, _ up: Tellusim.TSVector3d) -> Tellusim.TSMatrix4x3d
+  public static func placeTo(_ to: Tellusim.TSVector3d, _ from: Tellusim.TSVector3d, _ up: Tellusim.TSVector3d) -> Tellusim.TSMatrix4x3d
+  public static func compose(_ t: Tellusim.TSVector3d, _ r: Tellusim.TSQuaterniond, _ s: Tellusim.TSVector3d) -> Tellusim.TSMatrix4x3d
+  public static func basis(_ normal: Tellusim.TSVector3d, _ t: Tellusim.TSVector3d) -> Tellusim.TSMatrix4x3d
+  public static let zero: Tellusim.TSMatrix4x3d
+  public static let identity: Tellusim.TSMatrix4x3d
+}
+extension Tellusim.TSMatrix4x3d : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public func * (m: Tellusim.TSMatrix4x3d, v: Tellusim.TSVector2d) -> Tellusim.TSVector2d
+public func * (m: Tellusim.TSMatrix4x3d, v: Tellusim.TSVector3d) -> Tellusim.TSVector3d
+public func * (m: Tellusim.TSMatrix4x3d, v: Tellusim.TSVector4d) -> Tellusim.TSVector4d
+public func * (v: Tellusim.TSVector2d, m: Tellusim.TSMatrix4x3d) -> Tellusim.TSVector2d
+public func * (v: Tellusim.TSVector3d, m: Tellusim.TSMatrix4x3d) -> Tellusim.TSVector3d
+public func * (v: Tellusim.TSVector4d, m: Tellusim.TSMatrix4x3d) -> Tellusim.TSVector4d
+public func * (m0: Tellusim.TSMatrix4x3d, m1: Tellusim.TSMatrix4x3d) -> Tellusim.TSMatrix4x3d
+public func normalize(_ m: Tellusim.TSMatrix4x3d) -> Tellusim.TSMatrix4x3d
+public func transpose(_ m: Tellusim.TSMatrix4x3d) -> Tellusim.TSMatrix4x3d
+public func inverse(_ m: Tellusim.TSMatrix4x3d) -> Tellusim.TSMatrix4x3d
+public func inverse33(_ m: Tellusim.TSMatrix4x3d) -> Tellusim.TSMatrix4x3d
+public func lerp(_ m0: Tellusim.TSMatrix4x3d, _ m1: Tellusim.TSMatrix4x3d, _ k: Swift.Float64) -> Tellusim.TSMatrix4x3d
+extension Tellusim.TSMatrix4x4f {
+  public init(_ m: Tellusim.TSMatrix4x3f)
+  public init(_ m: Tellusim.TSMatrix4x4d)
+  public init(_ row_0: Tellusim.TSVector4f, _ row_1: Tellusim.TSVector4f, _ row_2: Tellusim.TSVector4f, _ row_3: Tellusim.TSVector4f)
+  public init(_ m: [Swift.Float32], _ row_major: Swift.Bool = true)
+  public init(_ q: Tellusim.TSQuaternionf)
+  public mutating func set(_ src: [Swift.Float32], _ row_major: Swift.Bool = true)
+  public func get(_ dest: inout [Swift.Float32], _ row_major: Swift.Bool = true)
+  public mutating func set(_ q: Tellusim.TSQuaternionf)
+  public func get(_ q: inout Tellusim.TSQuaternionf)
+  public static func scale(_ s: Swift.Float32) -> Tellusim.TSMatrix4x4f
+  public static func scale(_ x: Swift.Float32, _ y: Swift.Float32, _ z: Swift.Float32) -> Tellusim.TSMatrix4x4f
+  public static func scale(_ s: Tellusim.TSVector3f) -> Tellusim.TSMatrix4x4f
+  public static func translate(_ x: Swift.Float32, _ y: Swift.Float32, _ z: Swift.Float32) -> Tellusim.TSMatrix4x4f
+  public static func translate(_ t: Tellusim.TSVector3f) -> Tellusim.TSMatrix4x4f
+  public static func rotateX(_ angle: Swift.Float32) -> Tellusim.TSMatrix4x4f
+  public static func rotateY(_ angle: Swift.Float32) -> Tellusim.TSMatrix4x4f
+  public static func rotateZ(_ angle: Swift.Float32) -> Tellusim.TSMatrix4x4f
+  public static func rotate(_ axis: Tellusim.TSVector3f, _ angle: Swift.Float32) -> Tellusim.TSMatrix4x4f
+  public static func lookAt(_ from: Tellusim.TSVector3f, _ to: Tellusim.TSVector3f, _ up: Tellusim.TSVector3f) -> Tellusim.TSMatrix4x4f
+  public static func placeTo(_ to: Tellusim.TSVector3f, _ from: Tellusim.TSVector3f, _ up: Tellusim.TSVector3f) -> Tellusim.TSMatrix4x4f
+  public static func compose(_ t: Tellusim.TSVector3f, _ r: Tellusim.TSQuaternionf, _ s: Tellusim.TSVector3f) -> Tellusim.TSMatrix4x4f
+  public static func basis(_ normal: Tellusim.TSVector3f, _ t: Tellusim.TSVector3f) -> Tellusim.TSMatrix4x4f
+  public static func ortho(_ left: Swift.Float32, _ right: Swift.Float32, _ bottom: Swift.Float32, _ top: Swift.Float32, _ znear: Swift.Float32, _ zfar: Swift.Float32) -> Tellusim.TSMatrix4x4f
+  public static func frustum(_ left: Swift.Float32, _ right: Swift.Float32, _ bottom: Swift.Float32, _ top: Swift.Float32, _ znear: Swift.Float32, _ zfar: Swift.Float32, _ reverse: Swift.Bool = false) -> Tellusim.TSMatrix4x4f
+  public static func frustum(_ left: Swift.Float32, _ right: Swift.Float32, _ bottom: Swift.Float32, _ top: Swift.Float32, _ znear: Swift.Float32, _ reverse: Swift.Bool = false) -> Tellusim.TSMatrix4x4f
+  public static func perspective(_ fov: Swift.Float32, _ aspect: Swift.Float32, _ znear: Swift.Float32, _ zfar: Swift.Float32, _ reverse: Swift.Bool = false) -> Tellusim.TSMatrix4x4f
+  public static func perspective(_ fov: Swift.Float32, _ aspect: Swift.Float32, _ znear: Swift.Float32, _ reverse: Swift.Bool = false) -> Tellusim.TSMatrix4x4f
+  public static let zero: Tellusim.TSMatrix4x4f
+  public static let identity: Tellusim.TSMatrix4x4f
+}
+extension Tellusim.TSMatrix4x4f : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public func * (m: Tellusim.TSMatrix4x4f, v: Tellusim.TSVector2f) -> Tellusim.TSVector2f
+public func * (m: Tellusim.TSMatrix4x4f, v: Tellusim.TSVector3f) -> Tellusim.TSVector3f
+public func * (m: Tellusim.TSMatrix4x4f, v: Tellusim.TSVector4f) -> Tellusim.TSVector4f
+public func * (v: Tellusim.TSVector2f, m: Tellusim.TSMatrix4x4f) -> Tellusim.TSVector2f
+public func * (v: Tellusim.TSVector3f, m: Tellusim.TSMatrix4x4f) -> Tellusim.TSVector3f
+public func * (v: Tellusim.TSVector4f, m: Tellusim.TSMatrix4x4f) -> Tellusim.TSVector4f
+public func * (m0: Tellusim.TSMatrix4x4f, m1: Tellusim.TSMatrix4x4f) -> Tellusim.TSMatrix4x4f
+public func normalize(_ m: Tellusim.TSMatrix4x4f) -> Tellusim.TSMatrix4x4f
+public func transpose(_ m: Tellusim.TSMatrix4x4f) -> Tellusim.TSMatrix4x4f
+public func inverse(_ m: Tellusim.TSMatrix4x4f) -> Tellusim.TSMatrix4x4f
+public func inverse43(_ m: Tellusim.TSMatrix4x4f) -> Tellusim.TSMatrix4x4f
+public func lerp(_ m0: Tellusim.TSMatrix4x4f, _ m1: Tellusim.TSMatrix4x4f, _ k: Swift.Float32) -> Tellusim.TSMatrix4x4f
+extension Tellusim.TSMatrix4x4d {
+  public init(_ m: Tellusim.TSMatrix4x3d)
+  public init(_ m: Tellusim.TSMatrix4x4f)
+  public init(_ row_0: Tellusim.TSVector4d, _ row_1: Tellusim.TSVector4d, _ row_2: Tellusim.TSVector4d, _ row_3: Tellusim.TSVector4d)
+  public init(_ m: [Swift.Float64], _ row_major: Swift.Bool = true)
+  public init(_ q: Tellusim.TSQuaterniond)
+  public mutating func set(_ src: [Swift.Float64], _ row_major: Swift.Bool = true)
+  public func get(_ dest: inout [Swift.Float64], _ row_major: Swift.Bool = true)
+  public mutating func set(_ q: Tellusim.TSQuaterniond)
+  public func get(_ q: inout Tellusim.TSQuaterniond)
+  public static func scale(_ s: Swift.Float64) -> Tellusim.TSMatrix4x4d
+  public static func scale(_ x: Swift.Float64, _ y: Swift.Float64, _ z: Swift.Float64) -> Tellusim.TSMatrix4x4d
+  public static func scale(_ s: Tellusim.TSVector3d) -> Tellusim.TSMatrix4x4d
+  public static func translate(_ x: Swift.Float64, _ y: Swift.Float64, _ z: Swift.Float64) -> Tellusim.TSMatrix4x4d
+  public static func translate(_ t: Tellusim.TSVector3d) -> Tellusim.TSMatrix4x4d
+  public static func rotateX(_ angle: Swift.Float64) -> Tellusim.TSMatrix4x4d
+  public static func rotateY(_ angle: Swift.Float64) -> Tellusim.TSMatrix4x4d
+  public static func rotateZ(_ angle: Swift.Float64) -> Tellusim.TSMatrix4x4d
+  public static func rotate(_ axis: Tellusim.TSVector3d, _ angle: Swift.Float64) -> Tellusim.TSMatrix4x4d
+  public static func lookAt(_ from: Tellusim.TSVector3d, _ to: Tellusim.TSVector3d, _ up: Tellusim.TSVector3d) -> Tellusim.TSMatrix4x4d
+  public static func placeTo(_ to: Tellusim.TSVector3d, _ from: Tellusim.TSVector3d, _ up: Tellusim.TSVector3d) -> Tellusim.TSMatrix4x4d
+  public static func compose(_ t: Tellusim.TSVector3d, _ r: Tellusim.TSQuaterniond, _ s: Tellusim.TSVector3d) -> Tellusim.TSMatrix4x4d
+  public static func basis(_ normal: Tellusim.TSVector3d, _ t: Tellusim.TSVector3d) -> Tellusim.TSMatrix4x4d
+  public static func ortho(_ left: Swift.Float64, _ right: Swift.Float64, _ bottom: Swift.Float64, _ top: Swift.Float64, _ znear: Swift.Float64, _ zfar: Swift.Float64) -> Tellusim.TSMatrix4x4d
+  public static func frustum(_ left: Swift.Float64, _ right: Swift.Float64, _ bottom: Swift.Float64, _ top: Swift.Float64, _ znear: Swift.Float64, _ zfar: Swift.Float64, _ reverse: Swift.Bool = false) -> Tellusim.TSMatrix4x4d
+  public static func frustum(_ left: Swift.Float64, _ right: Swift.Float64, _ bottom: Swift.Float64, _ top: Swift.Float64, _ znear: Swift.Float64, _ reverse: Swift.Bool = false) -> Tellusim.TSMatrix4x4d
+  public static func perspective(_ fov: Swift.Float64, _ aspect: Swift.Float64, _ znear: Swift.Float64, _ zfar: Swift.Float64, _ reverse: Swift.Bool = false) -> Tellusim.TSMatrix4x4d
+  public static func perspective(_ fov: Swift.Float64, _ aspect: Swift.Float64, _ znear: Swift.Float64, _ reverse: Swift.Bool = false) -> Tellusim.TSMatrix4x4d
+  public static let zero: Tellusim.TSMatrix4x4d
+  public static let identity: Tellusim.TSMatrix4x4d
+}
+extension Tellusim.TSMatrix4x4d : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public func * (m: Tellusim.TSMatrix4x4d, v: Tellusim.TSVector2d) -> Tellusim.TSVector2d
+public func * (m: Tellusim.TSMatrix4x4d, v: Tellusim.TSVector3d) -> Tellusim.TSVector3d
+public func * (m: Tellusim.TSMatrix4x4d, v: Tellusim.TSVector4d) -> Tellusim.TSVector4d
+public func * (v: Tellusim.TSVector2d, m: Tellusim.TSMatrix4x4d) -> Tellusim.TSVector2d
+public func * (v: Tellusim.TSVector3d, m: Tellusim.TSMatrix4x4d) -> Tellusim.TSVector3d
+public func * (v: Tellusim.TSVector4d, m: Tellusim.TSMatrix4x4d) -> Tellusim.TSVector4d
+public func * (m0: Tellusim.TSMatrix4x4d, m1: Tellusim.TSMatrix4x4d) -> Tellusim.TSMatrix4x4d
+public func normalize(_ m: Tellusim.TSMatrix4x4d) -> Tellusim.TSMatrix4x4d
+public func transpose(_ m: Tellusim.TSMatrix4x4d) -> Tellusim.TSMatrix4x4d
+public func inverse(_ m: Tellusim.TSMatrix4x4d) -> Tellusim.TSMatrix4x4d
+public func inverse43(_ m: Tellusim.TSMatrix4x4d) -> Tellusim.TSMatrix4x4d
+public func lerp(_ m0: Tellusim.TSMatrix4x4d, _ m1: Tellusim.TSMatrix4x4d, _ k: Swift.Float64) -> Tellusim.TSMatrix4x4d
+extension Tellusim.TSQuaternionf {
+  public init(_ q: Tellusim.TSQuaterniond)
+  public init(_ x: Swift.Float32, _ y: Swift.Float32, _ z: Swift.Float32, _ w: Swift.Float32)
+  public init(_ q: [Swift.Float32])
+  public init(_ m: Tellusim.TSMatrix4x3f)
+  public init(_ m: Tellusim.TSMatrix4x4f)
+  public mutating func set(_ m: Tellusim.TSMatrix4x3f)
+  public mutating func set(_ m: Tellusim.TSMatrix4x4f)
+  public func get(_ m: inout Tellusim.TSMatrix4x3f)
+  public func get(_ m: inout Tellusim.TSMatrix4x4f)
+  public static func rotateX(_ angle: Swift.Float32) -> Tellusim.TSQuaternionf
+  public static func rotateY(_ angle: Swift.Float32) -> Tellusim.TSQuaternionf
+  public static func rotateZ(_ angle: Swift.Float32) -> Tellusim.TSQuaternionf
+  public static func rotateXYZ(_ angles: Tellusim.TSVector3f) -> Tellusim.TSQuaternionf
+  public static func rotateZYX(_ angles: Tellusim.TSVector3f) -> Tellusim.TSQuaternionf
+  public static func rotate(_ axis: Tellusim.TSVector3f, _ angle: Swift.Float32) -> Tellusim.TSQuaternionf
+  public static let zero: Tellusim.TSQuaternionf
+  public static let identity: Tellusim.TSQuaternionf
+}
+extension Tellusim.TSQuaternionf : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public func * (q: Tellusim.TSQuaternionf, v: Tellusim.TSVector2f) -> Tellusim.TSVector2f
+public func * (q: Tellusim.TSQuaternionf, v: Tellusim.TSVector3f) -> Tellusim.TSVector3f
+public func * (q: Tellusim.TSQuaternionf, v: Tellusim.TSVector4f) -> Tellusim.TSVector4f
+public func * (v: Tellusim.TSVector2f, q: Tellusim.TSQuaternionf) -> Tellusim.TSVector2f
+public func * (v: Tellusim.TSVector3f, q: Tellusim.TSQuaternionf) -> Tellusim.TSVector3f
+public func * (v: Tellusim.TSVector4f, q: Tellusim.TSQuaternionf) -> Tellusim.TSVector4f
+public func * (q: Tellusim.TSQuaternionf, v: Swift.Float32) -> Tellusim.TSQuaternionf
+public func * (q0: Tellusim.TSQuaternionf, q1: Tellusim.TSQuaternionf) -> Tellusim.TSQuaternionf
+public func normalize(_ q: Tellusim.TSQuaternionf) -> Tellusim.TSQuaternionf
+public func inverse(_ q: Tellusim.TSQuaternionf) -> Tellusim.TSQuaternionf
+public func lerp(_ q0: Tellusim.TSQuaternionf, _ q1: Tellusim.TSQuaternionf, _ k: Swift.Float32) -> Tellusim.TSQuaternionf
+public func slerp(_ q0: Tellusim.TSQuaternionf, _ q1: Tellusim.TSQuaternionf, _ k: Swift.Float32) -> Tellusim.TSQuaternionf
+extension Tellusim.TSQuaterniond {
+  public init(_ q: Tellusim.TSQuaternionf)
+  public init(_ x: Swift.Float64, _ y: Swift.Float64, _ z: Swift.Float64, _ w: Swift.Float64)
+  public init(_ q: [Swift.Float64])
+  public init(_ m: Tellusim.TSMatrix4x3d)
+  public init(_ m: Tellusim.TSMatrix4x4d)
+  public mutating func set(_ m: Tellusim.TSMatrix4x3d)
+  public mutating func set(_ m: Tellusim.TSMatrix4x4d)
+  public func get(_ m: inout Tellusim.TSMatrix4x3d)
+  public func get(_ m: inout Tellusim.TSMatrix4x4d)
+  public static func rotateX(_ angle: Swift.Float64) -> Tellusim.TSQuaterniond
+  public static func rotateY(_ angle: Swift.Float64) -> Tellusim.TSQuaterniond
+  public static func rotateZ(_ angle: Swift.Float64) -> Tellusim.TSQuaterniond
+  public static func rotateXYZ(_ angles: Tellusim.TSVector3d) -> Tellusim.TSQuaterniond
+  public static func rotateZYX(_ angles: Tellusim.TSVector3d) -> Tellusim.TSQuaterniond
+  public static func rotate(_ axis: Tellusim.TSVector3d, _ angle: Swift.Float64) -> Tellusim.TSQuaterniond
+  public static let zero: Tellusim.TSQuaterniond
+  public static let identity: Tellusim.TSQuaterniond
+}
+extension Tellusim.TSQuaterniond : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public func * (q: Tellusim.TSQuaterniond, v: Tellusim.TSVector2d) -> Tellusim.TSVector2d
+public func * (q: Tellusim.TSQuaterniond, v: Tellusim.TSVector3d) -> Tellusim.TSVector3d
+public func * (q: Tellusim.TSQuaterniond, v: Tellusim.TSVector4d) -> Tellusim.TSVector4d
+public func * (v: Tellusim.TSVector2d, q: Tellusim.TSQuaterniond) -> Tellusim.TSVector2d
+public func * (v: Tellusim.TSVector3d, q: Tellusim.TSQuaterniond) -> Tellusim.TSVector3d
+public func * (v: Tellusim.TSVector4d, q: Tellusim.TSQuaterniond) -> Tellusim.TSVector4d
+public func * (q: Tellusim.TSQuaterniond, v: Swift.Float64) -> Tellusim.TSQuaterniond
+public func * (q0: Tellusim.TSQuaterniond, q1: Tellusim.TSQuaterniond) -> Tellusim.TSQuaterniond
+public func normalize(_ q: Tellusim.TSQuaterniond) -> Tellusim.TSQuaterniond
+public func inverse(_ q: Tellusim.TSQuaterniond) -> Tellusim.TSQuaterniond
+public func lerp(_ q0: Tellusim.TSQuaterniond, _ q1: Tellusim.TSQuaterniond, _ k: Swift.Float64) -> Tellusim.TSQuaterniond
+public func slerp(_ q0: Tellusim.TSQuaterniond, _ q1: Tellusim.TSQuaterniond, _ k: Swift.Float64) -> Tellusim.TSQuaterniond
+prefix public func ~ (e: Tellusim.Directory.Attributes) -> Tellusim.Directory.Attributes
+public func | (e0: Tellusim.Directory.Attributes, e1: Tellusim.Directory.Attributes) -> Tellusim.Directory.Attributes
+public func & (e0: Tellusim.Directory.Attributes, e1: Tellusim.Directory.Attributes) -> Tellusim.Directory.Attributes
+public func |= (e0: inout Tellusim.Directory.Attributes, e1: Tellusim.Directory.Attributes)
+public func &= (e0: inout Tellusim.Directory.Attributes, e1: Tellusim.Directory.Attributes)
+prefix public func ~ (e: Tellusim.Image.Flags) -> Tellusim.Image.Flags
+public func | (e0: Tellusim.Image.Flags, e1: Tellusim.Image.Flags) -> Tellusim.Image.Flags
+public func & (e0: Tellusim.Image.Flags, e1: Tellusim.Image.Flags) -> Tellusim.Image.Flags
+public func |= (e0: inout Tellusim.Image.Flags, e1: Tellusim.Image.Flags)
+public func &= (e0: inout Tellusim.Image.Flags, e1: Tellusim.Image.Flags)
+prefix public func ~ (e: Tellusim.MeshMaterial.Flags) -> Tellusim.MeshMaterial.Flags
+public func | (e0: Tellusim.MeshMaterial.Flags, e1: Tellusim.MeshMaterial.Flags) -> Tellusim.MeshMaterial.Flags
+public func & (e0: Tellusim.MeshMaterial.Flags, e1: Tellusim.MeshMaterial.Flags) -> Tellusim.MeshMaterial.Flags
+public func |= (e0: inout Tellusim.MeshMaterial.Flags, e1: Tellusim.MeshMaterial.Flags)
+public func &= (e0: inout Tellusim.MeshMaterial.Flags, e1: Tellusim.MeshMaterial.Flags)
+prefix public func ~ (e: Tellusim.Mesh.Flags) -> Tellusim.Mesh.Flags
+public func | (e0: Tellusim.Mesh.Flags, e1: Tellusim.Mesh.Flags) -> Tellusim.Mesh.Flags
+public func & (e0: Tellusim.Mesh.Flags, e1: Tellusim.Mesh.Flags) -> Tellusim.Mesh.Flags
+public func |= (e0: inout Tellusim.Mesh.Flags, e1: Tellusim.Mesh.Flags)
+public func &= (e0: inout Tellusim.Mesh.Flags, e1: Tellusim.Mesh.Flags)
+prefix public func ~ (e: Tellusim.Buffer.Flags) -> Tellusim.Buffer.Flags
+public func | (e0: Tellusim.Buffer.Flags, e1: Tellusim.Buffer.Flags) -> Tellusim.Buffer.Flags
+public func & (e0: Tellusim.Buffer.Flags, e1: Tellusim.Buffer.Flags) -> Tellusim.Buffer.Flags
+public func |= (e0: inout Tellusim.Buffer.Flags, e1: Tellusim.Buffer.Flags)
+public func &= (e0: inout Tellusim.Buffer.Flags, e1: Tellusim.Buffer.Flags)
+prefix public func ~ (e: Tellusim.Fence.Flags) -> Tellusim.Fence.Flags
+public func | (e0: Tellusim.Fence.Flags, e1: Tellusim.Fence.Flags) -> Tellusim.Fence.Flags
+public func & (e0: Tellusim.Fence.Flags, e1: Tellusim.Fence.Flags) -> Tellusim.Fence.Flags
+public func |= (e0: inout Tellusim.Fence.Flags, e1: Tellusim.Fence.Flags)
+public func &= (e0: inout Tellusim.Fence.Flags, e1: Tellusim.Fence.Flags)
+prefix public func ~ (e: Tellusim.Shader.Mask) -> Tellusim.Shader.Mask
+public func | (e0: Tellusim.Shader.Mask, e1: Tellusim.Shader.Mask) -> Tellusim.Shader.Mask
+public func & (e0: Tellusim.Shader.Mask, e1: Tellusim.Shader.Mask) -> Tellusim.Shader.Mask
+public func |= (e0: inout Tellusim.Shader.Mask, e1: Tellusim.Shader.Mask)
+public func &= (e0: inout Tellusim.Shader.Mask, e1: Tellusim.Shader.Mask)
+prefix public func ~ (e: Tellusim.ShaderCompiler.Flags) -> Tellusim.ShaderCompiler.Flags
+public func | (e0: Tellusim.ShaderCompiler.Flags, e1: Tellusim.ShaderCompiler.Flags) -> Tellusim.ShaderCompiler.Flags
+public func & (e0: Tellusim.ShaderCompiler.Flags, e1: Tellusim.ShaderCompiler.Flags) -> Tellusim.ShaderCompiler.Flags
+public func |= (e0: inout Tellusim.ShaderCompiler.Flags, e1: Tellusim.ShaderCompiler.Flags)
+public func &= (e0: inout Tellusim.ShaderCompiler.Flags, e1: Tellusim.ShaderCompiler.Flags)
+prefix public func ~ (e: Tellusim.Texture.Flags) -> Tellusim.Texture.Flags
+public func | (e0: Tellusim.Texture.Flags, e1: Tellusim.Texture.Flags) -> Tellusim.Texture.Flags
+public func & (e0: Tellusim.Texture.Flags, e1: Tellusim.Texture.Flags) -> Tellusim.Texture.Flags
+public func |= (e0: inout Tellusim.Texture.Flags, e1: Tellusim.Texture.Flags)
+public func &= (e0: inout Tellusim.Texture.Flags, e1: Tellusim.Texture.Flags)
+prefix public func ~ (e: Tellusim.Tracing.Flags) -> Tellusim.Tracing.Flags
+public func | (e0: Tellusim.Tracing.Flags, e1: Tellusim.Tracing.Flags) -> Tellusim.Tracing.Flags
+public func & (e0: Tellusim.Tracing.Flags, e1: Tellusim.Tracing.Flags) -> Tellusim.Tracing.Flags
+public func |= (e0: inout Tellusim.Tracing.Flags, e1: Tellusim.Tracing.Flags)
+public func &= (e0: inout Tellusim.Tracing.Flags, e1: Tellusim.Tracing.Flags)
+prefix public func ~ (e: Tellusim.Target.Operation) -> Tellusim.Target.Operation
+public func | (e0: Tellusim.Target.Operation, e1: Tellusim.Target.Operation) -> Tellusim.Target.Operation
+public func & (e0: Tellusim.Target.Operation, e1: Tellusim.Target.Operation) -> Tellusim.Target.Operation
+public func |= (e0: inout Tellusim.Target.Operation, e1: Tellusim.Target.Operation)
+public func &= (e0: inout Tellusim.Target.Operation, e1: Tellusim.Target.Operation)
+prefix public func ~ (e: Tellusim.Pipeline.ColorMask) -> Tellusim.Pipeline.ColorMask
+public func | (e0: Tellusim.Pipeline.ColorMask, e1: Tellusim.Pipeline.ColorMask) -> Tellusim.Pipeline.ColorMask
+public func & (e0: Tellusim.Pipeline.ColorMask, e1: Tellusim.Pipeline.ColorMask) -> Tellusim.Pipeline.ColorMask
+public func |= (e0: inout Tellusim.Pipeline.ColorMask, e1: Tellusim.Pipeline.ColorMask)
+public func &= (e0: inout Tellusim.Pipeline.ColorMask, e1: Tellusim.Pipeline.ColorMask)
+prefix public func ~ (e: Tellusim.Window.Flags) -> Tellusim.Window.Flags
+public func | (e0: Tellusim.Window.Flags, e1: Tellusim.Window.Flags) -> Tellusim.Window.Flags
+public func & (e0: Tellusim.Window.Flags, e1: Tellusim.Window.Flags) -> Tellusim.Window.Flags
+public func |= (e0: inout Tellusim.Window.Flags, e1: Tellusim.Window.Flags)
+public func &= (e0: inout Tellusim.Window.Flags, e1: Tellusim.Window.Flags)
+prefix public func ~ (e: Tellusim.Window.Button) -> Tellusim.Window.Button
+public func | (e0: Tellusim.Window.Button, e1: Tellusim.Window.Button) -> Tellusim.Window.Button
+public func & (e0: Tellusim.Window.Button, e1: Tellusim.Window.Button) -> Tellusim.Window.Button
+public func |= (e0: inout Tellusim.Window.Button, e1: Tellusim.Window.Button)
+public func &= (e0: inout Tellusim.Window.Button, e1: Tellusim.Window.Button)
+prefix public func ~ (e: Tellusim.CanvasElement.Align) -> Tellusim.CanvasElement.Align
+public func | (e0: Tellusim.CanvasElement.Align, e1: Tellusim.CanvasElement.Align) -> Tellusim.CanvasElement.Align
+public func & (e0: Tellusim.CanvasElement.Align, e1: Tellusim.CanvasElement.Align) -> Tellusim.CanvasElement.Align
+public func |= (e0: inout Tellusim.CanvasElement.Align, e1: Tellusim.CanvasElement.Align)
+public func &= (e0: inout Tellusim.CanvasElement.Align, e1: Tellusim.CanvasElement.Align)
+prefix public func ~ (e: Tellusim.CanvasElement.Stack) -> Tellusim.CanvasElement.Stack
+public func | (e0: Tellusim.CanvasElement.Stack, e1: Tellusim.CanvasElement.Stack) -> Tellusim.CanvasElement.Stack
+public func & (e0: Tellusim.CanvasElement.Stack, e1: Tellusim.CanvasElement.Stack) -> Tellusim.CanvasElement.Stack
+public func |= (e0: inout Tellusim.CanvasElement.Stack, e1: Tellusim.CanvasElement.Stack)
+public func &= (e0: inout Tellusim.CanvasElement.Stack, e1: Tellusim.CanvasElement.Stack)
+prefix public func ~ (e: Tellusim.Control.Align) -> Tellusim.Control.Align
+public func | (e0: Tellusim.Control.Align, e1: Tellusim.Control.Align) -> Tellusim.Control.Align
+public func & (e0: Tellusim.Control.Align, e1: Tellusim.Control.Align) -> Tellusim.Control.Align
+public func |= (e0: inout Tellusim.Control.Align, e1: Tellusim.Control.Align)
+public func &= (e0: inout Tellusim.Control.Align, e1: Tellusim.Control.Align)
+prefix public func ~ (e: Tellusim.Control.Button) -> Tellusim.Control.Button
+public func | (e0: Tellusim.Control.Button, e1: Tellusim.Control.Button) -> Tellusim.Control.Button
+public func & (e0: Tellusim.Control.Button, e1: Tellusim.Control.Button) -> Tellusim.Control.Button
+public func |= (e0: inout Tellusim.Control.Button, e1: Tellusim.Control.Button)
+public func &= (e0: inout Tellusim.Control.Button, e1: Tellusim.Control.Button)
+prefix public func ~ (e: Tellusim.DialogMessage.Flags) -> Tellusim.DialogMessage.Flags
+public func | (e0: Tellusim.DialogMessage.Flags, e1: Tellusim.DialogMessage.Flags) -> Tellusim.DialogMessage.Flags
+public func & (e0: Tellusim.DialogMessage.Flags, e1: Tellusim.DialogMessage.Flags) -> Tellusim.DialogMessage.Flags
+public func |= (e0: inout Tellusim.DialogMessage.Flags, e1: Tellusim.DialogMessage.Flags)
+public func &= (e0: inout Tellusim.DialogMessage.Flags, e1: Tellusim.DialogMessage.Flags)
+prefix public func ~ (e: Tellusim.DialogFileOpen.Flags) -> Tellusim.DialogFileOpen.Flags
+public func | (e0: Tellusim.DialogFileOpen.Flags, e1: Tellusim.DialogFileOpen.Flags) -> Tellusim.DialogFileOpen.Flags
+public func & (e0: Tellusim.DialogFileOpen.Flags, e1: Tellusim.DialogFileOpen.Flags) -> Tellusim.DialogFileOpen.Flags
+public func |= (e0: inout Tellusim.DialogFileOpen.Flags, e1: Tellusim.DialogFileOpen.Flags)
+public func &= (e0: inout Tellusim.DialogFileOpen.Flags, e1: Tellusim.DialogFileOpen.Flags)
+prefix public func ~ (e: Tellusim.DialogFileSave.Flags) -> Tellusim.DialogFileSave.Flags
+public func | (e0: Tellusim.DialogFileSave.Flags, e1: Tellusim.DialogFileSave.Flags) -> Tellusim.DialogFileSave.Flags
+public func & (e0: Tellusim.DialogFileSave.Flags, e1: Tellusim.DialogFileSave.Flags) -> Tellusim.DialogFileSave.Flags
+public func |= (e0: inout Tellusim.DialogFileSave.Flags, e1: Tellusim.DialogFileSave.Flags)
+public func &= (e0: inout Tellusim.DialogFileSave.Flags, e1: Tellusim.DialogFileSave.Flags)
+prefix public func ~ (e: Tellusim.DialogDirectory.Flags) -> Tellusim.DialogDirectory.Flags
+public func | (e0: Tellusim.DialogDirectory.Flags, e1: Tellusim.DialogDirectory.Flags) -> Tellusim.DialogDirectory.Flags
+public func & (e0: Tellusim.DialogDirectory.Flags, e1: Tellusim.DialogDirectory.Flags) -> Tellusim.DialogDirectory.Flags
+public func |= (e0: inout Tellusim.DialogDirectory.Flags, e1: Tellusim.DialogDirectory.Flags)
+public func &= (e0: inout Tellusim.DialogDirectory.Flags, e1: Tellusim.DialogDirectory.Flags)
+prefix public func ~ (e: Tellusim.DialogProgress.Flags) -> Tellusim.DialogProgress.Flags
+public func | (e0: Tellusim.DialogProgress.Flags, e1: Tellusim.DialogProgress.Flags) -> Tellusim.DialogProgress.Flags
+public func & (e0: Tellusim.DialogProgress.Flags, e1: Tellusim.DialogProgress.Flags) -> Tellusim.DialogProgress.Flags
+public func |= (e0: inout Tellusim.DialogProgress.Flags, e1: Tellusim.DialogProgress.Flags)
+public func &= (e0: inout Tellusim.DialogProgress.Flags, e1: Tellusim.DialogProgress.Flags)
+prefix public func ~ (e: Tellusim.DialogColor.Flags) -> Tellusim.DialogColor.Flags
+public func | (e0: Tellusim.DialogColor.Flags, e1: Tellusim.DialogColor.Flags) -> Tellusim.DialogColor.Flags
+public func & (e0: Tellusim.DialogColor.Flags, e1: Tellusim.DialogColor.Flags) -> Tellusim.DialogColor.Flags
+public func |= (e0: inout Tellusim.DialogColor.Flags, e1: Tellusim.DialogColor.Flags)
+public func &= (e0: inout Tellusim.DialogColor.Flags, e1: Tellusim.DialogColor.Flags)
+prefix public func ~ (e: Tellusim.DialogMenu.Flags) -> Tellusim.DialogMenu.Flags
+public func | (e0: Tellusim.DialogMenu.Flags, e1: Tellusim.DialogMenu.Flags) -> Tellusim.DialogMenu.Flags
+public func & (e0: Tellusim.DialogMenu.Flags, e1: Tellusim.DialogMenu.Flags) -> Tellusim.DialogMenu.Flags
+public func |= (e0: inout Tellusim.DialogMenu.Flags, e1: Tellusim.DialogMenu.Flags)
+public func &= (e0: inout Tellusim.DialogMenu.Flags, e1: Tellusim.DialogMenu.Flags)
+prefix public func ~ (e: Tellusim.CubeFilter.Flags) -> Tellusim.CubeFilter.Flags
+public func | (e0: Tellusim.CubeFilter.Flags, e1: Tellusim.CubeFilter.Flags) -> Tellusim.CubeFilter.Flags
+public func & (e0: Tellusim.CubeFilter.Flags, e1: Tellusim.CubeFilter.Flags) -> Tellusim.CubeFilter.Flags
+public func |= (e0: inout Tellusim.CubeFilter.Flags, e1: Tellusim.CubeFilter.Flags)
+public func &= (e0: inout Tellusim.CubeFilter.Flags, e1: Tellusim.CubeFilter.Flags)
+prefix public func ~ (e: Tellusim.DecoderJPEG.Flags) -> Tellusim.DecoderJPEG.Flags
+public func | (e0: Tellusim.DecoderJPEG.Flags, e1: Tellusim.DecoderJPEG.Flags) -> Tellusim.DecoderJPEG.Flags
+public func & (e0: Tellusim.DecoderJPEG.Flags, e1: Tellusim.DecoderJPEG.Flags) -> Tellusim.DecoderJPEG.Flags
+public func |= (e0: inout Tellusim.DecoderJPEG.Flags, e1: Tellusim.DecoderJPEG.Flags)
+public func &= (e0: inout Tellusim.DecoderJPEG.Flags, e1: Tellusim.DecoderJPEG.Flags)
+prefix public func ~ (e: Tellusim.EncoderBC15.Flags) -> Tellusim.EncoderBC15.Flags
+public func | (e0: Tellusim.EncoderBC15.Flags, e1: Tellusim.EncoderBC15.Flags) -> Tellusim.EncoderBC15.Flags
+public func & (e0: Tellusim.EncoderBC15.Flags, e1: Tellusim.EncoderBC15.Flags) -> Tellusim.EncoderBC15.Flags
+public func |= (e0: inout Tellusim.EncoderBC15.Flags, e1: Tellusim.EncoderBC15.Flags)
+public func &= (e0: inout Tellusim.EncoderBC15.Flags, e1: Tellusim.EncoderBC15.Flags)
+prefix public func ~ (e: Tellusim.EncoderBC67.Flags) -> Tellusim.EncoderBC67.Flags
+public func | (e0: Tellusim.EncoderBC67.Flags, e1: Tellusim.EncoderBC67.Flags) -> Tellusim.EncoderBC67.Flags
+public func & (e0: Tellusim.EncoderBC67.Flags, e1: Tellusim.EncoderBC67.Flags) -> Tellusim.EncoderBC67.Flags
+public func |= (e0: inout Tellusim.EncoderBC67.Flags, e1: Tellusim.EncoderBC67.Flags)
+public func &= (e0: inout Tellusim.EncoderBC67.Flags, e1: Tellusim.EncoderBC67.Flags)
+prefix public func ~ (e: Tellusim.EncoderASTC.Flags) -> Tellusim.EncoderASTC.Flags
+public func | (e0: Tellusim.EncoderASTC.Flags, e1: Tellusim.EncoderASTC.Flags) -> Tellusim.EncoderASTC.Flags
+public func & (e0: Tellusim.EncoderASTC.Flags, e1: Tellusim.EncoderASTC.Flags) -> Tellusim.EncoderASTC.Flags
+public func |= (e0: inout Tellusim.EncoderASTC.Flags, e1: Tellusim.EncoderASTC.Flags)
+public func &= (e0: inout Tellusim.EncoderASTC.Flags, e1: Tellusim.EncoderASTC.Flags)
+prefix public func ~ (e: Tellusim.MeshModel.Flags) -> Tellusim.MeshModel.Flags
+public func | (e0: Tellusim.MeshModel.Flags, e1: Tellusim.MeshModel.Flags) -> Tellusim.MeshModel.Flags
+public func & (e0: Tellusim.MeshModel.Flags, e1: Tellusim.MeshModel.Flags) -> Tellusim.MeshModel.Flags
+public func |= (e0: inout Tellusim.MeshModel.Flags, e1: Tellusim.MeshModel.Flags)
+public func &= (e0: inout Tellusim.MeshModel.Flags, e1: Tellusim.MeshModel.Flags)
+prefix public func ~ (e: Tellusim.SeparableFilter.Flags) -> Tellusim.SeparableFilter.Flags
+public func | (e0: Tellusim.SeparableFilter.Flags, e1: Tellusim.SeparableFilter.Flags) -> Tellusim.SeparableFilter.Flags
+public func & (e0: Tellusim.SeparableFilter.Flags, e1: Tellusim.SeparableFilter.Flags) -> Tellusim.SeparableFilter.Flags
+public func |= (e0: inout Tellusim.SeparableFilter.Flags, e1: Tellusim.SeparableFilter.Flags)
+public func &= (e0: inout Tellusim.SeparableFilter.Flags, e1: Tellusim.SeparableFilter.Flags)
+prefix public func ~ (e: Tellusim.PrefixScan.Flags) -> Tellusim.PrefixScan.Flags
+public func | (e0: Tellusim.PrefixScan.Flags, e1: Tellusim.PrefixScan.Flags) -> Tellusim.PrefixScan.Flags
+public func & (e0: Tellusim.PrefixScan.Flags, e1: Tellusim.PrefixScan.Flags) -> Tellusim.PrefixScan.Flags
+public func |= (e0: inout Tellusim.PrefixScan.Flags, e1: Tellusim.PrefixScan.Flags)
+public func &= (e0: inout Tellusim.PrefixScan.Flags, e1: Tellusim.PrefixScan.Flags)
+prefix public func ~ (e: Tellusim.RadixSort.Flags) -> Tellusim.RadixSort.Flags
+public func | (e0: Tellusim.RadixSort.Flags, e1: Tellusim.RadixSort.Flags) -> Tellusim.RadixSort.Flags
+public func & (e0: Tellusim.RadixSort.Flags, e1: Tellusim.RadixSort.Flags) -> Tellusim.RadixSort.Flags
+public func |= (e0: inout Tellusim.RadixSort.Flags, e1: Tellusim.RadixSort.Flags)
+public func &= (e0: inout Tellusim.RadixSort.Flags, e1: Tellusim.RadixSort.Flags)
+prefix public func ~ (e: Tellusim.BitonicSort.Flags) -> Tellusim.BitonicSort.Flags
+public func | (e0: Tellusim.BitonicSort.Flags, e1: Tellusim.BitonicSort.Flags) -> Tellusim.BitonicSort.Flags
+public func & (e0: Tellusim.BitonicSort.Flags, e1: Tellusim.BitonicSort.Flags) -> Tellusim.BitonicSort.Flags
+public func |= (e0: inout Tellusim.BitonicSort.Flags, e1: Tellusim.BitonicSort.Flags)
+public func &= (e0: inout Tellusim.BitonicSort.Flags, e1: Tellusim.BitonicSort.Flags)
+prefix public func ~ (e: Tellusim.SpatialTree.Flags) -> Tellusim.SpatialTree.Flags
+public func | (e0: Tellusim.SpatialTree.Flags, e1: Tellusim.SpatialTree.Flags) -> Tellusim.SpatialTree.Flags
+public func & (e0: Tellusim.SpatialTree.Flags, e1: Tellusim.SpatialTree.Flags) -> Tellusim.SpatialTree.Flags
+public func |= (e0: inout Tellusim.SpatialTree.Flags, e1: Tellusim.SpatialTree.Flags)
+public func &= (e0: inout Tellusim.SpatialTree.Flags, e1: Tellusim.SpatialTree.Flags)
+prefix public func ~ (e: Tellusim.FourierTransform.Flags) -> Tellusim.FourierTransform.Flags
+public func | (e0: Tellusim.FourierTransform.Flags, e1: Tellusim.FourierTransform.Flags) -> Tellusim.FourierTransform.Flags
+public func & (e0: Tellusim.FourierTransform.Flags, e1: Tellusim.FourierTransform.Flags) -> Tellusim.FourierTransform.Flags
+public func |= (e0: inout Tellusim.FourierTransform.Flags, e1: Tellusim.FourierTransform.Flags)
+public func &= (e0: inout Tellusim.FourierTransform.Flags, e1: Tellusim.FourierTransform.Flags)
+prefix public func ~ (e: Tellusim.TensorGraph.Flags) -> Tellusim.TensorGraph.Flags
+public func | (e0: Tellusim.TensorGraph.Flags, e1: Tellusim.TensorGraph.Flags) -> Tellusim.TensorGraph.Flags
+public func & (e0: Tellusim.TensorGraph.Flags, e1: Tellusim.TensorGraph.Flags) -> Tellusim.TensorGraph.Flags
+public func |= (e0: inout Tellusim.TensorGraph.Flags, e1: Tellusim.TensorGraph.Flags)
+public func &= (e0: inout Tellusim.TensorGraph.Flags, e1: Tellusim.TensorGraph.Flags)
+prefix public func ~ (e: Tellusim.TensorGraph.Masks) -> Tellusim.TensorGraph.Masks
+public func | (e0: Tellusim.TensorGraph.Masks, e1: Tellusim.TensorGraph.Masks) -> Tellusim.TensorGraph.Masks
+public func & (e0: Tellusim.TensorGraph.Masks, e1: Tellusim.TensorGraph.Masks) -> Tellusim.TensorGraph.Masks
+public func |= (e0: inout Tellusim.TensorGraph.Masks, e1: Tellusim.TensorGraph.Masks)
+public func &= (e0: inout Tellusim.TensorGraph.Masks, e1: Tellusim.TensorGraph.Masks)
+prefix public func ! (v: Tellusim.Async) -> Swift.Bool
+prefix public func ! (v: Tellusim.Stream) -> Swift.Bool
+prefix public func ! (v: Tellusim.Blob) -> Swift.Bool
+prefix public func ! (v: Tellusim.File) -> Swift.Bool
+prefix public func ! (v: Tellusim.Socket) -> Swift.Bool
+prefix public func ! (v: Tellusim.SocketSSL) -> Swift.Bool
+prefix public func ! (v: Tellusim.Source) -> Swift.Bool
+prefix public func ! (v: Tellusim.Date) -> Swift.Bool
+prefix public func ! (v: Tellusim.Info) -> Swift.Bool
+prefix public func ! (v: Tellusim.Directory) -> Swift.Bool
+prefix public func ! (v: Tellusim.Image) -> Swift.Bool
+prefix public func ! (v: Tellusim.MeshNode) -> Swift.Bool
+prefix public func ! (v: Tellusim.MeshIndices) -> Swift.Bool
+prefix public func ! (v: Tellusim.MeshAttribute) -> Swift.Bool
+prefix public func ! (v: Tellusim.MeshJoint) -> Swift.Bool
+prefix public func ! (v: Tellusim.MeshMaterial) -> Swift.Bool
+prefix public func ! (v: Tellusim.MeshGeometry) -> Swift.Bool
+prefix public func ! (v: Tellusim.MeshTransform) -> Swift.Bool
+prefix public func ! (v: Tellusim.MeshAnimation) -> Swift.Bool
+prefix public func ! (v: Tellusim.MeshAttachment) -> Swift.Bool
+prefix public func ! (v: Tellusim.Mesh) -> Swift.Bool
+prefix public func ! (v: Tellusim.Json) -> Swift.Bool
+prefix public func ! (v: Tellusim.Xml) -> Swift.Bool
+prefix public func ! (v: Tellusim.Buffer) -> Swift.Bool
+prefix public func ! (v: Tellusim.BufferTable) -> Swift.Bool
+prefix public func ! (v: Tellusim.D3D12Buffer) -> Swift.Bool
+prefix public func ! (v: Tellusim.D3D11Buffer) -> Swift.Bool
+prefix public func ! (v: Tellusim.MTLBuffer) -> Swift.Bool
+prefix public func ! (v: Tellusim.VKBuffer) -> Swift.Bool
+prefix public func ! (v: Tellusim.GLBuffer) -> Swift.Bool
+prefix public func ! (v: Tellusim.GLESBuffer) -> Swift.Bool
+prefix public func ! (v: Tellusim.CUBuffer) -> Swift.Bool
+prefix public func ! (v: Tellusim.HIPBuffer) -> Swift.Bool
+prefix public func ! (v: Tellusim.FUBuffer) -> Swift.Bool
+prefix public func ! (v: Tellusim.Command) -> Swift.Bool
+prefix public func ! (v: Tellusim.D3D12Command) -> Swift.Bool
+prefix public func ! (v: Tellusim.MTLCommand) -> Swift.Bool
+prefix public func ! (v: Tellusim.VKCommand) -> Swift.Bool
+prefix public func ! (v: Tellusim.FUCommand) -> Swift.Bool
+prefix public func ! (v: Tellusim.Compute) -> Swift.Bool
+prefix public func ! (v: Tellusim.D3D12Compute) -> Swift.Bool
+prefix public func ! (v: Tellusim.MTLCompute) -> Swift.Bool
+prefix public func ! (v: Tellusim.VKCompute) -> Swift.Bool
+prefix public func ! (v: Tellusim.FUCompute) -> Swift.Bool
+prefix public func ! (v: Tellusim.Context) -> Swift.Bool
+prefix public func ! (v: Tellusim.D3D12Context) -> Swift.Bool
+prefix public func ! (v: Tellusim.D3D11Context) -> Swift.Bool
+prefix public func ! (v: Tellusim.MTLContext) -> Swift.Bool
+prefix public func ! (v: Tellusim.VKContext) -> Swift.Bool
+prefix public func ! (v: Tellusim.GLContext) -> Swift.Bool
+prefix public func ! (v: Tellusim.GLESContext) -> Swift.Bool
+prefix public func ! (v: Tellusim.WGContext) -> Swift.Bool
+prefix public func ! (v: Tellusim.CUContext) -> Swift.Bool
+prefix public func ! (v: Tellusim.HIPContext) -> Swift.Bool
+prefix public func ! (v: Tellusim.Query) -> Swift.Bool
+prefix public func ! (v: Tellusim.FUQuery) -> Swift.Bool
+prefix public func ! (v: Tellusim.Fence) -> Swift.Bool
+prefix public func ! (v: Tellusim.VKFence) -> Swift.Bool
+prefix public func ! (v: Tellusim.FUFence) -> Swift.Bool
+prefix public func ! (v: Tellusim.Shader) -> Swift.Bool
+prefix public func ! (v: Tellusim.ShaderCompiler) -> Swift.Bool
+prefix public func ! (v: Tellusim.D3D12Shader) -> Swift.Bool
+prefix public func ! (v: Tellusim.D3D11Shader) -> Swift.Bool
+prefix public func ! (v: Tellusim.MTLShader) -> Swift.Bool
+prefix public func ! (v: Tellusim.VKShader) -> Swift.Bool
+prefix public func ! (v: Tellusim.GLShader) -> Swift.Bool
+prefix public func ! (v: Tellusim.GLESShader) -> Swift.Bool
+prefix public func ! (v: Tellusim.CUShader) -> Swift.Bool
+prefix public func ! (v: Tellusim.HIPShader) -> Swift.Bool
+prefix public func ! (v: Tellusim.FUShader) -> Swift.Bool
+prefix public func ! (v: Tellusim.Sampler) -> Swift.Bool
+prefix public func ! (v: Tellusim.MTLSampler) -> Swift.Bool
+prefix public func ! (v: Tellusim.FUSampler) -> Swift.Bool
+prefix public func ! (v: Tellusim.Texture) -> Swift.Bool
+prefix public func ! (v: Tellusim.TextureTable) -> Swift.Bool
+prefix public func ! (v: Tellusim.D3D12Texture) -> Swift.Bool
+prefix public func ! (v: Tellusim.D3D11Texture) -> Swift.Bool
+prefix public func ! (v: Tellusim.MTLTexture) -> Swift.Bool
+prefix public func ! (v: Tellusim.VKTexture) -> Swift.Bool
+prefix public func ! (v: Tellusim.GLTexture) -> Swift.Bool
+prefix public func ! (v: Tellusim.GLESTexture) -> Swift.Bool
+prefix public func ! (v: Tellusim.CUTexture) -> Swift.Bool
+prefix public func ! (v: Tellusim.HIPTexture) -> Swift.Bool
+prefix public func ! (v: Tellusim.FUTexture) -> Swift.Bool
+prefix public func ! (v: Tellusim.Tracing) -> Swift.Bool
+prefix public func ! (v: Tellusim.D3D12Tracing) -> Swift.Bool
+prefix public func ! (v: Tellusim.MTLTracing) -> Swift.Bool
+prefix public func ! (v: Tellusim.VKTracing) -> Swift.Bool
+prefix public func ! (v: Tellusim.FUTracing) -> Swift.Bool
+prefix public func ! (v: Tellusim.Target) -> Swift.Bool
+prefix public func ! (v: Tellusim.D3D12Target) -> Swift.Bool
+prefix public func ! (v: Tellusim.D3D11Target) -> Swift.Bool
+prefix public func ! (v: Tellusim.MTLTarget) -> Swift.Bool
+prefix public func ! (v: Tellusim.VKTarget) -> Swift.Bool
+prefix public func ! (v: Tellusim.GLTarget) -> Swift.Bool
+prefix public func ! (v: Tellusim.GLESTarget) -> Swift.Bool
+prefix public func ! (v: Tellusim.FUTarget) -> Swift.Bool
+prefix public func ! (v: Tellusim.Device) -> Swift.Bool
+prefix public func ! (v: Tellusim.D3D12Device) -> Swift.Bool
+prefix public func ! (v: Tellusim.D3D11Device) -> Swift.Bool
+prefix public func ! (v: Tellusim.MTLDevice) -> Swift.Bool
+prefix public func ! (v: Tellusim.VKDevice) -> Swift.Bool
+prefix public func ! (v: Tellusim.FUDevice) -> Swift.Bool
+prefix public func ! (v: Tellusim.Kernel) -> Swift.Bool
+prefix public func ! (v: Tellusim.D3D12Kernel) -> Swift.Bool
+prefix public func ! (v: Tellusim.MTLKernel) -> Swift.Bool
+prefix public func ! (v: Tellusim.FUKernel) -> Swift.Bool
+prefix public func ! (v: Tellusim.Pipeline) -> Swift.Bool
+prefix public func ! (v: Tellusim.D3D12Pipeline) -> Swift.Bool
+prefix public func ! (v: Tellusim.MTLPipeline) -> Swift.Bool
+prefix public func ! (v: Tellusim.FUPipeline) -> Swift.Bool
+prefix public func ! (v: Tellusim.Traversal) -> Swift.Bool
+prefix public func ! (v: Tellusim.D3D12Traversal) -> Swift.Bool
+prefix public func ! (v: Tellusim.FUTraversal) -> Swift.Bool
+prefix public func ! (v: Tellusim.Surface) -> Swift.Bool
+prefix public func ! (v: Tellusim.D3D12Surface) -> Swift.Bool
+prefix public func ! (v: Tellusim.D3D11Surface) -> Swift.Bool
+prefix public func ! (v: Tellusim.MTLSurface) -> Swift.Bool
+prefix public func ! (v: Tellusim.VKSurface) -> Swift.Bool
+prefix public func ! (v: Tellusim.GLSurface) -> Swift.Bool
+prefix public func ! (v: Tellusim.GLESSurface) -> Swift.Bool
+prefix public func ! (v: Tellusim.Window) -> Swift.Bool
+prefix public func ! (v: Tellusim.Font) -> Swift.Bool
+prefix public func ! (v: Tellusim.CanvasElement) -> Swift.Bool
+prefix public func ! (v: Tellusim.CanvasText) -> Swift.Bool
+prefix public func ! (v: Tellusim.CanvasMesh) -> Swift.Bool
+prefix public func ! (v: Tellusim.CanvasRect) -> Swift.Bool
+prefix public func ! (v: Tellusim.CanvasTriangle) -> Swift.Bool
+prefix public func ! (v: Tellusim.CanvasEllipse) -> Swift.Bool
+prefix public func ! (v: Tellusim.CanvasShape) -> Swift.Bool
+prefix public func ! (v: Tellusim.CanvasStrip) -> Swift.Bool
+prefix public func ! (v: Tellusim.Canvas) -> Swift.Bool
+prefix public func ! (v: Tellusim.Control) -> Swift.Bool
+prefix public func ! (v: Tellusim.ControlRoot) -> Swift.Bool
+prefix public func ! (v: Tellusim.ControlText) -> Swift.Bool
+prefix public func ! (v: Tellusim.ControlRect) -> Swift.Bool
+prefix public func ! (v: Tellusim.ControlGrid) -> Swift.Bool
+prefix public func ! (v: Tellusim.ControlGroup) -> Swift.Bool
+prefix public func ! (v: Tellusim.ControlPanel) -> Swift.Bool
+prefix public func ! (v: Tellusim.ControlDialog) -> Swift.Bool
+prefix public func ! (v: Tellusim.ControlWindow) -> Swift.Bool
+prefix public func ! (v: Tellusim.ControlCheck) -> Swift.Bool
+prefix public func ! (v: Tellusim.ControlCombo) -> Swift.Bool
+prefix public func ! (v: Tellusim.ControlButton) -> Swift.Bool
+prefix public func ! (v: Tellusim.ControlSlider) -> Swift.Bool
+prefix public func ! (v: Tellusim.ControlScroll) -> Swift.Bool
+prefix public func ! (v: Tellusim.ControlSplit) -> Swift.Bool
+prefix public func ! (v: Tellusim.ControlArea) -> Swift.Bool
+prefix public func ! (v: Tellusim.ControlTree) -> Swift.Bool
+prefix public func ! (v: Tellusim.ControlEdit) -> Swift.Bool
+prefix public func ! (v: Tellusim.DialogMessage) -> Swift.Bool
+prefix public func ! (v: Tellusim.DialogFileOpen) -> Swift.Bool
+prefix public func ! (v: Tellusim.DialogFileSave) -> Swift.Bool
+prefix public func ! (v: Tellusim.DialogDirectory) -> Swift.Bool
+prefix public func ! (v: Tellusim.DialogProgress) -> Swift.Bool
+prefix public func ! (v: Tellusim.DialogColor) -> Swift.Bool
+prefix public func ! (v: Tellusim.DialogMenu) -> Swift.Bool
+prefix public func ! (v: Tellusim.CubeFilter) -> Swift.Bool
+prefix public func ! (v: Tellusim.DecoderJPEG) -> Swift.Bool
+prefix public func ! (v: Tellusim.EncoderBC15) -> Swift.Bool
+prefix public func ! (v: Tellusim.EncoderBC67) -> Swift.Bool
+prefix public func ! (v: Tellusim.EncoderASTC) -> Swift.Bool
+prefix public func ! (v: Tellusim.SeparableFilter) -> Swift.Bool
+prefix public func ! (v: Tellusim.PrefixScan) -> Swift.Bool
+prefix public func ! (v: Tellusim.RadixSort) -> Swift.Bool
+prefix public func ! (v: Tellusim.BitonicSort) -> Swift.Bool
+prefix public func ! (v: Tellusim.SpatialGrid) -> Swift.Bool
+prefix public func ! (v: Tellusim.SpatialTree) -> Swift.Bool
+prefix public func ! (v: Tellusim.FourierTransform) -> Swift.Bool
+prefix public func ! (v: Tellusim.TensorGraph) -> Swift.Bool
+prefix public func ! (v: Tellusim.Controller) -> Swift.Bool
+prefix public func ! (v: Tellusim.Desktop) -> Swift.Bool
+extension Tellusim.Window {
+  @objc public class MousePressedFunction : ObjectiveC.NSObject, Tellusim.Window.MousePressedCallback {
+    public init(_ c: @escaping (_ button: Tellusim.Window.Button) -> Swift.Void)
+    @objc public func run(_ button: Tellusim.Window.Button)
+    @objc deinit
+  }
+}
+extension Tellusim.Window {
+  @objc public class MouseReleasedFunction : ObjectiveC.NSObject, Tellusim.Window.MouseReleasedCallback {
+    public init(_ c: @escaping (_ button: Tellusim.Window.Button) -> Swift.Void)
+    @objc public func run(_ button: Tellusim.Window.Button)
+    @objc deinit
+  }
+}
+extension Tellusim.Window {
+  @objc public class MouseChangedFunction : ObjectiveC.NSObject, Tellusim.Window.MouseChangedCallback {
+    public init(_ c: @escaping (_ x: Swift.Int32, _ y: Swift.Int32) -> Swift.Void)
+    @objc public func run(_ x: Swift.Int32, _ y: Swift.Int32)
+    @objc deinit
+  }
+}
+extension Tellusim.Window {
+  @objc public class MouseRotatedFunction : ObjectiveC.NSObject, Tellusim.Window.MouseRotatedCallback {
+    public init(_ c: @escaping (_ axis: Tellusim.Window.Axis, _ delta: Swift.Float32) -> Swift.Void)
+    @objc public func run(_ axis: Tellusim.Window.Axis, _ delta: Swift.Float32)
+    @objc deinit
+  }
+}
+extension Tellusim.Window {
+  @objc public class TouchChangedFunction : ObjectiveC.NSObject, Tellusim.Window.TouchChangedCallback {
+    public init(_ c: @escaping () -> Swift.Void)
+    @objc public func run()
+    @objc deinit
+  }
+}
+extension Tellusim.Window {
+  @objc public class KeyboardPressedFunction : ObjectiveC.NSObject, Tellusim.Window.KeyboardPressedCallback {
+    public init(_ c: @escaping (_ key: Swift.UInt32, _ code: Swift.UInt32) -> Swift.Void)
+    @objc public func run(_ key: Swift.UInt32, _ code: Swift.UInt32)
+    @objc deinit
+  }
+}
+extension Tellusim.Window {
+  @objc public class KeyboardReleasedFunction : ObjectiveC.NSObject, Tellusim.Window.KeyboardReleasedCallback {
+    public init(_ c: @escaping (_ key: Swift.UInt32) -> Swift.Void)
+    @objc public func run(_ key: Swift.UInt32)
+    @objc deinit
+  }
+}
+extension Tellusim.Window {
+  @objc public class SizeChangedFunction : ObjectiveC.NSObject, Tellusim.Window.SizeChangedCallback {
+    public init(_ c: @escaping (_ width: Swift.UInt32, _ height: Swift.UInt32) -> Swift.Void)
+    @objc public func run(_ width: Swift.UInt32, _ height: Swift.UInt32)
+    @objc deinit
+  }
+}
+extension Tellusim.Window {
+  @objc public class FocusChangedFunction : ObjectiveC.NSObject, Tellusim.Window.FocusChangedCallback {
+    public init(_ c: @escaping (_ changed: Swift.Bool) -> Swift.Void)
+    @objc public func run(_ changed: Swift.Bool)
+    @objc deinit
+  }
+}
+extension Tellusim.Window {
+  @objc public class CloseClickedFunction : ObjectiveC.NSObject, Tellusim.Window.CloseClickedCallback {
+    public init(_ c: @escaping () -> Swift.Void)
+    @objc public func run()
+    @objc deinit
+  }
+}
+extension Tellusim.Window {
+  @objc public class PauseChangedFunction : ObjectiveC.NSObject, Tellusim.Window.PauseChangedCallback {
+    public init(_ c: @escaping (_ paused: Swift.Bool) -> Swift.Void)
+    @objc public func run(_ paused: Swift.Bool)
+    @objc deinit
+  }
+}
+extension Tellusim.Window {
+  @objc public class FileDroppedFunction : ObjectiveC.NSObject, Tellusim.Window.FileDroppedCallback {
+    public init(_ c: @escaping (_ name: Swift.String, _ remain: Swift.UInt32) -> Swift.Void)
+    @objc public func run(_ name: Swift.String, _ remain: Swift.UInt32)
+    @objc deinit
+  }
+}
+extension Tellusim.Window {
+  @objc public class UpdateFunction : ObjectiveC.NSObject, Tellusim.Window.UpdateCallback {
+    public init(_ c: @escaping () -> Swift.Void)
+    @objc public func run()
+    @objc deinit
+  }
+}
+extension Tellusim.Window {
+  @objc public class PresentFunction : ObjectiveC.NSObject, Tellusim.Window.PresentCallback {
+    public init(_ c: @escaping () -> Swift.Void)
+    @objc public func run()
+    @objc deinit
+  }
+}
+extension Tellusim.Window {
+  @objc public class MainLoopFunction : ObjectiveC.NSObject, Tellusim.Window.MainLoopCallback {
+    public init(_ c: @escaping () -> Swift.Bool)
+    @objc public func run() -> Swift.Bool
+    @objc deinit
+  }
+}
+extension Tellusim.CanvasElement {
+  @objc public class DrawFunction : ObjectiveC.NSObject, Tellusim.CanvasElement.DrawCallback {
+    public init(_ c: @escaping (_ command: Tellusim.Command, _ element: Tellusim.CanvasElement) -> Swift.Bool)
+    @objc public func run(_ command: Tellusim.Command, _ element: Tellusim.CanvasElement) -> Swift.Bool
+    @objc deinit
+  }
+}
+extension Tellusim.Canvas {
+  @objc public class CreateFunction : ObjectiveC.NSObject, Tellusim.Canvas.CreateCallback {
+    public init(_ c: @escaping (_ device: Tellusim.Device, _ canvas: Tellusim.Canvas, _ scale: Swift.UInt32) -> Swift.Bool)
+    @objc public func run(_ device: Tellusim.Device, _ canvas: Tellusim.Canvas, _ scale: Swift.UInt32) -> Swift.Bool
+    @objc deinit
+  }
+}
+extension Tellusim.Canvas {
+  @objc public class PipelineFunction : ObjectiveC.NSObject, Tellusim.Canvas.PipelineCallback {
+    public init(_ c: @escaping (_ pipeline: Tellusim.Pipeline, _ canvas: Tellusim.Canvas, _ element: Tellusim.CanvasElement) -> Swift.Bool)
+    @objc public func run(_ pipeline: Tellusim.Pipeline, _ canvas: Tellusim.Canvas, _ element: Tellusim.CanvasElement) -> Swift.Bool
+    @objc deinit
+  }
+}
+extension Tellusim.Canvas {
+  @objc public class BeginFunction : ObjectiveC.NSObject, Tellusim.Canvas.BeginCallback {
+    public init(_ c: @escaping (_ command: Tellusim.Command, _ canvas: Tellusim.Canvas) -> Swift.Bool)
+    @objc public func run(_ command: Tellusim.Command, _ canvas: Tellusim.Canvas) -> Swift.Bool
+    @objc deinit
+  }
+}
+extension Tellusim.Canvas {
+  @objc public class DrawFunction : ObjectiveC.NSObject, Tellusim.Canvas.DrawCallback {
+    public init(_ c: @escaping (_ command: Tellusim.Command, _ canvas: Tellusim.Canvas) -> Swift.Bool)
+    @objc public func run(_ command: Tellusim.Command, _ canvas: Tellusim.Canvas) -> Swift.Bool
+    @objc deinit
+  }
+}
+extension Tellusim.ControlRoot {
+  @objc public class CopyFunction : ObjectiveC.NSObject, Tellusim.ControlRoot.CopyCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlRoot, _ text: Swift.String) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlRoot, _ text: Swift.String)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlRoot {
+  @objc public class PasteFunction : ObjectiveC.NSObject, Tellusim.ControlRoot.PasteCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlRoot) -> Swift.String)
+    @objc public func run(_ a0: Tellusim.ControlRoot) -> Swift.String
+    @objc deinit
+  }
+}
+extension Tellusim.ControlRect {
+  @objc public class InsideFunction : ObjectiveC.NSObject, Tellusim.ControlRect.InsideCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlRect, _ x: Swift.Float32, _ y: Swift.Float32) -> Swift.Bool)
+    @objc public func run(_ a0: Tellusim.ControlRect, _ x: Swift.Float32, _ y: Swift.Float32) -> Swift.Bool
+    @objc deinit
+  }
+}
+extension Tellusim.ControlRect {
+  @objc public class PressedFunction : ObjectiveC.NSObject, Tellusim.ControlRect.PressedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlRect, _ x: Swift.Float32, _ y: Swift.Float32) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlRect, _ x: Swift.Float32, _ y: Swift.Float32)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlRect {
+  @objc public class ReleasedFunction : ObjectiveC.NSObject, Tellusim.ControlRect.ReleasedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlRect, _ x: Swift.Float32, _ y: Swift.Float32) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlRect, _ x: Swift.Float32, _ y: Swift.Float32)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlRect {
+  @objc public class ClickedFunction : ObjectiveC.NSObject, Tellusim.ControlRect.ClickedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlRect) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlRect)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlGroup {
+  @objc public class ClickedFunction : ObjectiveC.NSObject, Tellusim.ControlGroup.ClickedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlGroup) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlGroup)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlDialog {
+  @objc public class UpdatedFunction : ObjectiveC.NSObject, Tellusim.ControlDialog.UpdatedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlDialog) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlDialog)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlCheck {
+  @objc public class ClickedFunction : ObjectiveC.NSObject, Tellusim.ControlCheck.ClickedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlCheck) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlCheck)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlCombo {
+  @objc public class ClickedFunction : ObjectiveC.NSObject, Tellusim.ControlCombo.ClickedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlCombo) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlCombo)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlCombo {
+  @objc public class ChangedFunction : ObjectiveC.NSObject, Tellusim.ControlCombo.ChangedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlCombo) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlCombo)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlButton {
+  @objc public class PressedFunction : ObjectiveC.NSObject, Tellusim.ControlButton.PressedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlButton, _ x: Swift.Float32, _ y: Swift.Float32) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlButton, _ x: Swift.Float32, _ y: Swift.Float32)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlButton {
+  @objc public class ReleasedFunction : ObjectiveC.NSObject, Tellusim.ControlButton.ReleasedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlButton, _ x: Swift.Float32, _ y: Swift.Float32) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlButton, _ x: Swift.Float32, _ y: Swift.Float32)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlButton {
+  @objc public class ClickedFunction : ObjectiveC.NSObject, Tellusim.ControlButton.ClickedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlButton) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlButton)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlSlider {
+  @objc public class FormatFunction : ObjectiveC.NSObject, Tellusim.ControlSlider.FormatCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlSlider) -> Swift.String)
+    @objc public func run(_ a0: Tellusim.ControlSlider) -> Swift.String
+    @objc deinit
+  }
+}
+extension Tellusim.ControlSlider {
+  @objc public class PressedFunction : ObjectiveC.NSObject, Tellusim.ControlSlider.PressedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlSlider) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlSlider)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlSlider {
+  @objc public class ReleasedFunction : ObjectiveC.NSObject, Tellusim.ControlSlider.ReleasedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlSlider) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlSlider)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlSlider {
+  @objc public class ClickedFunction : ObjectiveC.NSObject, Tellusim.ControlSlider.ClickedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlSlider) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlSlider)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlSlider {
+  @objc public class ChangedFunction : ObjectiveC.NSObject, Tellusim.ControlSlider.ChangedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlSlider) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlSlider)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlScroll {
+  @objc public class ClickedFunction : ObjectiveC.NSObject, Tellusim.ControlScroll.ClickedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlScroll) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlScroll)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlScroll {
+  @objc public class ChangedFunction : ObjectiveC.NSObject, Tellusim.ControlScroll.ChangedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlScroll) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlScroll)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlTree {
+  @objc public class ChangedFunction : ObjectiveC.NSObject, Tellusim.ControlTree.ChangedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlTree, _ item: Swift.UInt32) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlTree, _ item: Swift.UInt32)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlTree {
+  @objc public class DraggedFunction : ObjectiveC.NSObject, Tellusim.ControlTree.DraggedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlTree, _ item: Swift.UInt32) -> Swift.Bool)
+    @objc public func run(_ a0: Tellusim.ControlTree, _ item: Swift.UInt32) -> Swift.Bool
+    @objc deinit
+  }
+}
+extension Tellusim.ControlTree {
+  @objc public class DroppedFunction : ObjectiveC.NSObject, Tellusim.ControlTree.DroppedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlTree, _ item: Swift.UInt32) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlTree, _ item: Swift.UInt32)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlTree {
+  @objc public class ClickedFunction : ObjectiveC.NSObject, Tellusim.ControlTree.ClickedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlTree, _ item: Swift.UInt32) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlTree, _ item: Swift.UInt32)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlTree {
+  @objc public class ExpandedFunction : ObjectiveC.NSObject, Tellusim.ControlTree.ExpandedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlTree, _ item: Swift.UInt32) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlTree, _ item: Swift.UInt32)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlTree {
+  @objc public class SelectedFunction : ObjectiveC.NSObject, Tellusim.ControlTree.SelectedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlTree) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlTree)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlEdit {
+  @objc public class ClickedFunction : ObjectiveC.NSObject, Tellusim.ControlEdit.ClickedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlEdit) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlEdit)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlEdit {
+  @objc public class ChangedFunction : ObjectiveC.NSObject, Tellusim.ControlEdit.ChangedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlEdit) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlEdit)
+    @objc deinit
+  }
+}
+extension Tellusim.ControlEdit {
+  @objc public class ReturnedFunction : ObjectiveC.NSObject, Tellusim.ControlEdit.ReturnedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.ControlEdit) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.ControlEdit)
+    @objc deinit
+  }
+}
+extension Tellusim.DialogMessage {
+  @objc public class UpdateFunction : ObjectiveC.NSObject, Tellusim.DialogMessage.UpdateCallback {
+    public init(_ c: @escaping () -> Swift.Bool)
+    @objc public func run() -> Swift.Bool
+    @objc deinit
+  }
+}
+extension Tellusim.DialogFileOpen {
+  @objc public class UpdateFunction : ObjectiveC.NSObject, Tellusim.DialogFileOpen.UpdateCallback {
+    public init(_ c: @escaping () -> Swift.Bool)
+    @objc public func run() -> Swift.Bool
+    @objc deinit
+  }
+}
+extension Tellusim.DialogFileSave {
+  @objc public class UpdateFunction : ObjectiveC.NSObject, Tellusim.DialogFileSave.UpdateCallback {
+    public init(_ c: @escaping () -> Swift.Bool)
+    @objc public func run() -> Swift.Bool
+    @objc deinit
+  }
+}
+extension Tellusim.DialogDirectory {
+  @objc public class UpdateFunction : ObjectiveC.NSObject, Tellusim.DialogDirectory.UpdateCallback {
+    public init(_ c: @escaping () -> Swift.Bool)
+    @objc public func run() -> Swift.Bool
+    @objc deinit
+  }
+}
+extension Tellusim.DialogColor {
+  @objc public class ChangedFunction : ObjectiveC.NSObject, Tellusim.DialogColor.ChangedCallback {
+    public init(_ c: @escaping (_ a0: Tellusim.Color) -> Swift.Void)
+    @objc public func run(_ a0: Tellusim.Color)
+    @objc deinit
+  }
+}
+extension Tellusim.DialogColor {
+  @objc public class UpdateFunction : ObjectiveC.NSObject, Tellusim.DialogColor.UpdateCallback {
+    public init(_ c: @escaping () -> Swift.Bool)
+    @objc public func run() -> Swift.Bool
+    @objc deinit
+  }
+}
+extension Tellusim.DialogMenu {
+  @objc public class ClickedFunction : ObjectiveC.NSObject, Tellusim.DialogMenu.ClickedCallback {
+    public init(_ c: @escaping () -> Swift.Void)
+    @objc public func run()
+    @objc deinit
+  }
+}
+extension Tellusim.DialogMenu {
+  @objc public class ChangedFunction : ObjectiveC.NSObject, Tellusim.DialogMenu.ChangedCallback {
+    public init(_ c: @escaping (_ a0: Swift.Bool) -> Swift.Void)
+    @objc public func run(_ a0: Swift.Bool)
+    @objc deinit
+  }
+}
+extension Tellusim.DialogMenu {
+  @objc public class UpdateFunction : ObjectiveC.NSObject, Tellusim.DialogMenu.UpdateCallback {
+    public init(_ c: @escaping () -> Swift.Bool)
+    @objc public func run() -> Swift.Bool
+    @objc deinit
+  }
+}
+extension Tellusim.MeshModel {
+  @objc public class CreateFunction : ObjectiveC.NSObject, Tellusim.MeshModel.CreateCallback {
+    public init(_ c: @escaping (_ src: Swift.UnsafeRawPointer, _ size: Swift.Int, _ owner: Swift.Bool) -> Swift.Bool)
+    @objc public func run(_ src: Swift.UnsafeRawPointer, _ size: Swift.Int, _ owner: Swift.Bool) -> Swift.Bool
+    @objc deinit
+  }
+}
+extension Tellusim.Controller {
+  @objc public class ButtonPressedFunction : ObjectiveC.NSObject, Tellusim.Controller.ButtonPressedCallback {
+    public init(_ c: @escaping (_ controller: Tellusim.Controller, _ button: Tellusim.Controller.Button) -> Swift.Void)
+    @objc public func run(_ controller: Tellusim.Controller, _ button: Tellusim.Controller.Button)
+    @objc deinit
+  }
+}
+extension Tellusim.Controller {
+  @objc public class ButtonReleasedFunction : ObjectiveC.NSObject, Tellusim.Controller.ButtonReleasedCallback {
+    public init(_ c: @escaping (_ controller: Tellusim.Controller, _ button: Tellusim.Controller.Button) -> Swift.Void)
+    @objc public func run(_ controller: Tellusim.Controller, _ button: Tellusim.Controller.Button)
+    @objc deinit
+  }
+}
+extension Tellusim.Controller {
+  @objc public class ConnectedFunction : ObjectiveC.NSObject, Tellusim.Controller.ConnectedCallback {
+    public init(_ c: @escaping (_ controller: Tellusim.Controller) -> Swift.Void)
+    @objc public func run(_ controller: Tellusim.Controller)
+    @objc deinit
+  }
+}
+extension Tellusim.Controller {
+  @objc public class DisconnectedFunction : ObjectiveC.NSObject, Tellusim.Controller.DisconnectedCallback {
+    public init(_ c: @escaping (_ controller: Tellusim.Controller) -> Swift.Void)
+    @objc public func run(_ controller: Tellusim.Controller)
+    @objc deinit
+  }
+}
+extension Tellusim.MeshGraph {
+  @objc public class ProgressFunction : ObjectiveC.NSObject, Tellusim.MeshGraph.ProgressCallback {
+    public init(_ c: @escaping (_ progress: Swift.UInt32) -> Swift.Bool)
+    @objc public func run(_ progress: Swift.UInt32) -> Swift.Bool
+    @objc deinit
+  }
+}
+extension Tellusim.MeshReduce {
+  @objc public class ProgressFunction : ObjectiveC.NSObject, Tellusim.MeshReduce.ProgressCallback {
+    public init(_ c: @escaping (_ progress: Swift.UInt32) -> Swift.Bool)
+    @objc public func run(_ progress: Swift.UInt32) -> Swift.Bool
+    @objc deinit
+  }
+}
+extension Tellusim.MeshSolid {
+  @objc public class ProgressFunction : ObjectiveC.NSObject, Tellusim.MeshSolid.ProgressCallback {
+    public init(_ c: @escaping (_ progress: Swift.UInt32) -> Swift.Bool)
+    @objc public func run(_ progress: Swift.UInt32) -> Swift.Bool
+    @objc deinit
+  }
+}

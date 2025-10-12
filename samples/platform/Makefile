@@ -1,0 +1,47 @@
+TESTS = \
+	alpha \
+	atomic \
+	barycentric \
+	bindless \
+	blending \
+	buffers \
+	clipping \
+	command \
+	compute \
+	conservative \
+	context \
+	cooperative \
+	desktop \
+	device \
+	fence \
+	formats \
+	dynamic \
+	fusion \
+	indirect \
+	integer \
+	layers \
+	mapped \
+	matrix \
+	multisample \
+	offscreen \
+	precision \
+	preprocessor \
+	printf \
+	reference \
+	samplers \
+	samples \
+	shader \
+	shared \
+	sparse \
+	stencil \
+	storage \
+	subgroup \
+	surface \
+	table \
+	texel \
+	texture \
+	tracing \
+	viewports \
+	window
+
+include ../Makefile

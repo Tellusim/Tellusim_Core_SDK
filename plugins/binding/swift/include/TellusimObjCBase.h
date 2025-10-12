@@ -495,6 +495,7 @@ typedef struct VkPhysicalDevice_T *VkPhysicalDevice;
 typedef struct VkDevice_T *VkDevice;
 typedef struct VkQueue_T *VkQueue;
 typedef struct VkCommandBuffer_T *VkCommandBuffer;
+typedef struct VkSwapchainKHR_T *VkSwapchainKHR;
 typedef struct VkShaderModule_T *VkShaderModule;
 typedef struct VkDescriptorSet_T *VkDescriptorSet;
 typedef struct VkRenderPass_T *VkRenderPass;
