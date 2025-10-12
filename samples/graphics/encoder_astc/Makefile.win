@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+CLEAN = texture_*.astc
+
+include ..\..\Makefile.win.mk

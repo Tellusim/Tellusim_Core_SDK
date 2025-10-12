@@ -1,0 +1,10 @@
+SRCS = main.cpp \
+	source/TellusimFormatDRC.cpp
+
+FLAGS = $(FLAGS) /I$(TSROOT)\plugins\formats\draco\extern
+
+LIB = $(LIB);extern\lib\windows\$(ARCH)
+
+CLEAN = test_save*
+
+include ..\..\Makefile.win.mk

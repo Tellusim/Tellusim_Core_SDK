@@ -1,0 +1,14 @@
+TARGET = mesh$(POSTFIX).exe
+
+RESOURCES = mesh.rc
+
+SRCS = mesh.cpp \
+	Plugins.cpp
+
+FLAGS = $(FLAGS) /I$(TSROOT)\plugins\formats\draco\extern
+FLAGS = $(FLAGS) /I$(TSROOT)\plugins\formats\webp\extern
+
+LIB = $(LIB);$(TSROOT)\plugins\formats\draco\extern\lib\windows\$(ARCH)
+LIB = $(LIB);$(TSROOT)\plugins\formats\webp\extern\lib\windows\$(ARCH)
+
+include ..\Makefile.win.mk

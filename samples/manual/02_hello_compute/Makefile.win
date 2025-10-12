@@ -1,0 +1,3 @@
+SRCS = main.cpp
+
+include ..\..\Makefile.win.mk

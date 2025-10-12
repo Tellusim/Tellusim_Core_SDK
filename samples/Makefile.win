@@ -1,0 +1,28 @@
+!ifndef TESTS
+
+TESTS = \
+	core \
+	format \
+	geometry \
+	graphics \
+	interface \
+	manual \
+	math \
+	native \
+	parallel \
+	platform \
+	system
+
+!endif
+
+MAKE = nmake.exe /nologo -f Makefile.win
+EXEC = $(TSROOT)\bin\ts_exec.bat
+
+all:
+	@$(EXEC) -s "cmd /c 'cd @ && $(MAKE) $(OPTIONS)'" $(TESTS)
+
+run:
+	@$(EXEC) -s "cmd /c 'cd @ && $(MAKE) $(OPTIONS) run'" $(TESTS)
+
+clean:
+	@$(EXEC) -p "cmd /c 'cd @ && $(MAKE) clean'" $(TESTS)

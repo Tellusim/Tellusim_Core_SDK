@@ -1,0 +1,15 @@
+TESTS = \
+	00_hello_triangle \
+	01_hello_usdz \
+	02_hello_compute \
+	03_hello_mesh \
+	04_hello_raster \
+	05_hello_tracing \
+	06_hello_traversal \
+	07_hello_splatting \
+	08_hello_canvas \
+	09_hello_controls \
+	11_hello_bindless \
+	12_hello_controller
+
+include ..\Makefile.win

@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+CLEAN = test_*
+
+include ..\..\Makefile.win.mk

@@ -1,0 +1,4 @@
+SRCS = main.cpp \
+	source/TellusimControlTooltip.cpp
+
+include ..\..\Makefile.win.mk

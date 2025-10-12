@@ -1,0 +1,10 @@
+SRCS = main.cpp \
+	source/TellusimFormatWEBP.cpp
+
+CFLAGS = $(CFLAGS) /Iextern
+
+LIB = $(LIB);extern\lib\windows\$(ARCH)
+
+CLEAN = test_save*
+
+include ..\..\Makefile.win.mk

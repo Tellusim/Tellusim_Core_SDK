@@ -1,0 +1,10 @@
+TARGET = noise$(POSTFIX).exe
+
+RESOURCES = noise.rc
+
+SRCS = noise.cpp BlueNoise.cpp
+
+include ..\Makefile.win.mk
+
+blob:
+	@ts_blob -src BlueNoise.shader

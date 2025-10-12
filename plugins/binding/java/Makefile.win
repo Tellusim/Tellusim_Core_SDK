@@ -1,0 +1,87 @@
+# Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+# https://tellusim.com/
+
+TSROOT = $(MAKEDIR)\..\..\..
+
+JAR = jar.exe
+JAVA = java.exe
+JAVAC = javac.exe
+
+#
+# Platform configuration
+#
+TARGET = TellusimJNI_$(ARCH)$(POSTFIX).dll
+CFLAGS = $(CFLAGS) /I$(JAVA_HOME)\include /I$(JAVA_HOME)\include\win32
+LDFLAGS = $(LDFLAGS) /dll
+
+#
+# Sources
+#
+SRCS = source/TellusimJNIBase.cpp \
+	source/TellusimJNIMath.cpp \
+	source/TellusimJNIAPI.cpp
+
+#
+# Package target
+#
+PACKAGE_TARGET = tellusim.jar
+PACKAGE_SRCS = source/base/*.java \
+	source/math/*.java \
+	source/api/*.java
+
+#
+# Main target
+#
+JAVA_TARGET = main$(POSTFIX).jar
+JAVA_SRCS = main.java
+
+KOTLIN_TARGET = main_kt$(POSTFIX).jar
+KOTLIN_SRCS = main.kt
+
+!if "$(KOTLIN)" == "1"
+MAIN_TARGET = $(KOTLIN_TARGET)
+!else
+MAIN_TARGET = $(JAVA_TARGET)
+!endif
+
+#
+# Clean targets
+#
+CLEAN = /q $(PACKAGE_TARGET) $(MAIN_TARGET)
+
+#
+# Build
+#
+!include $(TSROOT)\build\Makefile.win.mk
+
+#
+# Package
+#
+$(PACKAGE_TARGET): $(PACKAGE_SRCS)
+	@$(JAVAC) -d . source/base/*.java source/math/*.java source/api/*.java
+	@$(JAR) -c -f $@ com/tellusim/*.class
+	@$(ECHO) g "Done $@"
+
+#
+# Main
+#
+all: $(MAIN_TARGET)
+
+$(JAVA_TARGET): $(JAVA_SRCS) $(PACKAGE_TARGET) $(TARGET)
+	@$(JAVAC) -d . -classpath $(PACKAGE_TARGET) $(JAVA_SRCS)
+	@$(JAR) -c -f $@ -m main.mf com/main/*.class
+	@$(ECHO) g "Done $@"
+
+$(KOTLIN_TARGET): $(KOTLIN_SRCS) $(PACKAGE_TARGET) $(TARGET)
+	@$(KOTLINC) -d $@ -include-runtime -classpath $(PACKAGE_TARGET) $(KOTLIN_SRCS)
+	@$(JAR) -u -f $@ -m main.mf
+	@$(JAR) -u -f $@ -e com.main.MainKt
+	@$(LN) -f -s $@ $(JAVA_TARGET)
+	@$(ECHO) g "Done $@"
+
+#
+# Run target
+#
+run_:
+	@$(ECHO) g "Running $(MAIN_TARGET)"
+	@$(JAVA) -jar $(MAIN_TARGET)

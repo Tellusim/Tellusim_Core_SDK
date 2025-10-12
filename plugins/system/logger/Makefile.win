@@ -1,0 +1,11 @@
+FLAGS = \
+	/DTS_APP_NAME="\"Logger\"" \
+	/DTS_APP_PATH="\".tellusim\"" \
+	/DTS_APP_VERSION="\"1.0\""
+
+SRCS = main.cpp \
+	source/TellusimLogger.cpp
+
+CLEAN = Logger.log
+
+include ..\..\Makefile.win.mk

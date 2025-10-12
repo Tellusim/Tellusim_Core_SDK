@@ -1,0 +1,16 @@
+TESTS = \
+	d3d11_pipeline \
+	d3d11_runtime \
+	d3d11_swap_chain \
+	d3d11_window \
+	d3d12_pipeline \
+	d3d12_program \
+	d3d12_runtime \
+	d3d12_swap_chain \
+	d3d12_texture \
+	d3d12_window \
+	d3d12_work_graph \
+	d3d12_work_state \
+	d3d12_work_mesh
+
+include ..\Makefile.win

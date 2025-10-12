@@ -1,0 +1,53 @@
+# Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+# https://tellusim.com/
+
+RSC = rustc.exe
+
+#
+# Debug configuration
+#
+!if "$(DEBUG)" != "0"
+RSFLAGS = $(RSFLAGS) -C debuginfo=2
+POSTFIX = $(POSTFIX)d
+!else
+RSFLAGS = $(RSFLAGS) -C opt-level=s
+RSFLAGS = $(RSFLAGS) -C strip=symbols
+!endif
+
+#
+# Library target
+#
+LIBRARY = libTellusimRS_$(ARCH)$(POSTFIX).rlib
+
+LIBS = -lTellusimC_$(ARCH)$(POSTFIX)
+
+SRC = source/TellusimRS.rs
+
+SRCS = source/TellusimRS.rs \
+	source/TellusimRSBase.rs \
+	source/TellusimRSMath.rs \
+	source/TellusimRSAPI.rs
+
+#
+# Main target
+#
+TARGET = main$(POSTFIX).exe
+
+MAIN = main.rs
+
+#
+# Build rules
+#
+all: $(TARGET)
+
+$(LIBRARY): $(SRCS)
+	@$(RSC) $(RSFLAGS) -o $@ $(LIBS) $(SRC)
+	@echo Done $@
+
+$(TARGET): $(MAIN) $(LIBRARY)
+	@$(RSC) $(RSFLAGS) -o $@ -L$(TSROOT)/bin -L../capi --extern tellusim=$(LIBRARY) $(MAIN)
+	@echo Done $@
+
+clean: $(MAKEDIR)
+	@echo Cleaning %|fF
+	@del /f $(LIBRARY) $(TARGET) *.pdb 2>nul

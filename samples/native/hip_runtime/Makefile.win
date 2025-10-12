@@ -1,0 +1,51 @@
+# Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+# https://tellusim.com/
+
+HIPCC = hipcc.bin.exe
+
+TSROOT = $(MAKEDIR)\..\..\..
+ECHO = $(TSROOT)\bin\ts_echo.bat
+
+#
+# Debug configuration
+#
+!if "$(DEBUG)" != "0"
+POSTFIX = $(POSTFIX)d
+!endif
+
+#
+# Default configuration
+#
+CFLAGS = $(CFLAGS) -I$(TSROOT)\include
+CFLAGS = $(CFLAGS) -I$(TSROOT)\samples
+LDFLAGS = $(LDFLAGS) -L$(TSROOT)\source
+LDFLAGS = $(LDFLAGS) -L$(TSROOT)\lib\windows\$(VSVERSION)$(ARCH)
+LDFLAGS = $(LDFLAGS) $(TSROOT)\source\Tellusim_$(ARCH)$(POSTFIX).lib
+
+#
+# HIP configuration
+#
+CFLAGS = $(CFLAGS) -Wno-ignored-attributes -Wno-undefined-var-template
+
+#
+# Main target
+#
+TARGET = main$(POSTFIX).exe
+
+OBJS = main.obj
+
+#
+# Build target
+#
+all: $(TARGET)
+
+main.obj: main.cpp
+	@$(HIPCC) $(CFLAGS) -c -o $@ $**
+
+$(TARGET): $(OBJS)
+	@$(HIPCC) $(LDFLAGS) -o $@ $**
+	@$(ECHO) g "Done %|fF"
+
+clean: $(MAKEDIR)
+	@$(ECHO) r "Cleaning %|fF"
+	@del /f $(TARGET) $(OBJS) *.exp *.lib

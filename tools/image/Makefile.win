@@ -1,0 +1,12 @@
+TARGET = image$(POSTFIX).exe
+
+RESOURCES = image.rc
+
+SRCS = image.cpp \
+	Plugins.cpp
+
+FLAGS = $(FLAGS) /I$(TSROOT)\plugins\formats\webp\extern
+
+LIB = $(LIB);$(TSROOT)\plugins\formats\webp\extern\lib\windows\$(ARCH)
+
+include ..\Makefile.win.mk

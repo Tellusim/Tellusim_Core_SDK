@@ -1,0 +1,10 @@
+TESTS = \
+	atlas \
+	bounds \
+	polygon \
+	reduce \
+	refine \
+	spatial \
+	triangle
+
+include ..\Makefile.win
