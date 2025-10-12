@@ -1,0 +1,259 @@
+{
+	archiveVersion = 1;
+	classes = { };
+	objectVersion = 45;
+	objects = {
+		608D89579FC02F8E3520000A = { isa = PBXBuildFile; fileRef = 608D89579FC02F8E3520001A; };
+		608D89579FC02F8E3520001A = { isa = PBXFileReference; path = source/TellusimJNIBase.cpp; sourceTree = "<group>"; };
+		608D89579FC02F8E3520002A = { isa = PBXBuildFile; fileRef = 608D89579FC02F8E3520003A; };
+		608D89579FC02F8E3520003A = { isa = PBXFileReference; path = source/TellusimJNIMath.cpp; sourceTree = "<group>"; };
+		608D89579FC02F8E3520004A = { isa = PBXBuildFile; fileRef = 608D89579FC02F8E3520005A; };
+		608D89579FC02F8E3520005A = { isa = PBXFileReference; path = source/TellusimJNIAPI.cpp; sourceTree = "<group>"; };
+		608D89579FC02F8E352000CA = { isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "main.x64"; sourceTree = BUILT_PRODUCTS_DIR; };
+		608D89579FC02F8E352000AA = {
+			isa = PBXGroup;
+			children = (
+				608D89579FC02F8E3520001A,
+				608D89579FC02F8E3520003A,
+				608D89579FC02F8E3520005A,
+				608D89579FC02F8E352000BA,
+			);
+			sourceTree = "<group>";
+		};
+		608D89579FC02F8E352000BA = {
+			isa = PBXGroup;
+			children = (
+				608D89579FC02F8E352000CA,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		608D89579FC02F8E352000DA = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 608D89579FC02F8E352000EA;
+			buildPhases = (
+				608D89579FC02F8E3520011A,
+			);
+			buildRules = ( );
+			dependencies = ( );
+			name = "main.x64";
+			productName = "main.x64";
+			productReference = 608D89579FC02F8E352000CA;
+			productType = "com.apple.product-type.tool";
+		};
+		608D89579FC02F8E3520006A = {
+			isa = PBXProject;
+			attributes = { BuildIndependentTargetsInParallel = YES; };
+			buildConfigurationList = 608D89579FC02F8E3520007A;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = ( en, Base );
+			mainGroup = 608D89579FC02F8E352000AA;
+			productRefGroup = 608D89579FC02F8E352000BA;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				608D89579FC02F8E352000DA,
+			);
+		};
+		608D89579FC02F8E3520011A = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				608D89579FC02F8E3520000A,
+				608D89579FC02F8E3520002A,
+				608D89579FC02F8E3520004A,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		608D89579FC02F8E3520008A = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../../include",
+					"$(PROJECT_DIR)/../../../plugins",
+					"$(PROJECT_DIR)/../../../samples",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"_MACOS=1",
+					"DEBUG=1",
+					"TS_DEBUG=1",
+					"$(inherited)",
+				);
+				ENABLE_TESTABILITY = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++11";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEAD_CODE_STRIPPING = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		608D89579FC02F8E3520009A = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../../include",
+					"$(PROJECT_DIR)/../../../plugins",
+					"$(PROJECT_DIR)/../../../samples",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"_MACOS=1",
+					"NDEBUG=1",
+					"$(inherited)",
+				);
+				ENABLE_TESTABILITY = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++11";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				DEAD_CODE_STRIPPING = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		608D89579FC02F8E352000FA = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "main.x64";
+				OTHER_LDFLAGS = (
+					"-lTellusim_x64d",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../../lib/macos/x64",
+				);
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../../lib/macos/x64",
+				);
+				WARNING_CFLAGS = "-Wno-undefined-var-template";
+				ENABLE_HARDENED_RUNTIME = NO;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+			};
+			name = Debug;
+		};
+		608D89579FC02F8E3520010A = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "main.x64";
+				OTHER_LDFLAGS = (
+					"-lTellusim_x64",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../../lib/macos/x64",
+				);
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../../lib/macos/x64",
+				);
+				WARNING_CFLAGS = "-Wno-undefined-var-template";
+				ENABLE_HARDENED_RUNTIME = NO;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+			};
+			name = Release;
+		};
+		608D89579FC02F8E3520007A = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				608D89579FC02F8E3520008A,
+				608D89579FC02F8E3520009A,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		608D89579FC02F8E352000EA = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				608D89579FC02F8E352000FA,
+				608D89579FC02F8E3520010A,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+	};
+	rootObject = 608D89579FC02F8E3520006A;
+}

@@ -11892,6 +11892,9 @@ TS_CAPI @interface TSVKSurface : TSSurface
 	-(VkQueue _Nullable)getQueue NS_SWIFT_NAME(queue());
 	-(VkCommandBuffer _Nullable)getCommand NS_SWIFT_NAME(command());
 	-(uint32_t)getFamily NS_SWIFT_NAME(family());
+	-(void)setSwapChain: (VkSwapchainKHR _Nullable)swap_chain NS_SWIFT_NAME(setSwapChain(_:));
+	-(void)setSwapChain_: (VkSwapchainKHR _Nullable)swap_chain NS_SWIFT_NAME(setSwapChain(swap_chain:));
+	-(VkSwapchainKHR _Nullable)getSwapChain NS_SWIFT_NAME(swapChain());
 	-(void)setColorImage: (VkImage _Nullable)image NS_SWIFT_NAME(setColorImage(_:));
 	-(void)setColorImage_: (VkImage _Nullable)image NS_SWIFT_NAME(setColorImage(image:));
 	-(void)setDepthImage: (VkImage _Nullable)image NS_SWIFT_NAME(setDepthImage(_:));
@@ -12258,6 +12261,8 @@ TS_CAPI @interface TSWindow : NSObject {
 	-(BOOL)getMouseButton_: (TS_WindowButton)button NS_SWIFT_NAME(mouseButton(button:));
 	-(BOOL)getMouseButton_1: (TS_WindowButton)button clear: (BOOL)clear NS_SWIFT_NAME(mouseButton(_:_:));
 	-(BOOL)getMouseButton_1_: (TS_WindowButton)button clear: (BOOL)clear NS_SWIFT_NAME(mouseButton(button:clear:));
+	-(BOOL)wasMouseButtonReleased: (TS_WindowButton)button NS_SWIFT_NAME(wasMouseButtonReleased(_:));
+	-(BOOL)wasMouseButtonReleased_: (TS_WindowButton)button NS_SWIFT_NAME(wasMouseButtonReleased(button:));
 	-(void)releaseMouseButtons: (TS_WindowButton)buttons NS_SWIFT_NAME(releaseMouseButtons(_:));
 	-(void)releaseMouseButtons_: (TS_WindowButton)buttons NS_SWIFT_NAME(releaseMouseButtons(buttons:));
 	-(TS_WindowButton)clearMouseButtons;
@@ -12293,6 +12298,10 @@ TS_CAPI @interface TSWindow : NSObject {
 	-(BOOL)getKeyboardKey_: (uint32_t)key NS_SWIFT_NAME(keyboardKey(key:));
 	-(BOOL)getKeyboardKey_1: (uint32_t)key clear: (BOOL)clear NS_SWIFT_NAME(keyboardKey(_:_:));
 	-(BOOL)getKeyboardKey_1_: (uint32_t)key clear: (BOOL)clear NS_SWIFT_NAME(keyboardKey(key:clear:));
+	-(BOOL)wasKeyboardKeyPressed: (uint32_t)key NS_SWIFT_NAME(wasKeyboardKeyPressed(_:));
+	-(BOOL)wasKeyboardKeyPressed_: (uint32_t)key NS_SWIFT_NAME(wasKeyboardKeyPressed(key:));
+	-(BOOL)wasKeyboardKeyReleased: (uint32_t)key NS_SWIFT_NAME(wasKeyboardKeyReleased(_:));
+	-(BOOL)wasKeyboardKeyReleased_: (uint32_t)key NS_SWIFT_NAME(wasKeyboardKeyReleased(key:));
 	-(void)setKeyboardPressedCallback: (id<TSWindowKeyboardPressedCallback> _Nullable)func NS_SWIFT_NAME(setKeyboardPressedCallback(_:));
 	-(void)setKeyboardPressedCallback_: (id<TSWindowKeyboardPressedCallback> _Nullable)func NS_SWIFT_NAME(setKeyboardPressedCallback(func:));
 	-(void)setKeyboardReleasedCallback: (id<TSWindowKeyboardReleasedCallback> _Nullable)func NS_SWIFT_NAME(setKeyboardReleasedCallback(_:));
@@ -16840,6 +16849,10 @@ TS_CAPI @interface TSController : NSObject {
 	-(BOOL)getButton_: (TS_ControllerButton)button NS_SWIFT_NAME(button(button:));
 	-(BOOL)getButton_1: (TS_ControllerButton)button clear: (BOOL)clear NS_SWIFT_NAME(button(_:_:));
 	-(BOOL)getButton_1_: (TS_ControllerButton)button clear: (BOOL)clear NS_SWIFT_NAME(button(button:clear:));
+	-(BOOL)wasButtonPressed: (TS_ControllerButton)button NS_SWIFT_NAME(wasButtonPressed(_:));
+	-(BOOL)wasButtonPressed_: (TS_ControllerButton)button NS_SWIFT_NAME(wasButtonPressed(button:));
+	-(BOOL)wasButtonReleased: (TS_ControllerButton)button NS_SWIFT_NAME(wasButtonReleased(_:));
+	-(BOOL)wasButtonReleased_: (TS_ControllerButton)button NS_SWIFT_NAME(wasButtonReleased(button:));
 	-(void)setButtonValue: (TS_ControllerButton)button value: (float32_t)value NS_SWIFT_NAME(setButtonValue(_:_:));
 	-(void)setButtonValue_: (TS_ControllerButton)button value: (float32_t)value NS_SWIFT_NAME(setButtonValue(button:value:));
 	-(float32_t)getButtonValue: (TS_ControllerButton)button NS_SWIFT_NAME(buttonValue(_:));
