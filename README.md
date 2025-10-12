@@ -699,7 +699,7 @@ Simple 2D fluid simulation based on Fast Fourier Transformation.
 
 ## [Parallel Radix Sort](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/samples/parallel/radix_sort/)
 
-Multiple independent sorting algorithms can be dispatched in parallel. There is no overhead in comparision with the single array sort. Additionally, dispatch parameters can be fetched from the indirect buffer.  
+Multiple independent sorting algorithms can be dispatched in parallel. There is no overhead in comparison with the single array sort. Additionally, dispatch parameters can be fetched from the indirect buffer.  
 '1' shows the input data.  
 '2' activates global sort.
 
