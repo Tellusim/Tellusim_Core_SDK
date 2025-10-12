@@ -1,0 +1,9 @@
+SRCS = main.cpp \
+	Plugins.cpp \
+	source/TellusimControlFlow.cpp \
+	source/TellusimControlFlowCPP.cpp \
+	source/TellusimControlFlowGLSL.cpp
+
+ASSETS = sansb.ttf
+
+include ../../Makefile.ems.mk

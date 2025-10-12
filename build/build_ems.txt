@@ -1,0 +1,45 @@
+* Linux, macOS
+
+Install latest Emscripten:
+
+git clone https://github.com/emscripten-core/emsdk emsdk.git
+cd emsdk.git && git pull
+./emsdk install latest
+./emsdk activate latest
+
+export EMSCRIPTEN_SDK="/path to /emsdk.git"
+export PATH=$EMSCRIPTEN_SDK/upstream/emscripten:$PATH
+
+em++ --version
+emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.69 (c55ff404dbe1eb9f263c48b584d5ba627224763a)
+
+Tellusim environment:
+
+export TSROOT=/path to /Tellusim_SDK_emscripten
+export PATH=$TSROOT/bin:$PATH
+
+Build demos:
+make_ems # make -f Makefile.ems
+
+Start demos:
+make_ems run
+
+Run demo in WebGPU (default):
+http://localhost:6931/main.html
+
+Run demo in WebGL:
+http://localhost:6931/main.html?-gles
+
+* Linux environment
+
+sudo apt-get install make
+sudo apt-get install clang
+sudo apt-get install ccache
+
+* Windows
+
+Install Windows Subsystem for Linux and follow Linux steps
+
+* macOS
+
+Safari Technology Preview browser is required

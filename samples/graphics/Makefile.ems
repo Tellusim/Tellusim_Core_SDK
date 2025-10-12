@@ -1,0 +1,21 @@
+TESTS = \
+	cube_filter \
+	decoder_jpeg \
+	indirect \
+	lights \
+	line \
+	mesh_tree \
+	meshlet \
+	model \
+	parallax_2d \
+	parallax_cube \
+	separable_filter \
+	shadow_esm \
+	shadow_pcf \
+	shadow_tree \
+	skinned \
+	skinned_tree \
+	tangent \
+	transparency
+
+include ../Makefile.ems

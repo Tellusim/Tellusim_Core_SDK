@@ -1,0 +1,8 @@
+SRCS = main.cpp \
+	source/TellusimONNX.cpp
+
+ASSETS = data
+
+LIBS += -Lextern/lib/emscripten/bc -lonnxpb
+
+include ../../Makefile.ems.mk

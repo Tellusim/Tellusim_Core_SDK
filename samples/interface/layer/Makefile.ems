@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+ASSETS = sansb.ttf
+
+include ../../Makefile.ems.mk

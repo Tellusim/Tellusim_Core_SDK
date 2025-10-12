@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+ASSETS = main.shader image.hdr kernel.png
+
+include ../../Makefile.ems.mk

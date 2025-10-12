@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+ASSETS = main.shader model.glb noise.png
+
+include ../../Makefile.ems.mk

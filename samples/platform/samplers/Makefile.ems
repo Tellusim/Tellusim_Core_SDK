@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+ASSETS = main.shader texture_rgbu8.png texture_rgbau8.png
+
+include ../../Makefile.ems.mk

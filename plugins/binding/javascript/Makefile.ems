@@ -1,0 +1,36 @@
+# Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+# https://tellusim.com/
+
+TSROOT = $(CURDIR)/../../..
+
+TARGET = tellusim$(POSTFIX).js
+
+PAGE = 0
+
+#
+# Sources
+#
+SRCS = source/TellusimJSBase.cpp \
+	source/TellusimJSMath.cpp \
+	source/TellusimJSAPI.cpp
+
+#
+# Build
+#
+include $(TSROOT)/build/Makefile.ems.mk
+
+#
+# Default configuration
+#
+LDFLAGS += -s MODULARIZE -s EXPORT_NAME=Tellusim \
+	-s EXPORTED_RUNTIME_METHODS="['run', 'ccall', 'FS']" \
+	--post-js source/TellusimJSBase.js \
+	--post-js source/TellusimJSMath.js \
+	--post-js source/TellusimJSAPI.js
+
+#
+# Override clean targets
+#
+clean:
+	@$(ECHO) r "Cleaning `basename $(CURDIR)`"
+	@rm -f $(TARGET) $(TARGET:.js=.wasm) $(OBJS) $(CONFIG) $(CLEAN)

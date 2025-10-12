@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+ASSETS = main.shader height.ktx
+
+include ../../Makefile.ems.mk

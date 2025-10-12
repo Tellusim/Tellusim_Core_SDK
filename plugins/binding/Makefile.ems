@@ -1,0 +1,4 @@
+PLUGINS = \
+	javascript
+
+include ../Makefile.ems

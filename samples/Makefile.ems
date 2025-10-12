@@ -1,0 +1,30 @@
+ifndef TESTS
+
+TESTS = \
+	geometry \
+	graphics \
+	interface \
+	manual \
+	parallel \
+	platform \
+	system
+
+endif
+
+MAKE = make -f Makefile.ems
+EXEC = $(TSROOT)/bin/ts_exec.sh
+
+all:
+	+@$(EXEC) -s "$(MAKE) -s -C @" $(TESTS)
+
+install:
+	+@$(EXEC) -s "$(MAKE) -s -C @ install" $(TESTS)
+
+run:
+	+@$(EXEC) -s "$(MAKE) -s -C @ run" $(TESTS)
+
+clean:
+	+@$(EXEC) -p "$(MAKE) -s -C @ clean" $(TESTS)
+
+clear:
+	+@$(EXEC) -s "$(MAKE) -s -C @ clear" $(TESTS)

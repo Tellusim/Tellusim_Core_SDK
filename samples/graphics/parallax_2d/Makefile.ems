@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+ASSETS = main.shader model.dae height.png normal.png
+
+include ../../Makefile.ems.mk

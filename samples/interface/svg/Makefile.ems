@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+ASSETS = tellusim.svg
+
+include ../../Makefile.ems.mk

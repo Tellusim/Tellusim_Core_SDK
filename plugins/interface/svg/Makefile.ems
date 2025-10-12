@@ -1,0 +1,6 @@
+SRCS = main.cpp \
+	source/TellusimControlSVG.cpp
+
+ASSETS = data
+
+include ../../Makefile.ems.mk

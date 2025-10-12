@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Tellusim</title>
+		<style>
+			html { height: 100%; background: #111; }
+			body { overflow: hidden; height: 100%; margin: 0; }
+			.border { margin: 0.5rem 1rem; }
+			.container { position: relative; width: auto; height: 100%; aspect-ratio: 16/11; margin: auto; }
+			.canvas { width: 100%; height: auto; aspect-ratio: 16/9; background-color: black; image-rendering: pixelated; border: 0 none; }
+			.output { width: 100%; aspect-ratio: 16/2; padding: 0; border: 0; resize: none; color: white; background: black; font-family: monospace; }
+			.button { position: absolute; top: 0.5rem; right: 1.5rem; border: 0; border-radius: 0; color: white; background: #111; }
+			@media (max-aspect-ratio: 16/11) { .container { width: 100%; } }
+		</style>
+		<link rel="icon" href="data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg width='512' height='512' version='1.1' viewBox='0 0 512 512' xml:space='preserve' xmlns='http://www.w3.org/2000/svg' xmlns:cc='http://creativecommons.org/ns%23' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns%23'%3E%3Cmetadata%3E%3Crdf:RDF%3E%3Ccc:Work rdf:about=''%3E%3Cdc:format%3Eimage/svg+xml%3C/dc:format%3E%3Cdc:type rdf:resource='http://purl.org/dc/dcmitype/StillImage'/%3E%3C/cc:Work%3E%3C/rdf:RDF%3E%3C/metadata%3E%3Cg transform='matrix(1.3333 0 0 -1.3333 37.252 129.71)' stroke-width='.99975'%3E%3Cpath d='m0 0 164.06 94.719 164.06-94.719v-189.44l-164.06-94.719-164.06 94.719z' fill='%230f0f0f'/%3E%3C/g%3E%3Cg transform='matrix(1.3333 0 0 -1.3333 423.74 160.72)' fill='%23373737'%3E%3Cpath d='m0 0-33.909 19.532-12.673-7.334-68.001-39.359-12.672 7.317 80.673 46.694-33.152 19.14-12.986-7.515-67.687-39.178-12.672 7.315 80.359 46.513-33.285 19.579-125.6-72.698 125.85-72.71z' fill='%23373737'/%3E%3C/g%3E%3Cg transform='matrix(1.3333 0 0 -1.3333 270.96 196.94)'%3E%3Cpath d='m0 0 68.001 39.359v14.652l-80.673-46.694z' fill='%23f71e46'/%3E%3C/g%3E%3Cg transform='matrix(1.3333 0 0 -1.3333 209.86 161.66)'%3E%3Cpath d='m0 0 67.688 39.178v14.65l-80.36-46.513z' fill='%23f71e46'/%3E%3C/g%3E%3Cg transform='matrix(1.3333 0 0 -1.3333 256.06 325.63)' fill='%23262626'%3E%3Cpath d='m0 0v50.979l-125.85 72.709v-50.067l37.541-21.946-0.045-94.583 50.489-29.137v94.219z' fill='%23262626'/%3E%3C/g%3E%3Cg transform='matrix(1.3333 0 0 -1.3333 423.74 160.72)'%3E%3Cpath d='m0 0-125.76-72.704v-50.979l37.817 22.174 0.043-94.219 50.466 29.137-0.045 94.583 37.476 21.946z' fill='%23f71e46'/%3E%3C/g%3E%3Cg transform='matrix(1.3333 0 0 -1.3333 205.58 296.07)'%3E%3Cpath d='m0 0v-94.219l37.863 22.012v50.033z' fill='%23f71e46'/%3E%3C/g%3E%3Cg transform='matrix(1.3333 0 0 -1.3333 256.06 325.63)'%3E%3Cpath d='m0 0v-50.033l37.859-22.012-0.043 94.219z' fill='%23262626'/%3E%3C/g%3E%3C/svg%3E%0A">
+	</head>
+	<body>
+		<div class="container">
+			<div class="border">
+				<input class="button" type="button" value="Fullscreen" onclick="Module.requestFullscreen(false, false)">
+				<canvas class="canvas" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+				<textarea class="output" id="output" readonly></textarea>
+			</div>
+		</div>
+		<script>
+			var output = document.getElementById('output');
+			output.value = '';
+			var Module = {
+				thisProgram: 'main',
+				totalDependencies: 0,
+				arguments: location.search.substring(1).split('&'),
+				canvas: document.getElementById('canvas'),
+				print: function(text) {
+					if(arguments.length > 1) text = Array.from(arguments).join(' ');
+					output.value += text + '\n';
+					output.scrollTop = output.scrollHeight;
+					console.log(text);
+				},
+				printErr: function(text) {
+					if(arguments.length > 1) text = Array.from(arguments).join(' ');
+					output.value += text + '\n';
+					output.scrollTop = output.scrollHeight;
+					console.error(text);
+				},
+			};
+		</script>
+		{{{ SCRIPT }}}
+	</body>
+</html>

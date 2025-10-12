@@ -1,0 +1,11 @@
+TESTS = \
+	00_hello_triangle \
+	01_hello_usdz \
+	02_hello_compute \
+	04_hello_raster \
+	07_hello_splatting \
+	08_hello_canvas \
+	09_hello_controls \
+	12_hello_controller
+
+include ../Makefile.ems

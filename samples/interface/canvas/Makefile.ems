@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+ASSETS = data
+
+include ../../Makefile.ems.mk

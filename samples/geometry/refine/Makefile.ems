@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+ASSETS = main.shader model.fbx
+
+include ../../Makefile.ems.mk

@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+ASSETS = main.shader tangent.glb tangent.exr
+
+include ../../Makefile.ems.mk

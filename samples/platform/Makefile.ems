@@ -1,0 +1,25 @@
+TESTS = \
+	alpha \
+	atomic \
+	blending \
+	buffers \
+	clipping \
+	command \
+	compute \
+	device \
+	dynamic \
+	fence \
+	formats \
+	indirect \
+	integer \
+	matrix \
+	multisample \
+	precision \
+	preprocessor \
+	samplers \
+	samples \
+	stencil \
+	storage \
+	texture
+
+include ../Makefile.ems

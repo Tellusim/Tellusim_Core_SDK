@@ -1,0 +1,3 @@
+include Makefile.mk
+
+include ../../../build/Makefile.ems.mk

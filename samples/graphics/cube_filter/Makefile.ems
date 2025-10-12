@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+ASSETS = main.shader texture_cube.exr texture_panorama.hdr
+
+include ../../Makefile.ems.mk

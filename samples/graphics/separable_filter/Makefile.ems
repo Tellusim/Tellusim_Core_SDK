@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+ASSETS = main.shader texture.exr
+
+include ../../Makefile.ems.mk

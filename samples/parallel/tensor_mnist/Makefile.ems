@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+ASSETS = main.shader model.bin texture.png numbers.png
+
+include ../../Makefile.ems.mk

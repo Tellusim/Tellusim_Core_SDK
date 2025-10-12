@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+ASSETS = main.shader skinned.glb skinned_body.jpg skinned_head.jpg
+
+include ../../Makefile.ems.mk
