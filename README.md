@@ -17,11 +17,23 @@ Happy coding, and have fun creating with Tellusim!
 
 For inquiries, visit: [Tellusim Services](https://tellusim.com/services/)
 
-## Documentation & Downloads
+## Documentation
 
 [Tellusim Core SDK Documentation](https://docs.tellusim.com/core)
 
-[Prebuilt SDK Builds for All Platforms](https://tellusim.com/core)
+## Platforms
+
+Please choose the correct branch for your platform:
+
+* [Windows x64](https://github.com/Tellusim/Tellusim_Core_SDK/tree/windows_x64)
+* [Windows arm64](https://github.com/Tellusim/Tellusim_Core_SDK/tree/windows_arm64)
+* [Linux x64](https://github.com/Tellusim/Tellusim_Core_SDK/tree/linux_x64)
+* [Linux arm64](https://github.com/Tellusim/Tellusim_Core_SDK/tree/linux_arm64)
+* [macOS x64](https://github.com/Tellusim/Tellusim_Core_SDK/tree/macos_x64)
+* [macOS arm64](https://github.com/Tellusim/Tellusim_Core_SDK/tree/macos_arm64)
+* [Android](https://github.com/Tellusim/Tellusim_Core_SDK/tree/android)
+* [iOS](https://github.com/Tellusim/Tellusim_Core_SDK/tree/ios)
+* [Web](https://github.com/Tellusim/Tellusim_Core_SDK/tree/emscripten)
 
 # Graphics
 
