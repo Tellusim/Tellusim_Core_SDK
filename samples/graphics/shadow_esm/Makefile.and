@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsGraphicsShadowESM
+
+ASSETS = main.shader model.glb
+
+include ../../Makefile.and.mk

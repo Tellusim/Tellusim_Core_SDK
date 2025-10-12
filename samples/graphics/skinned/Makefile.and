@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsGraphicsSkinned
+
+ASSETS = main.shader skinned.glb skinned_*.jpg
+
+include ../../Makefile.and.mk

@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsGraphicsLine
+
+ASSETS = main.shader
+
+include ../../Makefile.and.mk

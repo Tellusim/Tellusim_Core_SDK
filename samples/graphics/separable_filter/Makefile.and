@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsGraphicsSeparableFilter
+
+ASSETS = main.shader texture.exr
+
+include ../../Makefile.and.mk

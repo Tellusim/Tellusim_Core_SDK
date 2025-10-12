@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsPlatformMultisample
+
+ASSETS = main.shader
+
+include ../../Makefile.and.mk

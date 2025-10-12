@@ -1,0 +1,9 @@
+TESTS = \
+	canvas \
+	control \
+	controls \
+	layer \
+	shape \
+	svg
+
+include ../Makefile.and

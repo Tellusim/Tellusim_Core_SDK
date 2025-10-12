@@ -1,0 +1,7 @@
+SRCS = main.cpp \
+	Plugins.cpp \
+	source/TellusimControlColor.cpp
+
+APK = tsInterfaceControlColor
+
+include ../../Makefile.and.mk

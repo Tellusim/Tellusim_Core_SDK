@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsManualHelloUSDZ
+
+ASSETS = main.shader model.usdz
+
+include ../../Makefile.and.mk

@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsGraphicsTessellation
+
+ASSETS = main.shader model.dae
+
+include ../../Makefile.and.mk

@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsGraphicsModel
+
+ASSETS = main.shader model.dae
+
+include ../../Makefile.and.mk

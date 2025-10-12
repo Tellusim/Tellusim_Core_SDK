@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsGraphicsMeshlet
+
+ASSETS = main.shader model.glb
+
+include ../../Makefile.and.mk

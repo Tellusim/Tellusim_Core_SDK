@@ -1,0 +1,32 @@
+ifndef TESTS
+
+TESTS = \
+	geometry \
+	graphics \
+	interface \
+	manual \
+	parallel \
+	platform
+
+endif
+
+MAKE = make -f Makefile.and
+EXEC = $(TSROOT)/bin/ts_exec.sh
+
+all:
+	+@$(EXEC) -s "$(MAKE) -s -C @" $(TESTS)
+
+apk:
+	+@$(EXEC) -p "$(MAKE) -s -C @ apk" $(TESTS)
+
+install:
+	+@$(EXEC) -s "$(MAKE) -s -C @ install" $(TESTS)
+
+run:
+	+@$(EXEC) -s "$(MAKE) -s -C @ run" $(TESTS)
+
+remove:
+	+@$(EXEC) -s "$(MAKE) -s -C @ remove" $(TESTS)
+
+clean:
+	+@$(EXEC) -p "$(MAKE) -s -C @ clean" $(TESTS)

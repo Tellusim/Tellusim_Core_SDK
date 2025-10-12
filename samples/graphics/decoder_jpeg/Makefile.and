@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsGraphicDecoderJPEG
+
+ASSETS = main.shader texture_*.jpg
+
+include ../../Makefile.and.mk

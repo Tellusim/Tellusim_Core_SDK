@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsParallelFluid2D
+
+ASSETS = main.shader image.jpg
+
+include ../../Makefile.and.mk

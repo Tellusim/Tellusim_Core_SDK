@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsGraphicsTangent
+
+ASSETS = main.shader tangent.glb tangent.exr
+
+include ../../Makefile.and.mk

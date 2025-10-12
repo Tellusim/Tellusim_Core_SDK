@@ -1,0 +1,10 @@
+SRCS = main.cpp \
+	source/TellusimGLES.cpp
+
+FLAGS += -I$(TSROOT)/plugins/platform/opengles/extern
+
+APK = tsPlatformOpenGLES
+
+ASSETS = main.shader model.usdc
+
+include ../../Makefile.and.mk

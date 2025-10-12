@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsPlatformPreprocessor
+
+ASSETS = main.shader texture.png
+
+include ../../Makefile.and.mk

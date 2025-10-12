@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsGraphicsShadowPCF
+
+ASSETS = main.shader model.glb noise.png
+
+include ../../Makefile.and.mk

@@ -1,0 +1,10 @@
+SRCS = main.cpp \
+	source/TellusimVK.cpp
+
+FLAGS += -I$(TSROOT)/plugins/platform/vulkan/extern
+
+APK = tsPlatformVulkan
+
+ASSETS = main.shader model.usdc
+
+include ../../Makefile.and.mk

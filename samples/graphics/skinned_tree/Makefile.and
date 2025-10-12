@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsGraphicsSkinnedTree
+
+ASSETS = main.shader model.glb model.jpg noise.jpg
+
+include ../../Makefile.and.mk

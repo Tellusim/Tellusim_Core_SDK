@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+APK = tsPlatformWindow
+
+include ../../Makefile.and.mk

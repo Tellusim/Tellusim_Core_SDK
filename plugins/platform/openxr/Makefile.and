@@ -1,0 +1,16 @@
+SRCS = main.cpp \
+	source/TellusimXR.cpp \
+	source/TellusimXRInput.cpp \
+	source/TellusimXRWindow.cpp
+
+FLAGS += -I$(TSROOT)/plugins/platform/vulkan/extern
+FLAGS += -I$(TSROOT)/plugins/platform/opengles/extern
+FLAGS += -I$(TSROOT)/plugins/platform/openxr/extern
+
+ASSETS = main.shader model.glb
+
+APK = tsPlatformOpenXR
+
+OPENXR = 1
+
+include ../../Makefile.and.mk

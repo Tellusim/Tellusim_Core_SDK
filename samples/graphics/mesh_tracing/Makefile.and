@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsGraphicsMeshTracing
+
+ASSETS = main.shader model.glb
+
+include ../../Makefile.and.mk

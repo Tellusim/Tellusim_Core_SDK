@@ -1,0 +1,30 @@
+ifndef PLUGINS
+
+PLUGINS = \
+	binding \
+	interface \
+	parallel \
+	platform
+
+endif
+
+MAKE = make -f Makefile.and
+EXEC = $(TSROOT)/bin/ts_exec.sh
+
+all:
+	+@$(EXEC) -s "$(MAKE) -s -C @" $(PLUGINS)
+
+apk:
+	+@$(EXEC) -p "$(MAKE) -s -C @ apk" $(PLUGINS)
+
+install:
+	+@$(EXEC) -s "$(MAKE) -s -C @ install" $(PLUGINS)
+
+run:
+	+@$(EXEC) -s "$(MAKE) -s -C @ run" $(PLUGINS)
+
+remove:
+	+@$(EXEC) -s "$(MAKE) -s -C @ remove" $(PLUGINS)
+
+clean:
+	+@$(EXEC) -p "$(MAKE) -s -C @ clean" $(PLUGINS)

@@ -1,0 +1,10 @@
+SRCS = main.cpp \
+	source/TellusimONNX.cpp
+
+APK = tsParallelONNX
+
+ASSETS = data
+
+LIBS += -Lextern/lib/android/$(ARCH) -lonnxpb
+
+include ../../Makefile.and.mk

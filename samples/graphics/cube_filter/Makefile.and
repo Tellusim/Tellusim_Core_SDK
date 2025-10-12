@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsGraphicsCubeFilter
+
+ASSETS = main.shader texture_cube.exr texture_panorama.hdr
+
+include ../../Makefile.and.mk

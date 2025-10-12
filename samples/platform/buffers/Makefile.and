@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsPlatformBuffers
+
+ASSETS = main.shader
+
+include ../../Makefile.and.mk

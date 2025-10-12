@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsGraphicsEncoderASTC
+
+ASSETS = texture.png
+
+include ../../Makefile.and.mk

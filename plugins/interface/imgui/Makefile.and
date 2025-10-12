@@ -1,0 +1,7 @@
+SRCS = main.cpp \
+	source/TellusimImGui.cpp \
+	extern/imgui/imgui_demo.cpp
+
+APK = tsInterfaceImGui
+
+include ../../Makefile.and.mk

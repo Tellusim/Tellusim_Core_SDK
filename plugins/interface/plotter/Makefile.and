@@ -1,0 +1,6 @@
+SRCS = main.cpp \
+	source/TellusimControlPlotter.cpp
+
+APK = tsInterfaceControlPlotter
+
+include ../../Makefile.and.mk

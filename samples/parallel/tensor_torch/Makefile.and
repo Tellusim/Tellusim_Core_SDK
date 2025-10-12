@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsParallelTensorTorch
+
+ASSETS = main.shader model.bin texture.jpg
+
+include ../../Makefile.and.mk

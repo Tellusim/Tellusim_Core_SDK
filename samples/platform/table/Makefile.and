@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsPlatformTable
+
+ASSETS = main.shader
+
+include ../../Makefile.and.mk

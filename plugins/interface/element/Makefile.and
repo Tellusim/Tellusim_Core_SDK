@@ -1,0 +1,6 @@
+SRCS = main.cpp \
+	source/TellusimControlElement.cpp
+
+APK = tsInterfaceControlElement
+
+include ../../Makefile.and.mk

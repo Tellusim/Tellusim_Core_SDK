@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+APK = tsInterfaceShape
+
+include ../../Makefile.and.mk

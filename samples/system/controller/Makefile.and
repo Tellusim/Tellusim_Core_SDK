@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+APK = tsSystemController
+
+include ../../Makefile.and.mk

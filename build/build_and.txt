@@ -1,0 +1,64 @@
+* Linux
+
+Install ccache
+sudo apt-get install ccache
+
+Install JDK
+sudo apt-get install openjdk-17-jdk-headless
+
+Download and extract Android NDK for Linux
+export NDKROOT=/home/build/Android/android-ndk-r25c
+
+Download and extract Command line tools for Linux
+wget https://dl.google.com/android/repository/commandlinetools-linux-9645777_latest.zip
+export ANDROOT=/home/build/Android/cmdline-tools
+
+* macOS
+
+Install ccache
+brew install ccache
+
+Install JDK
+brew install openjdk@17
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+
+Download and extract Android NDK for macOS
+export NDKROOT=/Users/build/Android/android-ndk-r25c
+
+Download and extract Command line tools for macOS
+https://mirrors.cloud.tencent.com/AndroidSDK/commandlinetools-mac-9645777_latest.zip
+export ANDROOT=/Users/build/Android/cmdline-tools
+
+* Linux, macOS
+
+cd $ANDROOT/bin
+./sdkmanager --sdk_root=$ANDROOT --list
+./sdkmanager --sdk_root=$ANDROOT --install "platform-tools"
+./sdkmanager --sdk_root=$ANDROOT --install "build-tools;34.0.0"
+./sdkmanager --sdk_root=$ANDROOT --install "platforms;android-30"
+
+export PATH=$ANDROOT/build-tools/34.0.0:$PATH
+export PATH=$ANDROOT/platform-tools:$PATH
+
+Debug build: make -f Makefile.and
+Release build: make -f Makefile.and debug=0
+
+Make APK: make -f Makefile.and apk
+Make APK and run: make -f Makefile.and run
+Make APK and install: make -f Makefile.and install
+Remove APK from device: make -f Makefile.and remove
+
+* Linux environment
+
+export ANDROOT="/home/build/Android/cmdline-tools"
+export NDKROOT="/home/build/Android/android-ndk-r25c"
+export PATH=$ANDROOT/build-tools/34.0.0:$PATH
+export PATH=$ANDROOT/platform-tools:$PATH
+
+* macOS environment
+
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+export ANDROOT="/Users/build/Android/cmdline-tools"
+export NDKROOT="/Users/build/Android/android-ndk-r25c"
+export PATH=$ANDROOT/build-tools/34.0.0:$PATH
+export PATH=$ANDROOT/platform-tools:$PATH

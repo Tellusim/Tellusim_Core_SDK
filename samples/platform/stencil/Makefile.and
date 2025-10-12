@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsPlatformStencil
+
+ASSETS = main.shader
+
+include ../../Makefile.and.mk

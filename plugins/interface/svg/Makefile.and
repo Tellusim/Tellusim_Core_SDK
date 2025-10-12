@@ -1,0 +1,8 @@
+SRCS = main.cpp \
+	source/TellusimControlSVG.cpp
+
+APK = tsInterfaceControlSVG
+
+ASSETS = data
+
+include ../../Makefile.and.mk

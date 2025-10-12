@@ -1,0 +1,224 @@
+# Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+# https://tellusim.com/
+#
+# Required environment variables:
+#
+#  * TARGET  - Binary target name
+#  * TSROOT  - Path to the Tellusim root
+#  * NDKROOT - Path to the Android NDK root
+#
+# Optional environment variables:
+#
+#  * PORTRAIT - 0, 1
+#  * CAMERA   - 0, 1
+#  * STORAGE  - 0, 1
+#  * INTERNET - 0, 1
+#  * APKDEBUG - 0, 1
+#  * BETAGPU  - 0, 1
+#  * OPENXR   - 0, 1
+#
+# Optional command line arguments:
+#
+#  * debug  - 0, 1
+#  * depend - 0, 1
+
+SDK = 30
+ARCH = arm64
+CXX = clang++
+CCACHE = ccache
+DEPEND = .depend
+PLATFORM = $(shell uname -s)
+ECHO = $(TSROOT)/bin/ts_echo.sh
+BUILD = $(TSROOT)/bin/ts_apk.sh
+
+#
+# Check environment
+#
+ifndef TARGET
+ 	$(error TARGET is not defined)
+endif
+ifndef TSROOT
+ 	$(error TSROOT is not defined)
+endif
+ifndef NDKROOT
+ 	$(error NDKROOT is not defined)
+endif
+
+#
+# Default configuration
+#
+CFLAGS += -std=c++11 -Wall -Wfloat-conversion -Os -fPIE -fPIC -ffast-math -fsigned-char -fvisibility=hidden
+CFLAGS += -D_ANDROID=1 -DTS_CORE=1 -I$(TSROOT)/include -I$(TSROOT)/plugins
+CFLAGS += -Wno-null-dereference -Wno-undefined-var-template
+LDFLAGS += -fPIE -nostdlib++ -Wl,-Bstatic -lc++ -Wl,-Bdynamic
+LDFLAGS += -L$(TSROOT)/lib/android/$(ARCH)
+LIBS += -llog -landroid
+
+#
+# Debugging
+#
+ifneq "$(debug)" "0"
+	POSTFIX := $(POSTFIX)d
+	CFLAGS += -g -DTS_DEBUG=1
+	LIBS += -lTellusim_$(ARCH)d
+else
+	CFLAGS += -DNDEBUG=1
+	LIBS += -lTellusim_$(ARCH)
+	BUILD += -release
+endif
+
+#
+# Dependencies
+#
+ifneq "$(depend)" "0"
+	DEPS = $(SRCS)
+	ifeq "$(depend)" "1"
+		CLEAN += $(DEPEND)
+	endif
+else
+	DEPS =
+endif
+
+#
+# Arch configuration
+#
+NDKARCH = arch-arm64
+APKARCH = arm64-v8a
+TOOLNAME = aarch64-linux-android
+TOOLPREFIX = aarch64-linux-android
+
+#
+# Platform configuration
+#
+ifeq "$(PLATFORM)" "Linux"
+	TOOLCHAIN=$(NDKROOT)/toolchains/llvm/prebuilt/linux-x86_64
+else ifeq "$(PLATFORM)" "Darwin"
+	TOOLCHAIN=$(NDKROOT)/toolchains/llvm/prebuilt/darwin-x86_64
+else
+ 	$(error Unknown platform $(PLATFORM))
+endif
+CXX := $(CCACHE) $(TOOLCHAIN)/bin/$(TOOLPREFIX)$(SDK)-$(CXX)
+
+#
+# Portrait
+#
+ifeq "$(PORTRAIT)" "1"
+	BUILD += -portrait
+endif
+
+#
+# Camera
+#
+ifeq "$(CAMERA)" "1"
+	BUILD += -camera
+endif
+
+#
+# Storage
+#
+ifeq "$(STORAGE)" "1"
+	BUILD += -storage
+endif
+
+#
+# Internet
+#
+ifeq "$(INTERNET)" "1"
+	BUILD += -internet
+endif
+
+#
+# Apkdebug
+#
+ifeq "$(APKDEBUG)" "1"
+	BUILD += -apkdebug
+endif
+
+#
+# BetaGPU
+#
+ifeq "$(BETAGPU)" "1"
+	BUILD += -betagpu
+	INFO += BETAGPU
+endif
+
+#
+# OpenXR
+#
+ifeq "$(OPENXR)" "1"
+	ifndef OVRANDROOT
+ 		$(error OVRANDROOT is not defined)
+	endif
+	CFLAGS += -I$(OVRANDROOT)/3rdParty/khronos/openxr/OpenXR-SDK/include
+	BUILD += -openxr
+endif
+
+#
+# System root
+#
+CFLAGS += --sysroot=$(TOOLCHAIN)/sysroot
+LDFLAGS += -L$(TOOLCHAIN)/sysroot/usr/lib/$(TOOLNAME)/$(SDK)
+
+#
+# Android application package
+#
+ifdef APK
+	APK := $(APK)$(POSTFIX)
+	TARGET := lib$(TARGET).so
+	LDFLAGS += -Wl,--no-undefined
+	LIBS += -shared
+endif
+
+#
+# Targets
+#
+OBJS = $(SRCS:.cpp=.o)
+
+#
+# Build target
+#
+all: $(TARGET)
+
+.cpp.o:
+	@echo `basename $<`
+	@$(CXX) $(CFLAGS) $(FLAGS) -c -o $@ $<
+
+$(DEPEND):
+	@rm -f $@
+	@$(ECHO) b "Depend `basename $(CURDIR)`"
+	@$(foreach SRC, $(DEPS), $(CXX) $(CFLAGS) $(FLAGS) -MM -MT $(SRC:.cpp=.o) $(SRC) >> $@;)
+
+$(TARGET): $(DEPEND) $(OBJS)
+	@$(CXX) -o $@ $(OBJS) $(LDFLAGS) $(LIBS)
+	@$(ECHO) g "Done `basename $(CURDIR)`"
+
+apk_:
+	@$(ECHO) y "Making $(APK).apk"
+	@$(BUILD) "$(APK)" $(ICON) $(APKARCH) $(SDK) $(TARGET) $(ASSETS)
+
+install_:
+	@$(ECHO) y "Installing $(APK)"
+	@$(BUILD) -install "$(APK)" $(ICON) $(APKARCH) $(SDK) $(TARGET) $(ASSETS)
+
+run_:
+	@$(ECHO) y "Running $(APK)"
+	@$(BUILD) -run "$(APK)" $(ICON) $(APKARCH) $(SDK) $(TARGET) $(ASSETS)
+
+remove_:
+	@$(ECHO) r "Removing $(APK)"
+	@-$(BUILD) -remove "$(APK)" $(ICON) $(APKARCH) $(SDK) $(TARGET) $(ASSETS)
+
+clean_:
+	@$(ECHO) r "Cleaning `basename $(CURDIR)`"
+	@rm -f $(TARGET) $(OBJS) $(CLEAN) "$(APK).txt" *.idsig
+	@rm -rf "$(APK).apk"
+
+%: %_
+	@true
+
+#
+# Dependencies
+#
+ifneq "$(MAKECMDGOALS)" "clean"
+ 	-include $(DEPEND)
+endif

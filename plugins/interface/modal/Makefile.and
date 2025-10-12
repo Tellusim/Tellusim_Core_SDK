@@ -1,0 +1,6 @@
+SRCS = main.cpp \
+	source/TellusimControlModal.cpp
+
+APK = tsInterfaceControlModal
+
+include ../../Makefile.and.mk

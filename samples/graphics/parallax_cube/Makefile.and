@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsGraphicsParallaxCube
+
+ASSETS = main.shader height.ktx
+
+include ../../Makefile.and.mk

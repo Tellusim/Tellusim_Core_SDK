@@ -1,0 +1,6 @@
+SRCS = main.cpp \
+	source/TellusimManipulator.cpp
+
+APK = tsInterfaceManipulator
+
+include ../../Makefile.and.mk

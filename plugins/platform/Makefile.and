@@ -1,0 +1,6 @@
+PLUGINS = \
+	opengles \
+	openxr \
+	vulkan
+
+include ../Makefile.and

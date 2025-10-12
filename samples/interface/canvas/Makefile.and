@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsInterfaceCanvas
+
+ASSETS = data
+
+include ../../Makefile.and.mk

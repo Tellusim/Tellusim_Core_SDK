@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsGeometryRefine
+
+ASSETS = main.shader model.fbx
+
+include ../../Makefile.and.mk

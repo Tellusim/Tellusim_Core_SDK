@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+APK = tsManualHelloControls
+
+include ../../Makefile.and.mk

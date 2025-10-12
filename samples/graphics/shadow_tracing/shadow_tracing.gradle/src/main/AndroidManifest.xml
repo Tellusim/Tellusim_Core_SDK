@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+ <uses-sdk android:minSdkVersion="33"/>
+ <application android:label="tsGraphicsShadowTracing"
+  android:icon="@drawable/tellusim"
+  android:hasCode="false"
+  android:excludeFromRecents="false"
+  android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen">
+  <activity android:label="tsGraphicsShadowTracing"
+   android:screenOrientation="landscape"
+   android:launchMode="singleTask"
+   android:exported="true"
+   android:name="android.app.NativeActivity"
+   android:configChanges="orientation|keyboardHidden|screenSize|screenLayout">
+   <meta-data android:name="android.app.lib_name" android:value="main"/>
+   <intent-filter>
+    <action android:name="android.intent.action.MAIN"/>
+    <category android:name="android.intent.category.LAUNCHER"/>
+   </intent-filter>
+  </activity>
+ </application>
+</manifest>

@@ -1,0 +1,6 @@
+SRCS = main.cpp \
+	source/TellusimControlProgress.cpp
+
+APK = tsInterfaceControlProgress
+
+include ../../Makefile.and.mk

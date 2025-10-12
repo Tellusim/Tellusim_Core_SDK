@@ -1,0 +1,104 @@
+# Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+# https://tellusim.com/
+
+TSROOT = $(CURDIR)/../../..
+
+D8 = d8
+JAR = jar
+JAVAC = javac
+KOTLINC = kotlinc
+
+APK = tsBindingJava
+
+ICON = $(TSROOT)/samples/common/tellusim.png
+
+TARGET = TellusimJNI_$(ARCH)$(POSTFIX)
+
+ASSETS = main.shader
+
+#
+# Java configuration
+#
+#JVFLAGS = --release 17
+
+#
+# Sources
+#
+SRCS = source/TellusimJNIBase.cpp \
+	source/TellusimJNIMath.cpp \
+	source/TellusimJNIAPI.cpp
+
+#
+# Package target
+#
+PACKAGE_TARGET = tellusim.jar
+PACKAGE_SRCS = source/base/*.java \
+	source/math/*.java \
+	source/api/*.java
+
+#
+# Main target
+#
+JAVA_TARGET = main$(POSTFIX).jar
+JAVA_SRCS = main.java
+
+KOTLIN_TARGET = main_kt$(POSTFIX).jar
+KOTLIN_SRCS = main.kt
+
+ifeq "$(kotlin)" "1"
+	MAIN_TARGET = $(KOTLIN_TARGET)
+else
+	MAIN_TARGET = $(JAVA_TARGET)
+endif
+
+MAIN_SRCS = activity.java
+
+#
+# Clean targets
+#
+CLEAN = $(PACKAGE_TARGET) $(MAIN_TARGET) ./com/tellusim/* ./com/main/* ./classes*.dex
+
+#
+# Build
+#
+include $(TSROOT)/build/Makefile.and.mk
+
+ANDROID = $(ANDROOT)/platforms/android-$(SDK)/android.jar
+BUILD := $(BUILD) -activity com.main.activity -classes classes\*.dex
+
+#
+# Package
+#
+$(PACKAGE_TARGET): $(PACKAGE_SRCS)
+	@$(JAVAC) $(JVFLAGS) -d . source/base/*.java source/math/*.java source/api/*.java
+	@$(JAR) -c -f $@ com/tellusim/*.class
+	@$(ECHO) g "Done `basename $@`"
+
+#
+# Main
+#
+all: $(MAIN_TARGET)
+
+$(JAVA_TARGET): $(JAVA_SRCS) $(MAIN_SRCS) $(PACKAGE_TARGET) $(TARGET)
+	@$(JAVAC) $(JVFLAGS) -d . -classpath $(PACKAGE_TARGET):$(ANDROID) $(JAVA_SRCS) $(MAIN_SRCS)
+	@$(JAR) -c -f $@ com/main/*.class
+	@$(D8) --min-api $(SDK) --output . $@ $(PACKAGE_TARGET) $(ANDROID)
+	@$(ECHO) g "Done `basename $@`"
+
+$(KOTLIN_TARGET): $(KOTLIN_SRCS) $(MAIN_SRCS) $(PACKAGE_TARGET) $(TARGET)
+	@$(KOTLINC) -d $@ -include-runtime -classpath $(PACKAGE_TARGET) $(KOTLIN_SRCS)
+	@$(JAVAC) $(JVFLAGS) -d . -classpath $(KOTLIN_TARGET):$(PACKAGE_TARGET):$(ANDROID) $(MAIN_SRCS)
+	@$(D8) --min-api $(SDK) --output . com/main/activity.class $@ $(PACKAGE_TARGET) $(ANDROID)
+	@$(ECHO) g "Done `basename $@`"
+
+apk:
+	@$(ECHO) y "Making $(APK).apk"
+	@$(BUILD) $(APK) $(ICON) $(APKARCH) $(SDK) $(TARGET) $(ASSETS)
+
+install:
+	@$(ECHO) y "Installing $(APK).apk"
+	@$(BUILD) -install $(APK) $(ICON) $(APKARCH) $(SDK) $(TARGET) $(ASSETS)
+
+run:
+	@$(ECHO) y "Running $(APK).apk"
+	@$(BUILD) -run $(APK) $(ICON) $(APKARCH) $(SDK) $(TARGET) $(ASSETS)

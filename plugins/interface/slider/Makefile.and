@@ -1,0 +1,6 @@
+SRCS = main.cpp \
+	source/TellusimControlSlider.cpp
+
+APK = tsInterfaceControlSlider
+
+include ../../Makefile.and.mk
