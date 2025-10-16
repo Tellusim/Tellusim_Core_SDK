@@ -6,7 +6,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6E1769D68AD7CED3ACE0009A"
+				BlueprintIdentifier = "64E34BEC02B407237A30009A"
 				BuildableName = "main.x64"
 				BlueprintName = "main.x64"
 				ReferencedContainer = "container:parallax_cube.xcodeproj"/>

@@ -6,7 +6,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "67F0F9DD739982528C70009A"
+				BlueprintIdentifier = "6B77954EBC190C0B4860009A"
 				BuildableName = "main.x64"
 				BlueprintName = "main.x64"
 				ReferencedContainer = "container:shadow_tracing.xcodeproj"/>

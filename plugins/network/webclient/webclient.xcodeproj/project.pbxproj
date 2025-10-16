@@ -3,67 +3,67 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		6C15B72621761862B500000A = { isa = PBXBuildFile; fileRef = 6C15B72621761862B500001A; };
-		6C15B72621761862B500001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		6C15B72621761862B500002A = { isa = PBXBuildFile; fileRef = 6C15B72621761862B500003A; };
-		6C15B72621761862B500003A = { isa = PBXFileReference; path = source/TellusimWebClient.cpp; sourceTree = "<group>"; };
-		6C15B72621761862B50000AA = { isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "main.x64"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6C15B72621761862B500008A = {
+		6506CED7AA83A6072D10000A = { isa = PBXBuildFile; fileRef = 6506CED7AA83A6072D10001A; };
+		6506CED7AA83A6072D10001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		6506CED7AA83A6072D10002A = { isa = PBXBuildFile; fileRef = 6506CED7AA83A6072D10003A; };
+		6506CED7AA83A6072D10003A = { isa = PBXFileReference; path = source/TellusimWebClient.cpp; sourceTree = "<group>"; };
+		6506CED7AA83A6072D1000AA = { isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "main.x64"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6506CED7AA83A6072D10008A = {
 			isa = PBXGroup;
 			children = (
-				6C15B72621761862B500001A,
-				6C15B72621761862B500003A,
-				6C15B72621761862B500009A,
+				6506CED7AA83A6072D10001A,
+				6506CED7AA83A6072D10003A,
+				6506CED7AA83A6072D10009A,
 			);
 			sourceTree = "<group>";
 		};
-		6C15B72621761862B500009A = {
+		6506CED7AA83A6072D10009A = {
 			isa = PBXGroup;
 			children = (
-				6C15B72621761862B50000AA,
+				6506CED7AA83A6072D1000AA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6C15B72621761862B50000BA = {
+		6506CED7AA83A6072D1000BA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6C15B72621761862B50000CA;
+			buildConfigurationList = 6506CED7AA83A6072D1000CA;
 			buildPhases = (
-				6C15B72621761862B50000FA,
+				6506CED7AA83A6072D1000FA,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "main.x64";
 			productName = "main.x64";
-			productReference = 6C15B72621761862B50000AA;
+			productReference = 6506CED7AA83A6072D1000AA;
 			productType = "com.apple.product-type.tool";
 		};
-		6C15B72621761862B500004A = {
+		6506CED7AA83A6072D10004A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 6C15B72621761862B500005A;
+			buildConfigurationList = 6506CED7AA83A6072D10005A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 6C15B72621761862B500008A;
-			productRefGroup = 6C15B72621761862B500009A;
+			mainGroup = 6506CED7AA83A6072D10008A;
+			productRefGroup = 6506CED7AA83A6072D10009A;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6C15B72621761862B50000BA,
+				6506CED7AA83A6072D1000BA,
 			);
 		};
-		6C15B72621761862B50000FA = {
+		6506CED7AA83A6072D1000FA = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6C15B72621761862B500000A,
-				6C15B72621761862B500002A,
+				6506CED7AA83A6072D10000A,
+				6506CED7AA83A6072D10002A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6C15B72621761862B500006A = {
+		6506CED7AA83A6072D10006A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -127,7 +127,7 @@
 			};
 			name = Debug;
 		};
-		6C15B72621761862B500007A = {
+		6506CED7AA83A6072D10007A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -188,7 +188,7 @@
 			};
 			name = Release;
 		};
-		6C15B72621761862B50000DA = {
+		6506CED7AA83A6072D1000DA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "main.x64";
@@ -210,7 +210,7 @@
 			};
 			name = Debug;
 		};
-		6C15B72621761862B50000EA = {
+		6506CED7AA83A6072D1000EA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "main.x64";
@@ -232,24 +232,24 @@
 			};
 			name = Release;
 		};
-		6C15B72621761862B500005A = {
+		6506CED7AA83A6072D10005A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6C15B72621761862B500006A,
-				6C15B72621761862B500007A,
+				6506CED7AA83A6072D10006A,
+				6506CED7AA83A6072D10007A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6C15B72621761862B50000CA = {
+		6506CED7AA83A6072D1000CA = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6C15B72621761862B50000DA,
-				6C15B72621761862B50000EA,
+				6506CED7AA83A6072D1000DA,
+				6506CED7AA83A6072D1000EA,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 6C15B72621761862B500004A;
+	rootObject = 6506CED7AA83A6072D10004A;
 }

@@ -23,7 +23,7 @@ include_directories(
 if(WIN32)
 	add_definitions(-D_WIN64=1)
 	link_directories(
-		../../lib/windows/p948x64
+		../../lib/windows/p952x64
 	)
 elseif(UNIX AND NOT APPLE)
 	add_definitions(-D_LINUX=1)

@@ -6,7 +6,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6A9294F23F11476E978000BA"
+				BlueprintIdentifier = "6BA745D64FD7DC4F67F000BA"
 				BuildableName = "noise.x64"
 				BlueprintName = "noise.x64"
 				ReferencedContainer = "container:noise.xcodeproj"/>

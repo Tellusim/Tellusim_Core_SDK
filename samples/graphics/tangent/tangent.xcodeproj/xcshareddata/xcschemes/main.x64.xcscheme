@@ -6,7 +6,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "614BB438D1F23564C600009A"
+				BlueprintIdentifier = "618BBB803B78C0022830009A"
 				BuildableName = "main.x64"
 				BlueprintName = "main.x64"
 				ReferencedContainer = "container:tangent.xcodeproj"/>
