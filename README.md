@@ -33,6 +33,7 @@ Please choose the correct branch for your platform:
 * [macOS arm64](https://github.com/Tellusim/Tellusim_Core_SDK/tree/macos_arm64)
 * [Android](https://github.com/Tellusim/Tellusim_Core_SDK/tree/android)
 * [iOS](https://github.com/Tellusim/Tellusim_Core_SDK/tree/ios)
+* [tvOS](https://github.com/Tellusim/Tellusim_Core_SDK/tree/tvos)
 * [Web](https://github.com/Tellusim/Tellusim_Core_SDK/tree/emscripten)
 
 # Graphics
