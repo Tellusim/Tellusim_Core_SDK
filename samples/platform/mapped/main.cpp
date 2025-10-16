@@ -21,7 +21,7 @@ int32_t main(int32_t argc, char **argv) {
 	
 	// create window
 	String title = String::format("%s Tellusim::Mapped", window.getPlatformName());
-	if(!window.setSize(window.getHeight(), window.getHeight()) || !window.create(title) || !window.setHidden(false)) return 1;
+	DECLARE_WINDOW_CREATE(title);
 	
 	// create device
 	Device device(window);
@@ -29,6 +29,7 @@ int32_t main(int32_t argc, char **argv) {
 	
 	// create pipeline
 	Pipeline pipeline = device.createPipeline();
+	pipeline.setUniformMask(0, Shader::MaskVertex);
 	pipeline.setStorageMask(0, Shader::MaskFragment);
 	pipeline.addAttribute(Pipeline::AttributePosition, FormatRGf32, 0, sizeof(float32_t) * 0, sizeof(float32_t) * 4);
 	pipeline.addAttribute(Pipeline::AttributeTexCoord, FormatRGf32, 0, sizeof(float32_t) * 2, sizeof(float32_t) * 4);
@@ -88,6 +89,7 @@ int32_t main(int32_t argc, char **argv) {
 			
 			// set pipeline
 			command.setPipeline(pipeline);
+			command.setUniform(0, (float32_t)window.getWidth() / window.getHeight());
 			command.setStorageBuffer(0, buffer);
 			
 			// draw texture
