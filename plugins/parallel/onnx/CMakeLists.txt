@@ -25,7 +25,7 @@ include_directories(
 if(WIN32)
 	add_definitions(-D_WIN64=1)
 	link_directories(
-		../../../lib/windows/p660arm64
+		../../../lib/windows/p664arm64
 		extern/lib/windows/arm64
 	)
 elseif(UNIX AND NOT APPLE)
