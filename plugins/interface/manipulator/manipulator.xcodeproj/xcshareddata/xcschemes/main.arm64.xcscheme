@@ -6,7 +6,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "62C0B4AA3C396C03D33000BA"
+				BlueprintIdentifier = "67B1E92E6D9BC142325000BA"
 				BuildableName = "main.arm64"
 				BlueprintName = "main.arm64"
 				ReferencedContainer = "container:manipulator.xcodeproj"/>

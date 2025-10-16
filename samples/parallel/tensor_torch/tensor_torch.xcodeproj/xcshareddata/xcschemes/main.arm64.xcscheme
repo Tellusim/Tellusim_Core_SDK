@@ -6,7 +6,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6E67E83DABB1721B84A0009A"
+				BlueprintIdentifier = "6AB19650A6AF24BFC4C0009A"
 				BuildableName = "main.arm64"
 				BlueprintName = "main.arm64"
 				ReferencedContainer = "container:tensor_torch.xcodeproj"/>
