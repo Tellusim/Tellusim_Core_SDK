@@ -46,7 +46,7 @@ int32_t main(int32_t argc, char **argv) {
 	
 	// create window
 	String title = String::format("%s Tellusim::D3D12Program", window.getPlatformName());
-	if(!window.create(title) || !window.setHidden(false)) return 1;
+	DECLARE_WINDOW_CREATE(title)
 	
 	// geometry parameters
 	constexpr uint32_t num_vertices = 16 * 8;

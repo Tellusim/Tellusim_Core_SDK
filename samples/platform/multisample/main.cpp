@@ -25,22 +25,21 @@ int32_t main(int32_t argc, char **argv) {
 	
 	DECLARE_WINDOW
 	
-	Window::Flags flags = Window::DefaultFlags;
 	#if MULTISAMPLE == 2
-		flags |= Window::FlagMultisample2;
+		window_flags |= Window::FlagMultisample2;
 	#elif MULTISAMPLE == 4
-		flags |= Window::FlagMultisample4;
+		window_flags |= Window::FlagMultisample4;
 	#elif MULTISAMPLE == 8
-		flags |= Window::FlagMultisample8;
+		window_flags |= Window::FlagMultisample8;
 	#elif MULTISAMPLE == 16
-		flags |= Window::FlagMultisample16;
+		window_flags |= Window::FlagMultisample16;
 	#elif MULTISAMPLE > 1
 		#error unknown flags
 	#endif
 	
 	// create window
 	String title = String::format("%s Tellusim::Multisample %ux", window.getPlatformName(), MULTISAMPLE);
-	if(!window.create(title, flags) || !window.setHidden(false)) return 1;
+	DECLARE_WINDOW_CREATE(title)
 	
 	// create device
 	Device device(window);

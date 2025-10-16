@@ -18,8 +18,9 @@ int32_t main(int32_t argc, char **argv) {
 	DECLARE_WINDOW
 	
 	// create window
+	window_flags |= Window::FlagMultisample4;
 	String title = String::format("%s Tellusim::Stencil", window.getPlatformName());
-	if(!window.create(title, Window::DefaultFlags | Window::FlagMultisample4) || !window.setHidden(false)) return 1;
+	DECLARE_WINDOW_CREATE(title)
 	
 	// structures
 	struct CommonParameters {
