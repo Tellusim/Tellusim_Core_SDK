@@ -32,7 +32,7 @@ int32_t main(int32_t argc, char **argv) {
 	DECLARE_WINDOW_CALLBACKS
 	
 	String title = String::format("%s Tellusim::XRWindow", window.getPlatformName());
-	if(!window.create(title) || !window.setHidden(false)) return 1;
+	DECLARE_WINDOW_CREATE(title)
 	
 	// left controller
 	XRInput left_input;
