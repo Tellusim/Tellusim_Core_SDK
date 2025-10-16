@@ -23,7 +23,7 @@ int32_t main(int32_t argc, char **argv) {
 	
 	// create window
 	String title = String::format("%s Tellusim::D3D11Pipeline", window.getPlatformName());
-	if(!window.create(title) || !window.setHidden(false)) return 1;
+	DECLARE_WINDOW_CREATE(title)
 	
 	// create device
 	D3D11Device device = D3D11Device(Device(window));
