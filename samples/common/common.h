@@ -66,7 +66,9 @@
 		DECLARE_WINDOW_FULLSCREEN \
 		DECLARE_WINDOW_STOP \
 	}); \
-	window.setCloseClickedCallback([&]() { window.stop(); });
+	window.setCloseClickedCallback([&]() { window.stop(); }); \
+	Window::Flags window_flags = Window::DefaultFlags; \
+	TS_UNUSED(window_flags);
 
 /*
  */
@@ -77,6 +79,23 @@
 	if(!window) return 1; \
 	window.setSize(app.getWidth(), app.getHeight()); \
 	DECLARE_WINDOW_CALLBACKS
+
+/*
+ */
+#define DECLARE_WINDOW_CREATE(TITLE) \
+	uint32_t window_refresh = Tellusim::max(app.getArgument("refresh").tou32(), app.getArgument("r").tou32()); \
+	if(app.getArgument("fullscreen").tou32() || app.getArgument("fs").tou32()) window_flags = (window_flags & ~Window::DefaultFlags) | Window::FlagFullscreen; \
+	if(app.getArgument("vsync").tou32() || app.getArgument("vs").tou32()) window_flags |= Window::FlagVerticalSync; \
+	if(window_refresh != 0) { window.setRefreshRate(window_refresh); window_flags |= Window::FlagRefreshSync; } \
+	if(window_flags & Window::FlagFullscreen) { \
+		Desktop desktop; \
+		int32_t x = 0, y = 0; \
+		if(desktop.getNumScreens() && desktop.getMouse(x, y)) { \
+			uint32_t index = desktop.getScreenIndex(x, y); \
+			window.setGeometry(desktop.getPositionX(index), desktop.getPositionY(index), desktop.getWidth(index), desktop.getHeight(index)); \
+		} \
+	} \
+	if(!window.create(TITLE, window_flags) || !window.setHidden(false)) return 1;
 
 /*
  */

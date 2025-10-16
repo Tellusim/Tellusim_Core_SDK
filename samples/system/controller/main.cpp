@@ -24,7 +24,7 @@ int32_t main(int32_t argc, char **argv) {
 	
 	// create window
 	String title = String::format("%s Tellusim::Controller", window.getPlatformName());
-	if(!window.create(title, Window::DefaultFlags | Window::FlagVerticalSync) || !window.setHidden(false)) return 1;
+	DECLARE_WINDOW_CREATE(title)
 	
 	// create device
 	Device device(window);
