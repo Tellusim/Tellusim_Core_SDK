@@ -11,6 +11,8 @@ TESTS = \
 	d3d12_window \
 	d3d12_work_graph \
 	d3d12_work_state \
-	d3d12_work_mesh
+	d3d12_work_mesh \
+	vk_pipeline \
+	vk_runtime
 
 include ..\Makefile.win

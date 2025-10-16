@@ -11,7 +11,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{40e6408b-2907-5bd4-ffdf-04776986eb9c}</ProjectGuid>
+		<ProjectGuid>{408ff1ea-7004-8cbf-fff2-053b33cc273c}</ProjectGuid>
 		<ProjectName>vk_runtime</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
