@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme version = "1.3">
+	<LaunchAction
+		useCustomWorkingDirectory = "YES"
+		customWorkingDirectory = "$(PROJECT_DIR)"
+		enableGPUValidationMode = "1">
+		<BuildableProductRunnable>
+			<BuildableReference
+				BuildableIdentifier = "primary"
+				BlueprintIdentifier = "6FF0ED8C861019B1025000BA"
+				BuildableName = "tsGraphicsEncoderBC67"
+				BlueprintName = "tsGraphicsEncoderBC67"
+				ReferencedContainer = "container:encoder_bc67_tvos.xcodeproj"/>
+		</BuildableProductRunnable>
+	</LaunchAction>
+</Scheme>

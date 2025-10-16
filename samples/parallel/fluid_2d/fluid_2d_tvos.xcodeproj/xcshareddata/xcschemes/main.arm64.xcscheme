@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme version = "1.3">
+	<LaunchAction
+		useCustomWorkingDirectory = "YES"
+		customWorkingDirectory = "$(PROJECT_DIR)"
+		enableGPUValidationMode = "1">
+		<BuildableProductRunnable>
+			<BuildableReference
+				BuildableIdentifier = "primary"
+				BlueprintIdentifier = "62473AE558BCDBAA5A0000DA"
+				BuildableName = "tsParallelFluid2D"
+				BlueprintName = "tsParallelFluid2D"
+				ReferencedContainer = "container:fluid_2d_tvos.xcodeproj"/>
+		</BuildableProductRunnable>
+	</LaunchAction>
+</Scheme>

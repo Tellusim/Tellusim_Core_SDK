@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsGraphicsCubeFilter
+
+ASSETS = main.shader texture_cube.exr texture_panorama.hdr
+
+include ../../Makefile.tvos.mk

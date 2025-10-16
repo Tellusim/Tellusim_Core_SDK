@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsGraphicsShadowESM
+
+ASSETS = main.shader model.glb
+
+include ../../Makefile.tvos.mk

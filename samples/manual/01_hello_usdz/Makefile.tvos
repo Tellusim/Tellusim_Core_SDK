@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsManualHelloUSDZ
+
+ASSETS = main.shader model.usdz
+
+include ../../Makefile.tvos.mk

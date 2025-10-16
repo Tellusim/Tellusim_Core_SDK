@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+IPA = tsPlatformSurface
+
+include ../../Makefile.tvos.mk

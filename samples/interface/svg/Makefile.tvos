@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsInterfaceSVG
+
+ASSETS = tellusim.svg
+
+include ../../Makefile.tvos.mk

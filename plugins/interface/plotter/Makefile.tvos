@@ -1,0 +1,6 @@
+SRCS = main.cpp \
+	source/TellusimControlPlotter.cpp
+
+IPA = tsInterfaceControlPlotter
+
+include ../../Makefile.tvos.mk

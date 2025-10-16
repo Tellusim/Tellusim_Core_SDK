@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsManualHelloCanvas
+
+ASSETS = font.ttf
+
+include ../../Makefile.tvos.mk

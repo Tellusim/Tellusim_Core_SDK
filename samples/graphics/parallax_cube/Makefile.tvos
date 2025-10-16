@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsGraphicsParallaxCube
+
+ASSETS = main.shader height.ktx
+
+include ../../Makefile.tvos.mk

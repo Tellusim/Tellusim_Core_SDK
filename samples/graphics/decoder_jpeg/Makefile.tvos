@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsGraphicsDecoderJPEG
+
+ASSETS = main.shader texture_*.jpg
+
+include ../../Makefile.tvos.mk

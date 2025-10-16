@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsManualHelloMesh
+
+ASSETS = main.shader main.h model.fbx
+
+include ../../Makefile.tvos.mk

@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsGraphicsMorph
+
+ASSETS = main.shader model.mesh
+
+include ../../Makefile.tvos.mk

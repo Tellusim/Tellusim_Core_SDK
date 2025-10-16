@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsGraphicsShadowTracing
+
+ASSETS = main.shader model.glb noise.png
+
+include ../../Makefile.tvos.mk

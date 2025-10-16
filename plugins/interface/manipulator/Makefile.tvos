@@ -1,0 +1,6 @@
+SRCS = main.cpp \
+	source/TellusimManipulator.cpp
+
+IPA = tsInterfaceManipulator
+
+include ../../Makefile.tvos.mk

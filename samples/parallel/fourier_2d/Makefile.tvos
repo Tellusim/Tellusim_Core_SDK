@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsParallelFourier2D
+
+ASSETS = main.shader image.hdr kernel.png
+
+include ../../Makefile.tvos.mk

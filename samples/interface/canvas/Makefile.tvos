@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsInterfaceCanvas
+
+ASSETS = data
+
+include ../../Makefile.tvos.mk

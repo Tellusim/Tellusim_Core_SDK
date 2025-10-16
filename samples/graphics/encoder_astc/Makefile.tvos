@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsGraphicsEncoderASTC
+
+ASSETS = texture.png
+
+include ../../Makefile.tvos.mk

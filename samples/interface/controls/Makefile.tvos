@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+IPA = tsInterfaceControls
+
+include ../../Makefile.tvos.mk

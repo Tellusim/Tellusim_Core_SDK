@@ -1,0 +1,100 @@
+# Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+# https://tellusim.com/
+
+TSROOT = $(CURDIR)/../../..
+
+SWC = xcrun --sdk appletvos swiftc
+
+IPA = tsBindingSwift
+
+ICON = $(TSROOT)/samples/common/tellusim.png
+
+ASSETS = main.shader
+
+TARGET = libTellusimObjC_$(ARCH)$(POSTFIX).dylib
+
+#
+# Default configuration
+#
+CFLAGS = -ObjC++ -fobjc-arc
+LDFLAGS += -shared
+
+#
+# Swift configuration
+#
+SYSROOT = $(shell xcrun --sdk appletvos --show-sdk-path)
+SWFLAGS = -target arm64-apple-tvos16.0 -sdk $(SYSROOT)
+SWFLAGS += -Xlinker -rpath -Xlinker @executable_path
+SWFLAGS += -Osize -I. -L.
+
+#
+# Sources
+#
+SRCS = source/TellusimObjCBase.cpp \
+	source/TellusimObjCMath.cpp \
+	source/TellusimObjCAPI.cpp
+
+#
+# Module target
+#
+MODULE_TARGET = libTellusim.a
+MODULE_SRCS = source/TellusimSwBase.swift \
+	source/TellusimSwMath.swift \
+	source/TellusimSwAPI.swift
+
+#
+# Framework target
+#
+FRAMEWORK = TellusimObjC$(POSTFIX)
+FRAMEWORK_TARGET = $(FRAMEWORK).framework/$(FRAMEWORK)
+
+#
+# Main target
+#
+MAIN_TARGET = main$(POSTFIX)
+MAIN_SRCS = main.swift
+
+#
+# Build
+#
+include $(TSROOT)/build/Makefile.tvos.mk
+
+#
+# Module
+#
+$(MODULE_TARGET): $(MODULE_SRCS)
+	@$(SWC) $(SWFLAGS) -import-underlying-module -emit-module -emit-library -static -module-name Tellusim $(MODULE_SRCS)
+	@$(ECHO) g "Done `basename $@`"
+
+#
+# Framework
+#
+$(FRAMEWORK_TARGET): $(TARGET)
+	@$(TSROOT)/bin/ts_ipa_framework.sh $(FRAMEWORK) $(TARGET)
+	@$(ECHO) g "Done `basename $@`"
+
+#
+# Main
+#
+all: $(MAIN_TARGET)
+
+$(MAIN_TARGET): $(MAIN_SRCS) $(FRAMEWORK_TARGET) $(MODULE_TARGET) $(TARGET)
+	@$(SWC) $(SWFLAGS) $(FRAMEWORK_TARGET) $(MODULE_TARGET) -o $@ $(MAIN_SRCS)
+	@$(ECHO) g "Done `basename $@`"
+
+ipa:
+	@$(ECHO) y "Making $(IPA).ipa"
+	@$(BUILD) $(IPA) $(ICON) $(ARCH) $(MAIN_TARGET) $(FRAMEWORK).framework $(ASSETS)
+
+install:
+	@$(ECHO) y "Installing $(IPA).ipa"
+	@$(BUILD) -install $(IPA) $(ICON) $(ARCH) $(MAIN_TARGET) $(FRAMEWORK).framework $(ASSETS)
+
+run:
+	@$(ECHO) y "Running $(IPA).ipa"
+	@$(BUILD) -run $(IPA) $(ICON) $(ARCH) $(MAIN_TARGET) $(FRAMEWORK).framework $(ASSETS)
+
+clean:
+	@$(ECHO) r "Cleaning `basename $(CURDIR)`"
+	@rm -f $(MODULE_TARGET) $(MAIN_TARGET) $(TARGET) $(OBJS) $(CONFIG) $(IPA).ipa Tellusim.* *.tmp
+	@rm -rf $(IPA).app $(FRAMEWORK).framework

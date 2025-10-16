@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsGraphicsSkinned
+
+ASSETS = main.shader skinned.glb skinned_*.jpg
+
+include ../../Makefile.tvos.mk

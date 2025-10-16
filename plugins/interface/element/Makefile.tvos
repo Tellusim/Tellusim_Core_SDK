@@ -1,0 +1,6 @@
+SRCS = main.cpp \
+	source/TellusimControlElement.cpp
+
+IPA = tsInterfaceControlElement
+
+include ../../Makefile.tvos.mk

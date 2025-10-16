@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsGraphicsSkinnedTracing
+
+ASSETS = main.shader model.glb model.jpg noise.jpg
+
+include ../../Makefile.tvos.mk

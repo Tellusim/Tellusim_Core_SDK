@@ -1,0 +1,35 @@
+ifndef PLUGINS
+
+PLUGINS = \
+	binding \
+	interface \
+	parallel
+
+endif
+
+MAKE = make -f Makefile.tvos
+EXEC = $(TSROOT)/bin/ts_exec.sh
+
+all:
+	+@$(EXEC) -s "$(MAKE) -s -C @" $(PLUGINS)
+
+ipa:
+	+@$(EXEC) -p "$(MAKE) -s -C @ ipa" $(PLUGINS)
+
+install:
+	+@$(EXEC) -s "$(MAKE) -s -C @ install" $(PLUGINS)
+
+run:
+	+@$(EXEC) -s "$(MAKE) -s -C @ run" $(PLUGINS)
+
+debug:
+	+@$(EXEC) -s "$(MAKE) -s -C @ debug" $(PLUGINS)
+
+remove:
+	+@$(EXEC) -s "$(MAKE) -s -C @ remove" $(PLUGINS)
+
+clean:
+	+@$(EXEC) -p "$(MAKE) -s -C @ clean" $(PLUGINS)
+
+clear:
+	+@$(EXEC) -s "$(MAKE) -s -C @ clear" $(PLUGINS)

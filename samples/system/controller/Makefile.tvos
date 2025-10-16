@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+IPA = tsSystemController
+
+include ../../Makefile.tvos.mk

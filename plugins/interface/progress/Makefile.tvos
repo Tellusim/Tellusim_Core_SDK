@@ -1,0 +1,6 @@
+SRCS = main.cpp \
+	source/TellusimControlProgress.cpp
+
+IPA = tsInterfaceControlProgress
+
+include ../../Makefile.tvos.mk

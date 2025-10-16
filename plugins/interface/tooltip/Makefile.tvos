@@ -1,0 +1,6 @@
+SRCS = main.cpp \
+	source/TellusimControlTooltip.cpp
+
+IPA = tsInterfaceControlTooltip
+
+include ../../Makefile.tvos.mk

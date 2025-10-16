@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsGraphicsMeshTracing
+
+ASSETS = main.shader model.glb
+
+include ../../Makefile.tvos.mk

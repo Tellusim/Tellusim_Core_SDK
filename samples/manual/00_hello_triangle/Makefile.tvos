@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+IPA = tsManualHelloTriangle
+
+include ../../Makefile.tvos.mk

@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsPlatformMultisample
+
+ASSETS = main.shader
+
+include ../../Makefile.tvos.mk

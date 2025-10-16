@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsPlatformStencil
+
+ASSETS = main.shader
+
+include ../../Makefile.tvos.mk

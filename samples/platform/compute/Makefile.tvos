@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsPlatformCompute
+
+ASSETS = main.shader texture.png
+
+include ../../Makefile.tvos.mk

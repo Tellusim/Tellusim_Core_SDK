@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+IPA = tsParallelTensorTorch
+
+ASSETS = main.shader model.bin texture.jpg
+
+include ../../Makefile.tvos.mk
