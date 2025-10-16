@@ -21,7 +21,7 @@ int32_t main(int32_t argc, char **argv) {
 	
 	// create window
 	String title = String::format("%s Tellusim::Tessellation", window.getPlatformName());
-	if(!window.create(title) || !window.setHidden(false)) return 1;
+	DECLARE_WINDOW_CREATE(title)
 	
 	constexpr uint32_t grid_size = 16;
 	
