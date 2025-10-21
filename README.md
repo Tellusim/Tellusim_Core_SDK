@@ -14,11 +14,11 @@ Happy coding, and have fun creating with Tellusim!
 * *Tellusim Core SDK* is free for non-commercial research by individuals or non-profit organizations.
 * *Tellusim Core SDK* is free for individuals and companies with total annual revenue under USD $200,000.
 * *Tellusim Core SDK* is free for evaluation, testing, learning, and other non-commercial experimentation.
-* *Tellusim Core SDK* is free for open-source, non-commercial projects distributed under OSI-approved licenses (MIT, BSD, GPL, LGPL, or Apache 2.0), provided such projects generate no revenue and do not sell, license, or otherwise monetize software built with the Tellusim SDK.
+* *Tellusim Core SDK* is free for open-source, non-commercial projects distributed under OSI-approved licenses (MIT, BSD, GPL, LGPL, or Apache 2.0), provided such projects generate no revenue and do not sell, license, or otherwise monetize software built with the Tellusim Core SDK.
 * *Tellusim Core SDK* may be redistributed unmodified, along with binaries built with it, as part of free or open-source projects, provided the SDK itself is not sold, sublicensed, or rented for a fee.
 * Any other use, including production deployment, commercial projects, or client-facing demonstrations, requires a Tellusim Commercial License.
 
-For full license terms, see the [Tellusim Core SDK LICENSE](https://github.com/Tellusim/Tellusim_Core_SDK/blob/main/LICENSE)
+For full license terms, see the [Tellusim Core SDK LICENSE](https://github.com/Tellusim/Tellusim_Core_SDK/LICENSE)
 
 For inquiries, visit: [Tellusim Services](https://tellusim.com/services/)
 
