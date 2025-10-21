@@ -1,25 +1,31 @@
 TELLUSIM CORE SDK LICENSE
 
-Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved.
 
-* Tellusim Core SDK is free for education
-* Tellusim Core SDK is free for companies with annual revenue less than USD $200,000
-* Tellusim Core SDK may be used for evaluation purposes, limited to testing, learning, and other non-commercial experimentation
-* Any other use, including commercial or production deployment, requires a separate negotiated license with Tellusim Technologies Inc.
+Free Use:
 
-Restrictions:
+* Educational use by students, teachers, and academic institutions.
+* Non-commercial research by individuals or non-profit organizations.
+* Individuals and companies with total annual revenue under USD $200,000.
+* Evaluation, testing, learning, and other non-commercial experimentation.
+* Open-source, non-commercial projects distributed under OSI-approved licenses (MIT, BSD, GPL, LGPL, or Apache 2.0), provided such projects generate no revenue and do not sell, license, or otherwise monetize software built with the Tellusim SDK.
+* Redistribution of the unmodified SDK and binaries built with it is permitted as part of free or open-source projects, provided the SDK itself is not sold, sublicensed, or rented for a fee.
 
-Tellusim Core SDK may not be redistributed, sublicensed, rented, or sold without written permission.
-Use in production environments or for client-facing demonstrations is not allowed without a commercial license.
+Commercial Use:
+
+* Any other use, including production deployment, commercial projects, or client-facing demonstrations, requires a Tellusim Commercial License.
+
+Rights:
+
+* Rights granted under this license are perpetual for the version of the Tellusim SDK obtained under these terms.
 
 Attribution:
 
-If you publish, present, or distribute work that uses Tellusim Core SDK, you should include the following attribution:
-
-"Built with Tellusim Core SDK"
+* If you publish, present, or distribute work that uses Tellusim Core SDK, you should include the following attribution in documentation or credits: "Built with Tellusim Core SDK".
 
 Disclaimer:
 
-Tellusim Core SDK is provided "AS IS", without warranty of any kind. Tellusim shall not be liable for any damages arising from its use.
+* Tellusim Core SDK is provided "AS IS", without any warranty, express or implied, including but not limited to implied warranties of merchantability or fitness for a particular purpose.
+* Tellusim shall not be liable for any direct, indirect, incidental, consequential, or special damages arising from its use.
 
 For commercial licensing inquiries, contact: https://tellusim.com/services/
