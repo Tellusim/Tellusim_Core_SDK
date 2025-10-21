@@ -4,37 +4,46 @@ Tellusim Core SDK is the foundational layer of the Tellusim Engine, providing lo
 
 The SDK includes comprehensive support for meshes, images, user interfaces, and GPU-accelerated algorithms such as radix sort, bounding volume hierarchies (BVH), fast Fourier transforms (FFT), and GPU-driven computational graph framework for machine learning and advanced data processing.
 
-In addition to C++, the SDK provides bindings and interoperability for other languages such as C#, Rust, Swift, and Python, making it suitable for use in native mobile and desktop applications as well as game and graphics engines.
+In addition to C++, the SDK provides bindings and interoperability for other languages such as C#, Rust, Swift, Python, Java, and JavaScript, making it suitable for use in native mobile and desktop applications as well as game and graphics engines.
 
 Happy coding, and have fun creating with Tellusim!
 
 ## Licensing
 
-* Tellusim Core SDK is free for education
-* Tellusim Core SDK is free for companies with annual revenue less than USD $200,000
-* Tellusim Core SDK may be used for evaluation purposes, limited to testing, learning, and other non-commercial experimentation
-* Any other use, including commercial or production deployment, requires a separate negotiated license with Tellusim Technologies Inc.
+* *Tellusim Core SDK* is free for educational use by students, teachers, and academic institutions.
+* *Tellusim Core SDK* is free for non-commercial research by individuals or non-profit organizations.
+* *Tellusim Core SDK* is free for individuals and companies with total annual revenue under USD $200,000.
+* *Tellusim Core SDK* is free for evaluation, testing, learning, and other non-commercial experimentation.
+* *Tellusim Core SDK* is free for open-source, non-commercial projects distributed under OSI-approved licenses (MIT, BSD, GPL, LGPL, or Apache 2.0), provided such projects generate no revenue and do not sell, license, or otherwise monetize software built with the Tellusim SDK.
+* *Tellusim Core SDK* may be redistributed unmodified, along with binaries built with it, as part of free or open-source projects, provided the SDK itself is not sold, sublicensed, or rented for a fee.
+* Any other use, including production deployment, commercial projects, or client-facing demonstrations, requires a Tellusim Commercial License.
+
+For full license terms, see the [Tellusim Core SDK LICENSE](https://github.com/Tellusim/Tellusim_Core_SDK/LICENSE)
 
 For inquiries, visit: [Tellusim Services](https://tellusim.com/services/)
 
-## Documentation
+## Documentation and Support
 
-[Tellusim Core SDK Documentation](https://docs.tellusim.com/core)
+* [Tellusim Core SDK Documentation](https://docs.tellusim.com/core)
+* [Discord Channel](https://discord.gg/WmCGx6pvqY)
+* [Support Forum](https://forum.tellusim.com/)
 
 ## Platforms
 
 Please choose the correct branch for your platform:
 
-* [Windows x64](https://github.com/Tellusim/Tellusim_Core_SDK/tree/windows_x64)
-* [Windows arm64](https://github.com/Tellusim/Tellusim_Core_SDK/tree/windows_arm64)
-* [Linux x64](https://github.com/Tellusim/Tellusim_Core_SDK/tree/linux_x64)
-* [Linux arm64](https://github.com/Tellusim/Tellusim_Core_SDK/tree/linux_arm64)
-* [macOS x64](https://github.com/Tellusim/Tellusim_Core_SDK/tree/macos_x64)
-* [macOS arm64](https://github.com/Tellusim/Tellusim_Core_SDK/tree/macos_arm64)
-* [Android](https://github.com/Tellusim/Tellusim_Core_SDK/tree/android)
-* [iOS](https://github.com/Tellusim/Tellusim_Core_SDK/tree/ios)
-* [tvOS](https://github.com/Tellusim/Tellusim_Core_SDK/tree/tvos)
-* [Web](https://github.com/Tellusim/Tellusim_Core_SDK/tree/emscripten)
+| Platform      | Branch |
+|---------------|--------|
+| Windows x64   | [Windows x64 Branch](https://github.com/Tellusim/Tellusim_Core_SDK/tree/windows_x64) |
+| Windows arm64 | [Windows arm64 Branch](https://github.com/Tellusim/Tellusim_Core_SDK/tree/windows_arm64) |
+| Linux x64     | [Linux x64 Branch](https://github.com/Tellusim/Tellusim_Core_SDK/tree/linux_x64) |
+| Linux arm64   | [Linux arm64 Branch](https://github.com/Tellusim/Tellusim_Core_SDK/tree/linux_arm64) |
+| macOS x64     | [macOS x64 Branch](https://github.com/Tellusim/Tellusim_Core_SDK/tree/macos_x64) |
+| macOS arm64   | [macOS arm64 Branch](https://github.com/Tellusim/Tellusim_Core_SDK/tree/macos_arm64) |
+| Android       | [Android Branch](https://github.com/Tellusim/Tellusim_Core_SDK/tree/android) |
+| iOS           | [iOS Branch](https://github.com/Tellusim/Tellusim_Core_SDK/tree/ios) |
+| tvOS          | [tvOS Branch](https://github.com/Tellusim/Tellusim_Core_SDK/tree/tvos) |
+| Web           | [Web Branch](https://github.com/Tellusim/Tellusim_Core_SDK/tree/emscripten) |
 
 # Graphics
 
