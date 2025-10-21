@@ -8,7 +8,7 @@ Free Use:
 * Non-commercial research by individuals or non-profit organizations.
 * Individuals and companies with total annual revenue under USD $200,000.
 * Evaluation, testing, learning, and other non-commercial experimentation.
-* Open-source, non-commercial projects distributed under OSI-approved licenses (MIT, BSD, GPL, LGPL, or Apache 2.0), provided such projects generate no revenue and do not sell, license, or otherwise monetize software built with the Tellusim SDK.
+* Open-source, non-commercial projects distributed under OSI-approved licenses (MIT, BSD, GPL, LGPL, or Apache 2.0), provided such projects generate no revenue and do not sell, license, or otherwise monetize software built with the Tellusim Core SDK.
 * Redistribution of the unmodified SDK and binaries built with it is permitted as part of free or open-source projects, provided the SDK itself is not sold, sublicensed, or rented for a fee.
 
 Commercial Use:
@@ -17,7 +17,7 @@ Commercial Use:
 
 Rights:
 
-* Rights granted under this license are perpetual for the version of the Tellusim SDK obtained under these terms.
+* Rights granted under this license are perpetual for the version of the Tellusim Core SDK obtained under these terms.
 
 Attribution:
 
