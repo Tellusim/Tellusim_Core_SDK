@@ -167,7 +167,7 @@
 	
 #elif VERTEX_NODES_SHADER
 	
-	layout(std140, row_major, binding = 0) uniform common_parameters {
+	layout(std140, row_major, binding = 0) uniform CommonParameters {
 		mat4 projection;
 		mat4 modelview;
 	};

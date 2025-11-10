@@ -16,9 +16,11 @@ namespace Tellusim {
 	 */
 	Streamer::Streamer(Flags flags) : flags(flags) {
 		
-		// save source callback
+		// save callbacks
 		open_func = Source::getOpenCallback();
 		is_func = Source::getIsCallback();
+		
+		// save callback data
 		callback_data = Source::getCallbackData();
 		
 		// set source callback
@@ -42,6 +44,20 @@ namespace Tellusim {
 		archives.clear();
 		files.clear();
 		names.clear();
+	}
+	
+	/*
+	 */
+	void Streamer::addPrefix(const char *name, const char *value) {
+		Prefix &prefix = prefixes.append();
+		prefix.name = name;
+		prefix.value = value;
+	}
+	
+	void Streamer::addPrefix(const String &name, const String &value) {
+		Prefix &prefix = prefixes.append();
+		prefix.name = name;
+		prefix.value = value;
 	}
 	
 	/*
@@ -102,13 +118,21 @@ namespace Tellusim {
 		return load_archive(source, name.get());
 	}
 	
-	bool Streamer::load_archive(Stream &stream, const char *name, const char *type) {
+	bool Streamer::load_archive(Stream &stream, const char *name, const char *type, uint32_t file_index) {
 		
 		// load archive
 		AutoPtr<Archive> archive = makeAutoPtr(new Archive());
 		if(!archive->open(stream, type)) {
 			TS_LOGF(Error, "Streamer::load_archive(): can't open \"%s\" archive\n", name);
 			return false;
+		}
+		
+		// skip recursive archive assets
+		if(file_index != Maxu32 && (archive->isFile("object.asset") || archive->isFile("material.asset"))) {
+			String archive_name = String(name);
+			if(!hasFlag(FlagCase)) archive_name = archive_name.lower();
+			names.append(archive_name.reverse(), file_index);
+			return true;
 		}
 		
 		// archive files
@@ -131,7 +155,7 @@ namespace Tellusim {
 			file.blob = nullptr;
 			
 			// recursive archive
-			if(hasFlag(FlagRecursive) && ArchiveStream::check(name)) {
+			if(hasFlag(FlagRecursive) && ArchiveStream::check(name) && name.extension() != "asset") {
 				
 				// open source
 				Stream stream = archive->openFile(i);
@@ -141,7 +165,8 @@ namespace Tellusim {
 				}
 				
 				// load archive
-				if(!load_archive(stream, name.get(), name.extension().get())) return false;
+				String type = name.extension();
+				if(!load_archive(stream, name.get(), type.get(), file_index)) return false;
 			}
 			else {
 				
@@ -189,7 +214,7 @@ namespace Tellusim {
 			file.blob = nullptr;
 			
 			// recursive archive
-			if(hasFlag(FlagRecursive) && ArchiveStream::check(name)) {
+			if(hasFlag(FlagRecursive) && ArchiveStream::check(name) && name.extension() != "asset") {
 				
 				// open source
 				Source source;
@@ -199,7 +224,8 @@ namespace Tellusim {
 				}
 				
 				// load archive
-				if(!load_archive(source, name.get())) return false;
+				String type = name.extension();
+				if(!load_archive(source, name.get(), type.get(), file_index)) return false;
 			}
 			else {
 				
@@ -223,6 +249,11 @@ namespace Tellusim {
 		// file name
 		String name = String(file_name);
 		if(!hasFlag(FlagCase)) name = name.lower();
+		
+		// file prefix
+		for(const Prefix &prefix : prefixes) {
+			if(name.begins(prefix.name.get())) name = prefix.value + (name.get() + prefix.name.size());
+		}
 		
 		// find name
 		name = name.reverse();

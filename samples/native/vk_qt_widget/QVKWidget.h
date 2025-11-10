@@ -84,12 +84,12 @@ namespace Tellusim {
 			VkDevice vk_device = VK_NULL_HANDLE;
 			uint32_t vk_family = Maxu32;
 			
-			VkSurfaceKHR window_surface = VK_NULL_HANDLE;
+			VkSurfaceKHR vk_surface = VK_NULL_HANDLE;
 			VkRenderPass render_pass = VK_NULL_HANDLE;
 			VkSwapchainKHR swap_chain = VK_NULL_HANDLE;
 			
 			Array<Frame> frames;
-			uint32_t frame_index = NumFrames - 1;
+			uint32_t frame_index = 0;
 			VkSurfaceFormatKHR color_format = {};
 			
 			VkImage depth_image = VK_NULL_HANDLE;
@@ -98,10 +98,9 @@ namespace Tellusim {
 			VkDeviceMemory depth_image_memory = VK_NULL_HANDLE;
 			
 			VKContext vk_context;
-			
 			VKSurface surface;
-			
 			Device device;
+			
 			Pipeline pipeline;
 			Buffer vertex_buffer;
 			Buffer index_buffer;

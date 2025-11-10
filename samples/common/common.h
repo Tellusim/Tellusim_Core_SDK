@@ -112,7 +112,7 @@
 	fps_counter++; \
 	frame_counter++; \
 	old_time = frame_time; \
-	frame_time = (float32_t)Time::seconds(); \
+	frame_time = (float32_t)Tellusim::Time::seconds(); \
 	bool pause = false; \
 	bool simulate = true; \
 	float32_t fps = 0.0f; \

@@ -44,7 +44,7 @@ namespace Tellusim {
 		}, this);
 		
 		// create app
-		return ControlApp::create("Project Generation Tool");
+		return ControlApp::create("Tellusim Project Tool " TS_APP_VERSION);
 	}
 	
 	/*
@@ -146,9 +146,8 @@ namespace Tellusim {
 		
 		ControlCheck cmake_check(&projects_grid, "CMake");
 		ControlCheck makefile_check(&projects_grid, "Makefile");
-		#if _WIN32
-			ControlCheck vcxproj_check(&projects_grid, "VCXProj");
-		#elif _MACOS
+		ControlCheck vcxproj_check(&projects_grid, "VCXProj");
+		#if _MACOS
 			ControlCheck xcodeproj_check(&projects_grid, "Xcodeproj");
 			ControlCheck swift_check(&projects_grid, "SwiftPM");
 		#endif
@@ -167,9 +166,8 @@ namespace Tellusim {
 		tooltip.addTooltip(target_edit, "Enter the binary name");
 		tooltip.addTooltip(cmake_check, "Create CMake project");
 		tooltip.addTooltip(makefile_check, "Create Makefile project");
-		#if _WIN32
-			tooltip.addTooltip(vcxproj_check, "Create Visual Studio project");
-		#elif _MACOS
+		tooltip.addTooltip(vcxproj_check, "Create Visual Studio project");
+		#if _MACOS
 			tooltip.addTooltip(xcodeproj_check, "Create Xcode project");
 			tooltip.addTooltip(swift_check, "Create Swift project");
 		#endif
@@ -200,9 +198,8 @@ namespace Tellusim {
 			bool show_create = (language == "Python" || language == "JavaScript");
 			show_create |= (cmake_check.isEnabled() && cmake_check.isChecked());
 			show_create |= (makefile_check.isEnabled() && makefile_check.isChecked());
-			#if _WIN32
-				show_create |= (vcxproj_check.isEnabled() && vcxproj_check.isChecked());
-			#elif _MACOS
+			show_create |= (vcxproj_check.isEnabled() && vcxproj_check.isChecked());
+			#if _MACOS
 				show_create |= (xcodeproj_check.isEnabled() && xcodeproj_check.isChecked());
 				show_create |= (swift_check.isEnabled() && swift_check.isChecked());
 			#endif
@@ -217,9 +214,8 @@ namespace Tellusim {
 		};
 		cmake_check.setClickedCallback(check_clicked);
 		makefile_check.setClickedCallback(check_clicked);
-		#if _WIN32
-			vcxproj_check.setClickedCallback(check_clicked);
-		#elif _MACOS
+		vcxproj_check.setClickedCallback(check_clicked);
+		#if _MACOS
 			xcodeproj_check.setClickedCallback(check_clicked);
 			swift_check.setClickedCallback(check_clicked);
 		#endif
@@ -294,9 +290,8 @@ namespace Tellusim {
 			}
 			cmake_check.setEnabled(show_cmake);
 			makefile_check.setEnabled(show_makefile);
-			#if _WIN32
-				vcxproj_check.setEnabled(show_vcxproj);
-			#elif _MACOS
+			vcxproj_check.setEnabled(show_vcxproj);
+			#if _MACOS
 				xcodeproj_check.setEnabled(show_xcodeproj);
 				swift_check.setEnabled(show_swift);
 			#endif
@@ -384,9 +379,8 @@ namespace Tellusim {
 					#endif
 					if(platform == "Web") args.append(String("Makefile.ems"));
 				}
-				#if _WIN32
-					TS_DECLARE_CHECK(vcxproj)
-				#elif _MACOS
+				TS_DECLARE_CHECK(vcxproj)
+				#if _MACOS
 					TS_DECLARE_CHECK(xcodeproj)
 					TS_DECLARE_CHECK(swift)
 					if(language == "Swift" && args.back() == "-xcodeproj") args.back() = "-swift";

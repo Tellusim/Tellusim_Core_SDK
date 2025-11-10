@@ -216,7 +216,7 @@ impl cmp::PartialEq for Format {
 #[repr(u32)]
 #[derive(Copy, Clone)]
 pub enum AppVersion {
-	Version = 20250816,
+	Version = 20251102,
 }
 
 // Tellusim::Socket::Type

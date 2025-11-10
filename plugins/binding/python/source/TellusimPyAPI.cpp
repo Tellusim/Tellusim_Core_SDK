@@ -81696,7 +81696,8 @@ namespace Tellusim {
 		PyDict_SetItemString(PYApp_Type.tp_dict, "Version_39", PyLong_FromLong(20250322));
 		PyDict_SetItemString(PYApp_Type.tp_dict, "Version_40", PyLong_FromLong(20250429));
 		PyDict_SetItemString(PYApp_Type.tp_dict, "Version_41", PyLong_FromLong(20250816));
-		PyDict_SetItemString(PYApp_Type.tp_dict, "Version", PyLong_FromLong(20250816));
+		PyDict_SetItemString(PYApp_Type.tp_dict, "Version_42", PyLong_FromLong(20251102));
+		PyDict_SetItemString(PYApp_Type.tp_dict, "Version", PyLong_FromLong(20251102));
 		PyType_Modified(&PYApp_Type);
 		Py_INCREF(&PYApp_Type);
 		
