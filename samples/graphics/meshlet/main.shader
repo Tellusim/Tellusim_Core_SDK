@@ -60,9 +60,9 @@
 				uint num_meshlets;
 			};
 			
-			layout(std430, binding = 2) readonly buffer transforms_buffer { vec4 transforms[]; };
-			layout(std430, binding = 3) readonly buffer vertices_buffer { vec4 vertices_data[]; };
-			layout(std430, binding = 4) readonly buffer meshlets_buffer { uint meshlets_data[]; };
+			layout(std430, binding = 2) readonly buffer TransformsBuffer { vec4 transforms[]; };
+			layout(std430, binding = 3) readonly buffer VerticesBuffer { vec4 vertices_buffer[]; };
+			layout(std430, binding = 4) readonly buffer MeshletsBuffer { uint meshlets_buffer[]; };
 			
 		#else
 			
@@ -92,24 +92,24 @@
 				uint instance = group / num_meshlets;
 				uint meshlet = group % num_meshlets;
 				uint meshlet_index = meshlet * 12u;
-				uint num_primitives = meshlets_data[meshlet_index + 0u];
-				uint base_index = meshlets_data[meshlet_index + 2u];
-				uint base_vertex = meshlets_data[meshlet_index + 3u];
+				uint num_primitives = meshlets_buffer[meshlet_index + 0u];
+				uint base_index = meshlets_buffer[meshlet_index + 2u];
+				uint base_vertex = meshlets_buffer[meshlet_index + 3u];
 				uint primitive_index = min(uint(gl_VertexIndex) - group * NUM_PRIMITIVES * 3u, num_primitives * 3u - 1u);
-				uint primitive_vertex = (meshlets_data[base_index + (primitive_index >> 2u)] >> ((primitive_index & 0x03u) * 8u)) & 0xffu;
+				uint primitive_vertex = (meshlets_buffer[base_index + (primitive_index >> 2u)] >> ((primitive_index & 0x03u) * 8u)) & 0xffu;
 				uint address = (base_vertex + primitive_vertex) * 2u;
-				vec4 in_position = vec4(vertices_data[address + 0u].xyz, 1.0f);
-				vec3 in_normal = vertices_data[address + 1u].xyz;
+				vec4 in_position = vec4(vertices_buffer[address + 0u].xyz, 1.0f);
+				vec3 in_normal = vertices_buffer[address + 1u].xyz;
 			#elif INDEXING_PIPELINE
 				uint group = gl_VertexIndex >> 8u;
 				uint primitive_vertex = gl_VertexIndex & 0xffu;
 				uint instance = group / num_meshlets;
 				uint meshlet = group % num_meshlets;
 				uint meshlet_index = meshlet * 12u;
-				uint base_vertex = meshlets_data[meshlet_index + 3u];
+				uint base_vertex = meshlets_buffer[meshlet_index + 3u];
 				uint address = (base_vertex + primitive_vertex) * 2u;
-				vec4 in_position = vec4(vertices_data[address + 0u].xyz, 1.0f);
-				vec3 in_normal = vertices_data[address + 1u].xyz;
+				vec4 in_position = vec4(vertices_buffer[address + 0u].xyz, 1.0f);
+				vec3 in_normal = vertices_buffer[address + 1u].xyz;
 			#elif INDIRECT_PIPELINE
 				uint meshlet = in_instance & 0xffffu;
 				uint instance = in_instance >> 16u;
@@ -620,9 +620,9 @@
 		uint num_indices;
 	};
 	
-	layout(std430, binding = 1) readonly buffer meshlets_buffer { uint meshlets_data[]; };
-	layout(std430, binding = 2) writeonly buffer indirect_buffer { uint indirects_data[]; };
-	layout(std430, binding = 3) writeonly buffer indices_buffer { uint indices_data[]; };
+	layout(std430, binding = 1) readonly buffer MeshletsBuffer { uint meshlets_buffer[]; };
+	layout(std430, binding = 2) writeonly buffer IndirectBuffer { uint indirects_buffer[]; };
+	layout(std430, binding = 3) writeonly buffer IndicesBuffer { uint indices_buffer[]; };
 	
 	/*
 	 */
@@ -634,23 +634,23 @@
 		[[branch]] if(global_id < num_meshlets * num_instances) {
 			
 			uint meshlet_index = (global_id % num_meshlets) * 12u;
-			uint num_primitives = meshlets_data[meshlet_index + 0u];
-			uint base_index = meshlets_data[meshlet_index + 2u];
-			uint base_vertex = meshlets_data[meshlet_index + 3u];
+			uint num_primitives = meshlets_buffer[meshlet_index + 0u];
+			uint base_index = meshlets_buffer[meshlet_index + 2u];
+			uint base_vertex = meshlets_buffer[meshlet_index + 3u];
 			
 			uint indirect_index = global_id * 5u;
-			indirects_data[indirect_index + 0u] = num_primitives * 3u;
-			indirects_data[indirect_index + 1u] = 1;
-			indirects_data[indirect_index + 2u] = base_index * 4u - num_meshlets * 16u;
-			indirects_data[indirect_index + 3u] = base_vertex;
-			indirects_data[indirect_index + 4u] = global_id;
+			indirects_buffer[indirect_index + 0u] = num_primitives * 3u;
+			indirects_buffer[indirect_index + 1u] = 1;
+			indirects_buffer[indirect_index + 2u] = base_index * 4u - num_meshlets * 16u;
+			indirects_buffer[indirect_index + 3u] = base_vertex;
+			indirects_buffer[indirect_index + 4u] = global_id;
 		}
 		
 		// indices parameters
 		[[branch]] if(global_id * 4u < num_indices) {
 			
 			uint index = num_meshlets * 4u + global_id;
-			uint indices = meshlets_data[index];
+			uint indices = meshlets_buffer[index];
 			
 			uint index_0 = (indices >>  0u) & 0xffu;
 			uint index_1 = (indices >>  8u) & 0xffu;
@@ -658,8 +658,8 @@
 			uint index_3 = (indices >> 24u) & 0xffu;
 			
 			index = global_id * 2u;
-			indices_data[index + 0u] = (index_1 << 16u) | index_0;
-			indices_data[index + 1u] = (index_3 << 16u) | index_2;
+			indices_buffer[index + 0u] = (index_1 << 16u) | index_0;
+			indices_buffer[index + 1u] = (index_3 << 16u) | index_2;
 		}
 	}
 	
@@ -721,8 +721,8 @@
 		uint base_group;
 	};
 	
-	layout(std430, binding = 1) readonly buffer meshlets_buffer { uint meshlets_data[]; };
-	layout(std430, binding = 2) writeonly buffer indexing_buffer { uvec4 indexing_data[]; };
+	layout(std430, binding = 1) readonly buffer MeshletsBuffer { uint meshlets_buffer[]; };
+	layout(std430, binding = 2) writeonly buffer IndexingBuffer { uvec4 indexing_buffer[]; };
 	
 	shared uint num_primitives;
 	shared uint base_index;
@@ -737,8 +737,8 @@
 		// meshlet parameters
 		[[branch]] if(local_id == 0u) {
 			uint meshlet_index = (group_id % num_meshlets) * 12u;
-			num_primitives = meshlets_data[meshlet_index + 0u];
-			base_index = meshlets_data[meshlet_index + 2u];
+			num_primitives = meshlets_buffer[meshlet_index + 0u];
+			base_index = meshlets_buffer[meshlet_index + 2u];
 		}
 		memoryBarrierShared(); barrier();
 		
@@ -748,16 +748,16 @@
 		uint indices_2 = 0u;
 		[[branch]] if(local_id * 4u < num_primitives) {
 			uint address = base_index + local_id * 3u;
-			indices_0 = meshlets_data[address + 0u];
-			indices_1 = meshlets_data[address + 1u];
-			indices_2 = meshlets_data[address + 2u];
+			indices_0 = meshlets_buffer[address + 0u];
+			indices_1 = meshlets_buffer[address + 1u];
+			indices_2 = meshlets_buffer[address + 2u];
 		}
 		
 		uint group_index = group_id << 8u;
 		uint index = (GROUP_SIZE * group_id + local_id) * 3u;
-		indexing_data[index + 0u] = (uvec4(indices_0, indices_0 >> 8u, indices_0 >> 16u, indices_0 >> 24u) & 0xffu) | group_index;
-		indexing_data[index + 1u] = (uvec4(indices_1, indices_1 >> 8u, indices_1 >> 16u, indices_1 >> 24u) & 0xffu) | group_index;
-		indexing_data[index + 2u] = (uvec4(indices_2, indices_2 >> 8u, indices_2 >> 16u, indices_2 >> 24u) & 0xffu) | group_index;
+		indexing_buffer[index + 0u] = (uvec4(indices_0, indices_0 >> 8u, indices_0 >> 16u, indices_0 >> 24u) & 0xffu) | group_index;
+		indexing_buffer[index + 1u] = (uvec4(indices_1, indices_1 >> 8u, indices_1 >> 16u, indices_1 >> 24u) & 0xffu) | group_index;
+		indexing_buffer[index + 2u] = (uvec4(indices_2, indices_2 >> 8u, indices_2 >> 16u, indices_2 >> 24u) & 0xffu) | group_index;
 	}
 	
 #endif

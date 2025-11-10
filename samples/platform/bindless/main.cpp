@@ -30,6 +30,11 @@ int32_t main(int32_t argc, char **argv) {
 	constexpr uint32_t width = 64;
 	constexpr uint32_t height = 64;
 	constexpr uint32_t num_instances = width * height;
+	constexpr uint32_t batch_size = num_instances;
+	
+	// table parameters
+	constexpr uint32_t texture_copies = 1;
+	constexpr uint32_t buffer_copies = 1;
 	
 	// structures
 	struct ComputeParameters {
@@ -43,6 +48,7 @@ int32_t main(int32_t argc, char **argv) {
 		Matrix4x4f projection;
 		Matrix4x4f modelview;
 		Vector4f camera;
+		uint32_t base_instance;
 	};
 	
 	// create device
@@ -78,6 +84,13 @@ int32_t main(int32_t argc, char **argv) {
 	if(!pipeline.loadShaderGLSL(Shader::TypeVertex, "main.shader", "VERTEX_SHADER=1")) return 1;
 	if(!pipeline.loadShaderGLSL(Shader::TypeFragment, "main.shader", "FRAGMENT_SHADER=1")) return 1;
 	if(!pipeline.create()) return 1;
+	
+	// clone pipelines
+	Pipeline pipelines[2];
+	for(uint32_t i = 0; i < TS_COUNTOF(pipelines); i++) {
+		pipelines[i] = device.createPipeline(pipeline);
+		if(!pipelines[i].create()) return 1;
+	}
 	
 	// create sampler
 	Sampler sampler = device.createSampler(Sampler::FilterLinear, Sampler::WrapModeClamp);
@@ -120,12 +133,28 @@ int32_t main(int32_t argc, char **argv) {
 		}
 	}
 	
+	// duplicate textures
+	Array<Texture> table_textures;
+	table_textures.reserve(textures.size() * texture_copies);
+	for(uint32_t i = 0; i < texture_copies; i++) {
+		table_textures.append(textures);
+	}
+	TS_LOGF(Message, "Textures: %u\n", table_textures.size());
+	
+	// duplicate buffers
+	Array<Buffer> table_buffers;
+	table_buffers.reserve(buffers.size() * buffer_copies);
+	for(uint32_t i = 0; i < buffer_copies; i++) {
+		table_buffers.append(buffers);
+	}
+	TS_LOGF(Message, " Buffers: %u\n", table_buffers.size());
+	
 	// create texture table
-	TextureTable texture_table = device.createTextureTable(textures);
+	TextureTable texture_table = device.createTextureTable(table_textures);
 	if(!texture_table) return 1;
 	
 	// create buffer table
-	BufferTable buffer_table = device.createBufferTable(buffers);
+	BufferTable buffer_table = device.createBufferTable(table_buffers);
 	if(!buffer_table) return 1;
 	
 	// create vertices buffer
@@ -181,25 +210,32 @@ int32_t main(int32_t argc, char **argv) {
 			// create command list
 			Command command = device.createCommand(target);
 			
-			// set pipeline
-			command.setPipeline(pipeline);
-			command.setSampler(0, sampler);
-			command.setTexture(0, texture);
-			command.setTextureTable(0, texture_table);
-			command.setStorageBuffer(0, vertex_buffer);
-			command.setStorageTable(1, buffer_table);
-			command.setIndexBuffer(FormatRu32, index_buffer);
-			
-			// set common parameters
-			CommonParameters common_parameters;
+			// common parameters
+			CommonParameters common_parameters = {};
 			common_parameters.camera = Vector4f(cos(time / 8.0f) * 16.0f, sin(time / 8.0f) * 16.0f, 16.0f, 0.0f);
 			common_parameters.projection = Matrix4x4f::perspective(60.0f, (float32_t)window.getWidth() / window.getHeight(), 0.1f, 1000.0f);
 			common_parameters.modelview = Matrix4x4f::lookAt(Vector3f(common_parameters.camera), Vector3f::zero, Vector3f::oneZ);
 			if(target.isFlipped()) common_parameters.projection = Matrix4x4f::scale(1.0f, -1.0f, 1.0f) * common_parameters.projection;
-			command.setUniform(0, common_parameters);
 			
-			// draw instances
-			command.drawElementsInstanced(num_indices, 0, num_instances);
+			// draw objects
+			for(uint32_t i = 0, j = 0; i < num_instances; i += batch_size, j++) {
+				
+				// set pipeline
+				command.setPipeline(pipelines[j % TS_COUNTOF(pipelines)]);
+				command.setSampler(0, sampler);
+				command.setTexture(0, texture);
+				command.setTextureTable(0, texture_table);
+				command.setStorageBuffer(0, vertex_buffer);
+				command.setStorageTable(1, buffer_table);
+				command.setIndexBuffer(FormatRu32, index_buffer);
+				
+				// set common parameters
+				common_parameters.base_instance = i;
+				command.setUniform(0, common_parameters);
+				
+				// draw instances
+				command.drawElementsInstanced(num_indices, 0, batch_size);
+			}
 		}
 		target.end();
 		

@@ -246,6 +246,7 @@ namespace Tellusim {
 			
 			D3D12Shader();
 			
+			/// native shader
 			ID3DBlob *getShaderBlob() const;
 	};
 	
@@ -261,6 +262,7 @@ namespace Tellusim {
 			
 			D3D11Shader();
 			
+			/// native shader
 			void *getD3D11Shader() const;
 			ID3DBlob *getShaderBlob() const;
 	};
@@ -281,6 +283,7 @@ namespace Tellusim {
 			void setIndirect(bool enabled);
 			bool isIndirect() const;
 			
+			/// native shader
 			void *getLibrary() const;
 			void *getFunction() const;
 	};
@@ -297,6 +300,7 @@ namespace Tellusim {
 			
 			VKShader();
 			
+			/// native shader
 			VkShaderModule getModule() const;
 	};
 	
@@ -314,6 +318,7 @@ namespace Tellusim {
 			
 			bool attachShader(uint32_t program_id);
 			
+			/// native shader
 			uint32_t getShaderType() const;
 			uint32_t getShaderID() const;
 	};
@@ -332,6 +337,7 @@ namespace Tellusim {
 			
 			bool attachShader(uint32_t program_id);
 			
+			/// native shader
 			uint32_t getShaderType() const;
 			uint32_t getShaderID() const;
 	};
@@ -348,6 +354,7 @@ namespace Tellusim {
 			
 			CUShader();
 			
+			/// native shader
 			CUmodule getModule() const;
 			CUfunction getFunction() const;
 	};
@@ -364,6 +371,7 @@ namespace Tellusim {
 			
 			HIPShader();
 			
+			/// native shader
 			void *getModule() const;
 			void *getFunction() const;
 	};
