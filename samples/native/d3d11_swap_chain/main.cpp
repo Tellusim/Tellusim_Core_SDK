@@ -101,6 +101,9 @@ namespace Tellusim {
 		// check surface
 		if(!surface) return false;
 		
+		// release resources
+		if(swap_chain) release();
+		
 		// create window
 		if(!Window::create(flags)) return false;
 		

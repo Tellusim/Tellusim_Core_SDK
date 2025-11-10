@@ -205,7 +205,7 @@ namespace Tellusim {
 			surface_info.hinstance = GetModuleHandleW(nullptr);
 			surface_info.hwnd = (HWND)winId();
 			
-			if(VKContext::error(vkCreateWin32SurfaceKHR(vk_instance, &surface_info, nullptr, &window_surface))) {
+			if(VKContext::error(vkCreateWin32SurfaceKHR(vk_instance, &surface_info, nullptr, &vk_surface))) {
 				TS_LOG(Error, "QVKWidget::create_context(): can't create win32 surface\n");
 				release_context();
 				return false;
@@ -218,7 +218,7 @@ namespace Tellusim {
 			surface_info.dpy = XOpenDisplay(nullptr);
 			surface_info.window = (::Window)winId();
 			
-			if(VKContext::error(vkCreateXlibSurfaceKHR(vk_instance, &surface_info, nullptr, &window_surface))) {
+			if(VKContext::error(vkCreateXlibSurfaceKHR(vk_instance, &surface_info, nullptr, &vk_surface))) {
 				TS_LOG(Error, "QVKWidget::create_context(): can't create xlib surface\n");
 				release_context();
 				return false;
@@ -228,7 +228,7 @@ namespace Tellusim {
 		
 		// check surface queue
 		VkBool32 surface_supported = VK_FALSE;
-		if(VKContext::error(vkGetPhysicalDeviceSurfaceSupportKHR(vk_adapter, vk_family, window_surface, &surface_supported)) || surface_supported == false) {
+		if(VKContext::error(vkGetPhysicalDeviceSurfaceSupportKHR(vk_adapter, vk_family, vk_surface, &surface_supported)) || surface_supported == false) {
 			TS_LOG(Error, "QVKWidget::create_context(): surface is not supported by adapter\n");
 			release_context();
 			return false;
@@ -240,13 +240,13 @@ namespace Tellusim {
 		
 		// surface color format
 		uint32_t num_color_formats = 0;
-		if(VKContext::error(vkGetPhysicalDeviceSurfaceFormatsKHR(vk_adapter, window_surface, &num_color_formats, nullptr)) || num_color_formats == 0) {
+		if(VKContext::error(vkGetPhysicalDeviceSurfaceFormatsKHR(vk_adapter, vk_surface, &num_color_formats, nullptr)) || num_color_formats == 0) {
 			TS_LOG(Error, "QVKWidget::create_context(): can't get surface formats count\n");
 			release_context();
 			return false;
 		}
 		Array<VkSurfaceFormatKHR> color_formats(num_color_formats);
-		if(vkGetPhysicalDeviceSurfaceFormatsKHR(vk_adapter, window_surface, &num_color_formats, color_formats.get())) {
+		if(vkGetPhysicalDeviceSurfaceFormatsKHR(vk_adapter, vk_surface, &num_color_formats, color_formats.get())) {
 			TS_LOG(Error, "QVKWidget::create_context(): can't get surface formats\n");
 			release_context();
 			return false;
@@ -356,9 +356,9 @@ namespace Tellusim {
 		release_swap_chain();
 		
 		// release window surface
-		if(window_surface) vkDestroySurfaceKHR(vk_instance, window_surface, nullptr);
+		if(vk_surface) vkDestroySurfaceKHR(vk_instance, vk_surface, nullptr);
 		if(render_pass) vkDestroyRenderPass(vk_device, render_pass, nullptr);
-		window_surface = VK_NULL_HANDLE;
+		vk_surface = VK_NULL_HANDLE;
 		render_pass = VK_NULL_HANDLE;
 		
 		// clear device
@@ -377,13 +377,13 @@ namespace Tellusim {
 		
 		// surface present mode
 		uint32_t num_present_modes = 0;
-		if(VKContext::error(vkGetPhysicalDeviceSurfacePresentModesKHR(vk_adapter, window_surface, &num_present_modes, nullptr)) || num_present_modes == 0) {
+		if(VKContext::error(vkGetPhysicalDeviceSurfacePresentModesKHR(vk_adapter, vk_surface, &num_present_modes, nullptr)) || num_present_modes == 0) {
 			TS_LOG(Error, "QVKWidget::create_swap_chain(): can't get surface present modes count\n");
 			release_context();
 			return false;
 		}
 		Array<VkPresentModeKHR> present_modes(num_present_modes);
-		if(VKContext::error(vkGetPhysicalDeviceSurfacePresentModesKHR(vk_adapter, window_surface, &num_present_modes, present_modes.get()))) {
+		if(VKContext::error(vkGetPhysicalDeviceSurfacePresentModesKHR(vk_adapter, vk_surface, &num_present_modes, present_modes.get()))) {
 			TS_LOG(Error, "QVKWidget::create_swap_chain(): can't get surface present modes\n");
 			release_context();
 			return false;
@@ -391,7 +391,7 @@ namespace Tellusim {
 		
 		// surface capabilities
 		VkSurfaceCapabilitiesKHR capabilities = {};
-		if(VKContext::error(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(vk_adapter, window_surface, &capabilities))) {
+		if(VKContext::error(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(vk_adapter, vk_surface, &capabilities))) {
 			TS_LOG(Error, "QVKWidget::create_swap_chain(): can't get surface capabilities\n");
 			return false;
 		}
@@ -410,6 +410,7 @@ namespace Tellusim {
 		// number of images
 		uint32_t num_images = max(capabilities.minImageCount + 1, (uint32_t)NumFrames);
 		if(capabilities.maxImageCount > 0) num_images = min(num_images, capabilities.maxImageCount);
+		frame_index = num_images - 1;
 		
 		// swap chain size
 		if(capabilities.currentExtent.width == Maxu32) {
@@ -428,7 +429,7 @@ namespace Tellusim {
 		// create swap chain
 		VkSwapchainCreateInfoKHR swap_chain_info = {};
 		swap_chain_info.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-		swap_chain_info.surface = window_surface;
+		swap_chain_info.surface = vk_surface;
 		swap_chain_info.minImageCount = num_images;
 		swap_chain_info.imageFormat = color_format.format;
 		swap_chain_info.imageColorSpace = color_format.colorSpace;
