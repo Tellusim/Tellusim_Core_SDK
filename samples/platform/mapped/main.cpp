@@ -6,7 +6,9 @@
 #include <core/TellusimSource.h>
 #include <platform/TellusimDevice.h>
 #include <platform/TellusimBuffer.h>
+#include <platform/TellusimKernel.h>
 #include <platform/TellusimPipeline.h>
+#include <platform/TellusimCompute.h>
 #include <platform/TellusimCommand.h>
 
 /*
@@ -27,6 +29,20 @@ int32_t main(int32_t argc, char **argv) {
 	Device device(window);
 	if(!device) return 1;
 	
+	// load image
+	Image image;
+	if(!image.load("texture.jpg")) return 1;
+	image = image.toFormat(FormatRGBAu8n);
+	
+	// global macros
+	Shader::setMacro("WIDTH", String::fromu32(image.getWidth()).get());
+	Shader::setMacro("HEIGHT", String::fromu32(image.getHeight()).get());
+	
+	// create kernel
+	Kernel kernel = device.createKernel().setUniforms(1).setStorages(1);
+	if(!kernel.loadShaderGLSL("main.shader", "COMPUTE_SHADER=1")) return 1;
+	if(!kernel.create()) return 1;
+	
 	// create pipeline
 	Pipeline pipeline = device.createPipeline();
 	pipeline.setUniformMask(0, Shader::MaskVertex);
@@ -38,11 +54,6 @@ int32_t main(int32_t argc, char **argv) {
 	if(!pipeline.loadShaderGLSL(Shader::TypeVertex, "main.shader", "VERTEX_SHADER=1")) return 1;
 	if(!pipeline.loadShaderGLSL(Shader::TypeFragment, "main.shader", "FRAGMENT_SHADER=1")) return 1;
 	if(!pipeline.create()) return 1;
-	
-	// load image
-	Image image;
-	if(!image.load("texture.jpg")) return 1;
-	image = image.toFormat(FormatRGBAu8n);
 	
 	// save image data to the file
 	File file;
@@ -81,6 +92,20 @@ int32_t main(int32_t argc, char **argv) {
 		// window title
 		if(fps > 0.0f) window.setTitle(String::format("%s %.1f FPS", title.get(), fps));
 		
+		{
+			// create command list
+			Compute compute = device.createCompute();
+			
+			// set kernel
+			compute.setKernel(kernel);
+			compute.setUniform(0, time);
+			compute.setStorageBuffer(0, buffer);
+			
+			// dispatch kernel
+			compute.dispatch(image.getWidth(), image.getHeight());
+			compute.barrier(buffer);
+		}
+		
 		// window target
 		target.begin();
 		{
@@ -107,6 +132,15 @@ int32_t main(int32_t argc, char **argv) {
 	
 	// finish context
 	window.finish();
+	
+	// close mapped file
+	buffer.clearPtr();
+	source.close();
+	
+	// read mapped file
+	if(source.open("texture.raw") && source.readu32() == Maxu32) {
+		TS_LOG(Message, "File has been updated by compute shader\n");
+	}
 	
 	return 0;
 }

@@ -6,7 +6,7 @@
 
 #define TS_APP_NAME		"Project"
 #define TS_APP_PATH		".tellusim"
-#define TS_APP_VERSION	"1.01"
+#define TS_APP_VERSION	"1.02"
 
 #include <system/logger/include/TellusimLogger.h>
 #include <system/config/include/TellusimConfig.h>

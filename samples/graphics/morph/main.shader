@@ -11,7 +11,7 @@
 	layout(location = 1) in vec3 in_normal;
 	layout(location = 2) in uint in_index;
 	
-	layout(row_major, binding = 0) uniform common_parameters {
+	layout(row_major, binding = 0) uniform CommonParameters {
 		mat4 projection;
 		mat4 modelview;
 		mat4 transform;
@@ -19,7 +19,7 @@
 		float time;
 	};
 	
-	layout(binding = 1) uniform target_parameters {
+	layout(binding = 1) uniform TargetParameters {
 		uint base_target;
 		uint num_targets;
 		uint num_vertices;
@@ -28,7 +28,7 @@
 	#if TEXEL
 		layout(binding = 0, set = 1) uniform samplerBuffer in_targets;
 	#else
-		layout(std430, binding = 2) readonly buffer targets_buffer { uint targets_data[]; };
+		layout(std430, binding = 2) readonly buffer TargetsBuffer { uint targets_buffer[]; };
 	#endif
 	
 	layout(location = 0) out vec3 s_direction;
@@ -63,8 +63,8 @@
 				morph_position += texelFetch(in_targets, index).xyz * weight;
 				index += num_vertices;
 			#else
-				morph_position.xy += unpackHalf2x16(targets_data[index + 0u]) * weight;
-				morph_position.z += unpackHalf2x16(targets_data[index + 1u]).x * weight;
+				morph_position.xy += unpackHalf2x16(targets_buffer[index + 0u]) * weight;
+				morph_position.z += unpackHalf2x16(targets_buffer[index + 1u]).x * weight;
 				index += num_vertices * 2u;
 			#endif
 			
@@ -73,7 +73,7 @@
 				morph_normal += texelFetch(in_targets, index).xyz * weight;
 				index += num_vertices;
 			#else
-				morph_normal += mix(normal.xyz, vec3(unpackHalf2x16(targets_data[index + 0u]), unpackHalf2x16(targets_data[index + 1u]).x), weight) * abs(weight);
+				morph_normal += mix(normal.xyz, vec3(unpackHalf2x16(targets_buffer[index + 0u]), unpackHalf2x16(targets_buffer[index + 1u]).x), weight) * abs(weight);
 				index += num_vertices * 2u;
 			#endif
 		}
