@@ -519,7 +519,8 @@ tsApp.Values = Object.freeze({
 	Version_39 : 20250322,
 	Version_40 : 20250429,
 	Version_41 : 20250816,
-	Version : 20250816,
+	Version_42 : 20251102,
+	Version : 20251102,
 });
 tsApp.prototype['clear'] = tsApp.prototype.clear = function() {
 	if(arguments.length == 0) return _tsApp_clear(this.self);
@@ -568,8 +569,8 @@ tsApp.prototype['isArgument'] = tsApp.prototype.isArgument = function() {
 };
 tsApp.prototype['create'] = tsApp.prototype.create = function() {
 	if(arguments.length == 2) return _tsApp_create(this.self, arguments[0], arguments[1]);
-	if(arguments.length == 1) return _tsApp_create(this.self, arguments[0], 20250816);
-	if(arguments.length == 0) return _tsApp_create(this.self, 0, 20250816);
+	if(arguments.length == 1) return _tsApp_create(this.self, arguments[0], 20251102);
+	if(arguments.length == 0) return _tsApp_create(this.self, 0, 20251102);
 	throw 'invalid App.create() arguments';
 };
 tsApp['setPlatform'] = tsApp.setPlatform = function() {

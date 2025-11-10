@@ -7,6 +7,7 @@ TESTS = \
 	mesh_tree \
 	meshlet \
 	model \
+	object_tree \
 	parallax_2d \
 	parallax_cube \
 	separable_filter \

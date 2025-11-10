@@ -129,6 +129,8 @@ clean_:
 #
 # Dependencies
 #
+ifneq "$(MAKECMDGOALS)" "run"
 ifneq "$(MAKECMDGOALS)" "clean"
  	-include $(DEPEND)
+endif
 endif
