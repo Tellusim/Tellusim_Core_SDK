@@ -51,6 +51,10 @@ namespace Tellusim {
 			TS_INLINE bool hasFlag(Flags flags) const { return ((getFlags() & flags) != FlagNone); }
 			TS_INLINE bool hasFlags(Flags flags) const { return ((getFlags() & flags) == flags); }
 			
+			/// streamer prefixes
+			void addPrefix(const char *name, const char *value = nullptr);
+			void addPrefix(const String &name, const String &value = String::null);
+			
 			/// streamer blobs
 			void addBlob(const char *name, const uint8_t (*blob)[256]);
 			void addBlob(const String &name, const uint8_t (*blob)[256]);
@@ -89,11 +93,16 @@ namespace Tellusim {
 		private:
 			
 			/// load archive
-			bool load_archive(Stream &stream, const char *name, const char *type = nullptr);
+			bool load_archive(Stream &stream, const char *name, const char *type = nullptr, uint32_t file_index = Maxu32);
 			
 			/// stream callback
 			static Stream open_callback(const char *name, void *data);
 			static bool is_callback(const char *name, void *data);
+			
+			struct Prefix {
+				String name;							// prefix name
+				String value;							// prefix value
+			};
 			
 			struct StreamerFile {
 				String name;							// file name
@@ -107,6 +116,8 @@ namespace Tellusim {
 			SpinLock lock;								// streamer lock
 			
 			Flags flags = FlagNone;						// streamer flags
+			
+			Array<Prefix> prefixes;						// streamer prefixes
 			
 			Array<AutoPtr<Archive>> archives;			// streamer archives
 			

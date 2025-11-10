@@ -78,6 +78,15 @@
 			"source": "samples/graphics/mesh_tree/main.cpp",
 			"project": "samples/graphics/mesh_tree/mesh_tree"
 		},
+		"graphics_object_tree": {
+			"title": "Compute Traversal",
+			"image": "images/graphics/graphics_object_tree.jpg",
+			"text": "Compute Shader BVH tree traversal is a key technique in GPU-driven rendering that provides significantly better performance than CPU-based culling.",
+			"path": "samples/graphics/object_tree",
+			"exec": "main",
+			"source": "samples/graphics/object_tree/main.cpp",
+			"project": "samples/graphics/object_tree/object_tree"
+		},
 		"graphics_decoder_jpeg": {
 			"title": "JPEG Decoder",
 			"image": "images/graphics/graphics_decoder_jpeg.jpg",
