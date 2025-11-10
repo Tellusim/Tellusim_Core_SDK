@@ -19,6 +19,9 @@ int32_t main(int32_t argc, char **argv) {
 	flags |= Streamer::FlagRecursive;
 	Streamer streamer(flags);
 	
+	// streamer prefix
+	streamer.addPrefix("./");
+	
 	// recursive loading
 	if(!streamer.loadDirectory("data")) return 1;
 	
@@ -36,7 +39,7 @@ int32_t main(int32_t argc, char **argv) {
 	Source source;
 	
 	// archive stream
-	if(source.open("archive.txt")) {
+	if(source.open("./directory/archive.txt")) {
 		TS_LOGF(Message, "%s\n", source.gets().get());
 		source.close();
 	}
