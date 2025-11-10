@@ -274,6 +274,7 @@ namespace Tellusim {
 			/// create external texture
 			bool create(Type type, ID3D12Resource *texture, uint32_t state, Flags flags = DefaultFlags, Format format = FormatUnknown);
 			
+			/// native texture
 			uint32_t getDXGIFormat() const;
 			ID3D12Resource *getD3D12Texture() const;
 			size_t getShaderResourceView() const;
@@ -306,6 +307,7 @@ namespace Tellusim {
 			/// create external texture
 			bool create(Type type, ID3D11Texture2D *texture, Flags flags = DefaultFlags, Format format = FormatUnknown);
 			
+			/// native texture
 			uint32_t getDXGIFormat() const;
 			ID3D11Texture2D *getD3D11Texture() const;
 			ID3D11ShaderResourceView *getShaderResourceView() const;
@@ -334,6 +336,7 @@ namespace Tellusim {
 			/// create external texture
 			bool create(void *texture, Flags flags = DefaultFlags, Format format = FormatUnknown);
 			
+			/// native texture
 			uint32_t getPixelFormat() const;
 			uint32_t getTextureType() const;
 			void *getMTLTexture() const;
@@ -349,7 +352,7 @@ namespace Tellusim {
 	 * The VKTexture class is a Vulkan-specific implementation of the Texture class, providing access to Vulkan texture resources and views.
 	 * It enables the creation of external textures, specifying Vulkan image handles, formats, and layouts, while supporting various texture formats and flags.
 	 * This class allows for managing texture layouts, retrieving texture views, and interacting with Vulkan-specific texture ranges, along with shared pointer functionality for interoperability.
-	 * The class also inherits the create method from the Texture class, facilitating the initialization of textures in Vulkan-based applications.VKTexture
+	 * The class also inherits the create method from the Texture class, facilitating the initialization of textures in Vulkan-based applications.
 	 */
 	class TS_API VKTexture : public Texture {
 			
@@ -362,6 +365,7 @@ namespace Tellusim {
 			/// create external texture
 			bool create(Type type, uint32_t format, VkImage texture, uint32_t layout, Flags flags = DefaultFlags, Format texture_format = FormatUnknown);
 			
+			/// native texture
 			uint32_t getPixelFormat() const;
 			VkImage getVKTexture() const;
 			VkImageView getTextureView() const;
@@ -393,6 +397,7 @@ namespace Tellusim {
 			/// create external texture
 			bool create(uint32_t target, uint32_t texture_id, Flags flags = DefaultFlags, Format format = FormatUnknown);
 			
+			/// native texture
 			uint32_t getTarget() const;
 			uint32_t getInternalFormat() const;
 			uint32_t getTextureID() const;
@@ -416,6 +421,7 @@ namespace Tellusim {
 			/// create external texture
 			bool create(uint32_t target, uint32_t texture_id, Flags flags = DefaultFlags, Format format = FormatUnknown);
 			
+			/// native texture
 			uint32_t getTarget() const;
 			uint32_t getInternalFormat() const;
 			uint32_t getTextureID() const;
@@ -436,6 +442,7 @@ namespace Tellusim {
 			
 			CUTexture();
 			
+			/// native texture
 			CUmipmappedArray getTextureArray() const;
 			CUarray getTextureLevel(uint32_t index) const;
 			uint32_t getArrayFormat() const;
@@ -456,6 +463,7 @@ namespace Tellusim {
 			
 			HIPTexture();
 			
+			/// native texture
 			void *getTextureArray() const;
 			void *getTextureLevel(uint32_t index) const;
 			uint32_t getArrayFormat() const;

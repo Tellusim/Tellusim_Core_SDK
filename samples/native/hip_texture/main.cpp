@@ -12,25 +12,29 @@
 
 /*
  */
-__global__ void kernel(uint32_t size, float time, hipSurfaceObject_t surface) {
+using Tellusim::float32_t;
+
+/*
+ */
+__global__ void kernel(uint32_t size, float32_t time, hipSurfaceObject_t surface) {
 	
 	uint32_t global_x = blockDim.x * blockIdx.x + threadIdx.x;
 	uint32_t global_y = blockDim.y * blockIdx.y + threadIdx.y;
 	
-	float k = time * 2.0f;
+	float32_t k = time * 2.0f;
 	
-	float s = sin(time * 0.5f);
-	float c = cos(time * 0.5f);
+	float32_t s = sin(time * 0.5f);
+	float32_t c = cos(time * 0.5f);
 	
-	float2 t = make_float2((float)global_x / (float)size - 0.5f, (float)global_y / (float)size - 0.5f);
+	float2 t = make_float2((float32_t)global_x / (float32_t)size - 0.5f, (float32_t)global_y / (float32_t)size - 0.5f);
 	
 	t = make_float2((s * t.x + c * t.y) * 32.0f - 16.0f, (c * t.x - s * t.y) * 32.0f - 16.0f);
 	
-	float v = sin(t.x + k) + sin(t.y + k) + sin(t.x + t.y + k) + sin(sqrt(t.x * t.x + t.y * t.y) + k * 3.0f) + k * 2.0f;
+	float32_t v = sin(t.x + k) + sin(t.y + k) + sin(t.x + t.y + k) + sin(sqrt(t.x * t.x + t.y * t.y) + k * 3.0f) + k * 2.0f;
 	
-	float r = (cos(v + 0.00f) * 0.5f + 0.5f) * 255.0f;
-	float g = (cos(v + 1.57f) * 0.5f + 0.5f) * 255.0f;
-	float b = (cos(v + 3.14f) * 0.5f + 0.5f) * 255.0f;
+	float32_t r = (cos(v + 0.00f) * 0.5f + 0.5f) * 255.0f;
+	float32_t g = (cos(v + 1.57f) * 0.5f + 0.5f) * 255.0f;
+	float32_t b = (cos(v + 3.14f) * 0.5f + 0.5f) * 255.0f;
 	uchar4 color = make_uchar4((uint8_t)r, (uint8_t)g, (uint8_t)b, 255);
 	
 	surf2Dwrite(color, surface, global_x * sizeof(uchar4), global_y);
