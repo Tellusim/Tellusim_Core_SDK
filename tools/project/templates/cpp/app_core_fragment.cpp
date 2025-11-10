@@ -16,19 +16,19 @@ class Application {
 	public:
 		
 		// constructor initializing the application with command-line arguments
-		explicit Application(int32_t argc, char **argv) : app(argc, argv) {
+		Application(int32_t argc, char **argv) : app(argc, argv) {
 			
 		}
 		
 		// destructor cleans up resources
-		~Application() {
+		virtual ~Application() {
 			
 			// finish context
 			if(window) window.finish();
 		}
 		
 		// create function responsible for initialization
-		bool create() {
+		virtual bool create() {
 			
 			// create app
 			if(!app.create()) {
@@ -48,7 +48,7 @@ class Application {
 		}
 		
 		// update function for logic updates
-		bool update() {
+		virtual bool update() {
 			
 			// your update logic here
 			
@@ -56,7 +56,7 @@ class Application {
 		}
 		
 		// render function to handle the drawing commands
-		bool render(Command &command) {
+		virtual bool render(Command &command) {
 			
 			// fragment uniform parameters
 			struct FragmentParameters {
@@ -79,7 +79,7 @@ class Application {
 		}
 		
 		// main run loop
-		bool run() {
+		virtual bool run() {
 			
 			// run application
 			if(window) return window.run([this]() {
@@ -92,7 +92,7 @@ class Application {
 	private:
 		
 		// helper function to create and initialize the Window
-		bool create_window() {
+		virtual bool create_window() {
 			
 			// create Window
 			window = Window(app.getPlatform(), app.getDevice());
@@ -127,7 +127,7 @@ class Application {
 		}
 		
 		// helper function to create and load resources
-		bool create_resources() {
+		virtual bool create_resources() {
 			
 			// create pipeline
 			pipeline = device.createPipeline();
@@ -153,7 +153,7 @@ class Application {
 		}
 		
 		// helper function to render the Window
-		bool render_window() {
+		virtual bool render_window() {
 			
 			// update events
 			Window::update();
