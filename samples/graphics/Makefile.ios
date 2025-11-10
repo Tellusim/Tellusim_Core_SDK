@@ -12,6 +12,7 @@ TESTS = \
 	meshlet \
 	model \
 	morph \
+	object_tree \
 	parallax_2d \
 	parallax_cube \
 	separable_filter \

@@ -215,6 +215,7 @@ namespace Tellusim {
 	TS_STATIC_ASSERT(TS_AppVersion_39 == (uint32_t)App::Version_39);
 	TS_STATIC_ASSERT(TS_AppVersion_40 == (uint32_t)App::Version_40);
 	TS_STATIC_ASSERT(TS_AppVersion_41 == (uint32_t)App::Version_41);
+	TS_STATIC_ASSERT(TS_AppVersion_42 == (uint32_t)App::Version_42);
 	TS_STATIC_ASSERT(TS_AppVersion == (uint32_t)App::Version);
 	
 	// Tellusim::Socket::Type
