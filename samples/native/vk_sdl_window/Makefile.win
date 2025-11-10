@@ -2,6 +2,6 @@ SRCS = main.cpp
 
 FLAGS = /Iinclude
 
-LDFLAGS = /subsystem:console lib\x64\SDL2main.lib lib\x64\SDL2.lib shell32.lib $(VULKAN_SDK)/lib/vulkan-1.lib
+LDFLAGS = /subsystem:console lib\x64\SDL2main.lib lib\x64\SDL2.lib shell32.lib
 
 include ..\..\Makefile.win.mk
