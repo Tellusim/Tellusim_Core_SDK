@@ -63,6 +63,7 @@ namespace Tellusim {
 			Type getType() const;
 			
 			/// socket utils
+			/// \param delimiter A literal delimiter between multiple addresses. The first address is returned if not provided.
 			static String getAddress(const char *delimiter = nullptr);
 	};
 	

@@ -81,6 +81,7 @@ namespace Tellusim {
 			
 			VKFence();
 			
+			/// native fence
 			VkFence getVKFence() const;
 			VkSemaphore getSemaphore() const;
 			

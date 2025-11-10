@@ -12,13 +12,13 @@
 		layout(location = 0) in vec4 in_position;
 		layout(location = 1) in vec3 in_normal;
 		
-		layout(row_major, binding = 0) uniform common_parameters {
+		layout(row_major, binding = 0) uniform CommonParameters {
 			mat4 projection;
 			mat4 modelview;
 			vec4 camera;
 		};
 		
-		layout(binding = 1) uniform color_parameters {
+		layout(binding = 1) uniform ColorParameters {
 			vec4 colors[NUM_COLORS];
 		};
 		

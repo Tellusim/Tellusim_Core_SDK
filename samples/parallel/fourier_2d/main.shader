@@ -93,7 +93,7 @@
 	
 #elif VERTEX_SHADER
 	
-	layout(std140, binding = 0) uniform common_parameters {
+	layout(std140, binding = 0) uniform CommonParameters {
 		vec4 size;
 		float scale;
 	};
@@ -124,7 +124,7 @@
 	
 #elif FRAGMENT_SHADER
 	
-	layout(std140, binding = 0) uniform common_parameters {
+	layout(std140, binding = 0) uniform CommonParameters {
 		vec4 size;
 		float scale;
 	};

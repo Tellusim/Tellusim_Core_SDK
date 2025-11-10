@@ -165,6 +165,7 @@ namespace Tellusim {
 			/// create external buffer
 			bool create(Flags flags, ID3D12Resource *buffer, uint32_t state);
 			
+			/// native buffer
 			ID3D12Resource *getD3D12Buffer() const;
 			size_t getUnorderedAccessView() const;
 			size_t getShaderResourceView() const;
@@ -195,6 +196,7 @@ namespace Tellusim {
 			/// create external buffer
 			bool create(Flags flags, ID3D11Buffer *buffer);
 			
+			/// native buffer
 			ID3D11Buffer *getD3D11Buffer() const;
 			ID3D11UnorderedAccessView *getUnorderedAccessView() const;
 			ID3D11ShaderResourceView *getShaderResourceView() const;
@@ -220,6 +222,7 @@ namespace Tellusim {
 			/// create external buffer
 			bool create(Flags flags, void *buffer);
 			
+			/// native buffer
 			void *getMTLBuffer() const;
 			
 			void *getSharedPtr() const;
@@ -243,6 +246,7 @@ namespace Tellusim {
 			/// create external buffer
 			bool create(Flags flags, size_t size, VkBuffer buffer, uint32_t access);
 			
+			/// native buffer
 			VkBuffer getVKBuffer() const;
 			VkBufferView getBufferView() const;
 			uint64_t getBufferAddress() const;
@@ -272,6 +276,7 @@ namespace Tellusim {
 			/// create external buffer
 			bool create(Flags flags, uint32_t target, uint32_t buffer_id);
 			
+			/// native buffer
 			uint32_t getTarget() const;
 			uint32_t getBufferID() const;
 			
@@ -294,6 +299,7 @@ namespace Tellusim {
 			/// create external buffer
 			bool create(Flags flags, uint32_t target, uint32_t buffer_id);
 			
+			/// native buffer
 			uint32_t getTarget() const;
 			uint32_t getBufferID() const;
 			
@@ -313,6 +319,7 @@ namespace Tellusim {
 			
 			CUBuffer();
 			
+			/// native buffer
 			size_t getBufferPtr() const;
 			uint8_t *getBufferData() const;
 			CUevent getBufferEvent() const;
@@ -334,6 +341,7 @@ namespace Tellusim {
 			
 			HIPBuffer();
 			
+			/// native buffer
 			void *getBufferPtr() const;
 			uint8_t *getBufferData() const;
 			void *getBufferEvent() const;

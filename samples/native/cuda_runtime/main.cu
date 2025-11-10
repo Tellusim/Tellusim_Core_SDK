@@ -10,19 +10,23 @@
 
 /*
  */
-__global__ void kernel(uint32_t size, float scale, float time, float4 *positions) {
+using Tellusim::float32_t;
+
+/*
+ */
+__global__ void kernel(uint32_t size, float32_t scale, float32_t time, float4 *positions) {
 	
 	uint32_t global_x = blockDim.x * blockIdx.x + threadIdx.x;
 	uint32_t global_y = blockDim.y * blockIdx.y + threadIdx.y;
 	
 	uint32_t id = global_y * size + global_x;
 	
-	float x = (float)global_x / size * 2.0f - 1.0f;
-	float y = (float)global_y / size * 2.0f - 1.0f;
+	float32_t x = (float32_t)global_x / size * 2.0f - 1.0f;
+	float32_t y = (float32_t)global_y / size * 2.0f - 1.0f;
 	
-	float r = sin(x * scale) * 0.5f + 0.5f;
-	float g = cos(y * scale) * 0.5f + 0.5f;
-	float b = max(1.0f - r - g, 0.0f);
+	float32_t r = sin(x * scale) * 0.5f + 0.5f;
+	float32_t g = cos(y * scale) * 0.5f + 0.5f;
+	float32_t b = max(1.0f - r - g, 0.0f);
 	
 	uint32_t color = 0xff000000u;
 	color |= (uint32_t)(r * 255.0f) << 0u;

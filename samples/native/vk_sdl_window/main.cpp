@@ -75,29 +75,43 @@ namespace Tellusim {
 			
 			VKContext context;
 			VKSurface surface;
-			
-			VkInstance instance = VK_NULL_HANDLE;
-			VkPhysicalDevice adapter = VK_NULL_HANDLE;
-			VkDevice vk_device = VK_NULL_HANDLE;
+			Device device;
 			
 			VkSurfaceKHR vk_surface = VK_NULL_HANDLE;
-			
-			VkSurfaceFormatKHR color_format = {};
-			VkFormat depth_image_format = VK_FORMAT_UNDEFINED;
 			VkRenderPass render_pass = VK_NULL_HANDLE;
-			
 			VkSwapchainKHR swap_chain = VK_NULL_HANDLE;
 			
 			Array<Frame> frames;
-			uint32_t frame_index = NumFrames - 1;
+			uint32_t frame_index = 0;
+			VkSurfaceFormatKHR color_format = {};
 			
-			Device device;
+			VkFormat depth_image_format = VK_FORMAT_UNDEFINED;
+			VKTexture depth_stencil_texture;
 			
 			Pipeline pipeline;
 			Buffer vertex_buffer;
 			Buffer index_buffer;
 			
-			VKTexture depth_stencil_texture;
+			PFN_vkGetPhysicalDeviceSurfaceSupportKHR vkGetPhysicalDeviceSurfaceSupportKHR = nullptr;
+			PFN_vkGetPhysicalDeviceSurfaceCapabilitiesKHR vkGetPhysicalDeviceSurfaceCapabilitiesKHR = nullptr;
+			PFN_vkGetPhysicalDeviceSurfaceFormatsKHR vkGetPhysicalDeviceSurfaceFormatsKHR = nullptr;
+			PFN_vkGetPhysicalDeviceSurfacePresentModesKHR vkGetPhysicalDeviceSurfacePresentModesKHR = nullptr;
+			PFN_vkGetPhysicalDeviceImageFormatProperties vkGetPhysicalDeviceImageFormatProperties = nullptr;
+			PFN_vkCreateSwapchainKHR vkCreateSwapchainKHR = nullptr;
+			PFN_vkDestroySwapchainKHR vkDestroySwapchainKHR = nullptr;
+			PFN_vkGetSwapchainImagesKHR vkGetSwapchainImagesKHR = nullptr;
+			PFN_vkAcquireNextImageKHR vkAcquireNextImageKHR = nullptr;
+			PFN_vkQueuePresentKHR vkQueuePresentKHR = nullptr;
+			PFN_vkQueueSubmit vkQueueSubmit = nullptr;
+			PFN_vkCreateSemaphore vkCreateSemaphore = nullptr;
+			PFN_vkDestroySemaphore vkDestroySemaphore = nullptr;
+			PFN_vkCreateImageView vkCreateImageView = nullptr;
+			PFN_vkDestroyImageView vkDestroyImageView = nullptr;
+			PFN_vkCreateRenderPass vkCreateRenderPass = nullptr;
+			PFN_vkDestroyRenderPass vkDestroyRenderPass = nullptr;
+			PFN_vkCreateFramebuffer vkCreateFramebuffer = nullptr;
+			PFN_vkDestroyFramebuffer vkDestroyFramebuffer = nullptr;
+			PFN_vkCmdPipelineBarrier vkCmdPipelineBarrier = nullptr;
 	};
 	
 	/*
@@ -154,12 +168,30 @@ namespace Tellusim {
 			return false;
 		}
 		
-		instance = context.getInstance();
-		adapter = context.getAdapter();
-		vk_device = context.getDevice();
+		// Vulkan functions
+		vkGetPhysicalDeviceSurfaceSupportKHR = (PFN_vkGetPhysicalDeviceSurfaceSupportKHR)context.getProcAddress("vkGetPhysicalDeviceSurfaceSupportKHR");
+		vkGetPhysicalDeviceSurfaceCapabilitiesKHR = (PFN_vkGetPhysicalDeviceSurfaceCapabilitiesKHR)context.getProcAddress("vkGetPhysicalDeviceSurfaceCapabilitiesKHR");
+		vkGetPhysicalDeviceSurfaceFormatsKHR = (PFN_vkGetPhysicalDeviceSurfaceFormatsKHR)context.getProcAddress("vkGetPhysicalDeviceSurfaceFormatsKHR");
+		vkGetPhysicalDeviceSurfacePresentModesKHR = (PFN_vkGetPhysicalDeviceSurfacePresentModesKHR)context.getProcAddress("vkGetPhysicalDeviceSurfacePresentModesKHR");
+		vkGetPhysicalDeviceImageFormatProperties = (PFN_vkGetPhysicalDeviceImageFormatProperties)context.getProcAddress("vkGetPhysicalDeviceImageFormatProperties");
+		vkCreateSwapchainKHR = (PFN_vkCreateSwapchainKHR)context.getProcAddress("vkCreateSwapchainKHR");
+		vkDestroySwapchainKHR = (PFN_vkDestroySwapchainKHR)context.getProcAddress("vkDestroySwapchainKHR");
+		vkGetSwapchainImagesKHR = (PFN_vkGetSwapchainImagesKHR)context.getProcAddress("vkGetSwapchainImagesKHR");
+		vkAcquireNextImageKHR = (PFN_vkAcquireNextImageKHR)context.getProcAddress("vkAcquireNextImageKHR");
+		vkQueuePresentKHR = (PFN_vkQueuePresentKHR)context.getProcAddress("vkQueuePresentKHR");
+		vkQueueSubmit = (PFN_vkQueueSubmit)context.getProcAddress("vkQueueSubmit");
+		vkCreateSemaphore = (PFN_vkCreateSemaphore)context.getProcAddress("vkCreateSemaphore");
+		vkDestroySemaphore = (PFN_vkDestroySemaphore)context.getProcAddress("vkDestroySemaphore");
+		vkCreateImageView = (PFN_vkCreateImageView)context.getProcAddress("vkCreateImageView");
+		vkDestroyImageView = (PFN_vkDestroyImageView)context.getProcAddress("vkDestroyImageView");
+		vkCreateRenderPass = (PFN_vkCreateRenderPass)context.getProcAddress("vkCreateRenderPass");
+		vkDestroyRenderPass = (PFN_vkDestroyRenderPass)context.getProcAddress("vkDestroyRenderPass");
+		vkCreateFramebuffer = (PFN_vkCreateFramebuffer)context.getProcAddress("vkCreateFramebuffer");
+		vkDestroyFramebuffer = (PFN_vkDestroyFramebuffer)context.getProcAddress("vkDestroyFramebuffer");
+		vkCmdPipelineBarrier = (PFN_vkCmdPipelineBarrier)context.getProcAddress("vkCmdPipelineBarrier");
 		
 		// create window surface
-		if(!SDL_Vulkan_CreateSurface(window, instance, &vk_surface)) {
+		if(!SDL_Vulkan_CreateSurface(window, context.getInstance(), &vk_surface)) {
 			TS_LOG(Error, "VKSDLWindow::create(): can't create surface\n");
 			return false;
 		}
@@ -238,7 +270,7 @@ namespace Tellusim {
 		
 		// check surface queue
 		VkBool32 surface_supported = VK_FALSE;
-		if(VKContext::error(vkGetPhysicalDeviceSurfaceSupportKHR(adapter, context.getFamily(), vk_surface, &surface_supported)) || surface_supported == false) {
+		if(VKContext::error(vkGetPhysicalDeviceSurfaceSupportKHR(context.getAdapter(), context.getFamily(), vk_surface, &surface_supported)) || surface_supported == false) {
 			TS_LOG(Error, "VKSDLWindow::create_render_pass(): surface is not supported by adapter\n");
 			return false;
 		}
@@ -249,12 +281,12 @@ namespace Tellusim {
 		
 		// surface color format
 		uint32_t num_color_formats = 0;
-		if(VKContext::error(vkGetPhysicalDeviceSurfaceFormatsKHR(adapter, vk_surface, &num_color_formats, nullptr)) || num_color_formats == 0) {
+		if(VKContext::error(vkGetPhysicalDeviceSurfaceFormatsKHR(context.getAdapter(), vk_surface, &num_color_formats, nullptr)) || num_color_formats == 0) {
 			TS_LOG(Error, "VKSDLWindow::create_render_pass(): can't get surface formats count\n");
 			return false;
 		}
 		Array<VkSurfaceFormatKHR> color_formats(num_color_formats);
-		if(vkGetPhysicalDeviceSurfaceFormatsKHR(adapter, vk_surface, &num_color_formats, color_formats.get())) {
+		if(vkGetPhysicalDeviceSurfaceFormatsKHR(context.getAdapter(), vk_surface, &num_color_formats, color_formats.get())) {
 			TS_LOG(Error, "VKSDLWindow::create_render_pass(): can't get surface formats\n");
 			return false;
 		}
@@ -275,7 +307,7 @@ namespace Tellusim {
 		// surface depth format
 		VkImageFormatProperties image_properties = {};
 		for(uint32_t i = 0; i < TS_COUNTOF(formats); i++) {
-			if(vkGetPhysicalDeviceImageFormatProperties(adapter, vk_formats[i], VK_IMAGE_TYPE_2D, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, 0, &image_properties) == VK_SUCCESS) {
+			if(vkGetPhysicalDeviceImageFormatProperties(context.getAdapter(), vk_formats[i], VK_IMAGE_TYPE_2D, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, 0, &image_properties) == VK_SUCCESS) {
 				surface.setDepthFormat(formats[i]);
 				depth_image_format = vk_formats[i];
 				break;
@@ -343,7 +375,7 @@ namespace Tellusim {
 		render_pass_info.pDependencies = nullptr;
 		
 		// create render pass
-		if(VKContext::error(vkCreateRenderPass(vk_device, &render_pass_info, nullptr, &render_pass))) {
+		if(VKContext::error(vkCreateRenderPass(context.getDevice(), &render_pass_info, nullptr, &render_pass))) {
 			TS_LOG(Error, "VKSDLWindow::create_render_pass(): can't create render pass\n");
 			return false;
 		}
@@ -357,7 +389,7 @@ namespace Tellusim {
 	void VKSDLWindow::release_render_pass() {
 		
 		// release render pass
-		if(render_pass) vkDestroyRenderPass(vk_device, render_pass, nullptr);
+		if(render_pass) vkDestroyRenderPass(context.getDevice(), render_pass, nullptr);
 		render_pass = VK_NULL_HANDLE;
 	}
 	
@@ -370,19 +402,19 @@ namespace Tellusim {
 		
 		// surface present mode
 		uint32_t num_present_modes = 0;
-		if(VKContext::error(vkGetPhysicalDeviceSurfacePresentModesKHR(adapter, vk_surface, &num_present_modes, nullptr)) || num_present_modes == 0) {
+		if(VKContext::error(vkGetPhysicalDeviceSurfacePresentModesKHR(context.getAdapter(), vk_surface, &num_present_modes, nullptr)) || num_present_modes == 0) {
 			TS_LOG(Error, "VKSDLWindow::create_swap_chain(): can't get surface present modes count\n");
 			return false;
 		}
 		Array<VkPresentModeKHR> present_modes(num_present_modes);
-		if(VKContext::error(vkGetPhysicalDeviceSurfacePresentModesKHR(adapter, vk_surface, &num_present_modes, present_modes.get()))) {
+		if(VKContext::error(vkGetPhysicalDeviceSurfacePresentModesKHR(context.getAdapter(), vk_surface, &num_present_modes, present_modes.get()))) {
 			TS_LOG(Error, "VKSDLWindow::create_swap_chain(): can't get surface present modes\n");
 			return false;
 		}
 		
 		// surface capabilities
 		VkSurfaceCapabilitiesKHR capabilities = {};
-		if(VKContext::error(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(adapter, vk_surface, &capabilities))) {
+		if(VKContext::error(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(context.getAdapter(), vk_surface, &capabilities))) {
 			TS_LOG(Error, "VKSDLWindow::create_swap_chain(): can't get surface capabilities\n");
 			return false;
 		}
@@ -401,6 +433,7 @@ namespace Tellusim {
 		// number of images
 		uint32_t num_images = max(capabilities.minImageCount + 1, (uint32_t)NumFrames);
 		if(capabilities.maxImageCount > 0) num_images = min(num_images, capabilities.maxImageCount);
+		frame_index = num_images - 1;
 		
 		// swap chain size
 		surface.setSize(capabilities.currentExtent.width, capabilities.currentExtent.height);
@@ -427,22 +460,22 @@ namespace Tellusim {
 		swap_chain_info.clipped = VK_TRUE;
 		swap_chain_info.oldSwapchain = old_swap_chain;
 		
-		if(VKContext::error(vkCreateSwapchainKHR(vk_device, &swap_chain_info, nullptr, &swap_chain))) {
+		if(VKContext::error(vkCreateSwapchainKHR(context.getDevice(), &swap_chain_info, nullptr, &swap_chain))) {
 			TS_LOG(Error, "VKSDLWindow::create_swap_chain(): can't create swap chain\n");
 			return false;
 		}
 		
 		// release old swap chain
-		if(old_swap_chain) vkDestroySwapchainKHR(vk_device, old_swap_chain, nullptr);
+		if(old_swap_chain) vkDestroySwapchainKHR(context.getDevice(), old_swap_chain, nullptr);
 		
 		// swap chain images
 		uint32_t num_swap_chain_images = 0;
-		if(VKContext::error(vkGetSwapchainImagesKHR(vk_device, swap_chain, &num_swap_chain_images, nullptr)) || num_swap_chain_images == 0) {
+		if(VKContext::error(vkGetSwapchainImagesKHR(context.getDevice(), swap_chain, &num_swap_chain_images, nullptr)) || num_swap_chain_images == 0) {
 			TS_LOG(Error, "VKSDLWindow::create_swap_chain(): can't get swap chain images count\n");
 			return false;
 		}
 		Array<VkImage> swap_chain_images(num_swap_chain_images);
-		if(VKContext::error(vkGetSwapchainImagesKHR(vk_device, swap_chain, &num_swap_chain_images, swap_chain_images.get()))) {
+		if(VKContext::error(vkGetSwapchainImagesKHR(context.getDevice(), swap_chain, &num_swap_chain_images, swap_chain_images.get()))) {
 			TS_LOG(Error, "VKSDLWindow::create_swap_chain(): can't get swap chain images\n");
 			return false;
 		}
@@ -470,13 +503,13 @@ namespace Tellusim {
 			TS_ASSERT(frame.framebuffer == VK_NULL_HANDLE);
 			
 			// create acquire semaphore
-			if(frame.acquire_semaphore == VK_NULL_HANDLE && VKContext::error(vkCreateSemaphore(vk_device, &semaphore_info, nullptr, &frame.acquire_semaphore))) {
+			if(frame.acquire_semaphore == VK_NULL_HANDLE && VKContext::error(vkCreateSemaphore(context.getDevice(), &semaphore_info, nullptr, &frame.acquire_semaphore))) {
 				TS_LOG(Error, "VKSDLWindow::create_swap_chain(): can't create acquire semaphore\n");
 				return false;
 			}
 			
 			// create present semaphore
-			if(frame.present_semaphore == VK_NULL_HANDLE && VKContext::error(vkCreateSemaphore(vk_device, &semaphore_info, nullptr, &frame.present_semaphore))) {
+			if(frame.present_semaphore == VK_NULL_HANDLE && VKContext::error(vkCreateSemaphore(context.getDevice(), &semaphore_info, nullptr, &frame.present_semaphore))) {
 				TS_LOG(Error, "VKSDLWindow::create_swap_chain(): can't create present semaphore\n");
 				return false;
 			}
@@ -484,7 +517,7 @@ namespace Tellusim {
 			// create image view
 			frame.color_image = swap_chain_images[i];
 			color_image_view_info.image = swap_chain_images[i];
-			if(VKContext::error(vkCreateImageView(vk_device, &color_image_view_info, nullptr, &frame.color_image_view))) {
+			if(VKContext::error(vkCreateImageView(context.getDevice(), &color_image_view_info, nullptr, &frame.color_image_view))) {
 				TS_LOG(Error, "VKSDLWindow::create_swap_chain(): can't create swap chain image view\n");
 				return false;
 			}
@@ -503,8 +536,8 @@ namespace Tellusim {
 			Frame &frame = frames[i];
 			TS_ASSERT(frame.framebuffer == VK_NULL_HANDLE);
 			TS_ASSERT(frame.color_image_view == VK_NULL_HANDLE);
-			if(frame.acquire_semaphore) vkDestroySemaphore(vk_device, frame.acquire_semaphore, nullptr);
-			if(frame.present_semaphore) vkDestroySemaphore(vk_device, frame.present_semaphore, nullptr);
+			if(frame.acquire_semaphore) vkDestroySemaphore(context.getDevice(), frame.acquire_semaphore, nullptr);
+			if(frame.present_semaphore) vkDestroySemaphore(context.getDevice(), frame.present_semaphore, nullptr);
 			frame.acquire_semaphore = VK_NULL_HANDLE;
 			frame.present_semaphore = VK_NULL_HANDLE;
 			frame.color_image = VK_NULL_HANDLE;
@@ -512,7 +545,7 @@ namespace Tellusim {
 		frames.clear();
 		
 		// release swap chain
-		if(swap_chain) vkDestroySwapchainKHR(vk_device, swap_chain, nullptr);
+		if(swap_chain) vkDestroySwapchainKHR(context.getDevice(), swap_chain, nullptr);
 		swap_chain = VK_NULL_HANDLE;
 	}
 	
@@ -548,7 +581,7 @@ namespace Tellusim {
 			Frame &frame = frames[i];
 			TS_ASSERT(frame.framebuffer == VK_NULL_HANDLE);
 			attachments[0] = frame.color_image_view;
-			if(VKContext::error(vkCreateFramebuffer(vk_device, &framebuffer_info, nullptr, &frame.framebuffer))) {
+			if(VKContext::error(vkCreateFramebuffer(context.getDevice(), &framebuffer_info, nullptr, &frame.framebuffer))) {
 				TS_LOG(Error, "VKSDLWindow::create_buffers(): can't create framebuffer\n");
 				release_buffers();
 				return false;
@@ -569,8 +602,8 @@ namespace Tellusim {
 		// release framebuffers
 		for(uint32_t i = 0; i < frames.size(); i++) {
 			Frame &frame = frames[i];
-			if(frame.color_image_view) vkDestroyImageView(vk_device, frame.color_image_view, nullptr);
-			if(frame.framebuffer) vkDestroyFramebuffer(vk_device, frame.framebuffer, nullptr);
+			if(frame.color_image_view) vkDestroyImageView(context.getDevice(), frame.color_image_view, nullptr);
+			if(frame.framebuffer) vkDestroyFramebuffer(context.getDevice(), frame.framebuffer, nullptr);
 			frame.color_image_view = VK_NULL_HANDLE;
 			frame.framebuffer = VK_NULL_HANDLE;
 		}
@@ -608,12 +641,12 @@ namespace Tellusim {
 		
 		// acquire next image
 		uint32_t old_frame_index = frame_index;
-		VkResult result = vkAcquireNextImageKHR(vk_device, swap_chain, Maxu64, frames[frame_index].acquire_semaphore, VK_NULL_HANDLE, &frame_index);
+		VkResult result = vkAcquireNextImageKHR(context.getDevice(), swap_chain, Maxu64, frames[frame_index].acquire_semaphore, VK_NULL_HANDLE, &frame_index);
 		for(uint32_t i = 0; result == VK_ERROR_OUT_OF_DATE_KHR && i < Maxu8; i++) {
 			release_buffers();
 			if(!create_swap_chain()) return false;
 			if(!create_buffers()) return false;
-			result = vkAcquireNextImageKHR(vk_device, swap_chain, Maxu64, frames[frame_index].acquire_semaphore, VK_NULL_HANDLE, &frame_index);
+			result = vkAcquireNextImageKHR(context.getDevice(), swap_chain, Maxu64, frames[frame_index].acquire_semaphore, VK_NULL_HANDLE, &frame_index);
 		}
 		if(result != VK_SUBOPTIMAL_KHR && VKContext::error(result)) {
 			TS_LOG(Error, "VKSDLWindow::render_vk(): can't acquire image\n");
