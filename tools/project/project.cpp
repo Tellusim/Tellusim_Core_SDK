@@ -1020,11 +1020,27 @@ static bool create_engine(Arguments &args, const String &app_path) {
 			return false;
 		}
 		
-		// create plugins template
-		#include "templates/cpp/app_engine_plugins.blob"
-		String plugins_name = app_path + "Plugins.cpp";
-		if(!save_file(plugins_name, app_engine_plugins_blob_src)) {
-			TS_LOG(Error, "create_engine(): can't save plugins template\n");
+		// create application template
+		#include "templates/cpp/app_engine_application.blob"
+		String application_name = app_path + "Application.h";
+		if(!save_template(application_name, app_engine_application_blob_src, vars)) {
+			TS_LOG(Error, "create_engine(): can't save application template\n");
+			return false;
+		}
+		
+		// create plugins source template
+		#include "templates/cpp/app_engine_plugins_cpp.blob"
+		String plugins_source_name = app_path + "Plugins.cpp";
+		if(!save_file(plugins_source_name, app_engine_plugins_cpp_blob_src)) {
+			TS_LOG(Error, "create_engine(): can't save plugins source template\n");
+			return false;
+		}
+		
+		// create plugins header template
+		#include "templates/cpp/app_engine_plugins_h.blob"
+		String plugins_header_name = app_path + "Plugins.h";
+		if(!save_file(plugins_header_name, app_engine_plugins_h_blob_src)) {
+			TS_LOG(Error, "create_engine(): can't save plugins header template\n");
 			return false;
 		}
 		
@@ -1647,9 +1663,9 @@ static void create_cmake_vars(Variables &vars, const Arguments &args, const Stri
 	if(Directory::isDirectory(path + "extern")) {
 		include_path += "\n\textern";
 		if(Directory::isDirectory(path + "extern/include")) include_path += "\n\textern/include";
-		if(Directory::isDirectory(path + "extern/lib/windows/" + arch)) library_path_windows += "\n\t\textern/lib/windows/" + arch + "";
-		if(Directory::isDirectory(path + "extern/lib/linux/" + arch)) library_path_linux += "\n\t\textern/lib/linux/" + arch + "";
-		if(Directory::isDirectory(path + "extern/lib/macos/" + arch)) library_path_macos += "\n\t\textern/lib/macos/" + arch + "";
+		if(Directory::isDirectory(path + "extern/lib/windows/" + arch)) library_path_windows += "\n\t\textern/lib/windows/" + arch;
+		if(Directory::isDirectory(path + "extern/lib/linux/" + arch)) library_path_linux += "\n\t\textern/lib/linux/" + arch;
+		if(Directory::isDirectory(path + "extern/lib/macos/" + arch)) library_path_macos += "\n\t\textern/lib/macos/" + arch;
 	}
 	
 	vars.append("INCLUDE_PATH", include_path);
@@ -1992,6 +2008,8 @@ static void create_vcxproj_vars(Variables &vars, const Arguments &args, const St
 	
 	vars.append("INCLUDE_PATH", include_path.replace("/", "\\"));
 	vars.append("LIBRARY_PATH", library_path.replace("/", "\\"));
+	vars.append("LIBRARY_PATH_X64", library_path.replace(arch.get(), "x64"));
+	vars.append("LIBRARY_PATH_ARM64", library_path.replace(arch.get(), "arm64"));
 }
 
 /*
@@ -3261,6 +3279,8 @@ int32_t main(int32_t argc, char **argv) {
 				if(name) {
 					TS_LOGF(Verbose, "Creating \"%s\"\n", name.get());
 					ret = create_vcxproj(arguments, name);
+				} else {
+					TS_LOGF(Error, "%s: unknown project name\n", argv[0]);
 				}
 				if(!ret) {
 					if(makefile_name) TS_LOGF(Error, "%s: can't create vcxproj from \"%s\"\n", argv[0], makefile_name.get());
@@ -3297,6 +3317,8 @@ int32_t main(int32_t argc, char **argv) {
 					} else {
 						ret = create_xcodeproj(arguments, name);
 					}
+				} else {
+					TS_LOGF(Error, "%s: unknown project name\n", argv[0]);
 				}
 				if(!ret) {
 					if(makefile_name) TS_LOGF(Error, "%s: can't create xcodeproj from \"%s\"\n", argv[0], makefile_name.get());
@@ -3315,6 +3337,8 @@ int32_t main(int32_t argc, char **argv) {
 					TS_LOGF(Verbose, "Creating \"%s\"\n", name.get());
 					if(!arguments.find("apk") && project_name) arguments.append(String("apk"), project_name);
 					ret = create_gradle_and(arguments, name);
+				} else {
+					TS_LOGF(Error, "%s: unknown project name\n", argv[0]);
 				}
 				if(!ret) {
 					if(makefile_name) TS_LOGF(Error, "%s: can't create gradle from \"%s\"\n", argv[0], makefile_name.get());
@@ -3332,6 +3356,8 @@ int32_t main(int32_t argc, char **argv) {
 				if(name) {
 					TS_LOGF(Verbose, "Creating \"%s\"\n", name.get());
 					ret = create_csproj(arguments, name);
+				} else {
+					TS_LOGF(Error, "%s: unknown project name\n", argv[0]);
 				}
 				if(!ret) {
 					TS_LOGF(Error, "%s: can't create csproj\n", argv[0]);
@@ -3432,6 +3458,9 @@ int32_t main(int32_t argc, char **argv) {
 				return 1;
 			}
 			project_path = makefile_name.dirname();
+			if(!project_path || project_path == "./") {
+				project_path = Directory::getCurrentDirectory() + "/";
+			}
 			if(project_path && project_path.back() == '/') {
 				project_name = project_path.substring(0, project_path.size() - 1);
 				project_name = project_name.basename();

@@ -106,6 +106,10 @@ $(TARGET): $(DEPEND) $(OBJS)
 	@echo "Done `basename $(CURDIR)`"
 	@$(SIGN) $@ 2>&1
 
+run:
+	@echo "Running `basename $(CURDIR)`"
+	@./$(TARGET) $(RUN_ARGS)
+
 clean:
 	@echo "Cleaning `basename $(CURDIR)`"
 	@rm -f $(TARGET) $(OBJS) $(CLEAN)
@@ -113,6 +117,8 @@ clean:
 #
 # Dependencies
 #
+ifneq "$(MAKECMDGOALS)" "run"
 ifneq "$(MAKECMDGOALS)" "clean"
  	-include $(DEPEND)
+endif
 endif
