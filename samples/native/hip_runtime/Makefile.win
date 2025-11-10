@@ -1,7 +1,7 @@
 # Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
 # https://tellusim.com/
 
-HIPCC = hipcc.bin.exe
+HIPCC = hipcc.exe
 
 TSROOT = $(MAKEDIR)\..\..\..
 ECHO = $(TSROOT)\bin\ts_echo.bat

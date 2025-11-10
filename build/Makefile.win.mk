@@ -107,6 +107,10 @@ $(TARGET): $(DEPEND) $(OBJS)
 done: $(MAKEDIR)
 	@$(ECHO) g "Done %|fF"
 
+run: $(MAKEDIR)
+	@$(ECHO) g "Running %|fF"
+	@cmd /c $(TARGET) $(RUN_ARGS)
+
 clean: $(MAKEDIR)
 	@$(ECHO) r "Cleaning %|fF"
 	@del /f $(TARGET) $(OBJS) $(CLEAN) 2>nul

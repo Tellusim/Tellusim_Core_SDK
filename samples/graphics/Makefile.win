@@ -13,6 +13,7 @@ TESTS = \
 	model \
 	morph \
 	multi_window \
+	object_tree \
 	parallax_2d \
 	parallax_cube \
 	separable_filter \
