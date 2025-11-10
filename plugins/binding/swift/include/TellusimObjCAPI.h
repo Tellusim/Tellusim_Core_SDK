@@ -389,7 +389,8 @@ typedef NS_ENUM(NSInteger, TS_App) {
 	TS_AppVersion_39 NS_SWIFT_NAME(Version_39) = 20250322,
 	TS_AppVersion_40 NS_SWIFT_NAME(Version_40) = 20250429,
 	TS_AppVersion_41 NS_SWIFT_NAME(Version_41) = 20250816,
-	TS_AppVersion NS_SWIFT_NAME(Version) = 20250816,
+	TS_AppVersion_42 NS_SWIFT_NAME(Version_42) = 20251102,
+	TS_AppVersion NS_SWIFT_NAME(Version) = 20251102,
 } NS_SWIFT_NAME(App.Values);
 
 /// Tellusim::Socket::Type

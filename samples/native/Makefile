@@ -7,7 +7,8 @@ ifeq "$(shell uname -s)" "Linux"
 		vk_gtk3_window \
 		vk_pipeline \
 		vk_runtime \
-		vk_sdl_window
+		vk_sdl_window \
+		vk_swap_chain
 else ifeq "$(shell uname -s)" "Darwin"
 	TESTS = \
 		mtl_pipeline \

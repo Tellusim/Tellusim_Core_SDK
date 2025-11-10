@@ -30,7 +30,9 @@ blob:
 	@ts_blob ./templates/cpp/app_core_compute.cpp
 	@ts_blob ./templates/cpp/app_core_fragment.cpp
 	@ts_blob ./templates/cpp/app_engine.cpp
-	@ts_blob ./templates/cpp/app_engine_plugins.cpp
+	@ts_blob ./templates/cpp/app_engine_application.h
+	@ts_blob ./templates/cpp/app_engine_plugins_cpp.cpp
+	@ts_blob ./templates/cpp/app_engine_plugins_h.h
 	@ts_blob ./templates/csharp/app_core.cs
 	@ts_blob ./templates/csharp/app_core_canvas.cs
 	@ts_blob ./templates/csharp/app_core_compute.cs
