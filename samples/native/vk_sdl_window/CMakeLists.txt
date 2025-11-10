@@ -23,7 +23,7 @@ include_directories(
 if(WIN32)
 	add_definitions(-D_WIN64=1)
 	link_directories(
-		../../../lib/windows/p968x64
+		../../../lib/windows/vs170x64
 	)
 elseif(UNIX AND NOT APPLE)
 	add_definitions(-D_LINUX=1)
@@ -49,5 +49,5 @@ set_target_properties(main PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOU
 target_link_libraries(main debug Tellusim_x64d optimized Tellusim_x64)
 
 if(NOT WIN32)
-	target_link_libraries(main SDL2 vulkan)
+	target_link_libraries(main SDL2)
 endif()

@@ -1,5 +1,5 @@
 SRCS = main.cpp
 
-LIBS += -lglfw -lvulkan
+LIBS += -lglfw
 
 include ../../Makefile.unx.mk

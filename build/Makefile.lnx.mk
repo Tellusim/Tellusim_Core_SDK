@@ -92,13 +92,22 @@ $(TARGET): $(DEPEND) $(OBJS)
 	@$(CXX) -o $@ $(OBJS) $(LDFLAGS) $(LIBS)
 	@$(ECHO) g "Done `basename $(CURDIR)`"
 
-clean:
+run_:
+	@$(ECHO) g "Running `basename $(CURDIR)`"
+	@./$(TARGET) $(RUN_ARGS)
+
+clean_:
 	@$(ECHO) r "Cleaning `basename $(CURDIR)`"
 	@rm -f $(TARGET) $(OBJS) $(CLEAN)
+
+%: %_
+	@true
 
 #
 # Dependencies
 #
+ifneq "$(MAKECMDGOALS)" "run"
 ifneq "$(MAKECMDGOALS)" "clean"
  	-include $(DEPEND)
+endif
 endif
