@@ -437,7 +437,8 @@ namespace Tellusim {
 		public const uint Version_39 = 20250322;
 		public const uint Version_40 = 20250429;
 		public const uint Version_41 = 20250816;
-		public const uint Version = 20250816;
+		public const uint Version_42 = 20251102;
+		public const uint Version = 20251102;
 		public App(string[] args) { self = new HandleRef(this, tsApp_new(args.Length + 1, Base.getArgs(args))); owner = true; }
 		public App(App ptr) { self = new HandleRef(this, ptr.getSelfPtr()); }
 		public App(IntPtr ptr) { self = new HandleRef(this, ptr); owner = true; }

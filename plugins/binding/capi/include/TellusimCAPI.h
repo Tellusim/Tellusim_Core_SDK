@@ -394,7 +394,8 @@ typedef enum TS_App {
 	TS_AppVersion_39 = 20250322,
 	TS_AppVersion_40 = 20250429,
 	TS_AppVersion_41 = 20250816,
-	TS_AppVersion = 20250816,
+	TS_AppVersion_42 = 20251102,
+	TS_AppVersion = 20251102,
 	TS_App_Maxi32 = 0x7fffffff,
 } TS_App;
 

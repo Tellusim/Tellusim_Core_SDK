@@ -50,9 +50,8 @@ int32_t main(int32_t argc, char **argv) {
 		pipeline_layout_info.pushConstantRangeCount = 1;
 		pipeline_layout_info.pPushConstantRanges = &constant_range;
 		
-		VkDevice vk_device = device.getVKDevice();
 		PFN_vkCreatePipelineLayout vkCreatePipelineLayout = (PFN_vkCreatePipelineLayout)VKContext::getProcAddress("vkCreatePipelineLayout");
-		if(VKContext::error(vkCreatePipelineLayout(vk_device, &pipeline_layout_info, nullptr, &pipeline_layout))) return 1;
+		if(VKContext::error(vkCreatePipelineLayout(device.getVKDevice(), &pipeline_layout_info, nullptr, &pipeline_layout))) return 1;
 	}
 	
 	// create pipeline cache
@@ -61,9 +60,8 @@ int32_t main(int32_t argc, char **argv) {
 		VkPipelineCacheCreateInfo pipeline_cache_info = {};
 		pipeline_cache_info.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
 		
-		VkDevice vk_device = device.getVKDevice();
 		PFN_vkCreatePipelineCache vkCreatePipelineCache = (PFN_vkCreatePipelineCache)VKContext::getProcAddress("vkCreatePipelineCache");
-		if(VKContext::error(vkCreatePipelineCache(vk_device, &pipeline_cache_info, nullptr, &pipeline_cache))) return 1;
+		if(VKContext::error(vkCreatePipelineCache(device.getVKDevice(), &pipeline_cache_info, nullptr, &pipeline_cache))) return 1;
 	}
 	
 	// create pipeline
@@ -186,9 +184,8 @@ int32_t main(int32_t argc, char **argv) {
 		pipeline_info.layout = pipeline_layout;
 		pipeline_info.renderPass = VKSurface(window.getSurface()).getRenderPass();
 		
-		VkDevice vk_device = device.getVKDevice();
 		PFN_vkCreateGraphicsPipelines vkCreateGraphicsPipelines = (PFN_vkCreateGraphicsPipelines)VKContext::getProcAddress("vkCreateGraphicsPipelines");
-		if(VKContext::error(vkCreateGraphicsPipelines(vk_device, pipeline_cache, 1, &pipeline_info, nullptr, &pipeline))) return 1;
+		if(VKContext::error(vkCreateGraphicsPipelines(device.getVKDevice(), pipeline_cache, 1, &pipeline_info, nullptr, &pipeline))) return 1;
 	}
 	
 	// create target
@@ -264,13 +261,12 @@ int32_t main(int32_t argc, char **argv) {
 	window.finish();
 	
 	// destroy pipeline
-	VkDevice vk_device = device.getVKDevice();
 	PFN_vkDestroyPipeline vkDestroyPipeline = (PFN_vkDestroyPipeline)VKContext::getProcAddress("vkDestroyPipeline");
 	PFN_vkDestroyPipelineCache vkDestroyPipelineCache = (PFN_vkDestroyPipelineCache)VKContext::getProcAddress("vkDestroyPipelineCache");
 	PFN_vkDestroyPipelineLayout vkDestroyPipelineLayout = (PFN_vkDestroyPipelineLayout)VKContext::getProcAddress("vkDestroyPipelineLayout");
-	vkDestroyPipeline(vk_device, pipeline, nullptr);
-	vkDestroyPipelineCache(vk_device, pipeline_cache, nullptr);
-	vkDestroyPipelineLayout(vk_device, pipeline_layout, nullptr);
+	vkDestroyPipeline(device.getVKDevice(), pipeline, nullptr);
+	vkDestroyPipelineCache(device.getVKDevice(), pipeline_cache, nullptr);
+	vkDestroyPipelineLayout(device.getVKDevice(), pipeline_layout, nullptr);
 	
 	return 0;
 }

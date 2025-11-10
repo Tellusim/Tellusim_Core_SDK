@@ -216,25 +216,25 @@ namespace Tellusim {
 	TS_INLINE bool isNan(float64_t f) { return (f64u64(f).exponent() == 2047 && f64u64(f).mantissa() != 0); }
 	
 	/**
-	 * 32-bit floating-point numbers
+	 * 32-bit floating-point numbers with error is less than 1.2e-2
 	 */
 	TS_API float32_t rsqrtFast(float32_t x);
 	TS_API float32_t rcbrtFast(float32_t x);
 	TS_API float32_t powFast(float32_t x, float32_t p);
 	
 	/**
-	 * fast sin/cos approximation
+	 * fast sin/cos approximation with error is less than 1.4e-6
 	 */
 	TS_API float32_t sinFast(float32_t x);
 	TS_API float32_t cosFast(float32_t x);
 	TS_API void sincosFast(float32_t x, float32_t &s, float32_t &c);
 	
-	/* fast asin/acos approximation
+	/* fast asin/acos approximation with error is less than 4.3e-6
 	 */
 	TS_API float32_t asinFast(float32_t x);
 	TS_API float32_t acosFast(float32_t x);
 	
-	/* fast atan approximation
+	/* fast atan approximation with error is less than 1.1e-5
 	 */
 	TS_API float32_t atanFast(float32_t x);
 	TS_API float32_t atan2Fast(float32_t y, float32_t x);
