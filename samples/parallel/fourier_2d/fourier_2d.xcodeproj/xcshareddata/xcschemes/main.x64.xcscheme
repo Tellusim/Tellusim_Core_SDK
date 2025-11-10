@@ -6,7 +6,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6C68D63EC73C4A2AB270009A"
+				BlueprintIdentifier = "6001C03AAC7A5537BC60009A"
 				BuildableName = "main.x64"
 				BlueprintName = "main.x64"
 				ReferencedContainer = "container:fourier_2d.xcodeproj"/>

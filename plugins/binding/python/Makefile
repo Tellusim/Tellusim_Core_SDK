@@ -16,7 +16,7 @@ else ifeq "$(shell uname -s)" "Darwin"
 	CFLAGS = $(shell python3-config --includes)
 	LDFLAGS = -L$(shell python3-config --prefix)/lib
 	LDFLAGS += $(shell python3-config --libs --embed)
-	LDFLAGS += -Wl,-rpath,@loader_path/,-rpath,@loader_path/../../../source/,-rpath,@loader_path/../../../lib/macos/$(ARCH)/
+	LDFLAGS += -Wl,-w,-rpath,@loader_path/,-rpath,@loader_path/../../../source/,-rpath,@loader_path/../../../lib/macos/$(ARCH)/
 else
  	$(error Unknown platform $(shell uname -s))
 endif

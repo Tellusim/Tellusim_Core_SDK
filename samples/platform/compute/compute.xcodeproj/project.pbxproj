@@ -3,63 +3,63 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		6BDFE53E9D7F2FA73020000A = { isa = PBXBuildFile; fileRef = 6BDFE53E9D7F2FA73020001A; };
-		6BDFE53E9D7F2FA73020001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		6BDFE53E9D7F2FA73020008A = { isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "main.x64"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6BDFE53E9D7F2FA73020006A = {
+		6F74BA6613C84D251AF0000A = { isa = PBXBuildFile; fileRef = 6F74BA6613C84D251AF0001A; };
+		6F74BA6613C84D251AF0001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		6F74BA6613C84D251AF0008A = { isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "main.x64"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F74BA6613C84D251AF0006A = {
 			isa = PBXGroup;
 			children = (
-				6BDFE53E9D7F2FA73020001A,
-				6BDFE53E9D7F2FA73020007A,
+				6F74BA6613C84D251AF0001A,
+				6F74BA6613C84D251AF0007A,
 			);
 			sourceTree = "<group>";
 		};
-		6BDFE53E9D7F2FA73020007A = {
+		6F74BA6613C84D251AF0007A = {
 			isa = PBXGroup;
 			children = (
-				6BDFE53E9D7F2FA73020008A,
+				6F74BA6613C84D251AF0008A,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6BDFE53E9D7F2FA73020009A = {
+		6F74BA6613C84D251AF0009A = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6BDFE53E9D7F2FA7302000AA;
+			buildConfigurationList = 6F74BA6613C84D251AF000AA;
 			buildPhases = (
-				6BDFE53E9D7F2FA7302000DA,
+				6F74BA6613C84D251AF000DA,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "main.x64";
 			productName = "main.x64";
-			productReference = 6BDFE53E9D7F2FA73020008A;
+			productReference = 6F74BA6613C84D251AF0008A;
 			productType = "com.apple.product-type.tool";
 		};
-		6BDFE53E9D7F2FA73020002A = {
+		6F74BA6613C84D251AF0002A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 6BDFE53E9D7F2FA73020003A;
+			buildConfigurationList = 6F74BA6613C84D251AF0003A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 6BDFE53E9D7F2FA73020006A;
-			productRefGroup = 6BDFE53E9D7F2FA73020007A;
+			mainGroup = 6F74BA6613C84D251AF0006A;
+			productRefGroup = 6F74BA6613C84D251AF0007A;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6BDFE53E9D7F2FA73020009A,
+				6F74BA6613C84D251AF0009A,
 			);
 		};
-		6BDFE53E9D7F2FA7302000DA = {
+		6F74BA6613C84D251AF000DA = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BDFE53E9D7F2FA73020000A,
+				6F74BA6613C84D251AF0000A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6BDFE53E9D7F2FA73020004A = {
+		6F74BA6613C84D251AF0004A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -123,7 +123,7 @@
 			};
 			name = Debug;
 		};
-		6BDFE53E9D7F2FA73020005A = {
+		6F74BA6613C84D251AF0005A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -184,7 +184,7 @@
 			};
 			name = Release;
 		};
-		6BDFE53E9D7F2FA7302000BA = {
+		6F74BA6613C84D251AF000BA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "main.x64";
@@ -206,7 +206,7 @@
 			};
 			name = Debug;
 		};
-		6BDFE53E9D7F2FA7302000CA = {
+		6F74BA6613C84D251AF000CA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "main.x64";
@@ -228,24 +228,24 @@
 			};
 			name = Release;
 		};
-		6BDFE53E9D7F2FA73020003A = {
+		6F74BA6613C84D251AF0003A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6BDFE53E9D7F2FA73020004A,
-				6BDFE53E9D7F2FA73020005A,
+				6F74BA6613C84D251AF0004A,
+				6F74BA6613C84D251AF0005A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6BDFE53E9D7F2FA7302000AA = {
+		6F74BA6613C84D251AF000AA = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6BDFE53E9D7F2FA7302000BA,
-				6BDFE53E9D7F2FA7302000CA,
+				6F74BA6613C84D251AF000BA,
+				6F74BA6613C84D251AF000CA,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 6BDFE53E9D7F2FA73020002A;
+	rootObject = 6F74BA6613C84D251AF0002A;
 }

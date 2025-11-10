@@ -248,7 +248,7 @@ func main_() -> Int32 {
 	slider_g.setAlign(Control.Align.ExpandX)
 	slider_b.setAlign(Control.Align.ExpandX)
 	
-    ////////////////////////////////
+	////////////////////////////////
 	// render test
 	////////////////////////////////
 	
@@ -327,7 +327,7 @@ func main_() -> Int32 {
 	// main loop
 	////////////////////////////////
 	
-    var texture_frame = UInt32(0)
+	var texture_frame = UInt32(0)
 	let texture_ifps = 1.0 / 30.0
 	var texture_time = Time.seconds()
 	
@@ -340,11 +340,11 @@ func main_() -> Int32 {
 		// render window
 		if !window.render() { return false }
 		
-        // update texture
+		// update texture
 		if Time.seconds() - texture_time > texture_ifps {
 			texture_time += texture_ifps
 			let image = create_image(256, texture_frame)
-		    device.setTexture(texture, image)
+			device.setTexture(texture, image)
 			texture_frame += 1
 		}
 		
@@ -390,7 +390,7 @@ func main_() -> Int32 {
 			command.setIndices(&indices)
 			command.drawElements(3)
 			
-            // render parameters
+			// render parameters
 			struct RenderParameters {
 				var projection: Matrix4x4f
 				var modelview: Matrix4x4f
@@ -400,8 +400,8 @@ func main_() -> Int32 {
 			let camera = Vector3f(12.0, 12.0, 6.0)
 			var render_parameters = RenderParameters(
 				projection: Matrix4x4f.perspective(60.0, Float32(window.width()) / Float32(window.height()), 0.1, 1000.0),
-			    modelview: Matrix4x4f.lookAt(camera, Vector3f.zero, Vector3f(0.0, 0.0, 1.0)),
-			    transform: Matrix4x4f.rotateZ(time * 24.0) * Matrix4x4f.rotateX(time * 16.0),
+				modelview: Matrix4x4f.lookAt(camera, Vector3f.zero, Vector3f(0.0, 0.0, 1.0)),
+				transform: Matrix4x4f.rotateZ(time * 24.0) * Matrix4x4f.rotateX(time * 16.0),
 				camera: camera
 			)
 			
