@@ -82,7 +82,7 @@ int32_t main(int32_t argc, char **argv) {
 	if(!clear_kernel.loadShaderGLSL("main.shader", "COMPUTE_CLEAR_SHADER=1; GROUP_SIZE=%uu", group_size)) return 1;
 	if(!clear_kernel.create()) return 1;
 	
-	// create intersection kernels
+	// create intersection kernel
 	Kernel intersection_kernel = device.createKernel().setUniforms(1).setStorages(6, BindFlagFixed);
 	if(!intersection_kernel.loadShaderGLSL("main.shader", "COMPUTE_INTERSECTION_SHADER=1; GROUP_SIZE=%uu", group_size)) return 1;
 	if(!intersection_kernel.create()) return 1;
