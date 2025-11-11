@@ -2008,8 +2008,8 @@ static void create_vcxproj_vars(Variables &vars, const Arguments &args, const St
 	
 	vars.append("INCLUDE_PATH", include_path.replace("/", "\\"));
 	vars.append("LIBRARY_PATH", library_path.replace("/", "\\"));
-	vars.append("LIBRARY_PATH_X64", library_path.replace(arch.get(), "x64"));
-	vars.append("LIBRARY_PATH_ARM64", library_path.replace(arch.get(), "arm64"));
+	vars.append("LIBRARY_PATH_X64", library_path.replace(arch.get(), "x64").replace("/", "\\"));
+	vars.append("LIBRARY_PATH_ARM64", library_path.replace(arch.get(), "arm64").replace("/", "\\"));
 }
 
 /*
