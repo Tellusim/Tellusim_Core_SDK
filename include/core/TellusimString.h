@@ -258,6 +258,8 @@ namespace Tellusim {
 			/// variadic template arguments
 			TS_INLINE static void tformat_args(Array<String> &args) { TS_UNUSED(args); }
 			TS_INLINE static void tformat_args(Array<String> &args, const String &arg) { args.append(arg); }
+			TS_INLINE static void tformat_args(Array<String> &args, char *arg) { args.append(String(arg)); }
+			TS_INLINE static void tformat_args(Array<String> &args, wchar_t *arg) { args.append(String(arg)); }
 			TS_INLINE static void tformat_args(Array<String> &args, const char *arg) { args.append(String(arg)); }
 			TS_INLINE static void tformat_args(Array<String> &args, const wchar_t *arg) { args.append(String(arg)); }
 			TS_INLINE static void tformat_args(Array<String> &args, bool arg) { args.append(String::fromu32(arg)); }
@@ -275,6 +277,8 @@ namespace Tellusim {
 			TS_INLINE static void tformat_args(Array<String> &args, const void *arg) { args.append(String::format("%p", arg)); }
 			template <class Type> static void tformat_args(Array<String> &args, const Type &arg) { args.append(toString(arg)); }
 			template <class... List> static void tformat_args(Array<String> &args, const String &arg, List... Args) { args.append(arg); tformat_args(args, Args...); }
+			template <class... List> static void tformat_args(Array<String> &args, char *arg, List... Args) { args.append(String(arg)); tformat_args(args, Args...); }
+			template <class... List> static void tformat_args(Array<String> &args, wchar_t *arg, List... Args) { args.append(String(arg)); tformat_args(args, Args...); }
 			template <class... List> static void tformat_args(Array<String> &args, const char *arg, List... Args) { args.append(String(arg)); tformat_args(args, Args...); }
 			template <class... List> static void tformat_args(Array<String> &args, const wchar_t *arg, List... Args) { args.append(String(arg)); tformat_args(args, Args...); }
 			template <class... List> static void tformat_args(Array<String> &args, bool arg, List... Args) { args.append(String::fromu32(arg)); tformat_args(args, Args...); }

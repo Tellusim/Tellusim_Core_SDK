@@ -178,7 +178,7 @@ class Tracing {
 			
 			// render window
 			if(!window.render()) return false;
-		
+			
 			// switch mode
 			if(window.getKeyboardKey('1')) mode = Mode.Vertex;
 			else if(window.getKeyboardKey('2') && mesh_pipeline) mode = Mode.Mesh;
