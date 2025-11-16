@@ -3,67 +3,67 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		6938C7AB9226CFD212E0000A = { isa = PBXBuildFile; fileRef = 6938C7AB9226CFD212E0001A; };
-		6938C7AB9226CFD212E0001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		6938C7AB9226CFD212E0002A = { isa = PBXBuildFile; fileRef = 6938C7AB9226CFD212E0003A; };
-		6938C7AB9226CFD212E0003A = { isa = PBXFileReference; path = source/TellusimFormatWEBP.cpp; sourceTree = "<group>"; };
-		6938C7AB9226CFD212E000AA = { isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "main.x64"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6938C7AB9226CFD212E0008A = {
+		6CF46C2123EC4A14C580000A = { isa = PBXBuildFile; fileRef = 6CF46C2123EC4A14C580001A; };
+		6CF46C2123EC4A14C580001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		6CF46C2123EC4A14C580002A = { isa = PBXBuildFile; fileRef = 6CF46C2123EC4A14C580003A; };
+		6CF46C2123EC4A14C580003A = { isa = PBXFileReference; path = source/TellusimFormatWEBP.cpp; sourceTree = "<group>"; };
+		6CF46C2123EC4A14C58000AA = { isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "main.x64"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6CF46C2123EC4A14C580008A = {
 			isa = PBXGroup;
 			children = (
-				6938C7AB9226CFD212E0001A,
-				6938C7AB9226CFD212E0003A,
-				6938C7AB9226CFD212E0009A,
+				6CF46C2123EC4A14C580001A,
+				6CF46C2123EC4A14C580003A,
+				6CF46C2123EC4A14C580009A,
 			);
 			sourceTree = "<group>";
 		};
-		6938C7AB9226CFD212E0009A = {
+		6CF46C2123EC4A14C580009A = {
 			isa = PBXGroup;
 			children = (
-				6938C7AB9226CFD212E000AA,
+				6CF46C2123EC4A14C58000AA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6938C7AB9226CFD212E000BA = {
+		6CF46C2123EC4A14C58000BA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6938C7AB9226CFD212E000CA;
+			buildConfigurationList = 6CF46C2123EC4A14C58000CA;
 			buildPhases = (
-				6938C7AB9226CFD212E000FA,
+				6CF46C2123EC4A14C58000FA,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "main.x64";
 			productName = "main.x64";
-			productReference = 6938C7AB9226CFD212E000AA;
+			productReference = 6CF46C2123EC4A14C58000AA;
 			productType = "com.apple.product-type.tool";
 		};
-		6938C7AB9226CFD212E0004A = {
+		6CF46C2123EC4A14C580004A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 6938C7AB9226CFD212E0005A;
+			buildConfigurationList = 6CF46C2123EC4A14C580005A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 6938C7AB9226CFD212E0008A;
-			productRefGroup = 6938C7AB9226CFD212E0009A;
+			mainGroup = 6CF46C2123EC4A14C580008A;
+			productRefGroup = 6CF46C2123EC4A14C580009A;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6938C7AB9226CFD212E000BA,
+				6CF46C2123EC4A14C58000BA,
 			);
 		};
-		6938C7AB9226CFD212E000FA = {
+		6CF46C2123EC4A14C58000FA = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6938C7AB9226CFD212E0000A,
-				6938C7AB9226CFD212E0002A,
+				6CF46C2123EC4A14C580000A,
+				6CF46C2123EC4A14C580002A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6938C7AB9226CFD212E0006A = {
+		6CF46C2123EC4A14C580006A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -112,6 +112,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -128,7 +129,7 @@
 			};
 			name = Debug;
 		};
-		6938C7AB9226CFD212E0007A = {
+		6CF46C2123EC4A14C580007A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -177,6 +178,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -190,7 +192,7 @@
 			};
 			name = Release;
 		};
-		6938C7AB9226CFD212E000DA = {
+		6CF46C2123EC4A14C58000DA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "main.x64";
@@ -200,6 +202,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../../../lib/macos/x64",
+					"$(PROJECT_DIR)/extern/lib/macos/x64",
 					"$(PROJECT_DIR)/extern/lib/macos/x64",
 				);
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -214,7 +217,7 @@
 			};
 			name = Debug;
 		};
-		6938C7AB9226CFD212E000EA = {
+		6CF46C2123EC4A14C58000EA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "main.x64";
@@ -224,6 +227,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../../../lib/macos/x64",
+					"$(PROJECT_DIR)/extern/lib/macos/x64",
 					"$(PROJECT_DIR)/extern/lib/macos/x64",
 				);
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -238,24 +242,24 @@
 			};
 			name = Release;
 		};
-		6938C7AB9226CFD212E0005A = {
+		6CF46C2123EC4A14C580005A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6938C7AB9226CFD212E0006A,
-				6938C7AB9226CFD212E0007A,
+				6CF46C2123EC4A14C580006A,
+				6CF46C2123EC4A14C580007A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6938C7AB9226CFD212E000CA = {
+		6CF46C2123EC4A14C58000CA = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6938C7AB9226CFD212E000DA,
-				6938C7AB9226CFD212E000EA,
+				6CF46C2123EC4A14C58000DA,
+				6CF46C2123EC4A14C58000EA,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 6938C7AB9226CFD212E0004A;
+	rootObject = 6CF46C2123EC4A14C580004A;
 }

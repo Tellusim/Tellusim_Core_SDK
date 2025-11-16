@@ -73,6 +73,7 @@
 					"$(PROJECT_DIR)/../../../plugins",
 					"$(PROJECT_DIR)/../../../samples",
 					"$(PROJECT_DIR)/extern",
+					"$(PROJECT_DIR)/../../../plugins/platform/opengl/extern",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_MACOS=1",
@@ -112,6 +113,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -138,6 +140,7 @@
 					"$(PROJECT_DIR)/../../../plugins",
 					"$(PROJECT_DIR)/../../../samples",
 					"$(PROJECT_DIR)/extern",
+					"$(PROJECT_DIR)/../../../plugins/platform/opengl/extern",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_MACOS=1",
@@ -177,6 +180,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
