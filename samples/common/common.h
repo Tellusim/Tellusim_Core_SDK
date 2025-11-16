@@ -22,6 +22,18 @@
 /*
  */
 #if _WIN32
+	#define DECLARE_WAIT_FOR_DEBUGGER \
+		if(app.getArgument("debug").tou32()) { \
+			TS_LOG(Message, "Waiting for debugger...\n"); \
+			while(!IsDebuggerPresent()) Time::sleep(1000); \
+		}
+#else
+	#define DECLARE_WAIT_FOR_DEBUGGER
+#endif
+
+/*
+ */
+#if _WIN32
 	#define DECLARE_WINDOW_STOP \
 		if(key == Window::KeyF4 && window.getKeyboardKey(Window::KeyAlt, true)) window.stop();
 #else
@@ -75,6 +87,7 @@
 #define DECLARE_WINDOW \
 	App app(argc, argv); \
 	if(!app.create()) return 1; \
+	DECLARE_WAIT_FOR_DEBUGGER \
 	Window window(app.getPlatform(), app.getDevice()); \
 	if(!window) return 1; \
 	window.setSize(app.getWidth(), app.getHeight()); \
