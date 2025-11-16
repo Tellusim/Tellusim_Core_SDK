@@ -14675,8 +14675,8 @@ tsControlRoot.copy_callback = function(self, a0, text) {
 }
 tsControlRoot.paste_callback = function(self, a0) {
 	object = tsControlRoot.objects[self];
-	if(object !== undefined && object.paste_func)return object.paste_func(ts_new(tsControlRoot, a0));
-	return ;
+	if(object !== undefined && object.paste_func) return object.paste_func(ts_new(tsControlRoot, a0));
+	return '';
 }
 tsControlRoot.prototype['setViewport'] = tsControlRoot.prototype.setViewport = function() {
 	if(arguments.length == 2) return _tsControlRoot_setViewport_1(this.self, arguments[0], arguments[1]);
@@ -16313,8 +16313,8 @@ tsControlText.prototype['toControlSlider'] = tsControlText.prototype.toControlSl
 tsControlSlider.objects = {};
 tsControlSlider.format_callback = function(self, a0) {
 	object = tsControlSlider.objects[self];
-	if(object !== undefined && object.format_func)return object.format_func(ts_new(tsControlSlider, a0));
-	return ;
+	if(object !== undefined && object.format_func) return object.format_func(ts_new(tsControlSlider, a0));
+	return '';
 }
 tsControlSlider.pressed_callback = function(self, a0) {
 	object = tsControlSlider.objects[self];
