@@ -3,75 +3,75 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		60B7E643AE4B92751810000A = { isa = PBXBuildFile; fileRef = 60B7E643AE4B92751810001A; };
-		60B7E643AE4B92751810001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		60B7E643AE4B92751810002A = { isa = PBXBuildFile; fileRef = 60B7E643AE4B92751810003A; };
-		60B7E643AE4B92751810003A = { isa = PBXFileReference; path = source/TellusimXR.cpp; sourceTree = "<group>"; };
-		60B7E643AE4B92751810004A = { isa = PBXBuildFile; fileRef = 60B7E643AE4B92751810005A; };
-		60B7E643AE4B92751810005A = { isa = PBXFileReference; path = source/TellusimXRInput.cpp; sourceTree = "<group>"; };
-		60B7E643AE4B92751810006A = { isa = PBXBuildFile; fileRef = 60B7E643AE4B92751810007A; };
-		60B7E643AE4B92751810007A = { isa = PBXFileReference; path = source/TellusimXRWindow.cpp; sourceTree = "<group>"; };
-		60B7E643AE4B9275181000EA = { isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "main.arm64"; sourceTree = BUILT_PRODUCTS_DIR; };
-		60B7E643AE4B9275181000CA = {
+		65D59B166C9005BCC010000A = { isa = PBXBuildFile; fileRef = 65D59B166C9005BCC010001A; };
+		65D59B166C9005BCC010001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		65D59B166C9005BCC010002A = { isa = PBXBuildFile; fileRef = 65D59B166C9005BCC010003A; };
+		65D59B166C9005BCC010003A = { isa = PBXFileReference; path = source/TellusimXR.cpp; sourceTree = "<group>"; };
+		65D59B166C9005BCC010004A = { isa = PBXBuildFile; fileRef = 65D59B166C9005BCC010005A; };
+		65D59B166C9005BCC010005A = { isa = PBXFileReference; path = source/TellusimXRInput.cpp; sourceTree = "<group>"; };
+		65D59B166C9005BCC010006A = { isa = PBXBuildFile; fileRef = 65D59B166C9005BCC010007A; };
+		65D59B166C9005BCC010007A = { isa = PBXFileReference; path = source/TellusimXRWindow.cpp; sourceTree = "<group>"; };
+		65D59B166C9005BCC01000EA = { isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "main.arm64"; sourceTree = BUILT_PRODUCTS_DIR; };
+		65D59B166C9005BCC01000CA = {
 			isa = PBXGroup;
 			children = (
-				60B7E643AE4B92751810001A,
-				60B7E643AE4B92751810003A,
-				60B7E643AE4B92751810005A,
-				60B7E643AE4B92751810007A,
-				60B7E643AE4B9275181000DA,
+				65D59B166C9005BCC010001A,
+				65D59B166C9005BCC010003A,
+				65D59B166C9005BCC010005A,
+				65D59B166C9005BCC010007A,
+				65D59B166C9005BCC01000DA,
 			);
 			sourceTree = "<group>";
 		};
-		60B7E643AE4B9275181000DA = {
+		65D59B166C9005BCC01000DA = {
 			isa = PBXGroup;
 			children = (
-				60B7E643AE4B9275181000EA,
+				65D59B166C9005BCC01000EA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		60B7E643AE4B9275181000FA = {
+		65D59B166C9005BCC01000FA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 60B7E643AE4B92751810010A;
+			buildConfigurationList = 65D59B166C9005BCC010010A;
 			buildPhases = (
-				60B7E643AE4B92751810013A,
+				65D59B166C9005BCC010013A,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "main.arm64";
 			productName = "main.arm64";
-			productReference = 60B7E643AE4B9275181000EA;
+			productReference = 65D59B166C9005BCC01000EA;
 			productType = "com.apple.product-type.tool";
 		};
-		60B7E643AE4B92751810008A = {
+		65D59B166C9005BCC010008A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 60B7E643AE4B92751810009A;
+			buildConfigurationList = 65D59B166C9005BCC010009A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 60B7E643AE4B9275181000CA;
-			productRefGroup = 60B7E643AE4B9275181000DA;
+			mainGroup = 65D59B166C9005BCC01000CA;
+			productRefGroup = 65D59B166C9005BCC01000DA;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				60B7E643AE4B9275181000FA,
+				65D59B166C9005BCC01000FA,
 			);
 		};
-		60B7E643AE4B92751810013A = {
+		65D59B166C9005BCC010013A = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				60B7E643AE4B92751810000A,
-				60B7E643AE4B92751810002A,
-				60B7E643AE4B92751810004A,
-				60B7E643AE4B92751810006A,
+				65D59B166C9005BCC010000A,
+				65D59B166C9005BCC010002A,
+				65D59B166C9005BCC010004A,
+				65D59B166C9005BCC010006A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		60B7E643AE4B9275181000AA = {
+		65D59B166C9005BCC01000AA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -81,6 +81,9 @@
 					"$(PROJECT_DIR)/../../../plugins",
 					"$(PROJECT_DIR)/../../../samples",
 					"$(PROJECT_DIR)/extern",
+					"$(PROJECT_DIR)/../../../plugins/platform/vulkan/extern",
+					"$(PROJECT_DIR)/../../../plugins/platform/opengl/extern",
+					"$(PROJECT_DIR)/../../../plugins/platform/openxr/extern",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_MACOS=1",
@@ -120,6 +123,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -136,7 +140,7 @@
 			};
 			name = Debug;
 		};
-		60B7E643AE4B9275181000BA = {
+		65D59B166C9005BCC01000BA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -146,6 +150,9 @@
 					"$(PROJECT_DIR)/../../../plugins",
 					"$(PROJECT_DIR)/../../../samples",
 					"$(PROJECT_DIR)/extern",
+					"$(PROJECT_DIR)/../../../plugins/platform/vulkan/extern",
+					"$(PROJECT_DIR)/../../../plugins/platform/opengl/extern",
+					"$(PROJECT_DIR)/../../../plugins/platform/openxr/extern",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_MACOS=1",
@@ -185,6 +192,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -198,7 +206,7 @@
 			};
 			name = Release;
 		};
-		60B7E643AE4B92751810011A = {
+		65D59B166C9005BCC010011A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "main.arm64";
@@ -220,7 +228,7 @@
 			};
 			name = Debug;
 		};
-		60B7E643AE4B92751810012A = {
+		65D59B166C9005BCC010012A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "main.arm64";
@@ -242,24 +250,24 @@
 			};
 			name = Release;
 		};
-		60B7E643AE4B92751810009A = {
+		65D59B166C9005BCC010009A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				60B7E643AE4B9275181000AA,
-				60B7E643AE4B9275181000BA,
+				65D59B166C9005BCC01000AA,
+				65D59B166C9005BCC01000BA,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		60B7E643AE4B92751810010A = {
+		65D59B166C9005BCC010010A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				60B7E643AE4B92751810011A,
-				60B7E643AE4B92751810012A,
+				65D59B166C9005BCC010011A,
+				65D59B166C9005BCC010012A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 60B7E643AE4B92751810008A;
+	rootObject = 65D59B166C9005BCC010008A;
 }

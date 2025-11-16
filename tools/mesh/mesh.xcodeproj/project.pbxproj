@@ -3,67 +3,67 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		6988D4872B510DB44450000A = { isa = PBXBuildFile; fileRef = 6988D4872B510DB44450001A; };
-		6988D4872B510DB44450001A = { isa = PBXFileReference; path = mesh.cpp; sourceTree = "<group>"; };
-		6988D4872B510DB44450002A = { isa = PBXBuildFile; fileRef = 6988D4872B510DB44450003A; };
-		6988D4872B510DB44450003A = { isa = PBXFileReference; path = Plugins.cpp; sourceTree = "<group>"; };
-		6988D4872B510DB4445000AA = { isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "mesh.arm64"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6988D4872B510DB44450008A = {
+		600FF5002FA9D6271640000A = { isa = PBXBuildFile; fileRef = 600FF5002FA9D6271640001A; };
+		600FF5002FA9D6271640001A = { isa = PBXFileReference; path = mesh.cpp; sourceTree = "<group>"; };
+		600FF5002FA9D6271640002A = { isa = PBXBuildFile; fileRef = 600FF5002FA9D6271640003A; };
+		600FF5002FA9D6271640003A = { isa = PBXFileReference; path = Plugins.cpp; sourceTree = "<group>"; };
+		600FF5002FA9D627164000AA = { isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "mesh.arm64"; sourceTree = BUILT_PRODUCTS_DIR; };
+		600FF5002FA9D6271640008A = {
 			isa = PBXGroup;
 			children = (
-				6988D4872B510DB44450001A,
-				6988D4872B510DB44450003A,
-				6988D4872B510DB44450009A,
+				600FF5002FA9D6271640001A,
+				600FF5002FA9D6271640003A,
+				600FF5002FA9D6271640009A,
 			);
 			sourceTree = "<group>";
 		};
-		6988D4872B510DB44450009A = {
+		600FF5002FA9D6271640009A = {
 			isa = PBXGroup;
 			children = (
-				6988D4872B510DB4445000AA,
+				600FF5002FA9D627164000AA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6988D4872B510DB4445000BA = {
+		600FF5002FA9D627164000BA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6988D4872B510DB4445000CA;
+			buildConfigurationList = 600FF5002FA9D627164000CA;
 			buildPhases = (
-				6988D4872B510DB4445000FA,
+				600FF5002FA9D627164000FA,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "mesh.arm64";
 			productName = "mesh.arm64";
-			productReference = 6988D4872B510DB4445000AA;
+			productReference = 600FF5002FA9D627164000AA;
 			productType = "com.apple.product-type.tool";
 		};
-		6988D4872B510DB44450004A = {
+		600FF5002FA9D6271640004A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 6988D4872B510DB44450005A;
+			buildConfigurationList = 600FF5002FA9D6271640005A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 6988D4872B510DB44450008A;
-			productRefGroup = 6988D4872B510DB44450009A;
+			mainGroup = 600FF5002FA9D6271640008A;
+			productRefGroup = 600FF5002FA9D6271640009A;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6988D4872B510DB4445000BA,
+				600FF5002FA9D627164000BA,
 			);
 		};
-		6988D4872B510DB4445000FA = {
+		600FF5002FA9D627164000FA = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6988D4872B510DB44450000A,
-				6988D4872B510DB44450002A,
+				600FF5002FA9D6271640000A,
+				600FF5002FA9D6271640002A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6988D4872B510DB44450006A = {
+		600FF5002FA9D6271640006A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -72,6 +72,8 @@
 					"$(PROJECT_DIR)/../../include",
 					"$(PROJECT_DIR)/../../plugins",
 					"$(PROJECT_DIR)/../../samples",
+					"$(PROJECT_DIR)/../../plugins/formats/draco/extern",
+					"$(PROJECT_DIR)/../../plugins/formats/webp/extern",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_MACOS=1",
@@ -111,6 +113,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -127,7 +130,7 @@
 			};
 			name = Debug;
 		};
-		6988D4872B510DB44450007A = {
+		600FF5002FA9D6271640007A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -136,6 +139,8 @@
 					"$(PROJECT_DIR)/../../include",
 					"$(PROJECT_DIR)/../../plugins",
 					"$(PROJECT_DIR)/../../samples",
+					"$(PROJECT_DIR)/../../plugins/formats/draco/extern",
+					"$(PROJECT_DIR)/../../plugins/formats/webp/extern",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_MACOS=1",
@@ -175,6 +180,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -188,15 +194,19 @@
 			};
 			name = Release;
 		};
-		6988D4872B510DB4445000DA = {
+		600FF5002FA9D627164000DA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "mesh.arm64";
 				OTHER_LDFLAGS = (
 					"-lTellusim_arm64d",
+					"-ldraco",
+					"-lwebp",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../../lib/macos/arm64",
+					"$(PROJECT_DIR)/../../plugins/formats/draco/extern/lib/macos/arm64",
+					"$(PROJECT_DIR)/../../plugins/formats/webp/extern/lib/macos/arm64",
 				);
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../../lib/macos/arm64",
@@ -210,15 +220,19 @@
 			};
 			name = Debug;
 		};
-		6988D4872B510DB4445000EA = {
+		600FF5002FA9D627164000EA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "mesh.arm64";
 				OTHER_LDFLAGS = (
 					"-lTellusim_arm64",
+					"-ldraco",
+					"-lwebp",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../../lib/macos/arm64",
+					"$(PROJECT_DIR)/../../plugins/formats/draco/extern/lib/macos/arm64",
+					"$(PROJECT_DIR)/../../plugins/formats/webp/extern/lib/macos/arm64",
 				);
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../../lib/macos/arm64",
@@ -232,24 +246,24 @@
 			};
 			name = Release;
 		};
-		6988D4872B510DB44450005A = {
+		600FF5002FA9D6271640005A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6988D4872B510DB44450006A,
-				6988D4872B510DB44450007A,
+				600FF5002FA9D6271640006A,
+				600FF5002FA9D6271640007A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6988D4872B510DB4445000CA = {
+		600FF5002FA9D627164000CA = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6988D4872B510DB4445000DA,
-				6988D4872B510DB4445000EA,
+				600FF5002FA9D627164000DA,
+				600FF5002FA9D627164000EA,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 6988D4872B510DB44450004A;
+	rootObject = 600FF5002FA9D6271640004A;
 }
