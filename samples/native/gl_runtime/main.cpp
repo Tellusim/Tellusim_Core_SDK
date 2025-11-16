@@ -1,14 +1,15 @@
 // Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
+#include <GL/glcorearb.h>
+
 #include <common/common.h>
 #include <format/TellusimMesh.h>
 #include <platform/TellusimDevice.h>
+#include <platform/TellusimContext.h>
 #include <platform/TellusimCommand.h>
 #include <platform/TellusimPipeline.h>
 #include <graphics/TellusimMeshModel.h>
-
-#include "include/TellusimGL.h"
 
 /*
  */
@@ -23,7 +24,7 @@ int32_t main(int32_t argc, char **argv) {
 	DECLARE_WINDOW
 	
 	// create window
-	String title = String::format("%s Tellusim::OpenGL", window.getPlatformName());
+	String title = String::format("%s Tellusim::GLRuntime", window.getPlatformName());
 	DECLARE_WINDOW_CREATE(title)
 	
 	// structures
@@ -38,12 +39,6 @@ int32_t main(int32_t argc, char **argv) {
 		Matrix4x4f transform;
 		Vector4f camera;
 	};
-	
-	// initialize OpenGL
-	if(!GL::init()) {
-		TS_LOG(Error, "main(): can't init OpenGL\n");
-		return 1;
-	}
 	
 	// create device
 	Device device(window);
@@ -71,6 +66,9 @@ int32_t main(int32_t argc, char **argv) {
 	
 	// create target
 	Target target = device.createTarget(window);
+	
+	// get functions
+	PFNGLDRAWELEMENTSBASEVERTEXPROC glDrawElementsBaseVertex = (PFNGLDRAWELEMENTSBASEVERTEXPROC)GLContext::getProcAddress("glDrawElementsBaseVertex");
 	
 	// main loop
 	DECLARE_GLOBAL
