@@ -16,7 +16,7 @@ public class Source extends Stream {
 	
 	public static abstract class OpenCallback {
 		public abstract Stream run(String name, long data);
-		public Stream run_(String name, long data) { return run(name, data); }
+		public long run_(String name, long data) { return run(name, data).self; }
 	}
 	
 	public Source() { init_(new_()); }

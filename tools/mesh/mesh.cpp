@@ -1112,13 +1112,13 @@ int32_t main(int32_t argc, char **argv) {
 					Array<MeshAttribute::Type> attributes;
 					while(i + 2 < argc) {
 						command = argv[i + 1];
-						if(is_position(command)) attributes.append(MeshAttribute::TypePosition), i++;
-						else if(is_normal(command)) attributes.append(MeshAttribute::TypeNormal), i++;
-						else if(is_tangent(command)) attributes.append(MeshAttribute::TypeTangent), i++;
-						else if(is_binormal(command)) attributes.append(MeshAttribute::TypeBinormal), i++;
-						else if(is_texcoord(command)) attributes.append(MeshAttribute::TypeTexCoord), i++;
-						else if(is_weight(command)) attributes.append(MeshAttribute::TypeWeights), i++;
-						else if(is_joint(command)) attributes.append(MeshAttribute::TypeJoints), i++;
+						if(is_position(command)) { attributes.append(MeshAttribute::TypePosition); i++; }
+						else if(is_normal(command)) { attributes.append(MeshAttribute::TypeNormal); i++; }
+						else if(is_tangent(command)) { attributes.append(MeshAttribute::TypeTangent); i++; }
+						else if(is_binormal(command)) { attributes.append(MeshAttribute::TypeBinormal); i++; }
+						else if(is_texcoord(command)) { attributes.append(MeshAttribute::TypeTexCoord); i++; }
+						else if(is_weight(command)) { attributes.append(MeshAttribute::TypeWeights); i++; }
+						else if(is_joint(command)) { attributes.append(MeshAttribute::TypeJoints); i++; }
 						else break;
 					}
 					if(!attributes) {
@@ -1296,28 +1296,28 @@ int32_t main(int32_t argc, char **argv) {
 					Array<MeshAttribute::Type> attributes;
 					while(i + 1 < argc) {
 						command = argv[i + 1];
-						if(is_node(command)) nodes = true, i++;
-						else if(is_geometry(command)) geometries = true, i++;
-						else if(is_animation(command)) animations = true, i++;
-						else if(is_attachment(command)) attachments = true, i++;
-						else if(is_texture(command)) textures = true, i++;
-						else if(is_point(command)) indices.append(MeshIndices::TypePoint), i++;
-						else if(is_line(command)) indices.append(MeshIndices::TypeLine), i++;
-						else if(is_triangle(command)) indices.append(MeshIndices::TypeTriangle), i++;
-						else if(is_quadrilateral(command)) indices.append(MeshIndices::TypeQuadrilateral), i++;
-						else if(is_tetrahedron(command)) indices.append(MeshIndices::TypeTetrahedron), i++;
-						else if(is_material(command)) indices.append(MeshIndices::TypeMaterial), i++;
-						else if(is_group(command)) indices.append(MeshIndices::TypeGroup), i++;
-						else if(is_edge(command)) indices.append(MeshIndices::TypeEdge), i++;
-						else if(is_basis(command)) attributes.append(MeshAttribute::TypeBasis), i++;
-						else if(is_normal(command)) attributes.append(MeshAttribute::TypeNormal), i++;
-						else if(is_tangent(command)) attributes.append(MeshAttribute::TypeTangent), i++;
-						else if(is_binormal(command)) attributes.append(MeshAttribute::TypeBinormal), i++;
-						else if(is_texcoord(command)) attributes.append(MeshAttribute::TypeTexCoord), i++;
-						else if(is_weight(command)) attributes.append(MeshAttribute::TypeWeights), i++;
-						else if(is_joint(command)) attributes.append(MeshAttribute::TypeJoints), i++;
-						else if(is_color(command)) attributes.append(MeshAttribute::TypeColor), i++;
-						else if(is_crease(command)) attributes.append(MeshAttribute::TypeCrease), i++;
+						if(is_node(command)) { nodes = true; i++; }
+						else if(is_geometry(command)) { geometries = true; i++; }
+						else if(is_animation(command)) { animations = true; i++; }
+						else if(is_attachment(command)) { attachments = true; i++; }
+						else if(is_texture(command)) { textures = true; i++; }
+						else if(is_point(command)) { indices.append(MeshIndices::TypePoint); i++; }
+						else if(is_line(command)) { indices.append(MeshIndices::TypeLine); i++; }
+						else if(is_triangle(command)) { indices.append(MeshIndices::TypeTriangle); i++; }
+						else if(is_quadrilateral(command)) { indices.append(MeshIndices::TypeQuadrilateral); i++; }
+						else if(is_tetrahedron(command)) { indices.append(MeshIndices::TypeTetrahedron); i++; }
+						else if(is_material(command)) { indices.append(MeshIndices::TypeMaterial); i++; }
+						else if(is_group(command)) { indices.append(MeshIndices::TypeGroup); i++; }
+						else if(is_edge(command)) { indices.append(MeshIndices::TypeEdge); i++; }
+						else if(is_basis(command)) { attributes.append(MeshAttribute::TypeBasis); i++; }
+						else if(is_normal(command)) { attributes.append(MeshAttribute::TypeNormal); i++; }
+						else if(is_tangent(command)) { attributes.append(MeshAttribute::TypeTangent); i++; }
+						else if(is_binormal(command)) { attributes.append(MeshAttribute::TypeBinormal); i++; }
+						else if(is_texcoord(command)) { attributes.append(MeshAttribute::TypeTexCoord); i++; }
+						else if(is_weight(command)) { attributes.append(MeshAttribute::TypeWeights); i++; }
+						else if(is_joint(command)) { attributes.append(MeshAttribute::TypeJoints); i++; }
+						else if(is_color(command)) { attributes.append(MeshAttribute::TypeColor); i++; }
+						else if(is_crease(command)) { attributes.append(MeshAttribute::TypeCrease); i++; }
 						else break;
 					}
 					if(nodes) {
