@@ -61108,12 +61108,14 @@ namespace Tellusim {
 		Py_DECREF(a0_);
 	}
 	static String pyControlRoot_PasteCallback(ControlRoot a0, PyObject *func) {
-		String ret = {};
+		String ret;
 		PyObject *a0_ = pyControlRoot_new(a0);
 		if(func) {
 			PyObject *args = Py_BuildValue("(O)", a0_);
 			PyObject *ret_ = PyObject_CallObject(func, args);
 			if(ret_) {
+				if(PyUnicode_Check(ret_)) ret = PyUnicode_AsUTF8(ret_);
+				if(isPYString(ret_)) ret = pyString_get(ret_);
 				Py_DECREF(ret_);
 			} else if(PyErr_Occurred()) {
 				PyErr_PrintEx(0);
@@ -67484,12 +67486,14 @@ namespace Tellusim {
 	
 	// Tellusim::ControlSlider
 	static String pyControlSlider_FormatCallback(ControlSlider a0, PyObject *func) {
-		String ret = {};
+		String ret;
 		PyObject *a0_ = pyControlSlider_new(a0);
 		if(func) {
 			PyObject *args = Py_BuildValue("(O)", a0_);
 			PyObject *ret_ = PyObject_CallObject(func, args);
 			if(ret_) {
+				if(PyUnicode_Check(ret_)) ret = PyUnicode_AsUTF8(ret_);
+				if(isPYString(ret_)) ret = pyString_get(ret_);
 				Py_DECREF(ret_);
 			} else if(PyErr_Occurred()) {
 				PyErr_PrintEx(0);

@@ -67,15 +67,16 @@
 			<WarningLevel>Level3</WarningLevel>
 			<AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
 			<AdditionalIncludeDirectories>@INCLUDE_PATH@%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-			<PreprocessorDefinitions>_WINDOWS=1;TS_DEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<PreprocessorDefinitions>_WINDOWS=1;TS_DEBUG=1;@PREPROCESSOR@%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
 			<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+			<LanguageStandard>@STANDARD@</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>
 			<GenerateDebugInformation>true</GenerateDebugInformation>
 			<AdditionalLibraryDirectories>@LIBRARY_PATH_X64@%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-			<AdditionalDependencies>Tellusim_x64d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>Tellusim_x64d.lib;@LIBRARIES@%(AdditionalDependencies)</AdditionalDependencies>
 		</Link>
 	</ItemDefinitionGroup>
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -85,8 +86,9 @@
 			<IntrinsicFunctions>true</IntrinsicFunctions>
 			<AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
 			<AdditionalIncludeDirectories>@INCLUDE_PATH@%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-			<PreprocessorDefinitions>_WINDOWS=1;NDEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<PreprocessorDefinitions>_WINDOWS=1;NDEBUG=1;@PREPROCESSOR@%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
+			<LanguageStandard>@STANDARD@</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>
@@ -94,7 +96,7 @@
 			<OptimizeReferences>true</OptimizeReferences>
 			<GenerateDebugInformation>true</GenerateDebugInformation>
 			<AdditionalLibraryDirectories>@LIBRARY_PATH_X64@%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-			<AdditionalDependencies>Tellusim_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>Tellusim_x64.lib;@LIBRARIES@%(AdditionalDependencies)</AdditionalDependencies>
 		</Link>
 	</ItemDefinitionGroup>
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm64'">
@@ -102,15 +104,16 @@
 			<WarningLevel>Level3</WarningLevel>
 			<AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
 			<AdditionalIncludeDirectories>@INCLUDE_PATH@%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-			<PreprocessorDefinitions>_WINDOWS=1;TS_DEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<PreprocessorDefinitions>_WINDOWS=1;TS_DEBUG=1;@PREPROCESSOR@%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
 			<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+			<LanguageStandard>@STANDARD@</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>
 			<GenerateDebugInformation>true</GenerateDebugInformation>
 			<AdditionalLibraryDirectories>@LIBRARY_PATH_ARM64@%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-			<AdditionalDependencies>Tellusim_arm64d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>Tellusim_arm64d.lib;@LIBRARIES@%(AdditionalDependencies)</AdditionalDependencies>
 		</Link>
 	</ItemDefinitionGroup>
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">
@@ -120,8 +123,9 @@
 			<IntrinsicFunctions>true</IntrinsicFunctions>
 			<AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
 			<AdditionalIncludeDirectories>@INCLUDE_PATH@%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-			<PreprocessorDefinitions>_WINDOWS=1;NDEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<PreprocessorDefinitions>_WINDOWS=1;NDEBUG=1;@PREPROCESSOR@%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
+			<LanguageStandard>@STANDARD@</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>
@@ -129,7 +133,7 @@
 			<OptimizeReferences>true</OptimizeReferences>
 			<GenerateDebugInformation>true</GenerateDebugInformation>
 			<AdditionalLibraryDirectories>@LIBRARY_PATH_ARM64@%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-			<AdditionalDependencies>Tellusim_arm64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>Tellusim_arm64.lib;@LIBRARIES@%(AdditionalDependencies)</AdditionalDependencies>
 		</Link>
 	</ItemDefinitionGroup>
 	<ItemGroup>@SOURCES@

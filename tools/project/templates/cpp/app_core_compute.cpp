@@ -170,6 +170,7 @@ class Application {
 			pipeline.setTextureMask(0, Shader::MaskFragment);
 			pipeline.setColorFormat(window.getColorFormat());
 			pipeline.setDepthFormat(window.getDepthFormat());
+			pipeline.setMultisample(window.getMultisample());
 			if(!pipeline.loadShaderGLSL(Shader::TypeVertex, "main.shader", "VERTEX_SHADER=1")) {
 				TS_LOG(Error, "Application::create_resources(): can't load Vertex shader\n");
 				return false;

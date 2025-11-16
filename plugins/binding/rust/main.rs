@@ -254,6 +254,9 @@ fn main() {
 	slider_r.set_changed_callback(|slider: ControlSlider| { parameters.color.r = slider.valuef32() });
 	slider_g.set_changed_callback(|slider: ControlSlider| { parameters.color.g = slider.valuef32() });
 	slider_b.set_changed_callback(|slider: ControlSlider| { parameters.color.b = slider.valuef32() });
+	slider_r.set_format_callback(|slider: ControlSlider| { format!("Value: {0}", String::fromf32_with_digits(slider.valuef32(), 2)) });
+	slider_g.set_format_callback(|slider: ControlSlider| { format!("Value: {0}", String::fromf32_with_digits(slider.valuef32(), 2)) });
+	slider_b.set_format_callback(|slider: ControlSlider| { format!("Value: {0}", String::fromf32_with_digits(slider.valuef32(), 2)) });
 	slider_r.set_align(ControlAlign::ExpandX);
 	slider_g.set_align(ControlAlign::ExpandX);
 	slider_b.set_align(ControlAlign::ExpandX);
