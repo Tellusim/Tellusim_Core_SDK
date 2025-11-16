@@ -312,9 +312,9 @@ namespace Tellusim {
 			
 			// application info
 			XrApplicationInfo &application_info = instance_info.applicationInfo;
-			strcpy(application_info.applicationName, TS_XR_APP_NAME);
+			strncpy(application_info.applicationName, TS_XR_APP_NAME, sizeof(application_info.applicationName));
 			application_info.applicationVersion = TS_XR_APP_VERSION;
-			strcpy(application_info.engineName, TS_XR_ENGINE_NAME);
+			strncpy(application_info.engineName, TS_XR_ENGINE_NAME, sizeof(application_info.engineName));
 			application_info.engineVersion = TS_XR_ENGINE_VERSION;
 			application_info.apiVersion = TS_XR_API_VERSION;
 			
