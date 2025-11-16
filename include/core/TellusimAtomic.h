@@ -60,7 +60,7 @@ namespace Tellusim {
 			TS_INLINE int32_t operator|=(int32_t v) { return __sync_or_and_fetch(&value, v); }
 			
 			/// atomic functions
-			TS_INLINE void set(int32_t v) { __sync_lock_test_and_set(&value, v); }
+			TS_INLINE void set(int32_t v) { (void)__sync_lock_test_and_set(&value, v); }
 			TS_INLINE int32_t get() { return __sync_fetch_and_add(&value, 0); }
 			TS_INLINE bool cas(int32_t old_value, int32_t new_value) { return __sync_bool_compare_and_swap(&value, old_value, new_value); }
 			
@@ -126,7 +126,7 @@ namespace Tellusim {
 			TS_INLINE int64_t operator|=(int64_t v) { return __sync_or_and_fetch(&value, v); }
 			
 			/// atomic functions
-			TS_INLINE void set(int64_t v) { __sync_lock_test_and_set(&value, v); }
+			TS_INLINE void set(int64_t v) { (void)__sync_lock_test_and_set(&value, v); }
 			TS_INLINE int64_t get() { return __sync_fetch_and_add(&value, 0); }
 			TS_INLINE bool cas(int64_t old_value, int64_t new_value) { return __sync_bool_compare_and_swap(&value, old_value, new_value); }
 			
@@ -190,7 +190,7 @@ namespace Tellusim {
 			TS_INLINE Type *operator-=(size_t v) { return (Type*)__sync_sub_and_fetch((volatile size_t*)&ptr, sizeof(Type) * v); }
 			
 			/// atomic functions
-			TS_INLINE void set(Type *p) { __sync_lock_test_and_set(&ptr, p); }
+			TS_INLINE void set(Type *p) { (void)__sync_lock_test_and_set(&ptr, p); }
 			TS_INLINE Type *get() { return (Type*)__sync_fetch_and_add(&ptr, 0); }
 			TS_INLINE bool cas(Type *old_ptr, Type *new_ptr) { return __sync_bool_compare_and_swap(&ptr, old_ptr, new_ptr); }
 			

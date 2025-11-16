@@ -122,7 +122,8 @@ static String get_target(const Arguments &args) {
 	if(!target_it) return String::null;
 	String postfix;
 	if(postfix_it) postfix = postfix_it->data;
-	return target_it->data.replace("$(POSTFIX)", postfix.get());
+	String target = target_it->data.extension(nullptr);
+	return target.replace("$(POSTFIX)", postfix.get());
 }
 
 /*
@@ -1545,6 +1546,78 @@ static bool create_core_fragment(Arguments &args, const String &app_path) {
 
 /*
  */
+static const char *parse_argument(const String &argument, const Arguments &args) {
+	if(argument.begins("$(shell grep")) {
+		return "";
+	}
+	#if _LINUX
+		if(argument == "$(shell uname -s)") {
+			return "Linux";
+		}
+		if(argument == "$(shell uname -m)") {
+			#if TS_X64
+				return "x86_64";
+			#elif TS_ARM64
+				return "aarch64";
+			#endif
+		}
+	#elif _MACOS
+		if(argument == "$(shell uname -s)") {
+			return "Darwin";
+		}
+		if(argument == "$(shell uname -m)") {
+			#if TS_ARM64
+				return "arm64";
+			#endif
+		}
+	#elif _WIN32
+		if(argument == "$(ARCH)") {
+			#if TS_ARM64
+				return "arm64";
+			#endif
+		}
+	#endif
+	return argument.get();
+}
+
+/*
+ */
+static bool parse_expression(const String &name, const char *s, const Arguments &args) {
+	String token;
+	String argument_0;
+	String argument_1;
+	if(name == "ifeq" || name == "ifneq") {
+		s += Parser::readString(s, argument_0);
+		s += Parser::readString(s, argument_1);
+		argument_0 = parse_argument(argument_0, args);
+		argument_1 = parse_argument(argument_1, args);
+		if(name == "ifeq") return (argument_0 == argument_1);
+		if(name == "ifneq") return (argument_0 != argument_1);
+	}
+	else if(name == "!if" || name == "!elseif") {
+		if(*s == '"') {
+			s += Parser::readString(s, argument_0);
+			s += Parser::readToken(s, token);
+			s += Parser::readString(s, argument_1);
+			argument_0 = parse_argument(argument_0, args);
+			argument_1 = parse_argument(argument_1, args);
+			if(token == "==") return (argument_0 == argument_1);
+			if(token == "!=") return (argument_0 != argument_1);
+		}
+	}
+	else if(name == "ifdef" || name == "!ifdef") {
+		s += Parser::readToken(s, token);
+		return (bool)args.find(token.lower());
+	}
+	else if(name == "ifndef" || name == "!ifndef") {
+		s += Parser::readToken(s, token);
+		return !args.find(token.lower());
+	}
+	return false;
+}
+
+/*
+ */
 static bool load_makefile(Arguments &args, const String &name) {
 	
 	// load file
@@ -1563,6 +1636,10 @@ static bool load_makefile(Arguments &args, const String &name) {
 		String value;
 		String token;
 		
+		Array<bool> stack;
+		Array<uint32_t> counter;
+		bool is_else = false;
+		
 		const char *s = src.get();
 		
 		while(*s) {
@@ -1570,20 +1647,40 @@ static bool load_makefile(Arguments &args, const String &name) {
 			if(name.begins("#")) {
 				s -= name.size();
 				s += Parser::skipLine(s);
-			} else if(name.begins("if") || name.begins("!if")) {
-				uint32_t counter = 1;
-				while(*s && counter > 0) {
-					s += Parser::readToken(s, token);
-					if(token.begins("if") || token.begins("!if")) counter++;
-					else if(token == "endif" || token == "!endif") counter--;
-					else if(token == "else" || token == "!else") s += Parser::readToken(s, token);
+			}
+			else if(name.begins("if") || name.begins("!if") || name.begins("!elseif")) {
+				if(name.begins("!elseif")) {
+					if(is_else || !stack) Parser::error("else without if\n");
+					stack.back() = !stack.back();
+					is_else = true;
 				}
-			} else if(name == "include" || name == "!include") {
+				s += Parser::readLine(s, value);
+				stack.append(parse_expression(name, value.get(), args));
+				if(is_else) counter.back()++;
+				else counter.append(1);
+				is_else = false;
+			}
+			else if(name.begins("endif") || name.begins("!endif")) {
+				if(!stack) Parser::error("stack underflow\n");
+				while(counter.back()--) stack.removeBack();
+				counter.removeBack();
+				is_else = false;
+			}
+			else if(name.begins("else") || name.begins("!else")) {
+				if(!stack) Parser::error("else without if\n");
+				stack.back() = !stack.back();
+				is_else = true;
+			}
+			else if(stack.find(false)) {
+				s += Parser::skipLine(s, true);
+			}
+			else if(name == "include" || name == "-include" || name == "!include") {
 				auto it = args.find(name);
 				s += Parser::readToken(s, value);
 				if(it) it->data += " " + value;
 				else args.append(name, value);
-			} else if(name && name.back() == ':') {
+			}
+			else if(name && name.back() == ':') {
 				name.removeBack();
 				auto it = args.append(name);
 				s += Parser::readLine(s, value);
@@ -1592,7 +1689,8 @@ static bool load_makefile(Arguments &args, const String &name) {
 					s += Parser::readLine(s, value);
 					if(value) it->data += "\n" + value;
 				}
-			} else if(name) {
+			}
+			else if(name) {
 				s += Parser::skipSpaces(s);
 				if(*s == ':') {
 					s += 1;
@@ -1608,10 +1706,12 @@ static bool load_makefile(Arguments &args, const String &name) {
 				} else if(*s == '=' || (s[1] == '=' && (*s == ':' || *s == '?'))) {
 					s += (*s == '=') ? 1 : 2;
 					name = name.lower();
+					auto it = args.find(name);
 					s += Parser::readLine(s, value, true);
 					value = value.replace('\n', ' ').replace('\t', ' ');
+					value = value.replace(String::tformat("$({0})", name.upper()), (it) ? it->data : String::null);
 					args.append(name, value);
-				} else if(s[1] == '=' && *s == '+') {
+				} else if(*s == '+' && s[1] == '=') {
 					s += 2;
 					name = name.lower();
 					auto it = args.find(name);
@@ -1619,14 +1719,19 @@ static bool load_makefile(Arguments &args, const String &name) {
 					value = value.replace('\n', ' ').replace('\t', ' ');
 					if(it) it->data += " " + value;
 					else args.append(name, value);
+				} else if(name[0] == '$' || name[0] == '!') {
+					s += Parser::skipLine(s);
 				} else {
 					Parser::error("unknown token \"%s\"\n", name.get());
 				}
 			}
 		}
+		
+		// check stack
+		if(stack || counter || is_else) Parser::error("invalid branch\n");
 	}
 	catch(const String &error) {
-		TS_LOGF(Error, "load_makefile(): %s", error.get());
+		TS_LOGF(Error, "load_makefile(): %s: %s", name.get(), error.get());
 		return false;
 	}
 	
@@ -1644,12 +1749,10 @@ static bool load_makefile(Arguments &args, const String &name) {
 static void create_cmake_vars(Variables &vars, const Arguments &args, const String &root, const String &name) {
 	
 	// get arguments
-	String std = args["std"];
 	String arch = args["arch"];
 	String version = args["version"];
 	
 	// set variables
-	vars.append("STD", std);
 	vars.append("ARCH", arch);
 	
 	// local path
@@ -1668,23 +1771,97 @@ static void create_cmake_vars(Variables &vars, const Arguments &args, const Stri
 		if(Directory::isDirectory(path + "extern/lib/macos/" + arch)) library_path_macos += "\n\t\textern/lib/macos/" + arch;
 	}
 	
+	// compilation flags
+	String options_windows;
+	String options_linux;
+	String options_macos;
+	auto flags_it = args.find("flags");
+	if(flags_it) {
+		for(const String &flag : flags_it->data.replace("\\\"", "").replace("\\", "/").split(" ")) {
+			if(flag.begins("/I") || flag.begins("-I")) {
+				include_path += String::tformat("\n\t{0}", flag.get() + 2).replace("$(TSROOT)/", root.get());
+			}
+			if(flag.begins("/D")) {
+				if(options_windows) options_windows += " ";
+				options_windows += flag;
+			}
+			if(flag.begins("-D")) {
+				if(options_linux) options_linux += " ";
+				if(options_macos) options_macos += " ";
+				options_linux += flag;
+				options_macos += flag;
+			}
+			if(flag == "-ObjC++" || flag == "-fobjc-arc") {
+				if(options_macos) options_macos += " ";
+				options_macos += flag;
+			}
+		}
+	}
+	if(options_windows) options_windows = String::tformat("\n\tadd_compile_options({0})", options_windows);
+	if(options_linux) options_linux = String::tformat("\n\tadd_compile_options({0})", options_linux);
+	if(options_macos) options_macos = String::tformat("\n\tadd_compile_options({0})", options_macos);
+	
+	// libraries path
+	auto lib_it = args.find("lib");
+	if(lib_it) {
+		for(const String &lib : lib_it->data.replace("\\", "/").split(";")) {
+			library_path_windows += String::tformat("\n\t\t{0}", lib).replace("$(TSROOT)/", root.get()).replace("$(ARCH)", arch.get());
+		}
+	}
+	
+	// linker flags
+	String link_library_windows;
+	String link_library_linux;
+	String link_library_macos;
+	auto libs_it = args.find("libs");
+	if(libs_it) {
+		bool is_framework = false;
+		for(const String &lib : libs_it->data.split(" ")) {
+			if(lib.begins("-l")) {
+				link_library_linux += String::tformat(" {0}", lib.get() + 2).replace("$(ARCH)", arch.get());
+				link_library_macos += String::tformat(" {0}", lib.get() + 2).replace("$(ARCH)", arch.get());
+			}
+			if(lib.begins("-L")) {
+				library_path_linux += String::tformat("\n\t\t{0}", lib.get() + 2).replace("$(TSROOT)/", root.get()).replace("$(ARCH)", arch.get());
+				library_path_macos += String::tformat("\n\t\t{0}", lib.get() + 2).replace("$(TSROOT)/", root.get()).replace("$(ARCH)", arch.get());
+			}
+			if(lib.begins("-framework")) {
+				is_framework = true;
+			} else if(is_framework) {
+				link_library_macos += String::tformat(" \"-framework {0}\"", lib);
+				is_framework = false;
+			}
+		}
+	}
+	auto ldflags_it = args.find("ldflags");
+	if(ldflags_it) {
+		for(const String &flag : ldflags_it->data.split(" ")) {
+			if(flag.extension() == "lib") link_library_windows += String::tformat(" {0}", flag.extension(nullptr));
+		}
+	}
+	
+	// language standard
+	String std = args["std"];
+	auto cflags_it = args.find("cflags");
+	if(cflags_it) {
+		for(const String &flag : cflags_it->data.split(" ")) {
+			if(flag.contains("c++14")) std = "14";
+			if(flag.contains("c++17")) std = "17";
+			if(flag.contains("c++20")) std = "20";
+		}
+	}
+	
+	vars.append("OPTIONS_WINDOWS", options_windows);
+	vars.append("OPTIONS_LINUX", options_linux);
+	vars.append("OPTIONS_MACOS", options_macos);
 	vars.append("INCLUDE_PATH", include_path);
 	vars.append("LIBRARY_PATH_WINDOWS", library_path_windows);
 	vars.append("LIBRARY_PATH_LINUX", library_path_linux);
 	vars.append("LIBRARY_PATH_MACOS", library_path_macos);
-	
-	// libraries
-	String link_library;
-	auto libs_it = args.find("libs");
-	if(libs_it) {
-		for(const String &lib : libs_it->data.split(" ")) {
-			if(lib.begins("-l")) {
-				link_library += " ";
-				link_library += lib.get() + 2;
-			}
-		}
-	}
-	vars.append("LINK_LIBRARY", link_library);
+	vars.append("LINK_LIBRARY_WINDOWS", link_library_windows);
+	vars.append("LINK_LIBRARY_LINUX", link_library_linux);
+	vars.append("LINK_LIBRARY_MACOS", link_library_macos);
+	vars.append("STD", std);
 }
 
 /*
@@ -1772,7 +1949,7 @@ static bool create_makefile(const Arguments &args, const String &makefile_name) 
 	}
 	vars.append("SOURCES", sources);
 	
-	// cflags
+	// compilation flags
 	String cflags;
 	String path = get_dirname(makefile_name);
 	if(Directory::isDirectory(path + "extern")) {
@@ -1781,7 +1958,7 @@ static bool create_makefile(const Arguments &args, const String &makefile_name) 
 	}
 	vars.append("CFLAGS", cflags);
 	
-	// ldflags
+	// linker flags
 	String ldflags;
 	auto libs_it = args.find("libs");
 	if(libs_it) ldflags = libs_it->data;
@@ -2006,10 +2183,51 @@ static void create_vcxproj_vars(Variables &vars, const Arguments &args, const St
 		if(Directory::isDirectory(path + extern_library)) library_path += extern_library + ";";
 	}
 	
+	// compilation flags
+	String preprocessor;
+	auto flags_it = args.find("flags");
+	if(flags_it) {
+		for(const String &flag : flags_it->data.replace("\\\"", "").replace("\\", "/").split(" ")) {
+			if(flag.begins("/I")) include_path += String(flag.get() + 2).replace("$(TSROOT)/", root.get()) + ";";
+			if(flag.begins("/D")) preprocessor += String(flag.get() + 2) + ";";
+		}
+	}
+	
+	// libraries path
+	auto lib_it = args.find("lib");
+	if(lib_it) {
+		for(const String &lib : lib_it->data.replace("\\", "/").split(";")) {
+			library_path += lib.replace("$(TSROOT)/", root.get()).replace("$(ARCH)", arch.get()) + ";";
+		}
+	}
+	
+	// linker flags
+	String libraries;
+	auto ldflags_it = args.find("ldflags");
+	if(ldflags_it) {
+		for(const String &flag : ldflags_it->data.split(" ")) {
+			if(flag.extension() == "lib") libraries += flag + ";";
+		}
+	}
+	
+	// language standard
+	String standard = String("Default");
+	auto cflags_it = args.find("cflags");
+	if(cflags_it) {
+		for(const String &flag : cflags_it->data.split(" ")) {
+			if(flag == "/std:c++14") standard = "stdcpp14";
+			if(flag == "/std:c++17") standard = "stdcpp17";
+			if(flag == "/std:c++20") standard = "stdcpp20";
+		}
+	}
+	
 	vars.append("INCLUDE_PATH", include_path.replace("/", "\\"));
 	vars.append("LIBRARY_PATH", library_path.replace("/", "\\"));
 	vars.append("LIBRARY_PATH_X64", library_path.replace(arch.get(), "x64").replace("/", "\\"));
 	vars.append("LIBRARY_PATH_ARM64", library_path.replace(arch.get(), "arm64").replace("/", "\\"));
+	vars.append("PREPROCESSOR", preprocessor);
+	vars.append("LIBRARIES", libraries);
+	vars.append("STANDARD", standard);
 }
 
 /*
@@ -2107,19 +2325,67 @@ static void create_xcodeproj_vars(Variables &vars, const Arguments &args, const 
 		}
 	}
 	
-	vars.append("INCLUDE_PATH", include_path);
-	vars.append("LIBRARY_PATH", library_path);
+	// compilation flags
+	String preprocessor;
+	String filetype = String("automatic");
+	auto flags_it = args.find("flags");
+	if(flags_it) {
+		for(const String &flag : flags_it->data.replace("\\\"", "").replace("\\", "/").split(" ")) {
+			if(flag.begins("-I")) {
+				include_path += String::tformat(R"(
+					"$(PROJECT_DIR)/{0}",)", flag.get() + 2).replace("$(TSROOT)/", root.get());
+			}
+			if(flag.begins("-D")) {
+				preprocessor += String::tformat(R"(
+					"{0}",)", flag.replace("\"", "\\\\\\\"").get() + 2);
+			}
+			if(flag == "-ObjC++" || flag == "-fobjc-arc") {
+				filetype = "sourcecode.cpp.objcpp";
+			}
+		}
+	}
 	
-	// libraries
+	// linker flags
 	String ldflags;
 	auto libs_it = args.find("libs");
 	if(libs_it) {
+		bool is_framework = false;
 		for(const String &lib : libs_it->data.split(" ")) {
-			if(lib.begins("-l")) ldflags += String::tformat(R"(
+			if(lib.begins("-l")) {
+				ldflags += String::tformat(R"(
 					"{0}",)", lib);
+			}
+			if(lib.begins("-L")) {
+				library_path += String::tformat(R"(
+					"$(PROJECT_DIR)/{0}",)", lib.get() + 2).replace("$(TSROOT)/", root.get()).replace("$(ARCH)", arch.get());
+			}
+			if(lib.begins("-framework")) {
+				is_framework = true;
+			} else if(is_framework) {
+				ldflags += String::tformat(R"(
+					"-framework", "{0}",)", lib);
+				is_framework = false;
+			}
 		}
 	}
+	
+	// language standard
+	String std = args["std"];
+	auto cflags_it = args.find("cflags");
+	if(cflags_it) {
+		for(const String &flag : cflags_it->data.split(" ")) {
+			if(flag.contains("c++14")) std = "14";
+			if(flag.contains("c++17")) std = "17";
+			if(flag.contains("c++20")) std = "20";
+		}
+	}
+	
+	vars.append("INCLUDE_PATH", include_path);
+	vars.append("LIBRARY_PATH", library_path);
+	vars.append("PREPROCESSOR", preprocessor);
+	vars.append("FILETYPE", filetype);
 	vars.append("LDFLAGS", ldflags);
+	vars.append("STD", std);
 }
 
 /*
@@ -2154,7 +2420,6 @@ static bool create_xcodeproj(const Arguments &args, const String &xcodeproj_name
 	}
 	
 	// get arguments
-	String std = args["std"];
 	String arch = args["arch"];
 	String srcs = args["srcs"];
 	String hash = get_hash(args);
@@ -2162,7 +2427,6 @@ static bool create_xcodeproj(const Arguments &args, const String &xcodeproj_name
 	
 	// variables
 	Variables vars;
-	vars.append("STD", std);
 	vars.append("TARGET", target);
 	vars.append("ARCH", arch);
 	create_xcodeproj_vars(vars, args, root, "macos", arch, xcodeproj_name);
@@ -2238,7 +2502,6 @@ static bool create_xcodeproj_ios(const Arguments &args, const String &xcodeproj_
 	}
 	
 	// get arguments
-	String std = args["std"];
 	String ipa = args["ipa"];
 	String srcs = args["srcs"];
 	String arch = String("arm64");
@@ -2247,7 +2510,6 @@ static bool create_xcodeproj_ios(const Arguments &args, const String &xcodeproj_
 	
 	// variables
 	Variables vars;
-	vars.append("STD", std);
 	vars.append("IPA", ipa);
 	vars.append("TARGET", target);
 	create_xcodeproj_vars(vars, args, root, "ios", arch, xcodeproj_name);
@@ -2345,7 +2607,6 @@ static bool create_xcodeproj_tvos(const Arguments &args, const String &xcodeproj
 	}
 	
 	// get arguments
-	String std = args["std"];
 	String ipa = args["ipa"];
 	String srcs = args["srcs"];
 	String arch = String("arm64");
@@ -2354,7 +2615,6 @@ static bool create_xcodeproj_tvos(const Arguments &args, const String &xcodeproj
 	
 	// variables
 	Variables vars;
-	vars.append("STD", std);
 	vars.append("IPA", ipa);
 	vars.append("TARGET", target);
 	create_xcodeproj_vars(vars, args, root, "tvos", arch, xcodeproj_name);
@@ -2640,14 +2900,13 @@ static void create_gradle_and_vars(Variables &vars, const Arguments &args, const
 	vars.append("INCLUDE_PATH", include_path);
 	vars.append("LIBRARY_PATH", library_path);
 	
-	// libraries
+	// linker flags
 	String link_library;
 	auto libs_it = args.find("libs");
 	if(libs_it) {
 		for(const String &lib : libs_it->data.split(" ")) {
 			if(lib.begins("-l")) {
-				link_library += " ";
-				link_library += lib.get() + 2;
+				link_library += String::tformat(" {0}", lib.get() + 2);
 			}
 		}
 	}
@@ -3060,7 +3319,8 @@ int32_t main(int32_t argc, char **argv) {
 	}
 	
 	// print help
-	if(argc < 2 || String(argv[1]) == "-h") {
+	App app(argc, argv);
+	if(app.isArgument("h") || app.isArgument("help")) {
 		Log::printf("Tellusim Project Generation Tool (build " __DATE__ " https://tellusim.com/)\n");
 		Log::printf("Usage: %s -fragment my_project -vcxproj -xcodeproj -root ../Tellusim_SDK\n", argv[0]);
 		Log::printf("Usage: %s -engine my_project -makefile Makefile -root ../Tellusim_SDK\n", argv[0]);
