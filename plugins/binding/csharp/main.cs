@@ -264,6 +264,9 @@ class CSharp {
 		slider_r.setChangedCallback((ControlSlider slider, IntPtr data) => { parameters.color.r = slider.getValuef32(); });
 		slider_g.setChangedCallback((ControlSlider slider, IntPtr data) => { parameters.color.g = slider.getValuef32(); });
 		slider_b.setChangedCallback((ControlSlider slider, IntPtr data) => { parameters.color.b = slider.getValuef32(); });
+		slider_r.setFormatCallback((ControlSlider slider, IntPtr data) => { return "Value " + Tellusim.String.fromf32(slider.getValuef32(), 2); });
+		slider_g.setFormatCallback((ControlSlider slider, IntPtr data) => { return "Value " + Tellusim.String.fromf32(slider.getValuef32(), 2); });
+		slider_b.setFormatCallback((ControlSlider slider, IntPtr data) => { return "Value " + Tellusim.String.fromf32(slider.getValuef32(), 2); });
 		slider_r.setAlign(Control.Align.ExpandX);
 		slider_g.setAlign(Control.Align.ExpandX);
 		slider_b.setAlign(Control.Align.ExpandX);

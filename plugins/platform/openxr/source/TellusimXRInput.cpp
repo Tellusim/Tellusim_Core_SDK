@@ -61,8 +61,8 @@ namespace Tellusim {
 		// action set info
 		XrActionSetCreateInfo actions_info = {};
 		actions_info.type = XR_TYPE_ACTION_SET_CREATE_INFO;
-		strcpy(actions_info.actionSetName, prefix.replace("/", "_").get());
-		strcpy(actions_info.localizedActionSetName, actions_info.actionSetName);
+		strncpy(actions_info.actionSetName, prefix.replace("/", "_").get(), sizeof(actions_info.actionSetName));
+		strncpy(actions_info.localizedActionSetName, actions_info.actionSetName, sizeof(actions_info.localizedActionSetName));
 		actions_info.priority = 0;
 		
 		// create action set
@@ -122,8 +122,8 @@ namespace Tellusim {
 		XrActionCreateInfo action_info = {};
 		action_info.type = XR_TYPE_ACTION_CREATE_INFO;
 		action_info.actionType = type;
-		strcpy(action_info.actionName, parameter.name.replace("/", "_").get());
-		strcpy(action_info.localizedActionName, action_info.actionName);
+		strncpy(action_info.actionName, parameter.name.replace("/", "_").get(), sizeof(action_info.actionName));
+		strncpy(action_info.localizedActionName, action_info.actionName, sizeof(action_info.localizedActionName));
 		
 		// create action
 		if(XR::error(xrCreateAction(getActions(), &action_info, &parameter.action))) {
