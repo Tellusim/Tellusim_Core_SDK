@@ -2,6 +2,14 @@
 
 :vcvars_init
 
+set VCVARS=%VS180COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvarsarm64.bat
+if exist "%VCVARS%" (
+	set VSCOMNTOOLS=%VS180COMNTOOLS%
+	set VSVERSION=180
+	set VSYEAR=2026
+	goto vcvars_ok
+)
+
 set VCVARS=%VS170COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvarsarm64.bat
 if exist "%VCVARS%" (
 	set VSCOMNTOOLS=%VS170COMNTOOLS%
@@ -18,8 +26,14 @@ if exist "%VCVARS%" (
 	goto vcvars_ok
 )
 
+:_
+
 set VSPATH=C:\Program Files\Microsoft Visual Studio
 for %%i in (Community Enterprice Professional) do (
+	if exist "%VSPATH%\2026\%%i\VC\Auxiliary\Build\vcvarsarm64.bat" (
+		set VS180COMNTOOLS=%VSPATH%\2026\%%i\Common7\Tools
+		goto vcvars_init
+	)
 	if exist "%VSPATH%\2022\%%i\VC\Auxiliary\Build\vcvarsarm64.bat" (
 		set VS170COMNTOOLS=%VSPATH%\2022\%%i\Common7\Tools
 		goto vcvars_init

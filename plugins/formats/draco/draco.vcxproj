@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{6ec045ee-af2d-89f9-64c6-3db4dfb1563e}</ProjectGuid>
+		<ProjectGuid>{e562add9-a3e7-d043-0f7c-3edfe990f23d}</ProjectGuid>
 		<ProjectName>draco</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
@@ -66,15 +66,16 @@
 		<ClCompile>
 			<WarningLevel>Level3</WarningLevel>
 			<AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;..\..\..\plugins\formats\draco\extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_WINDOWS=1;TS_DEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
 			<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+			<LanguageStandard>Default</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>
 			<GenerateDebugInformation>true</GenerateDebugInformation>
-			<AdditionalLibraryDirectories>..\..\..\lib\windows\vs170x64;extern\lib\windows\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<AdditionalLibraryDirectories>..\..\..\lib\windows\vs170x64;extern\lib\windows\x64;extern\lib\windows\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<AdditionalDependencies>Tellusim_x64d.lib;%(AdditionalDependencies)</AdditionalDependencies>
 		</Link>
 	</ItemDefinitionGroup>
@@ -84,16 +85,17 @@
 			<FunctionLevelLinking>true</FunctionLevelLinking>
 			<IntrinsicFunctions>true</IntrinsicFunctions>
 			<AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;..\..\..\plugins\formats\draco\extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_WINDOWS=1;NDEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
+			<LanguageStandard>Default</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>
 			<EnableCOMDATFolding>true</EnableCOMDATFolding>
 			<OptimizeReferences>true</OptimizeReferences>
 			<GenerateDebugInformation>true</GenerateDebugInformation>
-			<AdditionalLibraryDirectories>..\..\..\lib\windows\vs170x64;extern\lib\windows\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<AdditionalLibraryDirectories>..\..\..\lib\windows\vs170x64;extern\lib\windows\x64;extern\lib\windows\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<AdditionalDependencies>Tellusim_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
 		</Link>
 	</ItemDefinitionGroup>
@@ -101,15 +103,16 @@
 		<ClCompile>
 			<WarningLevel>Level3</WarningLevel>
 			<AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;..\..\..\plugins\formats\draco\extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_WINDOWS=1;TS_DEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
 			<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+			<LanguageStandard>Default</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>
 			<GenerateDebugInformation>true</GenerateDebugInformation>
-			<AdditionalLibraryDirectories>..\..\..\lib\windows\vs170arm64;extern\lib\windows\arm64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<AdditionalLibraryDirectories>..\..\..\lib\windows\vs170arm64;extern\lib\windows\arm64;extern\lib\windows\arm64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<AdditionalDependencies>Tellusim_arm64d.lib;%(AdditionalDependencies)</AdditionalDependencies>
 		</Link>
 	</ItemDefinitionGroup>
@@ -119,16 +122,17 @@
 			<FunctionLevelLinking>true</FunctionLevelLinking>
 			<IntrinsicFunctions>true</IntrinsicFunctions>
 			<AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;..\..\..\plugins\formats\draco\extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_WINDOWS=1;NDEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
+			<LanguageStandard>Default</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>
 			<EnableCOMDATFolding>true</EnableCOMDATFolding>
 			<OptimizeReferences>true</OptimizeReferences>
 			<GenerateDebugInformation>true</GenerateDebugInformation>
-			<AdditionalLibraryDirectories>..\..\..\lib\windows\vs170arm64;extern\lib\windows\arm64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<AdditionalLibraryDirectories>..\..\..\lib\windows\vs170arm64;extern\lib\windows\arm64;extern\lib\windows\arm64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<AdditionalDependencies>Tellusim_arm64.lib;%(AdditionalDependencies)</AdditionalDependencies>
 		</Link>
 	</ItemDefinitionGroup>

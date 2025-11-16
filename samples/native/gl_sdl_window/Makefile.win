@@ -1,6 +1,7 @@
 SRCS = main.cpp
 
-FLAGS = /Iinclude
+FLAGS = $(FLAGS) /Iinclude
+FLAGS = $(FLAGS) /I$(TSROOT)\plugins\platform\opengl\extern
 
 LDFLAGS = /subsystem:console lib\x64\SDL2main.lib lib\x64\SDL2.lib shell32.lib
 

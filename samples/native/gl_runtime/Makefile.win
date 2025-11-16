@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+FLAGS = $(FLAGS) /I$(TSROOT)\plugins\platform\opengl\extern
+
+include ..\..\Makefile.win.mk

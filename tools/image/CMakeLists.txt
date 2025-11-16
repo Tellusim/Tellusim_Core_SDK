@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -8,9 +8,13 @@ if(HAS_CCACHE)
 endif()
 
 if(WIN32)
-	add_compile_options(/D_CRT_SECURE_NO_WARNINGS /fp:fast)
-	add_compile_options(/MD /MP /W4 /Os /EHsc /D_WIN32_WINNT=0x0603)
-elseif(UNIX)
+	add_compile_options(/bigobj /D_CRT_SECURE_NO_WARNINGS /fp:fast)
+	add_compile_options(/MD /W4 /Os /EHsc /D_WIN32_WINNT=0x0603)
+elseif(UNIX AND NOT APPLE)
+	add_compile_options(-Wall -Os)
+	add_compile_options(-Wno-undefined-var-template -Wno-class-memaccess)
+	add_compile_options(-Wno-maybe-uninitialized -Wno-enum-compare)
+elseif(UNIX AND APPLE)
 	add_compile_options(-Wall -Wno-undefined-var-template -Os)
 endif()
 
@@ -18,12 +22,14 @@ include_directories(
 	../../include
 	../../plugins
 	../../samples
+	../../plugins/formats/webp/extern
 )
 
 if(WIN32)
 	add_definitions(-D_WIN64=1)
 	link_directories(
 		../../lib/windows/vs170x64
+		../../plugins/formats/webp/extern/lib/windows/x64
 	)
 elseif(UNIX AND NOT APPLE)
 	add_definitions(-D_LINUX=1)
@@ -43,12 +49,16 @@ set(SRCS
 )
 
 project(image)
-add_executable(image.exe ${SRCS})
-set_target_properties(image.exe PROPERTIES DEBUG_POSTFIX "_x64d")
-set_target_properties(image.exe PROPERTIES RELEASE_POSTFIX "_x64")
-set_target_properties(image.exe PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
-target_link_libraries(image.exe debug Tellusim_x64d optimized Tellusim_x64)
+add_executable(image ${SRCS})
+set_target_properties(image PROPERTIES DEBUG_POSTFIX "_x64d")
+set_target_properties(image PROPERTIES RELEASE_POSTFIX "_x64")
+set_target_properties(image PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
+target_link_libraries(image debug Tellusim_x64d optimized Tellusim_x64)
 
-if(NOT WIN32)
-	target_link_libraries(image.exe)
+if(WIN32)
+	target_link_libraries(image)
+elseif(UNIX AND NOT APPLE)
+	target_link_libraries(image)
+elseif(UNIX AND APPLE)
+	target_link_libraries(image)
 endif()
