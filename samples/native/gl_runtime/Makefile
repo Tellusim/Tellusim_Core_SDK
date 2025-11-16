@@ -1,8 +1,5 @@
 SRCS = main.cpp
 
-FLAGS += -Iinclude
 FLAGS += -I$(TSROOT)/plugins/platform/opengl/extern
-
-LIBS += -lSDL2
 
 include ../../Makefile.unx.mk

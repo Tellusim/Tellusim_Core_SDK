@@ -22,6 +22,7 @@ include_directories(
 	../../../include
 	../../../plugins
 	../../../samples
+	../../../plugins/platform/opengl/extern
 )
 
 if(WIN32)
@@ -43,10 +44,9 @@ endif()
 
 set(SRCS
 	main.cpp
-	source/TellusimControlTooltip.cpp
 )
 
-project(tooltip)
+project(gl_runtime)
 add_executable(main ${SRCS})
 set_target_properties(main PROPERTIES DEBUG_POSTFIX "_arm64d")
 set_target_properties(main PROPERTIES RELEASE_POSTFIX "_arm64")
