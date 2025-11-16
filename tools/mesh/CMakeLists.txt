@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -8,9 +8,13 @@ if(HAS_CCACHE)
 endif()
 
 if(WIN32)
-	add_compile_options(/D_CRT_SECURE_NO_WARNINGS /fp:fast)
-	add_compile_options(/MD /MP /W4 /Os /EHsc /D_WIN32_WINNT=0x0603)
-elseif(UNIX)
+	add_compile_options(/bigobj /D_CRT_SECURE_NO_WARNINGS /fp:fast)
+	add_compile_options(/MD /W4 /Os /EHsc /D_WIN32_WINNT=0x0603)
+elseif(UNIX AND NOT APPLE)
+	add_compile_options(-Wall -Os)
+	add_compile_options(-Wno-undefined-var-template -Wno-class-memaccess)
+	add_compile_options(-Wno-maybe-uninitialized -Wno-enum-compare)
+elseif(UNIX AND APPLE)
 	add_compile_options(-Wall -Wno-undefined-var-template -Os)
 endif()
 
@@ -18,6 +22,8 @@ include_directories(
 	../../include
 	../../plugins
 	../../samples
+	../../plugins/formats/draco/extern
+	../../plugins/formats/webp/extern
 )
 
 if(WIN32)
@@ -29,11 +35,15 @@ elseif(UNIX AND NOT APPLE)
 	add_definitions(-D_LINUX=1)
 	link_directories(
 		../../lib/linux/x64
+		../../plugins/formats/draco/extern/lib/linux/x64
+		../../plugins/formats/webp/extern/lib/linux/x64
 	)
 elseif(UNIX AND APPLE)
 	add_definitions(-D_MACOS=1)
 	link_directories(
 		../../lib/macos/x64
+		../../plugins/formats/draco/extern/lib/linux/x64
+		../../plugins/formats/webp/extern/lib/linux/x64
 	)
 endif()
 
@@ -49,6 +59,10 @@ set_target_properties(mesh PROPERTIES RELEASE_POSTFIX "_x64")
 set_target_properties(mesh PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
 target_link_libraries(mesh debug Tellusim_x64d optimized Tellusim_x64)
 
-if(NOT WIN32)
+if(WIN32)
 	target_link_libraries(mesh)
+elseif(UNIX AND NOT APPLE)
+	target_link_libraries(mesh draco webp)
+elseif(UNIX AND APPLE)
+	target_link_libraries(mesh draco webp)
 endif()

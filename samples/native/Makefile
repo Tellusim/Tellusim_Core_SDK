@@ -2,6 +2,7 @@ ifeq "$(shell uname -s)" "Linux"
 	TESTS = \
 		gl_glfw_window \
 		gl_gtk3_window \
+		gl_runtime \
 		gl_sdl_window \
 		vk_glfw_window \
 		vk_gtk3_window \

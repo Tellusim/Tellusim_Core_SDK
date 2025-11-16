@@ -22,6 +22,7 @@ include_directories(
 	../../../include
 	../../../plugins
 	../../../samples
+	../../../plugins/platform/opengl/extern
 )
 
 if(WIN32)
@@ -45,7 +46,7 @@ set(SRCS
 	main.cpp
 )
 
-project(lights)
+project(gl_runtime)
 add_executable(main ${SRCS})
 set_target_properties(main PROPERTIES DEBUG_POSTFIX "_x64d")
 set_target_properties(main PROPERTIES RELEASE_POSTFIX "_x64")
