@@ -135,6 +135,7 @@ class Application {
 				pipeline.setUniformMask(0, Shader::MaskVertex);
 				pipeline.setColorFormat(window.getColorFormat());
 				pipeline.setDepthFormat(window.getDepthFormat());
+				pipeline.setMultisample(window.getMultisample());
 				pipeline.setDepthFunc(Pipeline::DepthFuncAlways);
 				
 				// vertex Shader that defines a triangle and transforms its position

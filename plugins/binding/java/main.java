@@ -258,6 +258,9 @@ public class main {
 		slider_r.setChangedCallback(new ControlSlider.ChangedCallback() { public void run(ControlSlider slider) { color.setR(slider.getValuef32()); } });
 		slider_g.setChangedCallback(new ControlSlider.ChangedCallback() { public void run(ControlSlider slider) { color.setG(slider.getValuef32()); } });
 		slider_b.setChangedCallback(new ControlSlider.ChangedCallback() { public void run(ControlSlider slider) { color.setB(slider.getValuef32()); } });
+		slider_r.setFormatCallback(new ControlSlider.FormatCallback() { public String run(ControlSlider slider) { return "Value " + TSString.fromf32(slider.getValuef32(), 2); } });
+		slider_g.setFormatCallback(new ControlSlider.FormatCallback() { public String run(ControlSlider slider) { return "Value " + TSString.fromf32(slider.getValuef32(), 2); } });
+		slider_b.setFormatCallback(new ControlSlider.FormatCallback() { public String run(ControlSlider slider) { return "Value " + TSString.fromf32(slider.getValuef32(), 2); } });
 		slider_r.setAlign(Control.Align.ExpandX);
 		slider_g.setAlign(Control.Align.ExpandX);
 		slider_b.setAlign(Control.Align.ExpandX);

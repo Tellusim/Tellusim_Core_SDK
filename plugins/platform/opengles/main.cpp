@@ -111,7 +111,7 @@ int32_t main(int32_t argc, char **argv) {
 				uint32_t num_indices = model.getNumGeometryIndices(i);
 				uint32_t base_index = model.getGeometryBaseIndex(i);
 				uint32_t base_vertex = model.getGeometryBaseVertex(i);
-				glDrawElementsBaseVertex(GL_TRIANGLES, num_indices, GL_UNSIGNED_SHORT, (const void*)(size_t)(base_index << 2), base_vertex);
+				glDrawElementsBaseVertex(GL_TRIANGLES, num_indices, GL_UNSIGNED_SHORT, (const void*)(size_t)(base_index << 1), base_vertex);
 			}
 		}
 		target.end();

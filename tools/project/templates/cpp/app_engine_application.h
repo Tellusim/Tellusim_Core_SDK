@@ -6,6 +6,7 @@
 #include <TellusimApp.h>
 #include <core/TellusimCore.h>
 #include <core/TellusimThread.h>
+#include <system/TellusimDesktop.h>
 #include <platform/TellusimPlatforms.h>
 #include <scene/TellusimScenes.h>
 #include <scene/TellusimCameras.h>
@@ -108,10 +109,37 @@ class Application {
 		// helper function to create and initialize Window
 		virtual bool create_window() {
 			
-			// create Window
+			// initialize Window
 			window = Window(app.getPlatform(), app.getDevice());
-			if(!window || !window.setSize(app.getWidth(), app.getHeight()) ||
-				!window.create(String(window.getPlatformName()) + " @NAME@") || !window.setHidden(false)) {
+			if(!window || !window.setSize(app.getWidth(), app.getHeight())) {
+				TS_LOG(Error, "Application::create_window(): can't initialize Window\n");
+				return false;
+			}
+			
+			// window flags
+			Window::Flags window_flags = Window::DefaultFlags;
+			if(app.getArgument("fullscreen").tou32() || app.getArgument("fs").tou32()) window_flags = (window_flags & ~Window::DefaultFlags) | Window::FlagFullscreen;
+			if(app.getArgument("vsync").tou32() || app.getArgument("vs").tou32()) window_flags |= Window::FlagVerticalSync;
+			
+			// window refresh rate
+			uint32_t window_refresh = Tellusim::max(app.getArgument("refresh").tou32(), app.getArgument("r").tou32());
+			if(window_refresh != 0) {
+				window.setRefreshRate(window_refresh);
+				window_flags |= Window::FlagRefreshSync;
+			}
+			
+			// fullscreen mode
+			if(window_flags & Window::FlagFullscreen) {
+				Desktop desktop;
+				int32_t x = 0, y = 0;
+				if(desktop.getNumScreens() && desktop.getMouse(x, y)) {
+					uint32_t index = desktop.getScreenIndex(x, y);
+					window.setGeometry(desktop.getPositionX(index), desktop.getPositionY(index), desktop.getWidth(index), desktop.getHeight(index));
+				}
+			}
+			
+			// create Window
+			if(!window.create(String(window.getPlatformName()) + " @NAME@", window_flags) || !window.setHidden(false)) {
 				TS_LOG(Error, "Application::create_window(): can't create Window\n");
 				return false;
 			}
