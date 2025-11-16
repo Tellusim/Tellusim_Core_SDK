@@ -13276,7 +13276,7 @@ namespace Tellusim {
 		public delegate void CopyCallback(ControlRoot a0, string text, IntPtr data_);
 		public delegate void CopyCallback_(IntPtr a0, string text, IntPtr data_);
 		public delegate string PasteCallback(ControlRoot a0, IntPtr data_);
-		public delegate string PasteCallback_(IntPtr a0, IntPtr data_);
+		public delegate IntPtr PasteCallback_(IntPtr a0, IntPtr data_);
 		public ControlRoot() { self = new HandleRef(this, tsControlRoot_new()); owner = true; }
 		public ControlRoot(Canvas canvas, bool blob = false) { self = new HandleRef(this, tsControlRoot_new_Cb(canvas.getSelf(), blob)); owner = true; }
 		public ControlRoot(ControlRoot ptr) { self = new HandleRef(this, tsControlRoot_copyPtr(ptr.getSelf())); owner = true; }
@@ -13378,7 +13378,7 @@ namespace Tellusim {
 		}
 		public void setPasteCallback(PasteCallback func, IntPtr data = new IntPtr()) {
 			ControlRoot.PasteCallback_ func_ = null;
-			if(func != null) func_ = (IntPtr a0_, IntPtr data_) => { return func(new ControlRoot(a0_), data_); };
+			if(func != null) func_ = (IntPtr a0_, IntPtr data_) => { return (new Tellusim.String(func(new ControlRoot(a0_), data_))).getSelfPtr(); };
 			if(func_ != null) PasteCallback_91 = GCHandle.Alloc(func_);
 			tsControlRoot_setPasteCallback(self, Base.getFunc(func_), data);
 		}
@@ -14538,7 +14538,7 @@ namespace Tellusim {
 	// Tellusim::ControlSlider
 	public sealed class ControlSlider : ControlText {
 		public delegate string FormatCallback(ControlSlider a0, IntPtr data_);
-		public delegate string FormatCallback_(IntPtr a0, IntPtr data_);
+		public delegate IntPtr FormatCallback_(IntPtr a0, IntPtr data_);
 		public delegate void PressedCallback(ControlSlider a0, IntPtr data_);
 		public delegate void PressedCallback_(IntPtr a0, IntPtr data_);
 		public delegate void ReleasedCallback(ControlSlider a0, IntPtr data_);
@@ -14616,7 +14616,7 @@ namespace Tellusim {
 		public float getHandleSize() { return tsControlSlider_getHandleSize(self); }
 		public void setFormatCallback(FormatCallback func, IntPtr data = new IntPtr()) {
 			ControlSlider.FormatCallback_ func_ = null;
-			if(func != null) func_ = (IntPtr a0_, IntPtr data_) => { return func(new ControlSlider(a0_), data_); };
+			if(func != null) func_ = (IntPtr a0_, IntPtr data_) => { return (new Tellusim.String(func(new ControlSlider(a0_), data_))).getSelfPtr(); };
 			if(func_ != null) FormatCallback_35 = GCHandle.Alloc(func_);
 			tsControlSlider_setFormatCallback(self, Base.getFunc(func_), data);
 		}
