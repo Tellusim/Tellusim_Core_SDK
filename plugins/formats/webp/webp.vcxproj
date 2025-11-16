@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{45ecbe83-c161-469e-bc19-44088f4daddd}</ProjectGuid>
+		<ProjectGuid>{fb0161dd-12a2-8991-0a2b-845b36898b9a}</ProjectGuid>
 		<ProjectName>webp</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
@@ -70,11 +70,12 @@
 			<PreprocessorDefinitions>_WINDOWS=1;TS_DEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
 			<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+			<LanguageStandard>Default</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>
 			<GenerateDebugInformation>true</GenerateDebugInformation>
-			<AdditionalLibraryDirectories>..\..\..\lib\windows\vs170x64;extern\lib\windows\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<AdditionalLibraryDirectories>..\..\..\lib\windows\vs170x64;extern\lib\windows\x64;extern\lib\windows\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<AdditionalDependencies>Tellusim_x64d.lib;%(AdditionalDependencies)</AdditionalDependencies>
 		</Link>
 	</ItemDefinitionGroup>
@@ -87,13 +88,14 @@
 			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_WINDOWS=1;NDEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
+			<LanguageStandard>Default</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>
 			<EnableCOMDATFolding>true</EnableCOMDATFolding>
 			<OptimizeReferences>true</OptimizeReferences>
 			<GenerateDebugInformation>true</GenerateDebugInformation>
-			<AdditionalLibraryDirectories>..\..\..\lib\windows\vs170x64;extern\lib\windows\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<AdditionalLibraryDirectories>..\..\..\lib\windows\vs170x64;extern\lib\windows\x64;extern\lib\windows\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<AdditionalDependencies>Tellusim_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
 		</Link>
 	</ItemDefinitionGroup>
@@ -105,11 +107,12 @@
 			<PreprocessorDefinitions>_WINDOWS=1;TS_DEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
 			<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+			<LanguageStandard>Default</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>
 			<GenerateDebugInformation>true</GenerateDebugInformation>
-			<AdditionalLibraryDirectories>..\..\..\lib\windows\vs170arm64;extern\lib\windows\arm64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<AdditionalLibraryDirectories>..\..\..\lib\windows\vs170arm64;extern\lib\windows\arm64;extern\lib\windows\arm64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<AdditionalDependencies>Tellusim_arm64d.lib;%(AdditionalDependencies)</AdditionalDependencies>
 		</Link>
 	</ItemDefinitionGroup>
@@ -122,13 +125,14 @@
 			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_WINDOWS=1;NDEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
+			<LanguageStandard>Default</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>
 			<EnableCOMDATFolding>true</EnableCOMDATFolding>
 			<OptimizeReferences>true</OptimizeReferences>
 			<GenerateDebugInformation>true</GenerateDebugInformation>
-			<AdditionalLibraryDirectories>..\..\..\lib\windows\vs170arm64;extern\lib\windows\arm64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<AdditionalLibraryDirectories>..\..\..\lib\windows\vs170arm64;extern\lib\windows\arm64;extern\lib\windows\arm64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<AdditionalDependencies>Tellusim_arm64.lib;%(AdditionalDependencies)</AdditionalDependencies>
 		</Link>
 	</ItemDefinitionGroup>

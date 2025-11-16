@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{fcae3e88-c3b4-0b21-77b4-1bc609cbd937}</ProjectGuid>
+		<ProjectGuid>{acf19233-5cef-5fba-2ba5-1a636e0cf2bc}</ProjectGuid>
 		<ProjectName>openxr</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
@@ -66,10 +66,11 @@
 		<ClCompile>
 			<WarningLevel>Level3</WarningLevel>
 			<AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;..\..\..\plugins\platform\vulkan\extern;..\..\..\plugins\platform\opengl\extern;..\..\..\plugins\platform\openxr\extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_WINDOWS=1;TS_DEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
 			<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+			<LanguageStandard>Default</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>
@@ -84,9 +85,10 @@
 			<FunctionLevelLinking>true</FunctionLevelLinking>
 			<IntrinsicFunctions>true</IntrinsicFunctions>
 			<AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;..\..\..\plugins\platform\vulkan\extern;..\..\..\plugins\platform\opengl\extern;..\..\..\plugins\platform\openxr\extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_WINDOWS=1;NDEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
+			<LanguageStandard>Default</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>
@@ -101,10 +103,11 @@
 		<ClCompile>
 			<WarningLevel>Level3</WarningLevel>
 			<AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;..\..\..\plugins\platform\vulkan\extern;..\..\..\plugins\platform\opengl\extern;..\..\..\plugins\platform\openxr\extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_WINDOWS=1;TS_DEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
 			<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+			<LanguageStandard>Default</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>
@@ -119,9 +122,10 @@
 			<FunctionLevelLinking>true</FunctionLevelLinking>
 			<IntrinsicFunctions>true</IntrinsicFunctions>
 			<AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;..\..\..\plugins\platform\vulkan\extern;..\..\..\plugins\platform\opengl\extern;..\..\..\plugins\platform\openxr\extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_WINDOWS=1;NDEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
+			<LanguageStandard>Default</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>

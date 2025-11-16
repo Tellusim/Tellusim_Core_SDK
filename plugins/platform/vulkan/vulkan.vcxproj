@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{1dc59b22-a27a-b7d3-c24d-033700692d21}</ProjectGuid>
+		<ProjectGuid>{2eb41bfb-7c81-e7ce-573d-2710e9e6a842}</ProjectGuid>
 		<ProjectName>vulkan</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
@@ -66,10 +66,11 @@
 		<ClCompile>
 			<WarningLevel>Level3</WarningLevel>
 			<AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;..\..\..\plugins\platform\vulkan\extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_WINDOWS=1;TS_DEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
 			<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+			<LanguageStandard>Default</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>
@@ -84,9 +85,10 @@
 			<FunctionLevelLinking>true</FunctionLevelLinking>
 			<IntrinsicFunctions>true</IntrinsicFunctions>
 			<AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;..\..\..\plugins\platform\vulkan\extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_WINDOWS=1;NDEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
+			<LanguageStandard>Default</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>
@@ -101,10 +103,11 @@
 		<ClCompile>
 			<WarningLevel>Level3</WarningLevel>
 			<AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;..\..\..\plugins\platform\vulkan\extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_WINDOWS=1;TS_DEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
 			<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+			<LanguageStandard>Default</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>
@@ -119,9 +122,10 @@
 			<FunctionLevelLinking>true</FunctionLevelLinking>
 			<IntrinsicFunctions>true</IntrinsicFunctions>
 			<AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;..\..\..\plugins\platform\vulkan\extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_WINDOWS=1;NDEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
+			<LanguageStandard>Default</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>

@@ -12,6 +12,7 @@ TESTS = \
 	d3d12_work_graph \
 	d3d12_work_state \
 	d3d12_work_mesh \
+	gl_runtime \
 	vk_pipeline \
 	vk_runtime \
 	vk_swap_chain

@@ -70,6 +70,7 @@
 			<PreprocessorDefinitions>_WINDOWS=1;TS_DEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
 			<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+			<LanguageStandard>Default</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>
@@ -87,6 +88,7 @@
 			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_WINDOWS=1;NDEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
+			<LanguageStandard>Default</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>
@@ -105,6 +107,7 @@
 			<PreprocessorDefinitions>_WINDOWS=1;TS_DEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
 			<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+			<LanguageStandard>Default</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>
@@ -122,6 +125,7 @@
 			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins;..\..\..\samples;extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_WINDOWS=1;NDEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MultiProcessorCompilation>true</MultiProcessorCompilation>
+			<LanguageStandard>Default</LanguageStandard>
 		</ClCompile>
 		<Link>
 			<SubSystem>Console</SubSystem>
