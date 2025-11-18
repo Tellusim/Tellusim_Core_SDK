@@ -10,6 +10,7 @@ Happy coding, and have fun creating with Tellusim!
 
 ## Getting started
 
+* [First Project](https://docs.tellusim.com/core/started/00_project)
 * [Core SDK Tutorials](https://docs.tellusim.com/core/tutorials/00_hello_triangle)
 
 ## Documentation and Support
