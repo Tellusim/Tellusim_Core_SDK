@@ -8,9 +8,10 @@ In addition to C++, the SDK provides bindings and interoperability for other lan
 
 Happy coding, and have fun creating with Tellusim!
 
-## Getting started
+## Getting Started
 
-* [First Project](https://docs.tellusim.com/core/started/00_project)
+* [First Desktop Project](https://docs.tellusim.com/core/started/00_project)
+* [Tellusim API Pointers](https://docs.tellusim.com/core/started/01_pointers)
 * [Core SDK Tutorials](https://docs.tellusim.com/core/tutorials/00_hello_triangle)
 
 ## Documentation and Support
