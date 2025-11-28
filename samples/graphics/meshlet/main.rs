@@ -97,7 +97,7 @@ fn main() {
 		
 		// create draw kernel
 		draw_kernel = device.create_kernel().set_surfaces(2).set_uniforms(2).set_storages(3);
-		if !draw_kernel.load_shader_glsl("main.shader", &format!("COMPUTE_PIPELINE=1; COMPUTE_DRAW_SHADER=1; GROUP_SIZE={0}u; NUM_VERTICES={1}u; NUM_PRIMITIVES={2}u; NUM_INSTANCES={3}u", npotu32(max_primitives), max_vertices, max_primitives, num_instances2)) { exit(1) }
+		if !draw_kernel.load_shader_glsl("main.shader", &format!("COMPUTE_PIPELINE=1; COMPUTE_DRAW_SHADER=1; COLOR_SHADING=1; GROUP_SIZE={0}u; NUM_VERTICES={1}u; NUM_PRIMITIVES={2}u; NUM_INSTANCES={3}u", npotu32(max_primitives), max_vertices, max_primitives, num_instances2)) { exit(1) }
 		if !draw_kernel.create() { exit(1) }
 		
 		// create clear kernel

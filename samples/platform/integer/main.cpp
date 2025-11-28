@@ -14,6 +14,18 @@ using namespace Tellusim;
 
 /*
  */
+inline uint32_t bitfieldExtract(uint32_t v) {
+	uint32_t mask = (1u << 17u) - 1u;
+	return (v >> 7u) & mask;
+}
+
+inline uint32_t bitfieldInsert(uint32_t v) {
+	uint32_t mask = (1u << 17u) - 1u;
+	return (v & ~(mask << 7u)) | ((0xffffffffu & mask) << 7u);
+}
+
+/*
+ */
 int32_t main(int32_t argc, char **argv) {
 	
 	// create app
@@ -69,6 +81,30 @@ int32_t main(int32_t argc, char **argv) {
 	read_buffer_data[13] = 0xfedcba98;
 	read_buffer_data[14] = 0xfedcba98;
 	read_buffer_data[15] = 0x89abcdef;
+	
+	// bitfieldExtract(u32)
+	read_buffer_data[16] = 0x89abcdef;
+	read_buffer_data[17] = 0xfedcba98;
+	
+	// bitfieldInsert(u32)
+	read_buffer_data[18] = 0x89abcdef;
+	read_buffer_data[19] = 0xfedcba98;
+	
+	// bitfieldReverse(u32)
+	read_buffer_data[20] = 0x89abcdef;
+	read_buffer_data[21] = 0xfedcba98;
+	
+	// bitCount(u32)
+	read_buffer_data[22] = 0x89abcdef;
+	read_buffer_data[23] = 0xfedcba98;
+	
+	// findLSB(u32)
+	read_buffer_data[24] = 0x09abcd00;
+	read_buffer_data[25] = 0x00dcba90;
+	
+	// findMSB(u32)
+	read_buffer_data[26] = 0x09abcd00;
+	read_buffer_data[27] = 0x00dcba90;
 	
 	Buffer read_buffer = device.createBuffer(Buffer::FlagStorage | Buffer::FlagSource, read_buffer_data.get(), read_buffer_data.bytes());
 	Buffer write_buffer = device.createBuffer(Buffer::FlagStorage | Buffer::FlagSource, write_buffer_data.get(), write_buffer_data.bytes());
@@ -154,6 +190,48 @@ int32_t main(int32_t argc, char **argv) {
 	Log::print("\n");
 	TS_LOGF(Message, "    ref: 0x%016" TS_FORMAT_64 "x\n", ((uint64_t)src[0] - (uint64_t)src[1]) & (uint64_t)0x00000001ffffffffull);
 	TS_LOGF(Message, "usubExt: 0x%08x%08x\n", dest[0], dest[1]);
+	dest += 2;
+	src += 2;
+	
+	// bitfieldExtract(u32)
+	Log::print("\n");
+	TS_LOGF(Message, "    ref: 0x%08x 0x%08x\n", bitfieldExtract(src[0]), bitfieldExtract(src[1]));
+	TS_LOGF(Message, "Extract: 0x%08x 0x%08x\n", dest[0], dest[1]);
+	dest += 2;
+	src += 2;
+	
+	// bitfieldInsert(u32)
+	Log::print("\n");
+	TS_LOGF(Message, "    ref: 0x%08x 0x%08x\n", bitfieldInsert(src[0]), bitfieldInsert(src[1]));
+	TS_LOGF(Message, " Insert: 0x%08x 0x%08x\n", dest[0], dest[1]);
+	dest += 2;
+	src += 2;
+	
+	// bitfieldReverse(u32)
+	Log::print("\n");
+	TS_LOGF(Message, "    ref: 0x%08x 0x%08x\n", bitreverse(src[0]), bitreverse(src[1]));
+	TS_LOGF(Message, "Reverse: 0x%08x 0x%08x\n", dest[0], dest[1]);
+	dest += 2;
+	src += 2;
+	
+	// bitCount(u32)
+	Log::print("\n");
+	TS_LOGF(Message, "    ref: 0x%08x 0x%08x\n", bitcount(src[0]), bitcount(src[1]));
+	TS_LOGF(Message, "  Count: 0x%08x 0x%08x\n", dest[0], dest[1]);
+	dest += 2;
+	src += 2;
+	
+	// findLSB(u32)
+	Log::print("\n");
+	TS_LOGF(Message, "    ref: 0x%08x 0x%08x\n", bitleast(src[0]), bitleast(src[1]));
+	TS_LOGF(Message, "findLSB: 0x%08x 0x%08x\n", dest[0], dest[1]);
+	dest += 2;
+	src += 2;
+	
+	// findMSB(u32)
+	Log::print("\n");
+	TS_LOGF(Message, "    ref: 0x%08x 0x%08x\n", bitmost(src[0]), bitmost(src[1]));
+	TS_LOGF(Message, "findMSB: 0x%08x 0x%08x\n", dest[0], dest[1]);
 	dest += 2;
 	src += 2;
 	
