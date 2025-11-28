@@ -89,7 +89,7 @@ def main(argv):
 		
 		# create draw kernel
 		draw_kernel = device.createKernel().setSurfaces(2).setUniforms(2).setStorages(3)
-		if not draw_kernel.loadShaderGLSL('main.shader', 'COMPUTE_PIPELINE=1; COMPUTE_DRAW_SHADER=1; GROUP_SIZE={0}u; NUM_VERTICES={1}u; NUM_PRIMITIVES={2}u; NUM_INSTANCES={3}u'.format(npot(max_primitives), max_vertices, max_primitives, num_instances2)): return 1
+		if not draw_kernel.loadShaderGLSL('main.shader', 'COMPUTE_PIPELINE=1; COMPUTE_DRAW_SHADER=1; COLOR_SHADING=1; GROUP_SIZE={0}u; NUM_VERTICES={1}u; NUM_PRIMITIVES={2}u; NUM_INSTANCES={3}u'.format(npot(max_primitives), max_vertices, max_primitives, num_instances2)): return 1
 		if not draw_kernel.create(): return 1
 		
 		# create clear kernel
