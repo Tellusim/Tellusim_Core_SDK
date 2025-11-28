@@ -25,6 +25,10 @@ using namespace Tellusim;
  */
 int32_t main(int32_t argc, char **argv) {
 	
+	using Tellusim::float16x4_t;
+	using Tellusim::float32x4_t;
+	using Tellusim::float16x8_t;
+	
 	// create app
 	App app(argc, argv);
 	if(!app.create()) return 1;

@@ -53,7 +53,7 @@ class MyApplication : public Application {
 			// update scene
 			#if LOAD_SCENE
 				float32_t angle = (float32_t)Time::seconds() * 16.0f;
-				node_camera.setGlobalTransform(Matrix4x3d::placeTo(Matrix4x3d::rotateZ(-angle) * Vector3d(2.0, 2.0, 1.0), Vector3d::zero, Vector3d(0.0, 0.0, 1.0)));
+				node_camera.setGlobalTransform(Matrix4x3d::placeTo(Matrix4x3d::rotateZ(-angle) * Vector3d(2.0, 2.0, 1.0), Vector3d::zero, Vector3d::oneZ));
 				node_camera.updateScene();
 				if(torus_node) {
 					torus_node.setPivotTransform(Matrix4x3f::rotateX(angle * 3.0f) * Matrix4x3f::rotateZ(angle * 2.0f));
