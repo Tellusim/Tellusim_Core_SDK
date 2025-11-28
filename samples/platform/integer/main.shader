@@ -7,7 +7,7 @@
  */
 #if COMPUTE_SHADER
 	
-	layout(local_size_x = 64) in;
+	layout(local_size_x = 128) in;
 	
 	layout(std430, binding = 0) buffer ReadBuffer { uvec2 read_buffer[]; };
 	layout(std430, binding = 1) buffer WriteBuffer { uvec2 write_buffer[]; };
@@ -130,6 +130,78 @@
 			index -= 2;
 			dest += 2;
 			src += 2;
+		}
+		
+		// bitfieldExtract(u32)
+		{
+			#if CLAY_VK || CLAY_D3D12 || CLAY_GL || CLAY_GLES
+				if(index == 0) write_buffer[dest] = bitfieldExtract(read_buffer[src], 7, 17);
+			#else
+				if(index == 0) write_buffer[dest] = uvec2(bitfieldExtract(read_buffer[src].x, 7, 17), bitfieldExtract(read_buffer[src].y, 7, 17));
+			#endif
+			index -= 1;
+			dest += 1;
+			src += 1;
+		}
+		
+		// bitfieldInsert(u32)
+		{
+			#if CLAY_VK || CLAY_D3D12 || CLAY_GL || CLAY_GLES
+				if(index == 0) write_buffer[dest] = bitfieldInsert(read_buffer[src], uvec2(~0u), 7, 17);
+			#else
+				if(index == 0) write_buffer[dest] = uvec2(bitfieldInsert(read_buffer[src].x, ~0u, 7, 17), bitfieldInsert(read_buffer[src].y, ~0u, 7, 17));
+			#endif
+			index -= 1;
+			dest += 1;
+			src += 1;
+		}
+		
+		// bitfieldReverse(u32)
+		{
+			#if CLAY_VK || CLAY_D3D12 || CLAY_GL || CLAY_GLES || CLAY_WG
+				if(index == 0) write_buffer[dest] = bitfieldReverse(read_buffer[src]);
+			#else
+				if(index == 0) write_buffer[dest] = uvec2(bitfieldReverse(read_buffer[src].x), bitfieldReverse(read_buffer[src].y));
+			#endif
+			index -= 1;
+			dest += 1;
+			src += 1;
+		}
+		
+		// bitCount(u32)
+		{
+			#if CLAY_VK || CLAY_D3D12 || CLAY_GL || CLAY_GLES || CLAY_WG
+				if(index == 0) write_buffer[dest] = bitCount(read_buffer[src]);
+			#else
+				if(index == 0) write_buffer[dest] = uvec2(bitCount(read_buffer[src].x), bitCount(read_buffer[src].y));
+			#endif
+			index -= 1;
+			dest += 1;
+			src += 1;
+		}
+		
+		// findLSB(u32)
+		{
+			#if CLAY_VK || CLAY_D3D12 || CLAY_GL || CLAY_GLES || CLAY_WG
+				if(index == 0) write_buffer[dest] = findLSB(read_buffer[src]);
+			#else
+				if(index == 0) write_buffer[dest] = uvec2(findLSB(read_buffer[src].x), findLSB(read_buffer[src].y));
+			#endif
+			index -= 1;
+			dest += 1;
+			src += 1;
+		}
+		
+		// findMSB(u32)
+		{
+			#if CLAY_VK || CLAY_D3D12 || CLAY_GL || CLAY_GLES || CLAY_WG
+				if(index == 0) write_buffer[dest] = findMSB(read_buffer[src]);
+			#else
+				if(index == 0) write_buffer[dest] = uvec2(findMSB(read_buffer[src].x), findMSB(read_buffer[src].y));
+			#endif
+			index -= 1;
+			dest += 1;
+			src += 1;
 		}
 	}
 	
