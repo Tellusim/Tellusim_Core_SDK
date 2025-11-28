@@ -113,7 +113,7 @@ $(TARGET): $(DEPEND) $(OBJS)
 install_:
 	@$(ECHO) g "Installing `basename $(CURDIR)`"
 	@$(eval INSTALL:=~/webgpu-`date +%Y%m%d`/`basename \`dirname $(CURDIR)\``_`basename $(CURDIR)`/)
-	@mkdir -p $(INSTALL) && cp main$(POSTFIX).js main$(POSTFIX).html main$(POSTFIX).wasm $(INSTALL)
+	@mkdir -p $(INSTALL) && cp main$(POSTFIX).js main$(POSTFIX).html main$(POSTFIX).wasm $(INSTALL) && gzip -k -9 $(INSTALL)/main$(POSTFIX).wasm
 
 run_:
 	@$(ECHO) g "Running `basename $(CURDIR)`"

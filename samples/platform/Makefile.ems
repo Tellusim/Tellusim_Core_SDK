@@ -16,6 +16,8 @@ TESTS = \
 	multisample \
 	precision \
 	preprocessor \
+	printf \
+	reference \
 	samplers \
 	samples \
 	stencil \
