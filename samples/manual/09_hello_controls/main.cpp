@@ -138,7 +138,7 @@ int32_t main(int32_t argc, char **argv) {
 	});
 	
 	// create height combo
-	ControlCombo height_combo(&combo_group, { "450", "600", "900", "1080" });
+	ControlCombo height_combo(&combo_group, { "450", "600", "900", "1080", "Window" });
 	height_combo.setAlign(Control::AlignExpandX);
 	
 	// create edit
@@ -176,6 +176,7 @@ int32_t main(int32_t argc, char **argv) {
 		
 		// viewport size
 		uint32_t height = height_combo.getCurrentText().tou32();
+		if(height_combo.getCurrentText() == "Window") height = window.getHeight();
 		uint32_t width = (height * window.getWidth()) / window.getHeight();
 		int32_t mouse_x = ((int32_t)width * window.getMouseX()) / (int32_t)window.getWidth();
 		int32_t mouse_y = ((int32_t)height * window.getMouseY()) / (int32_t)window.getHeight();
