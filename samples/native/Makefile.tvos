@@ -1,0 +1,5 @@
+TESTS = \
+	mtl_pipeline \
+	mtl_runtime
+
+include ../Makefile.tvos

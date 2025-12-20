@@ -216,6 +216,7 @@ namespace Tellusim {
 	TS_STATIC_ASSERT(TS_AppVersion_40 == (uint32_t)App::Version_40);
 	TS_STATIC_ASSERT(TS_AppVersion_41 == (uint32_t)App::Version_41);
 	TS_STATIC_ASSERT(TS_AppVersion_42 == (uint32_t)App::Version_42);
+	TS_STATIC_ASSERT(TS_AppVersion_43 == (uint32_t)App::Version_43);
 	TS_STATIC_ASSERT(TS_AppVersion == (uint32_t)App::Version);
 	
 	// Tellusim::Socket::Type
@@ -887,6 +888,7 @@ namespace Tellusim {
 	TS_STATIC_ASSERT(TS_ControlAlignOverlap == (uint32_t)Control::AlignOverlap);
 	TS_STATIC_ASSERT(TS_ControlAlignSpacer == (uint32_t)Control::AlignSpacer);
 	TS_STATIC_ASSERT(TS_ControlAlignAspect == (uint32_t)Control::AlignAspect);
+	TS_STATIC_ASSERT(TS_ControlAlignLocal == (uint32_t)Control::AlignLocal);
 	TS_STATIC_ASSERT(TS_ControlAlignLeftBottom == (uint32_t)Control::AlignLeftBottom);
 	TS_STATIC_ASSERT(TS_ControlAlignLeftTop == (uint32_t)Control::AlignLeftTop);
 	TS_STATIC_ASSERT(TS_ControlAlignRightBottom == (uint32_t)Control::AlignRightBottom);
@@ -1471,13 +1473,14 @@ namespace Tellusim {
 	// Tellusim::Device
 	TS_STATIC_ASSERT(sizeof(TSDeviceFeatures) == sizeof(Device::Features));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, threadAccess) == offsetof(Device::Features, threadAccess));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, sparseBuffer) == offsetof(Device::Features, sparseBuffer));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, bufferTable) == offsetof(Device::Features, bufferTable));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, sparseTexture) == offsetof(Device::Features, sparseTexture));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, sparseArrayTexture) == offsetof(Device::Features, sparseArrayTexture));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, cubeArrayTexture) == offsetof(Device::Features, cubeArrayTexture));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, bufferSparse) == offsetof(Device::Features, bufferSparse));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, textureTable) == offsetof(Device::Features, textureTable));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, baseInstanceIndex) == offsetof(Device::Features, baseInstanceIndex));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, textureSparse) == offsetof(Device::Features, textureSparse));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, textureArrayCube) == offsetof(Device::Features, textureArrayCube));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, textureArraySparse) == offsetof(Device::Features, textureArraySparse));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, surfaceMultisample) == offsetof(Device::Features, surfaceMultisample));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, drawBaseInstance) == offsetof(Device::Features, drawBaseInstance));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, drawIndirectIndex) == offsetof(Device::Features, drawIndirectIndex));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, drawIndirectCount) == offsetof(Device::Features, drawIndirectCount));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, taskIndirectCount) == offsetof(Device::Features, taskIndirectCount));
@@ -1486,15 +1489,15 @@ namespace Tellusim {
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, geometryPassthrough) == offsetof(Device::Features, geometryPassthrough));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, fragmentBarycentric) == offsetof(Device::Features, fragmentBarycentric));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, fragmentStencilExport) == offsetof(Device::Features, fragmentStencilExport));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, dualSourceBlending) == offsetof(Device::Features, dualSourceBlending));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, blendDualSource) == offsetof(Device::Features, blendDualSource));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, depthRangeOneToOne) == offsetof(Device::Features, depthRangeOneToOne));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, conservativeRaster) == offsetof(Device::Features, conservativeRaster));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, conditionalRendering) == offsetof(Device::Features, conditionalRendering));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, rayTracing) == offsetof(Device::Features, rayTracing));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, rasterConservative) == offsetof(Device::Features, rasterConservative));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, renderConditional) == offsetof(Device::Features, renderConditional));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, computeTracing) == offsetof(Device::Features, computeTracing));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, fragmentTracing) == offsetof(Device::Features, fragmentTracing));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, indirectTracing) == offsetof(Device::Features, indirectTracing));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, recursionDepth) == offsetof(Device::Features, recursionDepth));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, traversalTracing) == offsetof(Device::Features, traversalTracing));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, buildIndirectTracing) == offsetof(Device::Features, buildIndirectTracing));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTraversalDepth) == offsetof(Device::Features, maxTraversalDepth));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, subgroupVote) == offsetof(Device::Features, subgroupVote));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, subgroupMath) == offsetof(Device::Features, subgroupMath));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, subgroupShuffle) == offsetof(Device::Features, subgroupShuffle));
@@ -1521,10 +1524,10 @@ namespace Tellusim {
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, matrix16x8x16f16f32) == offsetof(Device::Features, matrix16x8x16f16f32));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, uniformAlignment) == offsetof(Device::Features, uniformAlignment));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, storageAlignment) == offsetof(Device::Features, storageAlignment));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTextureSamples) == offsetof(Device::Features, maxTextureSamples));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTexture2DSize) == offsetof(Device::Features, maxTexture2DSize));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTexture3DSize) == offsetof(Device::Features, maxTexture3DSize));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTextureLayers) == offsetof(Device::Features, maxTextureLayers));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTextureSamples) == offsetof(Device::Features, maxTextureSamples));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxGroupSizeX) == offsetof(Device::Features, maxGroupSizeX));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxGroupSizeY) == offsetof(Device::Features, maxGroupSizeY));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxGroupSizeZ) == offsetof(Device::Features, maxGroupSizeZ));
@@ -23489,24 +23492,6 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(size_t)getInstanceOffset {
 		return [self ref].getInstanceOffset();
 	}
-	-(void)setIndirectBuffer: (TSBuffer*)buffer {
-		[self ref].setIndirectBuffer([buffer ref]);
-	}
-	-(void)setIndirectBuffer_: (TSBuffer*)buffer {
-		[self ref].setIndirectBuffer([buffer ref]);
-	}
-	-(void)setIndirectBuffer_1: (TSBuffer*)buffer offset: (size_t)offset {
-		[self ref].setIndirectBuffer([buffer ref], offset);
-	}
-	-(void)setIndirectBuffer_1_: (TSBuffer*)buffer offset: (size_t)offset {
-		[self ref].setIndirectBuffer([buffer ref], offset);
-	}
-	-(TSBuffer*)getIndirectBuffer {
-		return [[TSBuffer alloc] init_ref:([self ref].getIndirectBuffer())];
-	}
-	-(size_t)getIndirectOffset {
-		return [self ref].getIndirectOffset();
-	}
 	-(uint32_t)addVertexBuffer: (uint32_t)num_vertices format: (TS_Format)format stride: (size_t)stride {
 		return [self ref].addVertexBuffer(num_vertices, (Tellusim::Format)format, stride);
 	}
@@ -23728,6 +23713,24 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	}
 	-(size_t)getBoundOffset_: (uint32_t)index {
 		return [self ref].getBoundOffset(index);
+	}
+	-(void)setIndirectBuffer: (TSBuffer*)buffer {
+		[self ref].setIndirectBuffer([buffer ref]);
+	}
+	-(void)setIndirectBuffer_: (TSBuffer*)buffer {
+		[self ref].setIndirectBuffer([buffer ref]);
+	}
+	-(void)setIndirectBuffer_1: (TSBuffer*)buffer offset: (size_t)offset {
+		[self ref].setIndirectBuffer([buffer ref], offset);
+	}
+	-(void)setIndirectBuffer_1_: (TSBuffer*)buffer offset: (size_t)offset {
+		[self ref].setIndirectBuffer([buffer ref], offset);
+	}
+	-(TSBuffer*)getIndirectBuffer {
+		return [[TSBuffer alloc] init_ref:([self ref].getIndirectBuffer())];
+	}
+	-(size_t)getIndirectOffset {
+		return [self ref].getIndirectOffset();
 	}
 	-(NSString*)getDescription {
 		return [NSString stringWithUTF8String:[self ref].getDescription().get()];
@@ -26663,6 +26666,15 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(ID3D12GraphicsCommandList*)getCommand {
 		return [self ref].getCommand();
 	}
+	-(const void*)getD3D12Features: (uint32_t)index {
+		return [self ref].getD3D12Features(index);
+	}
+	-(const void*)getD3D12Features_: (uint32_t)index {
+		return [self ref].getD3D12Features(index);
+	}
+	-(uint32_t)getShaderModel {
+		return [self ref].getShaderModel();
+	}
 @end
 
 // Tellusim::D3D11Device
@@ -26774,6 +26786,12 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	}
 	-(ID3D11DeviceContext*)getCommand {
 		return [self ref].getCommand();
+	}
+	-(const void*)getD3D11Features: (uint32_t)index {
+		return [self ref].getD3D11Features(index);
+	}
+	-(const void*)getD3D11Features_: (uint32_t)index {
+		return [self ref].getD3D11Features(index);
 	}
 @end
 
@@ -27082,6 +27100,12 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	}
 	-(uint32_t)getFamily {
 		return [self ref].getFamily();
+	}
+	-(const void*)getVKFeatures: (uint32_t)type {
+		return [self ref].getVKFeatures(type);
+	}
+	-(const void*)getVKFeatures_: (uint32_t)type {
+		return [self ref].getVKFeatures(type);
 	}
 @end
 
@@ -35206,11 +35230,23 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(BOOL)raiseChild_: (TSCanvas*)child {
 		return [self ref].raiseChild([child ref]);
 	}
+	-(BOOL)raiseChild_1: (TSCanvas*)child index: (uint32_t)index {
+		return [self ref].raiseChild([child ref], index);
+	}
+	-(BOOL)raiseChild_1_: (TSCanvas*)child index: (uint32_t)index {
+		return [self ref].raiseChild([child ref], index);
+	}
 	-(BOOL)lowerChild: (TSCanvas*)child {
 		return [self ref].lowerChild([child ref]);
 	}
 	-(BOOL)lowerChild_: (TSCanvas*)child {
 		return [self ref].lowerChild([child ref]);
+	}
+	-(BOOL)lowerChild_1: (TSCanvas*)child index: (uint32_t)index {
+		return [self ref].lowerChild([child ref], index);
+	}
+	-(BOOL)lowerChild_1_: (TSCanvas*)child index: (uint32_t)index {
+		return [self ref].lowerChild([child ref], index);
 	}
 	-(void)releaseChildren {
 		[self ref].releaseChildren();
@@ -35260,11 +35296,23 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(BOOL)raiseElement_: (TSCanvasElement*)element {
 		return [self ref].raiseElement([element ref]);
 	}
+	-(BOOL)raiseElement_1: (TSCanvasElement*)element index: (uint32_t)index {
+		return [self ref].raiseElement([element ref], index);
+	}
+	-(BOOL)raiseElement_1_: (TSCanvasElement*)element index: (uint32_t)index {
+		return [self ref].raiseElement([element ref], index);
+	}
 	-(BOOL)lowerElement: (TSCanvasElement*)element {
 		return [self ref].lowerElement([element ref]);
 	}
 	-(BOOL)lowerElement_: (TSCanvasElement*)element {
 		return [self ref].lowerElement([element ref]);
+	}
+	-(BOOL)lowerElement_1: (TSCanvasElement*)element index: (uint32_t)index {
+		return [self ref].lowerElement([element ref], index);
+	}
+	-(BOOL)lowerElement_1_: (TSCanvasElement*)element index: (uint32_t)index {
+		return [self ref].lowerElement([element ref], index);
 	}
 	-(uint32_t)findElement: (const TSCanvasElement*)element {
 		return [self ref].findElement([element ref]);
@@ -35527,6 +35575,15 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	+(TSControl*)null {
 		return [[TSControl alloc] init_ptr:nullptr];
 	}
+	+(uint32_t)getNumControls {
+		return Tellusim::Control::getNumControls();
+	}
+	+(BOOL)isControl: (const TSControl*)control {
+		return Tellusim::Control::isControl([control ref]);
+	}
+	+(BOOL)isControl_: (const TSControl*)control {
+		return Tellusim::Control::isControl([control ref]);
+	}
 	-(TS_ControlType)getType {
 		return (TS_ControlType)[self ref].getType();
 	}
@@ -35656,8 +35713,20 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(const TSControlRoot*)getRoot {
 		return [[TSControlRoot alloc] init_ref:([self ref].getRoot())];
 	}
-	-(TSControlRoot*)getRoot_1 {
+	-(const TSControlRoot*)getRoot_1: (BOOL)local {
+		return [[TSControlRoot alloc] init_ref:([self ref].getRoot((bool)local))];
+	}
+	-(const TSControlRoot*)getRoot_1_: (BOOL)local {
+		return [[TSControlRoot alloc] init_ref:([self ref].getRoot((bool)local))];
+	}
+	-(TSControlRoot*)getRoot_2 {
 		return [[TSControlRoot alloc] init_ref:([self ref].getRoot())];
+	}
+	-(TSControlRoot*)getRoot_3: (BOOL)local {
+		return [[TSControlRoot alloc] init_ref:([self ref].getRoot((bool)local))];
+	}
+	-(TSControlRoot*)getRoot_3_: (BOOL)local {
+		return [[TSControlRoot alloc] init_ref:([self ref].getRoot((bool)local))];
 	}
 	-(const TSControlPanel*)getPanel {
 		return [[TSControlPanel alloc] init_ref:([self ref].getPanel())];
@@ -35698,11 +35767,23 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(BOOL)raiseChild_: (TSControl*)child {
 		return [self ref].raiseChild([child ref]);
 	}
+	-(BOOL)raiseChild_1: (TSControl*)child index: (uint32_t)index {
+		return [self ref].raiseChild([child ref], index);
+	}
+	-(BOOL)raiseChild_1_: (TSControl*)child index: (uint32_t)index {
+		return [self ref].raiseChild([child ref], index);
+	}
 	-(BOOL)lowerChild: (TSControl*)child {
 		return [self ref].lowerChild([child ref]);
 	}
 	-(BOOL)lowerChild_: (TSControl*)child {
 		return [self ref].lowerChild([child ref]);
+	}
+	-(BOOL)lowerChild_1: (TSControl*)child index: (uint32_t)index {
+		return [self ref].lowerChild([child ref], index);
+	}
+	-(BOOL)lowerChild_1_: (TSControl*)child index: (uint32_t)index {
+		return [self ref].lowerChild([child ref], index);
 	}
 	-(BOOL)removeChild: (TSControl*)child {
 		return [self ref].removeChild([child ref]);
@@ -36605,6 +36686,15 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	}
 	+(TSControlText*)null {
 		return [[TSControlText alloc] init_ptr:nullptr];
+	}
+	-(void)setCallback: (BOOL)callback {
+		[self ref].setCallback((bool)callback);
+	}
+	-(void)setCallback_: (BOOL)callback {
+		[self ref].setCallback((bool)callback);
+	}
+	-(BOOL)getCallback {
+		return [self ref].getCallback();
 	}
 	-(void)setMode: (TS_CanvasElementMode)mode {
 		[self ref].setMode((Tellusim::CanvasElement::Mode)mode);
@@ -43625,6 +43715,18 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	}
 	-(NSString*)getInputSource_: (TS_SeparableFilterMode)mode {
 		return [NSString stringWithUTF8String:[self ref].getInputSource((Tellusim::SeparableFilter::Mode)mode).get()];
+	}
+	-(void)setKernelSource: (TS_SeparableFilterMode)mode src: (const char*)src {
+		[self ref].setKernelSource((Tellusim::SeparableFilter::Mode)mode, src);
+	}
+	-(void)setKernelSource_: (TS_SeparableFilterMode)mode src: (const char*)src {
+		[self ref].setKernelSource((Tellusim::SeparableFilter::Mode)mode, src);
+	}
+	-(NSString*)getKernelSource: (TS_SeparableFilterMode)mode {
+		return [NSString stringWithUTF8String:[self ref].getKernelSource((Tellusim::SeparableFilter::Mode)mode).get()];
+	}
+	-(NSString*)getKernelSource_: (TS_SeparableFilterMode)mode {
+		return [NSString stringWithUTF8String:[self ref].getKernelSource((Tellusim::SeparableFilter::Mode)mode).get()];
 	}
 	-(void)setOutputSource: (TS_SeparableFilterMode)mode src: (const char*)src {
 		[self ref].setOutputSource((Tellusim::SeparableFilter::Mode)mode, src);

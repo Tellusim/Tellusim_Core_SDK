@@ -1,0 +1,11 @@
+SRCS = main.cpp
+
+IPA = tsMTLRuntime
+
+ASSETS = main.metal model.usdc
+
+FLAGS = -ObjC++ -fobjc-arc
+
+LIBS += -framework Metal
+
+include ../../Makefile.tvos.mk

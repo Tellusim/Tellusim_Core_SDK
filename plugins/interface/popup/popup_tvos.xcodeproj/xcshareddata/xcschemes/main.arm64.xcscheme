@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme version = "1.3">
+	<LaunchAction
+		useCustomWorkingDirectory = "YES"
+		customWorkingDirectory = "$(PROJECT_DIR)"
+		enableGPUValidationMode = "1">
+		<BuildableProductRunnable>
+			<BuildableReference
+				BuildableIdentifier = "primary"
+				BlueprintIdentifier = "6E37DD7B9F3451F0A91000BA"
+				BuildableName = "tsInterfaceControlPopup"
+				BlueprintName = "tsInterfaceControlPopup"
+				ReferencedContainer = "container:popup_tvos.xcodeproj"/>
+		</BuildableProductRunnable>
+	</LaunchAction>
+</Scheme>

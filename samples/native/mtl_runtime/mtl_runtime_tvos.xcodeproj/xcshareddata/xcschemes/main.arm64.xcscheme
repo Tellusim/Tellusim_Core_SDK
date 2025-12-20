@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme version = "1.3">
+	<LaunchAction
+		useCustomWorkingDirectory = "YES"
+		customWorkingDirectory = "$(PROJECT_DIR)"
+		enableGPUValidationMode = "1">
+		<BuildableProductRunnable>
+			<BuildableReference
+				BuildableIdentifier = "primary"
+				BlueprintIdentifier = "619BAC3E120EFFF0C28000DA"
+				BuildableName = "tsMTLRuntime"
+				BlueprintName = "tsMTLRuntime"
+				ReferencedContainer = "container:mtl_runtime_tvos.xcodeproj"/>
+		</BuildableProductRunnable>
+	</LaunchAction>
+</Scheme>
