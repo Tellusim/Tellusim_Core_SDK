@@ -97,12 +97,6 @@ namespace Tellusim {
 			Buffer getInstanceBuffer() const;
 			size_t getInstanceOffset() const;
 			
-			/// indirect buffer
-			void setIndirectBuffer(Buffer &buffer, size_t offset = 0);
-			
-			Buffer getIndirectBuffer() const;
-			size_t getIndirectOffset() const;
-			
 			/// vertex buffers
 			uint32_t addVertexBuffer(uint32_t num_vertices, Format format, size_t stride, Buffer buffer = Buffer::null, size_t offset = 0);
 			void setVertexBuffer(uint32_t index, uint32_t num_vertices, Buffer &buffer, size_t offset = 0);
@@ -136,6 +130,12 @@ namespace Tellusim {
 			uint32_t getBoundStride(uint32_t index) const;
 			Buffer getBoundBuffer(uint32_t index) const;
 			size_t getBoundOffset(uint32_t index) const;
+			
+			/// indirect buffer
+			void setIndirectBuffer(Buffer &buffer, size_t offset = 0);
+			
+			Buffer getIndirectBuffer() const;
+			size_t getIndirectOffset() const;
 			
 			/// tracing description
 			String getDescription() const;
