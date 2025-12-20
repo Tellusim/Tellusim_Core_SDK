@@ -4,6 +4,7 @@ ifeq "$(shell uname -s)" "Linux"
 		gl_gtk3_window \
 		gl_runtime \
 		gl_sdl_window \
+		vk_device \
 		vk_glfw_window \
 		vk_gtk3_window \
 		vk_pipeline \

@@ -8,6 +8,7 @@ PLUGINS = \
 	manipulator \
 	modal \
 	plotter \
+	popup \
 	progress \
 	slider \
 	svg \
