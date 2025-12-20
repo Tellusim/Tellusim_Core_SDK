@@ -5,6 +5,7 @@ TESTS = \
 	graphics \
 	interface \
 	manual \
+	native \
 	parallel \
 	platform \
 	system

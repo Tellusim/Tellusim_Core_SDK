@@ -1,0 +1,6 @@
+SRCS = main.cpp \
+	source/TellusimControlPopup.cpp
+
+IPA = tsInterfaceControlPopup
+
+include ../../Makefile.ios.mk
