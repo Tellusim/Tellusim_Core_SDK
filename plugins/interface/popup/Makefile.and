@@ -1,0 +1,6 @@
+SRCS = main.cpp \
+	source/TellusimControlPopup.cpp
+
+APK = tsInterfaceControlPopup
+
+include ../../Makefile.and.mk

@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+FLAGS += -I$(TSROOT)/plugins/platform/vulkan/extern
+
+APK = tsVKDevice
+
+include ../../Makefile.and.mk

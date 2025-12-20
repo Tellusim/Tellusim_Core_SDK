@@ -1,0 +1,6 @@
+TESTS = \
+	vk_device \
+	vk_pipeline \
+	vk_runtime
+
+include ../Makefile.and

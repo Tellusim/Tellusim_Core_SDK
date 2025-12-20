@@ -1,0 +1,9 @@
+SRCS = main.cpp
+
+FLAGS += -I$(TSROOT)/plugins/platform/vulkan/extern
+
+APK = tsVKPipeline
+
+ASSETS = main.shader
+
+include ../../Makefile.and.mk
