@@ -36,6 +36,10 @@
 	 */
 	void main() {
 		
+		//if(gl_SampleMaskIn[0] == ((1 << MULTISAMPLE) - 1)) discard;
+		
+		//gl_SampleMask[0] = 0x55;
+		
 		out_color = s_color;
 	}
 	

@@ -90,8 +90,10 @@ public class Canvas {
 	public Canvas getParent() { return new Canvas(get_parent(self)); }
 	public int addChild(Canvas child) { return add_child(self, child.self); }
 	public boolean removeChild(Canvas child) { return remove_child(self, child.self); }
-	public boolean raiseChild(Canvas child) { return raise_child(self, child.self); }
-	public boolean lowerChild(Canvas child) { return lower_child(self, child.self); }
+	public boolean raiseChild(Canvas child) { return raise_child(self, child.self, 0); }
+	public boolean raiseChild(Canvas child, int index) { return raise_child(self, child.self, index); }
+	public boolean lowerChild(Canvas child) { return lower_child(self, child.self, 0); }
+	public boolean lowerChild(Canvas child, int index) { return lower_child(self, child.self, index); }
 	public void releaseChildren() { release_children(self); }
 	public int findChild(Canvas child) { return find_child(self, child.self); }
 	public boolean isChild(Canvas child) { return is_child(self, child.self); }
@@ -99,8 +101,10 @@ public class Canvas {
 	public Canvas getChild(int index) { return new Canvas(get_child(self, index)); }
 	public int addElement(CanvasElement element) { return add_element(self, element.self); }
 	public boolean removeElement(CanvasElement element) { return remove_element(self, element.self); }
-	public boolean raiseElement(CanvasElement element) { return raise_element(self, element.self); }
-	public boolean lowerElement(CanvasElement element) { return lower_element(self, element.self); }
+	public boolean raiseElement(CanvasElement element) { return raise_element(self, element.self, 0); }
+	public boolean raiseElement(CanvasElement element, int index) { return raise_element(self, element.self, index); }
+	public boolean lowerElement(CanvasElement element) { return lower_element(self, element.self, 0); }
+	public boolean lowerElement(CanvasElement element, int index) { return lower_element(self, element.self, index); }
 	public int findElement(CanvasElement element) { return find_element(self, element.self); }
 	public boolean isElement(CanvasElement element) { return is_element(self, element.self); }
 	public int getNumElements() { return get_num_elements(self); }
@@ -180,8 +184,8 @@ public class Canvas {
 	private static native long get_parent_1(long self);
 	private static native int add_child(long self, long child);
 	private static native boolean remove_child(long self, long child);
-	private static native boolean raise_child(long self, long child);
-	private static native boolean lower_child(long self, long child);
+	private static native boolean raise_child(long self, long child, int index);
+	private static native boolean lower_child(long self, long child, int index);
 	private static native void release_children(long self);
 	private static native int find_child(long self, long child);
 	private static native boolean is_child(long self, long child);
@@ -190,8 +194,8 @@ public class Canvas {
 	private static native long get_child_1(long self, int index);
 	private static native int add_element(long self, long element);
 	private static native boolean remove_element(long self, long element);
-	private static native boolean raise_element(long self, long element);
-	private static native boolean lower_element(long self, long element);
+	private static native boolean raise_element(long self, long element, int index);
+	private static native boolean lower_element(long self, long element, int index);
 	private static native int find_element(long self, long element);
 	private static native boolean is_element(long self, long element);
 	private static native int get_num_elements(long self);

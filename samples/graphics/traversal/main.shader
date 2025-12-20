@@ -142,7 +142,7 @@
 	 */
 	void main() {
 		
-		#if RECURSION_DEPTH > 1
+		#if MAX_TRAVERSAL_DEPTH > 1
 			shadow_value = 0.0f;
 		#else
 			shadow_value = 1.0f;
@@ -180,7 +180,7 @@
 			vec3 instance_color = vec3(((color_index.x ^ color_index.y) == 0) ? 0.8f : 0.4f);
 		#endif
 		
-		#if RECURSION_DEPTH > 1
+		#if MAX_TRAVERSAL_DEPTH > 1
 			traceRayEXT(tracing, gl_RayFlagsOpaqueEXT | gl_RayFlagsTerminateOnFirstHitEXT | gl_RayFlagsSkipClosestHitShaderEXT, 0xffu, 0u, 2u, 2u, position, 1e-3f, light_direction, 1000.0f, 2);
 			traceRayEXT(tracing, gl_RayFlagsOpaqueEXT, 0xffu, 2u, 2u, 1u, position, 1e-3f, reflect(-direction, normal), 1000.0f, 1);
 		#endif

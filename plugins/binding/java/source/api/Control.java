@@ -135,13 +135,14 @@ public class Control {
 			Overlap(256),
 			Spacer(512),
 			Aspect(1024),
+			Local(2048),
 			LeftBottom(5),
 			LeftTop(9),
 			RightBottom(6),
 			RightTop(10),
 			Center(48),
 			Expand(192),
-			NumAligns(11);
+			NumAligns(12);
 			Enum(int value) { this.value = value; }
 			public Align and(Align e) { return new Align(value & e.value); }
 			public Align and(Enum e) { return new Align(value & e.value); }
@@ -163,6 +164,7 @@ public class Control {
 		public static final Enum Overlap = Enum.Overlap;
 		public static final Enum Spacer = Enum.Spacer;
 		public static final Enum Aspect = Enum.Aspect;
+		public static final Enum Local = Enum.Local;
 		public static final Enum LeftBottom = Enum.LeftBottom;
 		public static final Enum LeftTop = Enum.LeftTop;
 		public static final Enum RightBottom = Enum.RightBottom;
@@ -321,6 +323,8 @@ public class Control {
 	public boolean isConstPtr() { return is_const_ptr(self); }
 	public int getCountPtr() { return get_count_ptr(self); }
 	public long getInternalPtr() { return get_internal_ptr(self); }
+	public static int getNumControls() { return get_num_controls(); }
+	public static boolean isControl(Control control) { return is_control(control.self); }
 	public Type getType() { return new Type(get_type(self)); }
 	public static String getTypeName(Type type) { return get_type_name(type.value); }
 	public static String getTypeName(Type.Enum type) { return get_type_name(type.value); }
@@ -360,7 +364,8 @@ public class Control {
 	public void setDisabled(boolean disabled) { set_disabled(self, disabled); }
 	public boolean isDisabled() { return is_disabled(self); }
 	public Canvas getCanvas() { return new Canvas(get_canvas(self)); }
-	public ControlRoot getRoot() { return new ControlRoot(get_root(self)); }
+	public ControlRoot getRoot() { return new ControlRoot(get_root(self, false)); }
+	public ControlRoot getRoot(boolean local) { return new ControlRoot(get_root(self, local)); }
 	public ControlPanel getPanel() { return new ControlPanel(get_panel(self)); }
 	public int setParent(Control parent) { return set_parent(self, parent.self); }
 	public Control getParent() { return new Control(get_parent(self)); }
@@ -368,8 +373,10 @@ public class Control {
 	public boolean isParentDisabled() { return is_parent_disabled(self); }
 	public int addChild(Control child) { return add_child(self, child.self); }
 	public Control setChild(int index, Control child) { return new Control(set_child(self, index, child.self)); }
-	public boolean raiseChild(Control child) { return raise_child(self, child.self); }
-	public boolean lowerChild(Control child) { return lower_child(self, child.self); }
+	public boolean raiseChild(Control child) { return raise_child(self, child.self, 0); }
+	public boolean raiseChild(Control child, int index) { return raise_child(self, child.self, index); }
+	public boolean lowerChild(Control child) { return lower_child(self, child.self, 0); }
+	public boolean lowerChild(Control child, int index) { return lower_child(self, child.self, index); }
 	public boolean removeChild(Control child) { return remove_child(self, child.self); }
 	public void releaseChildren() { release_children(self); }
 	public int findChild(Control child) { return find_child(self, child.self); }
@@ -417,6 +424,8 @@ public class Control {
 	private static native boolean is_const_ptr(long self);
 	private static native int get_count_ptr(long self);
 	private static native long get_internal_ptr(long self);
+	private static native int get_num_controls();
+	private static native boolean is_control(long control);
 	private static native int get_type(long self);
 	private static native String get_type_name(int type);
 	private static native String get_type_name_1(long self);
@@ -452,8 +461,8 @@ public class Control {
 	private static native void set_disabled(long self, boolean disabled);
 	private static native boolean is_disabled(long self);
 	private static native long get_canvas(long self);
-	private static native long get_root(long self);
-	private static native long get_root_1(long self);
+	private static native long get_root(long self, boolean local);
+	private static native long get_root_1(long self, boolean local);
 	private static native long get_panel(long self);
 	private static native long get_panel_1(long self);
 	private static native int set_parent(long self, long parent);
@@ -463,8 +472,8 @@ public class Control {
 	private static native boolean is_parent_disabled(long self);
 	private static native int add_child(long self, long child);
 	private static native long set_child(long self, int index, long child);
-	private static native boolean raise_child(long self, long child);
-	private static native boolean lower_child(long self, long child);
+	private static native boolean raise_child(long self, long child, int index);
+	private static native boolean lower_child(long self, long child, int index);
 	private static native boolean remove_child(long self, long child);
 	private static native void release_children(long self);
 	private static native int find_child(long self, long child);
