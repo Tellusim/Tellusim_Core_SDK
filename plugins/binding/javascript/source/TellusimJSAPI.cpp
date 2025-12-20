@@ -7262,15 +7262,6 @@ namespace Tellusim {
 	TS_JSAPI size_t tsTracing_getInstanceOffset(const Tracing &self) {
 		return self.getInstanceOffset();
 	}
-	TS_JSAPI void tsTracing_setIndirectBuffer(Tracing &self, Buffer &buffer, size_t offset) {
-		self.setIndirectBuffer(buffer, offset);
-	}
-	TS_JSAPI Buffer *tsTracing_getIndirectBuffer(const Tracing &self) {
-		return new Buffer(self.getIndirectBuffer());
-	}
-	TS_JSAPI size_t tsTracing_getIndirectOffset(const Tracing &self) {
-		return self.getIndirectOffset();
-	}
 	TS_JSAPI uint32_t tsTracing_addVertexBuffer(Tracing &self, uint32_t num_vertices, uint32_t format, size_t stride, Buffer buffer, size_t offset) {
 		return self.addVertexBuffer(num_vertices, (Format)format, stride, buffer, offset);
 	}
@@ -7345,6 +7336,15 @@ namespace Tellusim {
 	}
 	TS_JSAPI size_t tsTracing_getBoundOffset(const Tracing &self, uint32_t index) {
 		return self.getBoundOffset(index);
+	}
+	TS_JSAPI void tsTracing_setIndirectBuffer(Tracing &self, Buffer &buffer, size_t offset) {
+		self.setIndirectBuffer(buffer, offset);
+	}
+	TS_JSAPI Buffer *tsTracing_getIndirectBuffer(const Tracing &self) {
+		return new Buffer(self.getIndirectBuffer());
+	}
+	TS_JSAPI size_t tsTracing_getIndirectOffset(const Tracing &self) {
+		return self.getIndirectOffset();
 	}
 	TS_JSAPI String *tsTracing_getDescription(const Tracing &self) {
 		return new String(self.getDescription());
@@ -7577,35 +7577,17 @@ namespace Tellusim {
 	TS_JSAPI bool tsDeviceFeatures_get_threadAccess(const Device::Features &self) {
 		return self.threadAccess;
 	}
-	TS_JSAPI void tsDeviceFeatures_set_sparseBuffer(Device::Features &self, bool sparseBuffer) {
-		self.sparseBuffer = sparseBuffer;
-	}
-	TS_JSAPI bool tsDeviceFeatures_get_sparseBuffer(const Device::Features &self) {
-		return self.sparseBuffer;
-	}
 	TS_JSAPI void tsDeviceFeatures_set_bufferTable(Device::Features &self, bool bufferTable) {
 		self.bufferTable = bufferTable;
 	}
 	TS_JSAPI bool tsDeviceFeatures_get_bufferTable(const Device::Features &self) {
 		return self.bufferTable;
 	}
-	TS_JSAPI void tsDeviceFeatures_set_sparseTexture(Device::Features &self, bool sparseTexture) {
-		self.sparseTexture = sparseTexture;
+	TS_JSAPI void tsDeviceFeatures_set_bufferSparse(Device::Features &self, bool bufferSparse) {
+		self.bufferSparse = bufferSparse;
 	}
-	TS_JSAPI bool tsDeviceFeatures_get_sparseTexture(const Device::Features &self) {
-		return self.sparseTexture;
-	}
-	TS_JSAPI void tsDeviceFeatures_set_sparseArrayTexture(Device::Features &self, bool sparseArrayTexture) {
-		self.sparseArrayTexture = sparseArrayTexture;
-	}
-	TS_JSAPI bool tsDeviceFeatures_get_sparseArrayTexture(const Device::Features &self) {
-		return self.sparseArrayTexture;
-	}
-	TS_JSAPI void tsDeviceFeatures_set_cubeArrayTexture(Device::Features &self, bool cubeArrayTexture) {
-		self.cubeArrayTexture = cubeArrayTexture;
-	}
-	TS_JSAPI bool tsDeviceFeatures_get_cubeArrayTexture(const Device::Features &self) {
-		return self.cubeArrayTexture;
+	TS_JSAPI bool tsDeviceFeatures_get_bufferSparse(const Device::Features &self) {
+		return self.bufferSparse;
 	}
 	TS_JSAPI void tsDeviceFeatures_set_textureTable(Device::Features &self, bool textureTable) {
 		self.textureTable = textureTable;
@@ -7613,11 +7595,35 @@ namespace Tellusim {
 	TS_JSAPI bool tsDeviceFeatures_get_textureTable(const Device::Features &self) {
 		return self.textureTable;
 	}
-	TS_JSAPI void tsDeviceFeatures_set_baseInstanceIndex(Device::Features &self, bool baseInstanceIndex) {
-		self.baseInstanceIndex = baseInstanceIndex;
+	TS_JSAPI void tsDeviceFeatures_set_textureSparse(Device::Features &self, bool textureSparse) {
+		self.textureSparse = textureSparse;
 	}
-	TS_JSAPI bool tsDeviceFeatures_get_baseInstanceIndex(const Device::Features &self) {
-		return self.baseInstanceIndex;
+	TS_JSAPI bool tsDeviceFeatures_get_textureSparse(const Device::Features &self) {
+		return self.textureSparse;
+	}
+	TS_JSAPI void tsDeviceFeatures_set_textureArrayCube(Device::Features &self, bool textureArrayCube) {
+		self.textureArrayCube = textureArrayCube;
+	}
+	TS_JSAPI bool tsDeviceFeatures_get_textureArrayCube(const Device::Features &self) {
+		return self.textureArrayCube;
+	}
+	TS_JSAPI void tsDeviceFeatures_set_textureArraySparse(Device::Features &self, bool textureArraySparse) {
+		self.textureArraySparse = textureArraySparse;
+	}
+	TS_JSAPI bool tsDeviceFeatures_get_textureArraySparse(const Device::Features &self) {
+		return self.textureArraySparse;
+	}
+	TS_JSAPI void tsDeviceFeatures_set_surfaceMultisample(Device::Features &self, bool surfaceMultisample) {
+		self.surfaceMultisample = surfaceMultisample;
+	}
+	TS_JSAPI bool tsDeviceFeatures_get_surfaceMultisample(const Device::Features &self) {
+		return self.surfaceMultisample;
+	}
+	TS_JSAPI void tsDeviceFeatures_set_drawBaseInstance(Device::Features &self, bool drawBaseInstance) {
+		self.drawBaseInstance = drawBaseInstance;
+	}
+	TS_JSAPI bool tsDeviceFeatures_get_drawBaseInstance(const Device::Features &self) {
+		return self.drawBaseInstance;
 	}
 	TS_JSAPI void tsDeviceFeatures_set_drawIndirectIndex(Device::Features &self, bool drawIndirectIndex) {
 		self.drawIndirectIndex = drawIndirectIndex;
@@ -7667,11 +7673,11 @@ namespace Tellusim {
 	TS_JSAPI bool tsDeviceFeatures_get_fragmentStencilExport(const Device::Features &self) {
 		return self.fragmentStencilExport;
 	}
-	TS_JSAPI void tsDeviceFeatures_set_dualSourceBlending(Device::Features &self, bool dualSourceBlending) {
-		self.dualSourceBlending = dualSourceBlending;
+	TS_JSAPI void tsDeviceFeatures_set_blendDualSource(Device::Features &self, bool blendDualSource) {
+		self.blendDualSource = blendDualSource;
 	}
-	TS_JSAPI bool tsDeviceFeatures_get_dualSourceBlending(const Device::Features &self) {
-		return self.dualSourceBlending;
+	TS_JSAPI bool tsDeviceFeatures_get_blendDualSource(const Device::Features &self) {
+		return self.blendDualSource;
 	}
 	TS_JSAPI void tsDeviceFeatures_set_depthRangeOneToOne(Device::Features &self, bool depthRangeOneToOne) {
 		self.depthRangeOneToOne = depthRangeOneToOne;
@@ -7679,23 +7685,17 @@ namespace Tellusim {
 	TS_JSAPI bool tsDeviceFeatures_get_depthRangeOneToOne(const Device::Features &self) {
 		return self.depthRangeOneToOne;
 	}
-	TS_JSAPI void tsDeviceFeatures_set_conservativeRaster(Device::Features &self, bool conservativeRaster) {
-		self.conservativeRaster = conservativeRaster;
+	TS_JSAPI void tsDeviceFeatures_set_rasterConservative(Device::Features &self, bool rasterConservative) {
+		self.rasterConservative = rasterConservative;
 	}
-	TS_JSAPI bool tsDeviceFeatures_get_conservativeRaster(const Device::Features &self) {
-		return self.conservativeRaster;
+	TS_JSAPI bool tsDeviceFeatures_get_rasterConservative(const Device::Features &self) {
+		return self.rasterConservative;
 	}
-	TS_JSAPI void tsDeviceFeatures_set_conditionalRendering(Device::Features &self, bool conditionalRendering) {
-		self.conditionalRendering = conditionalRendering;
+	TS_JSAPI void tsDeviceFeatures_set_renderConditional(Device::Features &self, bool renderConditional) {
+		self.renderConditional = renderConditional;
 	}
-	TS_JSAPI bool tsDeviceFeatures_get_conditionalRendering(const Device::Features &self) {
-		return self.conditionalRendering;
-	}
-	TS_JSAPI void tsDeviceFeatures_set_rayTracing(Device::Features &self, bool rayTracing) {
-		self.rayTracing = rayTracing;
-	}
-	TS_JSAPI bool tsDeviceFeatures_get_rayTracing(const Device::Features &self) {
-		return self.rayTracing;
+	TS_JSAPI bool tsDeviceFeatures_get_renderConditional(const Device::Features &self) {
+		return self.renderConditional;
 	}
 	TS_JSAPI void tsDeviceFeatures_set_computeTracing(Device::Features &self, bool computeTracing) {
 		self.computeTracing = computeTracing;
@@ -7709,17 +7709,23 @@ namespace Tellusim {
 	TS_JSAPI bool tsDeviceFeatures_get_fragmentTracing(const Device::Features &self) {
 		return self.fragmentTracing;
 	}
-	TS_JSAPI void tsDeviceFeatures_set_indirectTracing(Device::Features &self, bool indirectTracing) {
-		self.indirectTracing = indirectTracing;
+	TS_JSAPI void tsDeviceFeatures_set_traversalTracing(Device::Features &self, bool traversalTracing) {
+		self.traversalTracing = traversalTracing;
 	}
-	TS_JSAPI bool tsDeviceFeatures_get_indirectTracing(const Device::Features &self) {
-		return self.indirectTracing;
+	TS_JSAPI bool tsDeviceFeatures_get_traversalTracing(const Device::Features &self) {
+		return self.traversalTracing;
 	}
-	TS_JSAPI void tsDeviceFeatures_set_recursionDepth(Device::Features &self, uint32_t recursionDepth) {
-		self.recursionDepth = recursionDepth;
+	TS_JSAPI void tsDeviceFeatures_set_buildIndirectTracing(Device::Features &self, bool buildIndirectTracing) {
+		self.buildIndirectTracing = buildIndirectTracing;
 	}
-	TS_JSAPI uint32_t tsDeviceFeatures_get_recursionDepth(const Device::Features &self) {
-		return self.recursionDepth;
+	TS_JSAPI bool tsDeviceFeatures_get_buildIndirectTracing(const Device::Features &self) {
+		return self.buildIndirectTracing;
+	}
+	TS_JSAPI void tsDeviceFeatures_set_maxTraversalDepth(Device::Features &self, uint32_t maxTraversalDepth) {
+		self.maxTraversalDepth = maxTraversalDepth;
+	}
+	TS_JSAPI uint32_t tsDeviceFeatures_get_maxTraversalDepth(const Device::Features &self) {
+		return self.maxTraversalDepth;
 	}
 	TS_JSAPI void tsDeviceFeatures_set_subgroupVote(Device::Features &self, bool subgroupVote) {
 		self.subgroupVote = subgroupVote;
@@ -7877,12 +7883,6 @@ namespace Tellusim {
 	TS_JSAPI uint32_t tsDeviceFeatures_get_storageAlignment(const Device::Features &self) {
 		return self.storageAlignment;
 	}
-	TS_JSAPI void tsDeviceFeatures_set_maxTextureSamples(Device::Features &self, uint32_t maxTextureSamples) {
-		self.maxTextureSamples = maxTextureSamples;
-	}
-	TS_JSAPI uint32_t tsDeviceFeatures_get_maxTextureSamples(const Device::Features &self) {
-		return self.maxTextureSamples;
-	}
 	TS_JSAPI void tsDeviceFeatures_set_maxTexture2DSize(Device::Features &self, uint32_t maxTexture2DSize) {
 		self.maxTexture2DSize = maxTexture2DSize;
 	}
@@ -7900,6 +7900,12 @@ namespace Tellusim {
 	}
 	TS_JSAPI uint32_t tsDeviceFeatures_get_maxTextureLayers(const Device::Features &self) {
 		return self.maxTextureLayers;
+	}
+	TS_JSAPI void tsDeviceFeatures_set_maxTextureSamples(Device::Features &self, uint32_t maxTextureSamples) {
+		self.maxTextureSamples = maxTextureSamples;
+	}
+	TS_JSAPI uint32_t tsDeviceFeatures_get_maxTextureSamples(const Device::Features &self) {
+		return self.maxTextureSamples;
 	}
 	TS_JSAPI void tsDeviceFeatures_set_maxGroupSizeX(Device::Features &self, uint32_t maxGroupSizeX) {
 		self.maxGroupSizeX = maxGroupSizeX;
@@ -11851,11 +11857,11 @@ namespace Tellusim {
 	TS_JSAPI bool tsCanvas_removeChild(Canvas &self, Canvas &child) {
 		return self.removeChild(child);
 	}
-	TS_JSAPI bool tsCanvas_raiseChild(Canvas &self, Canvas &child) {
-		return self.raiseChild(child);
+	TS_JSAPI bool tsCanvas_raiseChild(Canvas &self, Canvas &child, uint32_t index) {
+		return self.raiseChild(child, index);
 	}
-	TS_JSAPI bool tsCanvas_lowerChild(Canvas &self, Canvas &child) {
-		return self.lowerChild(child);
+	TS_JSAPI bool tsCanvas_lowerChild(Canvas &self, Canvas &child, uint32_t index) {
+		return self.lowerChild(child, index);
 	}
 	TS_JSAPI void tsCanvas_releaseChildren(Canvas &self) {
 		self.releaseChildren();
@@ -11881,11 +11887,11 @@ namespace Tellusim {
 	TS_JSAPI bool tsCanvas_removeElement(Canvas &self, CanvasElement &element) {
 		return self.removeElement(element);
 	}
-	TS_JSAPI bool tsCanvas_raiseElement(Canvas &self, CanvasElement &element) {
-		return self.raiseElement(element);
+	TS_JSAPI bool tsCanvas_raiseElement(Canvas &self, CanvasElement &element, uint32_t index) {
+		return self.raiseElement(element, index);
 	}
-	TS_JSAPI bool tsCanvas_lowerElement(Canvas &self, CanvasElement &element) {
-		return self.lowerElement(element);
+	TS_JSAPI bool tsCanvas_lowerElement(Canvas &self, CanvasElement &element, uint32_t index) {
+		return self.lowerElement(element, index);
 	}
 	TS_JSAPI uint32_t tsCanvas_findElement(const Canvas &self, const CanvasElement &element) {
 		return self.findElement(element);
@@ -12018,6 +12024,12 @@ namespace Tellusim {
 	TS_JSAPI const void *tsControl_getInternalPtr(const Control &self) {
 		return self.getInternalPtr();
 	}
+	TS_JSAPI uint32_t tsControl_getNumControls() {
+		return Control::getNumControls();
+	}
+	TS_JSAPI bool tsControl_isControl(const Control &control) {
+		return Control::isControl(control);
+	}
 	TS_JSAPI uint32_t tsControl_getType(const Control &self) {
 		return self.getType();
 	}
@@ -12123,11 +12135,11 @@ namespace Tellusim {
 	TS_JSAPI Canvas *tsControl_getCanvas(const Control &self) {
 		return new Canvas(self.getCanvas());
 	}
-	TS_JSAPI const ControlRoot *tsControl_getRoot(const Control &self) {
-		return new ControlRoot(self.getRoot());
+	TS_JSAPI const ControlRoot *tsControl_getRoot(const Control &self, bool local) {
+		return new ControlRoot(self.getRoot(local));
 	}
-	TS_JSAPI ControlRoot *tsControl_getRoot_1(Control &self) {
-		return new ControlRoot(self.getRoot());
+	TS_JSAPI ControlRoot *tsControl_getRoot_1(Control &self, bool local) {
+		return new ControlRoot(self.getRoot(local));
 	}
 	TS_JSAPI const ControlPanel *tsControl_getPanel(const Control &self) {
 		return new ControlPanel(self.getPanel());
@@ -12156,11 +12168,11 @@ namespace Tellusim {
 	TS_JSAPI Control *tsControl_setChild(Control &self, uint32_t index, Control &child) {
 		return new Control(self.setChild(index, child));
 	}
-	TS_JSAPI bool tsControl_raiseChild(Control &self, Control &child) {
-		return self.raiseChild(child);
+	TS_JSAPI bool tsControl_raiseChild(Control &self, Control &child, uint32_t index) {
+		return self.raiseChild(child, index);
 	}
-	TS_JSAPI bool tsControl_lowerChild(Control &self, Control &child) {
-		return self.lowerChild(child);
+	TS_JSAPI bool tsControl_lowerChild(Control &self, Control &child, uint32_t index) {
+		return self.lowerChild(child, index);
 	}
 	TS_JSAPI bool tsControl_removeChild(Control &self, Control &child) {
 		return self.removeChild(child);
@@ -12571,6 +12583,12 @@ namespace Tellusim {
 	}
 	TS_JSAPI Control *tsControlText_baseControlPtr(const ControlText &self) {
 		return new Control(self.getControl());
+	}
+	TS_JSAPI void tsControlText_setCallback(ControlText &self, bool callback) {
+		self.setCallback(callback);
+	}
+	TS_JSAPI bool tsControlText_getCallback(const ControlText &self) {
+		return self.getCallback();
 	}
 	TS_JSAPI void tsControlText_setMode(ControlText &self, uint32_t mode) {
 		self.setMode((CanvasElement::Mode)mode);
@@ -15955,6 +15973,12 @@ namespace Tellusim {
 	}
 	TS_JSAPI String *tsSeparableFilter_getInputSource(const SeparableFilter &self, uint32_t mode) {
 		return new String(self.getInputSource((SeparableFilter::Mode)mode));
+	}
+	TS_JSAPI void tsSeparableFilter_setKernelSource(SeparableFilter &self, uint32_t mode, const char *src) {
+		self.setKernelSource((SeparableFilter::Mode)mode, src);
+	}
+	TS_JSAPI String *tsSeparableFilter_getKernelSource(const SeparableFilter &self, uint32_t mode) {
+		return new String(self.getKernelSource((SeparableFilter::Mode)mode));
 	}
 	TS_JSAPI void tsSeparableFilter_setOutputSource(SeparableFilter &self, uint32_t mode, const char *src) {
 		self.setOutputSource((SeparableFilter::Mode)mode, src);

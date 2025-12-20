@@ -520,7 +520,8 @@ tsApp.Values = Object.freeze({
 	Version_40 : 20250429,
 	Version_41 : 20250816,
 	Version_42 : 20251102,
-	Version : 20251102,
+	Version_43 : 20251220,
+	Version : 20251220,
 });
 tsApp.prototype['clear'] = tsApp.prototype.clear = function() {
 	if(arguments.length == 0) return _tsApp_clear(this.self);
@@ -569,8 +570,8 @@ tsApp.prototype['isArgument'] = tsApp.prototype.isArgument = function() {
 };
 tsApp.prototype['create'] = tsApp.prototype.create = function() {
 	if(arguments.length == 2) return _tsApp_create(this.self, arguments[0], arguments[1]);
-	if(arguments.length == 1) return _tsApp_create(this.self, arguments[0], 20251102);
-	if(arguments.length == 0) return _tsApp_create(this.self, 0, 20251102);
+	if(arguments.length == 1) return _tsApp_create(this.self, arguments[0], 20251220);
+	if(arguments.length == 0) return _tsApp_create(this.self, 0, 20251220);
 	throw 'invalid App.create() arguments';
 };
 tsApp['setPlatform'] = tsApp.setPlatform = function() {
@@ -8556,21 +8557,6 @@ tsTracing.prototype['getInstanceOffset'] = tsTracing.prototype.getInstanceOffset
 	throw 'invalid Tracing.getInstanceOffset() arguments';
 };
 Object.defineProperty(tsTracing.prototype, 'instance_offset', { get: tsTracing.prototype.getInstanceOffset });
-tsTracing.prototype['setIndirectBuffer'] = tsTracing.prototype.setIndirectBuffer = function() {
-	if(arguments.length == 2 && arguments[0] instanceof tsBuffer) return _tsTracing_setIndirectBuffer(this.self, arguments[0].self, arguments[1]);
-	if(arguments.length == 1 && arguments[0] instanceof tsBuffer) return _tsTracing_setIndirectBuffer(this.self, arguments[0].self, 0);
-	throw 'invalid Tracing.setIndirectBuffer() arguments';
-};
-tsTracing.prototype['getIndirectBuffer'] = tsTracing.prototype.getIndirectBuffer = function() {
-	if(arguments.length == 0) return ts_new(tsBuffer, _tsTracing_getIndirectBuffer(this.self));
-	throw 'invalid Tracing.getIndirectBuffer() arguments';
-};
-Object.defineProperty(tsTracing.prototype, 'indirect_buffer', { get: tsTracing.prototype.getIndirectBuffer });
-tsTracing.prototype['getIndirectOffset'] = tsTracing.prototype.getIndirectOffset = function() {
-	if(arguments.length == 0) return _tsTracing_getIndirectOffset(this.self);
-	throw 'invalid Tracing.getIndirectOffset() arguments';
-};
-Object.defineProperty(tsTracing.prototype, 'indirect_offset', { get: tsTracing.prototype.getIndirectOffset });
 tsTracing.prototype['addVertexBuffer'] = tsTracing.prototype.addVertexBuffer = function() {
 	if(arguments.length == 5 && arguments[3] instanceof tsBuffer) return _tsTracing_addVertexBuffer(this.self, arguments[0], arguments[1], arguments[2], arguments[3].self, arguments[4]);
 	if(arguments.length == 4 && arguments[3] instanceof tsBuffer) return _tsTracing_addVertexBuffer(this.self, arguments[0], arguments[1], arguments[2], arguments[3].self, 0);
@@ -8674,6 +8660,21 @@ tsTracing.prototype['getBoundOffset'] = tsTracing.prototype.getBoundOffset = fun
 	if(arguments.length == 1) return _tsTracing_getBoundOffset(this.self, arguments[0]);
 	throw 'invalid Tracing.getBoundOffset() arguments';
 };
+tsTracing.prototype['setIndirectBuffer'] = tsTracing.prototype.setIndirectBuffer = function() {
+	if(arguments.length == 2 && arguments[0] instanceof tsBuffer) return _tsTracing_setIndirectBuffer(this.self, arguments[0].self, arguments[1]);
+	if(arguments.length == 1 && arguments[0] instanceof tsBuffer) return _tsTracing_setIndirectBuffer(this.self, arguments[0].self, 0);
+	throw 'invalid Tracing.setIndirectBuffer() arguments';
+};
+tsTracing.prototype['getIndirectBuffer'] = tsTracing.prototype.getIndirectBuffer = function() {
+	if(arguments.length == 0) return ts_new(tsBuffer, _tsTracing_getIndirectBuffer(this.self));
+	throw 'invalid Tracing.getIndirectBuffer() arguments';
+};
+Object.defineProperty(tsTracing.prototype, 'indirect_buffer', { get: tsTracing.prototype.getIndirectBuffer });
+tsTracing.prototype['getIndirectOffset'] = tsTracing.prototype.getIndirectOffset = function() {
+	if(arguments.length == 0) return _tsTracing_getIndirectOffset(this.self);
+	throw 'invalid Tracing.getIndirectOffset() arguments';
+};
+Object.defineProperty(tsTracing.prototype, 'indirect_offset', { get: tsTracing.prototype.getIndirectOffset });
 tsTracing.prototype['getDescription'] = tsTracing.prototype.getDescription = function() {
 	if(arguments.length == 0) { let str = _tsTracing_getDescription(this.self); let ret = UTF8ToString(_tsString_get(str)); _tsString_delete(str); return ret; }
 	throw 'invalid Tracing.getDescription() arguments';
@@ -8984,27 +8985,30 @@ tsDevice.Features.prototype.constructor = tsDevice.Features;
 tsDevice.Features.prototype['set_threadAccess'] = tsDevice.Features.prototype.set_threadAccess = function(v) { _tsDeviceFeatures_set_threadAccess(this.self, v); };
 tsDevice.Features.prototype['get_threadAccess'] = tsDevice.Features.prototype.get_threadAccess = function() { return _tsDeviceFeatures_get_threadAccess(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'threadAccess', { get: tsDevice.Features.prototype.get_threadAccess, set: tsDevice.Features.prototype.set_threadAccess });
-tsDevice.Features.prototype['set_sparseBuffer'] = tsDevice.Features.prototype.set_sparseBuffer = function(v) { _tsDeviceFeatures_set_sparseBuffer(this.self, v); };
-tsDevice.Features.prototype['get_sparseBuffer'] = tsDevice.Features.prototype.get_sparseBuffer = function() { return _tsDeviceFeatures_get_sparseBuffer(this.self); };
-Object.defineProperty(tsDevice.Features.prototype, 'sparseBuffer', { get: tsDevice.Features.prototype.get_sparseBuffer, set: tsDevice.Features.prototype.set_sparseBuffer });
 tsDevice.Features.prototype['set_bufferTable'] = tsDevice.Features.prototype.set_bufferTable = function(v) { _tsDeviceFeatures_set_bufferTable(this.self, v); };
 tsDevice.Features.prototype['get_bufferTable'] = tsDevice.Features.prototype.get_bufferTable = function() { return _tsDeviceFeatures_get_bufferTable(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'bufferTable', { get: tsDevice.Features.prototype.get_bufferTable, set: tsDevice.Features.prototype.set_bufferTable });
-tsDevice.Features.prototype['set_sparseTexture'] = tsDevice.Features.prototype.set_sparseTexture = function(v) { _tsDeviceFeatures_set_sparseTexture(this.self, v); };
-tsDevice.Features.prototype['get_sparseTexture'] = tsDevice.Features.prototype.get_sparseTexture = function() { return _tsDeviceFeatures_get_sparseTexture(this.self); };
-Object.defineProperty(tsDevice.Features.prototype, 'sparseTexture', { get: tsDevice.Features.prototype.get_sparseTexture, set: tsDevice.Features.prototype.set_sparseTexture });
-tsDevice.Features.prototype['set_sparseArrayTexture'] = tsDevice.Features.prototype.set_sparseArrayTexture = function(v) { _tsDeviceFeatures_set_sparseArrayTexture(this.self, v); };
-tsDevice.Features.prototype['get_sparseArrayTexture'] = tsDevice.Features.prototype.get_sparseArrayTexture = function() { return _tsDeviceFeatures_get_sparseArrayTexture(this.self); };
-Object.defineProperty(tsDevice.Features.prototype, 'sparseArrayTexture', { get: tsDevice.Features.prototype.get_sparseArrayTexture, set: tsDevice.Features.prototype.set_sparseArrayTexture });
-tsDevice.Features.prototype['set_cubeArrayTexture'] = tsDevice.Features.prototype.set_cubeArrayTexture = function(v) { _tsDeviceFeatures_set_cubeArrayTexture(this.self, v); };
-tsDevice.Features.prototype['get_cubeArrayTexture'] = tsDevice.Features.prototype.get_cubeArrayTexture = function() { return _tsDeviceFeatures_get_cubeArrayTexture(this.self); };
-Object.defineProperty(tsDevice.Features.prototype, 'cubeArrayTexture', { get: tsDevice.Features.prototype.get_cubeArrayTexture, set: tsDevice.Features.prototype.set_cubeArrayTexture });
+tsDevice.Features.prototype['set_bufferSparse'] = tsDevice.Features.prototype.set_bufferSparse = function(v) { _tsDeviceFeatures_set_bufferSparse(this.self, v); };
+tsDevice.Features.prototype['get_bufferSparse'] = tsDevice.Features.prototype.get_bufferSparse = function() { return _tsDeviceFeatures_get_bufferSparse(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'bufferSparse', { get: tsDevice.Features.prototype.get_bufferSparse, set: tsDevice.Features.prototype.set_bufferSparse });
 tsDevice.Features.prototype['set_textureTable'] = tsDevice.Features.prototype.set_textureTable = function(v) { _tsDeviceFeatures_set_textureTable(this.self, v); };
 tsDevice.Features.prototype['get_textureTable'] = tsDevice.Features.prototype.get_textureTable = function() { return _tsDeviceFeatures_get_textureTable(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'textureTable', { get: tsDevice.Features.prototype.get_textureTable, set: tsDevice.Features.prototype.set_textureTable });
-tsDevice.Features.prototype['set_baseInstanceIndex'] = tsDevice.Features.prototype.set_baseInstanceIndex = function(v) { _tsDeviceFeatures_set_baseInstanceIndex(this.self, v); };
-tsDevice.Features.prototype['get_baseInstanceIndex'] = tsDevice.Features.prototype.get_baseInstanceIndex = function() { return _tsDeviceFeatures_get_baseInstanceIndex(this.self); };
-Object.defineProperty(tsDevice.Features.prototype, 'baseInstanceIndex', { get: tsDevice.Features.prototype.get_baseInstanceIndex, set: tsDevice.Features.prototype.set_baseInstanceIndex });
+tsDevice.Features.prototype['set_textureSparse'] = tsDevice.Features.prototype.set_textureSparse = function(v) { _tsDeviceFeatures_set_textureSparse(this.self, v); };
+tsDevice.Features.prototype['get_textureSparse'] = tsDevice.Features.prototype.get_textureSparse = function() { return _tsDeviceFeatures_get_textureSparse(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'textureSparse', { get: tsDevice.Features.prototype.get_textureSparse, set: tsDevice.Features.prototype.set_textureSparse });
+tsDevice.Features.prototype['set_textureArrayCube'] = tsDevice.Features.prototype.set_textureArrayCube = function(v) { _tsDeviceFeatures_set_textureArrayCube(this.self, v); };
+tsDevice.Features.prototype['get_textureArrayCube'] = tsDevice.Features.prototype.get_textureArrayCube = function() { return _tsDeviceFeatures_get_textureArrayCube(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'textureArrayCube', { get: tsDevice.Features.prototype.get_textureArrayCube, set: tsDevice.Features.prototype.set_textureArrayCube });
+tsDevice.Features.prototype['set_textureArraySparse'] = tsDevice.Features.prototype.set_textureArraySparse = function(v) { _tsDeviceFeatures_set_textureArraySparse(this.self, v); };
+tsDevice.Features.prototype['get_textureArraySparse'] = tsDevice.Features.prototype.get_textureArraySparse = function() { return _tsDeviceFeatures_get_textureArraySparse(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'textureArraySparse', { get: tsDevice.Features.prototype.get_textureArraySparse, set: tsDevice.Features.prototype.set_textureArraySparse });
+tsDevice.Features.prototype['set_surfaceMultisample'] = tsDevice.Features.prototype.set_surfaceMultisample = function(v) { _tsDeviceFeatures_set_surfaceMultisample(this.self, v); };
+tsDevice.Features.prototype['get_surfaceMultisample'] = tsDevice.Features.prototype.get_surfaceMultisample = function() { return _tsDeviceFeatures_get_surfaceMultisample(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'surfaceMultisample', { get: tsDevice.Features.prototype.get_surfaceMultisample, set: tsDevice.Features.prototype.set_surfaceMultisample });
+tsDevice.Features.prototype['set_drawBaseInstance'] = tsDevice.Features.prototype.set_drawBaseInstance = function(v) { _tsDeviceFeatures_set_drawBaseInstance(this.self, v); };
+tsDevice.Features.prototype['get_drawBaseInstance'] = tsDevice.Features.prototype.get_drawBaseInstance = function() { return _tsDeviceFeatures_get_drawBaseInstance(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'drawBaseInstance', { get: tsDevice.Features.prototype.get_drawBaseInstance, set: tsDevice.Features.prototype.set_drawBaseInstance });
 tsDevice.Features.prototype['set_drawIndirectIndex'] = tsDevice.Features.prototype.set_drawIndirectIndex = function(v) { _tsDeviceFeatures_set_drawIndirectIndex(this.self, v); };
 tsDevice.Features.prototype['get_drawIndirectIndex'] = tsDevice.Features.prototype.get_drawIndirectIndex = function() { return _tsDeviceFeatures_get_drawIndirectIndex(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'drawIndirectIndex', { get: tsDevice.Features.prototype.get_drawIndirectIndex, set: tsDevice.Features.prototype.set_drawIndirectIndex });
@@ -9029,33 +9033,33 @@ Object.defineProperty(tsDevice.Features.prototype, 'fragmentBarycentric', { get:
 tsDevice.Features.prototype['set_fragmentStencilExport'] = tsDevice.Features.prototype.set_fragmentStencilExport = function(v) { _tsDeviceFeatures_set_fragmentStencilExport(this.self, v); };
 tsDevice.Features.prototype['get_fragmentStencilExport'] = tsDevice.Features.prototype.get_fragmentStencilExport = function() { return _tsDeviceFeatures_get_fragmentStencilExport(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'fragmentStencilExport', { get: tsDevice.Features.prototype.get_fragmentStencilExport, set: tsDevice.Features.prototype.set_fragmentStencilExport });
-tsDevice.Features.prototype['set_dualSourceBlending'] = tsDevice.Features.prototype.set_dualSourceBlending = function(v) { _tsDeviceFeatures_set_dualSourceBlending(this.self, v); };
-tsDevice.Features.prototype['get_dualSourceBlending'] = tsDevice.Features.prototype.get_dualSourceBlending = function() { return _tsDeviceFeatures_get_dualSourceBlending(this.self); };
-Object.defineProperty(tsDevice.Features.prototype, 'dualSourceBlending', { get: tsDevice.Features.prototype.get_dualSourceBlending, set: tsDevice.Features.prototype.set_dualSourceBlending });
+tsDevice.Features.prototype['set_blendDualSource'] = tsDevice.Features.prototype.set_blendDualSource = function(v) { _tsDeviceFeatures_set_blendDualSource(this.self, v); };
+tsDevice.Features.prototype['get_blendDualSource'] = tsDevice.Features.prototype.get_blendDualSource = function() { return _tsDeviceFeatures_get_blendDualSource(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'blendDualSource', { get: tsDevice.Features.prototype.get_blendDualSource, set: tsDevice.Features.prototype.set_blendDualSource });
 tsDevice.Features.prototype['set_depthRangeOneToOne'] = tsDevice.Features.prototype.set_depthRangeOneToOne = function(v) { _tsDeviceFeatures_set_depthRangeOneToOne(this.self, v); };
 tsDevice.Features.prototype['get_depthRangeOneToOne'] = tsDevice.Features.prototype.get_depthRangeOneToOne = function() { return _tsDeviceFeatures_get_depthRangeOneToOne(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'depthRangeOneToOne', { get: tsDevice.Features.prototype.get_depthRangeOneToOne, set: tsDevice.Features.prototype.set_depthRangeOneToOne });
-tsDevice.Features.prototype['set_conservativeRaster'] = tsDevice.Features.prototype.set_conservativeRaster = function(v) { _tsDeviceFeatures_set_conservativeRaster(this.self, v); };
-tsDevice.Features.prototype['get_conservativeRaster'] = tsDevice.Features.prototype.get_conservativeRaster = function() { return _tsDeviceFeatures_get_conservativeRaster(this.self); };
-Object.defineProperty(tsDevice.Features.prototype, 'conservativeRaster', { get: tsDevice.Features.prototype.get_conservativeRaster, set: tsDevice.Features.prototype.set_conservativeRaster });
-tsDevice.Features.prototype['set_conditionalRendering'] = tsDevice.Features.prototype.set_conditionalRendering = function(v) { _tsDeviceFeatures_set_conditionalRendering(this.self, v); };
-tsDevice.Features.prototype['get_conditionalRendering'] = tsDevice.Features.prototype.get_conditionalRendering = function() { return _tsDeviceFeatures_get_conditionalRendering(this.self); };
-Object.defineProperty(tsDevice.Features.prototype, 'conditionalRendering', { get: tsDevice.Features.prototype.get_conditionalRendering, set: tsDevice.Features.prototype.set_conditionalRendering });
-tsDevice.Features.prototype['set_rayTracing'] = tsDevice.Features.prototype.set_rayTracing = function(v) { _tsDeviceFeatures_set_rayTracing(this.self, v); };
-tsDevice.Features.prototype['get_rayTracing'] = tsDevice.Features.prototype.get_rayTracing = function() { return _tsDeviceFeatures_get_rayTracing(this.self); };
-Object.defineProperty(tsDevice.Features.prototype, 'rayTracing', { get: tsDevice.Features.prototype.get_rayTracing, set: tsDevice.Features.prototype.set_rayTracing });
+tsDevice.Features.prototype['set_rasterConservative'] = tsDevice.Features.prototype.set_rasterConservative = function(v) { _tsDeviceFeatures_set_rasterConservative(this.self, v); };
+tsDevice.Features.prototype['get_rasterConservative'] = tsDevice.Features.prototype.get_rasterConservative = function() { return _tsDeviceFeatures_get_rasterConservative(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'rasterConservative', { get: tsDevice.Features.prototype.get_rasterConservative, set: tsDevice.Features.prototype.set_rasterConservative });
+tsDevice.Features.prototype['set_renderConditional'] = tsDevice.Features.prototype.set_renderConditional = function(v) { _tsDeviceFeatures_set_renderConditional(this.self, v); };
+tsDevice.Features.prototype['get_renderConditional'] = tsDevice.Features.prototype.get_renderConditional = function() { return _tsDeviceFeatures_get_renderConditional(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'renderConditional', { get: tsDevice.Features.prototype.get_renderConditional, set: tsDevice.Features.prototype.set_renderConditional });
 tsDevice.Features.prototype['set_computeTracing'] = tsDevice.Features.prototype.set_computeTracing = function(v) { _tsDeviceFeatures_set_computeTracing(this.self, v); };
 tsDevice.Features.prototype['get_computeTracing'] = tsDevice.Features.prototype.get_computeTracing = function() { return _tsDeviceFeatures_get_computeTracing(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'computeTracing', { get: tsDevice.Features.prototype.get_computeTracing, set: tsDevice.Features.prototype.set_computeTracing });
 tsDevice.Features.prototype['set_fragmentTracing'] = tsDevice.Features.prototype.set_fragmentTracing = function(v) { _tsDeviceFeatures_set_fragmentTracing(this.self, v); };
 tsDevice.Features.prototype['get_fragmentTracing'] = tsDevice.Features.prototype.get_fragmentTracing = function() { return _tsDeviceFeatures_get_fragmentTracing(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'fragmentTracing', { get: tsDevice.Features.prototype.get_fragmentTracing, set: tsDevice.Features.prototype.set_fragmentTracing });
-tsDevice.Features.prototype['set_indirectTracing'] = tsDevice.Features.prototype.set_indirectTracing = function(v) { _tsDeviceFeatures_set_indirectTracing(this.self, v); };
-tsDevice.Features.prototype['get_indirectTracing'] = tsDevice.Features.prototype.get_indirectTracing = function() { return _tsDeviceFeatures_get_indirectTracing(this.self); };
-Object.defineProperty(tsDevice.Features.prototype, 'indirectTracing', { get: tsDevice.Features.prototype.get_indirectTracing, set: tsDevice.Features.prototype.set_indirectTracing });
-tsDevice.Features.prototype['set_recursionDepth'] = tsDevice.Features.prototype.set_recursionDepth = function(v) { _tsDeviceFeatures_set_recursionDepth(this.self, v); };
-tsDevice.Features.prototype['get_recursionDepth'] = tsDevice.Features.prototype.get_recursionDepth = function() { return _tsDeviceFeatures_get_recursionDepth(this.self); };
-Object.defineProperty(tsDevice.Features.prototype, 'recursionDepth', { get: tsDevice.Features.prototype.get_recursionDepth, set: tsDevice.Features.prototype.set_recursionDepth });
+tsDevice.Features.prototype['set_traversalTracing'] = tsDevice.Features.prototype.set_traversalTracing = function(v) { _tsDeviceFeatures_set_traversalTracing(this.self, v); };
+tsDevice.Features.prototype['get_traversalTracing'] = tsDevice.Features.prototype.get_traversalTracing = function() { return _tsDeviceFeatures_get_traversalTracing(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'traversalTracing', { get: tsDevice.Features.prototype.get_traversalTracing, set: tsDevice.Features.prototype.set_traversalTracing });
+tsDevice.Features.prototype['set_buildIndirectTracing'] = tsDevice.Features.prototype.set_buildIndirectTracing = function(v) { _tsDeviceFeatures_set_buildIndirectTracing(this.self, v); };
+tsDevice.Features.prototype['get_buildIndirectTracing'] = tsDevice.Features.prototype.get_buildIndirectTracing = function() { return _tsDeviceFeatures_get_buildIndirectTracing(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'buildIndirectTracing', { get: tsDevice.Features.prototype.get_buildIndirectTracing, set: tsDevice.Features.prototype.set_buildIndirectTracing });
+tsDevice.Features.prototype['set_maxTraversalDepth'] = tsDevice.Features.prototype.set_maxTraversalDepth = function(v) { _tsDeviceFeatures_set_maxTraversalDepth(this.self, v); };
+tsDevice.Features.prototype['get_maxTraversalDepth'] = tsDevice.Features.prototype.get_maxTraversalDepth = function() { return _tsDeviceFeatures_get_maxTraversalDepth(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'maxTraversalDepth', { get: tsDevice.Features.prototype.get_maxTraversalDepth, set: tsDevice.Features.prototype.set_maxTraversalDepth });
 tsDevice.Features.prototype['set_subgroupVote'] = tsDevice.Features.prototype.set_subgroupVote = function(v) { _tsDeviceFeatures_set_subgroupVote(this.self, v); };
 tsDevice.Features.prototype['get_subgroupVote'] = tsDevice.Features.prototype.get_subgroupVote = function() { return _tsDeviceFeatures_get_subgroupVote(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'subgroupVote', { get: tsDevice.Features.prototype.get_subgroupVote, set: tsDevice.Features.prototype.set_subgroupVote });
@@ -9134,9 +9138,6 @@ Object.defineProperty(tsDevice.Features.prototype, 'uniformAlignment', { get: ts
 tsDevice.Features.prototype['set_storageAlignment'] = tsDevice.Features.prototype.set_storageAlignment = function(v) { _tsDeviceFeatures_set_storageAlignment(this.self, v); };
 tsDevice.Features.prototype['get_storageAlignment'] = tsDevice.Features.prototype.get_storageAlignment = function() { return _tsDeviceFeatures_get_storageAlignment(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'storageAlignment', { get: tsDevice.Features.prototype.get_storageAlignment, set: tsDevice.Features.prototype.set_storageAlignment });
-tsDevice.Features.prototype['set_maxTextureSamples'] = tsDevice.Features.prototype.set_maxTextureSamples = function(v) { _tsDeviceFeatures_set_maxTextureSamples(this.self, v); };
-tsDevice.Features.prototype['get_maxTextureSamples'] = tsDevice.Features.prototype.get_maxTextureSamples = function() { return _tsDeviceFeatures_get_maxTextureSamples(this.self); };
-Object.defineProperty(tsDevice.Features.prototype, 'maxTextureSamples', { get: tsDevice.Features.prototype.get_maxTextureSamples, set: tsDevice.Features.prototype.set_maxTextureSamples });
 tsDevice.Features.prototype['set_maxTexture2DSize'] = tsDevice.Features.prototype.set_maxTexture2DSize = function(v) { _tsDeviceFeatures_set_maxTexture2DSize(this.self, v); };
 tsDevice.Features.prototype['get_maxTexture2DSize'] = tsDevice.Features.prototype.get_maxTexture2DSize = function() { return _tsDeviceFeatures_get_maxTexture2DSize(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'maxTexture2DSize', { get: tsDevice.Features.prototype.get_maxTexture2DSize, set: tsDevice.Features.prototype.set_maxTexture2DSize });
@@ -9146,6 +9147,9 @@ Object.defineProperty(tsDevice.Features.prototype, 'maxTexture3DSize', { get: ts
 tsDevice.Features.prototype['set_maxTextureLayers'] = tsDevice.Features.prototype.set_maxTextureLayers = function(v) { _tsDeviceFeatures_set_maxTextureLayers(this.self, v); };
 tsDevice.Features.prototype['get_maxTextureLayers'] = tsDevice.Features.prototype.get_maxTextureLayers = function() { return _tsDeviceFeatures_get_maxTextureLayers(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'maxTextureLayers', { get: tsDevice.Features.prototype.get_maxTextureLayers, set: tsDevice.Features.prototype.set_maxTextureLayers });
+tsDevice.Features.prototype['set_maxTextureSamples'] = tsDevice.Features.prototype.set_maxTextureSamples = function(v) { _tsDeviceFeatures_set_maxTextureSamples(this.self, v); };
+tsDevice.Features.prototype['get_maxTextureSamples'] = tsDevice.Features.prototype.get_maxTextureSamples = function() { return _tsDeviceFeatures_get_maxTextureSamples(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'maxTextureSamples', { get: tsDevice.Features.prototype.get_maxTextureSamples, set: tsDevice.Features.prototype.set_maxTextureSamples });
 tsDevice.Features.prototype['set_maxGroupSizeX'] = tsDevice.Features.prototype.set_maxGroupSizeX = function(v) { _tsDeviceFeatures_set_maxGroupSizeX(this.self, v); };
 tsDevice.Features.prototype['get_maxGroupSizeX'] = tsDevice.Features.prototype.get_maxGroupSizeX = function() { return _tsDeviceFeatures_get_maxGroupSizeX(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'maxGroupSizeX', { get: tsDevice.Features.prototype.get_maxGroupSizeX, set: tsDevice.Features.prototype.set_maxGroupSizeX });
@@ -9217,13 +9221,14 @@ tsDevice.Features.prototype['get_pciDeviceID'] = tsDevice.Features.prototype.get
 Object.defineProperty(tsDevice.Features.prototype, 'pciDeviceID', { get: tsDevice.Features.prototype.get_pciDeviceID, set: tsDevice.Features.prototype.set_pciDeviceID });
 tsDevice.Features.prototype['toString'] = tsDevice.Features.prototype.toString = function() {
 	let ret = 'threadAccess: ' + this.threadAccess;
-	ret += '\nsparseBuffer: ' + this.sparseBuffer;
 	ret += '\nbufferTable: ' + this.bufferTable;
-	ret += '\nsparseTexture: ' + this.sparseTexture;
-	ret += '\nsparseArrayTexture: ' + this.sparseArrayTexture;
-	ret += '\ncubeArrayTexture: ' + this.cubeArrayTexture;
+	ret += '\nbufferSparse: ' + this.bufferSparse;
 	ret += '\ntextureTable: ' + this.textureTable;
-	ret += '\nbaseInstanceIndex: ' + this.baseInstanceIndex;
+	ret += '\ntextureSparse: ' + this.textureSparse;
+	ret += '\ntextureArrayCube: ' + this.textureArrayCube;
+	ret += '\ntextureArraySparse: ' + this.textureArraySparse;
+	ret += '\nsurfaceMultisample: ' + this.surfaceMultisample;
+	ret += '\ndrawBaseInstance: ' + this.drawBaseInstance;
 	ret += '\ndrawIndirectIndex: ' + this.drawIndirectIndex;
 	ret += '\ndrawIndirectCount: ' + this.drawIndirectCount;
 	ret += '\ntaskIndirectCount: ' + this.taskIndirectCount;
@@ -9232,15 +9237,15 @@ tsDevice.Features.prototype['toString'] = tsDevice.Features.prototype.toString =
 	ret += '\ngeometryPassthrough: ' + this.geometryPassthrough;
 	ret += '\nfragmentBarycentric: ' + this.fragmentBarycentric;
 	ret += '\nfragmentStencilExport: ' + this.fragmentStencilExport;
-	ret += '\ndualSourceBlending: ' + this.dualSourceBlending;
+	ret += '\nblendDualSource: ' + this.blendDualSource;
 	ret += '\ndepthRangeOneToOne: ' + this.depthRangeOneToOne;
-	ret += '\nconservativeRaster: ' + this.conservativeRaster;
-	ret += '\nconditionalRendering: ' + this.conditionalRendering;
-	ret += '\nrayTracing: ' + this.rayTracing;
+	ret += '\nrasterConservative: ' + this.rasterConservative;
+	ret += '\nrenderConditional: ' + this.renderConditional;
 	ret += '\ncomputeTracing: ' + this.computeTracing;
 	ret += '\nfragmentTracing: ' + this.fragmentTracing;
-	ret += '\nindirectTracing: ' + this.indirectTracing;
-	ret += '\nrecursionDepth: ' + this.recursionDepth;
+	ret += '\ntraversalTracing: ' + this.traversalTracing;
+	ret += '\nbuildIndirectTracing: ' + this.buildIndirectTracing;
+	ret += '\nmaxTraversalDepth: ' + this.maxTraversalDepth;
 	ret += '\nsubgroupVote: ' + this.subgroupVote;
 	ret += '\nsubgroupMath: ' + this.subgroupMath;
 	ret += '\nsubgroupShuffle: ' + this.subgroupShuffle;
@@ -9267,10 +9272,10 @@ tsDevice.Features.prototype['toString'] = tsDevice.Features.prototype.toString =
 	ret += '\nmatrix16x8x16f16f32: ' + this.matrix16x8x16f16f32;
 	ret += '\nuniformAlignment: ' + this.uniformAlignment;
 	ret += '\nstorageAlignment: ' + this.storageAlignment;
-	ret += '\nmaxTextureSamples: ' + this.maxTextureSamples;
 	ret += '\nmaxTexture2DSize: ' + this.maxTexture2DSize;
 	ret += '\nmaxTexture3DSize: ' + this.maxTexture3DSize;
 	ret += '\nmaxTextureLayers: ' + this.maxTextureLayers;
+	ret += '\nmaxTextureSamples: ' + this.maxTextureSamples;
 	ret += '\nmaxGroupSizeX: ' + this.maxGroupSizeX;
 	ret += '\nmaxGroupSizeY: ' + this.maxGroupSizeY;
 	ret += '\nmaxGroupSizeZ: ' + this.maxGroupSizeZ;
@@ -14054,11 +14059,13 @@ tsCanvas.prototype['removeChild'] = tsCanvas.prototype.removeChild = function() 
 	throw 'invalid Canvas.removeChild() arguments';
 };
 tsCanvas.prototype['raiseChild'] = tsCanvas.prototype.raiseChild = function() {
-	if(arguments.length == 1 && arguments[0] instanceof tsCanvas) return _tsCanvas_raiseChild(this.self, arguments[0].self);
+	if(arguments.length == 2 && arguments[0] instanceof tsCanvas) return _tsCanvas_raiseChild(this.self, arguments[0].self, arguments[1]);
+	if(arguments.length == 1 && arguments[0] instanceof tsCanvas) return _tsCanvas_raiseChild(this.self, arguments[0].self, 0);
 	throw 'invalid Canvas.raiseChild() arguments';
 };
 tsCanvas.prototype['lowerChild'] = tsCanvas.prototype.lowerChild = function() {
-	if(arguments.length == 1 && arguments[0] instanceof tsCanvas) return _tsCanvas_lowerChild(this.self, arguments[0].self);
+	if(arguments.length == 2 && arguments[0] instanceof tsCanvas) return _tsCanvas_lowerChild(this.self, arguments[0].self, arguments[1]);
+	if(arguments.length == 1 && arguments[0] instanceof tsCanvas) return _tsCanvas_lowerChild(this.self, arguments[0].self, 0);
 	throw 'invalid Canvas.lowerChild() arguments';
 };
 tsCanvas.prototype['releaseChildren'] = tsCanvas.prototype.releaseChildren = function() {
@@ -14092,11 +14099,13 @@ tsCanvas.prototype['removeElement'] = tsCanvas.prototype.removeElement = functio
 	throw 'invalid Canvas.removeElement() arguments';
 };
 tsCanvas.prototype['raiseElement'] = tsCanvas.prototype.raiseElement = function() {
-	if(arguments.length == 1 && arguments[0] instanceof tsCanvasElement) return _tsCanvas_raiseElement(this.self, arguments[0].self);
+	if(arguments.length == 2 && arguments[0] instanceof tsCanvasElement) return _tsCanvas_raiseElement(this.self, arguments[0].self, arguments[1]);
+	if(arguments.length == 1 && arguments[0] instanceof tsCanvasElement) return _tsCanvas_raiseElement(this.self, arguments[0].self, 0);
 	throw 'invalid Canvas.raiseElement() arguments';
 };
 tsCanvas.prototype['lowerElement'] = tsCanvas.prototype.lowerElement = function() {
-	if(arguments.length == 1 && arguments[0] instanceof tsCanvasElement) return _tsCanvas_lowerElement(this.self, arguments[0].self);
+	if(arguments.length == 2 && arguments[0] instanceof tsCanvasElement) return _tsCanvas_lowerElement(this.self, arguments[0].self, arguments[1]);
+	if(arguments.length == 1 && arguments[0] instanceof tsCanvasElement) return _tsCanvas_lowerElement(this.self, arguments[0].self, 0);
 	throw 'invalid Canvas.lowerElement() arguments';
 };
 tsCanvas.prototype['findElement'] = tsCanvas.prototype.findElement = function() {
@@ -14306,13 +14315,14 @@ tsControl.Align = Object.freeze({
 	Overlap : 256,
 	Spacer : 512,
 	Aspect : 1024,
+	Local : 2048,
 	LeftBottom : 5,
 	LeftTop : 9,
 	RightBottom : 6,
 	RightTop : 10,
 	Center : 48,
 	Expand : 192,
-	NumAligns : 11,
+	NumAligns : 12,
 });
 tsControl.Button = Object.freeze({
 	None : 0,
@@ -14353,6 +14363,14 @@ tsControl.Key = Object.freeze({
 	Cmd : 145,
 	NumKeys : 146,
 });
+tsControl['getNumControls'] = tsControl.getNumControls = function() {
+	if(arguments.length == 0) return _tsControl_getNumControls();
+	throw 'invalid Control.getNumControls() arguments';
+};
+tsControl['isControl'] = tsControl.isControl = function() {
+	if(arguments.length == 1 && arguments[0] instanceof tsControl) return _tsControl_isControl(arguments[0].self);
+	throw 'invalid Control.isControl() arguments';
+};
 tsControl.prototype['getType'] = tsControl.prototype.getType = function() {
 	if(arguments.length == 0) return _tsControl_getType(this.self);
 	throw 'invalid Control.getType() arguments';
@@ -14498,8 +14516,10 @@ tsControl.prototype['getCanvas'] = tsControl.prototype.getCanvas = function() {
 };
 Object.defineProperty(tsControl.prototype, 'canvas', { get: tsControl.prototype.getCanvas });
 tsControl.prototype['getRoot'] = tsControl.prototype.getRoot = function() {
-	if(arguments.length == 0) return ts_new(tsControlRoot, _tsControl_getRoot_1(this.self));
-	if(arguments.length == 0) return ts_new(tsControlRoot, _tsControl_getRoot(this.self));
+	if(arguments.length == 1 && typeof arguments[0] === 'boolean') return ts_new(tsControlRoot, _tsControl_getRoot_1(this.self, arguments[0]));
+	if(arguments.length == 1 && typeof arguments[0] === 'boolean') return ts_new(tsControlRoot, _tsControl_getRoot(this.self, arguments[0]));
+	if(arguments.length == 0) return ts_new(tsControlRoot, _tsControl_getRoot_1(this.self, false));
+	if(arguments.length == 0) return ts_new(tsControlRoot, _tsControl_getRoot(this.self, false));
 	throw 'invalid Control.getRoot() arguments';
 };
 Object.defineProperty(tsControl.prototype, 'root', { get: tsControl.prototype.getRoot });
@@ -14536,11 +14556,13 @@ tsControl.prototype['setChild'] = tsControl.prototype.setChild = function() {
 	throw 'invalid Control.setChild() arguments';
 };
 tsControl.prototype['raiseChild'] = tsControl.prototype.raiseChild = function() {
-	if(arguments.length == 1 && arguments[0] instanceof tsControl) return _tsControl_raiseChild(this.self, arguments[0].self);
+	if(arguments.length == 2 && arguments[0] instanceof tsControl) return _tsControl_raiseChild(this.self, arguments[0].self, arguments[1]);
+	if(arguments.length == 1 && arguments[0] instanceof tsControl) return _tsControl_raiseChild(this.self, arguments[0].self, 0);
 	throw 'invalid Control.raiseChild() arguments';
 };
 tsControl.prototype['lowerChild'] = tsControl.prototype.lowerChild = function() {
-	if(arguments.length == 1 && arguments[0] instanceof tsControl) return _tsControl_lowerChild(this.self, arguments[0].self);
+	if(arguments.length == 2 && arguments[0] instanceof tsControl) return _tsControl_lowerChild(this.self, arguments[0].self, arguments[1]);
+	if(arguments.length == 1 && arguments[0] instanceof tsControl) return _tsControl_lowerChild(this.self, arguments[0].self, 0);
 	throw 'invalid Control.lowerChild() arguments';
 };
 tsControl.prototype['removeChild'] = tsControl.prototype.removeChild = function() {
@@ -15071,6 +15093,15 @@ tsControlText.prototype = Object.create(tsControl.prototype);
 tsControlText.prototype.constructor = tsControlText;
 tsControlText.prototype['toControl'] = tsControlText.prototype.toControl = function() { return ts_new(tsControl, _tsControlText_baseControlPtr(this.self)); };
 tsControl.prototype['toControlText'] = tsControl.prototype.toControlText = function() { return ts_new(tsControlText, _tsControlText_castControlTextPtr(this.self)); };
+tsControlText.prototype['setCallback'] = tsControlText.prototype.setCallback = function() {
+	if(arguments.length == 1 && typeof arguments[0] === 'boolean') return _tsControlText_setCallback(this.self, arguments[0]);
+	throw 'invalid ControlText.setCallback() arguments';
+};
+tsControlText.prototype['getCallback'] = tsControlText.prototype.getCallback = function() {
+	if(arguments.length == 0) return _tsControlText_getCallback(this.self);
+	throw 'invalid ControlText.getCallback() arguments';
+};
+Object.defineProperty(tsControlText.prototype, 'callback', { get: tsControlText.prototype.getCallback });
 tsControlText.prototype['setMode'] = tsControlText.prototype.setMode = function() {
 	if(arguments.length == 1) return _tsControlText_setMode(this.self, arguments[0]);
 	throw 'invalid ControlText.setMode() arguments';
@@ -18939,6 +18970,15 @@ tsSeparableFilter.prototype['setInputSource'] = tsSeparableFilter.prototype.setI
 tsSeparableFilter.prototype['getInputSource'] = tsSeparableFilter.prototype.getInputSource = function() {
 	if(arguments.length == 1) { let str = _tsSeparableFilter_getInputSource(this.self, arguments[0]); let ret = UTF8ToString(_tsString_get(str)); _tsString_delete(str); return ret; }
 	throw 'invalid SeparableFilter.getInputSource() arguments';
+};
+tsSeparableFilter.prototype['setKernelSource'] = tsSeparableFilter.prototype.setKernelSource = function() {
+	ts_args.reset();
+	if(arguments.length == 2 && typeof arguments[1] === 'string') return _tsSeparableFilter_setKernelSource(this.self, arguments[0], ts_str(arguments[1]));
+	throw 'invalid SeparableFilter.setKernelSource() arguments';
+};
+tsSeparableFilter.prototype['getKernelSource'] = tsSeparableFilter.prototype.getKernelSource = function() {
+	if(arguments.length == 1) { let str = _tsSeparableFilter_getKernelSource(this.self, arguments[0]); let ret = UTF8ToString(_tsString_get(str)); _tsString_delete(str); return ret; }
+	throw 'invalid SeparableFilter.getKernelSource() arguments';
 };
 tsSeparableFilter.prototype['setOutputSource'] = tsSeparableFilter.prototype.setOutputSource = function() {
 	ts_args.reset();

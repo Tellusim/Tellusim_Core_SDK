@@ -1,0 +1,4 @@
+SRCS = main.cpp \
+	source/TellusimControlPopup.cpp
+
+include ../../Makefile.ems.mk
