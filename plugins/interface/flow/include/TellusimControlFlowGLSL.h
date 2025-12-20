@@ -32,6 +32,7 @@ namespace Tellusim {
 			/// flow colors
 			TS_INLINE const Color &getGLSLColor() const { return glsl_color; }
 			TS_INLINE const Color &getToolColor() const { return tool_color; }
+			TS_INLINE const Color &getNoiseColor() const { return noise_color; }
 			
 			/// glsl types
 			TS_INLINE uint32_t getAnyType() const { return any_type; }
@@ -62,6 +63,7 @@ namespace Tellusim {
 			void create_types();
 			void create_protos();
 			void create_tools();
+			void create_noise();
 			
 			/// create editable slider
 			ControlSlider create_slider(Control *root, const char *name = nullptr, uint32_t digits = 2, float64_t value = 0.0, float64_t min = 0.0, float64_t max = 1.0, float32_t width = 128.0f);
@@ -101,8 +103,11 @@ namespace Tellusim {
 			
 			ColorCallback color_func;			// color callback
 			
+			String library_source;				// library source
+			
 			Color glsl_color = Color(1.0f, 1.0f, 1.0f, 0.75f);
 			Color tool_color = Color(0.3f, 0.6f, 1.0f, 0.75f);
+			Color noise_color = Color(0.6f, 0.6f, 0.3f, 0.75f);
 	};
 }
 

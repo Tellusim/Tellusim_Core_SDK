@@ -37,7 +37,7 @@ int32_t main(int32_t argc, char **argv) {
 	if(!device) return 1;
 	
 	// check sparse texture support
-	if(!device.getFeatures().sparseTexture) {
+	if(!device.getFeatures().textureSparse) {
 		TS_LOG(Error, "sparse texture is not supported\n");
 		return 0;
 	}

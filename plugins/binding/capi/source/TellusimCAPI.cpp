@@ -214,6 +214,7 @@ namespace Tellusim {
 	TS_STATIC_ASSERT(TS_AppVersion_40 == (uint32_t)App::Version_40);
 	TS_STATIC_ASSERT(TS_AppVersion_41 == (uint32_t)App::Version_41);
 	TS_STATIC_ASSERT(TS_AppVersion_42 == (uint32_t)App::Version_42);
+	TS_STATIC_ASSERT(TS_AppVersion_43 == (uint32_t)App::Version_43);
 	TS_STATIC_ASSERT(TS_AppVersion == (uint32_t)App::Version);
 	
 	// Tellusim::Socket::Type
@@ -885,6 +886,7 @@ namespace Tellusim {
 	TS_STATIC_ASSERT(TS_ControlAlignOverlap == (uint32_t)Control::AlignOverlap);
 	TS_STATIC_ASSERT(TS_ControlAlignSpacer == (uint32_t)Control::AlignSpacer);
 	TS_STATIC_ASSERT(TS_ControlAlignAspect == (uint32_t)Control::AlignAspect);
+	TS_STATIC_ASSERT(TS_ControlAlignLocal == (uint32_t)Control::AlignLocal);
 	TS_STATIC_ASSERT(TS_ControlAlignLeftBottom == (uint32_t)Control::AlignLeftBottom);
 	TS_STATIC_ASSERT(TS_ControlAlignLeftTop == (uint32_t)Control::AlignLeftTop);
 	TS_STATIC_ASSERT(TS_ControlAlignRightBottom == (uint32_t)Control::AlignRightBottom);
@@ -1469,13 +1471,14 @@ namespace Tellusim {
 	// Tellusim::Device
 	TS_STATIC_ASSERT(sizeof(TSDeviceFeatures) == sizeof(Device::Features));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, threadAccess) == offsetof(Device::Features, threadAccess));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, sparseBuffer) == offsetof(Device::Features, sparseBuffer));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, bufferTable) == offsetof(Device::Features, bufferTable));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, sparseTexture) == offsetof(Device::Features, sparseTexture));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, sparseArrayTexture) == offsetof(Device::Features, sparseArrayTexture));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, cubeArrayTexture) == offsetof(Device::Features, cubeArrayTexture));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, bufferSparse) == offsetof(Device::Features, bufferSparse));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, textureTable) == offsetof(Device::Features, textureTable));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, baseInstanceIndex) == offsetof(Device::Features, baseInstanceIndex));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, textureSparse) == offsetof(Device::Features, textureSparse));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, textureArrayCube) == offsetof(Device::Features, textureArrayCube));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, textureArraySparse) == offsetof(Device::Features, textureArraySparse));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, surfaceMultisample) == offsetof(Device::Features, surfaceMultisample));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, drawBaseInstance) == offsetof(Device::Features, drawBaseInstance));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, drawIndirectIndex) == offsetof(Device::Features, drawIndirectIndex));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, drawIndirectCount) == offsetof(Device::Features, drawIndirectCount));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, taskIndirectCount) == offsetof(Device::Features, taskIndirectCount));
@@ -1484,15 +1487,15 @@ namespace Tellusim {
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, geometryPassthrough) == offsetof(Device::Features, geometryPassthrough));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, fragmentBarycentric) == offsetof(Device::Features, fragmentBarycentric));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, fragmentStencilExport) == offsetof(Device::Features, fragmentStencilExport));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, dualSourceBlending) == offsetof(Device::Features, dualSourceBlending));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, blendDualSource) == offsetof(Device::Features, blendDualSource));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, depthRangeOneToOne) == offsetof(Device::Features, depthRangeOneToOne));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, conservativeRaster) == offsetof(Device::Features, conservativeRaster));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, conditionalRendering) == offsetof(Device::Features, conditionalRendering));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, rayTracing) == offsetof(Device::Features, rayTracing));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, rasterConservative) == offsetof(Device::Features, rasterConservative));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, renderConditional) == offsetof(Device::Features, renderConditional));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, computeTracing) == offsetof(Device::Features, computeTracing));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, fragmentTracing) == offsetof(Device::Features, fragmentTracing));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, indirectTracing) == offsetof(Device::Features, indirectTracing));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, recursionDepth) == offsetof(Device::Features, recursionDepth));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, traversalTracing) == offsetof(Device::Features, traversalTracing));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, buildIndirectTracing) == offsetof(Device::Features, buildIndirectTracing));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTraversalDepth) == offsetof(Device::Features, maxTraversalDepth));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, subgroupVote) == offsetof(Device::Features, subgroupVote));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, subgroupMath) == offsetof(Device::Features, subgroupMath));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, subgroupShuffle) == offsetof(Device::Features, subgroupShuffle));
@@ -1519,10 +1522,10 @@ namespace Tellusim {
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, matrix16x8x16f16f32) == offsetof(Device::Features, matrix16x8x16f16f32));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, uniformAlignment) == offsetof(Device::Features, uniformAlignment));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, storageAlignment) == offsetof(Device::Features, storageAlignment));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTextureSamples) == offsetof(Device::Features, maxTextureSamples));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTexture2DSize) == offsetof(Device::Features, maxTexture2DSize));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTexture3DSize) == offsetof(Device::Features, maxTexture3DSize));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTextureLayers) == offsetof(Device::Features, maxTextureLayers));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTextureSamples) == offsetof(Device::Features, maxTextureSamples));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxGroupSizeX) == offsetof(Device::Features, maxGroupSizeX));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxGroupSizeY) == offsetof(Device::Features, maxGroupSizeY));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxGroupSizeZ) == offsetof(Device::Features, maxGroupSizeZ));
@@ -15940,19 +15943,6 @@ namespace Tellusim {
 		TS_ASSERT(self);
 		return ((Tracing*)self)->getInstanceOffset();
 	}
-	TS_CAPI void TS_CCALL tsTracing_setIndirectBuffer(TSTracing self, TSBuffer buffer, size_t offset) {
-		TS_ASSERT(self);
-		TS_ASSERT(buffer);
-		((Tracing*)self)->setIndirectBuffer(*(Buffer*)buffer, offset);
-	}
-	TS_CAPI TSBuffer TS_CCALL tsTracing_getIndirectBuffer(TSTracing self) {
-		TS_ASSERT(self);
-		return (TSBuffer)(new Buffer(((Tracing*)self)->getIndirectBuffer()));
-	}
-	TS_CAPI size_t TS_CCALL tsTracing_getIndirectOffset(TSTracing self) {
-		TS_ASSERT(self);
-		return ((Tracing*)self)->getIndirectOffset();
-	}
 	TS_CAPI uint32_t TS_CCALL tsTracing_addVertexBuffer(TSTracing self, uint32_t num_vertices, TS_Format format, size_t stride, TSBuffer buffer, size_t offset) {
 		TS_ASSERT(self);
 		TS_ASSERT(buffer);
@@ -16061,6 +16051,19 @@ namespace Tellusim {
 	TS_CAPI size_t TS_CCALL tsTracing_getBoundOffset(TSTracing self, uint32_t index) {
 		TS_ASSERT(self);
 		return ((Tracing*)self)->getBoundOffset(index);
+	}
+	TS_CAPI void TS_CCALL tsTracing_setIndirectBuffer(TSTracing self, TSBuffer buffer, size_t offset) {
+		TS_ASSERT(self);
+		TS_ASSERT(buffer);
+		((Tracing*)self)->setIndirectBuffer(*(Buffer*)buffer, offset);
+	}
+	TS_CAPI TSBuffer TS_CCALL tsTracing_getIndirectBuffer(TSTracing self) {
+		TS_ASSERT(self);
+		return (TSBuffer)(new Buffer(((Tracing*)self)->getIndirectBuffer()));
+	}
+	TS_CAPI size_t TS_CCALL tsTracing_getIndirectOffset(TSTracing self) {
+		TS_ASSERT(self);
+		return ((Tracing*)self)->getIndirectOffset();
 	}
 	TS_CAPI TSString TS_CCALL tsTracing_getDescription(TSTracing self) {
 		TS_ASSERT(self);
@@ -18099,6 +18102,14 @@ namespace Tellusim {
 		TS_ASSERT(self);
 		return ((D3D12Device*)self)->getCommand();
 	}
+	TS_CAPI const void* TS_CCALL tsD3D12Device_getD3D12Features(TSD3D12Device self, uint32_t index) {
+		TS_ASSERT(self);
+		return ((D3D12Device*)self)->getD3D12Features(index);
+	}
+	TS_CAPI uint32_t TS_CCALL tsD3D12Device_getShaderModel(TSD3D12Device self) {
+		TS_ASSERT(self);
+		return ((D3D12Device*)self)->getShaderModel();
+	}
 	
 	// Tellusim::D3D11Device
 	TS_CAPI TSD3D11Device TS_CCALL tsD3D11Device_new(void) {
@@ -18184,6 +18195,10 @@ namespace Tellusim {
 	TS_CAPI ID3D11DeviceContext* TS_CCALL tsD3D11Device_getCommand(TSD3D11Device self) {
 		TS_ASSERT(self);
 		return ((D3D11Device*)self)->getCommand();
+	}
+	TS_CAPI const void* TS_CCALL tsD3D11Device_getD3D11Features(TSD3D11Device self, uint32_t index) {
+		TS_ASSERT(self);
+		return ((D3D11Device*)self)->getD3D11Features(index);
 	}
 	
 	// Tellusim::MTLDevice
@@ -18434,6 +18449,10 @@ namespace Tellusim {
 	TS_CAPI uint32_t TS_CCALL tsVKDevice_getFamily(TSVKDevice self) {
 		TS_ASSERT(self);
 		return ((VKDevice*)self)->getFamily();
+	}
+	TS_CAPI const void* TS_CCALL tsVKDevice_getVKFeatures(TSVKDevice self, uint32_t type) {
+		TS_ASSERT(self);
+		return ((VKDevice*)self)->getVKFeatures(type);
 	}
 	
 	// Tellusim::FUDevice
@@ -24393,15 +24412,15 @@ namespace Tellusim {
 		TS_ASSERT(child);
 		return ((Canvas*)self)->removeChild(*(Canvas*)child);
 	}
-	TS_CAPI bool_t TS_CCALL tsCanvas_raiseChild(TSCanvas self, TSCanvas child) {
+	TS_CAPI bool_t TS_CCALL tsCanvas_raiseChild(TSCanvas self, TSCanvas child, uint32_t index) {
 		TS_ASSERT(self);
 		TS_ASSERT(child);
-		return ((Canvas*)self)->raiseChild(*(Canvas*)child);
+		return ((Canvas*)self)->raiseChild(*(Canvas*)child, index);
 	}
-	TS_CAPI bool_t TS_CCALL tsCanvas_lowerChild(TSCanvas self, TSCanvas child) {
+	TS_CAPI bool_t TS_CCALL tsCanvas_lowerChild(TSCanvas self, TSCanvas child, uint32_t index) {
 		TS_ASSERT(self);
 		TS_ASSERT(child);
-		return ((Canvas*)self)->lowerChild(*(Canvas*)child);
+		return ((Canvas*)self)->lowerChild(*(Canvas*)child, index);
 	}
 	TS_CAPI void TS_CCALL tsCanvas_releaseChildren(TSCanvas self) {
 		TS_ASSERT(self);
@@ -24439,15 +24458,15 @@ namespace Tellusim {
 		TS_ASSERT(element);
 		return ((Canvas*)self)->removeElement(*(CanvasElement*)element);
 	}
-	TS_CAPI bool_t TS_CCALL tsCanvas_raiseElement(TSCanvas self, TSCanvasElement element) {
+	TS_CAPI bool_t TS_CCALL tsCanvas_raiseElement(TSCanvas self, TSCanvasElement element, uint32_t index) {
 		TS_ASSERT(self);
 		TS_ASSERT(element);
-		return ((Canvas*)self)->raiseElement(*(CanvasElement*)element);
+		return ((Canvas*)self)->raiseElement(*(CanvasElement*)element, index);
 	}
-	TS_CAPI bool_t TS_CCALL tsCanvas_lowerElement(TSCanvas self, TSCanvasElement element) {
+	TS_CAPI bool_t TS_CCALL tsCanvas_lowerElement(TSCanvas self, TSCanvasElement element, uint32_t index) {
 		TS_ASSERT(self);
 		TS_ASSERT(element);
-		return ((Canvas*)self)->lowerElement(*(CanvasElement*)element);
+		return ((Canvas*)self)->lowerElement(*(CanvasElement*)element, index);
 	}
 	TS_CAPI uint32_t TS_CCALL tsCanvas_findElement(TSCanvas self, const TSCanvasElement element) {
 		TS_ASSERT(self);
@@ -24639,6 +24658,13 @@ namespace Tellusim {
 	TS_CAPI const void* TS_CCALL tsControl_getInternalPtr(const TSControl self) {
 		return ((Control*)self)->getInternalPtr();
 	}
+	TS_CAPI uint32_t TS_CCALL tsControl_getNumControls(void) {
+		return Control::getNumControls();
+	}
+	TS_CAPI bool_t TS_CCALL tsControl_isControl(const TSControl control) {
+		TS_ASSERT(control);
+		return Control::isControl(*(const Control*)control);
+	}
 	TS_CAPI TS_ControlType TS_CCALL tsControl_getType(TSControl self) {
 		TS_ASSERT(self);
 		return (TS_ControlType)((Control*)self)->getType();
@@ -24778,13 +24804,13 @@ namespace Tellusim {
 		TS_ASSERT(self);
 		return (TSCanvas)(new Canvas(((Control*)self)->getCanvas()));
 	}
-	TS_CAPI TSControlRoot TS_CCALL tsControl_getRoot_c(TSControl self) {
+	TS_CAPI TSControlRoot TS_CCALL tsControl_getRoot_cb(TSControl self, bool_t local) {
 		TS_ASSERT(self);
-		return (TSControlRoot)(new ControlRoot(((Control*)self)->getRoot()));
+		return (TSControlRoot)(new ControlRoot(((Control*)self)->getRoot((bool)local)));
 	}
-	TS_CAPI TSControlRoot TS_CCALL tsControl_getRoot(TSControl self) {
+	TS_CAPI TSControlRoot TS_CCALL tsControl_getRoot_b(TSControl self, bool_t local) {
 		TS_ASSERT(self);
-		return (TSControlRoot)(new ControlRoot(((Control*)self)->getRoot()));
+		return (TSControlRoot)(new ControlRoot(((Control*)self)->getRoot((bool)local)));
 	}
 	TS_CAPI TSControlPanel TS_CCALL tsControl_getPanel_c(TSControl self) {
 		TS_ASSERT(self);
@@ -24825,15 +24851,15 @@ namespace Tellusim {
 		TS_ASSERT(child);
 		return (TSControl)(new Control(((Control*)self)->setChild(index, *(Control*)child)));
 	}
-	TS_CAPI bool_t TS_CCALL tsControl_raiseChild(TSControl self, TSControl child) {
+	TS_CAPI bool_t TS_CCALL tsControl_raiseChild(TSControl self, TSControl child, uint32_t index) {
 		TS_ASSERT(self);
 		TS_ASSERT(child);
-		return ((Control*)self)->raiseChild(*(Control*)child);
+		return ((Control*)self)->raiseChild(*(Control*)child, index);
 	}
-	TS_CAPI bool_t TS_CCALL tsControl_lowerChild(TSControl self, TSControl child) {
+	TS_CAPI bool_t TS_CCALL tsControl_lowerChild(TSControl self, TSControl child, uint32_t index) {
 		TS_ASSERT(self);
 		TS_ASSERT(child);
-		return ((Control*)self)->lowerChild(*(Control*)child);
+		return ((Control*)self)->lowerChild(*(Control*)child, index);
 	}
 	TS_CAPI bool_t TS_CCALL tsControl_removeChild(TSControl self, TSControl child) {
 		TS_ASSERT(self);
@@ -25492,6 +25518,14 @@ namespace Tellusim {
 	}
 	TS_CAPI TSControl TS_CCALL tsControlText_baseControlPtr(TSControlText self) {
 		return (TSControl)(new Control(((ControlText*)self)->getControl()));
+	}
+	TS_CAPI void TS_CCALL tsControlText_setCallback(TSControlText self, bool_t callback) {
+		TS_ASSERT(self);
+		((ControlText*)self)->setCallback((bool)callback);
+	}
+	TS_CAPI bool_t TS_CCALL tsControlText_getCallback(TSControlText self) {
+		TS_ASSERT(self);
+		return ((ControlText*)self)->getCallback();
 	}
 	TS_CAPI void TS_CCALL tsControlText_setMode(TSControlText self, TS_CanvasElementMode mode) {
 		TS_ASSERT(self);
@@ -30440,6 +30474,14 @@ namespace Tellusim {
 	TS_CAPI TSString TS_CCALL tsSeparableFilter_getInputSource(TSSeparableFilter self, TS_SeparableFilterMode mode) {
 		TS_ASSERT(self);
 		return (TSString)(new String(((SeparableFilter*)self)->getInputSource((SeparableFilter::Mode)mode)));
+	}
+	TS_CAPI void TS_CCALL tsSeparableFilter_setKernelSource(TSSeparableFilter self, TS_SeparableFilterMode mode, const char *src) {
+		TS_ASSERT(self);
+		((SeparableFilter*)self)->setKernelSource((SeparableFilter::Mode)mode, src);
+	}
+	TS_CAPI TSString TS_CCALL tsSeparableFilter_getKernelSource(TSSeparableFilter self, TS_SeparableFilterMode mode) {
+		TS_ASSERT(self);
+		return (TSString)(new String(((SeparableFilter*)self)->getKernelSource((SeparableFilter::Mode)mode)));
 	}
 	TS_CAPI void TS_CCALL tsSeparableFilter_setOutputSource(TSSeparableFilter self, TS_SeparableFilterMode mode, const char *src) {
 		TS_ASSERT(self);

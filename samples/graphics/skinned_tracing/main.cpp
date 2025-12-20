@@ -70,10 +70,9 @@ int32_t main(int32_t argc, char **argv) {
 	Device device(window);
 	if(!device) return 1;
 	
-	// check ray tracing support
-	const Device::Features &features = device.getFeatures();
-	if(!features.computeTracing && !features.rayTracing) {
-		TS_LOG(Error, "ray tracing is not supported\n");
+	// check tracing support
+	if(!device.getFeatures().computeTracing) {
+		TS_LOG(Error, "compute tracing is not supported\n");
 		return 0;
 	}
 	
