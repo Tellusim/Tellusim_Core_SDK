@@ -2,6 +2,8 @@
 // https://tellusim.com/
 
 #include <core/TellusimLog.h>
+#include <core/TellusimBlob.h>
+#include <core/TellusimSource.h>
 
 #include "../include/TellusimControlFlowGLSL.h"
 
@@ -29,10 +31,21 @@ namespace Tellusim {
 			return false;
 		}
 		
+		// library source
+		#ifndef CONTROL_FLOW_PATH
+			#include "TellusimControlFlowGLSL.blob"
+			library_source = Blob(TellusimControlFlowGLSL_blob_src).gets();
+		#else
+			Source source;
+			if(!source.open(TS_STRING(CONTROL_FLOW_PATH) "source/TellusimControlFlowGLSL.shader")) return false;
+			library_source = source.gets();
+		#endif
+		
 		// create GLSL
 		create_types();
 		create_protos();
 		create_tools();
+		create_noise();
 		
 		return true;
 	}
@@ -1944,6 +1957,279 @@ namespace Tellusim {
 				}, nullptr, 0, combo));
 			});
 			setProtoInfo(proto, "Math function");
+		}
+	}
+	
+	/*****************************************************************************\
+	 *
+	 * ControlFlowGLSL Noise
+	 *
+	\*****************************************************************************/
+	
+	/*
+	 */
+	void ControlFlowGLSL::create_noise() {
+		
+		// Perlin noise proto
+		{
+			uint32_t proto = addProto("perlin_noise", "Perlin Noise");
+			setProtoColor(proto, noise_color);
+			addProtoInput(proto, "texcoord", "TexCoord", "", any_type);
+			addProtoInput(proto, "tile", "Tile", "1.0", any_type);
+			addProtoOutput(proto, "v", "", "$0", float_type, true);
+			addProtoOutput(proto, "dv", "D", "$1", any_type, true);
+			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
+				Control spacer(&getNodeInputGrid(node));
+				ControlCombo combo(&getNodeInputGrid(node), { "Quintic", "Cubic", }, Maxu32);
+				combo.setChangedCallback(makeFunction([this](ControlCombo combo, ControlFlow *flow, uint32_t node) {
+					setNodeState(node, combo.getCurrentText(), true);
+					setChanged();
+				}, ControlCombo::null, flow, node));
+				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlCombo combo) {
+					set_state(combo, getNodeState(node));
+					setNodeDynamic(node, true);
+				}, nullptr, 0, combo));
+			});
+			setProtoUpdateCallback(proto, [this](ControlFlow *flow, uint32_t node, bool inverse) {
+				String value;
+				const String &state = getNodeState(node);
+				uint32_t type = getOutputType(node, "dv");
+				bool has_dv = (getNumOutputConnections(node, "dv") != 0);
+				String macros;
+				if(type == vec2_type) macros += "; PERLIN_2_SHADER=1";
+				else if(type == vec3_type) macros += "; PERLIN_3_SHADER=1";
+				if(state == "Cubic") macros += "; CUBIC_SHADER=1";
+				if(has_dv) macros += "; DERIVATIVE_SHADER=1";
+				String src = Shader::preprocessor(library_source.get(), macros);
+				if(has_dv) value += "@dv $1; ";
+				value += "float $0; {\n";
+				value += src.replace("IN", "($texcoord) * ($tile)");
+				if(has_dv) {
+					value += "\t$0 = OUT.x * (2.3f * 0.5f) + 0.5f;\n";
+					if(type == vec2_type) value += "\t$1 = -OUT.yz;\n";
+					else if(type == vec3_type) value += "\t$1 = OUT.yzw * vec3(-1.0f, -1.0f, 1.0f);\n";
+				} else {
+					value += "\t$0 = OUT * (2.3f * 0.5f) + 0.5f;\n";
+				}
+				value += "}\n";
+				setNodeValue(node, value);
+			});
+			setProtoInputAttachCallback(proto, 0, [this](ControlFlow *flow, uint32_t node, uint32_t input, uint32_t output_node, uint32_t output_index) {
+				uint32_t texcoord_type = any_type;
+				if(output_node != Maxu32) texcoord_type = getOutputType(output_node, output_index);
+				if(texcoord_type == vec2_type || texcoord_type == vec3_type) {
+					setInputType(node, "texcoord", texcoord_type);
+					setInputType(node, "tile", texcoord_type);
+					setOutputType(node, "dv", texcoord_type);
+					return true;
+				}
+				setInputType(node, "texcoord", any_type);
+				setInputType(node, "tile", any_type);
+				setOutputType(node, "dv", any_type);
+				return (output_node != Maxu32 && texcoord_type == any_type);
+			});
+			setProtoInfo(proto, "Perlin noise sampler");
+		}
+		
+		// Fractal noise proto
+		{
+			uint32_t proto = addProto("fractal_noise", "Fractal Noise");
+			setProtoColor(proto, noise_color);
+			addProtoInput(proto, "texcoord", "TexCoord", "", any_type);
+			addProtoInput(proto, "tile", "Tile", "1.0", any_type);
+			addProtoInput(proto, "matrix", "Matrix", "", any_type);
+			addProtoInput(proto, "steps", "Steps", "5.0", float_type);
+			addProtoInput(proto, "scale", "Scale", "0.5", float_type);
+			addProtoInput(proto, "offset", "Offset", "0.0", float_type);
+			addProtoOutput(proto, "v", "", "$0", float_type, true);
+			addProtoOutput(proto, "dv", "D", "$1", any_type, true);
+			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
+				Control spacer(&getNodeInputGrid(node));
+				ControlCombo combo(&getNodeInputGrid(node), { "Add", "Abs", "Sqrt", "Square" }, Maxu32);
+				combo.setChangedCallback(makeFunction([this](ControlCombo combo, ControlFlow *flow, uint32_t node) {
+					setNodeState(node, combo.getCurrentText(), true);
+					setChanged();
+				}, ControlCombo::null, flow, node));
+				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlCombo combo) {
+					set_state(combo, getNodeState(node));
+					setNodeDynamic(node, true);
+				}, nullptr, 0, combo));
+			});
+			setProtoUpdateCallback(proto, [this](ControlFlow *flow, uint32_t node, bool inverse) {
+				String value;
+				const String &state = getNodeState(node);
+				uint32_t type = getOutputType(node, "dv");
+				bool has_matrix = (getNumInputConnections(node, "matrix") != 0);
+				bool has_offset = (getNumInputConnections(node, "offset") || getInputValue(node, "offset") != "0.0");
+				bool has_dv = (getNumOutputConnections(node, "dv") != 0);
+				if(has_dv) {
+					if(type == vec2_type) value += "vec2 $1 = vec2(0.0f); ";
+					else if(type == vec3_type) value += "vec3 $1 = vec3(0.0f); ";
+				}
+				value += "float $0 = 0.0f; {\n";
+				value += "\tfloat value = 1.0f;\n";
+				if(has_offset) value += "\tfloat offset = $offset;\n";
+				if(type == vec2_type) {
+					value += "\tvec2 texcoord = ($texcoord) * ($tile);\n";
+					if(has_matrix) value += "\tmat2 matrix = $matrix;\n";
+					else value += "\tmat2 matrix = mat2(-1.47, -1.35, 1.35, -1.47);\n";
+				} else if(type == vec3_type) {
+					value += "\tvec3 texcoord = ($texcoord) * ($tile);\n";
+					if(has_matrix) value += "\tmat3 matrix = $matrix;\n";
+					else value += "\tmat3 matrix = mat3(1.119847, -1.635496, 0.266637, 0.580474, 0.688591, 1.785747, -1.552093, -0.922494, 0.86024);\n";
+				}
+				if(has_dv) {
+					value += "\tfloat dvalue = 1.0f;\n";
+					value += "\tfloat dscale = length(matrix[0]);\n";
+				}
+				String macros;
+				if(type == vec2_type) macros += "; PERLIN_2_SHADER=1";
+				else if(type == vec3_type) macros += "; PERLIN_3_SHADER=1";
+				if(has_offset || has_dv) macros += "; DERIVATIVE_SHADER=1";
+				value += "\tfloat steps = min(float($steps), 64.0f);\n";
+				value += "\tfor(float i = 0.0f; i < steps; i += 1.0f) {\n";
+				String src = Shader::preprocessor(library_source.get(), macros);
+				src = src.replace("IN", "texcoord");
+				src = src.replace("\n", "\n\t\t");
+				value += "\t\t";
+				value += src;
+				value.removeBack(2);
+				if(has_dv) {
+					value += "\t\tfloat v = OUT.x;\n";
+					if(type == vec2_type) value += "\t$1 += OUT.yz * (value * dvalue);\n";
+					else if(type == vec3_type) value += "\t$1 += OUT.yzw * (value * dvalue);\n";
+					value += "\t\tdvalue *= dscale;\n";
+				} else if(has_offset) {
+					value += "\t\tfloat v = OUT.x;\n";
+				} else {
+					value += "\t\tfloat v = OUT;\n";
+				}
+				if(state == "Abs") value += "\t\t$0 += abs(v) * value;\n";
+				else if(state == "Sqrt") value += "\t\t$0 += sqrt(abs(v)) * value;\n";
+				else if(state == "Square") value += "\t\t$0 += (v * v) * value;\n";
+				else value += "\t\t$0 += v * value;\n";
+				if(type == vec2_type) value += "\t\ttexcoord = vec2(dot(matrix[0], texcoord), dot(matrix[1], texcoord));\n";
+				else if(type == vec3_type) value += "\t\ttexcoord = vec3(dot(matrix[0], texcoord), dot(matrix[1], texcoord), dot(matrix[2], texcoord));\n";
+				if(has_offset) {
+					if(type == vec2_type) value += "\t\ttexcoord += OUT.yz * offset;\n";
+					else if(type == vec3_type) value += "\t\ttexcoord += OUT.yzw * offset;\n";
+					value += "\t\toffset *= $scale;\n";
+				}
+				value += "\t\tvalue *= $scale;\n";
+				value += "\t}\n";
+				value += "\t$0 = $0 * (2.3f * 0.5f) + 0.5f;\n";
+				if(has_dv) {
+					if(type == vec2_type) value += "\t$1 = -$1;\n";
+					else if(type == vec3_type) value += "\t$1 *= vec3(-1.0f, -1.0f, 1.0f);\n";
+				}
+				value += "}\n";
+				setNodeValue(node, value);
+			});
+			setProtoInputAttachCallback(proto, 0, [this](ControlFlow *flow, uint32_t node, uint32_t input, uint32_t output_node, uint32_t output_index) {
+				uint32_t texcoord_type = any_type;
+				if(output_node != Maxu32) texcoord_type = getOutputType(output_node, output_index);
+				if(texcoord_type == vec2_type) {
+					setInputType(node, "texcoord", texcoord_type);
+					setInputType(node, "tile", texcoord_type);
+					setInputType(node, "matrix", mat2_type);
+					setOutputType(node, "dv", texcoord_type);
+					return true;
+				}
+				if(texcoord_type == vec3_type) {
+					setInputType(node, "texcoord", texcoord_type);
+					setInputType(node, "tile", texcoord_type);
+					setInputType(node, "matrix", mat3_type);
+					setOutputType(node, "dv", texcoord_type);
+					return true;
+				}
+				setInputType(node, "texcoord", any_type);
+				setInputType(node, "tile", any_type);
+				setInputType(node, "matrix", any_type);
+				setOutputType(node, "dv", any_type);
+				return (output_node != Maxu32 && texcoord_type == any_type);
+			});
+			setProtoInfo(proto, "Fractal noise sampler");
+		}
+		
+		// Cell noise proto
+		{
+			uint32_t proto = addProto("cell_noise", "Cell Noise");
+			setProtoColor(proto, noise_color);
+			addProtoInput(proto, "texcoord", "TexCoord", "", any_type);
+			addProtoInput(proto, "tile", "Tile", "1.0", any_type);
+			addProtoInput(proto, "matrix", "Matrix", "", any_type);
+			addProtoInput(proto, "size", "Size", "5.0", float_type);
+			addProtoInput(proto, "seed", "Seed", "0.0", float_type);
+			addProtoOutput(proto, "d0", "D0", "$0.x", float_type, true);
+			addProtoOutput(proto, "d1", "D1", "$0.y", float_type, true);
+			addProtoOutput(proto, "d2", "D2", "$0.z", float_type, true);
+			addProtoOutput(proto, "seed", "Seed", "$1", float_type, true);
+			setProtoUpdateCallback(proto, [this](ControlFlow *flow, uint32_t node, bool inverse) {
+				String value;
+				uint32_t type = getInputType(node, "matrix");
+				bool has_matrix = (getNumInputConnections(node, "matrix") != 0);
+				bool has_d1 = (getNumOutputConnections(node, "d1") != 0);
+				bool has_d2 = (getNumOutputConnections(node, "d2") != 0);
+				bool has_seed = (getNumOutputConnections(node, "seed") != 0);
+				if(has_seed) value += "float $1 = 0.0f; ";
+				value += "vec3 $0 = vec3(64.0f); {\n";
+				value += "\tfloat size = $size;\n";
+				if(type == mat2_type) {
+					value += "\tvec2 texcoord = ($texcoord) * ($tile);\n";
+					if(has_matrix) value += "\tmat2 matrix = $matrix;\n";
+					else value += "\tmat2 matrix = mat2(19.677858, -16.134275, 15.484948, 20.503006);\n";
+					value += "\tvec2 f = fract(texcoord);\n";
+					value += "\t[[unroll]] for(float x = -1.0f; x <= 1.0f; x += 1.0f)\n";
+					value += "\tfor(float y = -1.0f; y <= 1.0f; y += 1.0f) {\n";
+					value += "\t	vec2 t = fract((texcoord + vec2(x, y)) / size) * size - f;\n";
+					value += "\t	vec2 s = fract(vec2(dot(matrix[0], t), dot(matrix[1], t)));\n";
+					value += "\t	vec2 p = sin(s * 6.283185f + $seed) * 0.49f + 0.5f;\n";
+					value += "\t	vec2 r = vec2(x, y) + p - f;\n";
+					value += "\t	float"" d = dot(r, r);\n";
+				} else if(type == mat3_type) {
+					value += "\tvec3 texcoord = ($texcoord) * ($tile);\n";
+					if(has_matrix) value += "\tmat3 matrix = $matrix;\n";
+					else value += "\tmat3 matrix = mat3(22.648869, 10.391809, 2.616593, -11.740057, 18.912498, 8.784894, 1.739151, -7.664051, 25.226269);\n";
+					value += "\tvec3 f = fract(texcoord);\n";
+					value += "\t[[unroll]] for(float x = -1.0f; x <= 1.0f; x += 1.0f)\n";
+					value += "\tfor(float y = -1.0f; y <= 1.0f; y += 1.0f)\n";
+					value += "\tfor(float z = -1.0f; z <= 1.0f; z += 1.0f) {\n";
+					value += "\t	vec3 t = fract((texcoord + vec3(x, y, z)) / size) * size - f;\n";
+					value += "\t	vec3 s = fract(vec3(dot(matrix[0], t), dot(matrix[1], t), dot(matrix[2], t)));\n";
+					value += "\t	vec3 p = sin(s * 6.283185f + $seed) * 0.49f + 0.5f;\n";
+					value += "\t	vec3 r = vec3(x, y, z) + p - f;\n";
+					value += "\t	float"" d = dot(r, r);\n";
+				}
+				if(has_seed) value += "\t\tif(d < $0.x) $1 = dot(p, 1.0f / 3.0f);\n";
+				if(has_d2) value += "\t\t$0.z = max($0.x, max($0.y, min($0.z, d)));\n";
+				if(has_d2 || has_d1) value += "\t\t$0.y = max($0.x, min($0.y, d));\n";
+				value += "\t\t$0.x = min($0.x, d);\n";
+				value += "\t}\n";
+				value += "}\n";
+				setNodeValue(node, value);
+				setNodeDynamic(node, true);
+			});
+			setProtoInputAttachCallback(proto, 0, [this](ControlFlow *flow, uint32_t node, uint32_t input, uint32_t output_node, uint32_t output_index) {
+				uint32_t texcoord_type = any_type;
+				if(output_node != Maxu32) texcoord_type = getOutputType(output_node, output_index);
+				if(texcoord_type == vec2_type) {
+					setInputType(node, "texcoord", texcoord_type);
+					setInputType(node, "tile", texcoord_type);
+					setInputType(node, "matrix", mat2_type);
+					return true;
+				}
+				if(texcoord_type == vec3_type) {
+					setInputType(node, "texcoord", texcoord_type);
+					setInputType(node, "tile", texcoord_type);
+					setInputType(node, "matrix", mat3_type);
+					return true;
+				}
+				setInputType(node, "texcoord", any_type);
+				setInputType(node, "tile", any_type);
+				setInputType(node, "matrix", any_type);
+				return (output_node != Maxu32 && texcoord_type == any_type);
+			});
+			setProtoInfo(proto, "Cell noise sampler");
 		}
 	}
 	

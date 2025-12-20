@@ -395,7 +395,8 @@ typedef enum TS_App {
 	TS_AppVersion_40 = 20250429,
 	TS_AppVersion_41 = 20250816,
 	TS_AppVersion_42 = 20251102,
-	TS_AppVersion = 20251102,
+	TS_AppVersion_43 = 20251220,
+	TS_AppVersion = 20251220,
 	TS_App_Maxi32 = 0x7fffffff,
 } TS_App;
 
@@ -1237,13 +1238,14 @@ typedef enum TS_ControlAlign {
 	TS_ControlAlignOverlap = 256,
 	TS_ControlAlignSpacer = 512,
 	TS_ControlAlignAspect = 1024,
+	TS_ControlAlignLocal = 2048,
 	TS_ControlAlignLeftBottom = 5,
 	TS_ControlAlignLeftTop = 9,
 	TS_ControlAlignRightBottom = 6,
 	TS_ControlAlignRightTop = 10,
 	TS_ControlAlignCenter = 48,
 	TS_ControlAlignExpand = 192,
-	TS_ControlAlignNumAligns = 11,
+	TS_ControlAlignNumAligns = 12,
 	TS_ControlAlign_Maxi32 = 0x7fffffff,
 } TS_ControlAlign;
 
@@ -1992,13 +1994,14 @@ typedef struct TSTracingBuildIndirect {
 /// Tellusim::Device
 typedef struct TSDeviceFeatures {
 	uint8_t threadAccess;
-	uint8_t sparseBuffer;
 	uint8_t bufferTable;
-	uint8_t sparseTexture;
-	uint8_t sparseArrayTexture;
-	uint8_t cubeArrayTexture;
+	uint8_t bufferSparse;
 	uint8_t textureTable;
-	uint8_t baseInstanceIndex;
+	uint8_t textureSparse;
+	uint8_t textureArrayCube;
+	uint8_t textureArraySparse;
+	uint8_t surfaceMultisample;
+	uint8_t drawBaseInstance;
 	uint8_t drawIndirectIndex;
 	uint8_t drawIndirectCount;
 	uint8_t taskIndirectCount;
@@ -2007,15 +2010,15 @@ typedef struct TSDeviceFeatures {
 	uint8_t geometryPassthrough;
 	uint8_t fragmentBarycentric;
 	uint8_t fragmentStencilExport;
-	uint8_t dualSourceBlending;
+	uint8_t blendDualSource;
 	uint8_t depthRangeOneToOne;
-	uint8_t conservativeRaster;
-	uint8_t conditionalRendering;
-	uint8_t rayTracing;
+	uint8_t rasterConservative;
+	uint8_t renderConditional;
 	uint8_t computeTracing;
 	uint8_t fragmentTracing;
-	uint8_t indirectTracing;
-	uint32_t recursionDepth;
+	uint8_t traversalTracing;
+	uint8_t buildIndirectTracing;
+	uint32_t maxTraversalDepth;
 	uint8_t subgroupVote;
 	uint8_t subgroupMath;
 	uint8_t subgroupShuffle;
@@ -2042,10 +2045,10 @@ typedef struct TSDeviceFeatures {
 	uint8_t matrix16x8x16f16f32;
 	uint32_t uniformAlignment;
 	uint32_t storageAlignment;
-	uint32_t maxTextureSamples;
 	uint32_t maxTexture2DSize;
 	uint32_t maxTexture3DSize;
 	uint32_t maxTextureLayers;
+	uint32_t maxTextureSamples;
 	uint32_t maxGroupSizeX;
 	uint32_t maxGroupSizeY;
 	uint32_t maxGroupSizeZ;
@@ -5831,9 +5834,6 @@ TS_CAPI void TS_CCALL tsTracing_setNumInstances(TSTracing self, uint32_t num_ins
 TS_CAPI uint32_t TS_CCALL tsTracing_getNumInstances(TSTracing self);
 TS_CAPI TSBuffer TS_CCALL tsTracing_getInstanceBuffer(TSTracing self);
 TS_CAPI size_t TS_CCALL tsTracing_getInstanceOffset(TSTracing self);
-TS_CAPI void TS_CCALL tsTracing_setIndirectBuffer(TSTracing self, TSBuffer buffer, size_t offset);
-TS_CAPI TSBuffer TS_CCALL tsTracing_getIndirectBuffer(TSTracing self);
-TS_CAPI size_t TS_CCALL tsTracing_getIndirectOffset(TSTracing self);
 TS_CAPI uint32_t TS_CCALL tsTracing_addVertexBuffer(TSTracing self, uint32_t num_vertices, TS_Format format, size_t stride, TSBuffer buffer, size_t offset);
 TS_CAPI void TS_CCALL tsTracing_setVertexBuffer_uuBz(TSTracing self, uint32_t index, uint32_t num_vertices, TSBuffer buffer, size_t offset);
 TS_CAPI void TS_CCALL tsTracing_setVertexBuffer_uBz(TSTracing self, uint32_t index, TSBuffer buffer, size_t offset);
@@ -5859,6 +5859,9 @@ TS_CAPI uint32_t TS_CCALL tsTracing_getNumBounds(TSTracing self, uint32_t index)
 TS_CAPI uint32_t TS_CCALL tsTracing_getBoundStride(TSTracing self, uint32_t index);
 TS_CAPI TSBuffer TS_CCALL tsTracing_getBoundBuffer(TSTracing self, uint32_t index);
 TS_CAPI size_t TS_CCALL tsTracing_getBoundOffset(TSTracing self, uint32_t index);
+TS_CAPI void TS_CCALL tsTracing_setIndirectBuffer(TSTracing self, TSBuffer buffer, size_t offset);
+TS_CAPI TSBuffer TS_CCALL tsTracing_getIndirectBuffer(TSTracing self);
+TS_CAPI size_t TS_CCALL tsTracing_getIndirectOffset(TSTracing self);
 TS_CAPI TSString TS_CCALL tsTracing_getDescription(TSTracing self);
 TS_CAPI uint64_t TS_CCALL tsTracing_getTracingAddress(TSTracing self);
 TS_CAPI size_t TS_CCALL tsTracing_getBuildSize(TSTracing self);
@@ -6375,6 +6378,8 @@ TS_CAPI void TS_CCALL tsD3D12Device_setTextureState(TSD3D12Device self, TSTextur
 TS_CAPI ID3D12Device* TS_CCALL tsD3D12Device_getD3D12Device(TSD3D12Device self);
 TS_CAPI ID3D12CommandQueue* TS_CCALL tsD3D12Device_getQueue(TSD3D12Device self);
 TS_CAPI ID3D12GraphicsCommandList* TS_CCALL tsD3D12Device_getCommand(TSD3D12Device self);
+TS_CAPI const void* TS_CCALL tsD3D12Device_getD3D12Features(TSD3D12Device self, uint32_t index);
+TS_CAPI uint32_t TS_CCALL tsD3D12Device_getShaderModel(TSD3D12Device self);
 
 /// Tellusim::D3D11Device
 TS_CAPI TSD3D11Device TS_CCALL tsD3D11Device_new(void);
@@ -6399,6 +6404,7 @@ TS_CAPI TSD3D11Device TS_CCALL tsD3D11Device_castDevicePtr(TSDevice base);
 TS_CAPI TSDevice TS_CCALL tsD3D11Device_baseDevicePtr(TSD3D11Device self);
 TS_CAPI ID3D11Device* TS_CCALL tsD3D11Device_getD3D11Device(TSD3D11Device self);
 TS_CAPI ID3D11DeviceContext* TS_CCALL tsD3D11Device_getCommand(TSD3D11Device self);
+TS_CAPI const void* TS_CCALL tsD3D11Device_getD3D11Features(TSD3D11Device self, uint32_t index);
 
 /// Tellusim::MTLDevice
 TS_CAPI TSMTLDevice TS_CCALL tsMTLDevice_new(void);
@@ -6466,6 +6472,7 @@ TS_CAPI VkDevice TS_CCALL tsVKDevice_getVKDevice(TSVKDevice self);
 TS_CAPI VkQueue TS_CCALL tsVKDevice_getQueue(TSVKDevice self);
 TS_CAPI VkCommandBuffer TS_CCALL tsVKDevice_getCommand(TSVKDevice self);
 TS_CAPI uint32_t TS_CCALL tsVKDevice_getFamily(TSVKDevice self);
+TS_CAPI const void* TS_CCALL tsVKDevice_getVKFeatures(TSVKDevice self, uint32_t type);
 
 /// Tellusim::FUDevice
 TS_CAPI TSFUDevice TS_CCALL tsFUDevice_new(void);
@@ -8027,8 +8034,8 @@ TS_CAPI TSCanvas TS_CCALL tsCanvas_getParent_c(TSCanvas self);
 TS_CAPI TSCanvas TS_CCALL tsCanvas_getParent(TSCanvas self);
 TS_CAPI uint32_t TS_CCALL tsCanvas_addChild(TSCanvas self, TSCanvas child);
 TS_CAPI bool_t TS_CCALL tsCanvas_removeChild(TSCanvas self, TSCanvas child);
-TS_CAPI bool_t TS_CCALL tsCanvas_raiseChild(TSCanvas self, TSCanvas child);
-TS_CAPI bool_t TS_CCALL tsCanvas_lowerChild(TSCanvas self, TSCanvas child);
+TS_CAPI bool_t TS_CCALL tsCanvas_raiseChild(TSCanvas self, TSCanvas child, uint32_t index);
+TS_CAPI bool_t TS_CCALL tsCanvas_lowerChild(TSCanvas self, TSCanvas child, uint32_t index);
 TS_CAPI void TS_CCALL tsCanvas_releaseChildren(TSCanvas self);
 TS_CAPI uint32_t TS_CCALL tsCanvas_findChild(TSCanvas self, const TSCanvas child);
 TS_CAPI bool_t TS_CCALL tsCanvas_isChild(TSCanvas self, const TSCanvas child);
@@ -8037,8 +8044,8 @@ TS_CAPI TSCanvas TS_CCALL tsCanvas_getChild_cu(TSCanvas self, uint32_t index);
 TS_CAPI TSCanvas TS_CCALL tsCanvas_getChild_u(TSCanvas self, uint32_t index);
 TS_CAPI uint32_t TS_CCALL tsCanvas_addElement(TSCanvas self, TSCanvasElement element);
 TS_CAPI bool_t TS_CCALL tsCanvas_removeElement(TSCanvas self, TSCanvasElement element);
-TS_CAPI bool_t TS_CCALL tsCanvas_raiseElement(TSCanvas self, TSCanvasElement element);
-TS_CAPI bool_t TS_CCALL tsCanvas_lowerElement(TSCanvas self, TSCanvasElement element);
+TS_CAPI bool_t TS_CCALL tsCanvas_raiseElement(TSCanvas self, TSCanvasElement element, uint32_t index);
+TS_CAPI bool_t TS_CCALL tsCanvas_lowerElement(TSCanvas self, TSCanvasElement element, uint32_t index);
 TS_CAPI uint32_t TS_CCALL tsCanvas_findElement(TSCanvas self, const TSCanvasElement element);
 TS_CAPI bool_t TS_CCALL tsCanvas_isElement(TSCanvas self, const TSCanvasElement element);
 TS_CAPI uint32_t TS_CCALL tsCanvas_getNumElements(TSCanvas self);
@@ -8087,6 +8094,8 @@ TS_CAPI bool_t TS_CCALL tsControl_isOwnerPtr(const TSControl self);
 TS_CAPI bool_t TS_CCALL tsControl_isConstPtr(const TSControl self);
 TS_CAPI uint32_t TS_CCALL tsControl_getCountPtr(const TSControl self);
 TS_CAPI const void* TS_CCALL tsControl_getInternalPtr(const TSControl self);
+TS_CAPI uint32_t TS_CCALL tsControl_getNumControls(void);
+TS_CAPI bool_t TS_CCALL tsControl_isControl(const TSControl control);
 TS_CAPI TS_ControlType TS_CCALL tsControl_getType(TSControl self);
 TS_CAPI const char* TS_CCALL tsControl_getTypeName_CT(TS_ControlType type);
 TS_CAPI const char* TS_CCALL tsControl_getTypeName_c(TSControl self);
@@ -8122,8 +8131,8 @@ TS_CAPI bool_t TS_CCALL tsControl_wasUpdated(TSControl self);
 TS_CAPI void TS_CCALL tsControl_setDisabled(TSControl self, bool_t disabled);
 TS_CAPI bool_t TS_CCALL tsControl_isDisabled(TSControl self);
 TS_CAPI TSCanvas TS_CCALL tsControl_getCanvas(TSControl self);
-TS_CAPI TSControlRoot TS_CCALL tsControl_getRoot_c(TSControl self);
-TS_CAPI TSControlRoot TS_CCALL tsControl_getRoot(TSControl self);
+TS_CAPI TSControlRoot TS_CCALL tsControl_getRoot_cb(TSControl self, bool_t local);
+TS_CAPI TSControlRoot TS_CCALL tsControl_getRoot_b(TSControl self, bool_t local);
 TS_CAPI TSControlPanel TS_CCALL tsControl_getPanel_c(TSControl self);
 TS_CAPI TSControlPanel TS_CCALL tsControl_getPanel(TSControl self);
 TS_CAPI uint32_t TS_CCALL tsControl_setParent(TSControl self, TSControl parent);
@@ -8133,8 +8142,8 @@ TS_CAPI bool_t TS_CCALL tsControl_isParentEnabled(TSControl self);
 TS_CAPI bool_t TS_CCALL tsControl_isParentDisabled(TSControl self);
 TS_CAPI uint32_t TS_CCALL tsControl_addChild(TSControl self, TSControl child);
 TS_CAPI TSControl TS_CCALL tsControl_setChild(TSControl self, uint32_t index, TSControl child);
-TS_CAPI bool_t TS_CCALL tsControl_raiseChild(TSControl self, TSControl child);
-TS_CAPI bool_t TS_CCALL tsControl_lowerChild(TSControl self, TSControl child);
+TS_CAPI bool_t TS_CCALL tsControl_raiseChild(TSControl self, TSControl child, uint32_t index);
+TS_CAPI bool_t TS_CCALL tsControl_lowerChild(TSControl self, TSControl child, uint32_t index);
 TS_CAPI bool_t TS_CCALL tsControl_removeChild(TSControl self, TSControl child);
 TS_CAPI void TS_CCALL tsControl_releaseChildren(TSControl self);
 TS_CAPI uint32_t TS_CCALL tsControl_findChild(TSControl self, const TSControl child);
@@ -8297,6 +8306,8 @@ TS_CAPI const void* TS_CCALL tsControlText_getInternalPtr(const TSControlText se
 TS_CAPI bool_t TS_CCALL tsControlText_equalControlPtr(const TSControlText self, const TSControl base);
 TS_CAPI TSControlText TS_CCALL tsControlText_castControlPtr(TSControl base);
 TS_CAPI TSControl TS_CCALL tsControlText_baseControlPtr(TSControlText self);
+TS_CAPI void TS_CCALL tsControlText_setCallback(TSControlText self, bool_t callback);
+TS_CAPI bool_t TS_CCALL tsControlText_getCallback(TSControlText self);
 TS_CAPI void TS_CCALL tsControlText_setMode(TSControlText self, TS_CanvasElementMode mode);
 TS_CAPI TS_CanvasElementMode TS_CCALL tsControlText_getMode(TSControlText self);
 TS_CAPI void TS_CCALL tsControlText_setPipeline_P(TSControlText self, TSPipeline pipeline);
@@ -9619,6 +9630,8 @@ TS_CAPI void TS_CCALL tsSeparableFilter_clear(TSSeparableFilter self);
 TS_CAPI bool_t TS_CCALL tsSeparableFilter_isCreated(TSSeparableFilter self, TS_Format format, uint32_t size);
 TS_CAPI void TS_CCALL tsSeparableFilter_setInputSource(TSSeparableFilter self, TS_SeparableFilterMode mode, const char *src);
 TS_CAPI TSString TS_CCALL tsSeparableFilter_getInputSource(TSSeparableFilter self, TS_SeparableFilterMode mode);
+TS_CAPI void TS_CCALL tsSeparableFilter_setKernelSource(TSSeparableFilter self, TS_SeparableFilterMode mode, const char *src);
+TS_CAPI TSString TS_CCALL tsSeparableFilter_getKernelSource(TSSeparableFilter self, TS_SeparableFilterMode mode);
 TS_CAPI void TS_CCALL tsSeparableFilter_setOutputSource(TSSeparableFilter self, TS_SeparableFilterMode mode, const char *src);
 TS_CAPI TSString TS_CCALL tsSeparableFilter_getOutputSource(TSSeparableFilter self, TS_SeparableFilterMode mode);
 TS_CAPI bool_t TS_CCALL tsSeparableFilter_create(TSSeparableFilter self, const TSDevice device, TS_Format format, uint32_t size, TS_SeparableFilterFlags flags);
