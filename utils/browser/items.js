@@ -652,6 +652,15 @@
 			"source": "plugins/interface/tooltip/main.cpp",
 			"project": "plugins/interface/tooltip/tooltip"
 		},
+		"interface_popup": {
+			"title": "Popup",
+			"image": "images/plugins/interface_popup.png",
+			"text": "This plugin provides support for dynamic popup windows and contextual menus within the interface.",
+			"path": "plugins/interface/popup",
+			"exec": "main",
+			"source": "plugins/interface/popup/main.cpp",
+			"project": "plugins/interface/popup/popup"
+		},
 		"interface_layer": {
 			"title": "Interface Layer",
 			"image": "images/interface/interface_layer.png",

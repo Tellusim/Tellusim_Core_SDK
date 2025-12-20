@@ -30,7 +30,7 @@ CFLAGS = $(CFLAGS) /nologo /bigobj /fp:fast /D_CRT_SECURE_NO_WARNINGS
 CFLAGS = $(CFLAGS) /MD /W4 /O2 /EHsc /FC /D_WIN32_WINNT=0x0603
 CFLAGS = $(CFLAGS) /I$(TSROOT)\include /I$(TSROOT)\plugins
 
-LDFLAGS = $(LDFLAGS) /nologo /incremental /debug:fastlink
+LDFLAGS = $(LDFLAGS) /nologo /incremental /debug:full
 
 DEPFLAGS = $(DEPFLAGS) /I$(MAKEDIR)
 

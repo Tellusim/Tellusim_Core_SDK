@@ -83,6 +83,10 @@ public class SeparableFilter {
 	public void setInputSource(Mode.Enum mode, String src) { set_input_source(self, mode.value, src); }
 	public String getInputSource(Mode mode) { return get_input_source(self, mode.value); }
 	public String getInputSource(Mode.Enum mode) { return get_input_source(self, mode.value); }
+	public void setKernelSource(Mode mode, String src) { set_kernel_source(self, mode.value, src); }
+	public void setKernelSource(Mode.Enum mode, String src) { set_kernel_source(self, mode.value, src); }
+	public String getKernelSource(Mode mode) { return get_kernel_source(self, mode.value); }
+	public String getKernelSource(Mode.Enum mode) { return get_kernel_source(self, mode.value); }
 	public void setOutputSource(Mode mode, String src) { set_output_source(self, mode.value, src); }
 	public void setOutputSource(Mode.Enum mode, String src) { set_output_source(self, mode.value, src); }
 	public String getOutputSource(Mode mode) { return get_output_source(self, mode.value); }
@@ -136,6 +140,8 @@ public class SeparableFilter {
 	private static native boolean is_created(long self, int format, int size);
 	private static native void set_input_source(long self, int mode, String src);
 	private static native String get_input_source(long self, int mode);
+	private static native void set_kernel_source(long self, int mode, String src);
+	private static native String get_kernel_source(long self, int mode);
 	private static native void set_output_source(long self, int mode, String src);
 	private static native String get_output_source(long self, int mode);
 	private static native boolean create_(long self, long device, int format, int size, int flags);

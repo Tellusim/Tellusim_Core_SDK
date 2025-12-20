@@ -84,7 +84,24 @@ int32_t main(int32_t argc, char **argv) {
 	ControlSlider sigma_slider(&panel, "Sigma", 2, 8.0f, 0.0f, 32.0f);
 	sigma_slider.setSize(192.0f, 0.0f);
 	
-	ControlCombo weights_combo(&panel, { "Gaussian", "SobelX", "SobelY", "Box" });
+	ControlCombo weights_combo(&panel, { "Gaussian", "SobelX", "SobelY", "Box", "Max", "Min" });
+	weights_combo.setChangedCallback([&](ControlCombo combo) {
+		const String &mode = combo.getCurrentText();
+		if(mode == "Max") {
+			window.finish();
+			filter.clear();
+			filter.setKernelSource(SeparableFilter::ModeHorizontal, "value = max(value, VALUE)");
+			filter.setKernelSource(SeparableFilter::ModeVertical, "value = max(value, VALUE)");
+		} else if(mode == "Min") {
+			window.finish();
+			filter.clear();
+			filter.setKernelSource(SeparableFilter::ModeHorizontal, "value = min(value, VALUE - 1.0f)");
+			filter.setKernelSource(SeparableFilter::ModeVertical, "value = min(value, VALUE)");
+		} else {
+			window.finish();
+			filter.clear();
+		}
+	});
 	weights_combo.setAlign(Control::AlignExpandX);
 	
 	ControlCombo border_combo(&panel, { "Clamp", "Repeat", "Zero" });
@@ -121,10 +138,13 @@ int32_t main(int32_t argc, char **argv) {
 		else if(mode == "SobelX") filter.setSobelXWeights(size);
 		else if(mode == "SobelY") filter.setSobelYWeights(size);
 		else if(mode == "Box") filter.setBoxWeights(size);
+		else if(mode == "Max") filter.setBoxWeights(size);
+		else if(mode == "Min") filter.setBoxWeights(size);
 		
 		// create separable filter
 		if(!filter.isCreated(texture.getFormat(), size)) {
-			filter.setOutputSource(SeparableFilter::ModeVertical, "pow(max(value, TYPE(0.0f)), TYPE(1.0f / 2.2f))");
+			if(mode == "Min") filter.setOutputSource(SeparableFilter::ModeVertical, "pow(max(value + 1.0f, TYPE(0.0f)), TYPE(1.0f / 2.2f))");
+			else filter.setOutputSource(SeparableFilter::ModeVertical, "pow(max(value, TYPE(0.0f)), TYPE(1.0f / 2.2f))");
 			if(!filter.create(device, texture.getFormat(), size, flags)) return false;
 		}
 		
