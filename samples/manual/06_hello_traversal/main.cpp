@@ -59,17 +59,17 @@ int32_t main(int32_t argc, char **argv) {
 	// device info
 	TS_LOGF(Message, "Device: %s\n", device.getName().get());
 	
-	// check ray tracing support
-	if(!device.getFeatures().rayTracing) {
-		TS_LOG(Error, "ray tracing is not supported\n");
+	// check traversal tracing support
+	if(!device.getFeatures().traversalTracing) {
+		TS_LOG(Error, "traversal tracing is not supported\n");
 		return 0;
 	}
-	if(device.getFeatures().recursionDepth == 1) {
-		TS_LOG(Error, "ray tracing recursion is not supported\n");
+	if(device.getFeatures().maxTraversalDepth == 1) {
+		TS_LOG(Error, "traversal recursion is not supported\n");
 	}
 	
 	// shader macros
-	Shader::setMacro("RECURSION_DEPTH", device.getFeatures().recursionDepth);
+	Shader::setMacro("MAX_TRAVERSAL_DEPTH", device.getFeatures().maxTraversalDepth);
 	
 	// create pipeline
 	Pipeline pipeline = device.createPipeline();
@@ -91,7 +91,7 @@ int32_t main(int32_t argc, char **argv) {
 	traversal.setStorageMasks(0, 3, Shader::MaskAll);
 	traversal.setSurfaceMask(0, Shader::MaskRayGen);
 	traversal.setTracingMask(0, Shader::MaskRayGen | Shader::MaskClosest);
-	traversal.setRecursionDepth(min(device.getFeatures().recursionDepth, 2u));
+	traversal.setRecursionDepth(min(device.getFeatures().maxTraversalDepth, 2u));
 	
 	// entry shader
 	if(!traversal.loadShaderGLSL(Shader::TypeRayGen, "main.shader", "RAYGEN_SHADER=1")) return 1;

@@ -31,11 +31,11 @@
 						<num_textures>2</num_textures>
 						<texture>
 							<name>diffuse</name>
-							<file>checkerboard(512, 128) rgba(255, 255, 255, 255) rgba(192, 192, 192, 255) diffuse</file>
+							<file>checker(512, 128) rgba(255, 255, 255, 255) rgba(192, 192, 192, 255) diffuse</file>
 						</texture>
 						<texture>
 							<name>metallic</name>
-							<file>checkerboard(512, 128) rgba(255, 192, 255, 255) rgba(255, 128, 0, 255) metallic</file>
+							<file>checker(512, 128) rgba(255, 192, 255, 255) rgba(255, 128, 0, 255) metallic</file>
 						</texture>
 						<num_uniforms>2</num_uniforms>
 						<uniform>

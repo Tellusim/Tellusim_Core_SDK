@@ -41,15 +41,16 @@ int32_t main(int32_t argc, char **argv) {
 	
 	DECLARE_PRINT_BOOL(threadAccess);
 	
-	DECLARE_PRINT_BOOL(sparseBuffer);
 	DECLARE_PRINT_BOOL(bufferTable);
+	DECLARE_PRINT_BOOL(bufferSparse);
 	
-	DECLARE_PRINT_BOOL(sparseTexture);
-	DECLARE_PRINT_BOOL(sparseArrayTexture);
-	DECLARE_PRINT_BOOL(cubeArrayTexture);
 	DECLARE_PRINT_BOOL(textureTable);
+	DECLARE_PRINT_BOOL(textureSparse);
+	DECLARE_PRINT_BOOL(textureArrayCube);
+	DECLARE_PRINT_BOOL(textureArraySparse);
+	DECLARE_PRINT_BOOL(surfaceMultisample);
 	
-	DECLARE_PRINT_BOOL(baseInstanceIndex);
+	DECLARE_PRINT_BOOL(drawBaseInstance);
 	DECLARE_PRINT_BOOL(drawIndirectIndex);
 	DECLARE_PRINT_BOOL(drawIndirectCount);
 	DECLARE_PRINT_BOOL(taskIndirectCount);
@@ -60,18 +61,17 @@ int32_t main(int32_t argc, char **argv) {
 	DECLARE_PRINT_BOOL(fragmentBarycentric);
 	DECLARE_PRINT_BOOL(fragmentStencilExport);
 	
-	DECLARE_PRINT_BOOL(dualSourceBlending);
+	DECLARE_PRINT_BOOL(blendDualSource);
 	DECLARE_PRINT_BOOL(depthRangeOneToOne);
+	DECLARE_PRINT_BOOL(rasterConservative);
 	
-	DECLARE_PRINT_BOOL(conservativeRaster);
+	DECLARE_PRINT_BOOL(renderConditional);
 	
-	DECLARE_PRINT_BOOL(conditionalRendering);
-	
-	DECLARE_PRINT_BOOL(rayTracing);
 	DECLARE_PRINT_BOOL(computeTracing);
 	DECLARE_PRINT_BOOL(fragmentTracing);
-	DECLARE_PRINT_BOOL(indirectTracing);
-	DECLARE_PRINT_UINT(recursionDepth);
+	DECLARE_PRINT_BOOL(traversalTracing);
+	DECLARE_PRINT_BOOL(buildIndirectTracing);
+	DECLARE_PRINT_UINT(maxTraversalDepth);
 	
 	DECLARE_PRINT_BOOL(subgroupVote);
 	DECLARE_PRINT_BOOL(subgroupMath);
@@ -104,10 +104,10 @@ int32_t main(int32_t argc, char **argv) {
 	DECLARE_PRINT_UINT(uniformAlignment);
 	DECLARE_PRINT_UINT(storageAlignment);
 	
-	DECLARE_PRINT_UINT(maxTextureSamples);
 	DECLARE_PRINT_UINT(maxTexture2DSize);
 	DECLARE_PRINT_UINT(maxTexture3DSize);
 	DECLARE_PRINT_UINT(maxTextureLayers);
+	DECLARE_PRINT_UINT(maxTextureSamples);
 	
 	DECLARE_PRINT_UXYZ(maxGroupSize);
 	DECLARE_PRINT_UXYZ(maxGroupCount);

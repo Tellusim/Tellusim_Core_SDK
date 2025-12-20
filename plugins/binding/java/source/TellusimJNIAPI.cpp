@@ -12893,15 +12893,6 @@ namespace Tellusim {
 	static jlong tracing_get_instance_offset(TS_JNI_ARGS, jlong self) {
 		return (jlong)toTracing(self).getInstanceOffset();
 	}
-	static void tracing_set_indirect_buffer(TS_JNI_ARGS, jlong self, jlong buffer, jlong offset) {
-		toTracing(self).setIndirectBuffer(toBuffer(buffer), (size_t)offset);
-	}
-	static jlong tracing_get_indirect_buffer(TS_JNI_ARGS, jlong self) {
-		return newBuffer(toTracing(self).getIndirectBuffer());
-	}
-	static jlong tracing_get_indirect_offset(TS_JNI_ARGS, jlong self) {
-		return (jlong)toTracing(self).getIndirectOffset();
-	}
 	static jint tracing_add_vertex_buffer(TS_JNI_ARGS, jlong self, jint num_vertices, jint format, jlong stride, jlong buffer, jlong offset) {
 		return toTracing(self).addVertexBuffer((uint32_t)num_vertices, (Format)format, (size_t)stride, toBuffer(buffer), (size_t)offset);
 	}
@@ -12977,6 +12968,15 @@ namespace Tellusim {
 	static jlong tracing_get_bound_offset(TS_JNI_ARGS, jlong self, jint index) {
 		return (jlong)toTracing(self).getBoundOffset((uint32_t)index);
 	}
+	static void tracing_set_indirect_buffer(TS_JNI_ARGS, jlong self, jlong buffer, jlong offset) {
+		toTracing(self).setIndirectBuffer(toBuffer(buffer), (size_t)offset);
+	}
+	static jlong tracing_get_indirect_buffer(TS_JNI_ARGS, jlong self) {
+		return newBuffer(toTracing(self).getIndirectBuffer());
+	}
+	static jlong tracing_get_indirect_offset(TS_JNI_ARGS, jlong self) {
+		return (jlong)toTracing(self).getIndirectOffset();
+	}
 	static jstring tracing_get_description(TS_JNI_ARGS, jlong self) {
 		return env->NewStringUTF(toTracing(self).getDescription().get());
 	}
@@ -13030,9 +13030,6 @@ namespace Tellusim {
 		{ (char*)"get_num_instances", (char*)"(J)I", (void*)tracing_get_num_instances },
 		{ (char*)"get_instance_buffer", (char*)"(J)J", (void*)tracing_get_instance_buffer },
 		{ (char*)"get_instance_offset", (char*)"(J)J", (void*)tracing_get_instance_offset },
-		{ (char*)"set_indirect_buffer", (char*)"(JJJ)V", (void*)tracing_set_indirect_buffer },
-		{ (char*)"get_indirect_buffer", (char*)"(J)J", (void*)tracing_get_indirect_buffer },
-		{ (char*)"get_indirect_offset", (char*)"(J)J", (void*)tracing_get_indirect_offset },
 		{ (char*)"add_vertex_buffer", (char*)"(JIIJJJ)I", (void*)tracing_add_vertex_buffer },
 		{ (char*)"set_vertex_buffer", (char*)"(JIIJJ)V", (void*)tracing_set_vertex_buffer },
 		{ (char*)"set_vertex_buffer_1", (char*)"(JIJJ)V", (void*)tracing_set_vertex_buffer_1 },
@@ -13058,6 +13055,9 @@ namespace Tellusim {
 		{ (char*)"get_bound_stride", (char*)"(JI)I", (void*)tracing_get_bound_stride },
 		{ (char*)"get_bound_buffer", (char*)"(JI)J", (void*)tracing_get_bound_buffer },
 		{ (char*)"get_bound_offset", (char*)"(JI)J", (void*)tracing_get_bound_offset },
+		{ (char*)"set_indirect_buffer", (char*)"(JJJ)V", (void*)tracing_set_indirect_buffer },
+		{ (char*)"get_indirect_buffer", (char*)"(J)J", (void*)tracing_get_indirect_buffer },
+		{ (char*)"get_indirect_offset", (char*)"(J)J", (void*)tracing_get_indirect_offset },
 		{ (char*)"get_description", (char*)"(J)Ljava/lang/String;", (void*)tracing_get_description },
 		{ (char*)"get_tracing_address", (char*)"(J)J", (void*)tracing_get_tracing_address },
 		{ (char*)"get_build_size", (char*)"(J)J", (void*)tracing_get_build_size },
@@ -13735,35 +13735,17 @@ namespace Tellusim {
 	static jboolean device_features_get_threadAccess(TS_JNI_ARGS, jlong self) {
 		return toDeviceFeatures(self).threadAccess;
 	}
-	static void device_features_set_sparseBuffer(TS_JNI_ARGS, jlong self, jboolean sparseBuffer) {
-		toDeviceFeatures(self).sparseBuffer = sparseBuffer;
-	}
-	static jboolean device_features_get_sparseBuffer(TS_JNI_ARGS, jlong self) {
-		return toDeviceFeatures(self).sparseBuffer;
-	}
 	static void device_features_set_bufferTable(TS_JNI_ARGS, jlong self, jboolean bufferTable) {
 		toDeviceFeatures(self).bufferTable = bufferTable;
 	}
 	static jboolean device_features_get_bufferTable(TS_JNI_ARGS, jlong self) {
 		return toDeviceFeatures(self).bufferTable;
 	}
-	static void device_features_set_sparseTexture(TS_JNI_ARGS, jlong self, jboolean sparseTexture) {
-		toDeviceFeatures(self).sparseTexture = sparseTexture;
+	static void device_features_set_bufferSparse(TS_JNI_ARGS, jlong self, jboolean bufferSparse) {
+		toDeviceFeatures(self).bufferSparse = bufferSparse;
 	}
-	static jboolean device_features_get_sparseTexture(TS_JNI_ARGS, jlong self) {
-		return toDeviceFeatures(self).sparseTexture;
-	}
-	static void device_features_set_sparseArrayTexture(TS_JNI_ARGS, jlong self, jboolean sparseArrayTexture) {
-		toDeviceFeatures(self).sparseArrayTexture = sparseArrayTexture;
-	}
-	static jboolean device_features_get_sparseArrayTexture(TS_JNI_ARGS, jlong self) {
-		return toDeviceFeatures(self).sparseArrayTexture;
-	}
-	static void device_features_set_cubeArrayTexture(TS_JNI_ARGS, jlong self, jboolean cubeArrayTexture) {
-		toDeviceFeatures(self).cubeArrayTexture = cubeArrayTexture;
-	}
-	static jboolean device_features_get_cubeArrayTexture(TS_JNI_ARGS, jlong self) {
-		return toDeviceFeatures(self).cubeArrayTexture;
+	static jboolean device_features_get_bufferSparse(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).bufferSparse;
 	}
 	static void device_features_set_textureTable(TS_JNI_ARGS, jlong self, jboolean textureTable) {
 		toDeviceFeatures(self).textureTable = textureTable;
@@ -13771,11 +13753,35 @@ namespace Tellusim {
 	static jboolean device_features_get_textureTable(TS_JNI_ARGS, jlong self) {
 		return toDeviceFeatures(self).textureTable;
 	}
-	static void device_features_set_baseInstanceIndex(TS_JNI_ARGS, jlong self, jboolean baseInstanceIndex) {
-		toDeviceFeatures(self).baseInstanceIndex = baseInstanceIndex;
+	static void device_features_set_textureSparse(TS_JNI_ARGS, jlong self, jboolean textureSparse) {
+		toDeviceFeatures(self).textureSparse = textureSparse;
 	}
-	static jboolean device_features_get_baseInstanceIndex(TS_JNI_ARGS, jlong self) {
-		return toDeviceFeatures(self).baseInstanceIndex;
+	static jboolean device_features_get_textureSparse(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).textureSparse;
+	}
+	static void device_features_set_textureArrayCube(TS_JNI_ARGS, jlong self, jboolean textureArrayCube) {
+		toDeviceFeatures(self).textureArrayCube = textureArrayCube;
+	}
+	static jboolean device_features_get_textureArrayCube(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).textureArrayCube;
+	}
+	static void device_features_set_textureArraySparse(TS_JNI_ARGS, jlong self, jboolean textureArraySparse) {
+		toDeviceFeatures(self).textureArraySparse = textureArraySparse;
+	}
+	static jboolean device_features_get_textureArraySparse(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).textureArraySparse;
+	}
+	static void device_features_set_surfaceMultisample(TS_JNI_ARGS, jlong self, jboolean surfaceMultisample) {
+		toDeviceFeatures(self).surfaceMultisample = surfaceMultisample;
+	}
+	static jboolean device_features_get_surfaceMultisample(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).surfaceMultisample;
+	}
+	static void device_features_set_drawBaseInstance(TS_JNI_ARGS, jlong self, jboolean drawBaseInstance) {
+		toDeviceFeatures(self).drawBaseInstance = drawBaseInstance;
+	}
+	static jboolean device_features_get_drawBaseInstance(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).drawBaseInstance;
 	}
 	static void device_features_set_drawIndirectIndex(TS_JNI_ARGS, jlong self, jboolean drawIndirectIndex) {
 		toDeviceFeatures(self).drawIndirectIndex = drawIndirectIndex;
@@ -13825,11 +13831,11 @@ namespace Tellusim {
 	static jboolean device_features_get_fragmentStencilExport(TS_JNI_ARGS, jlong self) {
 		return toDeviceFeatures(self).fragmentStencilExport;
 	}
-	static void device_features_set_dualSourceBlending(TS_JNI_ARGS, jlong self, jboolean dualSourceBlending) {
-		toDeviceFeatures(self).dualSourceBlending = dualSourceBlending;
+	static void device_features_set_blendDualSource(TS_JNI_ARGS, jlong self, jboolean blendDualSource) {
+		toDeviceFeatures(self).blendDualSource = blendDualSource;
 	}
-	static jboolean device_features_get_dualSourceBlending(TS_JNI_ARGS, jlong self) {
-		return toDeviceFeatures(self).dualSourceBlending;
+	static jboolean device_features_get_blendDualSource(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).blendDualSource;
 	}
 	static void device_features_set_depthRangeOneToOne(TS_JNI_ARGS, jlong self, jboolean depthRangeOneToOne) {
 		toDeviceFeatures(self).depthRangeOneToOne = depthRangeOneToOne;
@@ -13837,23 +13843,17 @@ namespace Tellusim {
 	static jboolean device_features_get_depthRangeOneToOne(TS_JNI_ARGS, jlong self) {
 		return toDeviceFeatures(self).depthRangeOneToOne;
 	}
-	static void device_features_set_conservativeRaster(TS_JNI_ARGS, jlong self, jboolean conservativeRaster) {
-		toDeviceFeatures(self).conservativeRaster = conservativeRaster;
+	static void device_features_set_rasterConservative(TS_JNI_ARGS, jlong self, jboolean rasterConservative) {
+		toDeviceFeatures(self).rasterConservative = rasterConservative;
 	}
-	static jboolean device_features_get_conservativeRaster(TS_JNI_ARGS, jlong self) {
-		return toDeviceFeatures(self).conservativeRaster;
+	static jboolean device_features_get_rasterConservative(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).rasterConservative;
 	}
-	static void device_features_set_conditionalRendering(TS_JNI_ARGS, jlong self, jboolean conditionalRendering) {
-		toDeviceFeatures(self).conditionalRendering = conditionalRendering;
+	static void device_features_set_renderConditional(TS_JNI_ARGS, jlong self, jboolean renderConditional) {
+		toDeviceFeatures(self).renderConditional = renderConditional;
 	}
-	static jboolean device_features_get_conditionalRendering(TS_JNI_ARGS, jlong self) {
-		return toDeviceFeatures(self).conditionalRendering;
-	}
-	static void device_features_set_rayTracing(TS_JNI_ARGS, jlong self, jboolean rayTracing) {
-		toDeviceFeatures(self).rayTracing = rayTracing;
-	}
-	static jboolean device_features_get_rayTracing(TS_JNI_ARGS, jlong self) {
-		return toDeviceFeatures(self).rayTracing;
+	static jboolean device_features_get_renderConditional(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).renderConditional;
 	}
 	static void device_features_set_computeTracing(TS_JNI_ARGS, jlong self, jboolean computeTracing) {
 		toDeviceFeatures(self).computeTracing = computeTracing;
@@ -13867,17 +13867,23 @@ namespace Tellusim {
 	static jboolean device_features_get_fragmentTracing(TS_JNI_ARGS, jlong self) {
 		return toDeviceFeatures(self).fragmentTracing;
 	}
-	static void device_features_set_indirectTracing(TS_JNI_ARGS, jlong self, jboolean indirectTracing) {
-		toDeviceFeatures(self).indirectTracing = indirectTracing;
+	static void device_features_set_traversalTracing(TS_JNI_ARGS, jlong self, jboolean traversalTracing) {
+		toDeviceFeatures(self).traversalTracing = traversalTracing;
 	}
-	static jboolean device_features_get_indirectTracing(TS_JNI_ARGS, jlong self) {
-		return toDeviceFeatures(self).indirectTracing;
+	static jboolean device_features_get_traversalTracing(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).traversalTracing;
 	}
-	static void device_features_set_recursionDepth(TS_JNI_ARGS, jlong self, jint recursionDepth) {
-		toDeviceFeatures(self).recursionDepth = recursionDepth;
+	static void device_features_set_buildIndirectTracing(TS_JNI_ARGS, jlong self, jboolean buildIndirectTracing) {
+		toDeviceFeatures(self).buildIndirectTracing = buildIndirectTracing;
 	}
-	static jint device_features_get_recursionDepth(TS_JNI_ARGS, jlong self) {
-		return toDeviceFeatures(self).recursionDepth;
+	static jboolean device_features_get_buildIndirectTracing(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).buildIndirectTracing;
+	}
+	static void device_features_set_maxTraversalDepth(TS_JNI_ARGS, jlong self, jint maxTraversalDepth) {
+		toDeviceFeatures(self).maxTraversalDepth = maxTraversalDepth;
+	}
+	static jint device_features_get_maxTraversalDepth(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).maxTraversalDepth;
 	}
 	static void device_features_set_subgroupVote(TS_JNI_ARGS, jlong self, jboolean subgroupVote) {
 		toDeviceFeatures(self).subgroupVote = subgroupVote;
@@ -14035,12 +14041,6 @@ namespace Tellusim {
 	static jint device_features_get_storageAlignment(TS_JNI_ARGS, jlong self) {
 		return toDeviceFeatures(self).storageAlignment;
 	}
-	static void device_features_set_maxTextureSamples(TS_JNI_ARGS, jlong self, jint maxTextureSamples) {
-		toDeviceFeatures(self).maxTextureSamples = maxTextureSamples;
-	}
-	static jint device_features_get_maxTextureSamples(TS_JNI_ARGS, jlong self) {
-		return toDeviceFeatures(self).maxTextureSamples;
-	}
 	static void device_features_set_maxTexture2DSize(TS_JNI_ARGS, jlong self, jint maxTexture2DSize) {
 		toDeviceFeatures(self).maxTexture2DSize = maxTexture2DSize;
 	}
@@ -14058,6 +14058,12 @@ namespace Tellusim {
 	}
 	static jint device_features_get_maxTextureLayers(TS_JNI_ARGS, jlong self) {
 		return toDeviceFeatures(self).maxTextureLayers;
+	}
+	static void device_features_set_maxTextureSamples(TS_JNI_ARGS, jlong self, jint maxTextureSamples) {
+		toDeviceFeatures(self).maxTextureSamples = maxTextureSamples;
+	}
+	static jint device_features_get_maxTextureSamples(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).maxTextureSamples;
 	}
 	static void device_features_set_maxGroupSizeX(TS_JNI_ARGS, jlong self, jint maxGroupSizeX) {
 		toDeviceFeatures(self).maxGroupSizeX = maxGroupSizeX;
@@ -14203,20 +14209,22 @@ namespace Tellusim {
 		{ (char*)"delete_", (char*)"(J)V", (void*)device_features_delete },
 		{ (char*)"set_threadAccess_", (char*)"(JZ)V", (void*)device_features_set_threadAccess },
 		{ (char*)"get_threadAccess_", (char*)"(J)Z", (void*)device_features_get_threadAccess },
-		{ (char*)"set_sparseBuffer_", (char*)"(JZ)V", (void*)device_features_set_sparseBuffer },
-		{ (char*)"get_sparseBuffer_", (char*)"(J)Z", (void*)device_features_get_sparseBuffer },
 		{ (char*)"set_bufferTable_", (char*)"(JZ)V", (void*)device_features_set_bufferTable },
 		{ (char*)"get_bufferTable_", (char*)"(J)Z", (void*)device_features_get_bufferTable },
-		{ (char*)"set_sparseTexture_", (char*)"(JZ)V", (void*)device_features_set_sparseTexture },
-		{ (char*)"get_sparseTexture_", (char*)"(J)Z", (void*)device_features_get_sparseTexture },
-		{ (char*)"set_sparseArrayTexture_", (char*)"(JZ)V", (void*)device_features_set_sparseArrayTexture },
-		{ (char*)"get_sparseArrayTexture_", (char*)"(J)Z", (void*)device_features_get_sparseArrayTexture },
-		{ (char*)"set_cubeArrayTexture_", (char*)"(JZ)V", (void*)device_features_set_cubeArrayTexture },
-		{ (char*)"get_cubeArrayTexture_", (char*)"(J)Z", (void*)device_features_get_cubeArrayTexture },
+		{ (char*)"set_bufferSparse_", (char*)"(JZ)V", (void*)device_features_set_bufferSparse },
+		{ (char*)"get_bufferSparse_", (char*)"(J)Z", (void*)device_features_get_bufferSparse },
 		{ (char*)"set_textureTable_", (char*)"(JZ)V", (void*)device_features_set_textureTable },
 		{ (char*)"get_textureTable_", (char*)"(J)Z", (void*)device_features_get_textureTable },
-		{ (char*)"set_baseInstanceIndex_", (char*)"(JZ)V", (void*)device_features_set_baseInstanceIndex },
-		{ (char*)"get_baseInstanceIndex_", (char*)"(J)Z", (void*)device_features_get_baseInstanceIndex },
+		{ (char*)"set_textureSparse_", (char*)"(JZ)V", (void*)device_features_set_textureSparse },
+		{ (char*)"get_textureSparse_", (char*)"(J)Z", (void*)device_features_get_textureSparse },
+		{ (char*)"set_textureArrayCube_", (char*)"(JZ)V", (void*)device_features_set_textureArrayCube },
+		{ (char*)"get_textureArrayCube_", (char*)"(J)Z", (void*)device_features_get_textureArrayCube },
+		{ (char*)"set_textureArraySparse_", (char*)"(JZ)V", (void*)device_features_set_textureArraySparse },
+		{ (char*)"get_textureArraySparse_", (char*)"(J)Z", (void*)device_features_get_textureArraySparse },
+		{ (char*)"set_surfaceMultisample_", (char*)"(JZ)V", (void*)device_features_set_surfaceMultisample },
+		{ (char*)"get_surfaceMultisample_", (char*)"(J)Z", (void*)device_features_get_surfaceMultisample },
+		{ (char*)"set_drawBaseInstance_", (char*)"(JZ)V", (void*)device_features_set_drawBaseInstance },
+		{ (char*)"get_drawBaseInstance_", (char*)"(J)Z", (void*)device_features_get_drawBaseInstance },
 		{ (char*)"set_drawIndirectIndex_", (char*)"(JZ)V", (void*)device_features_set_drawIndirectIndex },
 		{ (char*)"get_drawIndirectIndex_", (char*)"(J)Z", (void*)device_features_get_drawIndirectIndex },
 		{ (char*)"set_drawIndirectCount_", (char*)"(JZ)V", (void*)device_features_set_drawIndirectCount },
@@ -14233,24 +14241,24 @@ namespace Tellusim {
 		{ (char*)"get_fragmentBarycentric_", (char*)"(J)Z", (void*)device_features_get_fragmentBarycentric },
 		{ (char*)"set_fragmentStencilExport_", (char*)"(JZ)V", (void*)device_features_set_fragmentStencilExport },
 		{ (char*)"get_fragmentStencilExport_", (char*)"(J)Z", (void*)device_features_get_fragmentStencilExport },
-		{ (char*)"set_dualSourceBlending_", (char*)"(JZ)V", (void*)device_features_set_dualSourceBlending },
-		{ (char*)"get_dualSourceBlending_", (char*)"(J)Z", (void*)device_features_get_dualSourceBlending },
+		{ (char*)"set_blendDualSource_", (char*)"(JZ)V", (void*)device_features_set_blendDualSource },
+		{ (char*)"get_blendDualSource_", (char*)"(J)Z", (void*)device_features_get_blendDualSource },
 		{ (char*)"set_depthRangeOneToOne_", (char*)"(JZ)V", (void*)device_features_set_depthRangeOneToOne },
 		{ (char*)"get_depthRangeOneToOne_", (char*)"(J)Z", (void*)device_features_get_depthRangeOneToOne },
-		{ (char*)"set_conservativeRaster_", (char*)"(JZ)V", (void*)device_features_set_conservativeRaster },
-		{ (char*)"get_conservativeRaster_", (char*)"(J)Z", (void*)device_features_get_conservativeRaster },
-		{ (char*)"set_conditionalRendering_", (char*)"(JZ)V", (void*)device_features_set_conditionalRendering },
-		{ (char*)"get_conditionalRendering_", (char*)"(J)Z", (void*)device_features_get_conditionalRendering },
-		{ (char*)"set_rayTracing_", (char*)"(JZ)V", (void*)device_features_set_rayTracing },
-		{ (char*)"get_rayTracing_", (char*)"(J)Z", (void*)device_features_get_rayTracing },
+		{ (char*)"set_rasterConservative_", (char*)"(JZ)V", (void*)device_features_set_rasterConservative },
+		{ (char*)"get_rasterConservative_", (char*)"(J)Z", (void*)device_features_get_rasterConservative },
+		{ (char*)"set_renderConditional_", (char*)"(JZ)V", (void*)device_features_set_renderConditional },
+		{ (char*)"get_renderConditional_", (char*)"(J)Z", (void*)device_features_get_renderConditional },
 		{ (char*)"set_computeTracing_", (char*)"(JZ)V", (void*)device_features_set_computeTracing },
 		{ (char*)"get_computeTracing_", (char*)"(J)Z", (void*)device_features_get_computeTracing },
 		{ (char*)"set_fragmentTracing_", (char*)"(JZ)V", (void*)device_features_set_fragmentTracing },
 		{ (char*)"get_fragmentTracing_", (char*)"(J)Z", (void*)device_features_get_fragmentTracing },
-		{ (char*)"set_indirectTracing_", (char*)"(JZ)V", (void*)device_features_set_indirectTracing },
-		{ (char*)"get_indirectTracing_", (char*)"(J)Z", (void*)device_features_get_indirectTracing },
-		{ (char*)"set_recursionDepth_", (char*)"(JI)V", (void*)device_features_set_recursionDepth },
-		{ (char*)"get_recursionDepth_", (char*)"(J)I", (void*)device_features_get_recursionDepth },
+		{ (char*)"set_traversalTracing_", (char*)"(JZ)V", (void*)device_features_set_traversalTracing },
+		{ (char*)"get_traversalTracing_", (char*)"(J)Z", (void*)device_features_get_traversalTracing },
+		{ (char*)"set_buildIndirectTracing_", (char*)"(JZ)V", (void*)device_features_set_buildIndirectTracing },
+		{ (char*)"get_buildIndirectTracing_", (char*)"(J)Z", (void*)device_features_get_buildIndirectTracing },
+		{ (char*)"set_maxTraversalDepth_", (char*)"(JI)V", (void*)device_features_set_maxTraversalDepth },
+		{ (char*)"get_maxTraversalDepth_", (char*)"(J)I", (void*)device_features_get_maxTraversalDepth },
 		{ (char*)"set_subgroupVote_", (char*)"(JZ)V", (void*)device_features_set_subgroupVote },
 		{ (char*)"get_subgroupVote_", (char*)"(J)Z", (void*)device_features_get_subgroupVote },
 		{ (char*)"set_subgroupMath_", (char*)"(JZ)V", (void*)device_features_set_subgroupMath },
@@ -14303,14 +14311,14 @@ namespace Tellusim {
 		{ (char*)"get_uniformAlignment_", (char*)"(J)I", (void*)device_features_get_uniformAlignment },
 		{ (char*)"set_storageAlignment_", (char*)"(JI)V", (void*)device_features_set_storageAlignment },
 		{ (char*)"get_storageAlignment_", (char*)"(J)I", (void*)device_features_get_storageAlignment },
-		{ (char*)"set_maxTextureSamples_", (char*)"(JI)V", (void*)device_features_set_maxTextureSamples },
-		{ (char*)"get_maxTextureSamples_", (char*)"(J)I", (void*)device_features_get_maxTextureSamples },
 		{ (char*)"set_maxTexture2DSize_", (char*)"(JI)V", (void*)device_features_set_maxTexture2DSize },
 		{ (char*)"get_maxTexture2DSize_", (char*)"(J)I", (void*)device_features_get_maxTexture2DSize },
 		{ (char*)"set_maxTexture3DSize_", (char*)"(JI)V", (void*)device_features_set_maxTexture3DSize },
 		{ (char*)"get_maxTexture3DSize_", (char*)"(J)I", (void*)device_features_get_maxTexture3DSize },
 		{ (char*)"set_maxTextureLayers_", (char*)"(JI)V", (void*)device_features_set_maxTextureLayers },
 		{ (char*)"get_maxTextureLayers_", (char*)"(J)I", (void*)device_features_get_maxTextureLayers },
+		{ (char*)"set_maxTextureSamples_", (char*)"(JI)V", (void*)device_features_set_maxTextureSamples },
+		{ (char*)"get_maxTextureSamples_", (char*)"(J)I", (void*)device_features_get_maxTextureSamples },
 		{ (char*)"set_maxGroupSizeX_", (char*)"(JI)V", (void*)device_features_set_maxGroupSizeX },
 		{ (char*)"get_maxGroupSizeX_", (char*)"(J)I", (void*)device_features_get_maxGroupSizeX },
 		{ (char*)"set_maxGroupSizeY_", (char*)"(JI)V", (void*)device_features_set_maxGroupSizeY },
@@ -15240,6 +15248,12 @@ namespace Tellusim {
 	static jlong d3d12_device_get_command(TS_JNI_ARGS, jlong self) {
 		return (jlong)toD3D12Device(self).getCommand();
 	}
+	static jlong d3d12_device_get_d3d12_features(TS_JNI_ARGS, jlong self, jint index) {
+		return (jlong)toD3D12Device(self).getD3D12Features((uint32_t)index);
+	}
+	static jint d3d12_device_get_shader_model(TS_JNI_ARGS, jlong self) {
+		return toD3D12Device(self).getShaderModel();
+	}
 	static const JNINativeMethod d3d12_device_methods[] = {
 		{ (char*)"new_", (char*)"()J", (void*)d3d12_device_new },
 		{ (char*)"new_1", (char*)"(J)J", (void*)d3d12_device_new_1 },
@@ -15254,6 +15268,8 @@ namespace Tellusim {
 		{ (char*)"get_d3d12_device", (char*)"(J)J", (void*)d3d12_device_get_d3d12_device },
 		{ (char*)"get_queue", (char*)"(J)J", (void*)d3d12_device_get_queue },
 		{ (char*)"get_command", (char*)"(J)J", (void*)d3d12_device_get_command },
+		{ (char*)"get_d3d12_features", (char*)"(JI)J", (void*)d3d12_device_get_d3d12_features },
+		{ (char*)"get_shader_model", (char*)"(J)I", (void*)d3d12_device_get_shader_model },
 	};
 	
 	// Tellusim::D3D11Device
@@ -15287,6 +15303,9 @@ namespace Tellusim {
 	static jlong d3d11_device_get_command(TS_JNI_ARGS, jlong self) {
 		return (jlong)toD3D11Device(self).getCommand();
 	}
+	static jlong d3d11_device_get_d3d11_features(TS_JNI_ARGS, jlong self, jint index) {
+		return (jlong)toD3D11Device(self).getD3D11Features((uint32_t)index);
+	}
 	static const JNINativeMethod d3d11_device_methods[] = {
 		{ (char*)"new_", (char*)"()J", (void*)d3d11_device_new },
 		{ (char*)"new_1", (char*)"(J)J", (void*)d3d11_device_new_1 },
@@ -15298,6 +15317,7 @@ namespace Tellusim {
 		{ (char*)"base_device_ptr", (char*)"(J)J", (void*)d3d11_device_base_device_ptr },
 		{ (char*)"get_d3d11_device", (char*)"(J)J", (void*)d3d11_device_get_d3d11_device },
 		{ (char*)"get_command", (char*)"(J)J", (void*)d3d11_device_get_command },
+		{ (char*)"get_d3d11_features", (char*)"(JI)J", (void*)d3d11_device_get_d3d11_features },
 	};
 	
 	// Tellusim::MTLDevice
@@ -15439,6 +15459,9 @@ namespace Tellusim {
 	static jint vk_device_get_family(TS_JNI_ARGS, jlong self) {
 		return toVKDevice(self).getFamily();
 	}
+	static jlong vk_device_get_vk_features(TS_JNI_ARGS, jlong self, jint type) {
+		return (jlong)toVKDevice(self).getVKFeatures((uint32_t)type);
+	}
 	static const JNINativeMethod vk_device_methods[] = {
 		{ (char*)"new_", (char*)"()J", (void*)vk_device_new },
 		{ (char*)"new_1", (char*)"(J)J", (void*)vk_device_new_1 },
@@ -15462,6 +15485,7 @@ namespace Tellusim {
 		{ (char*)"get_queue", (char*)"(J)J", (void*)vk_device_get_queue },
 		{ (char*)"get_command", (char*)"(J)J", (void*)vk_device_get_command },
 		{ (char*)"get_family", (char*)"(J)I", (void*)vk_device_get_family },
+		{ (char*)"get_vk_features", (char*)"(JI)J", (void*)vk_device_get_vk_features },
 	};
 	
 	// Tellusim::FUDevice
@@ -21052,11 +21076,11 @@ namespace Tellusim {
 	static jboolean canvas_remove_child(TS_JNI_ARGS, jlong self, jlong child) {
 		return toCanvas(self).removeChild(toCanvas(child));
 	}
-	static jboolean canvas_raise_child(TS_JNI_ARGS, jlong self, jlong child) {
-		return toCanvas(self).raiseChild(toCanvas(child));
+	static jboolean canvas_raise_child(TS_JNI_ARGS, jlong self, jlong child, jint index) {
+		return toCanvas(self).raiseChild(toCanvas(child), (uint32_t)index);
 	}
-	static jboolean canvas_lower_child(TS_JNI_ARGS, jlong self, jlong child) {
-		return toCanvas(self).lowerChild(toCanvas(child));
+	static jboolean canvas_lower_child(TS_JNI_ARGS, jlong self, jlong child, jint index) {
+		return toCanvas(self).lowerChild(toCanvas(child), (uint32_t)index);
 	}
 	static void canvas_release_children(TS_JNI_ARGS, jlong self) {
 		toCanvas(self).releaseChildren();
@@ -21082,11 +21106,11 @@ namespace Tellusim {
 	static jboolean canvas_remove_element(TS_JNI_ARGS, jlong self, jlong element) {
 		return toCanvas(self).removeElement(toCanvasElement(element));
 	}
-	static jboolean canvas_raise_element(TS_JNI_ARGS, jlong self, jlong element) {
-		return toCanvas(self).raiseElement(toCanvasElement(element));
+	static jboolean canvas_raise_element(TS_JNI_ARGS, jlong self, jlong element, jint index) {
+		return toCanvas(self).raiseElement(toCanvasElement(element), (uint32_t)index);
 	}
-	static jboolean canvas_lower_element(TS_JNI_ARGS, jlong self, jlong element) {
-		return toCanvas(self).lowerElement(toCanvasElement(element));
+	static jboolean canvas_lower_element(TS_JNI_ARGS, jlong self, jlong element, jint index) {
+		return toCanvas(self).lowerElement(toCanvasElement(element), (uint32_t)index);
 	}
 	static jint canvas_find_element(TS_JNI_ARGS, jlong self, jlong element) {
 		return toCanvas(self).findElement(toCanvasElement(element));
@@ -21247,8 +21271,8 @@ namespace Tellusim {
 		{ (char*)"get_parent_1", (char*)"(J)J", (void*)canvas_get_parent_1 },
 		{ (char*)"add_child", (char*)"(JJ)I", (void*)canvas_add_child },
 		{ (char*)"remove_child", (char*)"(JJ)Z", (void*)canvas_remove_child },
-		{ (char*)"raise_child", (char*)"(JJ)Z", (void*)canvas_raise_child },
-		{ (char*)"lower_child", (char*)"(JJ)Z", (void*)canvas_lower_child },
+		{ (char*)"raise_child", (char*)"(JJI)Z", (void*)canvas_raise_child },
+		{ (char*)"lower_child", (char*)"(JJI)Z", (void*)canvas_lower_child },
 		{ (char*)"release_children", (char*)"(J)V", (void*)canvas_release_children },
 		{ (char*)"find_child", (char*)"(JJ)I", (void*)canvas_find_child },
 		{ (char*)"is_child", (char*)"(JJ)Z", (void*)canvas_is_child },
@@ -21257,8 +21281,8 @@ namespace Tellusim {
 		{ (char*)"get_child_1", (char*)"(JI)J", (void*)canvas_get_child_1 },
 		{ (char*)"add_element", (char*)"(JJ)I", (void*)canvas_add_element },
 		{ (char*)"remove_element", (char*)"(JJ)Z", (void*)canvas_remove_element },
-		{ (char*)"raise_element", (char*)"(JJ)Z", (void*)canvas_raise_element },
-		{ (char*)"lower_element", (char*)"(JJ)Z", (void*)canvas_lower_element },
+		{ (char*)"raise_element", (char*)"(JJI)Z", (void*)canvas_raise_element },
+		{ (char*)"lower_element", (char*)"(JJI)Z", (void*)canvas_lower_element },
 		{ (char*)"find_element", (char*)"(JJ)I", (void*)canvas_find_element },
 		{ (char*)"is_element", (char*)"(JJ)Z", (void*)canvas_is_element },
 		{ (char*)"get_num_elements", (char*)"(J)I", (void*)canvas_get_num_elements },
@@ -21344,6 +21368,12 @@ namespace Tellusim {
 	}
 	static jlong control_get_internal_ptr(TS_JNI_ARGS, jlong self) {
 		return (jlong)toControl(self).getInternalPtr();
+	}
+	static jint control_get_num_controls(TS_JNI_ARGS) {
+		return Control::getNumControls();
+	}
+	static jboolean control_is_control(TS_JNI_ARGS, jlong control) {
+		return Control::isControl(toControl(control));
 	}
 	static jint control_get_type(TS_JNI_ARGS, jlong self) {
 		return toControl(self).getType();
@@ -21450,11 +21480,11 @@ namespace Tellusim {
 	static jlong control_get_canvas(TS_JNI_ARGS, jlong self) {
 		return newCanvas(toControl(self).getCanvas());
 	}
-	static jlong control_get_root(TS_JNI_ARGS, jlong self) {
-		return newControlRoot(toControl(self).getRoot());
+	static jlong control_get_root(TS_JNI_ARGS, jlong self, jboolean local) {
+		return newControlRoot(toControl(self).getRoot((bool)local));
 	}
-	static jlong control_get_root_1(TS_JNI_ARGS, jlong self) {
-		return newControlRoot(toControl(self).getRoot());
+	static jlong control_get_root_1(TS_JNI_ARGS, jlong self, jboolean local) {
+		return newControlRoot(toControl(self).getRoot((bool)local));
 	}
 	static jlong control_get_panel(TS_JNI_ARGS, jlong self) {
 		return newControlPanel(toControl(self).getPanel());
@@ -21483,11 +21513,11 @@ namespace Tellusim {
 	static jlong control_set_child(TS_JNI_ARGS, jlong self, jint index, jlong child) {
 		return newControl(toControl(self).setChild((uint32_t)index, toControl(child)));
 	}
-	static jboolean control_raise_child(TS_JNI_ARGS, jlong self, jlong child) {
-		return toControl(self).raiseChild(toControl(child));
+	static jboolean control_raise_child(TS_JNI_ARGS, jlong self, jlong child, jint index) {
+		return toControl(self).raiseChild(toControl(child), (uint32_t)index);
 	}
-	static jboolean control_lower_child(TS_JNI_ARGS, jlong self, jlong child) {
-		return toControl(self).lowerChild(toControl(child));
+	static jboolean control_lower_child(TS_JNI_ARGS, jlong self, jlong child, jint index) {
+		return toControl(self).lowerChild(toControl(child), (uint32_t)index);
 	}
 	static jboolean control_remove_child(TS_JNI_ARGS, jlong self, jlong child) {
 		return toControl(self).removeChild(toControl(child));
@@ -21592,6 +21622,8 @@ namespace Tellusim {
 		{ (char*)"is_const_ptr", (char*)"(J)Z", (void*)control_is_const_ptr },
 		{ (char*)"get_count_ptr", (char*)"(J)I", (void*)control_get_count_ptr },
 		{ (char*)"get_internal_ptr", (char*)"(J)J", (void*)control_get_internal_ptr },
+		{ (char*)"get_num_controls", (char*)"()I", (void*)control_get_num_controls },
+		{ (char*)"is_control", (char*)"(J)Z", (void*)control_is_control },
 		{ (char*)"get_type", (char*)"(J)I", (void*)control_get_type },
 		{ (char*)"get_type_name", (char*)"(I)Ljava/lang/String;", (void*)control_get_type_name },
 		{ (char*)"get_type_name_1", (char*)"(J)Ljava/lang/String;", (void*)control_get_type_name_1 },
@@ -21627,8 +21659,8 @@ namespace Tellusim {
 		{ (char*)"set_disabled", (char*)"(JZ)V", (void*)control_set_disabled },
 		{ (char*)"is_disabled", (char*)"(J)Z", (void*)control_is_disabled },
 		{ (char*)"get_canvas", (char*)"(J)J", (void*)control_get_canvas },
-		{ (char*)"get_root", (char*)"(J)J", (void*)control_get_root },
-		{ (char*)"get_root_1", (char*)"(J)J", (void*)control_get_root_1 },
+		{ (char*)"get_root", (char*)"(JZ)J", (void*)control_get_root },
+		{ (char*)"get_root_1", (char*)"(JZ)J", (void*)control_get_root_1 },
 		{ (char*)"get_panel", (char*)"(J)J", (void*)control_get_panel },
 		{ (char*)"get_panel_1", (char*)"(J)J", (void*)control_get_panel_1 },
 		{ (char*)"set_parent", (char*)"(JJ)I", (void*)control_set_parent },
@@ -21638,8 +21670,8 @@ namespace Tellusim {
 		{ (char*)"is_parent_disabled", (char*)"(J)Z", (void*)control_is_parent_disabled },
 		{ (char*)"add_child", (char*)"(JJ)I", (void*)control_add_child },
 		{ (char*)"set_child", (char*)"(JIJ)J", (void*)control_set_child },
-		{ (char*)"raise_child", (char*)"(JJ)Z", (void*)control_raise_child },
-		{ (char*)"lower_child", (char*)"(JJ)Z", (void*)control_lower_child },
+		{ (char*)"raise_child", (char*)"(JJI)Z", (void*)control_raise_child },
+		{ (char*)"lower_child", (char*)"(JJI)Z", (void*)control_lower_child },
 		{ (char*)"remove_child", (char*)"(JJ)Z", (void*)control_remove_child },
 		{ (char*)"release_children", (char*)"(J)V", (void*)control_release_children },
 		{ (char*)"find_child", (char*)"(JJ)I", (void*)control_find_child },
@@ -22150,6 +22182,12 @@ namespace Tellusim {
 	static jlong control_text_base_control_ptr(TS_JNI_ARGS, jlong self) {
 		return newControl(toControlText(self).getControl());
 	}
+	static void control_text_set_callback(TS_JNI_ARGS, jlong self, jboolean callback) {
+		toControlText(self).setCallback((bool)callback);
+	}
+	static jboolean control_text_get_callback(TS_JNI_ARGS, jlong self) {
+		return toControlText(self).getCallback();
+	}
 	static void control_text_set_mode(TS_JNI_ARGS, jlong self, jint mode) {
 		toControlText(self).setMode((CanvasElement::Mode)mode);
 	}
@@ -22268,6 +22306,8 @@ namespace Tellusim {
 		{ (char*)"equal_control_ptr", (char*)"(JJ)Z", (void*)control_text_equal_control_ptr },
 		{ (char*)"cast_control_ptr", (char*)"(J)J", (void*)control_text_cast_control_ptr },
 		{ (char*)"base_control_ptr", (char*)"(J)J", (void*)control_text_base_control_ptr },
+		{ (char*)"set_callback", (char*)"(JZ)V", (void*)control_text_set_callback },
+		{ (char*)"get_callback", (char*)"(J)Z", (void*)control_text_get_callback },
 		{ (char*)"set_mode", (char*)"(JI)V", (void*)control_text_set_mode },
 		{ (char*)"get_mode", (char*)"(J)I", (void*)control_text_get_mode },
 		{ (char*)"set_pipeline", (char*)"(JJ)V", (void*)control_text_set_pipeline },
@@ -27699,6 +27739,14 @@ namespace Tellusim {
 	static jstring separable_filter_get_input_source(TS_JNI_ARGS, jlong self, jint mode) {
 		return env->NewStringUTF(toSeparableFilter(self).getInputSource((SeparableFilter::Mode)mode).get());
 	}
+	static void separable_filter_set_kernel_source(TS_JNI_ARGS, jlong self, jint mode, jstring src) {
+		const char *src_ = (src) ? env->GetStringUTFChars(src, nullptr) : nullptr;
+		toSeparableFilter(self).setKernelSource((SeparableFilter::Mode)mode, src_);
+		if(src) env->ReleaseStringUTFChars(src, src_);
+	}
+	static jstring separable_filter_get_kernel_source(TS_JNI_ARGS, jlong self, jint mode) {
+		return env->NewStringUTF(toSeparableFilter(self).getKernelSource((SeparableFilter::Mode)mode).get());
+	}
 	static void separable_filter_set_output_source(TS_JNI_ARGS, jlong self, jint mode, jstring src) {
 		const char *src_ = (src) ? env->GetStringUTFChars(src, nullptr) : nullptr;
 		toSeparableFilter(self).setOutputSource((SeparableFilter::Mode)mode, src_);
@@ -27765,6 +27813,8 @@ namespace Tellusim {
 		{ (char*)"is_created", (char*)"(JII)Z", (void*)separable_filter_is_created },
 		{ (char*)"set_input_source", (char*)"(JILjava/lang/String;)V", (void*)separable_filter_set_input_source },
 		{ (char*)"get_input_source", (char*)"(JI)Ljava/lang/String;", (void*)separable_filter_get_input_source },
+		{ (char*)"set_kernel_source", (char*)"(JILjava/lang/String;)V", (void*)separable_filter_set_kernel_source },
+		{ (char*)"get_kernel_source", (char*)"(JI)Ljava/lang/String;", (void*)separable_filter_get_kernel_source },
 		{ (char*)"set_output_source", (char*)"(JILjava/lang/String;)V", (void*)separable_filter_set_output_source },
 		{ (char*)"get_output_source", (char*)"(JI)Ljava/lang/String;", (void*)separable_filter_get_output_source },
 		{ (char*)"create_", (char*)"(JJIII)Z", (void*)separable_filter_create },

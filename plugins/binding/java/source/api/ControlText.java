@@ -16,6 +16,8 @@ public class ControlText extends Control {
 	public ControlText[] ref() { return new ControlText[] { this }; }
 	public ControlText(Control base) { init_(cast_control_ptr(base.self)); }
 	public Control toControl() { return new Control(base_control_ptr(self)); }
+	public void setCallback(boolean callback) { set_callback(self, callback); }
+	public boolean getCallback() { return get_callback(self); }
 	public void setMode(CanvasElement.Mode mode) { set_mode(self, mode.value); }
 	public void setMode(CanvasElement.Mode.Enum mode) { set_mode(self, mode.value); }
 	public CanvasElement.Mode getMode() { return new CanvasElement.Mode(get_mode(self)); }
@@ -70,6 +72,8 @@ public class ControlText extends Control {
 	private static native boolean equal_control_ptr(long self, long base);
 	private static native long cast_control_ptr(long self);
 	private static native long base_control_ptr(long self);
+	private static native void set_callback(long self, boolean callback);
+	private static native boolean get_callback(long self);
 	private static native void set_mode(long self, int mode);
 	private static native int get_mode(long self);
 	private static native void set_pipeline(long self, long pipeline);

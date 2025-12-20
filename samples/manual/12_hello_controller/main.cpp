@@ -267,11 +267,11 @@ int32_t main(int32_t argc, char **argv) {
 			// camera panning with left stick
 			float32_t acceleration = controller_acceleration * ifps;
 			camera_linear_velocity.y -= controller.getStickX(Controller::StickLeft) * acceleration;
-			camera_linear_velocity.z -= controller.getStickY(Controller::StickLeft) * acceleration;
+			camera_linear_velocity.x -= controller.getStickY(Controller::StickLeft) * acceleration;
 			
 			// camera dollying with triggers
-			camera_linear_velocity.x += controller.getButtonValue(Controller::ButtonTriggerLeft) * acceleration;
-			camera_linear_velocity.x -= controller.getButtonValue(Controller::ButtonTriggerRight) * acceleration;
+			camera_linear_velocity.z += controller.getButtonValue(Controller::ButtonTriggerLeft) * acceleration;
+			camera_linear_velocity.z -= controller.getButtonValue(Controller::ButtonTriggerRight) * acceleration;
 		}
 		
 		// rotate camera based on camera angular velocity
