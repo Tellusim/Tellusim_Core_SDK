@@ -51,7 +51,8 @@ namespace Tellusim {
 				Version_40 = 20250429,
 				Version_41 = 20250816,
 				Version_42 = 20251102,
-				Version = Version_42,
+				Version_43 = 20251220,
+				Version = Version_43,
 			};
 			
 			App(int32_t argc, char **argv);

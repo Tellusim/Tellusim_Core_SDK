@@ -36637,45 +36637,6 @@ namespace Tellusim {
 		#endif
 		return nullptr;
 	}
-	static PyObject *Tracing_setIndirectBuffer(PYTracing *self, PyObject *args, PyObject *kwargs) {
-		PyObject *buffer_ = nullptr;
-		size_t offset = 0;
-		static const char *kwlist[] = { "buffer", "offset", nullptr };
-		while(PyArg_ParseTupleAndKeywords(args, kwargs, "O|n", (char**)kwlist, &buffer_, &offset)) {
-			if(!isPYBuffer(buffer_)) break;
-			Buffer &buffer = pyBuffer_get(buffer_);
-			self->ptr.setIndirectBuffer(buffer, offset);
-			Py_RETURN_NONE;
-		}
-		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "Tracing::setIndirectBuffer(): unknown arguments:\n(Buffer buffer, size_t offset) -> void\n");
-		#else
-			pyBadArguments();
-		#endif
-		return nullptr;
-	}
-	static PyObject *Tracing_getIndirectBuffer(PYTracing *self, PyObject *args) {
-		if(!args || PyTuple_Size(args) == 0) {
-			return pyBuffer_new(self->ptr.getIndirectBuffer());
-		}
-		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "Tracing::getIndirectBuffer(): unknown arguments:\n(void) -> Buffer\n");
-		#else
-			pyBadArguments();
-		#endif
-		return nullptr;
-	}
-	static PyObject *Tracing_getIndirectOffset(PYTracing *self, PyObject *args) {
-		if(!args || PyTuple_Size(args) == 0) {
-			return PyLong_FromSize_t(self->ptr.getIndirectOffset());
-		}
-		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "Tracing::getIndirectOffset(): unknown arguments:\n(void) -> size_t\n");
-		#else
-			pyBadArguments();
-		#endif
-		return nullptr;
-	}
 	static PyObject *Tracing_addVertexBuffer(PYTracing *self, PyObject *args, PyObject *kwargs) {
 		uint32_t num_vertices = {};
 		uint32_t format = 0;
@@ -37033,6 +36994,45 @@ namespace Tellusim {
 		}
 		#if TS_DEBUG
 			PyErr_SetString(PyExc_TypeError, "Tracing::getBoundOffset(): unknown arguments:\n(uint32_t index) -> size_t\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *Tracing_setIndirectBuffer(PYTracing *self, PyObject *args, PyObject *kwargs) {
+		PyObject *buffer_ = nullptr;
+		size_t offset = 0;
+		static const char *kwlist[] = { "buffer", "offset", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "O|n", (char**)kwlist, &buffer_, &offset)) {
+			if(!isPYBuffer(buffer_)) break;
+			Buffer &buffer = pyBuffer_get(buffer_);
+			self->ptr.setIndirectBuffer(buffer, offset);
+			Py_RETURN_NONE;
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "Tracing::setIndirectBuffer(): unknown arguments:\n(Buffer buffer, size_t offset) -> void\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *Tracing_getIndirectBuffer(PYTracing *self, PyObject *args) {
+		if(!args || PyTuple_Size(args) == 0) {
+			return pyBuffer_new(self->ptr.getIndirectBuffer());
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "Tracing::getIndirectBuffer(): unknown arguments:\n(void) -> Buffer\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *Tracing_getIndirectOffset(PYTracing *self, PyObject *args) {
+		if(!args || PyTuple_Size(args) == 0) {
+			return PyLong_FromSize_t(self->ptr.getIndirectOffset());
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "Tracing::getIndirectOffset(): unknown arguments:\n(void) -> size_t\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -41836,13 +41836,14 @@ namespace Tellusim {
 	static PyObject *pyDeviceFeatures_str(PYDeviceFeatures *self) {
 		String ret;
 		ret += String::format("threadAccess: %u\n", self->ptr.threadAccess);
-		ret += String::format("sparseBuffer: %u\n", self->ptr.sparseBuffer);
 		ret += String::format("bufferTable: %u\n", self->ptr.bufferTable);
-		ret += String::format("sparseTexture: %u\n", self->ptr.sparseTexture);
-		ret += String::format("sparseArrayTexture: %u\n", self->ptr.sparseArrayTexture);
-		ret += String::format("cubeArrayTexture: %u\n", self->ptr.cubeArrayTexture);
+		ret += String::format("bufferSparse: %u\n", self->ptr.bufferSparse);
 		ret += String::format("textureTable: %u\n", self->ptr.textureTable);
-		ret += String::format("baseInstanceIndex: %u\n", self->ptr.baseInstanceIndex);
+		ret += String::format("textureSparse: %u\n", self->ptr.textureSparse);
+		ret += String::format("textureArrayCube: %u\n", self->ptr.textureArrayCube);
+		ret += String::format("textureArraySparse: %u\n", self->ptr.textureArraySparse);
+		ret += String::format("surfaceMultisample: %u\n", self->ptr.surfaceMultisample);
+		ret += String::format("drawBaseInstance: %u\n", self->ptr.drawBaseInstance);
 		ret += String::format("drawIndirectIndex: %u\n", self->ptr.drawIndirectIndex);
 		ret += String::format("drawIndirectCount: %u\n", self->ptr.drawIndirectCount);
 		ret += String::format("taskIndirectCount: %u\n", self->ptr.taskIndirectCount);
@@ -41851,15 +41852,15 @@ namespace Tellusim {
 		ret += String::format("geometryPassthrough: %u\n", self->ptr.geometryPassthrough);
 		ret += String::format("fragmentBarycentric: %u\n", self->ptr.fragmentBarycentric);
 		ret += String::format("fragmentStencilExport: %u\n", self->ptr.fragmentStencilExport);
-		ret += String::format("dualSourceBlending: %u\n", self->ptr.dualSourceBlending);
+		ret += String::format("blendDualSource: %u\n", self->ptr.blendDualSource);
 		ret += String::format("depthRangeOneToOne: %u\n", self->ptr.depthRangeOneToOne);
-		ret += String::format("conservativeRaster: %u\n", self->ptr.conservativeRaster);
-		ret += String::format("conditionalRendering: %u\n", self->ptr.conditionalRendering);
-		ret += String::format("rayTracing: %u\n", self->ptr.rayTracing);
+		ret += String::format("rasterConservative: %u\n", self->ptr.rasterConservative);
+		ret += String::format("renderConditional: %u\n", self->ptr.renderConditional);
 		ret += String::format("computeTracing: %u\n", self->ptr.computeTracing);
 		ret += String::format("fragmentTracing: %u\n", self->ptr.fragmentTracing);
-		ret += String::format("indirectTracing: %u\n", self->ptr.indirectTracing);
-		ret += String::format("recursionDepth: %u\n", self->ptr.recursionDepth);
+		ret += String::format("traversalTracing: %u\n", self->ptr.traversalTracing);
+		ret += String::format("buildIndirectTracing: %u\n", self->ptr.buildIndirectTracing);
+		ret += String::format("maxTraversalDepth: %u\n", self->ptr.maxTraversalDepth);
 		ret += String::format("subgroupVote: %u\n", self->ptr.subgroupVote);
 		ret += String::format("subgroupMath: %u\n", self->ptr.subgroupMath);
 		ret += String::format("subgroupShuffle: %u\n", self->ptr.subgroupShuffle);
@@ -41886,10 +41887,10 @@ namespace Tellusim {
 		ret += String::format("matrix16x8x16f16f32: %u\n", self->ptr.matrix16x8x16f16f32);
 		ret += String::format("uniformAlignment: %u\n", self->ptr.uniformAlignment);
 		ret += String::format("storageAlignment: %u\n", self->ptr.storageAlignment);
-		ret += String::format("maxTextureSamples: %u\n", self->ptr.maxTextureSamples);
 		ret += String::format("maxTexture2DSize: %u\n", self->ptr.maxTexture2DSize);
 		ret += String::format("maxTexture3DSize: %u\n", self->ptr.maxTexture3DSize);
 		ret += String::format("maxTextureLayers: %u\n", self->ptr.maxTextureLayers);
+		ret += String::format("maxTextureSamples: %u\n", self->ptr.maxTextureSamples);
 		ret += String::format("maxGroupSizeX: %u\n", self->ptr.maxGroupSizeX);
 		ret += String::format("maxGroupSizeY: %u\n", self->ptr.maxGroupSizeY);
 		ret += String::format("maxGroupSizeZ: %u\n", self->ptr.maxGroupSizeZ);
@@ -42110,6 +42111,30 @@ namespace Tellusim {
 		#endif
 		return nullptr;
 	}
+	static PyObject *D3D12Device_getD3D12Features(PYD3D12Device *self, PyObject *args, PyObject *kwargs) {
+		uint32_t index = {};
+		static const char *kwlist[] = { "index", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "I", (char**)kwlist, &index)) {
+			return PyLong_FromVoidPtr((void*)self->ptr.getD3D12Features(index));
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "D3D12Device::getD3D12Features(): unknown arguments:\n(uint32_t index) -> const void*\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *D3D12Device_getShaderModel(PYD3D12Device *self, PyObject *args) {
+		if(!args || PyTuple_Size(args) == 0) {
+			return PyLong_FromUnsignedLong(self->ptr.getShaderModel());
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "D3D12Device::getShaderModel(): unknown arguments:\n(void) -> uint32_t\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
 	static PyObject *D3D12Device_get_d3d12_device(PYD3D12Device *self, void *offset) {
 		return PyLong_FromVoidPtr(self->ptr.getD3D12Device());
 	}
@@ -42118,6 +42143,9 @@ namespace Tellusim {
 	}
 	static PyObject *D3D12Device_get_command(PYD3D12Device *self, void *offset) {
 		return PyLong_FromVoidPtr(self->ptr.getCommand());
+	}
+	static PyObject *D3D12Device_get_shader_model(PYD3D12Device *self, void *offset) {
+		return PyLong_FromUnsignedLong(self->ptr.getShaderModel());
 	}
 	static PyObject *pyD3D12Device_str(PYD3D12Device *self) {
 		return PyUnicode_FromString(String::format("D3D12Device Valid: %u; Owner: %u; Const: %u; Count: %u; Internal: %p", self->ptr.isValidPtr(), self->ptr.isOwnerPtr(), self->ptr.isConstPtr(), self->ptr.getCountPtr(), self->ptr.getInternalPtr()).get());
@@ -42270,6 +42298,19 @@ namespace Tellusim {
 		}
 		#if TS_DEBUG
 			PyErr_SetString(PyExc_TypeError, "D3D11Device::getCommand(): unknown arguments:\n(void) -> ID3D11DeviceContext*\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *D3D11Device_getD3D11Features(PYD3D11Device *self, PyObject *args, PyObject *kwargs) {
+		uint32_t index = {};
+		static const char *kwlist[] = { "index", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "I", (char**)kwlist, &index)) {
+			return PyLong_FromVoidPtr((void*)self->ptr.getD3D11Features(index));
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "D3D11Device::getD3D11Features(): unknown arguments:\n(uint32_t index) -> const void*\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -42851,6 +42892,19 @@ namespace Tellusim {
 		}
 		#if TS_DEBUG
 			PyErr_SetString(PyExc_TypeError, "VKDevice::getFamily(): unknown arguments:\n(void) -> uint32_t\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *VKDevice_getVKFeatures(PYVKDevice *self, PyObject *args, PyObject *kwargs) {
+		uint32_t type = {};
+		static const char *kwlist[] = { "type", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "I", (char**)kwlist, &type)) {
+			return PyLong_FromVoidPtr((void*)self->ptr.getVKFeatures(type));
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "VKDevice::getVKFeatures(): unknown arguments:\n(uint32_t type) -> const void*\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -59348,14 +59402,15 @@ namespace Tellusim {
 	}
 	static PyObject *Canvas_raiseChild(PYCanvas *self, PyObject *args, PyObject *kwargs) {
 		PyObject *child_ = nullptr;
-		static const char *kwlist[] = { "child", nullptr };
-		while(PyArg_ParseTupleAndKeywords(args, kwargs, "O", (char**)kwlist, &child_)) {
+		uint32_t index = 0;
+		static const char *kwlist[] = { "child", "index", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "O|I", (char**)kwlist, &child_, &index)) {
 			if(!isPYCanvas(child_)) break;
 			Canvas &child = pyCanvas_get(child_);
-			return PyLong_FromLong(self->ptr.raiseChild(child));
+			return PyLong_FromLong(self->ptr.raiseChild(child, index));
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "Canvas::raiseChild(): unknown arguments:\n(Canvas child) -> bool\n");
+			PyErr_SetString(PyExc_TypeError, "Canvas::raiseChild(): unknown arguments:\n(Canvas child, uint32_t index) -> bool\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -59363,14 +59418,15 @@ namespace Tellusim {
 	}
 	static PyObject *Canvas_lowerChild(PYCanvas *self, PyObject *args, PyObject *kwargs) {
 		PyObject *child_ = nullptr;
-		static const char *kwlist[] = { "child", nullptr };
-		while(PyArg_ParseTupleAndKeywords(args, kwargs, "O", (char**)kwlist, &child_)) {
+		uint32_t index = 0;
+		static const char *kwlist[] = { "child", "index", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "O|I", (char**)kwlist, &child_, &index)) {
 			if(!isPYCanvas(child_)) break;
 			Canvas &child = pyCanvas_get(child_);
-			return PyLong_FromLong(self->ptr.lowerChild(child));
+			return PyLong_FromLong(self->ptr.lowerChild(child, index));
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "Canvas::lowerChild(): unknown arguments:\n(Canvas child) -> bool\n");
+			PyErr_SetString(PyExc_TypeError, "Canvas::lowerChild(): unknown arguments:\n(Canvas child, uint32_t index) -> bool\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -59503,14 +59559,15 @@ namespace Tellusim {
 	}
 	static PyObject *Canvas_raiseElement(PYCanvas *self, PyObject *args, PyObject *kwargs) {
 		PyObject *element_ = nullptr;
-		static const char *kwlist[] = { "element", nullptr };
-		while(PyArg_ParseTupleAndKeywords(args, kwargs, "O", (char**)kwlist, &element_)) {
+		uint32_t index = 0;
+		static const char *kwlist[] = { "element", "index", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "O|I", (char**)kwlist, &element_, &index)) {
 			if(!isPYCanvasElement(element_)) break;
 			CanvasElement &element = pyCanvasElement_get(element_);
-			return PyLong_FromLong(self->ptr.raiseElement(element));
+			return PyLong_FromLong(self->ptr.raiseElement(element, index));
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "Canvas::raiseElement(): unknown arguments:\n(CanvasElement element) -> bool\n");
+			PyErr_SetString(PyExc_TypeError, "Canvas::raiseElement(): unknown arguments:\n(CanvasElement element, uint32_t index) -> bool\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -59518,14 +59575,15 @@ namespace Tellusim {
 	}
 	static PyObject *Canvas_lowerElement(PYCanvas *self, PyObject *args, PyObject *kwargs) {
 		PyObject *element_ = nullptr;
-		static const char *kwlist[] = { "element", nullptr };
-		while(PyArg_ParseTupleAndKeywords(args, kwargs, "O", (char**)kwlist, &element_)) {
+		uint32_t index = 0;
+		static const char *kwlist[] = { "element", "index", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "O|I", (char**)kwlist, &element_, &index)) {
 			if(!isPYCanvasElement(element_)) break;
 			CanvasElement &element = pyCanvasElement_get(element_);
-			return PyLong_FromLong(self->ptr.lowerElement(element));
+			return PyLong_FromLong(self->ptr.lowerElement(element, index));
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "Canvas::lowerElement(): unknown arguments:\n(CanvasElement element) -> bool\n");
+			PyErr_SetString(PyExc_TypeError, "Canvas::lowerElement(): unknown arguments:\n(CanvasElement element, uint32_t index) -> bool\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -60118,6 +60176,32 @@ namespace Tellusim {
 	static PyObject *pyControl_getInternalPtr(PYControl *self, PyObject *args) {
 		return PyLong_FromVoidPtr((void*)self->ptr.getInternalPtr());
 	}
+	static PyObject *Control_getNumControls(PYControl *self, PyObject *args) {
+		if(!args || PyTuple_Size(args) == 0) {
+			return PyLong_FromUnsignedLong(Control::getNumControls());
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "Control::getNumControls(): unknown arguments:\n(void) -> uint32_t\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *Control_isControl(PYControl *self, PyObject *args, PyObject *kwargs) {
+		PyObject *control_ = nullptr;
+		static const char *kwlist[] = { "control", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "O", (char**)kwlist, &control_)) {
+			if(!isPYControl(control_)) break;
+			const Control &control = pyControl_get(control_);
+			return PyLong_FromLong(Control::isControl(control));
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "Control::isControl(): unknown arguments:\n(const Control control) -> bool\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
 	static PyObject *Control_getType(PYControl *self, PyObject *args) {
 		if(!args || PyTuple_Size(args) == 0) {
 			return PyLong_FromUnsignedLong(self->ptr.getType());
@@ -60514,16 +60598,22 @@ namespace Tellusim {
 		#endif
 		return nullptr;
 	}
-	static PyObject *Control_getRoot(PYControl *self, PyObject *args) {
-		if(!args || PyTuple_Size(args) == 0) {
-			return pyControlRoot_new(self->ptr.getRoot());
+	static PyObject *Control_getRoot(PYControl *self, PyObject *args, PyObject *kwargs) {
+		int32_t local = false;
+		static const char *kwlist[] = { "local", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "|i", (char**)kwlist, &local)) {
+			return pyControlRoot_new(self->ptr.getRoot((local != 0)));
 		}
 		PyErr_Clear();
-		if(!args || PyTuple_Size(args) == 0) {
-			return pyControlRoot_new(self->ptr.getRoot());
+		{
+			int32_t local = false;
+			static const char *kwlist[] = { "local", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "|i", (char**)kwlist, &local)) {
+				return pyControlRoot_new(self->ptr.getRoot((local != 0)));
+			}
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "Control::getRoot(): unknown arguments:\n(void) -> const ControlRoot\n(void) -> ControlRoot\n");
+			PyErr_SetString(PyExc_TypeError, "Control::getRoot(): unknown arguments:\n(bool local) -> const ControlRoot\n(bool local) -> ControlRoot\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -60629,14 +60719,15 @@ namespace Tellusim {
 	}
 	static PyObject *Control_raiseChild(PYControl *self, PyObject *args, PyObject *kwargs) {
 		PyObject *child_ = nullptr;
-		static const char *kwlist[] = { "child", nullptr };
-		while(PyArg_ParseTupleAndKeywords(args, kwargs, "O", (char**)kwlist, &child_)) {
+		uint32_t index = 0;
+		static const char *kwlist[] = { "child", "index", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "O|I", (char**)kwlist, &child_, &index)) {
 			if(!isPYControl(child_)) break;
 			Control &child = pyControl_get(child_);
-			return PyLong_FromLong(self->ptr.raiseChild(child));
+			return PyLong_FromLong(self->ptr.raiseChild(child, index));
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "Control::raiseChild(): unknown arguments:\n(Control child) -> bool\n");
+			PyErr_SetString(PyExc_TypeError, "Control::raiseChild(): unknown arguments:\n(Control child, uint32_t index) -> bool\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -60644,14 +60735,15 @@ namespace Tellusim {
 	}
 	static PyObject *Control_lowerChild(PYControl *self, PyObject *args, PyObject *kwargs) {
 		PyObject *child_ = nullptr;
-		static const char *kwlist[] = { "child", nullptr };
-		while(PyArg_ParseTupleAndKeywords(args, kwargs, "O", (char**)kwlist, &child_)) {
+		uint32_t index = 0;
+		static const char *kwlist[] = { "child", "index", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "O|I", (char**)kwlist, &child_, &index)) {
 			if(!isPYControl(child_)) break;
 			Control &child = pyControl_get(child_);
-			return PyLong_FromLong(self->ptr.lowerChild(child));
+			return PyLong_FromLong(self->ptr.lowerChild(child, index));
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "Control::lowerChild(): unknown arguments:\n(Control child) -> bool\n");
+			PyErr_SetString(PyExc_TypeError, "Control::lowerChild(): unknown arguments:\n(Control child, uint32_t index) -> bool\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -61026,6 +61118,9 @@ namespace Tellusim {
 			pyBadArguments();
 		#endif
 		return nullptr;
+	}
+	static PyObject *Control_get_num_controls(PYControl *self, void *offset) {
+		return PyLong_FromUnsignedLong(self->ptr.getNumControls());
 	}
 	static PyObject *Control_get_type(PYControl *self, void *offset) {
 		return PyLong_FromUnsignedLong(self->ptr.getType());
@@ -62627,6 +62722,31 @@ namespace Tellusim {
 	static PyObject *pyControlText_getControl(PYControlText *self, PyObject *args) {
 		return pyControl_new(self->ptr.getControl());
 	}
+	static PyObject *ControlText_setCallback(PYControlText *self, PyObject *args, PyObject *kwargs) {
+		int32_t callback = {};
+		static const char *kwlist[] = { "callback", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "i", (char**)kwlist, &callback)) {
+			self->ptr.setCallback((callback != 0));
+			Py_RETURN_NONE;
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlText::setCallback(): unknown arguments:\n(bool callback) -> void\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *ControlText_getCallback(PYControlText *self, PyObject *args) {
+		if(!args || PyTuple_Size(args) == 0) {
+			return PyLong_FromLong(self->ptr.getCallback());
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlText::getCallback(): unknown arguments:\n(void) -> bool\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
 	static PyObject *ControlText_setMode(PYControlText *self, PyObject *args, PyObject *kwargs) {
 		uint32_t mode = 0;
 		static const char *kwlist[] = { "mode", nullptr };
@@ -63058,6 +63178,9 @@ namespace Tellusim {
 			pyBadArguments();
 		#endif
 		return nullptr;
+	}
+	static PyObject *ControlText_get_callback(PYControlText *self, void *offset) {
+		return PyLong_FromLong(self->ptr.getCallback());
 	}
 	static PyObject *ControlText_get_mode(PYControlText *self, void *offset) {
 		return PyLong_FromUnsignedLong(self->ptr.getMode());
@@ -76471,6 +76594,34 @@ namespace Tellusim {
 		#endif
 		return nullptr;
 	}
+	static PyObject *SeparableFilter_setKernelSource(PYSeparableFilter *self, PyObject *args, PyObject *kwargs) {
+		uint32_t mode = 0;
+		const char *src = nullptr;
+		static const char *kwlist[] = { "mode", "src", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "Is", (char**)kwlist, &mode, &src)) {
+			self->ptr.setKernelSource((SeparableFilter::Mode)mode, src);
+			Py_RETURN_NONE;
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "SeparableFilter::setKernelSource(): unknown arguments:\n(SeparableFilter.Mode mode, const char* src) -> void\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *SeparableFilter_getKernelSource(PYSeparableFilter *self, PyObject *args, PyObject *kwargs) {
+		uint32_t mode = 0;
+		static const char *kwlist[] = { "mode", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "I", (char**)kwlist, &mode)) {
+			return PyUnicode_FromString(self->ptr.getKernelSource((SeparableFilter::Mode)mode).get());
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "SeparableFilter::getKernelSource(): unknown arguments:\n(SeparableFilter.Mode mode) -> String\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
 	static PyObject *SeparableFilter_setOutputSource(PYSeparableFilter *self, PyObject *args, PyObject *kwargs) {
 		uint32_t mode = 0;
 		const char *src = nullptr;
@@ -81701,7 +81852,8 @@ namespace Tellusim {
 		PyDict_SetItemString(PYApp_Type.tp_dict, "Version_40", PyLong_FromLong(20250429));
 		PyDict_SetItemString(PYApp_Type.tp_dict, "Version_41", PyLong_FromLong(20250816));
 		PyDict_SetItemString(PYApp_Type.tp_dict, "Version_42", PyLong_FromLong(20251102));
-		PyDict_SetItemString(PYApp_Type.tp_dict, "Version", PyLong_FromLong(20251102));
+		PyDict_SetItemString(PYApp_Type.tp_dict, "Version_43", PyLong_FromLong(20251220));
+		PyDict_SetItemString(PYApp_Type.tp_dict, "Version", PyLong_FromLong(20251220));
 		PyType_Modified(&PYApp_Type);
 		Py_INCREF(&PYApp_Type);
 		
@@ -87183,9 +87335,6 @@ namespace Tellusim {
 		PYTracing_methods.append(PyMethodDef { "getNumInstances", (PyCFunction)Tracing_getNumInstances, METH_NOARGS, "" });
 		PYTracing_methods.append(PyMethodDef { "getInstanceBuffer", (PyCFunction)Tracing_getInstanceBuffer, METH_NOARGS, "" });
 		PYTracing_methods.append(PyMethodDef { "getInstanceOffset", (PyCFunction)Tracing_getInstanceOffset, METH_NOARGS, "" });
-		PYTracing_methods.append(PyMethodDef { "setIndirectBuffer", (PyCFunction)Tracing_setIndirectBuffer, METH_VARARGS | METH_KEYWORDS, "" });
-		PYTracing_methods.append(PyMethodDef { "getIndirectBuffer", (PyCFunction)Tracing_getIndirectBuffer, METH_NOARGS, "" });
-		PYTracing_methods.append(PyMethodDef { "getIndirectOffset", (PyCFunction)Tracing_getIndirectOffset, METH_NOARGS, "" });
 		PYTracing_methods.append(PyMethodDef { "addVertexBuffer", (PyCFunction)Tracing_addVertexBuffer, METH_VARARGS | METH_KEYWORDS, "" });
 		PYTracing_methods.append(PyMethodDef { "setVertexBuffer", (PyCFunction)Tracing_setVertexBuffer, METH_VARARGS | METH_KEYWORDS, "" });
 		PYTracing_methods.append(PyMethodDef { "setNumVertices", (PyCFunction)Tracing_setNumVertices, METH_VARARGS | METH_KEYWORDS, "" });
@@ -87208,6 +87357,9 @@ namespace Tellusim {
 		PYTracing_methods.append(PyMethodDef { "getBoundStride", (PyCFunction)Tracing_getBoundStride, METH_VARARGS | METH_KEYWORDS, "" });
 		PYTracing_methods.append(PyMethodDef { "getBoundBuffer", (PyCFunction)Tracing_getBoundBuffer, METH_VARARGS | METH_KEYWORDS, "" });
 		PYTracing_methods.append(PyMethodDef { "getBoundOffset", (PyCFunction)Tracing_getBoundOffset, METH_VARARGS | METH_KEYWORDS, "" });
+		PYTracing_methods.append(PyMethodDef { "setIndirectBuffer", (PyCFunction)Tracing_setIndirectBuffer, METH_VARARGS | METH_KEYWORDS, "" });
+		PYTracing_methods.append(PyMethodDef { "getIndirectBuffer", (PyCFunction)Tracing_getIndirectBuffer, METH_NOARGS, "" });
+		PYTracing_methods.append(PyMethodDef { "getIndirectOffset", (PyCFunction)Tracing_getIndirectOffset, METH_NOARGS, "" });
 		PYTracing_methods.append(PyMethodDef { "getDescription", (PyCFunction)Tracing_getDescription, METH_NOARGS, "" });
 		PYTracing_methods.append(PyMethodDef { "getTracingAddress", (PyCFunction)Tracing_getTracingAddress, METH_NOARGS, "" });
 		PYTracing_methods.append(PyMethodDef { "getBuildSize", (PyCFunction)Tracing_getBuildSize, METH_NOARGS, "" });
@@ -88012,16 +88164,17 @@ namespace Tellusim {
 		
 		// Tellusim::Device::Features
 		PYDeviceFeatures_methods.append(PyMethodDef {});
-		PYDeviceFeatures_members.reserve(PYDeviceFeatures_members.size() + 79);
+		PYDeviceFeatures_members.reserve(PYDeviceFeatures_members.size() + 80);
 		PYDeviceFeatures_getsets.reserve(PYDeviceFeatures_getsets.size() + 1);
 		PYDeviceFeatures_members.append(PyMemberDef { "threadAccess", T_BOOL, offsetof(PYDeviceFeatures, ptr.threadAccess), 0, "" });
-		PYDeviceFeatures_members.append(PyMemberDef { "sparseBuffer", T_BOOL, offsetof(PYDeviceFeatures, ptr.sparseBuffer), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "bufferTable", T_BOOL, offsetof(PYDeviceFeatures, ptr.bufferTable), 0, "" });
-		PYDeviceFeatures_members.append(PyMemberDef { "sparseTexture", T_BOOL, offsetof(PYDeviceFeatures, ptr.sparseTexture), 0, "" });
-		PYDeviceFeatures_members.append(PyMemberDef { "sparseArrayTexture", T_BOOL, offsetof(PYDeviceFeatures, ptr.sparseArrayTexture), 0, "" });
-		PYDeviceFeatures_members.append(PyMemberDef { "cubeArrayTexture", T_BOOL, offsetof(PYDeviceFeatures, ptr.cubeArrayTexture), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "bufferSparse", T_BOOL, offsetof(PYDeviceFeatures, ptr.bufferSparse), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "textureTable", T_BOOL, offsetof(PYDeviceFeatures, ptr.textureTable), 0, "" });
-		PYDeviceFeatures_members.append(PyMemberDef { "baseInstanceIndex", T_BOOL, offsetof(PYDeviceFeatures, ptr.baseInstanceIndex), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "textureSparse", T_BOOL, offsetof(PYDeviceFeatures, ptr.textureSparse), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "textureArrayCube", T_BOOL, offsetof(PYDeviceFeatures, ptr.textureArrayCube), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "textureArraySparse", T_BOOL, offsetof(PYDeviceFeatures, ptr.textureArraySparse), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "surfaceMultisample", T_BOOL, offsetof(PYDeviceFeatures, ptr.surfaceMultisample), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "drawBaseInstance", T_BOOL, offsetof(PYDeviceFeatures, ptr.drawBaseInstance), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "drawIndirectIndex", T_BOOL, offsetof(PYDeviceFeatures, ptr.drawIndirectIndex), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "drawIndirectCount", T_BOOL, offsetof(PYDeviceFeatures, ptr.drawIndirectCount), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "taskIndirectCount", T_BOOL, offsetof(PYDeviceFeatures, ptr.taskIndirectCount), 0, "" });
@@ -88030,15 +88183,15 @@ namespace Tellusim {
 		PYDeviceFeatures_members.append(PyMemberDef { "geometryPassthrough", T_BOOL, offsetof(PYDeviceFeatures, ptr.geometryPassthrough), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "fragmentBarycentric", T_BOOL, offsetof(PYDeviceFeatures, ptr.fragmentBarycentric), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "fragmentStencilExport", T_BOOL, offsetof(PYDeviceFeatures, ptr.fragmentStencilExport), 0, "" });
-		PYDeviceFeatures_members.append(PyMemberDef { "dualSourceBlending", T_BOOL, offsetof(PYDeviceFeatures, ptr.dualSourceBlending), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "blendDualSource", T_BOOL, offsetof(PYDeviceFeatures, ptr.blendDualSource), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "depthRangeOneToOne", T_BOOL, offsetof(PYDeviceFeatures, ptr.depthRangeOneToOne), 0, "" });
-		PYDeviceFeatures_members.append(PyMemberDef { "conservativeRaster", T_BOOL, offsetof(PYDeviceFeatures, ptr.conservativeRaster), 0, "" });
-		PYDeviceFeatures_members.append(PyMemberDef { "conditionalRendering", T_BOOL, offsetof(PYDeviceFeatures, ptr.conditionalRendering), 0, "" });
-		PYDeviceFeatures_members.append(PyMemberDef { "rayTracing", T_BOOL, offsetof(PYDeviceFeatures, ptr.rayTracing), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "rasterConservative", T_BOOL, offsetof(PYDeviceFeatures, ptr.rasterConservative), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "renderConditional", T_BOOL, offsetof(PYDeviceFeatures, ptr.renderConditional), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "computeTracing", T_BOOL, offsetof(PYDeviceFeatures, ptr.computeTracing), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "fragmentTracing", T_BOOL, offsetof(PYDeviceFeatures, ptr.fragmentTracing), 0, "" });
-		PYDeviceFeatures_members.append(PyMemberDef { "indirectTracing", T_BOOL, offsetof(PYDeviceFeatures, ptr.indirectTracing), 0, "" });
-		PYDeviceFeatures_members.append(PyMemberDef { "recursionDepth", T_UINT, offsetof(PYDeviceFeatures, ptr.recursionDepth), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "traversalTracing", T_BOOL, offsetof(PYDeviceFeatures, ptr.traversalTracing), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "buildIndirectTracing", T_BOOL, offsetof(PYDeviceFeatures, ptr.buildIndirectTracing), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "maxTraversalDepth", T_UINT, offsetof(PYDeviceFeatures, ptr.maxTraversalDepth), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "subgroupVote", T_BOOL, offsetof(PYDeviceFeatures, ptr.subgroupVote), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "subgroupMath", T_BOOL, offsetof(PYDeviceFeatures, ptr.subgroupMath), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "subgroupShuffle", T_BOOL, offsetof(PYDeviceFeatures, ptr.subgroupShuffle), 0, "" });
@@ -88065,10 +88218,10 @@ namespace Tellusim {
 		PYDeviceFeatures_members.append(PyMemberDef { "matrix16x8x16f16f32", T_BOOL, offsetof(PYDeviceFeatures, ptr.matrix16x8x16f16f32), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "uniformAlignment", T_UINT, offsetof(PYDeviceFeatures, ptr.uniformAlignment), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "storageAlignment", T_UINT, offsetof(PYDeviceFeatures, ptr.storageAlignment), 0, "" });
-		PYDeviceFeatures_members.append(PyMemberDef { "maxTextureSamples", T_UINT, offsetof(PYDeviceFeatures, ptr.maxTextureSamples), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "maxTexture2DSize", T_UINT, offsetof(PYDeviceFeatures, ptr.maxTexture2DSize), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "maxTexture3DSize", T_UINT, offsetof(PYDeviceFeatures, ptr.maxTexture3DSize), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "maxTextureLayers", T_UINT, offsetof(PYDeviceFeatures, ptr.maxTextureLayers), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "maxTextureSamples", T_UINT, offsetof(PYDeviceFeatures, ptr.maxTextureSamples), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "maxGroupSizeX", T_UINT, offsetof(PYDeviceFeatures, ptr.maxGroupSizeX), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "maxGroupSizeY", T_UINT, offsetof(PYDeviceFeatures, ptr.maxGroupSizeY), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "maxGroupSizeZ", T_UINT, offsetof(PYDeviceFeatures, ptr.maxGroupSizeZ), 0, "" });
@@ -88113,7 +88266,7 @@ namespace Tellusim {
 		Py_INCREF(&PYDeviceFeatures_Type);
 		
 		// Tellusim::D3D12Device
-		PYD3D12Device_methods.reserve(PYD3D12Device_methods.size() + 18);
+		PYD3D12Device_methods.reserve(PYD3D12Device_methods.size() + 20);
 		PYD3D12Device_methods.append(PyMethodDef { "equalPtr", (PyCFunction)pyD3D12Device_equalPtr, METH_VARARGS, "" });
 		PYD3D12Device_methods.append(PyMethodDef { "clonePtr", (PyCFunction)pyD3D12Device_clonePtr, METH_NOARGS, "" });
 		PYD3D12Device_methods.append(PyMethodDef { "clearPtr", (PyCFunction)pyD3D12Device_clearPtr, METH_NOARGS, "" });
@@ -88131,11 +88284,14 @@ namespace Tellusim {
 		PYD3D12Device_methods.append(PyMethodDef { "getD3D12Device", (PyCFunction)D3D12Device_getD3D12Device, METH_NOARGS, "" });
 		PYD3D12Device_methods.append(PyMethodDef { "getQueue", (PyCFunction)D3D12Device_getQueue, METH_NOARGS, "" });
 		PYD3D12Device_methods.append(PyMethodDef { "getCommand", (PyCFunction)D3D12Device_getCommand, METH_NOARGS, "" });
+		PYD3D12Device_methods.append(PyMethodDef { "getD3D12Features", (PyCFunction)D3D12Device_getD3D12Features, METH_VARARGS | METH_KEYWORDS, "" });
+		PYD3D12Device_methods.append(PyMethodDef { "getShaderModel", (PyCFunction)D3D12Device_getShaderModel, METH_NOARGS, "" });
 		PYD3D12Device_methods.append(PyMethodDef {});
-		PYD3D12Device_getsets.reserve(PYD3D12Device_getsets.size() + 4);
+		PYD3D12Device_getsets.reserve(PYD3D12Device_getsets.size() + 5);
 		PYD3D12Device_getsets.append(PyGetSetDef { "d3d12_device", (getter)D3D12Device_get_d3d12_device, nullptr, "", nullptr });
 		PYD3D12Device_getsets.append(PyGetSetDef { "queue", (getter)D3D12Device_get_queue, nullptr, "", nullptr });
 		PYD3D12Device_getsets.append(PyGetSetDef { "command", (getter)D3D12Device_get_command, nullptr, "", nullptr });
+		PYD3D12Device_getsets.append(PyGetSetDef { "shader_model", (getter)D3D12Device_get_shader_model, nullptr, "", nullptr });
 		PYD3D12Device_getsets.append(PyGetSetDef {});
 		PYD3D12Device_Type.tp_base = &PYDevice_Type;
 		PYD3D12Device_Type.tp_dealloc = (destructor)pyD3D12Device_dealloc;
@@ -88157,7 +88313,7 @@ namespace Tellusim {
 		Py_INCREF(&PYD3D12Device_Type);
 		
 		// Tellusim::D3D11Device
-		PYD3D11Device_methods.reserve(PYD3D11Device_methods.size() + 15);
+		PYD3D11Device_methods.reserve(PYD3D11Device_methods.size() + 16);
 		PYD3D11Device_methods.append(PyMethodDef { "equalPtr", (PyCFunction)pyD3D11Device_equalPtr, METH_VARARGS, "" });
 		PYD3D11Device_methods.append(PyMethodDef { "clonePtr", (PyCFunction)pyD3D11Device_clonePtr, METH_NOARGS, "" });
 		PYD3D11Device_methods.append(PyMethodDef { "clearPtr", (PyCFunction)pyD3D11Device_clearPtr, METH_NOARGS, "" });
@@ -88172,6 +88328,7 @@ namespace Tellusim {
 		PYD3D11Device_methods.append(PyMethodDef { "getDevice", (PyCFunction)pyD3D11Device_getDevice, METH_NOARGS, "" });
 		PYD3D11Device_methods.append(PyMethodDef { "getD3D11Device", (PyCFunction)D3D11Device_getD3D11Device, METH_NOARGS, "" });
 		PYD3D11Device_methods.append(PyMethodDef { "getCommand", (PyCFunction)D3D11Device_getCommand, METH_NOARGS, "" });
+		PYD3D11Device_methods.append(PyMethodDef { "getD3D11Features", (PyCFunction)D3D11Device_getD3D11Features, METH_VARARGS | METH_KEYWORDS, "" });
 		PYD3D11Device_methods.append(PyMethodDef {});
 		PYD3D11Device_getsets.reserve(PYD3D11Device_getsets.size() + 3);
 		PYD3D11Device_getsets.append(PyGetSetDef { "d3d11_device", (getter)D3D11Device_get_d3d11_device, nullptr, "", nullptr });
@@ -88249,7 +88406,7 @@ namespace Tellusim {
 		Py_INCREF(&PYMTLDevice_Type);
 		
 		// Tellusim::VKDevice
-		PYVKDevice_methods.reserve(PYVKDevice_methods.size() + 27);
+		PYVKDevice_methods.reserve(PYVKDevice_methods.size() + 28);
 		PYVKDevice_methods.append(PyMethodDef { "equalPtr", (PyCFunction)pyVKDevice_equalPtr, METH_VARARGS, "" });
 		PYVKDevice_methods.append(PyMethodDef { "clonePtr", (PyCFunction)pyVKDevice_clonePtr, METH_NOARGS, "" });
 		PYVKDevice_methods.append(PyMethodDef { "clearPtr", (PyCFunction)pyVKDevice_clearPtr, METH_NOARGS, "" });
@@ -88276,6 +88433,7 @@ namespace Tellusim {
 		PYVKDevice_methods.append(PyMethodDef { "getQueue", (PyCFunction)VKDevice_getQueue, METH_NOARGS, "" });
 		PYVKDevice_methods.append(PyMethodDef { "getCommand", (PyCFunction)VKDevice_getCommand, METH_NOARGS, "" });
 		PYVKDevice_methods.append(PyMethodDef { "getFamily", (PyCFunction)VKDevice_getFamily, METH_NOARGS, "" });
+		PYVKDevice_methods.append(PyMethodDef { "getVKFeatures", (PyCFunction)VKDevice_getVKFeatures, METH_VARARGS | METH_KEYWORDS, "" });
 		PYVKDevice_methods.append(PyMethodDef {});
 		PYVKDevice_getsets.reserve(PYVKDevice_getsets.size() + 7);
 		PYVKDevice_getsets.append(PyGetSetDef { "instance", (getter)VKDevice_get_instance, nullptr, "", nullptr });
@@ -90834,7 +90992,7 @@ namespace Tellusim {
 		Py_INCREF(&PYCanvas_Type);
 		
 		// Tellusim::Control
-		PYControl_methods.reserve(PYControl_methods.size() + 79);
+		PYControl_methods.reserve(PYControl_methods.size() + 81);
 		PYControl_methods.append(PyMethodDef { "equalPtr", (PyCFunction)pyControl_equalPtr, METH_VARARGS, "" });
 		PYControl_methods.append(PyMethodDef { "clonePtr", (PyCFunction)pyControl_clonePtr, METH_NOARGS, "" });
 		PYControl_methods.append(PyMethodDef { "clearPtr", (PyCFunction)pyControl_clearPtr, METH_NOARGS, "" });
@@ -90846,6 +91004,8 @@ namespace Tellusim {
 		PYControl_methods.append(PyMethodDef { "isConstPtr", (PyCFunction)pyControl_isConstPtr, METH_NOARGS, "" });
 		PYControl_methods.append(PyMethodDef { "getCountPtr", (PyCFunction)pyControl_getCountPtr, METH_NOARGS, "" });
 		PYControl_methods.append(PyMethodDef { "getInternalPtr", (PyCFunction)pyControl_getInternalPtr, METH_NOARGS, "" });
+		PYControl_methods.append(PyMethodDef { "getNumControls", (PyCFunction)Control_getNumControls, METH_NOARGS | METH_STATIC, "" });
+		PYControl_methods.append(PyMethodDef { "isControl", (PyCFunction)Control_isControl, METH_VARARGS | METH_KEYWORDS | METH_STATIC, "" });
 		PYControl_methods.append(PyMethodDef { "getType", (PyCFunction)Control_getType, METH_NOARGS, "" });
 		PYControl_methods.append(PyMethodDef { "getTypeName", (PyCFunction)Control_getTypeName, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControl_methods.append(PyMethodDef { "isUnknown", (PyCFunction)Control_isUnknown, METH_NOARGS, "" });
@@ -90880,7 +91040,7 @@ namespace Tellusim {
 		PYControl_methods.append(PyMethodDef { "setDisabled", (PyCFunction)Control_setDisabled, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControl_methods.append(PyMethodDef { "isDisabled", (PyCFunction)Control_isDisabled, METH_NOARGS, "" });
 		PYControl_methods.append(PyMethodDef { "getCanvas", (PyCFunction)Control_getCanvas, METH_NOARGS, "" });
-		PYControl_methods.append(PyMethodDef { "getRoot", (PyCFunction)Control_getRoot, METH_NOARGS, "" });
+		PYControl_methods.append(PyMethodDef { "getRoot", (PyCFunction)Control_getRoot, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControl_methods.append(PyMethodDef { "getPanel", (PyCFunction)Control_getPanel, METH_NOARGS, "" });
 		PYControl_methods.append(PyMethodDef { "setParent", (PyCFunction)Control_setParent, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControl_methods.append(PyMethodDef { "getParent", (PyCFunction)Control_getParent, METH_NOARGS, "" });
@@ -90914,7 +91074,8 @@ namespace Tellusim {
 		PYControl_methods.append(PyMethodDef { "getRect", (PyCFunction)Control_getRect, METH_NOARGS, "" });
 		PYControl_methods.append(PyMethodDef { "getState", (PyCFunction)Control_getState, METH_NOARGS, "" });
 		PYControl_methods.append(PyMethodDef {});
-		PYControl_getsets.reserve(PYControl_getsets.size() + 20);
+		PYControl_getsets.reserve(PYControl_getsets.size() + 21);
+		PYControl_getsets.append(PyGetSetDef { "num_controls", (getter)Control_get_num_controls, nullptr, "", nullptr });
 		PYControl_getsets.append(PyGetSetDef { "type", (getter)Control_get_type, nullptr, "", nullptr });
 		PYControl_getsets.append(PyGetSetDef { "align", (getter)Control_get_align, nullptr, "", nullptr });
 		PYControl_getsets.append(PyGetSetDef { "canvas", (getter)Control_get_canvas, nullptr, "", nullptr });
@@ -91001,13 +91162,14 @@ namespace Tellusim {
 		PyDict_SetItemString(PYControl_Type.tp_dict, "AlignOverlap", PyLong_FromLong(256));
 		PyDict_SetItemString(PYControl_Type.tp_dict, "AlignSpacer", PyLong_FromLong(512));
 		PyDict_SetItemString(PYControl_Type.tp_dict, "AlignAspect", PyLong_FromLong(1024));
+		PyDict_SetItemString(PYControl_Type.tp_dict, "AlignLocal", PyLong_FromLong(2048));
 		PyDict_SetItemString(PYControl_Type.tp_dict, "AlignLeftBottom", PyLong_FromLong(5));
 		PyDict_SetItemString(PYControl_Type.tp_dict, "AlignLeftTop", PyLong_FromLong(9));
 		PyDict_SetItemString(PYControl_Type.tp_dict, "AlignRightBottom", PyLong_FromLong(6));
 		PyDict_SetItemString(PYControl_Type.tp_dict, "AlignRightTop", PyLong_FromLong(10));
 		PyDict_SetItemString(PYControl_Type.tp_dict, "AlignCenter", PyLong_FromLong(48));
 		PyDict_SetItemString(PYControl_Type.tp_dict, "AlignExpand", PyLong_FromLong(192));
-		PyDict_SetItemString(PYControl_Type.tp_dict, "NumAligns", PyLong_FromLong(11));
+		PyDict_SetItemString(PYControl_Type.tp_dict, "NumAligns", PyLong_FromLong(12));
 		PyDict_SetItemString(PYControl_Type.tp_dict, "ButtonNone", PyLong_FromLong(0));
 		PyDict_SetItemString(PYControl_Type.tp_dict, "ButtonLeft", PyLong_FromLong(1));
 		PyDict_SetItemString(PYControl_Type.tp_dict, "ButtonLeft2", PyLong_FromLong(2));
@@ -91191,7 +91353,7 @@ namespace Tellusim {
 		Py_INCREF(&PYControlRoot_Type);
 		
 		// Tellusim::ControlText
-		PYControlText_methods.reserve(PYControlText_methods.size() + 43);
+		PYControlText_methods.reserve(PYControlText_methods.size() + 45);
 		PYControlText_methods.append(PyMethodDef { "equalPtr", (PyCFunction)pyControlText_equalPtr, METH_VARARGS, "" });
 		PYControlText_methods.append(PyMethodDef { "clonePtr", (PyCFunction)pyControlText_clonePtr, METH_NOARGS, "" });
 		PYControlText_methods.append(PyMethodDef { "clearPtr", (PyCFunction)pyControlText_clearPtr, METH_NOARGS, "" });
@@ -91204,6 +91366,8 @@ namespace Tellusim {
 		PYControlText_methods.append(PyMethodDef { "getCountPtr", (PyCFunction)pyControlText_getCountPtr, METH_NOARGS, "" });
 		PYControlText_methods.append(PyMethodDef { "getInternalPtr", (PyCFunction)pyControlText_getInternalPtr, METH_NOARGS, "" });
 		PYControlText_methods.append(PyMethodDef { "getControl", (PyCFunction)pyControlText_getControl, METH_NOARGS, "" });
+		PYControlText_methods.append(PyMethodDef { "setCallback", (PyCFunction)ControlText_setCallback, METH_VARARGS | METH_KEYWORDS, "" });
+		PYControlText_methods.append(PyMethodDef { "getCallback", (PyCFunction)ControlText_getCallback, METH_NOARGS, "" });
 		PYControlText_methods.append(PyMethodDef { "setMode", (PyCFunction)ControlText_setMode, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControlText_methods.append(PyMethodDef { "getMode", (PyCFunction)ControlText_getMode, METH_NOARGS, "" });
 		PYControlText_methods.append(PyMethodDef { "setPipeline", (PyCFunction)ControlText_setPipeline, METH_VARARGS | METH_KEYWORDS, "" });
@@ -91235,7 +91399,8 @@ namespace Tellusim {
 		PYControlText_methods.append(PyMethodDef { "getText", (PyCFunction)ControlText_getText, METH_NOARGS, "" });
 		PYControlText_methods.append(PyMethodDef { "getCanvasText", (PyCFunction)ControlText_getCanvasText, METH_NOARGS, "" });
 		PYControlText_methods.append(PyMethodDef {});
-		PYControlText_getsets.reserve(PYControlText_getsets.size() + 17);
+		PYControlText_getsets.reserve(PYControlText_getsets.size() + 18);
+		PYControlText_getsets.append(PyGetSetDef { "callback", (getter)ControlText_get_callback, nullptr, "", nullptr });
 		PYControlText_getsets.append(PyGetSetDef { "mode", (getter)ControlText_get_mode, nullptr, "", nullptr });
 		PYControlText_getsets.append(PyGetSetDef { "pipeline", (getter)ControlText_get_pipeline, nullptr, "", nullptr });
 		PYControlText_getsets.append(PyGetSetDef { "color", (getter)ControlText_get_color, nullptr, "", nullptr });
@@ -93176,7 +93341,7 @@ namespace Tellusim {
 		Py_INCREF(&PYMeshModelMeshlet_Type);
 		
 		// Tellusim::SeparableFilter
-		PYSeparableFilter_methods.reserve(PYSeparableFilter_methods.size() + 25);
+		PYSeparableFilter_methods.reserve(PYSeparableFilter_methods.size() + 27);
 		PYSeparableFilter_methods.append(PyMethodDef { "equalPtr", (PyCFunction)pySeparableFilter_equalPtr, METH_VARARGS, "" });
 		PYSeparableFilter_methods.append(PyMethodDef { "clonePtr", (PyCFunction)pySeparableFilter_clonePtr, METH_NOARGS, "" });
 		PYSeparableFilter_methods.append(PyMethodDef { "clearPtr", (PyCFunction)pySeparableFilter_clearPtr, METH_NOARGS, "" });
@@ -93192,6 +93357,8 @@ namespace Tellusim {
 		PYSeparableFilter_methods.append(PyMethodDef { "isCreated", (PyCFunction)SeparableFilter_isCreated, METH_VARARGS | METH_KEYWORDS, "" });
 		PYSeparableFilter_methods.append(PyMethodDef { "setInputSource", (PyCFunction)SeparableFilter_setInputSource, METH_VARARGS | METH_KEYWORDS, "" });
 		PYSeparableFilter_methods.append(PyMethodDef { "getInputSource", (PyCFunction)SeparableFilter_getInputSource, METH_VARARGS | METH_KEYWORDS, "" });
+		PYSeparableFilter_methods.append(PyMethodDef { "setKernelSource", (PyCFunction)SeparableFilter_setKernelSource, METH_VARARGS | METH_KEYWORDS, "" });
+		PYSeparableFilter_methods.append(PyMethodDef { "getKernelSource", (PyCFunction)SeparableFilter_getKernelSource, METH_VARARGS | METH_KEYWORDS, "" });
 		PYSeparableFilter_methods.append(PyMethodDef { "setOutputSource", (PyCFunction)SeparableFilter_setOutputSource, METH_VARARGS | METH_KEYWORDS, "" });
 		PYSeparableFilter_methods.append(PyMethodDef { "getOutputSource", (PyCFunction)SeparableFilter_getOutputSource, METH_VARARGS | METH_KEYWORDS, "" });
 		PYSeparableFilter_methods.append(PyMethodDef { "create", (PyCFunction)SeparableFilter_create, METH_VARARGS | METH_KEYWORDS, "" });

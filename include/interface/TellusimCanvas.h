@@ -780,8 +780,8 @@ namespace Tellusim {
 			/// canvas children
 			uint32_t addChild(Canvas &child);
 			bool removeChild(Canvas &child);
-			bool raiseChild(Canvas &child);
-			bool lowerChild(Canvas &child);
+			bool raiseChild(Canvas &child, uint32_t index = 0);
+			bool lowerChild(Canvas &child, uint32_t index = 0);
 			void releaseChildren();
 			
 			uint32_t findChild(const Canvas &child) const;
@@ -796,8 +796,8 @@ namespace Tellusim {
 			/// canvas elements
 			uint32_t addElement(CanvasElement &element);
 			bool removeElement(CanvasElement &element);
-			bool raiseElement(CanvasElement &element);
-			bool lowerElement(CanvasElement &element);
+			bool raiseElement(CanvasElement &element, uint32_t index = 0);
+			bool lowerElement(CanvasElement &element, uint32_t index = 0);
 			
 			uint32_t findElement(const CanvasElement &element) const;
 			bool isElement(const CanvasElement &element) const;

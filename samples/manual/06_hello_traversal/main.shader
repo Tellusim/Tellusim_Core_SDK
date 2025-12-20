@@ -151,7 +151,7 @@
 		// clear payloads
 		#if PRIMARY_SHADER
 			reflection_color = vec3(0.0f);
-			#if RECURSION_DEPTH > 1
+			#if MAX_TRAVERSAL_DEPTH > 1
 				shadow_value = 0.2f;
 			#else
 				shadow_value = 1.0f;
@@ -193,7 +193,7 @@
 		#if PRIMARY_SHADER
 			
 			// trace secodary rays
-			#if RECURSION_DEPTH > 1
+			#if MAX_TRAVERSAL_DEPTH > 1
 				
 				// reflection ray
 				traceRayEXT(tracing, gl_RayFlagsOpaqueEXT, 0xffu, 3u, 3u, 1u, position, 1e-3f, reflect(-direction, normal), 1000.0f, 1);

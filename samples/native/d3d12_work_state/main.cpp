@@ -48,21 +48,17 @@ int32_t main(int32_t argc, char **argv) {
 	D3D12Device device(window);
 	if(!device) return 1;
 	
+	// check work graph support
+	auto *features21 = (const D3D12_FEATURE_DATA_D3D12_OPTIONS21*)device.getD3D12Features(21);
+	if(!features21 || features21->WorkGraphsTier == D3D12_WORK_GRAPHS_TIER_NOT_SUPPORTED) {
+		TS_LOG(Error, "work graph 1.0 tier is not supported\n");
+		return 1;
+	}
+	
 	// get device interface
 	AutoComPtr<ID3D12Device7> d3d12_device;
 	if(D3D12Context::error(device.getD3D12Device()->QueryInterface(IID_PPV_ARGS(d3d12_device.create())))) {
 		TS_LOG(Error, "can't get device interface\n");
-		return 1;
-	}
-	
-	// check work graph support
-	D3D12_FEATURE_DATA_D3D12_OPTIONS21 options = {};
-	if(D3D12Context::error(d3d12_device->CheckFeatureSupport(D3D12_FEATURE_D3D12_OPTIONS21, &options, sizeof(options)))) {
-		TS_LOG(Error, "can't get device options\n");
-		return 1;
-	}
-	if(options.WorkGraphsTier == D3D12_WORK_GRAPHS_TIER_NOT_SUPPORTED) {
-		TS_LOG(Error, "work graph 1.0 tier is not supported\n");
 		return 1;
 	}
 	
@@ -129,7 +125,7 @@ int32_t main(int32_t argc, char **argv) {
 		state_desc.NumSubobjects = objects_desc.size();
 		state_desc.pSubobjects = objects_desc.get();
 		if(D3D12Context::error(d3d12_device->CreateStateObject(&state_desc, IID_PPV_ARGS(main_work_graph_state.create())))) {
-			TS_LOG(Error, "can't create main state object\n");
+			TS_LOG(Error, "can't create state object\n");
 			return 1;
 		}
 	}
@@ -191,7 +187,7 @@ int32_t main(int32_t argc, char **argv) {
 		state_desc.NumSubobjects = objects_desc.size();
 		state_desc.pSubobjects = objects_desc.get();
 		if(D3D12Context::error(d3d12_device->AddToStateObject(&state_desc, main_work_graph_state.get(), IID_PPV_ARGS(work_graph_state.create())))) {
-			TS_LOG(Error, "can't create state object\n");
+			TS_LOG(Error, "can't add to state object\n");
 			return 1;
 		}
 	}

@@ -14,20 +14,22 @@ public class Device {
 		public Features(Features ptr) { this(copy_(ptr.self)); }
 		public void setThreadAccess(boolean threadAccess) { set_threadAccess_(self, threadAccess); }
 		public boolean getThreadAccess() { return get_threadAccess_(self); }
-		public void setSparseBuffer(boolean sparseBuffer) { set_sparseBuffer_(self, sparseBuffer); }
-		public boolean getSparseBuffer() { return get_sparseBuffer_(self); }
 		public void setBufferTable(boolean bufferTable) { set_bufferTable_(self, bufferTable); }
 		public boolean getBufferTable() { return get_bufferTable_(self); }
-		public void setSparseTexture(boolean sparseTexture) { set_sparseTexture_(self, sparseTexture); }
-		public boolean getSparseTexture() { return get_sparseTexture_(self); }
-		public void setSparseArrayTexture(boolean sparseArrayTexture) { set_sparseArrayTexture_(self, sparseArrayTexture); }
-		public boolean getSparseArrayTexture() { return get_sparseArrayTexture_(self); }
-		public void setCubeArrayTexture(boolean cubeArrayTexture) { set_cubeArrayTexture_(self, cubeArrayTexture); }
-		public boolean getCubeArrayTexture() { return get_cubeArrayTexture_(self); }
+		public void setBufferSparse(boolean bufferSparse) { set_bufferSparse_(self, bufferSparse); }
+		public boolean getBufferSparse() { return get_bufferSparse_(self); }
 		public void setTextureTable(boolean textureTable) { set_textureTable_(self, textureTable); }
 		public boolean getTextureTable() { return get_textureTable_(self); }
-		public void setBaseInstanceIndex(boolean baseInstanceIndex) { set_baseInstanceIndex_(self, baseInstanceIndex); }
-		public boolean getBaseInstanceIndex() { return get_baseInstanceIndex_(self); }
+		public void setTextureSparse(boolean textureSparse) { set_textureSparse_(self, textureSparse); }
+		public boolean getTextureSparse() { return get_textureSparse_(self); }
+		public void setTextureArrayCube(boolean textureArrayCube) { set_textureArrayCube_(self, textureArrayCube); }
+		public boolean getTextureArrayCube() { return get_textureArrayCube_(self); }
+		public void setTextureArraySparse(boolean textureArraySparse) { set_textureArraySparse_(self, textureArraySparse); }
+		public boolean getTextureArraySparse() { return get_textureArraySparse_(self); }
+		public void setSurfaceMultisample(boolean surfaceMultisample) { set_surfaceMultisample_(self, surfaceMultisample); }
+		public boolean getSurfaceMultisample() { return get_surfaceMultisample_(self); }
+		public void setDrawBaseInstance(boolean drawBaseInstance) { set_drawBaseInstance_(self, drawBaseInstance); }
+		public boolean getDrawBaseInstance() { return get_drawBaseInstance_(self); }
 		public void setDrawIndirectIndex(boolean drawIndirectIndex) { set_drawIndirectIndex_(self, drawIndirectIndex); }
 		public boolean getDrawIndirectIndex() { return get_drawIndirectIndex_(self); }
 		public void setDrawIndirectCount(boolean drawIndirectCount) { set_drawIndirectCount_(self, drawIndirectCount); }
@@ -44,24 +46,24 @@ public class Device {
 		public boolean getFragmentBarycentric() { return get_fragmentBarycentric_(self); }
 		public void setFragmentStencilExport(boolean fragmentStencilExport) { set_fragmentStencilExport_(self, fragmentStencilExport); }
 		public boolean getFragmentStencilExport() { return get_fragmentStencilExport_(self); }
-		public void setDualSourceBlending(boolean dualSourceBlending) { set_dualSourceBlending_(self, dualSourceBlending); }
-		public boolean getDualSourceBlending() { return get_dualSourceBlending_(self); }
+		public void setBlendDualSource(boolean blendDualSource) { set_blendDualSource_(self, blendDualSource); }
+		public boolean getBlendDualSource() { return get_blendDualSource_(self); }
 		public void setDepthRangeOneToOne(boolean depthRangeOneToOne) { set_depthRangeOneToOne_(self, depthRangeOneToOne); }
 		public boolean getDepthRangeOneToOne() { return get_depthRangeOneToOne_(self); }
-		public void setConservativeRaster(boolean conservativeRaster) { set_conservativeRaster_(self, conservativeRaster); }
-		public boolean getConservativeRaster() { return get_conservativeRaster_(self); }
-		public void setConditionalRendering(boolean conditionalRendering) { set_conditionalRendering_(self, conditionalRendering); }
-		public boolean getConditionalRendering() { return get_conditionalRendering_(self); }
-		public void setRayTracing(boolean rayTracing) { set_rayTracing_(self, rayTracing); }
-		public boolean getRayTracing() { return get_rayTracing_(self); }
+		public void setRasterConservative(boolean rasterConservative) { set_rasterConservative_(self, rasterConservative); }
+		public boolean getRasterConservative() { return get_rasterConservative_(self); }
+		public void setRenderConditional(boolean renderConditional) { set_renderConditional_(self, renderConditional); }
+		public boolean getRenderConditional() { return get_renderConditional_(self); }
 		public void setComputeTracing(boolean computeTracing) { set_computeTracing_(self, computeTracing); }
 		public boolean getComputeTracing() { return get_computeTracing_(self); }
 		public void setFragmentTracing(boolean fragmentTracing) { set_fragmentTracing_(self, fragmentTracing); }
 		public boolean getFragmentTracing() { return get_fragmentTracing_(self); }
-		public void setIndirectTracing(boolean indirectTracing) { set_indirectTracing_(self, indirectTracing); }
-		public boolean getIndirectTracing() { return get_indirectTracing_(self); }
-		public void setRecursionDepth(int recursionDepth) { set_recursionDepth_(self, recursionDepth); }
-		public int getRecursionDepth() { return get_recursionDepth_(self); }
+		public void setTraversalTracing(boolean traversalTracing) { set_traversalTracing_(self, traversalTracing); }
+		public boolean getTraversalTracing() { return get_traversalTracing_(self); }
+		public void setBuildIndirectTracing(boolean buildIndirectTracing) { set_buildIndirectTracing_(self, buildIndirectTracing); }
+		public boolean getBuildIndirectTracing() { return get_buildIndirectTracing_(self); }
+		public void setMaxTraversalDepth(int maxTraversalDepth) { set_maxTraversalDepth_(self, maxTraversalDepth); }
+		public int getMaxTraversalDepth() { return get_maxTraversalDepth_(self); }
 		public void setSubgroupVote(boolean subgroupVote) { set_subgroupVote_(self, subgroupVote); }
 		public boolean getSubgroupVote() { return get_subgroupVote_(self); }
 		public void setSubgroupMath(boolean subgroupMath) { set_subgroupMath_(self, subgroupMath); }
@@ -114,14 +116,14 @@ public class Device {
 		public int getUniformAlignment() { return get_uniformAlignment_(self); }
 		public void setStorageAlignment(int storageAlignment) { set_storageAlignment_(self, storageAlignment); }
 		public int getStorageAlignment() { return get_storageAlignment_(self); }
-		public void setMaxTextureSamples(int maxTextureSamples) { set_maxTextureSamples_(self, maxTextureSamples); }
-		public int getMaxTextureSamples() { return get_maxTextureSamples_(self); }
 		public void setMaxTexture2DSize(int maxTexture2DSize) { set_maxTexture2DSize_(self, maxTexture2DSize); }
 		public int getMaxTexture2DSize() { return get_maxTexture2DSize_(self); }
 		public void setMaxTexture3DSize(int maxTexture3DSize) { set_maxTexture3DSize_(self, maxTexture3DSize); }
 		public int getMaxTexture3DSize() { return get_maxTexture3DSize_(self); }
 		public void setMaxTextureLayers(int maxTextureLayers) { set_maxTextureLayers_(self, maxTextureLayers); }
 		public int getMaxTextureLayers() { return get_maxTextureLayers_(self); }
+		public void setMaxTextureSamples(int maxTextureSamples) { set_maxTextureSamples_(self, maxTextureSamples); }
+		public int getMaxTextureSamples() { return get_maxTextureSamples_(self); }
 		public void setMaxGroupSizeX(int maxGroupSizeX) { set_maxGroupSizeX_(self, maxGroupSizeX); }
 		public int getMaxGroupSizeX() { return get_maxGroupSizeX_(self); }
 		public void setMaxGroupSizeY(int maxGroupSizeY) { set_maxGroupSizeY_(self, maxGroupSizeY); }
@@ -170,13 +172,14 @@ public class Device {
 		public int getPciDeviceID() { return get_pciDeviceID_(self); }
 		public String toString() {
 			String ret = "threadAccess: " + getThreadAccess();
-			ret += "\nsparseBuffer: " + getSparseBuffer();
 			ret += "\nbufferTable: " + getBufferTable();
-			ret += "\nsparseTexture: " + getSparseTexture();
-			ret += "\nsparseArrayTexture: " + getSparseArrayTexture();
-			ret += "\ncubeArrayTexture: " + getCubeArrayTexture();
+			ret += "\nbufferSparse: " + getBufferSparse();
 			ret += "\ntextureTable: " + getTextureTable();
-			ret += "\nbaseInstanceIndex: " + getBaseInstanceIndex();
+			ret += "\ntextureSparse: " + getTextureSparse();
+			ret += "\ntextureArrayCube: " + getTextureArrayCube();
+			ret += "\ntextureArraySparse: " + getTextureArraySparse();
+			ret += "\nsurfaceMultisample: " + getSurfaceMultisample();
+			ret += "\ndrawBaseInstance: " + getDrawBaseInstance();
 			ret += "\ndrawIndirectIndex: " + getDrawIndirectIndex();
 			ret += "\ndrawIndirectCount: " + getDrawIndirectCount();
 			ret += "\ntaskIndirectCount: " + getTaskIndirectCount();
@@ -185,15 +188,15 @@ public class Device {
 			ret += "\ngeometryPassthrough: " + getGeometryPassthrough();
 			ret += "\nfragmentBarycentric: " + getFragmentBarycentric();
 			ret += "\nfragmentStencilExport: " + getFragmentStencilExport();
-			ret += "\ndualSourceBlending: " + getDualSourceBlending();
+			ret += "\nblendDualSource: " + getBlendDualSource();
 			ret += "\ndepthRangeOneToOne: " + getDepthRangeOneToOne();
-			ret += "\nconservativeRaster: " + getConservativeRaster();
-			ret += "\nconditionalRendering: " + getConditionalRendering();
-			ret += "\nrayTracing: " + getRayTracing();
+			ret += "\nrasterConservative: " + getRasterConservative();
+			ret += "\nrenderConditional: " + getRenderConditional();
 			ret += "\ncomputeTracing: " + getComputeTracing();
 			ret += "\nfragmentTracing: " + getFragmentTracing();
-			ret += "\nindirectTracing: " + getIndirectTracing();
-			ret += "\nrecursionDepth: " + getRecursionDepth();
+			ret += "\ntraversalTracing: " + getTraversalTracing();
+			ret += "\nbuildIndirectTracing: " + getBuildIndirectTracing();
+			ret += "\nmaxTraversalDepth: " + getMaxTraversalDepth();
 			ret += "\nsubgroupVote: " + getSubgroupVote();
 			ret += "\nsubgroupMath: " + getSubgroupMath();
 			ret += "\nsubgroupShuffle: " + getSubgroupShuffle();
@@ -220,10 +223,10 @@ public class Device {
 			ret += "\nmatrix16x8x16f16f32: " + getMatrix16x8x16f16f32();
 			ret += "\nuniformAlignment: " + getUniformAlignment();
 			ret += "\nstorageAlignment: " + getStorageAlignment();
-			ret += "\nmaxTextureSamples: " + getMaxTextureSamples();
 			ret += "\nmaxTexture2DSize: " + getMaxTexture2DSize();
 			ret += "\nmaxTexture3DSize: " + getMaxTexture3DSize();
 			ret += "\nmaxTextureLayers: " + getMaxTextureLayers();
+			ret += "\nmaxTextureSamples: " + getMaxTextureSamples();
 			ret += "\nmaxGroupSizeX: " + getMaxGroupSizeX();
 			ret += "\nmaxGroupSizeY: " + getMaxGroupSizeY();
 			ret += "\nmaxGroupSizeZ: " + getMaxGroupSizeZ();
@@ -254,20 +257,22 @@ public class Device {
 		private static native void delete_(long self);
 		private static native void set_threadAccess_(long self, boolean threadAccess);
 		private static native boolean get_threadAccess_(long self);
-		private static native void set_sparseBuffer_(long self, boolean sparseBuffer);
-		private static native boolean get_sparseBuffer_(long self);
 		private static native void set_bufferTable_(long self, boolean bufferTable);
 		private static native boolean get_bufferTable_(long self);
-		private static native void set_sparseTexture_(long self, boolean sparseTexture);
-		private static native boolean get_sparseTexture_(long self);
-		private static native void set_sparseArrayTexture_(long self, boolean sparseArrayTexture);
-		private static native boolean get_sparseArrayTexture_(long self);
-		private static native void set_cubeArrayTexture_(long self, boolean cubeArrayTexture);
-		private static native boolean get_cubeArrayTexture_(long self);
+		private static native void set_bufferSparse_(long self, boolean bufferSparse);
+		private static native boolean get_bufferSparse_(long self);
 		private static native void set_textureTable_(long self, boolean textureTable);
 		private static native boolean get_textureTable_(long self);
-		private static native void set_baseInstanceIndex_(long self, boolean baseInstanceIndex);
-		private static native boolean get_baseInstanceIndex_(long self);
+		private static native void set_textureSparse_(long self, boolean textureSparse);
+		private static native boolean get_textureSparse_(long self);
+		private static native void set_textureArrayCube_(long self, boolean textureArrayCube);
+		private static native boolean get_textureArrayCube_(long self);
+		private static native void set_textureArraySparse_(long self, boolean textureArraySparse);
+		private static native boolean get_textureArraySparse_(long self);
+		private static native void set_surfaceMultisample_(long self, boolean surfaceMultisample);
+		private static native boolean get_surfaceMultisample_(long self);
+		private static native void set_drawBaseInstance_(long self, boolean drawBaseInstance);
+		private static native boolean get_drawBaseInstance_(long self);
 		private static native void set_drawIndirectIndex_(long self, boolean drawIndirectIndex);
 		private static native boolean get_drawIndirectIndex_(long self);
 		private static native void set_drawIndirectCount_(long self, boolean drawIndirectCount);
@@ -284,24 +289,24 @@ public class Device {
 		private static native boolean get_fragmentBarycentric_(long self);
 		private static native void set_fragmentStencilExport_(long self, boolean fragmentStencilExport);
 		private static native boolean get_fragmentStencilExport_(long self);
-		private static native void set_dualSourceBlending_(long self, boolean dualSourceBlending);
-		private static native boolean get_dualSourceBlending_(long self);
+		private static native void set_blendDualSource_(long self, boolean blendDualSource);
+		private static native boolean get_blendDualSource_(long self);
 		private static native void set_depthRangeOneToOne_(long self, boolean depthRangeOneToOne);
 		private static native boolean get_depthRangeOneToOne_(long self);
-		private static native void set_conservativeRaster_(long self, boolean conservativeRaster);
-		private static native boolean get_conservativeRaster_(long self);
-		private static native void set_conditionalRendering_(long self, boolean conditionalRendering);
-		private static native boolean get_conditionalRendering_(long self);
-		private static native void set_rayTracing_(long self, boolean rayTracing);
-		private static native boolean get_rayTracing_(long self);
+		private static native void set_rasterConservative_(long self, boolean rasterConservative);
+		private static native boolean get_rasterConservative_(long self);
+		private static native void set_renderConditional_(long self, boolean renderConditional);
+		private static native boolean get_renderConditional_(long self);
 		private static native void set_computeTracing_(long self, boolean computeTracing);
 		private static native boolean get_computeTracing_(long self);
 		private static native void set_fragmentTracing_(long self, boolean fragmentTracing);
 		private static native boolean get_fragmentTracing_(long self);
-		private static native void set_indirectTracing_(long self, boolean indirectTracing);
-		private static native boolean get_indirectTracing_(long self);
-		private static native void set_recursionDepth_(long self, int recursionDepth);
-		private static native int get_recursionDepth_(long self);
+		private static native void set_traversalTracing_(long self, boolean traversalTracing);
+		private static native boolean get_traversalTracing_(long self);
+		private static native void set_buildIndirectTracing_(long self, boolean buildIndirectTracing);
+		private static native boolean get_buildIndirectTracing_(long self);
+		private static native void set_maxTraversalDepth_(long self, int maxTraversalDepth);
+		private static native int get_maxTraversalDepth_(long self);
 		private static native void set_subgroupVote_(long self, boolean subgroupVote);
 		private static native boolean get_subgroupVote_(long self);
 		private static native void set_subgroupMath_(long self, boolean subgroupMath);
@@ -354,14 +359,14 @@ public class Device {
 		private static native int get_uniformAlignment_(long self);
 		private static native void set_storageAlignment_(long self, int storageAlignment);
 		private static native int get_storageAlignment_(long self);
-		private static native void set_maxTextureSamples_(long self, int maxTextureSamples);
-		private static native int get_maxTextureSamples_(long self);
 		private static native void set_maxTexture2DSize_(long self, int maxTexture2DSize);
 		private static native int get_maxTexture2DSize_(long self);
 		private static native void set_maxTexture3DSize_(long self, int maxTexture3DSize);
 		private static native int get_maxTexture3DSize_(long self);
 		private static native void set_maxTextureLayers_(long self, int maxTextureLayers);
 		private static native int get_maxTextureLayers_(long self);
+		private static native void set_maxTextureSamples_(long self, int maxTextureSamples);
+		private static native int get_maxTextureSamples_(long self);
 		private static native void set_maxGroupSizeX_(long self, int maxGroupSizeX);
 		private static native int get_maxGroupSizeX_(long self);
 		private static native void set_maxGroupSizeY_(long self, int maxGroupSizeY);
