@@ -65,37 +65,37 @@ namespace Tellusim {
 				
 				bool threadAccess;				// thread access support
 				
-				bool sparseBuffer;				// sparse buffers support
 				bool bufferTable;				// buffer tables support
+				bool bufferSparse;				// sparse buffers support
 				
-				bool sparseTexture;				// sparse textures support
-				bool sparseArrayTexture;		// sparse array textures support
-				bool cubeArrayTexture;			// cube array textures support
 				bool textureTable;				// texture tables support
+				bool textureSparse;				// sparse textures support
+				bool textureArrayCube;			// cube array textures support
+				bool textureArraySparse;		// sparse array textures support
+				bool surfaceMultisample;		// multisample surfaces support
 				
-				bool baseInstanceIndex;			// base instance index support
+				bool drawBaseInstance;			// base instance index support
 				bool drawIndirectIndex;			// draw indirect index support
 				bool drawIndirectCount;			// draw indirect count support
 				bool taskIndirectCount;			// task indirect count support
 				
-				bool vertexStorage;				// vertex shader storage support
-				bool vertexIndexLayer;			// vertex shader index layer support
-				bool geometryPassthrough;		// geometry shader passthrough support
-				bool fragmentBarycentric;		// fragment shader barycentric support
-				bool fragmentStencilExport;		// fragment shader stencil export support
+				bool vertexStorage;				// vertex storage support
+				bool vertexIndexLayer;			// vertex index layer support
+				bool geometryPassthrough;		// geometry passthrough support
+				bool fragmentBarycentric;		// fragment barycentric support
+				bool fragmentStencilExport;		// fragment stencil export support
 				
-				bool dualSourceBlending;		// dual source blending support
+				bool blendDualSource;			// dual source blending support
 				bool depthRangeOneToOne;		// depth buffer range one to one
+				bool rasterConservative;		// conservative rasterization support
 				
-				bool conservativeRaster;		// conservative raster support
+				bool renderConditional;			// conditional rendering support
 				
-				bool conditionalRendering;		// conditional rendering support
-				
-				bool rayTracing;				// ray tracing shaders support
-				bool computeTracing;			// compute shader tracing support
-				bool fragmentTracing;			// fragment shader tracing support
-				bool indirectTracing;			// build indirect tracing support
-				uint32_t recursionDepth;		// ray tracing recursion depth
+				bool computeTracing;			// compute tracing support
+				bool fragmentTracing;			// fragment tracing support
+				bool traversalTracing;			// traversal tracing support
+				bool buildIndirectTracing;		// build indirect tracing support
+				uint32_t maxTraversalDepth;		// maximum traversal recursion depth
 				
 				bool subgroupVote;				// shader subgroup vote support
 				bool subgroupMath;				// shader subgroup math support
@@ -128,10 +128,10 @@ namespace Tellusim {
 				uint32_t uniformAlignment;		// uniform buffer alignment in bytes
 				uint32_t storageAlignment;		// storage buffer alignment in bytes
 				
-				uint32_t maxTextureSamples;		// maximum texture samples
 				uint32_t maxTexture2DSize;		// maximum 2D texture size
 				uint32_t maxTexture3DSize;		// maximum 3D texture size
 				uint32_t maxTextureLayers;		// maximum texture layers
+				uint32_t maxTextureSamples;		// maximum texture samples
 				
 				uint32_t maxGroupSizeX;			// maximum compute shader group size X
 				uint32_t maxGroupSizeY;			// maximum compute shader group size Y
@@ -464,6 +464,12 @@ namespace Tellusim {
 			ID3D12Device *getD3D12Device() const;
 			ID3D12CommandQueue *getQueue() const;
 			ID3D12GraphicsCommandList *getCommand() const;
+			
+			/// device features
+			const void *getD3D12Features(uint32_t index) const;
+			
+			/// device shader model
+			uint32_t getShaderModel() const;
 	};
 	
 	/**
@@ -484,6 +490,9 @@ namespace Tellusim {
 			/// command context
 			ID3D11Device *getD3D11Device() const;
 			ID3D11DeviceContext *getCommand() const;
+			
+			/// device features
+			const void *getD3D11Features(uint32_t index) const;
 	};
 	
 	/**
@@ -556,6 +565,9 @@ namespace Tellusim {
 			VkQueue getQueue() const;
 			VkCommandBuffer getCommand() const;
 			uint32_t getFamily() const;
+			
+			/// device features
+			const void *getVKFeatures(uint32_t type) const;
 	};
 	
 	/**

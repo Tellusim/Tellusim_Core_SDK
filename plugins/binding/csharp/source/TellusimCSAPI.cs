@@ -438,7 +438,8 @@ namespace Tellusim {
 		public const uint Version_40 = 20250429;
 		public const uint Version_41 = 20250816;
 		public const uint Version_42 = 20251102;
-		public const uint Version = 20251102;
+		public const uint Version_43 = 20251220;
+		public const uint Version = 20251220;
 		public App(string[] args) { self = new HandleRef(this, tsApp_new(args.Length + 1, Base.getArgs(args))); owner = true; }
 		public App(App ptr) { self = new HandleRef(this, ptr.getSelfPtr()); }
 		public App(IntPtr ptr) { self = new HandleRef(this, ptr); owner = true; }
@@ -8070,9 +8071,6 @@ namespace Tellusim {
 		public uint getNumInstances() { return tsTracing_getNumInstances(self); }
 		public Buffer getInstanceBuffer() { return new Buffer(tsTracing_getInstanceBuffer(self)); }
 		public ulong getInstanceOffset() { return tsTracing_getInstanceOffset(self); }
-		public void setIndirectBuffer(Buffer buffer, ulong offset = 0) { tsTracing_setIndirectBuffer(self, buffer.getSelf(), offset); }
-		public Buffer getIndirectBuffer() { return new Buffer(tsTracing_getIndirectBuffer(self)); }
-		public ulong getIndirectOffset() { return tsTracing_getIndirectOffset(self); }
 		public uint addVertexBuffer(uint num_vertices, Format format, ulong stride, Buffer buffer = null, ulong offset = 0) { return tsTracing_addVertexBuffer(self, num_vertices, format, stride, (buffer != null) ? buffer.getSelf() : Base.Null, offset); }
 		public void setVertexBuffer(uint index, uint num_vertices, Buffer buffer, ulong offset = 0) { tsTracing_setVertexBuffer_uuBz(self, index, num_vertices, buffer.getSelf(), offset); }
 		public void setVertexBuffer(uint index, Buffer buffer, ulong offset = 0) { tsTracing_setVertexBuffer_uBz(self, index, buffer.getSelf(), offset); }
@@ -8098,6 +8096,9 @@ namespace Tellusim {
 		public uint getBoundStride(uint index) { return tsTracing_getBoundStride(self, index); }
 		public Buffer getBoundBuffer(uint index) { return new Buffer(tsTracing_getBoundBuffer(self, index)); }
 		public ulong getBoundOffset(uint index) { return tsTracing_getBoundOffset(self, index); }
+		public void setIndirectBuffer(Buffer buffer, ulong offset = 0) { tsTracing_setIndirectBuffer(self, buffer.getSelf(), offset); }
+		public Buffer getIndirectBuffer() { return new Buffer(tsTracing_getIndirectBuffer(self)); }
+		public ulong getIndirectOffset() { return tsTracing_getIndirectOffset(self); }
 		public string getDescription() { return Base.getString(tsTracing_getDescription(self)); }
 		public ulong getTracingAddress() { return tsTracing_getTracingAddress(self); }
 		public ulong getBuildSize() { return tsTracing_getBuildSize(self); }
@@ -8143,9 +8144,6 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern uint tsTracing_getNumInstances(HandleRef self);
 		[DllImport(Base.Import)] private static extern IntPtr tsTracing_getInstanceBuffer(HandleRef self);
 		[DllImport(Base.Import)] private static extern ulong tsTracing_getInstanceOffset(HandleRef self);
-		[DllImport(Base.Import)] private static extern void tsTracing_setIndirectBuffer(HandleRef self, HandleRef buffer, ulong offset);
-		[DllImport(Base.Import)] private static extern IntPtr tsTracing_getIndirectBuffer(HandleRef self);
-		[DllImport(Base.Import)] private static extern ulong tsTracing_getIndirectOffset(HandleRef self);
 		[DllImport(Base.Import)] private static extern uint tsTracing_addVertexBuffer(HandleRef self, uint num_vertices, Format format, ulong stride, HandleRef buffer, ulong offset);
 		[DllImport(Base.Import)] private static extern void tsTracing_setVertexBuffer_uuBz(HandleRef self, uint index, uint num_vertices, HandleRef buffer, ulong offset);
 		[DllImport(Base.Import)] private static extern void tsTracing_setVertexBuffer_uBz(HandleRef self, uint index, HandleRef buffer, ulong offset);
@@ -8171,6 +8169,9 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern uint tsTracing_getBoundStride(HandleRef self, uint index);
 		[DllImport(Base.Import)] private static extern IntPtr tsTracing_getBoundBuffer(HandleRef self, uint index);
 		[DllImport(Base.Import)] private static extern ulong tsTracing_getBoundOffset(HandleRef self, uint index);
+		[DllImport(Base.Import)] private static extern void tsTracing_setIndirectBuffer(HandleRef self, HandleRef buffer, ulong offset);
+		[DllImport(Base.Import)] private static extern IntPtr tsTracing_getIndirectBuffer(HandleRef self);
+		[DllImport(Base.Import)] private static extern ulong tsTracing_getIndirectOffset(HandleRef self);
 		[DllImport(Base.Import)] private static extern IntPtr tsTracing_getDescription(HandleRef self);
 		[DllImport(Base.Import)] private static extern ulong tsTracing_getTracingAddress(HandleRef self);
 		[DllImport(Base.Import)] private static extern ulong tsTracing_getBuildSize(HandleRef self);
@@ -9235,13 +9236,14 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern bool tsDevice_check(HandleRef self);
 		[StructLayout(LayoutKind.Sequential)] public struct Features {
 			[MarshalAs(UnmanagedType.U1)] public bool threadAccess;
-			[MarshalAs(UnmanagedType.U1)] public bool sparseBuffer;
 			[MarshalAs(UnmanagedType.U1)] public bool bufferTable;
-			[MarshalAs(UnmanagedType.U1)] public bool sparseTexture;
-			[MarshalAs(UnmanagedType.U1)] public bool sparseArrayTexture;
-			[MarshalAs(UnmanagedType.U1)] public bool cubeArrayTexture;
+			[MarshalAs(UnmanagedType.U1)] public bool bufferSparse;
 			[MarshalAs(UnmanagedType.U1)] public bool textureTable;
-			[MarshalAs(UnmanagedType.U1)] public bool baseInstanceIndex;
+			[MarshalAs(UnmanagedType.U1)] public bool textureSparse;
+			[MarshalAs(UnmanagedType.U1)] public bool textureArrayCube;
+			[MarshalAs(UnmanagedType.U1)] public bool textureArraySparse;
+			[MarshalAs(UnmanagedType.U1)] public bool surfaceMultisample;
+			[MarshalAs(UnmanagedType.U1)] public bool drawBaseInstance;
 			[MarshalAs(UnmanagedType.U1)] public bool drawIndirectIndex;
 			[MarshalAs(UnmanagedType.U1)] public bool drawIndirectCount;
 			[MarshalAs(UnmanagedType.U1)] public bool taskIndirectCount;
@@ -9250,15 +9252,15 @@ namespace Tellusim {
 			[MarshalAs(UnmanagedType.U1)] public bool geometryPassthrough;
 			[MarshalAs(UnmanagedType.U1)] public bool fragmentBarycentric;
 			[MarshalAs(UnmanagedType.U1)] public bool fragmentStencilExport;
-			[MarshalAs(UnmanagedType.U1)] public bool dualSourceBlending;
+			[MarshalAs(UnmanagedType.U1)] public bool blendDualSource;
 			[MarshalAs(UnmanagedType.U1)] public bool depthRangeOneToOne;
-			[MarshalAs(UnmanagedType.U1)] public bool conservativeRaster;
-			[MarshalAs(UnmanagedType.U1)] public bool conditionalRendering;
-			[MarshalAs(UnmanagedType.U1)] public bool rayTracing;
+			[MarshalAs(UnmanagedType.U1)] public bool rasterConservative;
+			[MarshalAs(UnmanagedType.U1)] public bool renderConditional;
 			[MarshalAs(UnmanagedType.U1)] public bool computeTracing;
 			[MarshalAs(UnmanagedType.U1)] public bool fragmentTracing;
-			[MarshalAs(UnmanagedType.U1)] public bool indirectTracing;
-			public uint recursionDepth;
+			[MarshalAs(UnmanagedType.U1)] public bool traversalTracing;
+			[MarshalAs(UnmanagedType.U1)] public bool buildIndirectTracing;
+			public uint maxTraversalDepth;
 			[MarshalAs(UnmanagedType.U1)] public bool subgroupVote;
 			[MarshalAs(UnmanagedType.U1)] public bool subgroupMath;
 			[MarshalAs(UnmanagedType.U1)] public bool subgroupShuffle;
@@ -9285,10 +9287,10 @@ namespace Tellusim {
 			[MarshalAs(UnmanagedType.U1)] public bool matrix16x8x16f16f32;
 			public uint uniformAlignment;
 			public uint storageAlignment;
-			public uint maxTextureSamples;
 			public uint maxTexture2DSize;
 			public uint maxTexture3DSize;
 			public uint maxTextureLayers;
+			public uint maxTextureSamples;
 			public uint maxGroupSizeX;
 			public uint maxGroupSizeY;
 			public uint maxGroupSizeZ;
@@ -9315,13 +9317,14 @@ namespace Tellusim {
 			public override string ToString() {
 				string ret = "";
 				ret += System.String.Format("threadAccess: {0}\n", threadAccess);
-				ret += System.String.Format("sparseBuffer: {0}\n", sparseBuffer);
 				ret += System.String.Format("bufferTable: {0}\n", bufferTable);
-				ret += System.String.Format("sparseTexture: {0}\n", sparseTexture);
-				ret += System.String.Format("sparseArrayTexture: {0}\n", sparseArrayTexture);
-				ret += System.String.Format("cubeArrayTexture: {0}\n", cubeArrayTexture);
+				ret += System.String.Format("bufferSparse: {0}\n", bufferSparse);
 				ret += System.String.Format("textureTable: {0}\n", textureTable);
-				ret += System.String.Format("baseInstanceIndex: {0}\n", baseInstanceIndex);
+				ret += System.String.Format("textureSparse: {0}\n", textureSparse);
+				ret += System.String.Format("textureArrayCube: {0}\n", textureArrayCube);
+				ret += System.String.Format("textureArraySparse: {0}\n", textureArraySparse);
+				ret += System.String.Format("surfaceMultisample: {0}\n", surfaceMultisample);
+				ret += System.String.Format("drawBaseInstance: {0}\n", drawBaseInstance);
 				ret += System.String.Format("drawIndirectIndex: {0}\n", drawIndirectIndex);
 				ret += System.String.Format("drawIndirectCount: {0}\n", drawIndirectCount);
 				ret += System.String.Format("taskIndirectCount: {0}\n", taskIndirectCount);
@@ -9330,15 +9333,15 @@ namespace Tellusim {
 				ret += System.String.Format("geometryPassthrough: {0}\n", geometryPassthrough);
 				ret += System.String.Format("fragmentBarycentric: {0}\n", fragmentBarycentric);
 				ret += System.String.Format("fragmentStencilExport: {0}\n", fragmentStencilExport);
-				ret += System.String.Format("dualSourceBlending: {0}\n", dualSourceBlending);
+				ret += System.String.Format("blendDualSource: {0}\n", blendDualSource);
 				ret += System.String.Format("depthRangeOneToOne: {0}\n", depthRangeOneToOne);
-				ret += System.String.Format("conservativeRaster: {0}\n", conservativeRaster);
-				ret += System.String.Format("conditionalRendering: {0}\n", conditionalRendering);
-				ret += System.String.Format("rayTracing: {0}\n", rayTracing);
+				ret += System.String.Format("rasterConservative: {0}\n", rasterConservative);
+				ret += System.String.Format("renderConditional: {0}\n", renderConditional);
 				ret += System.String.Format("computeTracing: {0}\n", computeTracing);
 				ret += System.String.Format("fragmentTracing: {0}\n", fragmentTracing);
-				ret += System.String.Format("indirectTracing: {0}\n", indirectTracing);
-				ret += System.String.Format("recursionDepth: {0}\n", recursionDepth);
+				ret += System.String.Format("traversalTracing: {0}\n", traversalTracing);
+				ret += System.String.Format("buildIndirectTracing: {0}\n", buildIndirectTracing);
+				ret += System.String.Format("maxTraversalDepth: {0}\n", maxTraversalDepth);
 				ret += System.String.Format("subgroupVote: {0}\n", subgroupVote);
 				ret += System.String.Format("subgroupMath: {0}\n", subgroupMath);
 				ret += System.String.Format("subgroupShuffle: {0}\n", subgroupShuffle);
@@ -9365,10 +9368,10 @@ namespace Tellusim {
 				ret += System.String.Format("matrix16x8x16f16f32: {0}\n", matrix16x8x16f16f32);
 				ret += System.String.Format("uniformAlignment: {0}\n", uniformAlignment);
 				ret += System.String.Format("storageAlignment: {0}\n", storageAlignment);
-				ret += System.String.Format("maxTextureSamples: {0}\n", maxTextureSamples);
 				ret += System.String.Format("maxTexture2DSize: {0}\n", maxTexture2DSize);
 				ret += System.String.Format("maxTexture3DSize: {0}\n", maxTexture3DSize);
 				ret += System.String.Format("maxTextureLayers: {0}\n", maxTextureLayers);
+				ret += System.String.Format("maxTextureSamples: {0}\n", maxTextureSamples);
 				ret += System.String.Format("maxGroupSizeX: {0}\n", maxGroupSizeX);
 				ret += System.String.Format("maxGroupSizeY: {0}\n", maxGroupSizeY);
 				ret += System.String.Format("maxGroupSizeZ: {0}\n", maxGroupSizeZ);
@@ -9415,6 +9418,8 @@ namespace Tellusim {
 		public IntPtr getD3D12Device() { return tsD3D12Device_getD3D12Device(self); }
 		public IntPtr getQueue() { return tsD3D12Device_getQueue(self); }
 		public IntPtr getCommand() { return tsD3D12Device_getCommand(self); }
+		public IntPtr getD3D12Features(uint index) { return tsD3D12Device_getD3D12Features(self, index); }
+		public uint getShaderModel() { return tsD3D12Device_getShaderModel(self); }
 		public override string ToString() { return "Tellusim.D3D12Device: Valid: " + tsD3D12Device_isValidPtr(self) + "; Owner: " + tsD3D12Device_isOwnerPtr(self) + "; Const: " + tsD3D12Device_isConstPtr(self) + "; Count: " + tsD3D12Device_getCountPtr(self) + "; Internal: 0x" + tsD3D12Device_getInternalPtr(self).ToString("x8") + "; Self: 0x" + self.Handle.ToString("x8") + "; Owner: " + owner; }
 		public static implicit operator bool(D3D12Device ptr) { return (ptr != null && tsD3D12Device_isValidPtr(ptr.getSelf())); }
 		[DllImport(Base.Import)] private static extern IntPtr tsD3D12Device_new();
@@ -9442,6 +9447,8 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern IntPtr tsD3D12Device_getD3D12Device(HandleRef self);
 		[DllImport(Base.Import)] private static extern IntPtr tsD3D12Device_getQueue(HandleRef self);
 		[DllImport(Base.Import)] private static extern IntPtr tsD3D12Device_getCommand(HandleRef self);
+		[DllImport(Base.Import)] private static extern IntPtr tsD3D12Device_getD3D12Features(HandleRef self, uint index);
+		[DllImport(Base.Import)] private static extern uint tsD3D12Device_getShaderModel(HandleRef self);
 	}
 	
 	// Tellusim::D3D11Device
@@ -9457,6 +9464,7 @@ namespace Tellusim {
 		public static new D3D11Device Null() { return new D3D11Device(IntPtr.Zero); }
 		public IntPtr getD3D11Device() { return tsD3D11Device_getD3D11Device(self); }
 		public IntPtr getCommand() { return tsD3D11Device_getCommand(self); }
+		public IntPtr getD3D11Features(uint index) { return tsD3D11Device_getD3D11Features(self, index); }
 		public override string ToString() { return "Tellusim.D3D11Device: Valid: " + tsD3D11Device_isValidPtr(self) + "; Owner: " + tsD3D11Device_isOwnerPtr(self) + "; Const: " + tsD3D11Device_isConstPtr(self) + "; Count: " + tsD3D11Device_getCountPtr(self) + "; Internal: 0x" + tsD3D11Device_getInternalPtr(self).ToString("x8") + "; Self: 0x" + self.Handle.ToString("x8") + "; Owner: " + owner; }
 		public static implicit operator bool(D3D11Device ptr) { return (ptr != null && tsD3D11Device_isValidPtr(ptr.getSelf())); }
 		[DllImport(Base.Import)] private static extern IntPtr tsD3D11Device_new();
@@ -9481,6 +9489,7 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern IntPtr tsD3D11Device_baseDevicePtr(HandleRef self);
 		[DllImport(Base.Import)] private static extern IntPtr tsD3D11Device_getD3D11Device(HandleRef self);
 		[DllImport(Base.Import)] private static extern IntPtr tsD3D11Device_getCommand(HandleRef self);
+		[DllImport(Base.Import)] private static extern IntPtr tsD3D11Device_getD3D11Features(HandleRef self, uint index);
 	}
 	
 	// Tellusim::MTLDevice
@@ -9561,6 +9570,7 @@ namespace Tellusim {
 		public IntPtr getQueue() { return tsVKDevice_getQueue(self); }
 		public IntPtr getCommand() { return tsVKDevice_getCommand(self); }
 		public uint getFamily() { return tsVKDevice_getFamily(self); }
+		public IntPtr getVKFeatures(uint type) { return tsVKDevice_getVKFeatures(self, type); }
 		public override string ToString() { return "Tellusim.VKDevice: Valid: " + tsVKDevice_isValidPtr(self) + "; Owner: " + tsVKDevice_isOwnerPtr(self) + "; Const: " + tsVKDevice_isConstPtr(self) + "; Count: " + tsVKDevice_getCountPtr(self) + "; Internal: 0x" + tsVKDevice_getInternalPtr(self).ToString("x8") + "; Self: 0x" + self.Handle.ToString("x8") + "; Owner: " + owner; }
 		public static implicit operator bool(VKDevice ptr) { return (ptr != null && tsVKDevice_isValidPtr(ptr.getSelf())); }
 		[DllImport(Base.Import)] private static extern IntPtr tsVKDevice_new();
@@ -9597,6 +9607,7 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern IntPtr tsVKDevice_getQueue(HandleRef self);
 		[DllImport(Base.Import)] private static extern IntPtr tsVKDevice_getCommand(HandleRef self);
 		[DllImport(Base.Import)] private static extern uint tsVKDevice_getFamily(HandleRef self);
+		[DllImport(Base.Import)] private static extern IntPtr tsVKDevice_getVKFeatures(HandleRef self, uint type);
 	}
 	
 	// Tellusim::FUDevice
@@ -12812,8 +12823,8 @@ namespace Tellusim {
 		public Canvas getParent() { return new Canvas(tsCanvas_getParent_c(self)); }
 		public uint addChild(Canvas child) { return tsCanvas_addChild(self, child.getSelf()); }
 		public bool removeChild(Canvas child) { return tsCanvas_removeChild(self, child.getSelf()); }
-		public bool raiseChild(Canvas child) { return tsCanvas_raiseChild(self, child.getSelf()); }
-		public bool lowerChild(Canvas child) { return tsCanvas_lowerChild(self, child.getSelf()); }
+		public bool raiseChild(Canvas child, uint index = 0) { return tsCanvas_raiseChild(self, child.getSelf(), index); }
+		public bool lowerChild(Canvas child, uint index = 0) { return tsCanvas_lowerChild(self, child.getSelf(), index); }
 		public void releaseChildren() { tsCanvas_releaseChildren(self); }
 		public uint findChild(Canvas child) { return tsCanvas_findChild(self, child.getSelf()); }
 		public bool isChild(Canvas child) { return tsCanvas_isChild(self, child.getSelf()); }
@@ -12821,8 +12832,8 @@ namespace Tellusim {
 		public Canvas getChild(uint index) { return new Canvas(tsCanvas_getChild_cu(self, index)); }
 		public uint addElement(CanvasElement element) { return tsCanvas_addElement(self, element.getSelf()); }
 		public bool removeElement(CanvasElement element) { return tsCanvas_removeElement(self, element.getSelf()); }
-		public bool raiseElement(CanvasElement element) { return tsCanvas_raiseElement(self, element.getSelf()); }
-		public bool lowerElement(CanvasElement element) { return tsCanvas_lowerElement(self, element.getSelf()); }
+		public bool raiseElement(CanvasElement element, uint index = 0) { return tsCanvas_raiseElement(self, element.getSelf(), index); }
+		public bool lowerElement(CanvasElement element, uint index = 0) { return tsCanvas_lowerElement(self, element.getSelf(), index); }
 		public uint findElement(CanvasElement element) { return tsCanvas_findElement(self, element.getSelf()); }
 		public bool isElement(CanvasElement element) { return tsCanvas_isElement(self, element.getSelf()); }
 		public uint getNumElements() { return tsCanvas_getNumElements(self); }
@@ -12927,8 +12938,8 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern IntPtr tsCanvas_getParent_c(HandleRef self);
 		[DllImport(Base.Import)] private static extern uint tsCanvas_addChild(HandleRef self, HandleRef child);
 		[DllImport(Base.Import)] private static extern bool tsCanvas_removeChild(HandleRef self, HandleRef child);
-		[DllImport(Base.Import)] private static extern bool tsCanvas_raiseChild(HandleRef self, HandleRef child);
-		[DllImport(Base.Import)] private static extern bool tsCanvas_lowerChild(HandleRef self, HandleRef child);
+		[DllImport(Base.Import)] private static extern bool tsCanvas_raiseChild(HandleRef self, HandleRef child, uint index);
+		[DllImport(Base.Import)] private static extern bool tsCanvas_lowerChild(HandleRef self, HandleRef child, uint index);
 		[DllImport(Base.Import)] private static extern void tsCanvas_releaseChildren(HandleRef self);
 		[DllImport(Base.Import)] private static extern uint tsCanvas_findChild(HandleRef self, HandleRef child);
 		[DllImport(Base.Import)] private static extern bool tsCanvas_isChild(HandleRef self, HandleRef child);
@@ -12936,8 +12947,8 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern IntPtr tsCanvas_getChild_cu(HandleRef self, uint index);
 		[DllImport(Base.Import)] private static extern uint tsCanvas_addElement(HandleRef self, HandleRef element);
 		[DllImport(Base.Import)] private static extern bool tsCanvas_removeElement(HandleRef self, HandleRef element);
-		[DllImport(Base.Import)] private static extern bool tsCanvas_raiseElement(HandleRef self, HandleRef element);
-		[DllImport(Base.Import)] private static extern bool tsCanvas_lowerElement(HandleRef self, HandleRef element);
+		[DllImport(Base.Import)] private static extern bool tsCanvas_raiseElement(HandleRef self, HandleRef element, uint index);
+		[DllImport(Base.Import)] private static extern bool tsCanvas_lowerElement(HandleRef self, HandleRef element, uint index);
 		[DllImport(Base.Import)] private static extern uint tsCanvas_findElement(HandleRef self, HandleRef element);
 		[DllImport(Base.Import)] private static extern bool tsCanvas_isElement(HandleRef self, HandleRef element);
 		[DllImport(Base.Import)] private static extern uint tsCanvas_getNumElements(HandleRef self);
@@ -13030,13 +13041,14 @@ namespace Tellusim {
 			Overlap = 256,
 			Spacer = 512,
 			Aspect = 1024,
+			Local = 2048,
 			LeftBottom = 5,
 			LeftTop = 9,
 			RightBottom = 6,
 			RightTop = 10,
 			Center = 48,
 			Expand = 192,
-			NumAligns = 11,
+			NumAligns = 12,
 		}
 		public enum Button : uint {
 			None = 0,
@@ -13103,6 +13115,8 @@ namespace Tellusim {
 		public IntPtr getInternalPtr() { return tsControl_getInternalPtr(self); }
 		public HandleRef getSelf() { return self; }
 		public IntPtr getSelfPtr() { return self.Handle; }
+		public static uint getNumControls() { return tsControl_getNumControls(); }
+		public static bool isControl(Control control) { return tsControl_isControl(control.getSelf()); }
 		public Type getType() { return tsControl_getType(self); }
 		public static string getTypeName(Type type) { return Base.getCString(tsControl_getTypeName_CT(type)); }
 		public string getTypeName() { return Base.getCString(tsControl_getTypeName_c(self)); }
@@ -13138,7 +13152,7 @@ namespace Tellusim {
 		public void setDisabled(bool disabled) { tsControl_setDisabled(self, disabled); }
 		public bool isDisabled() { return tsControl_isDisabled(self); }
 		public Canvas getCanvas() { return new Canvas(tsControl_getCanvas(self)); }
-		public ControlRoot getRoot() { return new ControlRoot(tsControl_getRoot_c(self)); }
+		public ControlRoot getRoot(bool local = false) { return new ControlRoot(tsControl_getRoot_cb(self, local)); }
 		public ControlPanel getPanel() { return new ControlPanel(tsControl_getPanel_c(self)); }
 		public uint setParent(Control parent) { return tsControl_setParent(self, parent.getSelf()); }
 		public Control getParent() { return new Control(tsControl_getParent_c(self)); }
@@ -13146,8 +13160,8 @@ namespace Tellusim {
 		public bool isParentDisabled() { return tsControl_isParentDisabled(self); }
 		public uint addChild(Control child) { return tsControl_addChild(self, child.getSelf()); }
 		public Control setChild(uint index, Control child) { return new Control(tsControl_setChild(self, index, child.getSelf())); }
-		public bool raiseChild(Control child) { return tsControl_raiseChild(self, child.getSelf()); }
-		public bool lowerChild(Control child) { return tsControl_lowerChild(self, child.getSelf()); }
+		public bool raiseChild(Control child, uint index = 0) { return tsControl_raiseChild(self, child.getSelf(), index); }
+		public bool lowerChild(Control child, uint index = 0) { return tsControl_lowerChild(self, child.getSelf(), index); }
 		public bool removeChild(Control child) { return tsControl_removeChild(self, child.getSelf()); }
 		public void releaseChildren() { tsControl_releaseChildren(self); }
 		public uint findChild(Control child) { return tsControl_findChild(self, child.getSelf()); }
@@ -13194,6 +13208,8 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern bool tsControl_isConstPtr(HandleRef self);
 		[DllImport(Base.Import)] private static extern uint tsControl_getCountPtr(HandleRef self);
 		[DllImport(Base.Import)] private static extern IntPtr tsControl_getInternalPtr(HandleRef self);
+		[DllImport(Base.Import)] private static extern uint tsControl_getNumControls();
+		[DllImport(Base.Import)] private static extern bool tsControl_isControl(HandleRef control);
 		[DllImport(Base.Import)] private static extern Type tsControl_getType(HandleRef self);
 		[DllImport(Base.Import)] private static extern IntPtr tsControl_getTypeName_CT(Type type);
 		[DllImport(Base.Import)] private static extern IntPtr tsControl_getTypeName_c(HandleRef self);
@@ -13229,7 +13245,7 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern void tsControl_setDisabled(HandleRef self, bool disabled);
 		[DllImport(Base.Import)] private static extern bool tsControl_isDisabled(HandleRef self);
 		[DllImport(Base.Import)] private static extern IntPtr tsControl_getCanvas(HandleRef self);
-		[DllImport(Base.Import)] private static extern IntPtr tsControl_getRoot_c(HandleRef self);
+		[DllImport(Base.Import)] private static extern IntPtr tsControl_getRoot_cb(HandleRef self, bool local);
 		[DllImport(Base.Import)] private static extern IntPtr tsControl_getPanel_c(HandleRef self);
 		[DllImport(Base.Import)] private static extern uint tsControl_setParent(HandleRef self, HandleRef parent);
 		[DllImport(Base.Import)] private static extern IntPtr tsControl_getParent_c(HandleRef self);
@@ -13237,8 +13253,8 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern bool tsControl_isParentDisabled(HandleRef self);
 		[DllImport(Base.Import)] private static extern uint tsControl_addChild(HandleRef self, HandleRef child);
 		[DllImport(Base.Import)] private static extern IntPtr tsControl_setChild(HandleRef self, uint index, HandleRef child);
-		[DllImport(Base.Import)] private static extern bool tsControl_raiseChild(HandleRef self, HandleRef child);
-		[DllImport(Base.Import)] private static extern bool tsControl_lowerChild(HandleRef self, HandleRef child);
+		[DllImport(Base.Import)] private static extern bool tsControl_raiseChild(HandleRef self, HandleRef child, uint index);
+		[DllImport(Base.Import)] private static extern bool tsControl_lowerChild(HandleRef self, HandleRef child, uint index);
 		[DllImport(Base.Import)] private static extern bool tsControl_removeChild(HandleRef self, HandleRef child);
 		[DllImport(Base.Import)] private static extern void tsControl_releaseChildren(HandleRef self);
 		[DllImport(Base.Import)] private static extern uint tsControl_findChild(HandleRef self, HandleRef child);
@@ -13514,13 +13530,15 @@ namespace Tellusim {
 		public ControlText(Control ptr) { self = new HandleRef(this, tsControlText_castControlPtr(ptr.getSelf())); }
 		public Control toControl() { return new Control(tsControlText_baseControlPtr(self)); }
 		public static new ControlText Null() { return new ControlText(IntPtr.Zero); }
+		public void setCallback(bool callback) { tsControlText_setCallback(self, callback); }
+		public bool getCallback() { return tsControlText_getCallback(self); }
 		public void setMode(CanvasElement.Mode mode) { tsControlText_setMode(self, mode); }
 		public CanvasElement.Mode getMode() { return tsControlText_getMode(self); }
 		public void setPipeline(Pipeline pipeline) { tsControlText_setPipeline_P(self, pipeline.getSelf()); }
 		public void setPipeline(Pipeline pipeline, CanvasElement.DrawCallback func, IntPtr data = new IntPtr()) {
 			CanvasElement.DrawCallback_ func_ = null;
 			if(func != null) func_ = (IntPtr command_, IntPtr element_, IntPtr data_) => { return func(new Command(command_), new CanvasElement(element_), data_); };
-			if(func_ != null) DrawCallback_7 = GCHandle.Alloc(func_);
+			if(func_ != null) DrawCallback_9 = GCHandle.Alloc(func_);
 			tsControlText_setPipeline_PcCEDC(self, pipeline.getSelf(), Base.getFunc(func_), data);
 		}
 		public Pipeline getPipeline() { return new Pipeline(tsControlText_getPipeline(self)); }
@@ -13553,7 +13571,7 @@ namespace Tellusim {
 		public void setText(String text) { tsControlText_setText_cS(self, text.getSelf()); }
 		public string getText() { return Base.getString(tsControlText_getText(self)); }
 		public CanvasText getCanvasText() { return new CanvasText(tsControlText_getCanvasText(self)); }
-		private GCHandle DrawCallback_7;
+		private GCHandle DrawCallback_9;
 		public override string ToString() { return "Tellusim.ControlText: Valid: " + tsControlText_isValidPtr(self) + "; Owner: " + tsControlText_isOwnerPtr(self) + "; Const: " + tsControlText_isConstPtr(self) + "; Count: " + tsControlText_getCountPtr(self) + "; Internal: 0x" + tsControlText_getInternalPtr(self).ToString("x8") + "; Self: 0x" + self.Handle.ToString("x8") + "; Owner: " + owner; }
 		public static implicit operator bool(ControlText ptr) { return (ptr != null && tsControlText_isValidPtr(ptr.getSelf())); }
 		[DllImport(Base.Import)] private static extern IntPtr tsControlText_new();
@@ -13576,6 +13594,8 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern bool tsControlText_equalControlPtr(HandleRef self, HandleRef ptr);
 		[DllImport(Base.Import)] private static extern IntPtr tsControlText_castControlPtr(HandleRef self);
 		[DllImport(Base.Import)] private static extern IntPtr tsControlText_baseControlPtr(HandleRef self);
+		[DllImport(Base.Import)] private static extern void tsControlText_setCallback(HandleRef self, bool callback);
+		[DllImport(Base.Import)] private static extern bool tsControlText_getCallback(HandleRef self);
 		[DllImport(Base.Import)] private static extern void tsControlText_setMode(HandleRef self, CanvasElement.Mode mode);
 		[DllImport(Base.Import)] private static extern CanvasElement.Mode tsControlText_getMode(HandleRef self);
 		[DllImport(Base.Import)] private static extern void tsControlText_setPipeline_P(HandleRef self, HandleRef pipeline);
@@ -16719,6 +16739,8 @@ namespace Tellusim {
 		public bool isCreated(Format format, uint size) { return tsSeparableFilter_isCreated(self, format, size); }
 		public void setInputSource(Mode mode, string src) { tsSeparableFilter_setInputSource(self, mode, src); }
 		public string getInputSource(Mode mode) { return Base.getString(tsSeparableFilter_getInputSource(self, mode)); }
+		public void setKernelSource(Mode mode, string src) { tsSeparableFilter_setKernelSource(self, mode, src); }
+		public string getKernelSource(Mode mode) { return Base.getString(tsSeparableFilter_getKernelSource(self, mode)); }
 		public void setOutputSource(Mode mode, string src) { tsSeparableFilter_setOutputSource(self, mode, src); }
 		public string getOutputSource(Mode mode) { return Base.getString(tsSeparableFilter_getOutputSource(self, mode)); }
 		public bool create(Device device, Format format, uint size, Flags flags = Flags.Default) { return tsSeparableFilter_create(self, device.getSelf(), format, size, flags); }
@@ -16752,6 +16774,8 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern bool tsSeparableFilter_isCreated(HandleRef self, Format format, uint size);
 		[DllImport(Base.Import)] private static extern void tsSeparableFilter_setInputSource(HandleRef self, Mode mode, string src);
 		[DllImport(Base.Import)] private static extern IntPtr tsSeparableFilter_getInputSource(HandleRef self, Mode mode);
+		[DllImport(Base.Import)] private static extern void tsSeparableFilter_setKernelSource(HandleRef self, Mode mode, string src);
+		[DllImport(Base.Import)] private static extern IntPtr tsSeparableFilter_getKernelSource(HandleRef self, Mode mode);
 		[DllImport(Base.Import)] private static extern void tsSeparableFilter_setOutputSource(HandleRef self, Mode mode, string src);
 		[DllImport(Base.Import)] private static extern IntPtr tsSeparableFilter_getOutputSource(HandleRef self, Mode mode);
 		[DllImport(Base.Import)] private static extern bool tsSeparableFilter_create(HandleRef self, HandleRef device, Format format, uint size, Flags flags);
