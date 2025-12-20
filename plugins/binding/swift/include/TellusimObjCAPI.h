@@ -390,7 +390,8 @@ typedef NS_ENUM(NSInteger, TS_App) {
 	TS_AppVersion_40 NS_SWIFT_NAME(Version_40) = 20250429,
 	TS_AppVersion_41 NS_SWIFT_NAME(Version_41) = 20250816,
 	TS_AppVersion_42 NS_SWIFT_NAME(Version_42) = 20251102,
-	TS_AppVersion NS_SWIFT_NAME(Version) = 20251102,
+	TS_AppVersion_43 NS_SWIFT_NAME(Version_43) = 20251220,
+	TS_AppVersion NS_SWIFT_NAME(Version) = 20251220,
 } NS_SWIFT_NAME(App.Values);
 
 /// Tellusim::Socket::Type
@@ -1175,13 +1176,14 @@ typedef NS_ENUM(NSInteger, TS_ControlAlign) {
 	TS_ControlAlignOverlap NS_SWIFT_NAME(Overlap) = 256,
 	TS_ControlAlignSpacer NS_SWIFT_NAME(Spacer) = 512,
 	TS_ControlAlignAspect NS_SWIFT_NAME(Aspect) = 1024,
+	TS_ControlAlignLocal NS_SWIFT_NAME(Local) = 2048,
 	TS_ControlAlignLeftBottom NS_SWIFT_NAME(LeftBottom) = 5,
 	TS_ControlAlignLeftTop NS_SWIFT_NAME(LeftTop) = 9,
 	TS_ControlAlignRightBottom NS_SWIFT_NAME(RightBottom) = 6,
 	TS_ControlAlignRightTop NS_SWIFT_NAME(RightTop) = 10,
 	TS_ControlAlignCenter NS_SWIFT_NAME(Center) = 48,
 	TS_ControlAlignExpand NS_SWIFT_NAME(Expand) = 192,
-	TS_ControlAlignNumAligns NS_SWIFT_NAME(NumAligns) = 11,
+	TS_ControlAlignNumAligns NS_SWIFT_NAME(NumAligns) = 12,
 } NS_SWIFT_NAME(Control.Align);
 
 /// Tellusim::Control::Button
@@ -1890,13 +1892,14 @@ typedef TSTracingBuildIndirect TracingBuildIndirect;
 /// Tellusim::Device
 typedef struct TSDeviceFeatures {
 	uint8_t threadAccess;
-	uint8_t sparseBuffer;
 	uint8_t bufferTable;
-	uint8_t sparseTexture;
-	uint8_t sparseArrayTexture;
-	uint8_t cubeArrayTexture;
+	uint8_t bufferSparse;
 	uint8_t textureTable;
-	uint8_t baseInstanceIndex;
+	uint8_t textureSparse;
+	uint8_t textureArrayCube;
+	uint8_t textureArraySparse;
+	uint8_t surfaceMultisample;
+	uint8_t drawBaseInstance;
 	uint8_t drawIndirectIndex;
 	uint8_t drawIndirectCount;
 	uint8_t taskIndirectCount;
@@ -1905,15 +1908,15 @@ typedef struct TSDeviceFeatures {
 	uint8_t geometryPassthrough;
 	uint8_t fragmentBarycentric;
 	uint8_t fragmentStencilExport;
-	uint8_t dualSourceBlending;
+	uint8_t blendDualSource;
 	uint8_t depthRangeOneToOne;
-	uint8_t conservativeRaster;
-	uint8_t conditionalRendering;
-	uint8_t rayTracing;
+	uint8_t rasterConservative;
+	uint8_t renderConditional;
 	uint8_t computeTracing;
 	uint8_t fragmentTracing;
-	uint8_t indirectTracing;
-	uint32_t recursionDepth;
+	uint8_t traversalTracing;
+	uint8_t buildIndirectTracing;
+	uint32_t maxTraversalDepth;
 	uint8_t subgroupVote;
 	uint8_t subgroupMath;
 	uint8_t subgroupShuffle;
@@ -1940,10 +1943,10 @@ typedef struct TSDeviceFeatures {
 	uint8_t matrix16x8x16f16f32;
 	uint32_t uniformAlignment;
 	uint32_t storageAlignment;
-	uint32_t maxTextureSamples;
 	uint32_t maxTexture2DSize;
 	uint32_t maxTexture3DSize;
 	uint32_t maxTextureLayers;
+	uint32_t maxTextureSamples;
 	uint32_t maxGroupSizeX;
 	uint32_t maxGroupSizeY;
 	uint32_t maxGroupSizeZ;
@@ -9299,12 +9302,6 @@ TS_CAPI @interface TSTracing : NSObject {
 	-(uint32_t)getNumInstances NS_SWIFT_NAME(numInstances());
 	-(TSBuffer* _Nonnull)getInstanceBuffer NS_SWIFT_NAME(instanceBuffer());
 	-(size_t)getInstanceOffset NS_SWIFT_NAME(instanceOffset());
-	-(void)setIndirectBuffer: (TSBuffer* _Nonnull)buffer NS_SWIFT_NAME(setIndirectBuffer(_:));
-	-(void)setIndirectBuffer_: (TSBuffer* _Nonnull)buffer NS_SWIFT_NAME(setIndirectBuffer(buffer:));
-	-(void)setIndirectBuffer_1: (TSBuffer* _Nonnull)buffer offset: (size_t)offset NS_SWIFT_NAME(setIndirectBuffer(_:_:));
-	-(void)setIndirectBuffer_1_: (TSBuffer* _Nonnull)buffer offset: (size_t)offset NS_SWIFT_NAME(setIndirectBuffer(buffer:offset:));
-	-(TSBuffer* _Nonnull)getIndirectBuffer NS_SWIFT_NAME(indirectBuffer());
-	-(size_t)getIndirectOffset NS_SWIFT_NAME(indirectOffset());
 	-(uint32_t)addVertexBuffer: (uint32_t)num_vertices format: (TS_Format)format stride: (size_t)stride NS_SWIFT_NAME(addVertexBuffer(_:_:_:));
 	-(uint32_t)addVertexBuffer_: (uint32_t)num_vertices format: (TS_Format)format stride: (size_t)stride NS_SWIFT_NAME(addVertexBuffer(num_vertices:format:stride:));
 	-(uint32_t)addVertexBuffer_1: (uint32_t)num_vertices format: (TS_Format)format stride: (size_t)stride buffer: (TSBuffer* _Nonnull)buffer NS_SWIFT_NAME(addVertexBuffer(_:_:_:_:));
@@ -9379,6 +9376,12 @@ TS_CAPI @interface TSTracing : NSObject {
 	-(TSBuffer* _Nonnull)getBoundBuffer_: (uint32_t)index NS_SWIFT_NAME(boundBuffer(index:));
 	-(size_t)getBoundOffset: (uint32_t)index NS_SWIFT_NAME(boundOffset(_:));
 	-(size_t)getBoundOffset_: (uint32_t)index NS_SWIFT_NAME(boundOffset(index:));
+	-(void)setIndirectBuffer: (TSBuffer* _Nonnull)buffer NS_SWIFT_NAME(setIndirectBuffer(_:));
+	-(void)setIndirectBuffer_: (TSBuffer* _Nonnull)buffer NS_SWIFT_NAME(setIndirectBuffer(buffer:));
+	-(void)setIndirectBuffer_1: (TSBuffer* _Nonnull)buffer offset: (size_t)offset NS_SWIFT_NAME(setIndirectBuffer(_:_:));
+	-(void)setIndirectBuffer_1_: (TSBuffer* _Nonnull)buffer offset: (size_t)offset NS_SWIFT_NAME(setIndirectBuffer(buffer:offset:));
+	-(TSBuffer* _Nonnull)getIndirectBuffer NS_SWIFT_NAME(indirectBuffer());
+	-(size_t)getIndirectOffset NS_SWIFT_NAME(indirectOffset());
 	-(NSString* _Nonnull)getDescription NS_SWIFT_NAME(description());
 	-(uint64_t)getTracingAddress NS_SWIFT_NAME(tracingAddress());
 	-(size_t)getBuildSize NS_SWIFT_NAME(buildSize());
@@ -10343,6 +10346,9 @@ TS_CAPI @interface TSD3D12Device : TSDevice
 	-(ID3D12Device* _Nonnull)getD3D12Device NS_SWIFT_NAME(d3D12Device());
 	-(ID3D12CommandQueue* _Nonnull)getQueue NS_SWIFT_NAME(queue());
 	-(ID3D12GraphicsCommandList* _Nonnull)getCommand NS_SWIFT_NAME(command());
+	-(const void* _Nonnull)getD3D12Features: (uint32_t)index NS_SWIFT_NAME(d3D12Features(_:));
+	-(const void* _Nonnull)getD3D12Features_: (uint32_t)index NS_SWIFT_NAME(d3D12Features(index:));
+	-(uint32_t)getShaderModel NS_SWIFT_NAME(shaderModel());
 @end
 
 /// Tellusim::D3D11Device
@@ -10379,6 +10385,8 @@ TS_CAPI @interface TSD3D11Device : TSDevice
 	+(TSD3D11Device* _Nonnull)null;
 	-(ID3D11Device* _Nonnull)getD3D11Device NS_SWIFT_NAME(d3D11Device());
 	-(ID3D11DeviceContext* _Nonnull)getCommand NS_SWIFT_NAME(command());
+	-(const void* _Nonnull)getD3D11Features: (uint32_t)index NS_SWIFT_NAME(d3D11Features(_:));
+	-(const void* _Nonnull)getD3D11Features_: (uint32_t)index NS_SWIFT_NAME(d3D11Features(index:));
 @end
 
 /// Tellusim::MTLDevice
@@ -10479,6 +10487,8 @@ TS_CAPI @interface TSVKDevice : TSDevice
 	-(VkQueue _Nullable)getQueue NS_SWIFT_NAME(queue());
 	-(VkCommandBuffer _Nullable)getCommand NS_SWIFT_NAME(command());
 	-(uint32_t)getFamily NS_SWIFT_NAME(family());
+	-(const void* _Nonnull)getVKFeatures: (uint32_t)type NS_SWIFT_NAME(VKFeatures(_:));
+	-(const void* _Nonnull)getVKFeatures_: (uint32_t)type NS_SWIFT_NAME(VKFeatures(type:));
 @end
 
 /// Tellusim::FUDevice
@@ -13243,8 +13253,12 @@ TS_CAPI @interface TSCanvas : NSObject {
 	-(BOOL)removeChild_: (TSCanvas* _Nonnull)child NS_SWIFT_NAME(removeChild(child:));
 	-(BOOL)raiseChild: (TSCanvas* _Nonnull)child NS_SWIFT_NAME(raiseChild(_:));
 	-(BOOL)raiseChild_: (TSCanvas* _Nonnull)child NS_SWIFT_NAME(raiseChild(child:));
+	-(BOOL)raiseChild_1: (TSCanvas* _Nonnull)child index: (uint32_t)index NS_SWIFT_NAME(raiseChild(_:_:));
+	-(BOOL)raiseChild_1_: (TSCanvas* _Nonnull)child index: (uint32_t)index NS_SWIFT_NAME(raiseChild(child:index:));
 	-(BOOL)lowerChild: (TSCanvas* _Nonnull)child NS_SWIFT_NAME(lowerChild(_:));
 	-(BOOL)lowerChild_: (TSCanvas* _Nonnull)child NS_SWIFT_NAME(lowerChild(child:));
+	-(BOOL)lowerChild_1: (TSCanvas* _Nonnull)child index: (uint32_t)index NS_SWIFT_NAME(lowerChild(_:_:));
+	-(BOOL)lowerChild_1_: (TSCanvas* _Nonnull)child index: (uint32_t)index NS_SWIFT_NAME(lowerChild(child:index:));
 	-(void)releaseChildren;
 	-(uint32_t)findChild: (const TSCanvas* _Nonnull)child NS_SWIFT_NAME(findChild(_:));
 	-(uint32_t)findChild_: (const TSCanvas* _Nonnull)child NS_SWIFT_NAME(findChild(child:));
@@ -13260,8 +13274,12 @@ TS_CAPI @interface TSCanvas : NSObject {
 	-(BOOL)removeElement_: (TSCanvasElement* _Nonnull)element NS_SWIFT_NAME(removeElement(element:));
 	-(BOOL)raiseElement: (TSCanvasElement* _Nonnull)element NS_SWIFT_NAME(raiseElement(_:));
 	-(BOOL)raiseElement_: (TSCanvasElement* _Nonnull)element NS_SWIFT_NAME(raiseElement(element:));
+	-(BOOL)raiseElement_1: (TSCanvasElement* _Nonnull)element index: (uint32_t)index NS_SWIFT_NAME(raiseElement(_:_:));
+	-(BOOL)raiseElement_1_: (TSCanvasElement* _Nonnull)element index: (uint32_t)index NS_SWIFT_NAME(raiseElement(element:index:));
 	-(BOOL)lowerElement: (TSCanvasElement* _Nonnull)element NS_SWIFT_NAME(lowerElement(_:));
 	-(BOOL)lowerElement_: (TSCanvasElement* _Nonnull)element NS_SWIFT_NAME(lowerElement(element:));
+	-(BOOL)lowerElement_1: (TSCanvasElement* _Nonnull)element index: (uint32_t)index NS_SWIFT_NAME(lowerElement(_:_:));
+	-(BOOL)lowerElement_1_: (TSCanvasElement* _Nonnull)element index: (uint32_t)index NS_SWIFT_NAME(lowerElement(element:index:));
 	-(uint32_t)findElement: (const TSCanvasElement* _Nonnull)element NS_SWIFT_NAME(findElement(_:));
 	-(uint32_t)findElement_: (const TSCanvasElement* _Nonnull)element NS_SWIFT_NAME(findElement(element:));
 	-(BOOL)isElement: (const TSCanvasElement* _Nonnull)element NS_SWIFT_NAME(isElement(_:));
@@ -13348,6 +13366,9 @@ TS_CAPI @interface TSControl : NSObject {
 	-(const void* _Nonnull)getInternalPtr;
 	-(size_t)getSelfPtr;
 	+(TSControl* _Nonnull)null;
+	+(uint32_t)getNumControls NS_SWIFT_NAME(numControls());
+	+(BOOL)isControl: (const TSControl* _Nonnull)control NS_SWIFT_NAME(isControl(_:));
+	+(BOOL)isControl_: (const TSControl* _Nonnull)control NS_SWIFT_NAME(isControl(control:));
 	-(TS_ControlType)getType NS_SWIFT_NAME(type());
 	+(NSString* _Nonnull)getTypeName: (TS_ControlType)type NS_SWIFT_NAME(typeName(_:));
 	+(NSString* _Nonnull)getTypeName_: (TS_ControlType)type NS_SWIFT_NAME(typeName(type:));
@@ -13391,7 +13412,11 @@ TS_CAPI @interface TSControl : NSObject {
 	-(BOOL)isDisabled;
 	-(TSCanvas* _Nonnull)getCanvas NS_SWIFT_NAME(canvas());
 	-(const TSControlRoot* _Nonnull)getRoot NS_SWIFT_NAME(root());
-	-(TSControlRoot* _Nonnull)getRoot_1 NS_SWIFT_NAME(root());
+	-(const TSControlRoot* _Nonnull)getRoot_1: (BOOL)local NS_SWIFT_NAME(root(_:));
+	-(const TSControlRoot* _Nonnull)getRoot_1_: (BOOL)local NS_SWIFT_NAME(root(local:));
+	-(TSControlRoot* _Nonnull)getRoot_2 NS_SWIFT_NAME(root());
+	-(TSControlRoot* _Nonnull)getRoot_3: (BOOL)local NS_SWIFT_NAME(root(_:));
+	-(TSControlRoot* _Nonnull)getRoot_3_: (BOOL)local NS_SWIFT_NAME(root(local:));
 	-(const TSControlPanel* _Nonnull)getPanel NS_SWIFT_NAME(panel());
 	-(TSControlPanel* _Nonnull)getPanel_1 NS_SWIFT_NAME(panel());
 	-(uint32_t)setParent: (TSControl* _Nonnull)parent NS_SWIFT_NAME(setParent(_:));
@@ -13405,8 +13430,12 @@ TS_CAPI @interface TSControl : NSObject {
 	-(TSControl* _Nonnull)setChild_: (uint32_t)index child: (TSControl* _Nonnull)child NS_SWIFT_NAME(setChild(index:child:));
 	-(BOOL)raiseChild: (TSControl* _Nonnull)child NS_SWIFT_NAME(raiseChild(_:));
 	-(BOOL)raiseChild_: (TSControl* _Nonnull)child NS_SWIFT_NAME(raiseChild(child:));
+	-(BOOL)raiseChild_1: (TSControl* _Nonnull)child index: (uint32_t)index NS_SWIFT_NAME(raiseChild(_:_:));
+	-(BOOL)raiseChild_1_: (TSControl* _Nonnull)child index: (uint32_t)index NS_SWIFT_NAME(raiseChild(child:index:));
 	-(BOOL)lowerChild: (TSControl* _Nonnull)child NS_SWIFT_NAME(lowerChild(_:));
 	-(BOOL)lowerChild_: (TSControl* _Nonnull)child NS_SWIFT_NAME(lowerChild(child:));
+	-(BOOL)lowerChild_1: (TSControl* _Nonnull)child index: (uint32_t)index NS_SWIFT_NAME(lowerChild(_:_:));
+	-(BOOL)lowerChild_1_: (TSControl* _Nonnull)child index: (uint32_t)index NS_SWIFT_NAME(lowerChild(child:index:));
 	-(BOOL)removeChild: (TSControl* _Nonnull)child NS_SWIFT_NAME(removeChild(_:));
 	-(BOOL)removeChild_: (TSControl* _Nonnull)child NS_SWIFT_NAME(removeChild(child:));
 	-(void)releaseChildren;
@@ -13710,6 +13739,9 @@ TS_CAPI @interface TSControlText : TSControl
 	-(const void* _Nonnull)getInternalPtr;
 	-(size_t)getSelfPtr;
 	+(TSControlText* _Nonnull)null;
+	-(void)setCallback: (BOOL)callback NS_SWIFT_NAME(setCallback(_:));
+	-(void)setCallback_: (BOOL)callback NS_SWIFT_NAME(setCallback(callback:));
+	-(BOOL)getCallback NS_SWIFT_NAME(callback());
 	-(void)setMode: (TS_CanvasElementMode)mode NS_SWIFT_NAME(setMode(_:));
 	-(void)setMode_: (TS_CanvasElementMode)mode NS_SWIFT_NAME(setMode(mode:));
 	-(TS_CanvasElementMode)getMode NS_SWIFT_NAME(mode());
@@ -16212,6 +16244,10 @@ TS_CAPI @interface TSSeparableFilter : NSObject {
 	-(void)setInputSource_: (TS_SeparableFilterMode)mode src: (const char* _Nonnull)src NS_SWIFT_NAME(setInputSource(mode:src:));
 	-(NSString* _Nonnull)getInputSource: (TS_SeparableFilterMode)mode NS_SWIFT_NAME(inputSource(_:));
 	-(NSString* _Nonnull)getInputSource_: (TS_SeparableFilterMode)mode NS_SWIFT_NAME(inputSource(mode:));
+	-(void)setKernelSource: (TS_SeparableFilterMode)mode src: (const char* _Nonnull)src NS_SWIFT_NAME(setKernelSource(_:_:));
+	-(void)setKernelSource_: (TS_SeparableFilterMode)mode src: (const char* _Nonnull)src NS_SWIFT_NAME(setKernelSource(mode:src:));
+	-(NSString* _Nonnull)getKernelSource: (TS_SeparableFilterMode)mode NS_SWIFT_NAME(kernelSource(_:));
+	-(NSString* _Nonnull)getKernelSource_: (TS_SeparableFilterMode)mode NS_SWIFT_NAME(kernelSource(mode:));
 	-(void)setOutputSource: (TS_SeparableFilterMode)mode src: (const char* _Nonnull)src NS_SWIFT_NAME(setOutputSource(_:_:));
 	-(void)setOutputSource_: (TS_SeparableFilterMode)mode src: (const char* _Nonnull)src NS_SWIFT_NAME(setOutputSource(mode:src:));
 	-(NSString* _Nonnull)getOutputSource: (TS_SeparableFilterMode)mode NS_SWIFT_NAME(outputSource(_:));
