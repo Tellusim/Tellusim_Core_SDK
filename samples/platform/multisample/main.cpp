@@ -13,10 +13,6 @@
 
 /*
  */
-#define TITLE CLAY_VERSION"Multisample " CLAY_STRING(MULTISAMPLE)"x"
-
-/*
- */
 using namespace Tellusim;
 
 /*
@@ -31,8 +27,6 @@ int32_t main(int32_t argc, char **argv) {
 		window_flags |= Window::FlagMultisample4;
 	#elif MULTISAMPLE == 8
 		window_flags |= Window::FlagMultisample8;
-	#elif MULTISAMPLE == 16
-		window_flags |= Window::FlagMultisample16;
 	#elif MULTISAMPLE > 1
 		#error unknown flags
 	#endif
@@ -57,17 +51,25 @@ int32_t main(int32_t argc, char **argv) {
 		Color color;
 	};
 	
-	// create pipeline
+	// create base pipeline
 	Pipeline pipeline = device.createPipeline();
 	pipeline.setUniformMask(0, Shader::MaskVertex);
 	pipeline.addAttribute(Pipeline::AttributePosition, FormatRGBAf32, 0, 0, sizeof(float32_t) * 4);
-	pipeline.setPrimitive(Pipeline::PrimitiveLineStrip);
 	pipeline.setMultisample(window.getMultisample());
 	pipeline.setColorFormat(window.getColorFormat());
 	pipeline.setDepthFormat(window.getDepthFormat());
 	if(!pipeline.loadShaderGLSL(Shader::TypeVertex, "main.shader", "VERTEX_SHADER=1")) return 1;
-	if(!pipeline.loadShaderGLSL(Shader::TypeFragment, "main.shader", "FRAGMENT_SHADER=1")) return 1;
-	if(!pipeline.create()) return 1;
+	if(!pipeline.loadShaderGLSL(Shader::TypeFragment, "main.shader", "FRAGMENT_SHADER=1; MULTISAMPLE=%u", MULTISAMPLE)) return 1;
+	
+	// create line pipelines
+	Pipeline line_pipeline = device.createPipeline(pipeline);
+	line_pipeline.setPrimitive(Pipeline::PrimitiveLineStrip);
+	if(!line_pipeline.create()) return 1;
+	
+	// create triangle pipeline
+	Pipeline triangle_pipeline = device.createPipeline(pipeline);
+	triangle_pipeline.setPrimitive(Pipeline::PrimitiveTriangle);
+	if(!triangle_pipeline.create()) return 1;
 	
 	// create geometry
 	Vector4f vertices[num_vertices];
@@ -109,22 +111,34 @@ int32_t main(int32_t argc, char **argv) {
 			// create command list
 			Command command = device.createCommand(target);
 			
-			// set pipeline
-			command.setPipeline(pipeline);
-			command.setVertexBuffer(0, vertex_buffer);
-			
-			// set common parameters
+			// common parameters
 			CommonParameters common_parameters;
 			common_parameters.projection = Matrix4x4f::perspective(60.0f, (float32_t)window.getWidth() / window.getHeight(), 0.1f, 1000.0f);
 			Matrix4x4f modelview = Matrix4x4f::lookAt(Vector3f(8.0f, 8.0f, 8.0f), Vector3f::zero, Vector3f::oneZ);
 			if(target.isFlipped()) common_parameters.projection = Matrix4x4f::scale(1.0f, -1.0f, 1.0f) * common_parameters.projection;
 			
 			// draw lines
+			command.setPipeline(line_pipeline);
+			command.setVertexBuffer(0, vertex_buffer);
 			for(uint32_t i = 0; i < height; i++) {
 				common_parameters.color = colors[i];
 				common_parameters.modelview = modelview * Matrix4x4f::rotateZ(time * (i * 2.0f + 8.0f)) * Matrix4x4f::translate(0.0f, 0.0f, i * step);
 				command.setUniform(0, common_parameters);
 				command.drawArrays(num_vertices);
+			}
+			
+			// draw triangles
+			command.setPipeline(triangle_pipeline);
+			command.setVertices(0, {
+				Vector4f( Sqrt3, -1.0f, 0.0f, 1.0f),
+				Vector4f(-Sqrt3, -1.0f, 0.0f, 1.0f),
+				Vector4f(  0.0f,  2.0f, 0.0f, 1.0f),
+			});
+			for(uint32_t i = 0; i < height; i++) {
+				common_parameters.color = colors[i];
+				common_parameters.modelview = modelview * Matrix4x4f::rotateZ(time * (i * 2.0f + 8.0f)) * Matrix4x4f::translate(0.0f, 0.0f, i * step);
+				command.setUniform(0, common_parameters);
+				command.drawArrays(3);
 			}
 		}
 		target.end();

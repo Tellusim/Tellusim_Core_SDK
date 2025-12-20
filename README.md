@@ -639,6 +639,14 @@ A generic tooltip Control allows the display of help information over other inte
 
 ---
 
+## [Popup](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/plugins/interface/popup/)
+
+This plugin provides support for dynamic popup windows and contextual menus within the interface.
+
+[![Popup](utils/browser/images/plugins/interface_popup.png)](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/plugins/interface/popup/)
+
+---
+
 ## [Interface Layer](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/samples/interface/layer/)
 
 A transparent multilayer Controls with variable background blur.

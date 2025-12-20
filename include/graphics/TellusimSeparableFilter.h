@@ -22,7 +22,7 @@ namespace Tellusim {
 	
 	/**
 	 * The SeparableFilter class implements a flexible GPU-based filtering system that applies separable convolution operations in horizontal and vertical directions using compute shaders.
-	 * It allows customization of shader code for input and output stages, supports various filter types including Gaussian, Sobel, and box filters, and enables users to define or normalize custom weights.
+	 * It allows customization of shader code for input, kernel, and output stages, supports various filter types including Gaussian, Sobel, and box filters, and enables users to define or normalize custom weights.
 	 * Filters can be configured with different border handling modes and dispatched efficiently on textures with optional slice and parameter control.
 	 */
 	class TS_API SeparableFilter {
@@ -58,6 +58,11 @@ namespace Tellusim {
 			/// \param src Shader source.
 			void setInputSource(Mode mode, const char *src);
 			String getInputSource(Mode mode) const;
+			
+			/// kernel shader source
+			/// \param src Shader source.
+			void setKernelSource(Mode mode, const char *src);
+			String getKernelSource(Mode mode) const;
 			
 			/// output shader source
 			/// \param src Shader source.

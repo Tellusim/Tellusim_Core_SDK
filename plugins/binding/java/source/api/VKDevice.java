@@ -30,6 +30,7 @@ public class VKDevice extends Device {
 	public long getQueue() { return get_queue(self); }
 	public long getCommand() { return get_command(self); }
 	public int getFamily() { return get_family(self); }
+	public long getVKFeatures(int type) { return get_vk_features(self, type); }
 	
 	private static native long new_();
 	private static native long new_1(long context);
@@ -53,6 +54,7 @@ public class VKDevice extends Device {
 	private static native long get_queue(long self);
 	private static native long get_command(long self);
 	private static native int get_family(long self);
+	private static native long get_vk_features(long self, int type);
 	
 	protected VKDevice(long self) {
 		init_(self);

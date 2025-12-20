@@ -36,7 +36,10 @@ int32_t main(int32_t argc, char **argv) {
 	ControlDialog dialog(&root, 1, 0.0f, 8.0f);
 	dialog.setAlign(Control::AlignCenter);
 	dialog.setSize(256.0f, 128.0f);
+	
+	// create title
 	ControlText text(&dialog, "Hover mouse over");
+	text.setAlign(Control::AlignCenterX | Control::AlignTop);
 	
 	// create buttons
 	ControlButton button_0(&dialog, "Button 0");
@@ -53,12 +56,12 @@ int32_t main(int32_t argc, char **argv) {
 	ControlTooltip tooltip(&root);
 	tooltip.addTooltip(button_0, "Button 0");
 	tooltip.addTooltip(button_1, "Button 1");
-	tooltip.addTooltip(dialog, ControlTooltip::TextCallback([](Control control, Vector2f *position, float32_t *height) -> String {
+	tooltip.addTooltip(dialog, ControlTooltip::TextCallback([](Control control, Vector2f *position, float32_t *height) {
 		*height = control.getHeight();
 		position->set(control.getOffsetX() + control.getWidth() / 2.0f, control.getOffsetY());
 		return String::format("Position: %.0f %.0f\nSize: %.0fx%.0f", control.getPositionX(), control.getPositionY(), control.getWidth(), control.getHeight());
 	}));
-	tooltip.addTooltip(button_2, ControlTooltip::DrawCallback([](Control control, CanvasMesh mesh, Vector2f *position, float32_t *height) -> String {
+	tooltip.addTooltip(button_2, ControlTooltip::DrawCallback([](Control control, CanvasMesh mesh, Vector2f *position, float32_t *height) {
 		mesh.setMode(CanvasElement::ModeGradient);
 		mesh.setRect(Rect(0.0f, 128.0f, 0.0f, 128.0f));
 		mesh.setGradientStyle(GradientStyle(0.5f, Vector2f(0.5f), Color::magenta, Color::zero));

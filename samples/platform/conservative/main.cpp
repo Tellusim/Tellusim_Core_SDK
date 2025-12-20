@@ -38,7 +38,7 @@ int32_t main(int32_t argc, char **argv) {
 	if(!device) return 1;
 	
 	// check conservative raster support
-	if(!device.getFeatures().conservativeRaster) {
+	if(!device.getFeatures().rasterConservative) {
 		TS_LOG(Error, "conservative rasterization is not supported\n");
 		return 0;
 	}
