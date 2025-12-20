@@ -66,14 +66,14 @@ namespace Tellusim {
 	 */
 	void ControlTooltip::clearTooltips() {
 		tooltips.clear();
-		text_funcs.clear();
-		draw_funcs.clear();
+		text_callbacks.clear();
+		draw_callbacks.clear();
 	}
 	
 	void ControlTooltip::removeTooltip(const Control &control, bool hierarchy) {
 		tooltips.remove(control);
-		text_funcs.remove(control);
-		draw_funcs.remove(control);
+		text_callbacks.remove(control);
+		draw_callbacks.remove(control);
 		if(hierarchy) {
 			for(const Control &child : control.getChildren()) {
 				removeTooltip(child, hierarchy);
@@ -90,11 +90,11 @@ namespace Tellusim {
 	}
 	
 	void ControlTooltip::addTooltip(const Control &control, const TextCallback &func) {
-		text_funcs.append(control, func);
+		text_callbacks.append(control, func);
 	}
 	
 	void ControlTooltip::addTooltip(const Control &control, const DrawCallback &func) {
-		draw_funcs.append(control, func);
+		draw_callbacks.append(control, func);
 	}
 	
 	/*
@@ -146,8 +146,8 @@ namespace Tellusim {
 			
 			uint64_t time = Time::current();
 			float32_t control_height = 0.0f;
-			auto text_it = text_funcs.find(focused_control);
-			auto draw_it = draw_funcs.find(focused_control);
+			auto text_it = text_callbacks.find(focused_control);
+			auto draw_it = draw_callbacks.find(focused_control);
 			float32_t tooltip_distance = (text_it || draw_it) ? Maxf32 : 1.0f;
 			if((text_it || draw_it || tooltip_control == focused_control) && length(tooltip_position - mouse_position) < tooltip_distance && !root.getMouseButtons()) {
 				

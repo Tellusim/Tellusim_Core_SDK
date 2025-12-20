@@ -93,13 +93,14 @@ namespace Tellusim {
 				AlignOverlap		= (1 << 8),
 				AlignSpacer			= (1 << 9),
 				AlignAspect			= (1 << 10),
+				AlignLocal			= (1 << 11),
 				AlignLeftBottom		= (AlignLeft | AlignBottom),
 				AlignLeftTop		= (AlignLeft | AlignTop),
 				AlignRightBottom	= (AlignRight | AlignBottom),
 				AlignRightTop		= (AlignRight | AlignTop),
 				AlignCenter			= (AlignCenterX | AlignCenterY),
 				AlignExpand			= (AlignExpandX | AlignExpandY),
-				NumAligns = 11,
+				NumAligns = 12,
 			};
 			
 			/// Control buttons
@@ -156,6 +157,10 @@ namespace Tellusim {
 			explicit Control(Control *parent);
 			Control(Control *parent, float32_t width, float32_t height = 0.0f);
 			
+			/// check controls
+			static uint32_t getNumControls();
+			static bool isControl(const Control &control);
+			
 			/// control type
 			Type getType() const;
 			
@@ -208,8 +213,8 @@ namespace Tellusim {
 			Canvas getCanvas() const;
 			
 			/// control root
-			const ControlRoot getRoot() const;
-			ControlRoot getRoot();
+			const ControlRoot getRoot(bool local = false) const;
+			ControlRoot getRoot(bool local = false);
 			
 			/// control panel
 			const ControlPanel getPanel() const;
@@ -226,8 +231,8 @@ namespace Tellusim {
 			/// control children
 			uint32_t addChild(Control &child);
 			Control setChild(uint32_t index, Control &child);
-			bool raiseChild(Control &child);
-			bool lowerChild(Control &child);
+			bool raiseChild(Control &child, uint32_t index = 0);
+			bool lowerChild(Control &child, uint32_t index = 0);
 			bool removeChild(Control &child);
 			void releaseChildren();
 			
@@ -455,6 +460,10 @@ namespace Tellusim {
 			explicit ControlText(Control *parent);
 			ControlText(Control *parent, const char *text);
 			ControlText(Control *parent, const String &text);
+			
+			/// callback flag
+			void setCallback(bool callback);
+			bool getCallback() const;
 			
 			/// control mode
 			void setMode(CanvasElement::Mode mode);

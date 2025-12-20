@@ -21,6 +21,8 @@ public class D3D12Device extends Device {
 	public long getD3D12Device() { return get_d3d12_device(self); }
 	public long getQueue() { return get_queue(self); }
 	public long getCommand() { return get_command(self); }
+	public long getD3D12Features(int index) { return get_d3d12_features(self, index); }
+	public int getShaderModel() { return get_shader_model(self); }
 	
 	private static native long new_();
 	private static native long new_1(long context);
@@ -35,6 +37,8 @@ public class D3D12Device extends Device {
 	private static native long get_d3d12_device(long self);
 	private static native long get_queue(long self);
 	private static native long get_command(long self);
+	private static native long get_d3d12_features(long self, int index);
+	private static native int get_shader_model(long self);
 	
 	protected D3D12Device(long self) {
 		init_(self);

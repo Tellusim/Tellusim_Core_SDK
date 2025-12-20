@@ -41,7 +41,7 @@ int32_t main(int32_t argc, char **argv) {
 	if(!device) return 1;
 	
 	// device features
-	bool has_base_index = device.getFeatures().baseInstanceIndex;
+	bool has_base_index = device.getFeatures().drawBaseInstance;
 	bool has_draw_index = device.getFeatures().drawIndirectIndex;
 	bool has_draw_count = device.getFeatures().drawIndirectCount;
 	

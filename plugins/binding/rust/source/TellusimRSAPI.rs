@@ -216,7 +216,7 @@ impl cmp::PartialEq for Format {
 #[repr(u32)]
 #[derive(Copy, Clone)]
 pub enum AppVersion {
-	Version = 20251102,
+	Version = 20251220,
 }
 
 // Tellusim::Socket::Type
@@ -1422,13 +1422,14 @@ pub enum ControlAlign {
 	Overlap = 256,
 	Spacer = 512,
 	Aspect = 1024,
+	Local = 2048,
 	LeftBottom = 5,
 	LeftTop = 9,
 	RightBottom = 6,
 	RightTop = 10,
 	Center = 48,
 	Expand = 192,
-	NumAligns = 11,
+	NumAligns = 12,
 }
 
 // Tellusim::Control::Button
@@ -20836,10 +20837,6 @@ pub trait TracingTrait {
 	fn num_instances(&self) -> u32;
 	fn instance_buffer(&self) -> Buffer;
 	fn instance_offset(&self) -> usize;
-	fn set_indirect_buffer(&mut self, buffer: &mut Buffer);
-	fn set_indirect_buffer_with_offset(&mut self, buffer: &mut Buffer, offset: usize);
-	fn indirect_buffer(&self) -> Buffer;
-	fn indirect_offset(&self) -> usize;
 	fn add_vertex_buffer(&mut self, num_vertices: u32, format: Format, stride: usize) -> u32;
 	fn add_vertex_buffer_with_buffer(&mut self, num_vertices: u32, format: Format, stride: usize, buffer: &mut Buffer) -> u32;
 	fn add_vertex_buffer_with_buffer_offset(&mut self, num_vertices: u32, format: Format, stride: usize, buffer: &mut Buffer, offset: usize) -> u32;
@@ -20877,6 +20874,10 @@ pub trait TracingTrait {
 	fn bound_stride(&self, index: u32) -> u32;
 	fn bound_buffer(&self, index: u32) -> Buffer;
 	fn bound_offset(&self, index: u32) -> usize;
+	fn set_indirect_buffer(&mut self, buffer: &mut Buffer);
+	fn set_indirect_buffer_with_offset(&mut self, buffer: &mut Buffer, offset: usize);
+	fn indirect_buffer(&self) -> Buffer;
+	fn indirect_offset(&self) -> usize;
 	fn description(&self) -> string::String;
 	fn tracing_address(&self) -> u64;
 	fn build_size(&self) -> usize;
@@ -20914,10 +20915,6 @@ impl TracingTrait for Tracing {
 	fn num_instances(&self) -> u32 { unsafe { tsTracing_getNumInstances(self.this) } }
 	fn instance_buffer(&self) -> Buffer { unsafe { Buffer::new_ptr(tsTracing_getInstanceBuffer(self.this)) } }
 	fn instance_offset(&self) -> usize { unsafe { tsTracing_getInstanceOffset(self.this) } }
-	fn set_indirect_buffer(&mut self, buffer: &mut Buffer) { unsafe { tsTracing_setIndirectBuffer(self.this, buffer.this, 0) } }
-	fn set_indirect_buffer_with_offset(&mut self, buffer: &mut Buffer, offset: usize) { unsafe { tsTracing_setIndirectBuffer(self.this, buffer.this, offset) } }
-	fn indirect_buffer(&self) -> Buffer { unsafe { Buffer::new_ptr(tsTracing_getIndirectBuffer(self.this)) } }
-	fn indirect_offset(&self) -> usize { unsafe { tsTracing_getIndirectOffset(self.this) } }
 	fn add_vertex_buffer(&mut self, num_vertices: u32, format: Format, stride: usize) -> u32 { unsafe { tsTracing_addVertexBuffer(self.this, num_vertices, format, stride, ptr::null_mut(), 0) } }
 	fn add_vertex_buffer_with_buffer(&mut self, num_vertices: u32, format: Format, stride: usize, buffer: &mut Buffer) -> u32 { unsafe { tsTracing_addVertexBuffer(self.this, num_vertices, format, stride, buffer.this, 0) } }
 	fn add_vertex_buffer_with_buffer_offset(&mut self, num_vertices: u32, format: Format, stride: usize, buffer: &mut Buffer, offset: usize) -> u32 { unsafe { tsTracing_addVertexBuffer(self.this, num_vertices, format, stride, buffer.this, offset) } }
@@ -20955,6 +20952,10 @@ impl TracingTrait for Tracing {
 	fn bound_stride(&self, index: u32) -> u32 { unsafe { tsTracing_getBoundStride(self.this, index) } }
 	fn bound_buffer(&self, index: u32) -> Buffer { unsafe { Buffer::new_ptr(tsTracing_getBoundBuffer(self.this, index)) } }
 	fn bound_offset(&self, index: u32) -> usize { unsafe { tsTracing_getBoundOffset(self.this, index) } }
+	fn set_indirect_buffer(&mut self, buffer: &mut Buffer) { unsafe { tsTracing_setIndirectBuffer(self.this, buffer.this, 0) } }
+	fn set_indirect_buffer_with_offset(&mut self, buffer: &mut Buffer, offset: usize) { unsafe { tsTracing_setIndirectBuffer(self.this, buffer.this, offset) } }
+	fn indirect_buffer(&self) -> Buffer { unsafe { Buffer::new_ptr(tsTracing_getIndirectBuffer(self.this)) } }
+	fn indirect_offset(&self) -> usize { unsafe { tsTracing_getIndirectOffset(self.this) } }
 	fn description(&self) -> string::String { unsafe { get_string(tsTracing_getDescription(self.this)) } }
 	fn tracing_address(&self) -> u64 { unsafe { tsTracing_getTracingAddress(self.this) } }
 	fn build_size(&self) -> usize { unsafe { tsTracing_getBuildSize(self.this) } }
@@ -21022,9 +21023,6 @@ extern "C" {
 	fn tsTracing_getNumInstances(this: *const c_void) -> u32;
 	fn tsTracing_getInstanceBuffer(this: *const c_void) -> *mut c_void;
 	fn tsTracing_getInstanceOffset(this: *const c_void) -> usize;
-	fn tsTracing_setIndirectBuffer(this: *mut c_void, buffer: *mut c_void, offset: usize);
-	fn tsTracing_getIndirectBuffer(this: *const c_void) -> *mut c_void;
-	fn tsTracing_getIndirectOffset(this: *const c_void) -> usize;
 	fn tsTracing_addVertexBuffer(this: *mut c_void, num_vertices: u32, format: Format, stride: usize, buffer: *mut c_void, offset: usize) -> u32;
 	fn tsTracing_setVertexBuffer_uuBz(this: *mut c_void, index: u32, num_vertices: u32, buffer: *mut c_void, offset: usize);
 	fn tsTracing_setVertexBuffer_uBz(this: *mut c_void, index: u32, buffer: *mut c_void, offset: usize);
@@ -21050,6 +21048,9 @@ extern "C" {
 	fn tsTracing_getBoundStride(this: *const c_void, index: u32) -> u32;
 	fn tsTracing_getBoundBuffer(this: *const c_void, index: u32) -> *mut c_void;
 	fn tsTracing_getBoundOffset(this: *const c_void, index: u32) -> usize;
+	fn tsTracing_setIndirectBuffer(this: *mut c_void, buffer: *mut c_void, offset: usize);
+	fn tsTracing_getIndirectBuffer(this: *const c_void) -> *mut c_void;
+	fn tsTracing_getIndirectOffset(this: *const c_void) -> usize;
 	fn tsTracing_getDescription(this: *const c_void) -> *mut c_void;
 	fn tsTracing_getTracingAddress(this: *const c_void) -> u64;
 	fn tsTracing_getBuildSize(this: *const c_void) -> usize;
@@ -21159,10 +21160,6 @@ impl TracingTrait for D3D12Tracing {
 	fn num_instances(&self) -> u32 { unsafe { tsTracing_getNumInstances(self.this) } }
 	fn instance_buffer(&self) -> Buffer { unsafe { Buffer::new_ptr(tsTracing_getInstanceBuffer(self.this)) } }
 	fn instance_offset(&self) -> usize { unsafe { tsTracing_getInstanceOffset(self.this) } }
-	fn set_indirect_buffer(&mut self, buffer: &mut Buffer) { unsafe { tsTracing_setIndirectBuffer(self.this, buffer.this, 0) } }
-	fn set_indirect_buffer_with_offset(&mut self, buffer: &mut Buffer, offset: usize) { unsafe { tsTracing_setIndirectBuffer(self.this, buffer.this, offset) } }
-	fn indirect_buffer(&self) -> Buffer { unsafe { Buffer::new_ptr(tsTracing_getIndirectBuffer(self.this)) } }
-	fn indirect_offset(&self) -> usize { unsafe { tsTracing_getIndirectOffset(self.this) } }
 	fn add_vertex_buffer(&mut self, num_vertices: u32, format: Format, stride: usize) -> u32 { unsafe { tsTracing_addVertexBuffer(self.this, num_vertices, format, stride, ptr::null_mut(), 0) } }
 	fn add_vertex_buffer_with_buffer(&mut self, num_vertices: u32, format: Format, stride: usize, buffer: &mut Buffer) -> u32 { unsafe { tsTracing_addVertexBuffer(self.this, num_vertices, format, stride, buffer.this, 0) } }
 	fn add_vertex_buffer_with_buffer_offset(&mut self, num_vertices: u32, format: Format, stride: usize, buffer: &mut Buffer, offset: usize) -> u32 { unsafe { tsTracing_addVertexBuffer(self.this, num_vertices, format, stride, buffer.this, offset) } }
@@ -21200,6 +21197,10 @@ impl TracingTrait for D3D12Tracing {
 	fn bound_stride(&self, index: u32) -> u32 { unsafe { tsTracing_getBoundStride(self.this, index) } }
 	fn bound_buffer(&self, index: u32) -> Buffer { unsafe { Buffer::new_ptr(tsTracing_getBoundBuffer(self.this, index)) } }
 	fn bound_offset(&self, index: u32) -> usize { unsafe { tsTracing_getBoundOffset(self.this, index) } }
+	fn set_indirect_buffer(&mut self, buffer: &mut Buffer) { unsafe { tsTracing_setIndirectBuffer(self.this, buffer.this, 0) } }
+	fn set_indirect_buffer_with_offset(&mut self, buffer: &mut Buffer, offset: usize) { unsafe { tsTracing_setIndirectBuffer(self.this, buffer.this, offset) } }
+	fn indirect_buffer(&self) -> Buffer { unsafe { Buffer::new_ptr(tsTracing_getIndirectBuffer(self.this)) } }
+	fn indirect_offset(&self) -> usize { unsafe { tsTracing_getIndirectOffset(self.this) } }
 	fn description(&self) -> string::String { unsafe { get_string(tsTracing_getDescription(self.this)) } }
 	fn tracing_address(&self) -> u64 { unsafe { tsTracing_getTracingAddress(self.this) } }
 	fn build_size(&self) -> usize { unsafe { tsTracing_getBuildSize(self.this) } }
@@ -21314,10 +21315,6 @@ impl TracingTrait for MTLTracing {
 	fn num_instances(&self) -> u32 { unsafe { tsTracing_getNumInstances(self.this) } }
 	fn instance_buffer(&self) -> Buffer { unsafe { Buffer::new_ptr(tsTracing_getInstanceBuffer(self.this)) } }
 	fn instance_offset(&self) -> usize { unsafe { tsTracing_getInstanceOffset(self.this) } }
-	fn set_indirect_buffer(&mut self, buffer: &mut Buffer) { unsafe { tsTracing_setIndirectBuffer(self.this, buffer.this, 0) } }
-	fn set_indirect_buffer_with_offset(&mut self, buffer: &mut Buffer, offset: usize) { unsafe { tsTracing_setIndirectBuffer(self.this, buffer.this, offset) } }
-	fn indirect_buffer(&self) -> Buffer { unsafe { Buffer::new_ptr(tsTracing_getIndirectBuffer(self.this)) } }
-	fn indirect_offset(&self) -> usize { unsafe { tsTracing_getIndirectOffset(self.this) } }
 	fn add_vertex_buffer(&mut self, num_vertices: u32, format: Format, stride: usize) -> u32 { unsafe { tsTracing_addVertexBuffer(self.this, num_vertices, format, stride, ptr::null_mut(), 0) } }
 	fn add_vertex_buffer_with_buffer(&mut self, num_vertices: u32, format: Format, stride: usize, buffer: &mut Buffer) -> u32 { unsafe { tsTracing_addVertexBuffer(self.this, num_vertices, format, stride, buffer.this, 0) } }
 	fn add_vertex_buffer_with_buffer_offset(&mut self, num_vertices: u32, format: Format, stride: usize, buffer: &mut Buffer, offset: usize) -> u32 { unsafe { tsTracing_addVertexBuffer(self.this, num_vertices, format, stride, buffer.this, offset) } }
@@ -21355,6 +21352,10 @@ impl TracingTrait for MTLTracing {
 	fn bound_stride(&self, index: u32) -> u32 { unsafe { tsTracing_getBoundStride(self.this, index) } }
 	fn bound_buffer(&self, index: u32) -> Buffer { unsafe { Buffer::new_ptr(tsTracing_getBoundBuffer(self.this, index)) } }
 	fn bound_offset(&self, index: u32) -> usize { unsafe { tsTracing_getBoundOffset(self.this, index) } }
+	fn set_indirect_buffer(&mut self, buffer: &mut Buffer) { unsafe { tsTracing_setIndirectBuffer(self.this, buffer.this, 0) } }
+	fn set_indirect_buffer_with_offset(&mut self, buffer: &mut Buffer, offset: usize) { unsafe { tsTracing_setIndirectBuffer(self.this, buffer.this, offset) } }
+	fn indirect_buffer(&self) -> Buffer { unsafe { Buffer::new_ptr(tsTracing_getIndirectBuffer(self.this)) } }
+	fn indirect_offset(&self) -> usize { unsafe { tsTracing_getIndirectOffset(self.this) } }
 	fn description(&self) -> string::String { unsafe { get_string(tsTracing_getDescription(self.this)) } }
 	fn tracing_address(&self) -> u64 { unsafe { tsTracing_getTracingAddress(self.this) } }
 	fn build_size(&self) -> usize { unsafe { tsTracing_getBuildSize(self.this) } }
@@ -21467,10 +21468,6 @@ impl TracingTrait for VKTracing {
 	fn num_instances(&self) -> u32 { unsafe { tsTracing_getNumInstances(self.this) } }
 	fn instance_buffer(&self) -> Buffer { unsafe { Buffer::new_ptr(tsTracing_getInstanceBuffer(self.this)) } }
 	fn instance_offset(&self) -> usize { unsafe { tsTracing_getInstanceOffset(self.this) } }
-	fn set_indirect_buffer(&mut self, buffer: &mut Buffer) { unsafe { tsTracing_setIndirectBuffer(self.this, buffer.this, 0) } }
-	fn set_indirect_buffer_with_offset(&mut self, buffer: &mut Buffer, offset: usize) { unsafe { tsTracing_setIndirectBuffer(self.this, buffer.this, offset) } }
-	fn indirect_buffer(&self) -> Buffer { unsafe { Buffer::new_ptr(tsTracing_getIndirectBuffer(self.this)) } }
-	fn indirect_offset(&self) -> usize { unsafe { tsTracing_getIndirectOffset(self.this) } }
 	fn add_vertex_buffer(&mut self, num_vertices: u32, format: Format, stride: usize) -> u32 { unsafe { tsTracing_addVertexBuffer(self.this, num_vertices, format, stride, ptr::null_mut(), 0) } }
 	fn add_vertex_buffer_with_buffer(&mut self, num_vertices: u32, format: Format, stride: usize, buffer: &mut Buffer) -> u32 { unsafe { tsTracing_addVertexBuffer(self.this, num_vertices, format, stride, buffer.this, 0) } }
 	fn add_vertex_buffer_with_buffer_offset(&mut self, num_vertices: u32, format: Format, stride: usize, buffer: &mut Buffer, offset: usize) -> u32 { unsafe { tsTracing_addVertexBuffer(self.this, num_vertices, format, stride, buffer.this, offset) } }
@@ -21508,6 +21505,10 @@ impl TracingTrait for VKTracing {
 	fn bound_stride(&self, index: u32) -> u32 { unsafe { tsTracing_getBoundStride(self.this, index) } }
 	fn bound_buffer(&self, index: u32) -> Buffer { unsafe { Buffer::new_ptr(tsTracing_getBoundBuffer(self.this, index)) } }
 	fn bound_offset(&self, index: u32) -> usize { unsafe { tsTracing_getBoundOffset(self.this, index) } }
+	fn set_indirect_buffer(&mut self, buffer: &mut Buffer) { unsafe { tsTracing_setIndirectBuffer(self.this, buffer.this, 0) } }
+	fn set_indirect_buffer_with_offset(&mut self, buffer: &mut Buffer, offset: usize) { unsafe { tsTracing_setIndirectBuffer(self.this, buffer.this, offset) } }
+	fn indirect_buffer(&self) -> Buffer { unsafe { Buffer::new_ptr(tsTracing_getIndirectBuffer(self.this)) } }
+	fn indirect_offset(&self) -> usize { unsafe { tsTracing_getIndirectOffset(self.this) } }
 	fn description(&self) -> string::String { unsafe { get_string(tsTracing_getDescription(self.this)) } }
 	fn tracing_address(&self) -> u64 { unsafe { tsTracing_getTracingAddress(self.this) } }
 	fn build_size(&self) -> usize { unsafe { tsTracing_getBuildSize(self.this) } }
@@ -21631,10 +21632,6 @@ impl TracingTrait for FUTracing {
 	fn num_instances(&self) -> u32 { unsafe { tsTracing_getNumInstances(self.this) } }
 	fn instance_buffer(&self) -> Buffer { unsafe { Buffer::new_ptr(tsTracing_getInstanceBuffer(self.this)) } }
 	fn instance_offset(&self) -> usize { unsafe { tsTracing_getInstanceOffset(self.this) } }
-	fn set_indirect_buffer(&mut self, buffer: &mut Buffer) { unsafe { tsTracing_setIndirectBuffer(self.this, buffer.this, 0) } }
-	fn set_indirect_buffer_with_offset(&mut self, buffer: &mut Buffer, offset: usize) { unsafe { tsTracing_setIndirectBuffer(self.this, buffer.this, offset) } }
-	fn indirect_buffer(&self) -> Buffer { unsafe { Buffer::new_ptr(tsTracing_getIndirectBuffer(self.this)) } }
-	fn indirect_offset(&self) -> usize { unsafe { tsTracing_getIndirectOffset(self.this) } }
 	fn add_vertex_buffer(&mut self, num_vertices: u32, format: Format, stride: usize) -> u32 { unsafe { tsTracing_addVertexBuffer(self.this, num_vertices, format, stride, ptr::null_mut(), 0) } }
 	fn add_vertex_buffer_with_buffer(&mut self, num_vertices: u32, format: Format, stride: usize, buffer: &mut Buffer) -> u32 { unsafe { tsTracing_addVertexBuffer(self.this, num_vertices, format, stride, buffer.this, 0) } }
 	fn add_vertex_buffer_with_buffer_offset(&mut self, num_vertices: u32, format: Format, stride: usize, buffer: &mut Buffer, offset: usize) -> u32 { unsafe { tsTracing_addVertexBuffer(self.this, num_vertices, format, stride, buffer.this, offset) } }
@@ -21672,6 +21669,10 @@ impl TracingTrait for FUTracing {
 	fn bound_stride(&self, index: u32) -> u32 { unsafe { tsTracing_getBoundStride(self.this, index) } }
 	fn bound_buffer(&self, index: u32) -> Buffer { unsafe { Buffer::new_ptr(tsTracing_getBoundBuffer(self.this, index)) } }
 	fn bound_offset(&self, index: u32) -> usize { unsafe { tsTracing_getBoundOffset(self.this, index) } }
+	fn set_indirect_buffer(&mut self, buffer: &mut Buffer) { unsafe { tsTracing_setIndirectBuffer(self.this, buffer.this, 0) } }
+	fn set_indirect_buffer_with_offset(&mut self, buffer: &mut Buffer, offset: usize) { unsafe { tsTracing_setIndirectBuffer(self.this, buffer.this, offset) } }
+	fn indirect_buffer(&self) -> Buffer { unsafe { Buffer::new_ptr(tsTracing_getIndirectBuffer(self.this)) } }
+	fn indirect_offset(&self) -> usize { unsafe { tsTracing_getIndirectOffset(self.this) } }
 	fn description(&self) -> string::String { unsafe { get_string(tsTracing_getDescription(self.this)) } }
 	fn tracing_address(&self) -> u64 { unsafe { tsTracing_getTracingAddress(self.this) } }
 	fn build_size(&self) -> usize { unsafe { tsTracing_getBuildSize(self.this) } }
@@ -23880,13 +23881,14 @@ extern "C" {
 #[derive(Copy, Clone)]
 pub struct DeviceFeatures {
 	pub thread_access: u8,
-	pub sparse_buffer: u8,
 	pub buffer_table: u8,
-	pub sparse_texture: u8,
-	pub sparse_array_texture: u8,
-	pub cube_array_texture: u8,
+	pub buffer_sparse: u8,
 	pub texture_table: u8,
-	pub base_instance_index: u8,
+	pub texture_sparse: u8,
+	pub texture_array_cube: u8,
+	pub texture_array_sparse: u8,
+	pub surface_multisample: u8,
+	pub draw_base_instance: u8,
 	pub draw_indirect_index: u8,
 	pub draw_indirect_count: u8,
 	pub task_indirect_count: u8,
@@ -23895,15 +23897,15 @@ pub struct DeviceFeatures {
 	pub geometry_passthrough: u8,
 	pub fragment_barycentric: u8,
 	pub fragment_stencil_export: u8,
-	pub dual_source_blending: u8,
+	pub blend_dual_source: u8,
 	pub depth_range_one_to_one: u8,
-	pub conservative_raster: u8,
-	pub conditional_rendering: u8,
-	pub ray_tracing: u8,
+	pub raster_conservative: u8,
+	pub render_conditional: u8,
 	pub compute_tracing: u8,
 	pub fragment_tracing: u8,
-	pub indirect_tracing: u8,
-	pub recursion_depth: u32,
+	pub traversal_tracing: u8,
+	pub build_indirect_tracing: u8,
+	pub max_traversal_depth: u32,
 	pub subgroup_vote: u8,
 	pub subgroup_math: u8,
 	pub subgroup_shuffle: u8,
@@ -23930,10 +23932,10 @@ pub struct DeviceFeatures {
 	pub matrix16x8x16f16f32: u8,
 	pub uniform_alignment: u32,
 	pub storage_alignment: u32,
-	pub max_texture_samples: u32,
 	pub max_texture2d_size: u32,
 	pub max_texture3d_size: u32,
 	pub max_texture_layers: u32,
+	pub max_texture_samples: u32,
 	pub max_group_size_x: u32,
 	pub max_group_size_y: u32,
 	pub max_group_size_z: u32,
@@ -23962,13 +23964,14 @@ impl fmt::Display for DeviceFeatures {
 	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
 		let mut ret = string::String::new();
 		ret += &format!("thread_access: {0}\n", self.thread_access);
-		ret += &format!("sparse_buffer: {0}\n", self.sparse_buffer);
 		ret += &format!("buffer_table: {0}\n", self.buffer_table);
-		ret += &format!("sparse_texture: {0}\n", self.sparse_texture);
-		ret += &format!("sparse_array_texture: {0}\n", self.sparse_array_texture);
-		ret += &format!("cube_array_texture: {0}\n", self.cube_array_texture);
+		ret += &format!("buffer_sparse: {0}\n", self.buffer_sparse);
 		ret += &format!("texture_table: {0}\n", self.texture_table);
-		ret += &format!("base_instance_index: {0}\n", self.base_instance_index);
+		ret += &format!("texture_sparse: {0}\n", self.texture_sparse);
+		ret += &format!("texture_array_cube: {0}\n", self.texture_array_cube);
+		ret += &format!("texture_array_sparse: {0}\n", self.texture_array_sparse);
+		ret += &format!("surface_multisample: {0}\n", self.surface_multisample);
+		ret += &format!("draw_base_instance: {0}\n", self.draw_base_instance);
 		ret += &format!("draw_indirect_index: {0}\n", self.draw_indirect_index);
 		ret += &format!("draw_indirect_count: {0}\n", self.draw_indirect_count);
 		ret += &format!("task_indirect_count: {0}\n", self.task_indirect_count);
@@ -23977,15 +23980,15 @@ impl fmt::Display for DeviceFeatures {
 		ret += &format!("geometry_passthrough: {0}\n", self.geometry_passthrough);
 		ret += &format!("fragment_barycentric: {0}\n", self.fragment_barycentric);
 		ret += &format!("fragment_stencil_export: {0}\n", self.fragment_stencil_export);
-		ret += &format!("dual_source_blending: {0}\n", self.dual_source_blending);
+		ret += &format!("blend_dual_source: {0}\n", self.blend_dual_source);
 		ret += &format!("depth_range_one_to_one: {0}\n", self.depth_range_one_to_one);
-		ret += &format!("conservative_raster: {0}\n", self.conservative_raster);
-		ret += &format!("conditional_rendering: {0}\n", self.conditional_rendering);
-		ret += &format!("ray_tracing: {0}\n", self.ray_tracing);
+		ret += &format!("raster_conservative: {0}\n", self.raster_conservative);
+		ret += &format!("render_conditional: {0}\n", self.render_conditional);
 		ret += &format!("compute_tracing: {0}\n", self.compute_tracing);
 		ret += &format!("fragment_tracing: {0}\n", self.fragment_tracing);
-		ret += &format!("indirect_tracing: {0}\n", self.indirect_tracing);
-		ret += &format!("recursion_depth: {0}\n", self.recursion_depth);
+		ret += &format!("traversal_tracing: {0}\n", self.traversal_tracing);
+		ret += &format!("build_indirect_tracing: {0}\n", self.build_indirect_tracing);
+		ret += &format!("max_traversal_depth: {0}\n", self.max_traversal_depth);
 		ret += &format!("subgroup_vote: {0}\n", self.subgroup_vote);
 		ret += &format!("subgroup_math: {0}\n", self.subgroup_math);
 		ret += &format!("subgroup_shuffle: {0}\n", self.subgroup_shuffle);
@@ -24012,10 +24015,10 @@ impl fmt::Display for DeviceFeatures {
 		ret += &format!("matrix16x8x16f16f32: {0}\n", self.matrix16x8x16f16f32);
 		ret += &format!("uniform_alignment: {0}\n", self.uniform_alignment);
 		ret += &format!("storage_alignment: {0}\n", self.storage_alignment);
-		ret += &format!("max_texture_samples: {0}\n", self.max_texture_samples);
 		ret += &format!("max_texture2d_size: {0}\n", self.max_texture2d_size);
 		ret += &format!("max_texture3d_size: {0}\n", self.max_texture3d_size);
 		ret += &format!("max_texture_layers: {0}\n", self.max_texture_layers);
+		ret += &format!("max_texture_samples: {0}\n", self.max_texture_samples);
 		ret += &format!("max_group_size_x: {0}\n", self.max_group_size_x);
 		ret += &format!("max_group_size_y: {0}\n", self.max_group_size_y);
 		ret += &format!("max_group_size_z: {0}\n", self.max_group_size_z);
@@ -24075,6 +24078,8 @@ impl D3D12Device {
 	pub fn d3d12_device(&self) -> *const c_void { unsafe { tsD3D12Device_getD3D12Device(self.this) } }
 	pub fn queue(&self) -> *const c_void { unsafe { tsD3D12Device_getQueue(self.this) } }
 	pub fn command(&self) -> *const c_void { unsafe { tsD3D12Device_getCommand(self.this) } }
+	pub fn d3d12_features(&self, index: u32) -> *const c_void { unsafe { tsD3D12Device_getD3D12Features(self.this, index) } }
+	pub fn shader_model(&self) -> u32 { unsafe { tsD3D12Device_getShaderModel(self.this) } }
 }
 impl DeviceTrait for D3D12Device {
 	fn platform(&self) -> Platform { unsafe { tsDevice_getPlatform(self.this) } }
@@ -24520,6 +24525,8 @@ extern "C" {
 	fn tsD3D12Device_getD3D12Device(this: *const c_void) -> *const c_void;
 	fn tsD3D12Device_getQueue(this: *const c_void) -> *const c_void;
 	fn tsD3D12Device_getCommand(this: *const c_void) -> *const c_void;
+	fn tsD3D12Device_getD3D12Features(this: *const c_void, index: u32) -> *const c_void;
+	fn tsD3D12Device_getShaderModel(this: *const c_void) -> u32;
 }
 
 // Tellusim::D3D11Device
@@ -24551,6 +24558,7 @@ impl D3D11Device {
 	pub fn this_ptr(&self) -> *mut c_void { self.this }
 	pub fn d3d11_device(&self) -> *const c_void { unsafe { tsD3D11Device_getD3D11Device(self.this) } }
 	pub fn command(&self) -> *const c_void { unsafe { tsD3D11Device_getCommand(self.this) } }
+	pub fn d3d11_features(&self, index: u32) -> *const c_void { unsafe { tsD3D11Device_getD3D11Features(self.this, index) } }
 }
 impl DeviceTrait for D3D11Device {
 	fn platform(&self) -> Platform { unsafe { tsDevice_getPlatform(self.this) } }
@@ -24993,6 +25001,7 @@ extern "C" {
 	fn tsD3D11Device_baseDevicePtr(this: *const c_void) -> *mut c_void;
 	fn tsD3D11Device_getD3D11Device(this: *const c_void) -> *const c_void;
 	fn tsD3D11Device_getCommand(this: *const c_void) -> *const c_void;
+	fn tsD3D11Device_getD3D11Features(this: *const c_void, index: u32) -> *const c_void;
 }
 
 // Tellusim::MTLDevice
@@ -25523,6 +25532,7 @@ impl VKDevice {
 	pub fn queue(&self) -> *const c_void { unsafe { tsVKDevice_getQueue(self.this) } }
 	pub fn command(&self) -> *const c_void { unsafe { tsVKDevice_getCommand(self.this) } }
 	pub fn family(&self) -> u32 { unsafe { tsVKDevice_getFamily(self.this) } }
+	pub fn vk_features(&self, type_: u32) -> *const c_void { unsafe { tsVKDevice_getVKFeatures(self.this, type_) } }
 }
 impl DeviceTrait for VKDevice {
 	fn platform(&self) -> Platform { unsafe { tsDevice_getPlatform(self.this) } }
@@ -25977,6 +25987,7 @@ extern "C" {
 	fn tsVKDevice_getQueue(this: *const c_void) -> *const c_void;
 	fn tsVKDevice_getCommand(this: *const c_void) -> *const c_void;
 	fn tsVKDevice_getFamily(this: *const c_void) -> u32;
+	fn tsVKDevice_getVKFeatures(this: *const c_void, type_: u32) -> *const c_void;
 }
 
 // Tellusim::FUDevice
@@ -33903,8 +33914,10 @@ impl Canvas {
 	pub fn parent_mut(&mut self) -> Canvas { unsafe { Canvas::new_ptr(tsCanvas_getParent(self.this)) } }
 	pub fn add_child(&mut self, child: &mut Canvas) -> u32 { unsafe { tsCanvas_addChild(self.this, child.this) } }
 	pub fn remove_child(&mut self, child: &mut Canvas) -> bool { unsafe { tsCanvas_removeChild(self.this, child.this) != 0 } }
-	pub fn raise_child(&mut self, child: &mut Canvas) -> bool { unsafe { tsCanvas_raiseChild(self.this, child.this) != 0 } }
-	pub fn lower_child(&mut self, child: &mut Canvas) -> bool { unsafe { tsCanvas_lowerChild(self.this, child.this) != 0 } }
+	pub fn raise_child(&mut self, child: &mut Canvas) -> bool { unsafe { tsCanvas_raiseChild(self.this, child.this, 0) != 0 } }
+	pub fn raise_child_with_index(&mut self, child: &mut Canvas, index: u32) -> bool { unsafe { tsCanvas_raiseChild(self.this, child.this, index) != 0 } }
+	pub fn lower_child(&mut self, child: &mut Canvas) -> bool { unsafe { tsCanvas_lowerChild(self.this, child.this, 0) != 0 } }
+	pub fn lower_child_with_index(&mut self, child: &mut Canvas, index: u32) -> bool { unsafe { tsCanvas_lowerChild(self.this, child.this, index) != 0 } }
 	pub fn release_children(&mut self) { unsafe { tsCanvas_releaseChildren(self.this) } }
 	pub fn find_child(&self, child: &Canvas) -> u32 { unsafe { tsCanvas_findChild(self.this, child.this) } }
 	pub fn is_child(&self, child: &Canvas) -> bool { unsafe { tsCanvas_isChild(self.this, child.this) != 0 } }
@@ -33913,8 +33926,10 @@ impl Canvas {
 	pub fn child_mut(&mut self, index: u32) -> Canvas { unsafe { Canvas::new_ptr(tsCanvas_getChild_u(self.this, index)) } }
 	pub fn add_element(&mut self, element: &mut CanvasElement) -> u32 { unsafe { tsCanvas_addElement(self.this, element.this) } }
 	pub fn remove_element(&mut self, element: &mut CanvasElement) -> bool { unsafe { tsCanvas_removeElement(self.this, element.this) != 0 } }
-	pub fn raise_element(&mut self, element: &mut CanvasElement) -> bool { unsafe { tsCanvas_raiseElement(self.this, element.this) != 0 } }
-	pub fn lower_element(&mut self, element: &mut CanvasElement) -> bool { unsafe { tsCanvas_lowerElement(self.this, element.this) != 0 } }
+	pub fn raise_element(&mut self, element: &mut CanvasElement) -> bool { unsafe { tsCanvas_raiseElement(self.this, element.this, 0) != 0 } }
+	pub fn raise_element_with_index(&mut self, element: &mut CanvasElement, index: u32) -> bool { unsafe { tsCanvas_raiseElement(self.this, element.this, index) != 0 } }
+	pub fn lower_element(&mut self, element: &mut CanvasElement) -> bool { unsafe { tsCanvas_lowerElement(self.this, element.this, 0) != 0 } }
+	pub fn lower_element_with_index(&mut self, element: &mut CanvasElement, index: u32) -> bool { unsafe { tsCanvas_lowerElement(self.this, element.this, index) != 0 } }
 	pub fn find_element(&self, element: &CanvasElement) -> u32 { unsafe { tsCanvas_findElement(self.this, element.this) } }
 	pub fn is_element(&self, element: &CanvasElement) -> bool { unsafe { tsCanvas_isElement(self.this, element.this) != 0 } }
 	pub fn num_elements(&self) -> u32 { unsafe { tsCanvas_getNumElements(self.this) } }
@@ -34068,8 +34083,8 @@ extern "C" {
 	fn tsCanvas_getParent(this: *mut c_void) -> *mut c_void;
 	fn tsCanvas_addChild(this: *mut c_void, child: *mut c_void) -> u32;
 	fn tsCanvas_removeChild(this: *mut c_void, child: *mut c_void) -> i32;
-	fn tsCanvas_raiseChild(this: *mut c_void, child: *mut c_void) -> i32;
-	fn tsCanvas_lowerChild(this: *mut c_void, child: *mut c_void) -> i32;
+	fn tsCanvas_raiseChild(this: *mut c_void, child: *mut c_void, index: u32) -> i32;
+	fn tsCanvas_lowerChild(this: *mut c_void, child: *mut c_void, index: u32) -> i32;
 	fn tsCanvas_releaseChildren(this: *mut c_void);
 	fn tsCanvas_findChild(this: *const c_void, child: *mut c_void) -> u32;
 	fn tsCanvas_isChild(this: *const c_void, child: *mut c_void) -> i32;
@@ -34078,8 +34093,8 @@ extern "C" {
 	fn tsCanvas_getChild_u(this: *mut c_void, index: u32) -> *mut c_void;
 	fn tsCanvas_addElement(this: *mut c_void, element: *mut c_void) -> u32;
 	fn tsCanvas_removeElement(this: *mut c_void, element: *mut c_void) -> i32;
-	fn tsCanvas_raiseElement(this: *mut c_void, element: *mut c_void) -> i32;
-	fn tsCanvas_lowerElement(this: *mut c_void, element: *mut c_void) -> i32;
+	fn tsCanvas_raiseElement(this: *mut c_void, element: *mut c_void, index: u32) -> i32;
+	fn tsCanvas_lowerElement(this: *mut c_void, element: *mut c_void, index: u32) -> i32;
 	fn tsCanvas_findElement(this: *const c_void, element: *mut c_void) -> u32;
 	fn tsCanvas_isElement(this: *const c_void, element: *mut c_void) -> i32;
 	fn tsCanvas_getNumElements(this: *const c_void) -> u32;
@@ -34139,6 +34154,8 @@ impl Control {
 	pub fn this_ptr(&self) -> *mut c_void { self.this }
 }
 pub trait ControlTrait {
+	fn num_controls() -> u32;
+	fn is_control(control: &Control) -> bool;
 	fn type_(&self) -> ControlType;
 	fn type_name_with_type(type_: ControlType) -> string::String;
 	fn type_name(&self) -> string::String;
@@ -34175,7 +34192,9 @@ pub trait ControlTrait {
 	fn is_disabled(&self) -> bool;
 	fn canvas(&self) -> Canvas;
 	fn root(&self) -> ControlRoot;
+	fn root_with_local(&self, local: bool) -> ControlRoot;
 	fn root_mut(&mut self) -> ControlRoot;
+	fn root_mut_with_local(&mut self, local: bool) -> ControlRoot;
 	fn panel(&self) -> ControlPanel;
 	fn panel_mut(&mut self) -> ControlPanel;
 	fn set_parent(&mut self, parent: &mut Control) -> u32;
@@ -34186,7 +34205,9 @@ pub trait ControlTrait {
 	fn add_child(&mut self, child: &mut Control) -> u32;
 	fn set_child(&mut self, index: u32, child: &mut Control) -> Control;
 	fn raise_child(&mut self, child: &mut Control) -> bool;
+	fn raise_child_with_index(&mut self, child: &mut Control, index: u32) -> bool;
 	fn lower_child(&mut self, child: &mut Control) -> bool;
+	fn lower_child_with_index(&mut self, child: &mut Control, index: u32) -> bool;
 	fn remove_child(&mut self, child: &mut Control) -> bool;
 	fn release_children(&mut self);
 	fn find_child(&self, child: &Control) -> u32;
@@ -34221,6 +34242,8 @@ pub trait ControlTrait {
 	fn state(&self) -> ControlState;
 }
 impl ControlTrait for Control {
+	fn num_controls() -> u32 { unsafe { tsControl_getNumControls() } }
+	fn is_control(control: &Control) -> bool { unsafe { tsControl_isControl(control.this) != 0 } }
 	fn type_(&self) -> ControlType { unsafe { tsControl_getType(self.this) } }
 	fn type_name_with_type(type_: ControlType) -> string::String { unsafe { get_cstring(tsControl_getTypeName_CT(type_)) } }
 	fn type_name(&self) -> string::String { unsafe { get_cstring(tsControl_getTypeName_c(self.this)) } }
@@ -34256,8 +34279,10 @@ impl ControlTrait for Control {
 	fn set_disabled(&mut self, disabled: bool) { unsafe { tsControl_setDisabled(self.this, if disabled {1} else {0}) } }
 	fn is_disabled(&self) -> bool { unsafe { tsControl_isDisabled(self.this) != 0 } }
 	fn canvas(&self) -> Canvas { unsafe { Canvas::new_ptr(tsControl_getCanvas(self.this)) } }
-	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_c(self.this)) } }
-	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot(self.this)) } }
+	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, 0)) } }
+	fn root_with_local(&self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, if local {1} else {0})) } }
+	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, 0)) } }
+	fn root_mut_with_local(&mut self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, if local {1} else {0})) } }
 	fn panel(&self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel_c(self.this)) } }
 	fn panel_mut(&mut self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel(self.this)) } }
 	fn set_parent(&mut self, parent: &mut Control) -> u32 { unsafe { tsControl_setParent(self.this, parent.this) } }
@@ -34267,8 +34292,10 @@ impl ControlTrait for Control {
 	fn is_parent_disabled(&self) -> bool { unsafe { tsControl_isParentDisabled(self.this) != 0 } }
 	fn add_child(&mut self, child: &mut Control) -> u32 { unsafe { tsControl_addChild(self.this, child.this) } }
 	fn set_child(&mut self, index: u32, child: &mut Control) -> Control { unsafe { Control::new_ptr(tsControl_setChild(self.this, index, child.this)) } }
-	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this) != 0 } }
-	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this) != 0 } }
+	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, 0) != 0 } }
+	fn raise_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, index) != 0 } }
+	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, 0) != 0 } }
+	fn lower_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, index) != 0 } }
 	fn remove_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_removeChild(self.this, child.this) != 0 } }
 	fn release_children(&mut self) { unsafe { tsControl_releaseChildren(self.this) } }
 	fn find_child(&self, child: &Control) -> u32 { unsafe { tsControl_findChild(self.this, child.this) } }
@@ -34341,6 +34368,8 @@ extern "C" {
 	fn tsControl_isConstPtr(this: *const c_void) -> i32;
 	fn tsControl_getCountPtr(this: *const c_void) -> u32;
 	fn tsControl_getInternalPtr(this: *const c_void) -> *mut c_void;
+	fn tsControl_getNumControls() -> u32;
+	fn tsControl_isControl(control: *mut c_void) -> i32;
 	fn tsControl_getType(this: *const c_void) -> ControlType;
 	fn tsControl_getTypeName_CT(type_: ControlType) -> *const c_char;
 	fn tsControl_getTypeName_c(this: *const c_void) -> *const c_char;
@@ -34376,8 +34405,8 @@ extern "C" {
 	fn tsControl_setDisabled(this: *mut c_void, disabled: i32);
 	fn tsControl_isDisabled(this: *const c_void) -> i32;
 	fn tsControl_getCanvas(this: *const c_void) -> *mut c_void;
-	fn tsControl_getRoot_c(this: *const c_void) -> *mut c_void;
-	fn tsControl_getRoot(this: *mut c_void) -> *mut c_void;
+	fn tsControl_getRoot_cb(this: *const c_void, local: i32) -> *mut c_void;
+	fn tsControl_getRoot_b(this: *mut c_void, local: i32) -> *mut c_void;
 	fn tsControl_getPanel_c(this: *const c_void) -> *mut c_void;
 	fn tsControl_getPanel(this: *mut c_void) -> *mut c_void;
 	fn tsControl_setParent(this: *mut c_void, parent: *mut c_void) -> u32;
@@ -34387,8 +34416,8 @@ extern "C" {
 	fn tsControl_isParentDisabled(this: *const c_void) -> i32;
 	fn tsControl_addChild(this: *mut c_void, child: *mut c_void) -> u32;
 	fn tsControl_setChild(this: *mut c_void, index: u32, child: *mut c_void) -> *mut c_void;
-	fn tsControl_raiseChild(this: *mut c_void, child: *mut c_void) -> i32;
-	fn tsControl_lowerChild(this: *mut c_void, child: *mut c_void) -> i32;
+	fn tsControl_raiseChild(this: *mut c_void, child: *mut c_void, index: u32) -> i32;
+	fn tsControl_lowerChild(this: *mut c_void, child: *mut c_void, index: u32) -> i32;
 	fn tsControl_removeChild(this: *mut c_void, child: *mut c_void) -> i32;
 	fn tsControl_releaseChildren(this: *mut c_void);
 	fn tsControl_findChild(this: *const c_void, child: *mut c_void) -> u32;
@@ -34612,6 +34641,8 @@ impl ControlRoot {
 	}
 }
 impl ControlTrait for ControlRoot {
+	fn num_controls() -> u32 { unsafe { tsControl_getNumControls() } }
+	fn is_control(control: &Control) -> bool { unsafe { tsControl_isControl(control.this) != 0 } }
 	fn type_(&self) -> ControlType { unsafe { tsControl_getType(self.this) } }
 	fn type_name_with_type(type_: ControlType) -> string::String { unsafe { get_cstring(tsControl_getTypeName_CT(type_)) } }
 	fn type_name(&self) -> string::String { unsafe { get_cstring(tsControl_getTypeName_c(self.this)) } }
@@ -34647,8 +34678,10 @@ impl ControlTrait for ControlRoot {
 	fn set_disabled(&mut self, disabled: bool) { unsafe { tsControl_setDisabled(self.this, if disabled {1} else {0}) } }
 	fn is_disabled(&self) -> bool { unsafe { tsControl_isDisabled(self.this) != 0 } }
 	fn canvas(&self) -> Canvas { unsafe { Canvas::new_ptr(tsControl_getCanvas(self.this)) } }
-	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_c(self.this)) } }
-	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot(self.this)) } }
+	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, 0)) } }
+	fn root_with_local(&self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, if local {1} else {0})) } }
+	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, 0)) } }
+	fn root_mut_with_local(&mut self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, if local {1} else {0})) } }
 	fn panel(&self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel_c(self.this)) } }
 	fn panel_mut(&mut self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel(self.this)) } }
 	fn set_parent(&mut self, parent: &mut Control) -> u32 { unsafe { tsControl_setParent(self.this, parent.this) } }
@@ -34658,8 +34691,10 @@ impl ControlTrait for ControlRoot {
 	fn is_parent_disabled(&self) -> bool { unsafe { tsControl_isParentDisabled(self.this) != 0 } }
 	fn add_child(&mut self, child: &mut Control) -> u32 { unsafe { tsControl_addChild(self.this, child.this) } }
 	fn set_child(&mut self, index: u32, child: &mut Control) -> Control { unsafe { Control::new_ptr(tsControl_setChild(self.this, index, child.this)) } }
-	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this) != 0 } }
-	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this) != 0 } }
+	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, 0) != 0 } }
+	fn raise_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, index) != 0 } }
+	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, 0) != 0 } }
+	fn lower_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, index) != 0 } }
 	fn remove_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_removeChild(self.this, child.this) != 0 } }
 	fn release_children(&mut self) { unsafe { tsControl_releaseChildren(self.this) } }
 	fn find_child(&self, child: &Control) -> u32 { unsafe { tsControl_findChild(self.this, child.this) } }
@@ -34857,6 +34892,8 @@ impl ControlText {
 	pub fn this_ptr(&self) -> *mut c_void { self.this }
 }
 pub trait ControlTextTrait {
+	fn set_callback(&mut self, callback: bool);
+	fn callback(&self) -> bool;
 	fn set_mode(&mut self, mode: CanvasElementMode);
 	fn mode(&self) -> CanvasElementMode;
 	fn set_pipeline(&mut self, pipeline: &mut Pipeline);
@@ -34894,6 +34931,8 @@ pub trait ControlTextTrait {
 	fn canvas_text(&mut self) -> CanvasText;
 }
 impl ControlTextTrait for ControlText {
+	fn set_callback(&mut self, callback: bool) { unsafe { tsControlText_setCallback(self.this, if callback {1} else {0}) } }
+	fn callback(&self) -> bool { unsafe { tsControlText_getCallback(self.this) != 0 } }
 	fn set_mode(&mut self, mode: CanvasElementMode) { unsafe { tsControlText_setMode(self.this, mode) } }
 	fn mode(&self) -> CanvasElementMode { unsafe { tsControlText_getMode(self.this) } }
 	fn set_pipeline(&mut self, pipeline: &mut Pipeline) { unsafe { tsControlText_setPipeline_P(self.this, pipeline.this) } }
@@ -34941,6 +34980,8 @@ impl ControlTextTrait for ControlText {
 	fn canvas_text(&mut self) -> CanvasText { unsafe { CanvasText::new_ptr(tsControlText_getCanvasText(self.this)) } }
 }
 impl ControlTrait for ControlText {
+	fn num_controls() -> u32 { unsafe { tsControl_getNumControls() } }
+	fn is_control(control: &Control) -> bool { unsafe { tsControl_isControl(control.this) != 0 } }
 	fn type_(&self) -> ControlType { unsafe { tsControl_getType(self.this) } }
 	fn type_name_with_type(type_: ControlType) -> string::String { unsafe { get_cstring(tsControl_getTypeName_CT(type_)) } }
 	fn type_name(&self) -> string::String { unsafe { get_cstring(tsControl_getTypeName_c(self.this)) } }
@@ -34976,8 +35017,10 @@ impl ControlTrait for ControlText {
 	fn set_disabled(&mut self, disabled: bool) { unsafe { tsControl_setDisabled(self.this, if disabled {1} else {0}) } }
 	fn is_disabled(&self) -> bool { unsafe { tsControl_isDisabled(self.this) != 0 } }
 	fn canvas(&self) -> Canvas { unsafe { Canvas::new_ptr(tsControl_getCanvas(self.this)) } }
-	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_c(self.this)) } }
-	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot(self.this)) } }
+	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, 0)) } }
+	fn root_with_local(&self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, if local {1} else {0})) } }
+	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, 0)) } }
+	fn root_mut_with_local(&mut self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, if local {1} else {0})) } }
 	fn panel(&self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel_c(self.this)) } }
 	fn panel_mut(&mut self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel(self.this)) } }
 	fn set_parent(&mut self, parent: &mut Control) -> u32 { unsafe { tsControl_setParent(self.this, parent.this) } }
@@ -34987,8 +35030,10 @@ impl ControlTrait for ControlText {
 	fn is_parent_disabled(&self) -> bool { unsafe { tsControl_isParentDisabled(self.this) != 0 } }
 	fn add_child(&mut self, child: &mut Control) -> u32 { unsafe { tsControl_addChild(self.this, child.this) } }
 	fn set_child(&mut self, index: u32, child: &mut Control) -> Control { unsafe { Control::new_ptr(tsControl_setChild(self.this, index, child.this)) } }
-	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this) != 0 } }
-	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this) != 0 } }
+	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, 0) != 0 } }
+	fn raise_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, index) != 0 } }
+	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, 0) != 0 } }
+	fn lower_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, index) != 0 } }
 	fn remove_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_removeChild(self.this, child.this) != 0 } }
 	fn release_children(&mut self) { unsafe { tsControl_releaseChildren(self.this) } }
 	fn find_child(&self, child: &Control) -> u32 { unsafe { tsControl_findChild(self.this, child.this) } }
@@ -35065,6 +35110,8 @@ extern "C" {
 	fn tsControlText_equalControlPtr(this: *const c_void, ptr: *const c_void) -> i32;
 	fn tsControlText_castControlPtr(this: *const c_void) -> *mut c_void;
 	fn tsControlText_baseControlPtr(this: *const c_void) -> *mut c_void;
+	fn tsControlText_setCallback(this: *mut c_void, callback: i32);
+	fn tsControlText_getCallback(this: *const c_void) -> i32;
 	fn tsControlText_setMode(this: *mut c_void, mode: CanvasElementMode);
 	fn tsControlText_getMode(this: *const c_void) -> CanvasElementMode;
 	fn tsControlText_setPipeline_P(this: *mut c_void, pipeline: *mut c_void);
@@ -35314,6 +35361,8 @@ impl ControlRectTrait for ControlRect {
 	fn canvas_mesh(&mut self) -> CanvasMesh { unsafe { CanvasMesh::new_ptr(tsControlRect_getCanvasMesh(self.this)) } }
 }
 impl ControlTrait for ControlRect {
+	fn num_controls() -> u32 { unsafe { tsControl_getNumControls() } }
+	fn is_control(control: &Control) -> bool { unsafe { tsControl_isControl(control.this) != 0 } }
 	fn type_(&self) -> ControlType { unsafe { tsControl_getType(self.this) } }
 	fn type_name_with_type(type_: ControlType) -> string::String { unsafe { get_cstring(tsControl_getTypeName_CT(type_)) } }
 	fn type_name(&self) -> string::String { unsafe { get_cstring(tsControl_getTypeName_c(self.this)) } }
@@ -35349,8 +35398,10 @@ impl ControlTrait for ControlRect {
 	fn set_disabled(&mut self, disabled: bool) { unsafe { tsControl_setDisabled(self.this, if disabled {1} else {0}) } }
 	fn is_disabled(&self) -> bool { unsafe { tsControl_isDisabled(self.this) != 0 } }
 	fn canvas(&self) -> Canvas { unsafe { Canvas::new_ptr(tsControl_getCanvas(self.this)) } }
-	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_c(self.this)) } }
-	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot(self.this)) } }
+	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, 0)) } }
+	fn root_with_local(&self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, if local {1} else {0})) } }
+	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, 0)) } }
+	fn root_mut_with_local(&mut self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, if local {1} else {0})) } }
 	fn panel(&self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel_c(self.this)) } }
 	fn panel_mut(&mut self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel(self.this)) } }
 	fn set_parent(&mut self, parent: &mut Control) -> u32 { unsafe { tsControl_setParent(self.this, parent.this) } }
@@ -35360,8 +35411,10 @@ impl ControlTrait for ControlRect {
 	fn is_parent_disabled(&self) -> bool { unsafe { tsControl_isParentDisabled(self.this) != 0 } }
 	fn add_child(&mut self, child: &mut Control) -> u32 { unsafe { tsControl_addChild(self.this, child.this) } }
 	fn set_child(&mut self, index: u32, child: &mut Control) -> Control { unsafe { Control::new_ptr(tsControl_setChild(self.this, index, child.this)) } }
-	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this) != 0 } }
-	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this) != 0 } }
+	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, 0) != 0 } }
+	fn raise_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, index) != 0 } }
+	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, 0) != 0 } }
+	fn lower_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, index) != 0 } }
 	fn remove_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_removeChild(self.this, child.this) != 0 } }
 	fn release_children(&mut self) { unsafe { tsControl_releaseChildren(self.this) } }
 	fn find_child(&self, child: &Control) -> u32 { unsafe { tsControl_findChild(self.this, child.this) } }
@@ -35538,6 +35591,8 @@ impl ControlGrid {
 	pub fn controls_size(&self) -> Vector2f { unsafe { tsControlGrid_getControlsSize(self.this) } }
 }
 impl ControlTrait for ControlGrid {
+	fn num_controls() -> u32 { unsafe { tsControl_getNumControls() } }
+	fn is_control(control: &Control) -> bool { unsafe { tsControl_isControl(control.this) != 0 } }
 	fn type_(&self) -> ControlType { unsafe { tsControl_getType(self.this) } }
 	fn type_name_with_type(type_: ControlType) -> string::String { unsafe { get_cstring(tsControl_getTypeName_CT(type_)) } }
 	fn type_name(&self) -> string::String { unsafe { get_cstring(tsControl_getTypeName_c(self.this)) } }
@@ -35573,8 +35628,10 @@ impl ControlTrait for ControlGrid {
 	fn set_disabled(&mut self, disabled: bool) { unsafe { tsControl_setDisabled(self.this, if disabled {1} else {0}) } }
 	fn is_disabled(&self) -> bool { unsafe { tsControl_isDisabled(self.this) != 0 } }
 	fn canvas(&self) -> Canvas { unsafe { Canvas::new_ptr(tsControl_getCanvas(self.this)) } }
-	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_c(self.this)) } }
-	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot(self.this)) } }
+	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, 0)) } }
+	fn root_with_local(&self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, if local {1} else {0})) } }
+	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, 0)) } }
+	fn root_mut_with_local(&mut self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, if local {1} else {0})) } }
 	fn panel(&self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel_c(self.this)) } }
 	fn panel_mut(&mut self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel(self.this)) } }
 	fn set_parent(&mut self, parent: &mut Control) -> u32 { unsafe { tsControl_setParent(self.this, parent.this) } }
@@ -35584,8 +35641,10 @@ impl ControlTrait for ControlGrid {
 	fn is_parent_disabled(&self) -> bool { unsafe { tsControl_isParentDisabled(self.this) != 0 } }
 	fn add_child(&mut self, child: &mut Control) -> u32 { unsafe { tsControl_addChild(self.this, child.this) } }
 	fn set_child(&mut self, index: u32, child: &mut Control) -> Control { unsafe { Control::new_ptr(tsControl_setChild(self.this, index, child.this)) } }
-	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this) != 0 } }
-	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this) != 0 } }
+	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, 0) != 0 } }
+	fn raise_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, index) != 0 } }
+	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, 0) != 0 } }
+	fn lower_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, index) != 0 } }
 	fn remove_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_removeChild(self.this, child.this) != 0 } }
 	fn release_children(&mut self) { unsafe { tsControl_releaseChildren(self.this) } }
 	fn find_child(&self, child: &Control) -> u32 { unsafe { tsControl_findChild(self.this, child.this) } }
@@ -35778,6 +35837,8 @@ impl ControlGroup {
 	pub fn canvas_rect(&mut self) -> CanvasRect { unsafe { CanvasRect::new_ptr(tsControlGroup_getCanvasRect(self.this)) } }
 }
 impl ControlTextTrait for ControlGroup {
+	fn set_callback(&mut self, callback: bool) { unsafe { tsControlText_setCallback(self.this, if callback {1} else {0}) } }
+	fn callback(&self) -> bool { unsafe { tsControlText_getCallback(self.this) != 0 } }
 	fn set_mode(&mut self, mode: CanvasElementMode) { unsafe { tsControlText_setMode(self.this, mode) } }
 	fn mode(&self) -> CanvasElementMode { unsafe { tsControlText_getMode(self.this) } }
 	fn set_pipeline(&mut self, pipeline: &mut Pipeline) { unsafe { tsControlText_setPipeline_P(self.this, pipeline.this) } }
@@ -35825,6 +35886,8 @@ impl ControlTextTrait for ControlGroup {
 	fn canvas_text(&mut self) -> CanvasText { unsafe { CanvasText::new_ptr(tsControlText_getCanvasText(self.this)) } }
 }
 impl ControlTrait for ControlGroup {
+	fn num_controls() -> u32 { unsafe { tsControl_getNumControls() } }
+	fn is_control(control: &Control) -> bool { unsafe { tsControl_isControl(control.this) != 0 } }
 	fn type_(&self) -> ControlType { unsafe { tsControl_getType(self.this) } }
 	fn type_name_with_type(type_: ControlType) -> string::String { unsafe { get_cstring(tsControl_getTypeName_CT(type_)) } }
 	fn type_name(&self) -> string::String { unsafe { get_cstring(tsControl_getTypeName_c(self.this)) } }
@@ -35860,8 +35923,10 @@ impl ControlTrait for ControlGroup {
 	fn set_disabled(&mut self, disabled: bool) { unsafe { tsControl_setDisabled(self.this, if disabled {1} else {0}) } }
 	fn is_disabled(&self) -> bool { unsafe { tsControl_isDisabled(self.this) != 0 } }
 	fn canvas(&self) -> Canvas { unsafe { Canvas::new_ptr(tsControl_getCanvas(self.this)) } }
-	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_c(self.this)) } }
-	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot(self.this)) } }
+	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, 0)) } }
+	fn root_with_local(&self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, if local {1} else {0})) } }
+	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, 0)) } }
+	fn root_mut_with_local(&mut self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, if local {1} else {0})) } }
 	fn panel(&self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel_c(self.this)) } }
 	fn panel_mut(&mut self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel(self.this)) } }
 	fn set_parent(&mut self, parent: &mut Control) -> u32 { unsafe { tsControl_setParent(self.this, parent.this) } }
@@ -35871,8 +35936,10 @@ impl ControlTrait for ControlGroup {
 	fn is_parent_disabled(&self) -> bool { unsafe { tsControl_isParentDisabled(self.this) != 0 } }
 	fn add_child(&mut self, child: &mut Control) -> u32 { unsafe { tsControl_addChild(self.this, child.this) } }
 	fn set_child(&mut self, index: u32, child: &mut Control) -> Control { unsafe { Control::new_ptr(tsControl_setChild(self.this, index, child.this)) } }
-	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this) != 0 } }
-	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this) != 0 } }
+	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, 0) != 0 } }
+	fn raise_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, index) != 0 } }
+	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, 0) != 0 } }
+	fn lower_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, index) != 0 } }
 	fn remove_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_removeChild(self.this, child.this) != 0 } }
 	fn release_children(&mut self) { unsafe { tsControl_releaseChildren(self.this) } }
 	fn find_child(&self, child: &Control) -> u32 { unsafe { tsControl_findChild(self.this, child.this) } }
@@ -36135,6 +36202,8 @@ impl ControlRectTrait for ControlPanel {
 	fn canvas_mesh(&mut self) -> CanvasMesh { unsafe { CanvasMesh::new_ptr(tsControlRect_getCanvasMesh(self.this)) } }
 }
 impl ControlTrait for ControlPanel {
+	fn num_controls() -> u32 { unsafe { tsControl_getNumControls() } }
+	fn is_control(control: &Control) -> bool { unsafe { tsControl_isControl(control.this) != 0 } }
 	fn type_(&self) -> ControlType { unsafe { tsControl_getType(self.this) } }
 	fn type_name_with_type(type_: ControlType) -> string::String { unsafe { get_cstring(tsControl_getTypeName_CT(type_)) } }
 	fn type_name(&self) -> string::String { unsafe { get_cstring(tsControl_getTypeName_c(self.this)) } }
@@ -36170,8 +36239,10 @@ impl ControlTrait for ControlPanel {
 	fn set_disabled(&mut self, disabled: bool) { unsafe { tsControl_setDisabled(self.this, if disabled {1} else {0}) } }
 	fn is_disabled(&self) -> bool { unsafe { tsControl_isDisabled(self.this) != 0 } }
 	fn canvas(&self) -> Canvas { unsafe { Canvas::new_ptr(tsControl_getCanvas(self.this)) } }
-	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_c(self.this)) } }
-	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot(self.this)) } }
+	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, 0)) } }
+	fn root_with_local(&self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, if local {1} else {0})) } }
+	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, 0)) } }
+	fn root_mut_with_local(&mut self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, if local {1} else {0})) } }
 	fn panel(&self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel_c(self.this)) } }
 	fn panel_mut(&mut self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel(self.this)) } }
 	fn set_parent(&mut self, parent: &mut Control) -> u32 { unsafe { tsControl_setParent(self.this, parent.this) } }
@@ -36181,8 +36252,10 @@ impl ControlTrait for ControlPanel {
 	fn is_parent_disabled(&self) -> bool { unsafe { tsControl_isParentDisabled(self.this) != 0 } }
 	fn add_child(&mut self, child: &mut Control) -> u32 { unsafe { tsControl_addChild(self.this, child.this) } }
 	fn set_child(&mut self, index: u32, child: &mut Control) -> Control { unsafe { Control::new_ptr(tsControl_setChild(self.this, index, child.this)) } }
-	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this) != 0 } }
-	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this) != 0 } }
+	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, 0) != 0 } }
+	fn raise_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, index) != 0 } }
+	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, 0) != 0 } }
+	fn lower_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, index) != 0 } }
 	fn remove_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_removeChild(self.this, child.this) != 0 } }
 	fn release_children(&mut self) { unsafe { tsControl_releaseChildren(self.this) } }
 	fn find_child(&self, child: &Control) -> u32 { unsafe { tsControl_findChild(self.this, child.this) } }
@@ -36449,6 +36522,8 @@ impl ControlRectTrait for ControlDialog {
 	fn canvas_mesh(&mut self) -> CanvasMesh { unsafe { CanvasMesh::new_ptr(tsControlRect_getCanvasMesh(self.this)) } }
 }
 impl ControlTrait for ControlDialog {
+	fn num_controls() -> u32 { unsafe { tsControl_getNumControls() } }
+	fn is_control(control: &Control) -> bool { unsafe { tsControl_isControl(control.this) != 0 } }
 	fn type_(&self) -> ControlType { unsafe { tsControl_getType(self.this) } }
 	fn type_name_with_type(type_: ControlType) -> string::String { unsafe { get_cstring(tsControl_getTypeName_CT(type_)) } }
 	fn type_name(&self) -> string::String { unsafe { get_cstring(tsControl_getTypeName_c(self.this)) } }
@@ -36484,8 +36559,10 @@ impl ControlTrait for ControlDialog {
 	fn set_disabled(&mut self, disabled: bool) { unsafe { tsControl_setDisabled(self.this, if disabled {1} else {0}) } }
 	fn is_disabled(&self) -> bool { unsafe { tsControl_isDisabled(self.this) != 0 } }
 	fn canvas(&self) -> Canvas { unsafe { Canvas::new_ptr(tsControl_getCanvas(self.this)) } }
-	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_c(self.this)) } }
-	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot(self.this)) } }
+	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, 0)) } }
+	fn root_with_local(&self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, if local {1} else {0})) } }
+	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, 0)) } }
+	fn root_mut_with_local(&mut self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, if local {1} else {0})) } }
 	fn panel(&self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel_c(self.this)) } }
 	fn panel_mut(&mut self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel(self.this)) } }
 	fn set_parent(&mut self, parent: &mut Control) -> u32 { unsafe { tsControl_setParent(self.this, parent.this) } }
@@ -36495,8 +36572,10 @@ impl ControlTrait for ControlDialog {
 	fn is_parent_disabled(&self) -> bool { unsafe { tsControl_isParentDisabled(self.this) != 0 } }
 	fn add_child(&mut self, child: &mut Control) -> u32 { unsafe { tsControl_addChild(self.this, child.this) } }
 	fn set_child(&mut self, index: u32, child: &mut Control) -> Control { unsafe { Control::new_ptr(tsControl_setChild(self.this, index, child.this)) } }
-	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this) != 0 } }
-	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this) != 0 } }
+	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, 0) != 0 } }
+	fn raise_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, index) != 0 } }
+	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, 0) != 0 } }
+	fn lower_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, index) != 0 } }
 	fn remove_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_removeChild(self.this, child.this) != 0 } }
 	fn release_children(&mut self) { unsafe { tsControl_releaseChildren(self.this) } }
 	fn find_child(&self, child: &Control) -> u32 { unsafe { tsControl_findChild(self.this, child.this) } }
@@ -36751,6 +36830,8 @@ impl ControlRectTrait for ControlWindow {
 	fn canvas_mesh(&mut self) -> CanvasMesh { unsafe { CanvasMesh::new_ptr(tsControlRect_getCanvasMesh(self.this)) } }
 }
 impl ControlTrait for ControlWindow {
+	fn num_controls() -> u32 { unsafe { tsControl_getNumControls() } }
+	fn is_control(control: &Control) -> bool { unsafe { tsControl_isControl(control.this) != 0 } }
 	fn type_(&self) -> ControlType { unsafe { tsControl_getType(self.this) } }
 	fn type_name_with_type(type_: ControlType) -> string::String { unsafe { get_cstring(tsControl_getTypeName_CT(type_)) } }
 	fn type_name(&self) -> string::String { unsafe { get_cstring(tsControl_getTypeName_c(self.this)) } }
@@ -36786,8 +36867,10 @@ impl ControlTrait for ControlWindow {
 	fn set_disabled(&mut self, disabled: bool) { unsafe { tsControl_setDisabled(self.this, if disabled {1} else {0}) } }
 	fn is_disabled(&self) -> bool { unsafe { tsControl_isDisabled(self.this) != 0 } }
 	fn canvas(&self) -> Canvas { unsafe { Canvas::new_ptr(tsControl_getCanvas(self.this)) } }
-	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_c(self.this)) } }
-	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot(self.this)) } }
+	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, 0)) } }
+	fn root_with_local(&self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, if local {1} else {0})) } }
+	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, 0)) } }
+	fn root_mut_with_local(&mut self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, if local {1} else {0})) } }
 	fn panel(&self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel_c(self.this)) } }
 	fn panel_mut(&mut self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel(self.this)) } }
 	fn set_parent(&mut self, parent: &mut Control) -> u32 { unsafe { tsControl_setParent(self.this, parent.this) } }
@@ -36797,8 +36880,10 @@ impl ControlTrait for ControlWindow {
 	fn is_parent_disabled(&self) -> bool { unsafe { tsControl_isParentDisabled(self.this) != 0 } }
 	fn add_child(&mut self, child: &mut Control) -> u32 { unsafe { tsControl_addChild(self.this, child.this) } }
 	fn set_child(&mut self, index: u32, child: &mut Control) -> Control { unsafe { Control::new_ptr(tsControl_setChild(self.this, index, child.this)) } }
-	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this) != 0 } }
-	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this) != 0 } }
+	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, 0) != 0 } }
+	fn raise_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, index) != 0 } }
+	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, 0) != 0 } }
+	fn lower_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, index) != 0 } }
 	fn remove_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_removeChild(self.this, child.this) != 0 } }
 	fn release_children(&mut self) { unsafe { tsControl_releaseChildren(self.this) } }
 	fn find_child(&self, child: &Control) -> u32 { unsafe { tsControl_findChild(self.this, child.this) } }
@@ -36946,6 +37031,8 @@ impl ControlCheck {
 	pub fn canvas_mesh(&mut self) -> CanvasMesh { unsafe { CanvasMesh::new_ptr(tsControlCheck_getCanvasMesh(self.this)) } }
 }
 impl ControlTextTrait for ControlCheck {
+	fn set_callback(&mut self, callback: bool) { unsafe { tsControlText_setCallback(self.this, if callback {1} else {0}) } }
+	fn callback(&self) -> bool { unsafe { tsControlText_getCallback(self.this) != 0 } }
 	fn set_mode(&mut self, mode: CanvasElementMode) { unsafe { tsControlText_setMode(self.this, mode) } }
 	fn mode(&self) -> CanvasElementMode { unsafe { tsControlText_getMode(self.this) } }
 	fn set_pipeline(&mut self, pipeline: &mut Pipeline) { unsafe { tsControlText_setPipeline_P(self.this, pipeline.this) } }
@@ -36993,6 +37080,8 @@ impl ControlTextTrait for ControlCheck {
 	fn canvas_text(&mut self) -> CanvasText { unsafe { CanvasText::new_ptr(tsControlText_getCanvasText(self.this)) } }
 }
 impl ControlTrait for ControlCheck {
+	fn num_controls() -> u32 { unsafe { tsControl_getNumControls() } }
+	fn is_control(control: &Control) -> bool { unsafe { tsControl_isControl(control.this) != 0 } }
 	fn type_(&self) -> ControlType { unsafe { tsControl_getType(self.this) } }
 	fn type_name_with_type(type_: ControlType) -> string::String { unsafe { get_cstring(tsControl_getTypeName_CT(type_)) } }
 	fn type_name(&self) -> string::String { unsafe { get_cstring(tsControl_getTypeName_c(self.this)) } }
@@ -37028,8 +37117,10 @@ impl ControlTrait for ControlCheck {
 	fn set_disabled(&mut self, disabled: bool) { unsafe { tsControl_setDisabled(self.this, if disabled {1} else {0}) } }
 	fn is_disabled(&self) -> bool { unsafe { tsControl_isDisabled(self.this) != 0 } }
 	fn canvas(&self) -> Canvas { unsafe { Canvas::new_ptr(tsControl_getCanvas(self.this)) } }
-	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_c(self.this)) } }
-	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot(self.this)) } }
+	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, 0)) } }
+	fn root_with_local(&self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, if local {1} else {0})) } }
+	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, 0)) } }
+	fn root_mut_with_local(&mut self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, if local {1} else {0})) } }
 	fn panel(&self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel_c(self.this)) } }
 	fn panel_mut(&mut self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel(self.this)) } }
 	fn set_parent(&mut self, parent: &mut Control) -> u32 { unsafe { tsControl_setParent(self.this, parent.this) } }
@@ -37039,8 +37130,10 @@ impl ControlTrait for ControlCheck {
 	fn is_parent_disabled(&self) -> bool { unsafe { tsControl_isParentDisabled(self.this) != 0 } }
 	fn add_child(&mut self, child: &mut Control) -> u32 { unsafe { tsControl_addChild(self.this, child.this) } }
 	fn set_child(&mut self, index: u32, child: &mut Control) -> Control { unsafe { Control::new_ptr(tsControl_setChild(self.this, index, child.this)) } }
-	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this) != 0 } }
-	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this) != 0 } }
+	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, 0) != 0 } }
+	fn raise_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, index) != 0 } }
+	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, 0) != 0 } }
+	fn lower_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, index) != 0 } }
 	fn remove_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_removeChild(self.this, child.this) != 0 } }
 	fn release_children(&mut self) { unsafe { tsControl_releaseChildren(self.this) } }
 	fn find_child(&self, child: &Control) -> u32 { unsafe { tsControl_findChild(self.this, child.this) } }
@@ -37245,6 +37338,8 @@ impl ControlCombo {
 	pub fn canvas_mesh(&mut self) -> CanvasMesh { unsafe { CanvasMesh::new_ptr(tsControlCombo_getCanvasMesh(self.this)) } }
 }
 impl ControlTextTrait for ControlCombo {
+	fn set_callback(&mut self, callback: bool) { unsafe { tsControlText_setCallback(self.this, if callback {1} else {0}) } }
+	fn callback(&self) -> bool { unsafe { tsControlText_getCallback(self.this) != 0 } }
 	fn set_mode(&mut self, mode: CanvasElementMode) { unsafe { tsControlText_setMode(self.this, mode) } }
 	fn mode(&self) -> CanvasElementMode { unsafe { tsControlText_getMode(self.this) } }
 	fn set_pipeline(&mut self, pipeline: &mut Pipeline) { unsafe { tsControlText_setPipeline_P(self.this, pipeline.this) } }
@@ -37292,6 +37387,8 @@ impl ControlTextTrait for ControlCombo {
 	fn canvas_text(&mut self) -> CanvasText { unsafe { CanvasText::new_ptr(tsControlText_getCanvasText(self.this)) } }
 }
 impl ControlTrait for ControlCombo {
+	fn num_controls() -> u32 { unsafe { tsControl_getNumControls() } }
+	fn is_control(control: &Control) -> bool { unsafe { tsControl_isControl(control.this) != 0 } }
 	fn type_(&self) -> ControlType { unsafe { tsControl_getType(self.this) } }
 	fn type_name_with_type(type_: ControlType) -> string::String { unsafe { get_cstring(tsControl_getTypeName_CT(type_)) } }
 	fn type_name(&self) -> string::String { unsafe { get_cstring(tsControl_getTypeName_c(self.this)) } }
@@ -37327,8 +37424,10 @@ impl ControlTrait for ControlCombo {
 	fn set_disabled(&mut self, disabled: bool) { unsafe { tsControl_setDisabled(self.this, if disabled {1} else {0}) } }
 	fn is_disabled(&self) -> bool { unsafe { tsControl_isDisabled(self.this) != 0 } }
 	fn canvas(&self) -> Canvas { unsafe { Canvas::new_ptr(tsControl_getCanvas(self.this)) } }
-	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_c(self.this)) } }
-	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot(self.this)) } }
+	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, 0)) } }
+	fn root_with_local(&self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, if local {1} else {0})) } }
+	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, 0)) } }
+	fn root_mut_with_local(&mut self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, if local {1} else {0})) } }
 	fn panel(&self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel_c(self.this)) } }
 	fn panel_mut(&mut self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel(self.this)) } }
 	fn set_parent(&mut self, parent: &mut Control) -> u32 { unsafe { tsControl_setParent(self.this, parent.this) } }
@@ -37338,8 +37437,10 @@ impl ControlTrait for ControlCombo {
 	fn is_parent_disabled(&self) -> bool { unsafe { tsControl_isParentDisabled(self.this) != 0 } }
 	fn add_child(&mut self, child: &mut Control) -> u32 { unsafe { tsControl_addChild(self.this, child.this) } }
 	fn set_child(&mut self, index: u32, child: &mut Control) -> Control { unsafe { Control::new_ptr(tsControl_setChild(self.this, index, child.this)) } }
-	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this) != 0 } }
-	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this) != 0 } }
+	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, 0) != 0 } }
+	fn raise_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, index) != 0 } }
+	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, 0) != 0 } }
+	fn lower_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, index) != 0 } }
 	fn remove_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_removeChild(self.this, child.this) != 0 } }
 	fn release_children(&mut self) { unsafe { tsControl_releaseChildren(self.this) } }
 	fn find_child(&self, child: &Control) -> u32 { unsafe { tsControl_findChild(self.this, child.this) } }
@@ -37542,6 +37643,8 @@ impl ControlButton {
 	pub fn canvas_mesh(&mut self) -> CanvasMesh { unsafe { CanvasMesh::new_ptr(tsControlButton_getCanvasMesh(self.this)) } }
 }
 impl ControlTextTrait for ControlButton {
+	fn set_callback(&mut self, callback: bool) { unsafe { tsControlText_setCallback(self.this, if callback {1} else {0}) } }
+	fn callback(&self) -> bool { unsafe { tsControlText_getCallback(self.this) != 0 } }
 	fn set_mode(&mut self, mode: CanvasElementMode) { unsafe { tsControlText_setMode(self.this, mode) } }
 	fn mode(&self) -> CanvasElementMode { unsafe { tsControlText_getMode(self.this) } }
 	fn set_pipeline(&mut self, pipeline: &mut Pipeline) { unsafe { tsControlText_setPipeline_P(self.this, pipeline.this) } }
@@ -37589,6 +37692,8 @@ impl ControlTextTrait for ControlButton {
 	fn canvas_text(&mut self) -> CanvasText { unsafe { CanvasText::new_ptr(tsControlText_getCanvasText(self.this)) } }
 }
 impl ControlTrait for ControlButton {
+	fn num_controls() -> u32 { unsafe { tsControl_getNumControls() } }
+	fn is_control(control: &Control) -> bool { unsafe { tsControl_isControl(control.this) != 0 } }
 	fn type_(&self) -> ControlType { unsafe { tsControl_getType(self.this) } }
 	fn type_name_with_type(type_: ControlType) -> string::String { unsafe { get_cstring(tsControl_getTypeName_CT(type_)) } }
 	fn type_name(&self) -> string::String { unsafe { get_cstring(tsControl_getTypeName_c(self.this)) } }
@@ -37624,8 +37729,10 @@ impl ControlTrait for ControlButton {
 	fn set_disabled(&mut self, disabled: bool) { unsafe { tsControl_setDisabled(self.this, if disabled {1} else {0}) } }
 	fn is_disabled(&self) -> bool { unsafe { tsControl_isDisabled(self.this) != 0 } }
 	fn canvas(&self) -> Canvas { unsafe { Canvas::new_ptr(tsControl_getCanvas(self.this)) } }
-	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_c(self.this)) } }
-	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot(self.this)) } }
+	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, 0)) } }
+	fn root_with_local(&self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, if local {1} else {0})) } }
+	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, 0)) } }
+	fn root_mut_with_local(&mut self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, if local {1} else {0})) } }
 	fn panel(&self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel_c(self.this)) } }
 	fn panel_mut(&mut self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel(self.this)) } }
 	fn set_parent(&mut self, parent: &mut Control) -> u32 { unsafe { tsControl_setParent(self.this, parent.this) } }
@@ -37635,8 +37742,10 @@ impl ControlTrait for ControlButton {
 	fn is_parent_disabled(&self) -> bool { unsafe { tsControl_isParentDisabled(self.this) != 0 } }
 	fn add_child(&mut self, child: &mut Control) -> u32 { unsafe { tsControl_addChild(self.this, child.this) } }
 	fn set_child(&mut self, index: u32, child: &mut Control) -> Control { unsafe { Control::new_ptr(tsControl_setChild(self.this, index, child.this)) } }
-	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this) != 0 } }
-	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this) != 0 } }
+	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, 0) != 0 } }
+	fn raise_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, index) != 0 } }
+	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, 0) != 0 } }
+	fn lower_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, index) != 0 } }
 	fn remove_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_removeChild(self.this, child.this) != 0 } }
 	fn release_children(&mut self) { unsafe { tsControl_releaseChildren(self.this) } }
 	fn find_child(&self, child: &Control) -> u32 { unsafe { tsControl_findChild(self.this, child.this) } }
@@ -37906,6 +38015,8 @@ impl ControlSlider {
 	pub fn canvas_mesh(&mut self) -> CanvasMesh { unsafe { CanvasMesh::new_ptr(tsControlSlider_getCanvasMesh(self.this)) } }
 }
 impl ControlTextTrait for ControlSlider {
+	fn set_callback(&mut self, callback: bool) { unsafe { tsControlText_setCallback(self.this, if callback {1} else {0}) } }
+	fn callback(&self) -> bool { unsafe { tsControlText_getCallback(self.this) != 0 } }
 	fn set_mode(&mut self, mode: CanvasElementMode) { unsafe { tsControlText_setMode(self.this, mode) } }
 	fn mode(&self) -> CanvasElementMode { unsafe { tsControlText_getMode(self.this) } }
 	fn set_pipeline(&mut self, pipeline: &mut Pipeline) { unsafe { tsControlText_setPipeline_P(self.this, pipeline.this) } }
@@ -37953,6 +38064,8 @@ impl ControlTextTrait for ControlSlider {
 	fn canvas_text(&mut self) -> CanvasText { unsafe { CanvasText::new_ptr(tsControlText_getCanvasText(self.this)) } }
 }
 impl ControlTrait for ControlSlider {
+	fn num_controls() -> u32 { unsafe { tsControl_getNumControls() } }
+	fn is_control(control: &Control) -> bool { unsafe { tsControl_isControl(control.this) != 0 } }
 	fn type_(&self) -> ControlType { unsafe { tsControl_getType(self.this) } }
 	fn type_name_with_type(type_: ControlType) -> string::String { unsafe { get_cstring(tsControl_getTypeName_CT(type_)) } }
 	fn type_name(&self) -> string::String { unsafe { get_cstring(tsControl_getTypeName_c(self.this)) } }
@@ -37988,8 +38101,10 @@ impl ControlTrait for ControlSlider {
 	fn set_disabled(&mut self, disabled: bool) { unsafe { tsControl_setDisabled(self.this, if disabled {1} else {0}) } }
 	fn is_disabled(&self) -> bool { unsafe { tsControl_isDisabled(self.this) != 0 } }
 	fn canvas(&self) -> Canvas { unsafe { Canvas::new_ptr(tsControl_getCanvas(self.this)) } }
-	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_c(self.this)) } }
-	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot(self.this)) } }
+	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, 0)) } }
+	fn root_with_local(&self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, if local {1} else {0})) } }
+	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, 0)) } }
+	fn root_mut_with_local(&mut self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, if local {1} else {0})) } }
 	fn panel(&self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel_c(self.this)) } }
 	fn panel_mut(&mut self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel(self.this)) } }
 	fn set_parent(&mut self, parent: &mut Control) -> u32 { unsafe { tsControl_setParent(self.this, parent.this) } }
@@ -37999,8 +38114,10 @@ impl ControlTrait for ControlSlider {
 	fn is_parent_disabled(&self) -> bool { unsafe { tsControl_isParentDisabled(self.this) != 0 } }
 	fn add_child(&mut self, child: &mut Control) -> u32 { unsafe { tsControl_addChild(self.this, child.this) } }
 	fn set_child(&mut self, index: u32, child: &mut Control) -> Control { unsafe { Control::new_ptr(tsControl_setChild(self.this, index, child.this)) } }
-	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this) != 0 } }
-	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this) != 0 } }
+	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, 0) != 0 } }
+	fn raise_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, index) != 0 } }
+	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, 0) != 0 } }
+	fn lower_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, index) != 0 } }
 	fn remove_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_removeChild(self.this, child.this) != 0 } }
 	fn release_children(&mut self) { unsafe { tsControl_releaseChildren(self.this) } }
 	fn find_child(&self, child: &Control) -> u32 { unsafe { tsControl_findChild(self.this, child.this) } }
@@ -38216,6 +38333,8 @@ impl ControlScroll {
 	pub fn canvas_mesh(&mut self) -> CanvasMesh { unsafe { CanvasMesh::new_ptr(tsControlScroll_getCanvasMesh(self.this)) } }
 }
 impl ControlTextTrait for ControlScroll {
+	fn set_callback(&mut self, callback: bool) { unsafe { tsControlText_setCallback(self.this, if callback {1} else {0}) } }
+	fn callback(&self) -> bool { unsafe { tsControlText_getCallback(self.this) != 0 } }
 	fn set_mode(&mut self, mode: CanvasElementMode) { unsafe { tsControlText_setMode(self.this, mode) } }
 	fn mode(&self) -> CanvasElementMode { unsafe { tsControlText_getMode(self.this) } }
 	fn set_pipeline(&mut self, pipeline: &mut Pipeline) { unsafe { tsControlText_setPipeline_P(self.this, pipeline.this) } }
@@ -38263,6 +38382,8 @@ impl ControlTextTrait for ControlScroll {
 	fn canvas_text(&mut self) -> CanvasText { unsafe { CanvasText::new_ptr(tsControlText_getCanvasText(self.this)) } }
 }
 impl ControlTrait for ControlScroll {
+	fn num_controls() -> u32 { unsafe { tsControl_getNumControls() } }
+	fn is_control(control: &Control) -> bool { unsafe { tsControl_isControl(control.this) != 0 } }
 	fn type_(&self) -> ControlType { unsafe { tsControl_getType(self.this) } }
 	fn type_name_with_type(type_: ControlType) -> string::String { unsafe { get_cstring(tsControl_getTypeName_CT(type_)) } }
 	fn type_name(&self) -> string::String { unsafe { get_cstring(tsControl_getTypeName_c(self.this)) } }
@@ -38298,8 +38419,10 @@ impl ControlTrait for ControlScroll {
 	fn set_disabled(&mut self, disabled: bool) { unsafe { tsControl_setDisabled(self.this, if disabled {1} else {0}) } }
 	fn is_disabled(&self) -> bool { unsafe { tsControl_isDisabled(self.this) != 0 } }
 	fn canvas(&self) -> Canvas { unsafe { Canvas::new_ptr(tsControl_getCanvas(self.this)) } }
-	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_c(self.this)) } }
-	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot(self.this)) } }
+	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, 0)) } }
+	fn root_with_local(&self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, if local {1} else {0})) } }
+	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, 0)) } }
+	fn root_mut_with_local(&mut self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, if local {1} else {0})) } }
 	fn panel(&self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel_c(self.this)) } }
 	fn panel_mut(&mut self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel(self.this)) } }
 	fn set_parent(&mut self, parent: &mut Control) -> u32 { unsafe { tsControl_setParent(self.this, parent.this) } }
@@ -38309,8 +38432,10 @@ impl ControlTrait for ControlScroll {
 	fn is_parent_disabled(&self) -> bool { unsafe { tsControl_isParentDisabled(self.this) != 0 } }
 	fn add_child(&mut self, child: &mut Control) -> u32 { unsafe { tsControl_addChild(self.this, child.this) } }
 	fn set_child(&mut self, index: u32, child: &mut Control) -> Control { unsafe { Control::new_ptr(tsControl_setChild(self.this, index, child.this)) } }
-	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this) != 0 } }
-	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this) != 0 } }
+	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, 0) != 0 } }
+	fn raise_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, index) != 0 } }
+	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, 0) != 0 } }
+	fn lower_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, index) != 0 } }
 	fn remove_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_removeChild(self.this, child.this) != 0 } }
 	fn release_children(&mut self) { unsafe { tsControl_releaseChildren(self.this) } }
 	fn find_child(&self, child: &Control) -> u32 { unsafe { tsControl_findChild(self.this, child.this) } }
@@ -38459,6 +38584,8 @@ impl ControlSplit {
 	pub fn controls_size(&self) -> Vector2f { unsafe { tsControlSplit_getControlsSize(self.this) } }
 }
 impl ControlTrait for ControlSplit {
+	fn num_controls() -> u32 { unsafe { tsControl_getNumControls() } }
+	fn is_control(control: &Control) -> bool { unsafe { tsControl_isControl(control.this) != 0 } }
 	fn type_(&self) -> ControlType { unsafe { tsControl_getType(self.this) } }
 	fn type_name_with_type(type_: ControlType) -> string::String { unsafe { get_cstring(tsControl_getTypeName_CT(type_)) } }
 	fn type_name(&self) -> string::String { unsafe { get_cstring(tsControl_getTypeName_c(self.this)) } }
@@ -38494,8 +38621,10 @@ impl ControlTrait for ControlSplit {
 	fn set_disabled(&mut self, disabled: bool) { unsafe { tsControl_setDisabled(self.this, if disabled {1} else {0}) } }
 	fn is_disabled(&self) -> bool { unsafe { tsControl_isDisabled(self.this) != 0 } }
 	fn canvas(&self) -> Canvas { unsafe { Canvas::new_ptr(tsControl_getCanvas(self.this)) } }
-	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_c(self.this)) } }
-	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot(self.this)) } }
+	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, 0)) } }
+	fn root_with_local(&self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, if local {1} else {0})) } }
+	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, 0)) } }
+	fn root_mut_with_local(&mut self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, if local {1} else {0})) } }
 	fn panel(&self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel_c(self.this)) } }
 	fn panel_mut(&mut self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel(self.this)) } }
 	fn set_parent(&mut self, parent: &mut Control) -> u32 { unsafe { tsControl_setParent(self.this, parent.this) } }
@@ -38505,8 +38634,10 @@ impl ControlTrait for ControlSplit {
 	fn is_parent_disabled(&self) -> bool { unsafe { tsControl_isParentDisabled(self.this) != 0 } }
 	fn add_child(&mut self, child: &mut Control) -> u32 { unsafe { tsControl_addChild(self.this, child.this) } }
 	fn set_child(&mut self, index: u32, child: &mut Control) -> Control { unsafe { Control::new_ptr(tsControl_setChild(self.this, index, child.this)) } }
-	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this) != 0 } }
-	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this) != 0 } }
+	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, 0) != 0 } }
+	fn raise_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, index) != 0 } }
+	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, 0) != 0 } }
+	fn lower_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, index) != 0 } }
 	fn remove_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_removeChild(self.this, child.this) != 0 } }
 	fn release_children(&mut self) { unsafe { tsControl_releaseChildren(self.this) } }
 	fn find_child(&self, child: &Control) -> u32 { unsafe { tsControl_findChild(self.this, child.this) } }
@@ -38681,6 +38812,8 @@ impl ControlArea {
 	pub fn view_rect(&self) -> Rect { unsafe { tsControlArea_getViewRect(self.this) } }
 }
 impl ControlTrait for ControlArea {
+	fn num_controls() -> u32 { unsafe { tsControl_getNumControls() } }
+	fn is_control(control: &Control) -> bool { unsafe { tsControl_isControl(control.this) != 0 } }
 	fn type_(&self) -> ControlType { unsafe { tsControl_getType(self.this) } }
 	fn type_name_with_type(type_: ControlType) -> string::String { unsafe { get_cstring(tsControl_getTypeName_CT(type_)) } }
 	fn type_name(&self) -> string::String { unsafe { get_cstring(tsControl_getTypeName_c(self.this)) } }
@@ -38716,8 +38849,10 @@ impl ControlTrait for ControlArea {
 	fn set_disabled(&mut self, disabled: bool) { unsafe { tsControl_setDisabled(self.this, if disabled {1} else {0}) } }
 	fn is_disabled(&self) -> bool { unsafe { tsControl_isDisabled(self.this) != 0 } }
 	fn canvas(&self) -> Canvas { unsafe { Canvas::new_ptr(tsControl_getCanvas(self.this)) } }
-	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_c(self.this)) } }
-	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot(self.this)) } }
+	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, 0)) } }
+	fn root_with_local(&self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, if local {1} else {0})) } }
+	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, 0)) } }
+	fn root_mut_with_local(&mut self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, if local {1} else {0})) } }
 	fn panel(&self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel_c(self.this)) } }
 	fn panel_mut(&mut self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel(self.this)) } }
 	fn set_parent(&mut self, parent: &mut Control) -> u32 { unsafe { tsControl_setParent(self.this, parent.this) } }
@@ -38727,8 +38862,10 @@ impl ControlTrait for ControlArea {
 	fn is_parent_disabled(&self) -> bool { unsafe { tsControl_isParentDisabled(self.this) != 0 } }
 	fn add_child(&mut self, child: &mut Control) -> u32 { unsafe { tsControl_addChild(self.this, child.this) } }
 	fn set_child(&mut self, index: u32, child: &mut Control) -> Control { unsafe { Control::new_ptr(tsControl_setChild(self.this, index, child.this)) } }
-	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this) != 0 } }
-	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this) != 0 } }
+	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, 0) != 0 } }
+	fn raise_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, index) != 0 } }
+	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, 0) != 0 } }
+	fn lower_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, index) != 0 } }
 	fn remove_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_removeChild(self.this, child.this) != 0 } }
 	fn release_children(&mut self) { unsafe { tsControl_releaseChildren(self.this) } }
 	fn find_child(&self, child: &Control) -> u32 { unsafe { tsControl_findChild(self.this, child.this) } }
@@ -39086,6 +39223,8 @@ impl ControlTree {
 	}
 }
 impl ControlTextTrait for ControlTree {
+	fn set_callback(&mut self, callback: bool) { unsafe { tsControlText_setCallback(self.this, if callback {1} else {0}) } }
+	fn callback(&self) -> bool { unsafe { tsControlText_getCallback(self.this) != 0 } }
 	fn set_mode(&mut self, mode: CanvasElementMode) { unsafe { tsControlText_setMode(self.this, mode) } }
 	fn mode(&self) -> CanvasElementMode { unsafe { tsControlText_getMode(self.this) } }
 	fn set_pipeline(&mut self, pipeline: &mut Pipeline) { unsafe { tsControlText_setPipeline_P(self.this, pipeline.this) } }
@@ -39133,6 +39272,8 @@ impl ControlTextTrait for ControlTree {
 	fn canvas_text(&mut self) -> CanvasText { unsafe { CanvasText::new_ptr(tsControlText_getCanvasText(self.this)) } }
 }
 impl ControlTrait for ControlTree {
+	fn num_controls() -> u32 { unsafe { tsControl_getNumControls() } }
+	fn is_control(control: &Control) -> bool { unsafe { tsControl_isControl(control.this) != 0 } }
 	fn type_(&self) -> ControlType { unsafe { tsControl_getType(self.this) } }
 	fn type_name_with_type(type_: ControlType) -> string::String { unsafe { get_cstring(tsControl_getTypeName_CT(type_)) } }
 	fn type_name(&self) -> string::String { unsafe { get_cstring(tsControl_getTypeName_c(self.this)) } }
@@ -39168,8 +39309,10 @@ impl ControlTrait for ControlTree {
 	fn set_disabled(&mut self, disabled: bool) { unsafe { tsControl_setDisabled(self.this, if disabled {1} else {0}) } }
 	fn is_disabled(&self) -> bool { unsafe { tsControl_isDisabled(self.this) != 0 } }
 	fn canvas(&self) -> Canvas { unsafe { Canvas::new_ptr(tsControl_getCanvas(self.this)) } }
-	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_c(self.this)) } }
-	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot(self.this)) } }
+	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, 0)) } }
+	fn root_with_local(&self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, if local {1} else {0})) } }
+	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, 0)) } }
+	fn root_mut_with_local(&mut self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, if local {1} else {0})) } }
 	fn panel(&self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel_c(self.this)) } }
 	fn panel_mut(&mut self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel(self.this)) } }
 	fn set_parent(&mut self, parent: &mut Control) -> u32 { unsafe { tsControl_setParent(self.this, parent.this) } }
@@ -39179,8 +39322,10 @@ impl ControlTrait for ControlTree {
 	fn is_parent_disabled(&self) -> bool { unsafe { tsControl_isParentDisabled(self.this) != 0 } }
 	fn add_child(&mut self, child: &mut Control) -> u32 { unsafe { tsControl_addChild(self.this, child.this) } }
 	fn set_child(&mut self, index: u32, child: &mut Control) -> Control { unsafe { Control::new_ptr(tsControl_setChild(self.this, index, child.this)) } }
-	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this) != 0 } }
-	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this) != 0 } }
+	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, 0) != 0 } }
+	fn raise_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, index) != 0 } }
+	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, 0) != 0 } }
+	fn lower_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, index) != 0 } }
 	fn remove_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_removeChild(self.this, child.this) != 0 } }
 	fn release_children(&mut self) { unsafe { tsControl_releaseChildren(self.this) } }
 	fn find_child(&self, child: &Control) -> u32 { unsafe { tsControl_findChild(self.this, child.this) } }
@@ -39424,6 +39569,8 @@ impl ControlEdit {
 	pub fn canvas_mesh(&mut self) -> CanvasMesh { unsafe { CanvasMesh::new_ptr(tsControlEdit_getCanvasMesh(self.this)) } }
 }
 impl ControlTextTrait for ControlEdit {
+	fn set_callback(&mut self, callback: bool) { unsafe { tsControlText_setCallback(self.this, if callback {1} else {0}) } }
+	fn callback(&self) -> bool { unsafe { tsControlText_getCallback(self.this) != 0 } }
 	fn set_mode(&mut self, mode: CanvasElementMode) { unsafe { tsControlText_setMode(self.this, mode) } }
 	fn mode(&self) -> CanvasElementMode { unsafe { tsControlText_getMode(self.this) } }
 	fn set_pipeline(&mut self, pipeline: &mut Pipeline) { unsafe { tsControlText_setPipeline_P(self.this, pipeline.this) } }
@@ -39471,6 +39618,8 @@ impl ControlTextTrait for ControlEdit {
 	fn canvas_text(&mut self) -> CanvasText { unsafe { CanvasText::new_ptr(tsControlText_getCanvasText(self.this)) } }
 }
 impl ControlTrait for ControlEdit {
+	fn num_controls() -> u32 { unsafe { tsControl_getNumControls() } }
+	fn is_control(control: &Control) -> bool { unsafe { tsControl_isControl(control.this) != 0 } }
 	fn type_(&self) -> ControlType { unsafe { tsControl_getType(self.this) } }
 	fn type_name_with_type(type_: ControlType) -> string::String { unsafe { get_cstring(tsControl_getTypeName_CT(type_)) } }
 	fn type_name(&self) -> string::String { unsafe { get_cstring(tsControl_getTypeName_c(self.this)) } }
@@ -39506,8 +39655,10 @@ impl ControlTrait for ControlEdit {
 	fn set_disabled(&mut self, disabled: bool) { unsafe { tsControl_setDisabled(self.this, if disabled {1} else {0}) } }
 	fn is_disabled(&self) -> bool { unsafe { tsControl_isDisabled(self.this) != 0 } }
 	fn canvas(&self) -> Canvas { unsafe { Canvas::new_ptr(tsControl_getCanvas(self.this)) } }
-	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_c(self.this)) } }
-	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot(self.this)) } }
+	fn root(&self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, 0)) } }
+	fn root_with_local(&self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_cb(self.this, if local {1} else {0})) } }
+	fn root_mut(&mut self) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, 0)) } }
+	fn root_mut_with_local(&mut self, local: bool) -> ControlRoot { unsafe { ControlRoot::new_ptr(tsControl_getRoot_b(self.this, if local {1} else {0})) } }
 	fn panel(&self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel_c(self.this)) } }
 	fn panel_mut(&mut self) -> ControlPanel { unsafe { ControlPanel::new_ptr(tsControl_getPanel(self.this)) } }
 	fn set_parent(&mut self, parent: &mut Control) -> u32 { unsafe { tsControl_setParent(self.this, parent.this) } }
@@ -39517,8 +39668,10 @@ impl ControlTrait for ControlEdit {
 	fn is_parent_disabled(&self) -> bool { unsafe { tsControl_isParentDisabled(self.this) != 0 } }
 	fn add_child(&mut self, child: &mut Control) -> u32 { unsafe { tsControl_addChild(self.this, child.this) } }
 	fn set_child(&mut self, index: u32, child: &mut Control) -> Control { unsafe { Control::new_ptr(tsControl_setChild(self.this, index, child.this)) } }
-	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this) != 0 } }
-	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this) != 0 } }
+	fn raise_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, 0) != 0 } }
+	fn raise_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_raiseChild(self.this, child.this, index) != 0 } }
+	fn lower_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, 0) != 0 } }
+	fn lower_child_with_index(&mut self, child: &mut Control, index: u32) -> bool { unsafe { tsControl_lowerChild(self.this, child.this, index) != 0 } }
 	fn remove_child(&mut self, child: &mut Control) -> bool { unsafe { tsControl_removeChild(self.this, child.this) != 0 } }
 	fn release_children(&mut self) { unsafe { tsControl_releaseChildren(self.this) } }
 	fn find_child(&self, child: &Control) -> u32 { unsafe { tsControl_findChild(self.this, child.this) } }
@@ -41299,6 +41452,11 @@ impl SeparableFilter {
 		unsafe { tsSeparableFilter_setInputSource(self.this, mode, src_.as_ptr()) }
 	}
 	pub fn input_source(&self, mode: SeparableFilterMode) -> string::String { unsafe { get_string(tsSeparableFilter_getInputSource(self.this, mode)) } }
+	pub fn set_kernel_source(&mut self, mode: SeparableFilterMode, src: &str) {
+		let src_ = CString::new(src).unwrap();
+		unsafe { tsSeparableFilter_setKernelSource(self.this, mode, src_.as_ptr()) }
+	}
+	pub fn kernel_source(&self, mode: SeparableFilterMode) -> string::String { unsafe { get_string(tsSeparableFilter_getKernelSource(self.this, mode)) } }
 	pub fn set_output_source(&mut self, mode: SeparableFilterMode, src: &str) {
 		let src_ = CString::new(src).unwrap();
 		unsafe { tsSeparableFilter_setOutputSource(self.this, mode, src_.as_ptr()) }
@@ -41377,6 +41535,8 @@ extern "C" {
 	fn tsSeparableFilter_isCreated(this: *const c_void, format: Format, size: u32) -> i32;
 	fn tsSeparableFilter_setInputSource(this: *mut c_void, mode: SeparableFilterMode, src: *const c_char);
 	fn tsSeparableFilter_getInputSource(this: *const c_void, mode: SeparableFilterMode) -> *mut c_void;
+	fn tsSeparableFilter_setKernelSource(this: *mut c_void, mode: SeparableFilterMode, src: *const c_char);
+	fn tsSeparableFilter_getKernelSource(this: *const c_void, mode: SeparableFilterMode) -> *mut c_void;
 	fn tsSeparableFilter_setOutputSource(this: *mut c_void, mode: SeparableFilterMode, src: *const c_char);
 	fn tsSeparableFilter_getOutputSource(this: *const c_void, mode: SeparableFilterMode) -> *mut c_void;
 	fn tsSeparableFilter_create(this: *mut c_void, device: *mut c_void, format: Format, size: u32, flags: SeparableFilterFlags) -> i32;

@@ -61,20 +61,20 @@ namespace Tellusim {
 			virtual void update_enabled(bool enabled);
 			virtual bool update(ControlRoot &root, const Rect &region, const Rect &view, uint32_t scale);
 			
-			float32_t offset = 32.0f;				// tooltip offset
+			float32_t offset = 32.0f;					// tooltip offset
 			
-			Map<Control, String> tooltips;			// text tooltips
-			Map<Control, TextCallback> text_funcs;	// text callbacks
-			Map<Control, DrawCallback> draw_funcs;	// draw callbacks
+			Map<Control, String> tooltips;				// text tooltips
+			Map<Control, TextCallback> text_callbacks;	// text callbacks
+			Map<Control, DrawCallback> draw_callbacks;	// draw callbacks
 			
-			Control tooltip_control;				// tooltip control
-			Vector2f tooltip_position;				// tooltip position
-			uint64_t tooltip_time = 0;				// tooltip time
-			bool is_tooltip = false;				// tooltip flag
+			Control tooltip_control;					// tooltip control
+			Vector2f tooltip_position;					// tooltip position
+			uint64_t tooltip_time = 0;					// tooltip time
+			bool is_tooltip = false;					// tooltip flag
 			
-			CanvasRect canvas_rect;					// canvas rect
-			CanvasText canvas_text;					// canvas text
-			CanvasMesh canvas_mesh;					// canvas mesh
+			CanvasRect canvas_rect;						// canvas rect
+			CanvasText canvas_text;						// canvas text
+			CanvasMesh canvas_mesh;						// canvas mesh
 	};
 }
 
