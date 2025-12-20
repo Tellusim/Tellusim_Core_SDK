@@ -18,6 +18,7 @@ public class D3D11Device extends Device {
 	public Device toDevice() { return new Device(base_device_ptr(self)); }
 	public long getD3D11Device() { return get_d3d11_device(self); }
 	public long getCommand() { return get_command(self); }
+	public long getD3D11Features(int index) { return get_d3d11_features(self, index); }
 	
 	private static native long new_();
 	private static native long new_1(long context);
@@ -29,6 +30,7 @@ public class D3D11Device extends Device {
 	private static native long base_device_ptr(long self);
 	private static native long get_d3d11_device(long self);
 	private static native long get_command(long self);
+	private static native long get_d3d11_features(long self, int index);
 	
 	protected D3D11Device(long self) {
 		init_(self);

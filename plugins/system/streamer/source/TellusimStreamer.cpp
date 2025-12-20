@@ -121,9 +121,10 @@ namespace Tellusim {
 	bool Streamer::load_archive(Stream &stream, const char *name, const char *type, uint32_t file_index) {
 		
 		// load archive
-		AutoPtr<Archive> archive = makeAutoPtr(new Archive());
+		Archive *archive = new Archive();
 		if(!archive->open(stream, type)) {
 			TS_LOGF(Error, "Streamer::load_archive(): can't open \"%s\" archive\n", name);
+			delete archive;
 			return false;
 		}
 		
@@ -132,11 +133,15 @@ namespace Tellusim {
 			String archive_name = String(name);
 			if(!hasFlag(FlagCase)) archive_name = archive_name.lower();
 			names.append(archive_name.reverse(), file_index);
+			delete archive;
 			return true;
 		}
 		
-		// archive files
+		// register archive
 		uint32_t archive_index = archives.size();
+		archives.append(makeAutoPtr(archive));
+		
+		// archive files
 		for(uint32_t i = 0; i < archive->getNumFiles(); i++) {
 			
 			// archive file
@@ -175,9 +180,6 @@ namespace Tellusim {
 				names.append(name.reverse(), file_index);
 			}
 		}
-		
-		// register archive
-		archives.append(archive);
 		
 		return true;
 	}

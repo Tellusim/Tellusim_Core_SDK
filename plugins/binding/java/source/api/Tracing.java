@@ -228,10 +228,6 @@ public class Tracing {
 	public int getNumInstances() { return get_num_instances(self); }
 	public Buffer getInstanceBuffer() { return new Buffer(get_instance_buffer(self)); }
 	public long getInstanceOffset() { return get_instance_offset(self); }
-	public void setIndirectBuffer(Buffer buffer) { set_indirect_buffer(self, buffer.self, 0); }
-	public void setIndirectBuffer(Buffer buffer, long offset) { set_indirect_buffer(self, buffer.self, offset); }
-	public Buffer getIndirectBuffer() { return new Buffer(get_indirect_buffer(self)); }
-	public long getIndirectOffset() { return get_indirect_offset(self); }
 	public int addVertexBuffer(int num_vertices, Format format, long stride) { return add_vertex_buffer(self, num_vertices, format.value, stride, (new Buffer()).self, 0); }
 	public int addVertexBuffer(int num_vertices, Format.Enum format, long stride) { return add_vertex_buffer(self, num_vertices, format.value, stride, (new Buffer()).self, 0); }
 	public int addVertexBuffer(int num_vertices, Format format, long stride, Buffer buffer) { return add_vertex_buffer(self, num_vertices, format.value, stride, buffer.self, 0); }
@@ -275,6 +271,10 @@ public class Tracing {
 	public int getBoundStride(int index) { return get_bound_stride(self, index); }
 	public Buffer getBoundBuffer(int index) { return new Buffer(get_bound_buffer(self, index)); }
 	public long getBoundOffset(int index) { return get_bound_offset(self, index); }
+	public void setIndirectBuffer(Buffer buffer) { set_indirect_buffer(self, buffer.self, 0); }
+	public void setIndirectBuffer(Buffer buffer, long offset) { set_indirect_buffer(self, buffer.self, offset); }
+	public Buffer getIndirectBuffer() { return new Buffer(get_indirect_buffer(self)); }
+	public long getIndirectOffset() { return get_indirect_offset(self); }
 	public String getDescription() { return get_description(self); }
 	public long getTracingAddress() { return get_tracing_address(self); }
 	public long getBuildSize() { return get_build_size(self); }
@@ -318,9 +318,6 @@ public class Tracing {
 	private static native int get_num_instances(long self);
 	private static native long get_instance_buffer(long self);
 	private static native long get_instance_offset(long self);
-	private static native void set_indirect_buffer(long self, long buffer, long offset);
-	private static native long get_indirect_buffer(long self);
-	private static native long get_indirect_offset(long self);
 	private static native int add_vertex_buffer(long self, int num_vertices, int format, long stride, long buffer, long offset);
 	private static native void set_vertex_buffer(long self, int index, int num_vertices, long buffer, long offset);
 	private static native void set_vertex_buffer_1(long self, int index, long buffer, long offset);
@@ -346,6 +343,9 @@ public class Tracing {
 	private static native int get_bound_stride(long self, int index);
 	private static native long get_bound_buffer(long self, int index);
 	private static native long get_bound_offset(long self, int index);
+	private static native void set_indirect_buffer(long self, long buffer, long offset);
+	private static native long get_indirect_buffer(long self);
+	private static native long get_indirect_offset(long self);
 	private static native String get_description(long self);
 	private static native long get_tracing_address(long self);
 	private static native long get_build_size(long self);

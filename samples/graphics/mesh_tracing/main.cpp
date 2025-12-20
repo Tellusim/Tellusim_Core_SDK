@@ -52,10 +52,10 @@ int32_t main(int32_t argc, char **argv) {
 	Device device(window);
 	if(!device) return 1;
 	
-	// check ray tracing support
+	// check traversal tracing support
 	const Device::Features &features = device.getFeatures();
-	if(!features.computeTracing && !features.rayTracing) {
-		TS_LOG(Error, "ray tracing is not supported\n");
+	if(!features.computeTracing && !features.traversalTracing) {
+		TS_LOG(Error, "traversal tracing is not supported\n");
 		return 0;
 	}
 	
@@ -83,13 +83,13 @@ int32_t main(int32_t argc, char **argv) {
 	
 	// create trace traversal
 	Traversal trace_traversal;
-	if(features.rayTracing && features.recursionDepth > 1) {
+	if(features.traversalTracing && features.maxTraversalDepth > 1) {
 		trace_traversal = device.createTraversal();
 		trace_traversal.setUniformMask(0, Shader::MaskAll);
 		trace_traversal.setStorageMasks(0, 2, Shader::MaskAll);
 		trace_traversal.setSurfaceMask(0, Shader::MaskRayGen);
 		trace_traversal.setTracingMask(0, Shader::MaskRayGen | Shader::MaskClosest);
-		trace_traversal.setRecursionDepth(min(device.getFeatures().recursionDepth, 2u));
+		trace_traversal.setRecursionDepth(min(device.getFeatures().maxTraversalDepth, 2u));
 		if(!trace_traversal.loadShaderGLSL(Shader::TypeRayGen, "main.shader", "RAYGEN_SHADER=1")) return 1;
 		if(!trace_traversal.loadShaderGLSL(Shader::TypeRayMiss, "main.shader", "RAYMISS_SHADER=1")) return 1;
 		if(!trace_traversal.loadShaderGLSL(Shader::TypeClosest, "main.shader", "CLOSEST_SHADER=1")) return 1;
