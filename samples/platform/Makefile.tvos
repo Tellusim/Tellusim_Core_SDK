@@ -9,6 +9,7 @@ TESTS = \
 	command \
 	compute \
 	device \
+	divisor \
 	dynamic \
 	fence \
 	formats \
