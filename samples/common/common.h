@@ -161,7 +161,7 @@
 				window.finish(); \
 			} \
 			if(done) { \
-				TS_LOGF(Message, "%s Done (Frames: %u FPS: %.1f)\n", window.getTitle().get(), frame_counter, frame_counter / frame_time); \
+				TS_LOGF(Message, "%s Done (Frames: %u Time: %.2f FPS: %.1f)\n", window.getTitle().get(), frame_counter, frame_time, (frame_time > 0.0f) ? frame_counter / frame_time : 0.0f); \
 				for(int32_t j = 1; j < argc; j++) { \
 					if(!strcmp(argv[j], "-image") && j + 1 < argc) { \
 						if(window.grab(window_image)) window_image.save(argv[j + 1]); \

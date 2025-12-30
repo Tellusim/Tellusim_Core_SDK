@@ -19,6 +19,8 @@ public class GLContext extends Context {
 	public long getGLConfig() { return get_gl_config(self); }
 	public long getGLSurface() { return get_gl_surface(self); }
 	public long getGLContext() { return get_gl_context(self); }
+	public static String getExtensions() { return get_extensions(); }
+	public static boolean checkExtension(String name) { return check_extension(name); }
 	public static long getProcAddress(String name) { return get_proc_address(name); }
 	public static boolean error(int result) { return error_(result); }
 	public static boolean check() { return check_(); }
@@ -34,6 +36,8 @@ public class GLContext extends Context {
 	private static native long get_gl_config(long self);
 	private static native long get_gl_surface(long self);
 	private static native long get_gl_context(long self);
+	private static native String get_extensions();
+	private static native boolean check_extension(String name);
 	private static native long get_proc_address(String name);
 	private static native boolean error_(int result);
 	private static native boolean check_();
