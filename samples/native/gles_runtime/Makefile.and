@@ -1,0 +1,9 @@
+SRCS = main.cpp
+
+FLAGS += -I$(TSROOT)/plugins/platform/opengles/extern
+
+APK = tsGLESRuntime
+
+ASSETS = main.shader model.usdc
+
+include ../../Makefile.and.mk

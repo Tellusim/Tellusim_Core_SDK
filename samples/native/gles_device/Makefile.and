@@ -1,0 +1,5 @@
+SRCS = main.cpp
+
+APK = tsGLESDevice
+
+include ../../Makefile.and.mk

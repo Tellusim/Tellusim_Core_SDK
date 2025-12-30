@@ -1,4 +1,6 @@
 TESTS = \
+	gles_device \
+	gles_runtime \
 	vk_device \
 	vk_pipeline \
 	vk_runtime
