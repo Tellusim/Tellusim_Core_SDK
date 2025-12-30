@@ -1518,9 +1518,11 @@ namespace Tellusim {
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, atomicTextureu64) == offsetof(Device::Features, atomicTextureu64));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, matrix16f16) == offsetof(Device::Features, matrix16f16));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, matrix16x8x8f16) == offsetof(Device::Features, matrix16x8x8f16));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, matrix8x16x16f16) == offsetof(Device::Features, matrix8x16x16f16));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, matrix16x8x16f16) == offsetof(Device::Features, matrix16x8x16f16));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, matrix16f16f32) == offsetof(Device::Features, matrix16f16f32));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, matrix16x8x8f16f32) == offsetof(Device::Features, matrix16x8x8f16f32));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, matrix8x16x16f16f32) == offsetof(Device::Features, matrix8x16x16f16f32));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, matrix16x8x16f16f32) == offsetof(Device::Features, matrix16x8x16f16f32));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, uniformAlignment) == offsetof(Device::Features, uniformAlignment));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, storageAlignment) == offsetof(Device::Features, storageAlignment));
@@ -18713,6 +18715,24 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	+(void)addAdapterFeatures_: (void*)features {
 		Tellusim::VKContext::addAdapterFeatures(features);
 	}
+	+(NSString*)getLayers {
+		return [NSString stringWithUTF8String:Tellusim::VKContext::getLayers().get()];
+	}
+	+(NSString*)getExtensions {
+		return [NSString stringWithUTF8String:Tellusim::VKContext::getExtensions().get()];
+	}
+	+(BOOL)checkLayer: (const char*)name {
+		return Tellusim::VKContext::checkLayer(name);
+	}
+	+(BOOL)checkLayer_: (const char*)name {
+		return Tellusim::VKContext::checkLayer(name);
+	}
+	+(BOOL)checkExtension: (const char*)name {
+		return Tellusim::VKContext::checkExtension(name);
+	}
+	+(BOOL)checkExtension_: (const char*)name {
+		return Tellusim::VKContext::checkExtension(name);
+	}
 	+(PFN_vkGetInstanceProcAddr)getInstanceProcAddress {
 		return Tellusim::VKContext::getInstanceProcAddress();
 	}
@@ -18828,6 +18848,15 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(void*)getGLContext {
 		return [self ref].getGLContext();
 	}
+	+(NSString*)getExtensions {
+		return [NSString stringWithUTF8String:Tellusim::GLContext::getExtensions().get()];
+	}
+	+(BOOL)checkExtension: (const char*)name {
+		return Tellusim::GLContext::checkExtension(name);
+	}
+	+(BOOL)checkExtension_: (const char*)name {
+		return Tellusim::GLContext::checkExtension(name);
+	}
 	+(void*)getProcAddress: (const char*)name {
 		return Tellusim::GLContext::getProcAddress(name);
 	}
@@ -18933,6 +18962,15 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	}
 	-(void*)getGLESContext {
 		return [self ref].getGLESContext();
+	}
+	+(NSString*)getExtensions {
+		return [NSString stringWithUTF8String:Tellusim::GLESContext::getExtensions().get()];
+	}
+	+(BOOL)checkExtension: (const char*)name {
+		return Tellusim::GLESContext::checkExtension(name);
+	}
+	+(BOOL)checkExtension_: (const char*)name {
+		return Tellusim::GLESContext::checkExtension(name);
 	}
 	+(void*)getProcAddress: (const char*)name {
 		return Tellusim::GLESContext::getProcAddress(name);
@@ -27100,6 +27138,15 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	}
 	-(uint32_t)getFamily {
 		return [self ref].getFamily();
+	}
+	-(NSString*)getExtensions {
+		return [NSString stringWithUTF8String:[self ref].getExtensions().get()];
+	}
+	-(BOOL)checkExtension: (const char*)name {
+		return [self ref].checkExtension(name);
+	}
+	-(BOOL)checkExtension_: (const char*)name {
+		return [self ref].checkExtension(name);
 	}
 	-(const void*)getVKFeatures: (uint32_t)type {
 		return [self ref].getVKFeatures(type);
@@ -46295,40 +46342,40 @@ TS_CAPI @implementation TSSystem
 	+(void)closeLibrary_: (void*)handle {
 		return Tellusim::System::closeLibrary(handle);
 	}
-	+(BOOL)exec: (const char*)command {
+	+(int32_t)exec: (const char*)command {
 		return Tellusim::System::exec(command);
 	}
-	+(BOOL)exec_: (const char*)command {
+	+(int32_t)exec_: (const char*)command {
 		return Tellusim::System::exec(command);
 	}
-	+(BOOL)exec_1: (const char*)command wait: (BOOL)wait {
+	+(int32_t)exec_1: (const char*)command wait: (BOOL)wait {
 		return Tellusim::System::exec(command, (bool)wait);
 	}
-	+(BOOL)exec_1_: (const char*)command wait: (BOOL)wait {
+	+(int32_t)exec_1_: (const char*)command wait: (BOOL)wait {
 		return Tellusim::System::exec(command, (bool)wait);
 	}
-	+(BOOL)exec_2: (const char*)command wait: (BOOL)wait console: (BOOL)console {
+	+(int32_t)exec_2: (const char*)command wait: (BOOL)wait console: (BOOL)console {
 		return Tellusim::System::exec(command, (bool)wait, (bool)console);
 	}
-	+(BOOL)exec_2_: (const char*)command wait: (BOOL)wait console: (BOOL)console {
+	+(int32_t)exec_2_: (const char*)command wait: (BOOL)wait console: (BOOL)console {
 		return Tellusim::System::exec(command, (bool)wait, (bool)console);
 	}
-	+(BOOL)exec_3: (const TSString*)command {
+	+(int32_t)exec_3: (const TSString*)command {
 		return Tellusim::System::exec((command) ? [command ref] : Tellusim::String::null);
 	}
-	+(BOOL)exec_3_: (const TSString*)command {
+	+(int32_t)exec_3_: (const TSString*)command {
 		return Tellusim::System::exec((command) ? [command ref] : Tellusim::String::null);
 	}
-	+(BOOL)exec_4: (const TSString*)command wait: (BOOL)wait {
+	+(int32_t)exec_4: (const TSString*)command wait: (BOOL)wait {
 		return Tellusim::System::exec((command) ? [command ref] : Tellusim::String::null, (bool)wait);
 	}
-	+(BOOL)exec_4_: (const TSString*)command wait: (BOOL)wait {
+	+(int32_t)exec_4_: (const TSString*)command wait: (BOOL)wait {
 		return Tellusim::System::exec((command) ? [command ref] : Tellusim::String::null, (bool)wait);
 	}
-	+(BOOL)exec_5: (const TSString*)command wait: (BOOL)wait console: (BOOL)console {
+	+(int32_t)exec_5: (const TSString*)command wait: (BOOL)wait console: (BOOL)console {
 		return Tellusim::System::exec((command) ? [command ref] : Tellusim::String::null, (bool)wait, (bool)console);
 	}
-	+(BOOL)exec_5_: (const TSString*)command wait: (BOOL)wait console: (BOOL)console {
+	+(int32_t)exec_5_: (const TSString*)command wait: (BOOL)wait console: (BOOL)console {
 		return Tellusim::System::exec((command) ? [command ref] : Tellusim::String::null, (bool)wait, (bool)console);
 	}
 	+(BOOL)open: (const char*)command {
