@@ -26,6 +26,10 @@ public class VKContext extends Context {
 	public static void addContextExtension(String name) { add_context_extension(name); }
 	public static void addAdapterExtension(String name) { add_adapter_extension(name); }
 	public static void addAdapterFeatures(long features) { add_adapter_features(features); }
+	public static String getLayers() { return get_layers(); }
+	public static String getExtensions() { return get_extensions(); }
+	public static boolean checkLayer(String name) { return check_layer(name); }
+	public static boolean checkExtension(String name) { return check_extension(name); }
 	public static long getInstanceProcAddress() { return get_instance_proc_address(); }
 	public static long getDeviceProcAddress() { return get_device_proc_address(); }
 	public static long getProcAddress(String name) { return get_proc_address(name); }
@@ -49,6 +53,10 @@ public class VKContext extends Context {
 	private static native void add_context_extension(String name);
 	private static native void add_adapter_extension(String name);
 	private static native void add_adapter_features(long features);
+	private static native String get_layers();
+	private static native String get_extensions();
+	private static native boolean check_layer(String name);
+	private static native boolean check_extension(String name);
 	private static native long get_instance_proc_address();
 	private static native long get_device_proc_address();
 	private static native long get_proc_address(String name);

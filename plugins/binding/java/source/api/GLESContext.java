@@ -17,6 +17,8 @@ public class GLESContext extends Context {
 	public long getGLESDisplay() { return get_gles_display(self); }
 	public long getGLESConfig() { return get_gles_config(self); }
 	public long getGLESContext() { return get_gles_context(self); }
+	public static String getExtensions() { return get_extensions(); }
+	public static boolean checkExtension(String name) { return check_extension(name); }
 	public static long getProcAddress(String name) { return get_proc_address(name); }
 	public static boolean error(int result) { return error_(result); }
 	public static boolean check() { return check_(); }
@@ -30,6 +32,8 @@ public class GLESContext extends Context {
 	private static native long get_gles_display(long self);
 	private static native long get_gles_config(long self);
 	private static native long get_gles_context(long self);
+	private static native String get_extensions();
+	private static native boolean check_extension(String name);
 	private static native long get_proc_address(String name);
 	private static native boolean error_(int result);
 	private static native boolean check_();

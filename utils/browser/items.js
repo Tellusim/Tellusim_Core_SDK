@@ -461,6 +461,15 @@
 			"source": "samples/platform/indirect/main.cpp",
 			"project": "samples/platform/indirect/indirect"
 		},
+		"platform_divisor": {
+			"title": "Vertex Attribute Divisor",
+			"image": "images/platform/platform_divisor.png",
+			"text": "This example demonstrates the use of a vertex attribute divisor to fetch per-draw data.",
+			"path": "samples/platform/divisor",
+			"exec": "main",
+			"source": "samples/platform/divisor/main.cpp",
+			"project": "samples/platform/divisor/divisor"
+		},
 		"platform_alpha": {
 			"title": "MSAA Alpha Test",
 			"image": "images/platform/platform_alpha.png",

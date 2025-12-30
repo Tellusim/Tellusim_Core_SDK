@@ -21,13 +21,13 @@
 		coopmat<float16_t, gl_ScopeSubgroup, M, K, gl_MatrixUseA> a;
 		coopmat<float16_t, gl_ScopeSubgroup, K, N, gl_MatrixUseB> b;
 		
-		coopMatLoad(a, data, M * M * 0, K, gl_CooperativeMatrixLayoutRowMajor);
-		coopMatLoad(b, data, M * M * 1, N, gl_CooperativeMatrixLayoutRowMajor);
-		coopMatLoad(c, data, M * M * 2, N, gl_CooperativeMatrixLayoutRowMajor);
+		coopMatLoad(a, data, S * S * 0, K, gl_CooperativeMatrixLayoutRowMajor);
+		coopMatLoad(b, data, S * S * 1, N, gl_CooperativeMatrixLayoutRowMajor);
+		coopMatLoad(c, data, S * S * 2, N, gl_CooperativeMatrixLayoutRowMajor);
 		
 		d = coopMatMulAdd(a, b, c);
 		
-		coopMatStore(d, data, M * M * 3, N, gl_CooperativeMatrixLayoutRowMajor);
+		coopMatStore(d, data, S * S * 3, N, gl_CooperativeMatrixLayoutRowMajor);
 	}
 	
 #endif
