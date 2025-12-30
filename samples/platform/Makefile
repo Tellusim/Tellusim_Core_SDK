@@ -13,6 +13,7 @@ TESTS = \
 	cooperative \
 	desktop \
 	device \
+	divisor \
 	fence \
 	formats \
 	dynamic \
