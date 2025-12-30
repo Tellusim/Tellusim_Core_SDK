@@ -9,7 +9,7 @@
 	
 	layout(location = 0) in vec4 in_position;
 	layout(location = 1) in vec3 in_normal;
-	layout(location = 2) in uint in_counter;
+	layout(location = 2) in vec2 in_group;
 	
 	layout(row_major, binding = 0) uniform CommonParameters {
 		mat4 projection;
@@ -25,41 +25,15 @@
 	 */
 	void main() {
 		
-		#if BATCH_INDEX
-			
-			#if HAS_BASE_INDEX
-				int batch_id = gl_InstanceIndex;
-			#else
-				int batch_id = in_counter;
-			#endif
-			
-			int instance_id = batch_id % NUM_INSTANCES;
-			
-			int draw_id = batch_id / NUM_INSTANCES;
-			
+		#if CLAY_VK || CLAY_MTL
+			int instance_id = gl_InstanceIndex - gl_BaseInstance;
 		#else
-			
-			#if HAS_BASE_INDEX
-				int instance_id = gl_InstanceIndex - gl_BaseInstance;
-			#else
-				int instance_id = gl_InstanceIndex;
-			#endif
-			
-			#if HAS_DRAW_INDEX
-				int draw_id = gl_DrawIndex;
-			#else
-				int draw_id = in_counter;
-			#endif
-			
+			int instance_id = gl_InstanceIndex;
 		#endif
 		
 		vec4 position = in_position;
-		position.xyz *= 1.0f - instance_id * 0.75f / NUM_INSTANCES;
-		position.xy -= NUM_DRAWS * 0.5f;
-		position.x += draw_id % NUM_DRAWS;
-		position.y += draw_id / NUM_DRAWS;
-		position.z += instance_id;
-		
+		position.xyz *= 1.0f - instance_id * 0.1f;
+		position.xyz += vec3(in_group, instance_id * 1.0f);
 		gl_Position = projection * (modelview * position);
 		
 		s_direction = camera.xyz - position.xyz;
