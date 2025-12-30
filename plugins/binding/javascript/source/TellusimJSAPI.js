@@ -6802,6 +6802,15 @@ tsGLESContext.prototype['getGLESContext'] = tsGLESContext.prototype.getGLESConte
 	throw 'invalid GLESContext.getGLESContext() arguments';
 };
 Object.defineProperty(tsGLESContext.prototype, 'gles_context', { get: tsGLESContext.prototype.getGLESContext });
+tsGLESContext['getExtensions'] = tsGLESContext.getExtensions = function() {
+	if(arguments.length == 0) { let str = _tsGLESContext_getExtensions(); let ret = UTF8ToString(_tsString_get(str)); _tsString_delete(str); return ret; }
+	throw 'invalid GLESContext.getExtensions() arguments';
+};
+tsGLESContext['checkExtension'] = tsGLESContext.checkExtension = function() {
+	ts_args.reset();
+	if(arguments.length == 1 && typeof arguments[0] === 'string') return _tsGLESContext_checkExtension(ts_str(arguments[0]));
+	throw 'invalid GLESContext.checkExtension() arguments';
+};
 tsGLESContext['getProcAddress'] = tsGLESContext.getProcAddress = function() {
 	ts_args.reset();
 	if(arguments.length == 1 && typeof arguments[0] === 'string') return _tsGLESContext_getProcAddress(ts_str(arguments[0]));
@@ -9120,6 +9129,9 @@ Object.defineProperty(tsDevice.Features.prototype, 'matrix16f16', { get: tsDevic
 tsDevice.Features.prototype['set_matrix16x8x8f16'] = tsDevice.Features.prototype.set_matrix16x8x8f16 = function(v) { _tsDeviceFeatures_set_matrix16x8x8f16(this.self, v); };
 tsDevice.Features.prototype['get_matrix16x8x8f16'] = tsDevice.Features.prototype.get_matrix16x8x8f16 = function() { return _tsDeviceFeatures_get_matrix16x8x8f16(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'matrix16x8x8f16', { get: tsDevice.Features.prototype.get_matrix16x8x8f16, set: tsDevice.Features.prototype.set_matrix16x8x8f16 });
+tsDevice.Features.prototype['set_matrix8x16x16f16'] = tsDevice.Features.prototype.set_matrix8x16x16f16 = function(v) { _tsDeviceFeatures_set_matrix8x16x16f16(this.self, v); };
+tsDevice.Features.prototype['get_matrix8x16x16f16'] = tsDevice.Features.prototype.get_matrix8x16x16f16 = function() { return _tsDeviceFeatures_get_matrix8x16x16f16(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'matrix8x16x16f16', { get: tsDevice.Features.prototype.get_matrix8x16x16f16, set: tsDevice.Features.prototype.set_matrix8x16x16f16 });
 tsDevice.Features.prototype['set_matrix16x8x16f16'] = tsDevice.Features.prototype.set_matrix16x8x16f16 = function(v) { _tsDeviceFeatures_set_matrix16x8x16f16(this.self, v); };
 tsDevice.Features.prototype['get_matrix16x8x16f16'] = tsDevice.Features.prototype.get_matrix16x8x16f16 = function() { return _tsDeviceFeatures_get_matrix16x8x16f16(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'matrix16x8x16f16', { get: tsDevice.Features.prototype.get_matrix16x8x16f16, set: tsDevice.Features.prototype.set_matrix16x8x16f16 });
@@ -9129,6 +9141,9 @@ Object.defineProperty(tsDevice.Features.prototype, 'matrix16f16f32', { get: tsDe
 tsDevice.Features.prototype['set_matrix16x8x8f16f32'] = tsDevice.Features.prototype.set_matrix16x8x8f16f32 = function(v) { _tsDeviceFeatures_set_matrix16x8x8f16f32(this.self, v); };
 tsDevice.Features.prototype['get_matrix16x8x8f16f32'] = tsDevice.Features.prototype.get_matrix16x8x8f16f32 = function() { return _tsDeviceFeatures_get_matrix16x8x8f16f32(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'matrix16x8x8f16f32', { get: tsDevice.Features.prototype.get_matrix16x8x8f16f32, set: tsDevice.Features.prototype.set_matrix16x8x8f16f32 });
+tsDevice.Features.prototype['set_matrix8x16x16f16f32'] = tsDevice.Features.prototype.set_matrix8x16x16f16f32 = function(v) { _tsDeviceFeatures_set_matrix8x16x16f16f32(this.self, v); };
+tsDevice.Features.prototype['get_matrix8x16x16f16f32'] = tsDevice.Features.prototype.get_matrix8x16x16f16f32 = function() { return _tsDeviceFeatures_get_matrix8x16x16f16f32(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'matrix8x16x16f16f32', { get: tsDevice.Features.prototype.get_matrix8x16x16f16f32, set: tsDevice.Features.prototype.set_matrix8x16x16f16f32 });
 tsDevice.Features.prototype['set_matrix16x8x16f16f32'] = tsDevice.Features.prototype.set_matrix16x8x16f16f32 = function(v) { _tsDeviceFeatures_set_matrix16x8x16f16f32(this.self, v); };
 tsDevice.Features.prototype['get_matrix16x8x16f16f32'] = tsDevice.Features.prototype.get_matrix16x8x16f16f32 = function() { return _tsDeviceFeatures_get_matrix16x8x16f16f32(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'matrix16x8x16f16f32', { get: tsDevice.Features.prototype.get_matrix16x8x16f16f32, set: tsDevice.Features.prototype.set_matrix16x8x16f16f32 });
@@ -9266,9 +9281,11 @@ tsDevice.Features.prototype['toString'] = tsDevice.Features.prototype.toString =
 	ret += '\natomicTextureu64: ' + this.atomicTextureu64;
 	ret += '\nmatrix16f16: ' + this.matrix16f16;
 	ret += '\nmatrix16x8x8f16: ' + this.matrix16x8x8f16;
+	ret += '\nmatrix8x16x16f16: ' + this.matrix8x16x16f16;
 	ret += '\nmatrix16x8x16f16: ' + this.matrix16x8x16f16;
 	ret += '\nmatrix16f16f32: ' + this.matrix16f16f32;
 	ret += '\nmatrix16x8x8f16f32: ' + this.matrix16x8x8f16f32;
+	ret += '\nmatrix8x16x16f16f32: ' + this.matrix8x16x16f16f32;
 	ret += '\nmatrix16x8x16f16f32: ' + this.matrix16x8x16f16f32;
 	ret += '\nuniformAlignment: ' + this.uniformAlignment;
 	ret += '\nstorageAlignment: ' + this.storageAlignment;

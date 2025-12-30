@@ -5855,6 +5855,12 @@ namespace Tellusim {
 	TS_JSAPI void* tsGLESContext_getGLESContext(const GLESContext &self) {
 		return self.getGLESContext();
 	}
+	TS_JSAPI String *tsGLESContext_getExtensions() {
+		return new String(GLESContext::getExtensions());
+	}
+	TS_JSAPI bool tsGLESContext_checkExtension(const char *name) {
+		return GLESContext::checkExtension(name);
+	}
 	TS_JSAPI void* tsGLESContext_getProcAddress(const char *name) {
 		return GLESContext::getProcAddress(name);
 	}
@@ -7847,6 +7853,12 @@ namespace Tellusim {
 	TS_JSAPI bool tsDeviceFeatures_get_matrix16x8x8f16(const Device::Features &self) {
 		return self.matrix16x8x8f16;
 	}
+	TS_JSAPI void tsDeviceFeatures_set_matrix8x16x16f16(Device::Features &self, bool matrix8x16x16f16) {
+		self.matrix8x16x16f16 = matrix8x16x16f16;
+	}
+	TS_JSAPI bool tsDeviceFeatures_get_matrix8x16x16f16(const Device::Features &self) {
+		return self.matrix8x16x16f16;
+	}
 	TS_JSAPI void tsDeviceFeatures_set_matrix16x8x16f16(Device::Features &self, bool matrix16x8x16f16) {
 		self.matrix16x8x16f16 = matrix16x8x16f16;
 	}
@@ -7864,6 +7876,12 @@ namespace Tellusim {
 	}
 	TS_JSAPI bool tsDeviceFeatures_get_matrix16x8x8f16f32(const Device::Features &self) {
 		return self.matrix16x8x8f16f32;
+	}
+	TS_JSAPI void tsDeviceFeatures_set_matrix8x16x16f16f32(Device::Features &self, bool matrix8x16x16f16f32) {
+		self.matrix8x16x16f16f32 = matrix8x16x16f16f32;
+	}
+	TS_JSAPI bool tsDeviceFeatures_get_matrix8x16x16f16f32(const Device::Features &self) {
+		return self.matrix8x16x16f16f32;
 	}
 	TS_JSAPI void tsDeviceFeatures_set_matrix16x8x16f16f32(Device::Features &self, bool matrix16x8x16f16f32) {
 		self.matrix16x8x16f16f32 = matrix16x8x16f16f32;
@@ -17426,10 +17444,10 @@ namespace Tellusim {
 	TS_JSAPI void tsSystem_closeLibrary(void *handle) {
 		System::closeLibrary(handle);
 	}
-	TS_JSAPI bool tsSystem_exec(const char *command, bool wait, bool console) {
+	TS_JSAPI int32_t tsSystem_exec(const char *command, bool wait, bool console) {
 		return System::exec(command, wait, console);
 	}
-	TS_JSAPI bool tsSystem_exec_1(const String &command, bool wait, bool console) {
+	TS_JSAPI int32_t tsSystem_exec_1(const String &command, bool wait, bool console) {
 		return System::exec(command, wait, console);
 	}
 	TS_JSAPI bool tsSystem_open(const char *command) {
