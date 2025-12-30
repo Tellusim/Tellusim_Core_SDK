@@ -96,9 +96,11 @@ int32_t main(int32_t argc, char **argv) {
 	
 	DECLARE_PRINT_BOOL(matrix16f16);
 	DECLARE_PRINT_BOOL(matrix16x8x8f16);
+	DECLARE_PRINT_BOOL(matrix8x16x16f16);
 	DECLARE_PRINT_BOOL(matrix16x8x16f16);
 	DECLARE_PRINT_BOOL(matrix16f16f32);
 	DECLARE_PRINT_BOOL(matrix16x8x8f16f32);
+	DECLARE_PRINT_BOOL(matrix8x16x16f16f32);
 	DECLARE_PRINT_BOOL(matrix16x8x16f16f32);
 	
 	DECLARE_PRINT_UINT(uniformAlignment);

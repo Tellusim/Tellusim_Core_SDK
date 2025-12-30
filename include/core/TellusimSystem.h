@@ -43,8 +43,8 @@ namespace Tellusim {
 		 * \param wait Wait for the process completion.
 		 * \param console Create process console window.
 		 */
-		TS_API bool exec(const char *command, bool wait = false, bool console = true);
-		TS_API bool exec(const String &command, bool wait = false, bool console = true);
+		TS_API int32_t exec(const char *command, bool wait = false, bool console = true);
+		TS_API int32_t exec(const String &command, bool wait = false, bool console = true);
 		
 		/**
 		 * Open resource
