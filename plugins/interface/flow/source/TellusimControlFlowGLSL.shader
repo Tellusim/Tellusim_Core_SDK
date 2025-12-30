@@ -3,14 +3,103 @@
 
 /*
  */
-#define MOD289(NAME) \
-	NAME -= floor(NAME * (1.0f / 289.0f)) * 289.0f;
+#if HASH_1_1_SHADER
+	float p = fract((IN) * 0.1031f);
+	p *= p + 33.33f;
+	OUT = fract((p + p) * p);
+#endif
 
-#define PERM(NAME) \
-	NAME *= NAME * 34.0f + 1.0f; \
-	MOD289(NAME)
+#if HASH_1_2_SHADER
+	vec3 p3 = fract((IN).xyx * 0.1031f);
+	p3 += dot(p3, p3.yzx + 33.33f);
+	OUT = fract((p3.x + p3.y) * p3.z);
+#endif
 
-#define INVERSESQRT(VALUE) (1.79284291400159f - VALUE * 0.85373472095314f)
+#if HASH_1_3_SHADER
+	vec3 p3 = fract((IN) * 0.1031f);
+	p3 += dot(p3, p3.zyx + 33.33f);
+	OUT = fract((p3.x + p3.y) * p3.z);
+#endif
+
+#if HASH_1_4_SHADER
+	vec4 p4 = fract((IN) * vec4(0.1031f, 0.1030f, 0.0973f, 0.1099f));
+	p4 += dot(p4, p4.wzxy + 33.33f);
+	OUT = fract((p4.x + p4.y) * (p4.z + p4.w));
+#endif
+
+/*
+ */
+#if HASH_2_1_SHADER
+	vec3 p3 = fract((IN) * vec3(0.1031f, 0.1030f, 0.0973f));
+	p3 += dot(p3, p3.yzx + 33.33f);
+	OUT = fract((p3.xx + p3.yz) * p3.zy);
+#endif
+
+#if HASH_2_2_SHADER
+	vec3 p3 = fract((IN).xyx * vec3(0.1031f, 0.1030f, 0.0973f));
+	p3 += dot(p3, p3.yzx + 33.33f);
+	OUT = fract((p3.xx+p3.yz) * p3.zy);
+#endif
+
+#if HASH_2_3_SHADER
+	vec3 p3 = fract((IN) * vec3(0.1031f, 0.1030f, 0.0973f));
+	p3 += dot(p3, p3.yzx + 33.33f);
+	OUT = fract((p3.xx + p3.yz) * p3.zy);
+#endif
+
+/*
+ */
+#if HASH_3_1_SHADER
+	vec3 p3 = fract((IN) * vec3(0.1031f, 0.1030f, 0.0973f));
+	p3 += dot(p3, p3.yzx + 33.33f);
+	OUT = fract((p3.xxy + p3.yzz) * p3.zyx); 
+#endif
+
+#if HASH_3_2_SHADER
+	vec3 p3 = fract((IN).xyx * vec3(0.1031f, 0.1030f, 0.0973f));
+	p3 += dot(p3, p3.yxz + 33.33f);
+	OUT = fract((p3.xxy + p3.yzz) * p3.zyx);
+#endif
+
+#if HASH_3_3_SHADER
+	vec3 p3 = fract((IN) * vec3(0.1031f, 0.1030f, 0.0973f));
+	p3 += dot(p3, p3.yxz + 33.33f);
+	OUT = fract((p3.xxy + p3.yxx)*p3.zyx);
+#endif
+
+/*
+ */
+#if HASH_4_1_SHADER
+	vec4 p4 = fract((IN) * vec4(0.1031f, 0.1030f, 0.0973f, 0.1099f));
+	p4 += dot(p4, p4.wzxy + 33.33f);
+	OUT = fract((p4.xxyz + p4.yzzw) * p4.zywx);
+#endif
+
+#if HASH_4_2_SHADER
+	vec4 p4 = fract((IN).xyxy * vec4(0.1031f, 0.1030f, 0.0973f, 0.1099f);
+	p4 += dot(p4, p4.wzxy + 33.33f);
+	OUT = fract((p4.xxyz + p4.yzzw) * p4.zywx);
+#endif
+
+#if HASH_4_3_SHADER
+	vec4 p4 = fract((IN).xyzx * vec4(0.1031f, 0.1030f, 0.0973f, 0.1099f));
+	p4 += dot(p4, p4.wzxy + 33.33f);
+	OUT = fract((p4.xxyz + p4.yzzw) * p4.zywx);
+#endif
+
+#if HASH_4_4_SHADER
+	vec4 p4 = fract((IN) * vec4(0.1031f, 0.1030f, 0.0973f, 0.1099f));
+	p4 += dot(p4, p4.wzxy + 33.33f);
+	OUT = fract((p4.xxyz + p4.yzzw) * p4.zywx);
+#endif
+
+/*
+ */
+#if PERLIN_2_SHADER || PERLIN_3_SHADER
+	#define MOD289(NAME) NAME -= floor(NAME * (1.0f / 289.0f)) * 289.0f;
+	#define PERM(NAME) NAME *= NAME * 34.0f + 1.0f; MOD289(NAME)
+	#define INVERSESQRT(VALUE) (1.79284291400159f - VALUE * 0.85373472095314f)
+#endif
 
 /*
  */

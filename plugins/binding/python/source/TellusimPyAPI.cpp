@@ -27702,6 +27702,54 @@ namespace Tellusim {
 		#endif
 		return nullptr;
 	}
+	static PyObject *VKContext_getLayers(PYVKContext *self, PyObject *args) {
+		if(!args || PyTuple_Size(args) == 0) {
+			return PyUnicode_FromString(VKContext::getLayers().get());
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "VKContext::getLayers(): unknown arguments:\n(void) -> String\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *VKContext_getExtensions(PYVKContext *self, PyObject *args) {
+		if(!args || PyTuple_Size(args) == 0) {
+			return PyUnicode_FromString(VKContext::getExtensions().get());
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "VKContext::getExtensions(): unknown arguments:\n(void) -> String\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *VKContext_checkLayer(PYVKContext *self, PyObject *args, PyObject *kwargs) {
+		const char *name = nullptr;
+		static const char *kwlist[] = { "name", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "s", (char**)kwlist, &name)) {
+			return PyLong_FromLong(VKContext::checkLayer(name));
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "VKContext::checkLayer(): unknown arguments:\n(const char* name) -> bool\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *VKContext_checkExtension(PYVKContext *self, PyObject *args, PyObject *kwargs) {
+		const char *name = nullptr;
+		static const char *kwlist[] = { "name", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "s", (char**)kwlist, &name)) {
+			return PyLong_FromLong(VKContext::checkExtension(name));
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "VKContext::checkExtension(): unknown arguments:\n(const char* name) -> bool\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
 	static PyObject *VKContext_getInstanceProcAddress(PYVKContext *self, PyObject *args) {
 		if(!args || PyTuple_Size(args) == 0) {
 			return PyLong_FromVoidPtr((void*)VKContext::getInstanceProcAddress());
@@ -27770,6 +27818,12 @@ namespace Tellusim {
 	}
 	static PyObject *VKContext_get_num_queues(PYVKContext *self, void *offset) {
 		return PyLong_FromUnsignedLong(self->ptr.getNumQueues());
+	}
+	static PyObject *VKContext_get_layers(PYVKContext *self, void *offset) {
+		return PyUnicode_FromString(self->ptr.getLayers().get());
+	}
+	static PyObject *VKContext_get_extensions(PYVKContext *self, void *offset) {
+		return PyUnicode_FromString(self->ptr.getExtensions().get());
 	}
 	static PyObject *VKContext_get_instance_proc_address(PYVKContext *self, void *offset) {
 		return PyLong_FromVoidPtr((void*)self->ptr.getInstanceProcAddress());
@@ -27943,6 +27997,30 @@ namespace Tellusim {
 		#endif
 		return nullptr;
 	}
+	static PyObject *GLContext_getExtensions(PYGLContext *self, PyObject *args) {
+		if(!args || PyTuple_Size(args) == 0) {
+			return PyUnicode_FromString(GLContext::getExtensions().get());
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "GLContext::getExtensions(): unknown arguments:\n(void) -> String\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *GLContext_checkExtension(PYGLContext *self, PyObject *args, PyObject *kwargs) {
+		const char *name = nullptr;
+		static const char *kwlist[] = { "name", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "s", (char**)kwlist, &name)) {
+			return PyLong_FromLong(GLContext::checkExtension(name));
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "GLContext::checkExtension(): unknown arguments:\n(const char* name) -> bool\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
 	static PyObject *GLContext_getProcAddress(PYGLContext *self, PyObject *args, PyObject *kwargs) {
 		const char *name = nullptr;
 		static const char *kwlist[] = { "name", nullptr };
@@ -27994,6 +28072,9 @@ namespace Tellusim {
 	}
 	static PyObject *GLContext_get_gl_context(PYGLContext *self, void *offset) {
 		return PyLong_FromVoidPtr(self->ptr.getGLContext());
+	}
+	static PyObject *GLContext_get_extensions(PYGLContext *self, void *offset) {
+		return PyUnicode_FromString(self->ptr.getExtensions().get());
 	}
 	static PyObject *pyGLContext_str(PYGLContext *self) {
 		return PyUnicode_FromString(String::format("GLContext Valid: %u; Owner: %u; Const: %u; Count: %u; Internal: %p", self->ptr.isValidPtr(), self->ptr.isOwnerPtr(), self->ptr.isConstPtr(), self->ptr.getCountPtr(), self->ptr.getInternalPtr()).get());
@@ -28139,6 +28220,30 @@ namespace Tellusim {
 		#endif
 		return nullptr;
 	}
+	static PyObject *GLESContext_getExtensions(PYGLESContext *self, PyObject *args) {
+		if(!args || PyTuple_Size(args) == 0) {
+			return PyUnicode_FromString(GLESContext::getExtensions().get());
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "GLESContext::getExtensions(): unknown arguments:\n(void) -> String\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *GLESContext_checkExtension(PYGLESContext *self, PyObject *args, PyObject *kwargs) {
+		const char *name = nullptr;
+		static const char *kwlist[] = { "name", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "s", (char**)kwlist, &name)) {
+			return PyLong_FromLong(GLESContext::checkExtension(name));
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "GLESContext::checkExtension(): unknown arguments:\n(const char* name) -> bool\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
 	static PyObject *GLESContext_getProcAddress(PYGLESContext *self, PyObject *args, PyObject *kwargs) {
 		const char *name = nullptr;
 		static const char *kwlist[] = { "name", nullptr };
@@ -28184,6 +28289,9 @@ namespace Tellusim {
 	}
 	static PyObject *GLESContext_get_gles_context(PYGLESContext *self, void *offset) {
 		return PyLong_FromVoidPtr(self->ptr.getGLESContext());
+	}
+	static PyObject *GLESContext_get_extensions(PYGLESContext *self, void *offset) {
+		return PyUnicode_FromString(self->ptr.getExtensions().get());
 	}
 	static PyObject *pyGLESContext_str(PYGLESContext *self) {
 		return PyUnicode_FromString(String::format("GLESContext Valid: %u; Owner: %u; Const: %u; Count: %u; Internal: %p", self->ptr.isValidPtr(), self->ptr.isOwnerPtr(), self->ptr.isConstPtr(), self->ptr.getCountPtr(), self->ptr.getInternalPtr()).get());
@@ -41881,9 +41989,11 @@ namespace Tellusim {
 		ret += String::format("atomicTextureu64: %u\n", self->ptr.atomicTextureu64);
 		ret += String::format("matrix16f16: %u\n", self->ptr.matrix16f16);
 		ret += String::format("matrix16x8x8f16: %u\n", self->ptr.matrix16x8x8f16);
+		ret += String::format("matrix8x16x16f16: %u\n", self->ptr.matrix8x16x16f16);
 		ret += String::format("matrix16x8x16f16: %u\n", self->ptr.matrix16x8x16f16);
 		ret += String::format("matrix16f16f32: %u\n", self->ptr.matrix16f16f32);
 		ret += String::format("matrix16x8x8f16f32: %u\n", self->ptr.matrix16x8x8f16f32);
+		ret += String::format("matrix8x16x16f16f32: %u\n", self->ptr.matrix8x16x16f16f32);
 		ret += String::format("matrix16x8x16f16f32: %u\n", self->ptr.matrix16x8x16f16f32);
 		ret += String::format("uniformAlignment: %u\n", self->ptr.uniformAlignment);
 		ret += String::format("storageAlignment: %u\n", self->ptr.storageAlignment);
@@ -42897,6 +43007,30 @@ namespace Tellusim {
 		#endif
 		return nullptr;
 	}
+	static PyObject *VKDevice_getExtensions(PYVKDevice *self, PyObject *args) {
+		if(!args || PyTuple_Size(args) == 0) {
+			return PyUnicode_FromString(self->ptr.getExtensions().get());
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "VKDevice::getExtensions(): unknown arguments:\n(void) -> String\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *VKDevice_checkExtension(PYVKDevice *self, PyObject *args, PyObject *kwargs) {
+		const char *name = nullptr;
+		static const char *kwlist[] = { "name", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "s", (char**)kwlist, &name)) {
+			return PyLong_FromLong(self->ptr.checkExtension(name));
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "VKDevice::checkExtension(): unknown arguments:\n(const char* name) -> bool\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
 	static PyObject *VKDevice_getVKFeatures(PYVKDevice *self, PyObject *args, PyObject *kwargs) {
 		uint32_t type = {};
 		static const char *kwlist[] = { "type", nullptr };
@@ -42927,6 +43061,9 @@ namespace Tellusim {
 	}
 	static PyObject *VKDevice_get_family(PYVKDevice *self, void *offset) {
 		return PyLong_FromUnsignedLong(self->ptr.getFamily());
+	}
+	static PyObject *VKDevice_get_extensions(PYVKDevice *self, void *offset) {
+		return PyUnicode_FromString(self->ptr.getExtensions().get());
 	}
 	static PyObject *pyVKDevice_str(PYVKDevice *self) {
 		return PyUnicode_FromString(String::format("VKDevice Valid: %u; Owner: %u; Const: %u; Count: %u; Internal: %p", self->ptr.isValidPtr(), self->ptr.isOwnerPtr(), self->ptr.isConstPtr(), self->ptr.getCountPtr(), self->ptr.getInternalPtr()).get());
@@ -81424,7 +81561,7 @@ namespace Tellusim {
 			}
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "System::exec(): unknown arguments:\n(const char* command, bool wait, bool console) -> bool\n(const String command, bool wait, bool console) -> bool\n");
+			PyErr_SetString(PyExc_TypeError, "System::exec(): unknown arguments:\n(const char* command, bool wait, bool console) -> int32_t\n(const String command, bool wait, bool console) -> int32_t\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -85311,7 +85448,7 @@ namespace Tellusim {
 		Py_INCREF(&PYMTLContext_Type);
 		
 		// Tellusim::VKContext
-		PYVKContext_methods.reserve(PYVKContext_methods.size() + 30);
+		PYVKContext_methods.reserve(PYVKContext_methods.size() + 34);
 		PYVKContext_methods.append(PyMethodDef { "equalPtr", (PyCFunction)pyVKContext_equalPtr, METH_VARARGS, "" });
 		PYVKContext_methods.append(PyMethodDef { "clonePtr", (PyCFunction)pyVKContext_clonePtr, METH_NOARGS, "" });
 		PYVKContext_methods.append(PyMethodDef { "clearPtr", (PyCFunction)pyVKContext_clearPtr, METH_NOARGS, "" });
@@ -85337,12 +85474,16 @@ namespace Tellusim {
 		PYVKContext_methods.append(PyMethodDef { "addContextExtension", (PyCFunction)VKContext_addContextExtension, METH_VARARGS | METH_KEYWORDS | METH_STATIC, "" });
 		PYVKContext_methods.append(PyMethodDef { "addAdapterExtension", (PyCFunction)VKContext_addAdapterExtension, METH_VARARGS | METH_KEYWORDS | METH_STATIC, "" });
 		PYVKContext_methods.append(PyMethodDef { "addAdapterFeatures", (PyCFunction)VKContext_addAdapterFeatures, METH_VARARGS | METH_KEYWORDS | METH_STATIC, "" });
+		PYVKContext_methods.append(PyMethodDef { "getLayers", (PyCFunction)VKContext_getLayers, METH_NOARGS | METH_STATIC, "" });
+		PYVKContext_methods.append(PyMethodDef { "getExtensions", (PyCFunction)VKContext_getExtensions, METH_NOARGS | METH_STATIC, "" });
+		PYVKContext_methods.append(PyMethodDef { "checkLayer", (PyCFunction)VKContext_checkLayer, METH_VARARGS | METH_KEYWORDS | METH_STATIC, "" });
+		PYVKContext_methods.append(PyMethodDef { "checkExtension", (PyCFunction)VKContext_checkExtension, METH_VARARGS | METH_KEYWORDS | METH_STATIC, "" });
 		PYVKContext_methods.append(PyMethodDef { "getInstanceProcAddress", (PyCFunction)VKContext_getInstanceProcAddress, METH_NOARGS | METH_STATIC, "" });
 		PYVKContext_methods.append(PyMethodDef { "getDeviceProcAddress", (PyCFunction)VKContext_getDeviceProcAddress, METH_NOARGS | METH_STATIC, "" });
 		PYVKContext_methods.append(PyMethodDef { "getProcAddress", (PyCFunction)VKContext_getProcAddress, METH_VARARGS | METH_KEYWORDS | METH_STATIC, "" });
 		PYVKContext_methods.append(PyMethodDef { "error", (PyCFunction)VKContext_error, METH_VARARGS | METH_KEYWORDS | METH_STATIC, "" });
 		PYVKContext_methods.append(PyMethodDef {});
-		PYVKContext_getsets.reserve(PYVKContext_getsets.size() + 10);
+		PYVKContext_getsets.reserve(PYVKContext_getsets.size() + 12);
 		PYVKContext_getsets.append(PyGetSetDef { "instance", (getter)VKContext_get_instance, nullptr, "", nullptr });
 		PYVKContext_getsets.append(PyGetSetDef { "adapter", (getter)VKContext_get_adapter, nullptr, "", nullptr });
 		PYVKContext_getsets.append(PyGetSetDef { "device", (getter)VKContext_get_device, nullptr, "", nullptr });
@@ -85350,6 +85491,8 @@ namespace Tellusim {
 		PYVKContext_getsets.append(PyGetSetDef { "command", (getter)VKContext_get_command, nullptr, "", nullptr });
 		PYVKContext_getsets.append(PyGetSetDef { "family", (getter)VKContext_get_family, nullptr, "", nullptr });
 		PYVKContext_getsets.append(PyGetSetDef { "num_queues", (getter)VKContext_get_num_queues, nullptr, "", nullptr });
+		PYVKContext_getsets.append(PyGetSetDef { "layers", (getter)VKContext_get_layers, nullptr, "", nullptr });
+		PYVKContext_getsets.append(PyGetSetDef { "extensions", (getter)VKContext_get_extensions, nullptr, "", nullptr });
 		PYVKContext_getsets.append(PyGetSetDef { "instance_proc_address", (getter)VKContext_get_instance_proc_address, nullptr, "", nullptr });
 		PYVKContext_getsets.append(PyGetSetDef { "device_proc_address", (getter)VKContext_get_device_proc_address, nullptr, "", nullptr });
 		PYVKContext_getsets.append(PyGetSetDef {});
@@ -85373,7 +85516,7 @@ namespace Tellusim {
 		Py_INCREF(&PYVKContext_Type);
 		
 		// Tellusim::GLContext
-		PYGLContext_methods.reserve(PYGLContext_methods.size() + 22);
+		PYGLContext_methods.reserve(PYGLContext_methods.size() + 24);
 		PYGLContext_methods.append(PyMethodDef { "equalPtr", (PyCFunction)pyGLContext_equalPtr, METH_VARARGS, "" });
 		PYGLContext_methods.append(PyMethodDef { "clonePtr", (PyCFunction)pyGLContext_clonePtr, METH_NOARGS, "" });
 		PYGLContext_methods.append(PyMethodDef { "clearPtr", (PyCFunction)pyGLContext_clearPtr, METH_NOARGS, "" });
@@ -85392,16 +85535,19 @@ namespace Tellusim {
 		PYGLContext_methods.append(PyMethodDef { "getGLConfig", (PyCFunction)GLContext_getGLConfig, METH_NOARGS, "" });
 		PYGLContext_methods.append(PyMethodDef { "getGLSurface", (PyCFunction)GLContext_getGLSurface, METH_NOARGS, "" });
 		PYGLContext_methods.append(PyMethodDef { "getGLContext", (PyCFunction)GLContext_getGLContext, METH_NOARGS, "" });
+		PYGLContext_methods.append(PyMethodDef { "getExtensions", (PyCFunction)GLContext_getExtensions, METH_NOARGS | METH_STATIC, "" });
+		PYGLContext_methods.append(PyMethodDef { "checkExtension", (PyCFunction)GLContext_checkExtension, METH_VARARGS | METH_KEYWORDS | METH_STATIC, "" });
 		PYGLContext_methods.append(PyMethodDef { "getProcAddress", (PyCFunction)GLContext_getProcAddress, METH_VARARGS | METH_KEYWORDS | METH_STATIC, "" });
 		PYGLContext_methods.append(PyMethodDef { "error", (PyCFunction)GLContext_error, METH_VARARGS | METH_KEYWORDS | METH_STATIC, "" });
 		PYGLContext_methods.append(PyMethodDef { "check", (PyCFunction)GLContext_check, METH_NOARGS | METH_STATIC, "" });
 		PYGLContext_methods.append(PyMethodDef {});
-		PYGLContext_getsets.reserve(PYGLContext_getsets.size() + 6);
+		PYGLContext_getsets.reserve(PYGLContext_getsets.size() + 7);
 		PYGLContext_getsets.append(PyGetSetDef { "gl_display", (getter)GLContext_get_gl_display, nullptr, "", nullptr });
 		PYGLContext_getsets.append(PyGetSetDef { "gl_visual", (getter)GLContext_get_gl_visual, nullptr, "", nullptr });
 		PYGLContext_getsets.append(PyGetSetDef { "gl_config", (getter)GLContext_get_gl_config, nullptr, "", nullptr });
 		PYGLContext_getsets.append(PyGetSetDef { "gl_surface", (getter)GLContext_get_gl_surface, nullptr, "", nullptr });
 		PYGLContext_getsets.append(PyGetSetDef { "gl_context", (getter)GLContext_get_gl_context, nullptr, "", nullptr });
+		PYGLContext_getsets.append(PyGetSetDef { "extensions", (getter)GLContext_get_extensions, nullptr, "", nullptr });
 		PYGLContext_getsets.append(PyGetSetDef {});
 		PYGLContext_Type.tp_base = &PYContext_Type;
 		PYGLContext_Type.tp_dealloc = (destructor)pyGLContext_dealloc;
@@ -85423,7 +85569,7 @@ namespace Tellusim {
 		Py_INCREF(&PYGLContext_Type);
 		
 		// Tellusim::GLESContext
-		PYGLESContext_methods.reserve(PYGLESContext_methods.size() + 20);
+		PYGLESContext_methods.reserve(PYGLESContext_methods.size() + 22);
 		PYGLESContext_methods.append(PyMethodDef { "equalPtr", (PyCFunction)pyGLESContext_equalPtr, METH_VARARGS, "" });
 		PYGLESContext_methods.append(PyMethodDef { "clonePtr", (PyCFunction)pyGLESContext_clonePtr, METH_NOARGS, "" });
 		PYGLESContext_methods.append(PyMethodDef { "clearPtr", (PyCFunction)pyGLESContext_clearPtr, METH_NOARGS, "" });
@@ -85440,14 +85586,17 @@ namespace Tellusim {
 		PYGLESContext_methods.append(PyMethodDef { "getGLESDisplay", (PyCFunction)GLESContext_getGLESDisplay, METH_NOARGS, "" });
 		PYGLESContext_methods.append(PyMethodDef { "getGLESConfig", (PyCFunction)GLESContext_getGLESConfig, METH_NOARGS, "" });
 		PYGLESContext_methods.append(PyMethodDef { "getGLESContext", (PyCFunction)GLESContext_getGLESContext, METH_NOARGS, "" });
+		PYGLESContext_methods.append(PyMethodDef { "getExtensions", (PyCFunction)GLESContext_getExtensions, METH_NOARGS | METH_STATIC, "" });
+		PYGLESContext_methods.append(PyMethodDef { "checkExtension", (PyCFunction)GLESContext_checkExtension, METH_VARARGS | METH_KEYWORDS | METH_STATIC, "" });
 		PYGLESContext_methods.append(PyMethodDef { "getProcAddress", (PyCFunction)GLESContext_getProcAddress, METH_VARARGS | METH_KEYWORDS | METH_STATIC, "" });
 		PYGLESContext_methods.append(PyMethodDef { "error", (PyCFunction)GLESContext_error, METH_VARARGS | METH_KEYWORDS | METH_STATIC, "" });
 		PYGLESContext_methods.append(PyMethodDef { "check", (PyCFunction)GLESContext_check, METH_NOARGS | METH_STATIC, "" });
 		PYGLESContext_methods.append(PyMethodDef {});
-		PYGLESContext_getsets.reserve(PYGLESContext_getsets.size() + 4);
+		PYGLESContext_getsets.reserve(PYGLESContext_getsets.size() + 5);
 		PYGLESContext_getsets.append(PyGetSetDef { "gles_display", (getter)GLESContext_get_gles_display, nullptr, "", nullptr });
 		PYGLESContext_getsets.append(PyGetSetDef { "gles_config", (getter)GLESContext_get_gles_config, nullptr, "", nullptr });
 		PYGLESContext_getsets.append(PyGetSetDef { "gles_context", (getter)GLESContext_get_gles_context, nullptr, "", nullptr });
+		PYGLESContext_getsets.append(PyGetSetDef { "extensions", (getter)GLESContext_get_extensions, nullptr, "", nullptr });
 		PYGLESContext_getsets.append(PyGetSetDef {});
 		PYGLESContext_Type.tp_base = &PYContext_Type;
 		PYGLESContext_Type.tp_dealloc = (destructor)pyGLESContext_dealloc;
@@ -88164,7 +88313,7 @@ namespace Tellusim {
 		
 		// Tellusim::Device::Features
 		PYDeviceFeatures_methods.append(PyMethodDef {});
-		PYDeviceFeatures_members.reserve(PYDeviceFeatures_members.size() + 80);
+		PYDeviceFeatures_members.reserve(PYDeviceFeatures_members.size() + 82);
 		PYDeviceFeatures_getsets.reserve(PYDeviceFeatures_getsets.size() + 1);
 		PYDeviceFeatures_members.append(PyMemberDef { "threadAccess", T_BOOL, offsetof(PYDeviceFeatures, ptr.threadAccess), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "bufferTable", T_BOOL, offsetof(PYDeviceFeatures, ptr.bufferTable), 0, "" });
@@ -88212,9 +88361,11 @@ namespace Tellusim {
 		PYDeviceFeatures_members.append(PyMemberDef { "atomicTextureu64", T_BOOL, offsetof(PYDeviceFeatures, ptr.atomicTextureu64), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "matrix16f16", T_BOOL, offsetof(PYDeviceFeatures, ptr.matrix16f16), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "matrix16x8x8f16", T_BOOL, offsetof(PYDeviceFeatures, ptr.matrix16x8x8f16), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "matrix8x16x16f16", T_BOOL, offsetof(PYDeviceFeatures, ptr.matrix8x16x16f16), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "matrix16x8x16f16", T_BOOL, offsetof(PYDeviceFeatures, ptr.matrix16x8x16f16), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "matrix16f16f32", T_BOOL, offsetof(PYDeviceFeatures, ptr.matrix16f16f32), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "matrix16x8x8f16f32", T_BOOL, offsetof(PYDeviceFeatures, ptr.matrix16x8x8f16f32), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "matrix8x16x16f16f32", T_BOOL, offsetof(PYDeviceFeatures, ptr.matrix8x16x16f16f32), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "matrix16x8x16f16f32", T_BOOL, offsetof(PYDeviceFeatures, ptr.matrix16x8x16f16f32), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "uniformAlignment", T_UINT, offsetof(PYDeviceFeatures, ptr.uniformAlignment), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "storageAlignment", T_UINT, offsetof(PYDeviceFeatures, ptr.storageAlignment), 0, "" });
@@ -88406,7 +88557,7 @@ namespace Tellusim {
 		Py_INCREF(&PYMTLDevice_Type);
 		
 		// Tellusim::VKDevice
-		PYVKDevice_methods.reserve(PYVKDevice_methods.size() + 28);
+		PYVKDevice_methods.reserve(PYVKDevice_methods.size() + 30);
 		PYVKDevice_methods.append(PyMethodDef { "equalPtr", (PyCFunction)pyVKDevice_equalPtr, METH_VARARGS, "" });
 		PYVKDevice_methods.append(PyMethodDef { "clonePtr", (PyCFunction)pyVKDevice_clonePtr, METH_NOARGS, "" });
 		PYVKDevice_methods.append(PyMethodDef { "clearPtr", (PyCFunction)pyVKDevice_clearPtr, METH_NOARGS, "" });
@@ -88433,15 +88584,18 @@ namespace Tellusim {
 		PYVKDevice_methods.append(PyMethodDef { "getQueue", (PyCFunction)VKDevice_getQueue, METH_NOARGS, "" });
 		PYVKDevice_methods.append(PyMethodDef { "getCommand", (PyCFunction)VKDevice_getCommand, METH_NOARGS, "" });
 		PYVKDevice_methods.append(PyMethodDef { "getFamily", (PyCFunction)VKDevice_getFamily, METH_NOARGS, "" });
+		PYVKDevice_methods.append(PyMethodDef { "getExtensions", (PyCFunction)VKDevice_getExtensions, METH_NOARGS, "" });
+		PYVKDevice_methods.append(PyMethodDef { "checkExtension", (PyCFunction)VKDevice_checkExtension, METH_VARARGS | METH_KEYWORDS, "" });
 		PYVKDevice_methods.append(PyMethodDef { "getVKFeatures", (PyCFunction)VKDevice_getVKFeatures, METH_VARARGS | METH_KEYWORDS, "" });
 		PYVKDevice_methods.append(PyMethodDef {});
-		PYVKDevice_getsets.reserve(PYVKDevice_getsets.size() + 7);
+		PYVKDevice_getsets.reserve(PYVKDevice_getsets.size() + 8);
 		PYVKDevice_getsets.append(PyGetSetDef { "instance", (getter)VKDevice_get_instance, nullptr, "", nullptr });
 		PYVKDevice_getsets.append(PyGetSetDef { "adapter", (getter)VKDevice_get_adapter, nullptr, "", nullptr });
 		PYVKDevice_getsets.append(PyGetSetDef { "vk_device", (getter)VKDevice_get_vk_device, nullptr, "", nullptr });
 		PYVKDevice_getsets.append(PyGetSetDef { "queue", (getter)VKDevice_get_queue, nullptr, "", nullptr });
 		PYVKDevice_getsets.append(PyGetSetDef { "command", (getter)VKDevice_get_command, nullptr, "", nullptr });
 		PYVKDevice_getsets.append(PyGetSetDef { "family", (getter)VKDevice_get_family, nullptr, "", nullptr });
+		PYVKDevice_getsets.append(PyGetSetDef { "extensions", (getter)VKDevice_get_extensions, nullptr, "", nullptr });
 		PYVKDevice_getsets.append(PyGetSetDef {});
 		PYVKDevice_Type.tp_base = &PYDevice_Type;
 		PYVKDevice_Type.tp_dealloc = (destructor)pyVKDevice_dealloc;
