@@ -9772,6 +9772,24 @@ namespace Tellusim {
 	static void vk_context_add_adapter_features(TS_JNI_ARGS, jlong features) {
 		VKContext::addAdapterFeatures((void*)features);
 	}
+	static jstring vk_context_get_layers(TS_JNI_ARGS) {
+		return env->NewStringUTF(VKContext::getLayers().get());
+	}
+	static jstring vk_context_get_extensions(TS_JNI_ARGS) {
+		return env->NewStringUTF(VKContext::getExtensions().get());
+	}
+	static jboolean vk_context_check_layer(TS_JNI_ARGS, jstring name) {
+		const char *name_ = (name) ? env->GetStringUTFChars(name, nullptr) : nullptr;
+		bool ret_ = VKContext::checkLayer(name_);
+		if(name) env->ReleaseStringUTFChars(name, name_);
+		return ret_;
+	}
+	static jboolean vk_context_check_extension(TS_JNI_ARGS, jstring name) {
+		const char *name_ = (name) ? env->GetStringUTFChars(name, nullptr) : nullptr;
+		bool ret_ = VKContext::checkExtension(name_);
+		if(name) env->ReleaseStringUTFChars(name, name_);
+		return ret_;
+	}
 	static jlong vk_context_get_instance_proc_address(TS_JNI_ARGS) {
 		return (jlong)VKContext::getInstanceProcAddress();
 	}
@@ -9806,6 +9824,10 @@ namespace Tellusim {
 		{ (char*)"add_context_extension", (char*)"(Ljava/lang/String;)V", (void*)vk_context_add_context_extension },
 		{ (char*)"add_adapter_extension", (char*)"(Ljava/lang/String;)V", (void*)vk_context_add_adapter_extension },
 		{ (char*)"add_adapter_features", (char*)"(J)V", (void*)vk_context_add_adapter_features },
+		{ (char*)"get_layers", (char*)"()Ljava/lang/String;", (void*)vk_context_get_layers },
+		{ (char*)"get_extensions", (char*)"()Ljava/lang/String;", (void*)vk_context_get_extensions },
+		{ (char*)"check_layer", (char*)"(Ljava/lang/String;)Z", (void*)vk_context_check_layer },
+		{ (char*)"check_extension", (char*)"(Ljava/lang/String;)Z", (void*)vk_context_check_extension },
 		{ (char*)"get_instance_proc_address", (char*)"()J", (void*)vk_context_get_instance_proc_address },
 		{ (char*)"get_device_proc_address", (char*)"()J", (void*)vk_context_get_device_proc_address },
 		{ (char*)"get_proc_address", (char*)"(Ljava/lang/String;)J", (void*)vk_context_get_proc_address },
@@ -9846,6 +9868,15 @@ namespace Tellusim {
 	static jlong gl_context_get_gl_context(TS_JNI_ARGS, jlong self) {
 		return (jlong)toGLContext(self).getGLContext();
 	}
+	static jstring gl_context_get_extensions(TS_JNI_ARGS) {
+		return env->NewStringUTF(GLContext::getExtensions().get());
+	}
+	static jboolean gl_context_check_extension(TS_JNI_ARGS, jstring name) {
+		const char *name_ = (name) ? env->GetStringUTFChars(name, nullptr) : nullptr;
+		bool ret_ = GLContext::checkExtension(name_);
+		if(name) env->ReleaseStringUTFChars(name, name_);
+		return ret_;
+	}
 	static jlong gl_context_get_proc_address(TS_JNI_ARGS, jstring name) {
 		const char *name_ = (name) ? env->GetStringUTFChars(name, nullptr) : nullptr;
 		void* ret_ = GLContext::getProcAddress(name_);
@@ -9870,6 +9901,8 @@ namespace Tellusim {
 		{ (char*)"get_gl_config", (char*)"(J)J", (void*)gl_context_get_gl_config },
 		{ (char*)"get_gl_surface", (char*)"(J)J", (void*)gl_context_get_gl_surface },
 		{ (char*)"get_gl_context", (char*)"(J)J", (void*)gl_context_get_gl_context },
+		{ (char*)"get_extensions", (char*)"()Ljava/lang/String;", (void*)gl_context_get_extensions },
+		{ (char*)"check_extension", (char*)"(Ljava/lang/String;)Z", (void*)gl_context_check_extension },
 		{ (char*)"get_proc_address", (char*)"(Ljava/lang/String;)J", (void*)gl_context_get_proc_address },
 		{ (char*)"error_", (char*)"(I)Z", (void*)gl_context_error },
 		{ (char*)"check_", (char*)"()Z", (void*)gl_context_check },
@@ -9903,6 +9936,15 @@ namespace Tellusim {
 	static jlong gles_context_get_gles_context(TS_JNI_ARGS, jlong self) {
 		return (jlong)toGLESContext(self).getGLESContext();
 	}
+	static jstring gles_context_get_extensions(TS_JNI_ARGS) {
+		return env->NewStringUTF(GLESContext::getExtensions().get());
+	}
+	static jboolean gles_context_check_extension(TS_JNI_ARGS, jstring name) {
+		const char *name_ = (name) ? env->GetStringUTFChars(name, nullptr) : nullptr;
+		bool ret_ = GLESContext::checkExtension(name_);
+		if(name) env->ReleaseStringUTFChars(name, name_);
+		return ret_;
+	}
 	static jlong gles_context_get_proc_address(TS_JNI_ARGS, jstring name) {
 		const char *name_ = (name) ? env->GetStringUTFChars(name, nullptr) : nullptr;
 		void* ret_ = GLESContext::getProcAddress(name_);
@@ -9925,6 +9967,8 @@ namespace Tellusim {
 		{ (char*)"get_gles_display", (char*)"(J)J", (void*)gles_context_get_gles_display },
 		{ (char*)"get_gles_config", (char*)"(J)J", (void*)gles_context_get_gles_config },
 		{ (char*)"get_gles_context", (char*)"(J)J", (void*)gles_context_get_gles_context },
+		{ (char*)"get_extensions", (char*)"()Ljava/lang/String;", (void*)gles_context_get_extensions },
+		{ (char*)"check_extension", (char*)"(Ljava/lang/String;)Z", (void*)gles_context_check_extension },
 		{ (char*)"get_proc_address", (char*)"(Ljava/lang/String;)J", (void*)gles_context_get_proc_address },
 		{ (char*)"error_", (char*)"(I)Z", (void*)gles_context_error },
 		{ (char*)"check_", (char*)"()Z", (void*)gles_context_check },
@@ -14005,6 +14049,12 @@ namespace Tellusim {
 	static jboolean device_features_get_matrix16x8x8f16(TS_JNI_ARGS, jlong self) {
 		return toDeviceFeatures(self).matrix16x8x8f16;
 	}
+	static void device_features_set_matrix8x16x16f16(TS_JNI_ARGS, jlong self, jboolean matrix8x16x16f16) {
+		toDeviceFeatures(self).matrix8x16x16f16 = matrix8x16x16f16;
+	}
+	static jboolean device_features_get_matrix8x16x16f16(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).matrix8x16x16f16;
+	}
 	static void device_features_set_matrix16x8x16f16(TS_JNI_ARGS, jlong self, jboolean matrix16x8x16f16) {
 		toDeviceFeatures(self).matrix16x8x16f16 = matrix16x8x16f16;
 	}
@@ -14022,6 +14072,12 @@ namespace Tellusim {
 	}
 	static jboolean device_features_get_matrix16x8x8f16f32(TS_JNI_ARGS, jlong self) {
 		return toDeviceFeatures(self).matrix16x8x8f16f32;
+	}
+	static void device_features_set_matrix8x16x16f16f32(TS_JNI_ARGS, jlong self, jboolean matrix8x16x16f16f32) {
+		toDeviceFeatures(self).matrix8x16x16f16f32 = matrix8x16x16f16f32;
+	}
+	static jboolean device_features_get_matrix8x16x16f16f32(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).matrix8x16x16f16f32;
 	}
 	static void device_features_set_matrix16x8x16f16f32(TS_JNI_ARGS, jlong self, jboolean matrix16x8x16f16f32) {
 		toDeviceFeatures(self).matrix16x8x16f16f32 = matrix16x8x16f16f32;
@@ -14299,12 +14355,16 @@ namespace Tellusim {
 		{ (char*)"get_matrix16f16_", (char*)"(J)Z", (void*)device_features_get_matrix16f16 },
 		{ (char*)"set_matrix16x8x8f16_", (char*)"(JZ)V", (void*)device_features_set_matrix16x8x8f16 },
 		{ (char*)"get_matrix16x8x8f16_", (char*)"(J)Z", (void*)device_features_get_matrix16x8x8f16 },
+		{ (char*)"set_matrix8x16x16f16_", (char*)"(JZ)V", (void*)device_features_set_matrix8x16x16f16 },
+		{ (char*)"get_matrix8x16x16f16_", (char*)"(J)Z", (void*)device_features_get_matrix8x16x16f16 },
 		{ (char*)"set_matrix16x8x16f16_", (char*)"(JZ)V", (void*)device_features_set_matrix16x8x16f16 },
 		{ (char*)"get_matrix16x8x16f16_", (char*)"(J)Z", (void*)device_features_get_matrix16x8x16f16 },
 		{ (char*)"set_matrix16f16f32_", (char*)"(JZ)V", (void*)device_features_set_matrix16f16f32 },
 		{ (char*)"get_matrix16f16f32_", (char*)"(J)Z", (void*)device_features_get_matrix16f16f32 },
 		{ (char*)"set_matrix16x8x8f16f32_", (char*)"(JZ)V", (void*)device_features_set_matrix16x8x8f16f32 },
 		{ (char*)"get_matrix16x8x8f16f32_", (char*)"(J)Z", (void*)device_features_get_matrix16x8x8f16f32 },
+		{ (char*)"set_matrix8x16x16f16f32_", (char*)"(JZ)V", (void*)device_features_set_matrix8x16x16f16f32 },
+		{ (char*)"get_matrix8x16x16f16f32_", (char*)"(J)Z", (void*)device_features_get_matrix8x16x16f16f32 },
 		{ (char*)"set_matrix16x8x16f16f32_", (char*)"(JZ)V", (void*)device_features_set_matrix16x8x16f16f32 },
 		{ (char*)"get_matrix16x8x16f16f32_", (char*)"(J)Z", (void*)device_features_get_matrix16x8x16f16f32 },
 		{ (char*)"set_uniformAlignment_", (char*)"(JI)V", (void*)device_features_set_uniformAlignment },
@@ -15459,6 +15519,15 @@ namespace Tellusim {
 	static jint vk_device_get_family(TS_JNI_ARGS, jlong self) {
 		return toVKDevice(self).getFamily();
 	}
+	static jstring vk_device_get_extensions(TS_JNI_ARGS, jlong self) {
+		return env->NewStringUTF(toVKDevice(self).getExtensions().get());
+	}
+	static jboolean vk_device_check_extension(TS_JNI_ARGS, jlong self, jstring name) {
+		const char *name_ = (name) ? env->GetStringUTFChars(name, nullptr) : nullptr;
+		bool ret_ = toVKDevice(self).checkExtension(name_);
+		if(name) env->ReleaseStringUTFChars(name, name_);
+		return ret_;
+	}
 	static jlong vk_device_get_vk_features(TS_JNI_ARGS, jlong self, jint type) {
 		return (jlong)toVKDevice(self).getVKFeatures((uint32_t)type);
 	}
@@ -15485,6 +15554,8 @@ namespace Tellusim {
 		{ (char*)"get_queue", (char*)"(J)J", (void*)vk_device_get_queue },
 		{ (char*)"get_command", (char*)"(J)J", (void*)vk_device_get_command },
 		{ (char*)"get_family", (char*)"(J)I", (void*)vk_device_get_family },
+		{ (char*)"get_extensions", (char*)"(J)Ljava/lang/String;", (void*)vk_device_get_extensions },
+		{ (char*)"check_extension", (char*)"(JLjava/lang/String;)Z", (void*)vk_device_check_extension },
 		{ (char*)"get_vk_features", (char*)"(JI)J", (void*)vk_device_get_vk_features },
 	};
 	
@@ -29834,13 +29905,13 @@ namespace Tellusim {
 	static void sys_close_library(TS_JNI_ARGS, jlong handle) {
 		System::closeLibrary((void*)handle);
 	}
-	static jboolean sys_exec(TS_JNI_ARGS, jstring command, jboolean wait, jboolean console) {
+	static jint sys_exec(TS_JNI_ARGS, jstring command, jboolean wait, jboolean console) {
 		const char *command_ = (command) ? env->GetStringUTFChars(command, nullptr) : nullptr;
-		bool ret_ = System::exec(command_, (bool)wait, (bool)console);
+		int32_t ret_ = System::exec(command_, (bool)wait, (bool)console);
 		if(command) env->ReleaseStringUTFChars(command, command_);
 		return ret_;
 	}
-	static jboolean sys_exec_1(TS_JNI_ARGS, jlong command, jboolean wait, jboolean console) {
+	static jint sys_exec_1(TS_JNI_ARGS, jlong command, jboolean wait, jboolean console) {
 		return System::exec(toString(command), (bool)wait, (bool)console);
 	}
 	static jboolean sys_open(TS_JNI_ARGS, jstring command) {
@@ -29863,8 +29934,8 @@ namespace Tellusim {
 		{ (char*)"get_function", (char*)"(JLjava/lang/String;)J", (void*)sys_get_function },
 		{ (char*)"get_function_1", (char*)"(JJ)J", (void*)sys_get_function_1 },
 		{ (char*)"close_library", (char*)"(J)V", (void*)sys_close_library },
-		{ (char*)"exec_", (char*)"(Ljava/lang/String;ZZ)Z", (void*)sys_exec },
-		{ (char*)"exec_1", (char*)"(JZZ)Z", (void*)sys_exec_1 },
+		{ (char*)"exec_", (char*)"(Ljava/lang/String;ZZ)I", (void*)sys_exec },
+		{ (char*)"exec_1", (char*)"(JZZ)I", (void*)sys_exec_1 },
 		{ (char*)"open_", (char*)"(Ljava/lang/String;)Z", (void*)sys_open },
 		{ (char*)"open_1", (char*)"(J)Z", (void*)sys_open_1 },
 	};

@@ -463,6 +463,14 @@ This example performs MDI rendering of different objects.
 
 ---
 
+## [Vertex Attribute Divisor](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/samples/platform/divisor/)
+
+This example demonstrates the use of a vertex attribute divisor to fetch per-draw data.
+
+[![Vertex Attribute Divisor](utils/browser/images/platform/platform_divisor.png)](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/samples/platform/divisor/)
+
+---
+
 ## [MSAA Alpha Test](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/samples/platform/alpha/)
 
 MSAA-compatible alpha test in comparison to hardware alpha to coverage.

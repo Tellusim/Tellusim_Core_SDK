@@ -120,9 +120,11 @@ namespace Tellusim {
 				
 				bool matrix16f16;				// matrix 16x16x16 16-bit floating point support
 				bool matrix16x8x8f16;			// matrix 16x8x8 16-bit floating point support
+				bool matrix8x16x16f16;			// matrix 8x16x16 16-bit floating point support
 				bool matrix16x8x16f16;			// matrix 16x8x16 16-bit floating point support
 				bool matrix16f16f32;			// matrix 16x16x16 16/32-bit floating point support
 				bool matrix16x8x8f16f32;		// matrix 16x8x8 16/32-bit floating point support
+				bool matrix8x16x16f16f32;		// matrix 8x16x16 16/32-bit floating point support
 				bool matrix16x8x16f16f32;		// matrix 16x8x16 16/32-bit floating point support
 				
 				uint32_t uniformAlignment;		// uniform buffer alignment in bytes
@@ -565,6 +567,12 @@ namespace Tellusim {
 			VkQueue getQueue() const;
 			VkCommandBuffer getCommand() const;
 			uint32_t getFamily() const;
+			
+			/// device info
+			String getExtensions() const;
+			
+			/// check device info
+			bool checkExtension(const char *name) const;
 			
 			/// device features
 			const void *getVKFeatures(uint32_t type) const;

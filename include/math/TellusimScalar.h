@@ -156,11 +156,7 @@ namespace Tellusim {
 		TS_INLINE uint32_t bitmost(uint32_t v) { if(v) { uint32_t i = 0; if(v & 0xffff0000) { v >>= 16; i += 16; } if(v & 0xff00) { v >>= 8; i += 8; } if(v & 0xf0) { v >>= 4; i += 4; } if(v & 0xc) { v >>= 2; i += 2; } if(v & 0x2) { v >>= 1; i += 1; } return i; } return Maxu32; }
 	#endif
 	
-	#if __GNUC__
-		TS_INLINE uint32_t bitreverse(uint32_t v) { return __builtin_bitreverse32(v); }
-	#else
-		TS_INLINE uint32_t bitreverse(uint32_t v) { v = ((v >> 1) & 0x55555555) | ((v & 0x55555555) << 1); v = ((v >> 2) & 0x33333333) | ((v & 0x33333333) << 2); v = ((v >> 4) & 0x0f0f0f0f) | ((v & 0x0f0f0f0f) << 4); v = ((v >> 8) & 0x00ff00ff) | ((v & 0x00ff00ff) << 8); return (v >> 16) | (v << 16); }
-	#endif
+	TS_INLINE uint32_t bitreverse(uint32_t v) { v = ((v >> 1) & 0x55555555) | ((v & 0x55555555) << 1); v = ((v >> 2) & 0x33333333) | ((v & 0x33333333) << 2); v = ((v >> 4) & 0x0f0f0f0f) | ((v & 0x0f0f0f0f) << 4); v = ((v >> 8) & 0x00ff00ff) | ((v & 0x00ff00ff) << 8); return (v >> 16) | (v << 16); }
 	
 	/**
 	 * 64-bit unsigned integer numbers
@@ -200,11 +196,7 @@ namespace Tellusim {
 		TS_INLINE uint32_t bitmost(uint64_t v) { if(v) { if(v & 0xffffffff00000000ull) return bitmost((uint32_t)((v >> 32u) & 0xffffffffu)) + 32; return bitmost((uint32_t)(v & 0xffffffffu)); } return Maxu32; }
 	#endif
 	
-	#if __GNUC__
-		TS_INLINE uint64_t bitreverse(uint64_t v) { return __builtin_bitreverse64(v); }
-	#else
-		TS_INLINE uint64_t bitreverse(uint64_t v) { v = ((v >> 1) & 0x5555555555555555ull) | ((v & 0x5555555555555555ull) << 1); v = ((v >> 2) & 0x3333333333333333ull) | ((v & 0x3333333333333333ull) << 2); v = ((v >> 4) & 0x0f0f0f0f0f0f0f0full) | ((v & 0x0f0f0f0f0f0f0f0full) << 4); v = ((v >> 8) & 0x00ff00ff00ff00ffull) | ((v & 0x00ff00ff00ff00ffull) << 8); v = ((v >> 16) & 0x0000ffff0000ffffull) | ((v & 0x0000ffff0000ffffull) << 16); return (v >> 32) | (v << 32); }
-	#endif
+	TS_INLINE uint64_t bitreverse(uint64_t v) { v = ((v >> 1) & 0x5555555555555555ull) | ((v & 0x5555555555555555ull) << 1); v = ((v >> 2) & 0x3333333333333333ull) | ((v & 0x3333333333333333ull) << 2); v = ((v >> 4) & 0x0f0f0f0f0f0f0f0full) | ((v & 0x0f0f0f0f0f0f0f0full) << 4); v = ((v >> 8) & 0x00ff00ff00ff00ffull) | ((v & 0x00ff00ff00ff00ffull) << 8); v = ((v >> 16) & 0x0000ffff0000ffffull) | ((v & 0x0000ffff0000ffffull) << 16); return (v >> 32) | (v << 32); }
 	
 	/**
 	 * Platform-specific unsigned integer numbers

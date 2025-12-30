@@ -104,12 +104,16 @@ public class Device {
 		public boolean getMatrix16f16() { return get_matrix16f16_(self); }
 		public void setMatrix16x8x8f16(boolean matrix16x8x8f16) { set_matrix16x8x8f16_(self, matrix16x8x8f16); }
 		public boolean getMatrix16x8x8f16() { return get_matrix16x8x8f16_(self); }
+		public void setMatrix8x16x16f16(boolean matrix8x16x16f16) { set_matrix8x16x16f16_(self, matrix8x16x16f16); }
+		public boolean getMatrix8x16x16f16() { return get_matrix8x16x16f16_(self); }
 		public void setMatrix16x8x16f16(boolean matrix16x8x16f16) { set_matrix16x8x16f16_(self, matrix16x8x16f16); }
 		public boolean getMatrix16x8x16f16() { return get_matrix16x8x16f16_(self); }
 		public void setMatrix16f16f32(boolean matrix16f16f32) { set_matrix16f16f32_(self, matrix16f16f32); }
 		public boolean getMatrix16f16f32() { return get_matrix16f16f32_(self); }
 		public void setMatrix16x8x8f16f32(boolean matrix16x8x8f16f32) { set_matrix16x8x8f16f32_(self, matrix16x8x8f16f32); }
 		public boolean getMatrix16x8x8f16f32() { return get_matrix16x8x8f16f32_(self); }
+		public void setMatrix8x16x16f16f32(boolean matrix8x16x16f16f32) { set_matrix8x16x16f16f32_(self, matrix8x16x16f16f32); }
+		public boolean getMatrix8x16x16f16f32() { return get_matrix8x16x16f16f32_(self); }
 		public void setMatrix16x8x16f16f32(boolean matrix16x8x16f16f32) { set_matrix16x8x16f16f32_(self, matrix16x8x16f16f32); }
 		public boolean getMatrix16x8x16f16f32() { return get_matrix16x8x16f16f32_(self); }
 		public void setUniformAlignment(int uniformAlignment) { set_uniformAlignment_(self, uniformAlignment); }
@@ -217,9 +221,11 @@ public class Device {
 			ret += "\natomicTextureu64: " + getAtomicTextureu64();
 			ret += "\nmatrix16f16: " + getMatrix16f16();
 			ret += "\nmatrix16x8x8f16: " + getMatrix16x8x8f16();
+			ret += "\nmatrix8x16x16f16: " + getMatrix8x16x16f16();
 			ret += "\nmatrix16x8x16f16: " + getMatrix16x8x16f16();
 			ret += "\nmatrix16f16f32: " + getMatrix16f16f32();
 			ret += "\nmatrix16x8x8f16f32: " + getMatrix16x8x8f16f32();
+			ret += "\nmatrix8x16x16f16f32: " + getMatrix8x16x16f16f32();
 			ret += "\nmatrix16x8x16f16f32: " + getMatrix16x8x16f16f32();
 			ret += "\nuniformAlignment: " + getUniformAlignment();
 			ret += "\nstorageAlignment: " + getStorageAlignment();
@@ -347,12 +353,16 @@ public class Device {
 		private static native boolean get_matrix16f16_(long self);
 		private static native void set_matrix16x8x8f16_(long self, boolean matrix16x8x8f16);
 		private static native boolean get_matrix16x8x8f16_(long self);
+		private static native void set_matrix8x16x16f16_(long self, boolean matrix8x16x16f16);
+		private static native boolean get_matrix8x16x16f16_(long self);
 		private static native void set_matrix16x8x16f16_(long self, boolean matrix16x8x16f16);
 		private static native boolean get_matrix16x8x16f16_(long self);
 		private static native void set_matrix16f16f32_(long self, boolean matrix16f16f32);
 		private static native boolean get_matrix16f16f32_(long self);
 		private static native void set_matrix16x8x8f16f32_(long self, boolean matrix16x8x8f16f32);
 		private static native boolean get_matrix16x8x8f16f32_(long self);
+		private static native void set_matrix8x16x16f16f32_(long self, boolean matrix8x16x16f16f32);
+		private static native boolean get_matrix8x16x16f16f32_(long self);
 		private static native void set_matrix16x8x16f16f32_(long self, boolean matrix16x8x16f16f32);
 		private static native boolean get_matrix16x8x16f16f32_(long self);
 		private static native void set_uniformAlignment_(long self, int uniformAlignment);

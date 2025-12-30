@@ -110,20 +110,28 @@ namespace Tellusim {
 	bool ControlTooltip::update(ControlRoot &root, const Rect &region, const Rect &view, uint32_t scale) {
 		
 		// disable canvas
-		canvas_rect.setEnabled(false);
-		canvas_text.setEnabled(false);
-		canvas_mesh.setEnabled(false);
+		Control focused_control = root.getFocusedControl();
+		if(canvas_rect.isEnabled()) {
+			if((Time::current() - tooltip_time > Time::Seconds / 2 || root.getMouseButtons()) || (focused_control && focused_control.isTree())) {
+				canvas_rect.setEnabled(false);
+				canvas_text.setEnabled(false);
+				canvas_mesh.setEnabled(false);
+			}
+		}
 		
 		// update font scale
 		canvas_text.setFontScale(scale);
 		
 		// check focused control
 		Vector2f mouse_position = root.getMouse();
-		Control focused_control = root.getFocusedControl();
 		if(!focused_control) {
+			if(tooltip_control) {
+				canvas_rect.setEnabled(false);
+				canvas_text.setEnabled(false);
+				canvas_mesh.setEnabled(false);
+			}
 			tooltip_control = Control::null;
 			tooltip_position = mouse_position;
-			tooltip_time = 0;
 			return false;
 		}
 		
@@ -216,6 +224,8 @@ namespace Tellusim {
 							Rect text_rect = canvas_text.getRect();
 							canvas_text.setFontSize(root.getFontSize());
 							canvas_text.setPosition(floor(position.x - text_rect.getWidth() * 0.5f + 0.5f), floor(position.y - rect.bottom - text_rect.getHeight() + 0.5f));
+						} else {
+							canvas_text.setEnabled(false);
 						}
 						if(draw_it) {
 							canvas_mesh.setEnabled(true);
@@ -226,8 +236,11 @@ namespace Tellusim {
 							canvas_mesh.setVertexPosition(1, mesh_rect.right, mesh_rect.bottom);
 							canvas_mesh.setVertexPosition(2, mesh_rect.right, mesh_rect.top);
 							canvas_mesh.setVertexPosition(3, mesh_rect.left, mesh_rect.top);
+						} else {
+							canvas_mesh.setEnabled(false);
 						}
 					}
+					tooltip_time = time - tooltip_delay;
 					is_tooltip = false;
 				}
 				else {
@@ -235,6 +248,11 @@ namespace Tellusim {
 				}
 			}
 			else {
+				if(tooltip_control != focused_control) {
+					canvas_rect.setEnabled(false);
+					canvas_text.setEnabled(false);
+					canvas_mesh.setEnabled(false);
+				}
 				tooltip_control = focused_control;
 				tooltip_position = mouse_position;
 				tooltip_time = time;
@@ -242,6 +260,11 @@ namespace Tellusim {
 			}
 		}
 		else {
+			if(tooltip_control) {
+				canvas_rect.setEnabled(false);
+				canvas_text.setEnabled(false);
+				canvas_mesh.setEnabled(false);
+			}
 			tooltip_control = Control::null;
 			tooltip_position = mouse_position;
 			tooltip_time = 0;

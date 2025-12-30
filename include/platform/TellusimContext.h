@@ -10,6 +10,10 @@
  */
 namespace Tellusim {
 	
+	/* Prototypes
+	 */
+	class String;
+	
 	/**
 	 * The Context class initializes the target platform API in headless mode.
 	 * It provides a simple way to create compute or off-screen rendering tasks.
@@ -174,6 +178,14 @@ namespace Tellusim {
 			static void addAdapterExtension(const char *name);
 			static void addAdapterFeatures(void *features);
 			
+			/// context info
+			static String getLayers();
+			static String getExtensions();
+			
+			/// check context info
+			static bool checkLayer(const char *name);
+			static bool checkExtension(const char *name);
+			
 			/// get proc address functions
 			static PFN_vkGetInstanceProcAddr getInstanceProcAddress();
 			static PFN_vkGetDeviceProcAddr getDeviceProcAddress();
@@ -210,6 +222,12 @@ namespace Tellusim {
 			void *getGLSurface() const;
 			void *getGLContext() const;
 			
+			/// context info
+			static String getExtensions();
+			
+			/// check context info
+			static bool checkExtension(const char *name);
+			
 			/// OpenGL functions
 			static void *getProcAddress(const char *name);
 			
@@ -240,6 +258,12 @@ namespace Tellusim {
 			void *getGLESDisplay() const;
 			void *getGLESConfig() const;
 			void *getGLESContext() const;
+			
+			/// context info
+			static String getExtensions();
+			
+			/// check context info
+			static bool checkExtension(const char *name);
 			
 			/// OpenGLES functions
 			static void *getProcAddress(const char *name);

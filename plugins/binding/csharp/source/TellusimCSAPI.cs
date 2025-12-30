@@ -5918,6 +5918,10 @@ namespace Tellusim {
 		public static void addContextExtension(string name) { tsVKContext_addContextExtension(name); }
 		public static void addAdapterExtension(string name) { tsVKContext_addAdapterExtension(name); }
 		public static void addAdapterFeatures(IntPtr features) { tsVKContext_addAdapterFeatures(features); }
+		public static string getLayers() { return Base.getString(tsVKContext_getLayers()); }
+		public static string getExtensions() { return Base.getString(tsVKContext_getExtensions()); }
+		public static bool checkLayer(string name) { return tsVKContext_checkLayer(name); }
+		public static bool checkExtension(string name) { return tsVKContext_checkExtension(name); }
 		public static IntPtr getInstanceProcAddress() { return tsVKContext_getInstanceProcAddress(); }
 		public static IntPtr getDeviceProcAddress() { return tsVKContext_getDeviceProcAddress(); }
 		public static IntPtr getProcAddress(string name) { return tsVKContext_getProcAddress(name); }
@@ -5954,6 +5958,10 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern void tsVKContext_addContextExtension(string name);
 		[DllImport(Base.Import)] private static extern void tsVKContext_addAdapterExtension(string name);
 		[DllImport(Base.Import)] private static extern void tsVKContext_addAdapterFeatures(IntPtr features);
+		[DllImport(Base.Import)] private static extern IntPtr tsVKContext_getLayers();
+		[DllImport(Base.Import)] private static extern IntPtr tsVKContext_getExtensions();
+		[DllImport(Base.Import)] private static extern bool tsVKContext_checkLayer(string name);
+		[DllImport(Base.Import)] private static extern bool tsVKContext_checkExtension(string name);
 		[DllImport(Base.Import)] private static extern IntPtr tsVKContext_getInstanceProcAddress();
 		[DllImport(Base.Import)] private static extern IntPtr tsVKContext_getDeviceProcAddress();
 		[DllImport(Base.Import)] private static extern IntPtr tsVKContext_getProcAddress(string name);
@@ -5974,6 +5982,8 @@ namespace Tellusim {
 		public IntPtr getGLConfig() { return tsGLContext_getGLConfig(self); }
 		public IntPtr getGLSurface() { return tsGLContext_getGLSurface(self); }
 		public IntPtr getGLContext() { return tsGLContext_getGLContext(self); }
+		public static string getExtensions() { return Base.getString(tsGLContext_getExtensions()); }
+		public static bool checkExtension(string name) { return tsGLContext_checkExtension(name); }
 		public static IntPtr getProcAddress(string name) { return tsGLContext_getProcAddress(name); }
 		public static bool error(uint result) { return tsGLContext_error(result); }
 		public static bool check() { return tsGLContext_check(); }
@@ -6002,6 +6012,8 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern IntPtr tsGLContext_getGLConfig(HandleRef self);
 		[DllImport(Base.Import)] private static extern IntPtr tsGLContext_getGLSurface(HandleRef self);
 		[DllImport(Base.Import)] private static extern IntPtr tsGLContext_getGLContext(HandleRef self);
+		[DllImport(Base.Import)] private static extern IntPtr tsGLContext_getExtensions();
+		[DllImport(Base.Import)] private static extern bool tsGLContext_checkExtension(string name);
 		[DllImport(Base.Import)] private static extern IntPtr tsGLContext_getProcAddress(string name);
 		[DllImport(Base.Import)] private static extern bool tsGLContext_error(uint result);
 		[DllImport(Base.Import)] private static extern bool tsGLContext_check();
@@ -6019,6 +6031,8 @@ namespace Tellusim {
 		public IntPtr getGLESDisplay() { return tsGLESContext_getGLESDisplay(self); }
 		public IntPtr getGLESConfig() { return tsGLESContext_getGLESConfig(self); }
 		public IntPtr getGLESContext() { return tsGLESContext_getGLESContext(self); }
+		public static string getExtensions() { return Base.getString(tsGLESContext_getExtensions()); }
+		public static bool checkExtension(string name) { return tsGLESContext_checkExtension(name); }
 		public static IntPtr getProcAddress(string name) { return tsGLESContext_getProcAddress(name); }
 		public static bool error(uint result) { return tsGLESContext_error(result); }
 		public static bool check() { return tsGLESContext_check(); }
@@ -6045,6 +6059,8 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern IntPtr tsGLESContext_getGLESDisplay(HandleRef self);
 		[DllImport(Base.Import)] private static extern IntPtr tsGLESContext_getGLESConfig(HandleRef self);
 		[DllImport(Base.Import)] private static extern IntPtr tsGLESContext_getGLESContext(HandleRef self);
+		[DllImport(Base.Import)] private static extern IntPtr tsGLESContext_getExtensions();
+		[DllImport(Base.Import)] private static extern bool tsGLESContext_checkExtension(string name);
 		[DllImport(Base.Import)] private static extern IntPtr tsGLESContext_getProcAddress(string name);
 		[DllImport(Base.Import)] private static extern bool tsGLESContext_error(uint result);
 		[DllImport(Base.Import)] private static extern bool tsGLESContext_check();
@@ -9281,9 +9297,11 @@ namespace Tellusim {
 			[MarshalAs(UnmanagedType.U1)] public bool atomicTextureu64;
 			[MarshalAs(UnmanagedType.U1)] public bool matrix16f16;
 			[MarshalAs(UnmanagedType.U1)] public bool matrix16x8x8f16;
+			[MarshalAs(UnmanagedType.U1)] public bool matrix8x16x16f16;
 			[MarshalAs(UnmanagedType.U1)] public bool matrix16x8x16f16;
 			[MarshalAs(UnmanagedType.U1)] public bool matrix16f16f32;
 			[MarshalAs(UnmanagedType.U1)] public bool matrix16x8x8f16f32;
+			[MarshalAs(UnmanagedType.U1)] public bool matrix8x16x16f16f32;
 			[MarshalAs(UnmanagedType.U1)] public bool matrix16x8x16f16f32;
 			public uint uniformAlignment;
 			public uint storageAlignment;
@@ -9362,9 +9380,11 @@ namespace Tellusim {
 				ret += System.String.Format("atomicTextureu64: {0}\n", atomicTextureu64);
 				ret += System.String.Format("matrix16f16: {0}\n", matrix16f16);
 				ret += System.String.Format("matrix16x8x8f16: {0}\n", matrix16x8x8f16);
+				ret += System.String.Format("matrix8x16x16f16: {0}\n", matrix8x16x16f16);
 				ret += System.String.Format("matrix16x8x16f16: {0}\n", matrix16x8x16f16);
 				ret += System.String.Format("matrix16f16f32: {0}\n", matrix16f16f32);
 				ret += System.String.Format("matrix16x8x8f16f32: {0}\n", matrix16x8x8f16f32);
+				ret += System.String.Format("matrix8x16x16f16f32: {0}\n", matrix8x16x16f16f32);
 				ret += System.String.Format("matrix16x8x16f16f32: {0}\n", matrix16x8x16f16f32);
 				ret += System.String.Format("uniformAlignment: {0}\n", uniformAlignment);
 				ret += System.String.Format("storageAlignment: {0}\n", storageAlignment);
@@ -9570,6 +9590,8 @@ namespace Tellusim {
 		public IntPtr getQueue() { return tsVKDevice_getQueue(self); }
 		public IntPtr getCommand() { return tsVKDevice_getCommand(self); }
 		public uint getFamily() { return tsVKDevice_getFamily(self); }
+		public string getExtensions() { return Base.getString(tsVKDevice_getExtensions(self)); }
+		public bool checkExtension(string name) { return tsVKDevice_checkExtension(self, name); }
 		public IntPtr getVKFeatures(uint type) { return tsVKDevice_getVKFeatures(self, type); }
 		public override string ToString() { return "Tellusim.VKDevice: Valid: " + tsVKDevice_isValidPtr(self) + "; Owner: " + tsVKDevice_isOwnerPtr(self) + "; Const: " + tsVKDevice_isConstPtr(self) + "; Count: " + tsVKDevice_getCountPtr(self) + "; Internal: 0x" + tsVKDevice_getInternalPtr(self).ToString("x8") + "; Self: 0x" + self.Handle.ToString("x8") + "; Owner: " + owner; }
 		public static implicit operator bool(VKDevice ptr) { return (ptr != null && tsVKDevice_isValidPtr(ptr.getSelf())); }
@@ -9607,6 +9629,8 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern IntPtr tsVKDevice_getQueue(HandleRef self);
 		[DllImport(Base.Import)] private static extern IntPtr tsVKDevice_getCommand(HandleRef self);
 		[DllImport(Base.Import)] private static extern uint tsVKDevice_getFamily(HandleRef self);
+		[DllImport(Base.Import)] private static extern IntPtr tsVKDevice_getExtensions(HandleRef self);
+		[DllImport(Base.Import)] private static extern bool tsVKDevice_checkExtension(HandleRef self, string name);
 		[DllImport(Base.Import)] private static extern IntPtr tsVKDevice_getVKFeatures(HandleRef self, uint type);
 	}
 	
@@ -18083,8 +18107,8 @@ namespace Tellusim {
 		public static IntPtr getFunction(IntPtr handle, string name) { return tsSystem_getFunction_prs(handle, name); }
 		public static IntPtr getFunction(IntPtr handle, String name) { return tsSystem_getFunction_prcS(handle, name.getSelf()); }
 		public static void closeLibrary(IntPtr handle) { tsSystem_closeLibrary(handle); }
-		public static bool exec(string command, bool wait = false, bool console = true) { return tsSystem_exec_sbb(command, wait, console); }
-		public static bool exec(String command, bool wait = false, bool console = true) { return tsSystem_exec_cSbb(command.getSelf(), wait, console); }
+		public static int exec(string command, bool wait = false, bool console = true) { return tsSystem_exec_sbb(command, wait, console); }
+		public static int exec(String command, bool wait = false, bool console = true) { return tsSystem_exec_cSbb(command.getSelf(), wait, console); }
 		public static bool open(string command) { return tsSystem_open_s(command); }
 		public static bool open(String command) { return tsSystem_open_cS(command.getSelf()); }
 		[DllImport(Base.Import)] private static extern uint tsSystem_getThreadID();
@@ -18097,8 +18121,8 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern IntPtr tsSystem_getFunction_prs(IntPtr handle, string name);
 		[DllImport(Base.Import)] private static extern IntPtr tsSystem_getFunction_prcS(IntPtr handle, HandleRef name);
 		[DllImport(Base.Import)] private static extern void tsSystem_closeLibrary(IntPtr handle);
-		[DllImport(Base.Import)] private static extern bool tsSystem_exec_sbb(string command, bool wait, bool console);
-		[DllImport(Base.Import)] private static extern bool tsSystem_exec_cSbb(HandleRef command, bool wait, bool console);
+		[DllImport(Base.Import)] private static extern int tsSystem_exec_sbb(string command, bool wait, bool console);
+		[DllImport(Base.Import)] private static extern int tsSystem_exec_cSbb(HandleRef command, bool wait, bool console);
 		[DllImport(Base.Import)] private static extern bool tsSystem_open_s(string command);
 		[DllImport(Base.Import)] private static extern bool tsSystem_open_cS(HandleRef command);
 	}
