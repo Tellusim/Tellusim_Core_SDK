@@ -13953,6 +13953,16 @@ impl VKContext {
 		unsafe { tsVKContext_addAdapterExtension(name_.as_ptr()) }
 	}
 	pub fn add_adapter_features(features: *mut c_void) { unsafe { tsVKContext_addAdapterFeatures(features) } }
+	pub fn layers() -> string::String { unsafe { get_string(tsVKContext_getLayers()) } }
+	pub fn extensions() -> string::String { unsafe { get_string(tsVKContext_getExtensions()) } }
+	pub fn check_layer(name: &str) -> bool {
+		let name_ = CString::new(name).unwrap();
+		unsafe { tsVKContext_checkLayer(name_.as_ptr()) != 0 }
+	}
+	pub fn check_extension(name: &str) -> bool {
+		let name_ = CString::new(name).unwrap();
+		unsafe { tsVKContext_checkExtension(name_.as_ptr()) != 0 }
+	}
 	pub fn instance_proc_address() -> *const c_void { unsafe { tsVKContext_getInstanceProcAddress() } }
 	pub fn device_proc_address() -> *const c_void { unsafe { tsVKContext_getDeviceProcAddress() } }
 	pub fn proc_address(name: &str) -> *mut c_void {
@@ -14023,6 +14033,10 @@ extern "C" {
 	fn tsVKContext_addContextExtension(name: *const c_char);
 	fn tsVKContext_addAdapterExtension(name: *const c_char);
 	fn tsVKContext_addAdapterFeatures(features: *mut c_void);
+	fn tsVKContext_getLayers() -> *mut c_void;
+	fn tsVKContext_getExtensions() -> *mut c_void;
+	fn tsVKContext_checkLayer(name: *const c_char) -> i32;
+	fn tsVKContext_checkExtension(name: *const c_char) -> i32;
 	fn tsVKContext_getInstanceProcAddress() -> *const c_void;
 	fn tsVKContext_getDeviceProcAddress() -> *const c_void;
 	fn tsVKContext_getProcAddress(name: *const c_char) -> *mut c_void;
@@ -14059,6 +14073,11 @@ impl GLContext {
 	pub fn gl_config(&self) -> *mut c_void { unsafe { tsGLContext_getGLConfig(self.this) } }
 	pub fn gl_surface(&self) -> *mut c_void { unsafe { tsGLContext_getGLSurface(self.this) } }
 	pub fn gl_context(&self) -> *mut c_void { unsafe { tsGLContext_getGLContext(self.this) } }
+	pub fn extensions() -> string::String { unsafe { get_string(tsGLContext_getExtensions()) } }
+	pub fn check_extension(name: &str) -> bool {
+		let name_ = CString::new(name).unwrap();
+		unsafe { tsGLContext_checkExtension(name_.as_ptr()) != 0 }
+	}
 	pub fn proc_address(name: &str) -> *mut c_void {
 		let name_ = CString::new(name).unwrap();
 		unsafe { tsGLContext_getProcAddress(name_.as_ptr()) }
@@ -14121,6 +14140,8 @@ extern "C" {
 	fn tsGLContext_getGLConfig(this: *const c_void) -> *mut c_void;
 	fn tsGLContext_getGLSurface(this: *const c_void) -> *mut c_void;
 	fn tsGLContext_getGLContext(this: *const c_void) -> *mut c_void;
+	fn tsGLContext_getExtensions() -> *mut c_void;
+	fn tsGLContext_checkExtension(name: *const c_char) -> i32;
 	fn tsGLContext_getProcAddress(name: *const c_char) -> *mut c_void;
 	fn tsGLContext_error(result: u32) -> i32;
 	fn tsGLContext_check() -> i32;
@@ -14154,6 +14175,11 @@ impl GLESContext {
 	pub fn gles_display(&self) -> *mut c_void { unsafe { tsGLESContext_getGLESDisplay(self.this) } }
 	pub fn gles_config(&self) -> *mut c_void { unsafe { tsGLESContext_getGLESConfig(self.this) } }
 	pub fn gles_context(&self) -> *mut c_void { unsafe { tsGLESContext_getGLESContext(self.this) } }
+	pub fn extensions() -> string::String { unsafe { get_string(tsGLESContext_getExtensions()) } }
+	pub fn check_extension(name: &str) -> bool {
+		let name_ = CString::new(name).unwrap();
+		unsafe { tsGLESContext_checkExtension(name_.as_ptr()) != 0 }
+	}
 	pub fn proc_address(name: &str) -> *mut c_void {
 		let name_ = CString::new(name).unwrap();
 		unsafe { tsGLESContext_getProcAddress(name_.as_ptr()) }
@@ -14214,6 +14240,8 @@ extern "C" {
 	fn tsGLESContext_getGLESDisplay(this: *const c_void) -> *mut c_void;
 	fn tsGLESContext_getGLESConfig(this: *const c_void) -> *mut c_void;
 	fn tsGLESContext_getGLESContext(this: *const c_void) -> *mut c_void;
+	fn tsGLESContext_getExtensions() -> *mut c_void;
+	fn tsGLESContext_checkExtension(name: *const c_char) -> i32;
 	fn tsGLESContext_getProcAddress(name: *const c_char) -> *mut c_void;
 	fn tsGLESContext_error(result: u32) -> i32;
 	fn tsGLESContext_check() -> i32;
@@ -23926,9 +23954,11 @@ pub struct DeviceFeatures {
 	pub atomic_textureu64: u8,
 	pub matrix16f16: u8,
 	pub matrix16x8x8f16: u8,
+	pub matrix8x16x16f16: u8,
 	pub matrix16x8x16f16: u8,
 	pub matrix16f16f32: u8,
 	pub matrix16x8x8f16f32: u8,
+	pub matrix8x16x16f16f32: u8,
 	pub matrix16x8x16f16f32: u8,
 	pub uniform_alignment: u32,
 	pub storage_alignment: u32,
@@ -24009,9 +24039,11 @@ impl fmt::Display for DeviceFeatures {
 		ret += &format!("atomic_textureu64: {0}\n", self.atomic_textureu64);
 		ret += &format!("matrix16f16: {0}\n", self.matrix16f16);
 		ret += &format!("matrix16x8x8f16: {0}\n", self.matrix16x8x8f16);
+		ret += &format!("matrix8x16x16f16: {0}\n", self.matrix8x16x16f16);
 		ret += &format!("matrix16x8x16f16: {0}\n", self.matrix16x8x16f16);
 		ret += &format!("matrix16f16f32: {0}\n", self.matrix16f16f32);
 		ret += &format!("matrix16x8x8f16f32: {0}\n", self.matrix16x8x8f16f32);
+		ret += &format!("matrix8x16x16f16f32: {0}\n", self.matrix8x16x16f16f32);
 		ret += &format!("matrix16x8x16f16f32: {0}\n", self.matrix16x8x16f16f32);
 		ret += &format!("uniform_alignment: {0}\n", self.uniform_alignment);
 		ret += &format!("storage_alignment: {0}\n", self.storage_alignment);
@@ -25532,6 +25564,11 @@ impl VKDevice {
 	pub fn queue(&self) -> *const c_void { unsafe { tsVKDevice_getQueue(self.this) } }
 	pub fn command(&self) -> *const c_void { unsafe { tsVKDevice_getCommand(self.this) } }
 	pub fn family(&self) -> u32 { unsafe { tsVKDevice_getFamily(self.this) } }
+	pub fn extensions(&self) -> string::String { unsafe { get_string(tsVKDevice_getExtensions(self.this)) } }
+	pub fn check_extension(&self, name: &str) -> bool {
+		let name_ = CString::new(name).unwrap();
+		unsafe { tsVKDevice_checkExtension(self.this, name_.as_ptr()) != 0 }
+	}
 	pub fn vk_features(&self, type_: u32) -> *const c_void { unsafe { tsVKDevice_getVKFeatures(self.this, type_) } }
 }
 impl DeviceTrait for VKDevice {
@@ -25987,6 +26024,8 @@ extern "C" {
 	fn tsVKDevice_getQueue(this: *const c_void) -> *const c_void;
 	fn tsVKDevice_getCommand(this: *const c_void) -> *const c_void;
 	fn tsVKDevice_getFamily(this: *const c_void) -> u32;
+	fn tsVKDevice_getExtensions(this: *const c_void) -> *mut c_void;
+	fn tsVKDevice_checkExtension(this: *const c_void, name: *const c_char) -> i32;
 	fn tsVKDevice_getVKFeatures(this: *const c_void, type_: u32) -> *const c_void;
 }
 
@@ -42941,21 +42980,21 @@ pub mod system {
 	}
 	pub fn function_with_name(handle: *mut c_void, name: &String) -> *mut c_void { unsafe { tsSystem_getFunction_prcS(handle, name.this) } }
 	pub fn close_library(handle: *mut c_void) { unsafe { tsSystem_closeLibrary(handle) } }
-	pub fn exec(command: &str) -> bool {
+	pub fn exec(command: &str) -> i32 {
 		let command_ = CString::new(command).unwrap();
-		unsafe { tsSystem_exec_sbb(command_.as_ptr(), 0, 1) != 0 }
+		unsafe { tsSystem_exec_sbb(command_.as_ptr(), 0, 1) }
 	}
-	pub fn exec_with_wait(command: &str, wait: bool) -> bool {
+	pub fn exec_with_wait(command: &str, wait: bool) -> i32 {
 		let command_ = CString::new(command).unwrap();
-		unsafe { tsSystem_exec_sbb(command_.as_ptr(), if wait {1} else {0}, 1) != 0 }
+		unsafe { tsSystem_exec_sbb(command_.as_ptr(), if wait {1} else {0}, 1) }
 	}
-	pub fn exec_with_wait_console(command: &str, wait: bool, console: bool) -> bool {
+	pub fn exec_with_wait_console(command: &str, wait: bool, console: bool) -> i32 {
 		let command_ = CString::new(command).unwrap();
-		unsafe { tsSystem_exec_sbb(command_.as_ptr(), if wait {1} else {0}, if console {1} else {0}) != 0 }
+		unsafe { tsSystem_exec_sbb(command_.as_ptr(), if wait {1} else {0}, if console {1} else {0}) }
 	}
-	pub fn exec_with_command(command: &String) -> bool { unsafe { tsSystem_exec_cSbb(command.this, 0, 1) != 0 } }
-	pub fn exec_with_command_wait(command: &String, wait: bool) -> bool { unsafe { tsSystem_exec_cSbb(command.this, if wait {1} else {0}, 1) != 0 } }
-	pub fn exec_with_command_wait_console(command: &String, wait: bool, console: bool) -> bool { unsafe { tsSystem_exec_cSbb(command.this, if wait {1} else {0}, if console {1} else {0}) != 0 } }
+	pub fn exec_with_command(command: &String) -> i32 { unsafe { tsSystem_exec_cSbb(command.this, 0, 1) } }
+	pub fn exec_with_command_wait(command: &String, wait: bool) -> i32 { unsafe { tsSystem_exec_cSbb(command.this, if wait {1} else {0}, 1) } }
+	pub fn exec_with_command_wait_console(command: &String, wait: bool, console: bool) -> i32 { unsafe { tsSystem_exec_cSbb(command.this, if wait {1} else {0}, if console {1} else {0}) } }
 	pub fn open(command: &str) -> bool {
 		let command_ = CString::new(command).unwrap();
 		unsafe { tsSystem_open_s(command_.as_ptr()) != 0 }
