@@ -1,20 +1,6 @@
 // Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
-#if _WIN32
-	#include <windows.h>
-	#define VK_USE_PLATFORM_WIN32_KHR	1
-#else
-	#include <X11/Xlib.h>
-	#define VK_USE_PLATFORM_XLIB_KHR	1
-	#undef CursorShape
-	#undef Status
-	#undef Bool
-	#undef Ok
-#endif
-
-#include <vulkan/vulkan.h>
-
 #include "QVKWidget.h"
 
 #include <core/TellusimLog.h>
@@ -22,9 +8,9 @@
 #include <math/TellusimMath.h>
 #include <platform/TellusimCommand.h>
 
-/*
- */
-#define EXTERNAL_DEVICE		1
+#if EXTERNAL_DEVICE
+	#include <core/TellusimSystem.h>
+#endif
 
 /*
  */
@@ -62,6 +48,24 @@ namespace Tellusim {
 		TS_ASSERT(vk_device == VK_NULL_HANDLE);
 		
 		#if EXTERNAL_DEVICE
+			
+			// Vulkan functions
+			#if _WIN32
+				void *handle = System::loadLibrary("vulkan-1.dll");
+			#else
+				void *handle = System::loadLibrary("libvulkan.so");
+				if(handle == nullptr) handle = System::loadLibrary("libvulkan.so.1");
+			#endif
+			if(handle == nullptr) {
+				TS_LOG(Error, "QVKWidget::create_context(): can't load Vulkan library\n");
+				return false;
+			}
+			vkCreateInstance = (PFN_vkCreateInstance)System::getFunction(handle, "vkCreateInstance");
+			vkEnumeratePhysicalDevices = (PFN_vkEnumeratePhysicalDevices)System::getFunction(handle, "vkEnumeratePhysicalDevices");
+			vkGetPhysicalDeviceProperties = (PFN_vkGetPhysicalDeviceProperties)System::getFunction(handle, "vkGetPhysicalDeviceProperties");
+			vkGetPhysicalDeviceQueueFamilyProperties = (PFN_vkGetPhysicalDeviceQueueFamilyProperties)System::getFunction(handle, "vkGetPhysicalDeviceQueueFamilyProperties");
+			vkCreateDevice = (PFN_vkCreateDevice)System::getFunction(handle, "vkCreateDevice");
+			vkGetInstanceProcAddr = (PFN_vkGetInstanceProcAddr)System::getFunction(handle, "vkGetInstanceProcAddr");
 			
 			// application info
 			VkApplicationInfo application_info = {};
@@ -197,6 +201,35 @@ namespace Tellusim {
 			vk_family = surface.getFamily();
 			
 		#endif
+		
+		// Vulkan functions
+		vkGetPhysicalDeviceSurfaceSupportKHR = (PFN_vkGetPhysicalDeviceSurfaceSupportKHR)vk_context.getProcAddress("vkGetPhysicalDeviceSurfaceSupportKHR");
+		vkGetPhysicalDeviceSurfaceCapabilitiesKHR = (PFN_vkGetPhysicalDeviceSurfaceCapabilitiesKHR)vk_context.getProcAddress("vkGetPhysicalDeviceSurfaceCapabilitiesKHR");
+		vkGetPhysicalDeviceSurfaceFormatsKHR = (PFN_vkGetPhysicalDeviceSurfaceFormatsKHR)vk_context.getProcAddress("vkGetPhysicalDeviceSurfaceFormatsKHR");
+		vkGetPhysicalDeviceSurfacePresentModesKHR = (PFN_vkGetPhysicalDeviceSurfacePresentModesKHR)vk_context.getProcAddress("vkGetPhysicalDeviceSurfacePresentModesKHR");
+		vkGetPhysicalDeviceImageFormatProperties = (PFN_vkGetPhysicalDeviceImageFormatProperties)vk_context.getProcAddress("vkGetPhysicalDeviceImageFormatProperties");
+		#if _WIN32
+			vkCreateWin32SurfaceKHR = (PFN_vkCreateWin32SurfaceKHR)vk_context.getProcAddress("vkCreateWin32SurfaceKHR");
+		#else
+			vkCreateXlibSurfaceKHR = (PFN_vkCreateXlibSurfaceKHR)vk_context.getProcAddress("vkCreateXlibSurfaceKHR");
+			vkCreateWaylandSurfaceKHR = (PFN_vkCreateWaylandSurfaceKHR)vk_context.getProcAddress("vkCreateWaylandSurfaceKHR");
+		#endif
+		vkDestroySurfaceKHR = (PFN_vkDestroySurfaceKHR)vk_context.getProcAddress("vkDestroySurfaceKHR");
+		vkCreateSwapchainKHR = (PFN_vkCreateSwapchainKHR)vk_context.getProcAddress("vkCreateSwapchainKHR");
+		vkDestroySwapchainKHR = (PFN_vkDestroySwapchainKHR)vk_context.getProcAddress("vkDestroySwapchainKHR");
+		vkGetSwapchainImagesKHR = (PFN_vkGetSwapchainImagesKHR)vk_context.getProcAddress("vkGetSwapchainImagesKHR");
+		vkAcquireNextImageKHR = (PFN_vkAcquireNextImageKHR)vk_context.getProcAddress("vkAcquireNextImageKHR");
+		vkQueuePresentKHR = (PFN_vkQueuePresentKHR)vk_context.getProcAddress("vkQueuePresentKHR");
+		vkQueueSubmit = (PFN_vkQueueSubmit)vk_context.getProcAddress("vkQueueSubmit");
+		vkCreateSemaphore = (PFN_vkCreateSemaphore)vk_context.getProcAddress("vkCreateSemaphore");
+		vkDestroySemaphore = (PFN_vkDestroySemaphore)vk_context.getProcAddress("vkDestroySemaphore");
+		vkCreateImageView = (PFN_vkCreateImageView)vk_context.getProcAddress("vkCreateImageView");
+		vkDestroyImageView = (PFN_vkDestroyImageView)vk_context.getProcAddress("vkDestroyImageView");
+		vkCreateRenderPass = (PFN_vkCreateRenderPass)vk_context.getProcAddress("vkCreateRenderPass");
+		vkDestroyRenderPass = (PFN_vkDestroyRenderPass)vk_context.getProcAddress("vkDestroyRenderPass");
+		vkCreateFramebuffer = (PFN_vkCreateFramebuffer)vk_context.getProcAddress("vkCreateFramebuffer");
+		vkDestroyFramebuffer = (PFN_vkDestroyFramebuffer)vk_context.getProcAddress("vkDestroyFramebuffer");
+		vkCmdPipelineBarrier = (PFN_vkCmdPipelineBarrier)vk_context.getProcAddress("vkCmdPipelineBarrier");
 		
 		#if _WIN32
 			
@@ -347,6 +380,10 @@ namespace Tellusim {
 		// surface render pass
 		surface.setRenderPass(render_pass);
 		
+		// create device
+		device = Device(surface);
+		if(!device) return false;
+		
 		return true;
 	}
 	
@@ -354,6 +391,9 @@ namespace Tellusim {
 		
 		release_buffers();
 		release_swap_chain();
+		
+		// destroy device
+		device.destroyPtr();
 		
 		// release window surface
 		if(vk_surface) vkDestroySurfaceKHR(vk_instance, vk_surface, nullptr);
@@ -541,88 +581,19 @@ namespace Tellusim {
 	 */
 	bool QVKWidget::create_buffers() {
 		
-		// create depth image
-		VkImageCreateInfo depth_image_info = {};
-		depth_image_info.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
-		depth_image_info.flags = 0;
-		depth_image_info.imageType = VK_IMAGE_TYPE_2D;
-		depth_image_info.format = depth_image_format;
-		depth_image_info.extent.width = surface.getWidth();
-		depth_image_info.extent.height = surface.getHeight();
-		depth_image_info.extent.depth = 1;
-		depth_image_info.mipLevels = 1;
-		depth_image_info.arrayLayers = 1;
-		depth_image_info.samples = VK_SAMPLE_COUNT_1_BIT;
-		depth_image_info.tiling = VK_IMAGE_TILING_OPTIMAL;
-		depth_image_info.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
-		depth_image_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-		depth_image_info.queueFamilyIndexCount = 0;
-		depth_image_info.pQueueFamilyIndices = nullptr;
-		depth_image_info.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-		
-		if(VKContext::error(vkCreateImage(vk_device, &depth_image_info, nullptr, &depth_image))) {
-			TS_LOG(Error, "QVKWidget::create_buffers(): can't create depth image\n");
-			release_buffers();
-			return false;
-		}
-		
-		// depth image memory requirements
-		VkMemoryRequirements memory_requirements = {};
-		VkPhysicalDeviceMemoryProperties memory_properties = {};
-		vkGetPhysicalDeviceMemoryProperties(vk_adapter, &memory_properties);
-		vkGetImageMemoryRequirements(vk_device, depth_image, &memory_requirements);
-		
-		// allocate depth image memory
-		VkMemoryAllocateInfo memory_allocate = {};
-		memory_allocate.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-		memory_allocate.allocationSize = memory_requirements.size;
-		memory_allocate.memoryTypeIndex = 0;
-		
-		for(uint32_t i = 0; i < memory_properties.memoryTypeCount; i++) {
-			if((memory_requirements.memoryTypeBits & (1 << i)) == 0) continue;
-			if((memory_properties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT) == 0) continue;
-			memory_allocate.memoryTypeIndex = i;
-			break;
-		}
-		
-		if(VKContext::error(vkAllocateMemory(vk_device, &memory_allocate, nullptr, &depth_image_memory))) {
-			TS_LOG(Error, "QVKWidget::create_buffers(): can't allocate depth image memory\n");
-			release_buffers();
-			return false;
-		}
-		
-		// bind depth image memory
-		if(VKContext::error(vkBindImageMemory(vk_device, depth_image, depth_image_memory, 0))) {
-			TS_LOG(Error, "QVKWidget::create_buffers(): can't bind depth image memory\n");
-			release_buffers();
-			return false;
-		}
-		
-		// create depth image view
-		VkImageViewCreateInfo depth_image_view_info = {};
-		depth_image_view_info.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-		depth_image_view_info.flags = 0;
-		depth_image_view_info.image = depth_image;
-		depth_image_view_info.viewType = VK_IMAGE_VIEW_TYPE_2D;
-		depth_image_view_info.format = depth_image_format;
-		depth_image_view_info.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
-		depth_image_view_info.subresourceRange.baseMipLevel = 0;
-		depth_image_view_info.subresourceRange.levelCount = 1;
-		depth_image_view_info.subresourceRange.baseArrayLayer = 0;
-		depth_image_view_info.subresourceRange.layerCount = 1;
-		
-		if(VKContext::error(vkCreateImageView(vk_device, &depth_image_view_info, nullptr, &depth_image_view))) {
-			TS_LOG(Error, "QVKWidget::create_buffers(): can't create depth image view\n");
-			release_buffers();
+		// create depth stencil texture
+		depth_stencil_texture = device.createTexture2D(surface.getDepthFormat(), surface.getWidth(), surface.getHeight(), Texture::FlagTarget);
+		if(!depth_stencil_texture) {
+			TS_LOG(Error, "VKWindow::create_buffers(): can't create depth stencil\n");
 			return false;
 		}
 		
 		// depth image layout
-		barrier(depth_image, 0, VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT);
+		barrier(depth_stencil_texture.getVKTexture(), 0, VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT);
 		
 		// create framebuffers
 		VkImageView attachments[2] = {};
-		attachments[1] = depth_image_view;
+		attachments[1] = depth_stencil_texture.getTextureView();
 		
 		VkFramebufferCreateInfo framebuffer_info = {};
 		framebuffer_info.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
@@ -653,13 +624,8 @@ namespace Tellusim {
 		// finish device
 		if(device) device.finish();
 		
-		// release depth image
-		if(depth_image_memory) vkFreeMemory(vk_device, depth_image_memory, nullptr);
-		if(depth_image_view) vkDestroyImageView(vk_device, depth_image_view, nullptr);
-		if(depth_image) vkDestroyImage(vk_device, depth_image, nullptr);
-		depth_image_memory = VK_NULL_HANDLE;
-		depth_image_view = VK_NULL_HANDLE;
-		depth_image = VK_NULL_HANDLE;
+		// release depth texture
+		depth_stencil_texture.destroyPtr();
 		
 		// release framebuffers
 		for(uint32_t i = 0; i < frames.size(); i++) {
@@ -751,10 +717,6 @@ namespace Tellusim {
 	 */
 	bool QVKWidget::create_vk() {
 		
-		// create device
-		device = Device(surface);
-		if(!device) return false;
-		
 		// create pipeline
 		pipeline = device.createPipeline();
 		pipeline.setUniformMask(0, Shader::MaskVertex);
@@ -790,7 +752,6 @@ namespace Tellusim {
 		if(device) device.finish();
 		
 		// release resources
-		device.destroyPtr();
 		pipeline.destroyPtr();
 		vertex_buffer.destroyPtr();
 		index_buffer.destroyPtr();

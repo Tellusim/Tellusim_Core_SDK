@@ -1329,7 +1329,10 @@ namespace Tellusim {
 				setNodeValue(node, value);
 				setNodeDynamic(node, true);
 			});
-			setProtoInfo(proto, "Matrix compose");
+			setProtoInfo(proto, "Composes a transformation matrix");
+			setProtoInputInfo(proto, "t", "Translation vector");
+			setProtoInputInfo(proto, "r", "Rotation (quaternion or Euler angles)");
+			setProtoInputInfo(proto, "s", "Scaling vector");
 		}
 		
 		// matmul proto
@@ -1434,6 +1437,18 @@ namespace Tellusim {
 			setProtoInfo(proto, "Matrix multiplication");
 		}
 		
+		// direction proto
+		{
+			uint32_t proto = addProto("direction", "Direction");
+			setProtoColor(proto, tool_color);
+			addProtoInput(proto, "phi", "Phi", "0.0", float_type);
+			addProtoInput(proto, "theta", "Theta", "0.0", float_type);
+			addProtoOutput(proto, "v", "", "vec3(vec2(cos($phi), sin($phi)) * sin($theta), cos($theta))", vec3_type, true);
+			setProtoInfo(proto, "Normalized direction vector");
+			setProtoInputInfo(proto, "phi", "Azimuth angle in the XY plane [0, Pi2)");
+			setProtoInputInfo(proto, "theta", "Polar angle from the +Z axis [0, Pi]");
+		}
+		
 		// rotate proto
 		{
 			uint32_t proto = addProto("rotate", "Rotate");
@@ -1441,7 +1456,9 @@ namespace Tellusim {
 			addProtoInput(proto, "axis", "Axis", "vec3(0.0, 0.0, 1.0)", vec3_type);
 			addProtoInput(proto, "angle", "Angle", "0.0", float_type);
 			addProtoOutput(proto, "v", "", "vec4(normalize($axis) * sin(($angle) * 0.5), cos(($angle) * 0.5))", vec4_type, true);
-			setProtoInfo(proto, "Rotation Quaternion");
+			setProtoInfo(proto, "Rotation quaternion from axis-angle");
+			setProtoInputInfo(proto, "axis", "Rotation axis (will be normalized)");
+			setProtoInputInfo(proto, "angle", "Rotation angle in radians");
 		}
 		
 		// project proto
@@ -1451,7 +1468,7 @@ namespace Tellusim {
 			addProtoInput(proto, "a", "A", "1.0", any_type);
 			addProtoInput(proto, "b", "B", "0.0", any_type);
 			addProtoOutput(proto, "v", "", "dot($a, $b) / dot($a, $a)", float_type, true);
-			setProtoInfo(proto, "Projection of B onto the direction of A");
+			setProtoInfo(proto, "Scalar projection of B onto the direction of A");
 		}
 		
 		// map value proto
@@ -1970,6 +1987,89 @@ namespace Tellusim {
 	 */
 	void ControlFlowGLSL::create_noise() {
 		
+		// Hash noise proto
+		{
+			uint32_t proto = addProto("hash_noise", "Hash Noise");
+			setProtoColor(proto, noise_color);
+			addProtoInput(proto, "texcoord", "TexCoord", "", any_type);
+			addProtoInput(proto, "tile", "Tile", "1.0", any_type);
+			addProtoOutput(proto, "v1", "", "$0", float_type, true);
+			addProtoOutput(proto, "v2", "", "$1", vec2_type, true);
+			addProtoOutput(proto, "v3", "", "$2", vec3_type, true);
+			addProtoOutput(proto, "v4", "", "$3", vec4_type, true);
+			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
+				Control spacer(&getNodeInputGrid(node));
+				ControlCombo combo(&getNodeInputGrid(node), { "None", "Floor", "Ceil", }, Maxu32);
+				combo.setChangedCallback(makeFunction([this](ControlCombo combo, ControlFlow *flow, uint32_t node) {
+					setNodeState(node, combo.getCurrentText(), true);
+					setChanged();
+				}, ControlCombo::null, flow, node));
+				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlCombo combo) {
+					set_state(combo, getNodeState(node));
+					setNodeDynamic(node, true);
+				}, nullptr, 0, combo));
+			});
+			setProtoUpdateCallback(proto, [this](ControlFlow *flow, uint32_t node, bool inverse) {
+				String value;
+				String macros;
+				uint32_t type = getInputType(node, "texcoord");
+				if(type == float_type) macros = "1_SHADER=1";
+				else if(type == vec2_type) macros = "2_SHADER=1";
+				else if(type == vec3_type) macros = "3_SHADER=1";
+				else if(type == vec4_type) macros = "4_SHADER=1";
+				if(macros) {
+					String texcoord;
+					const String &state = getNodeState(node);
+					if(state == "Floor") texcoord = "floor(($texcoord) * ($tile))";
+					else if(state == "Ceil") texcoord = "ceil(($texcoord) * ($tile))";
+					else texcoord = "($texcoord) * ($tile)";
+					if(getNumOutputConnections(node, "v1")) {
+						value += "float $0 = 0.0f; {";
+						String src = Shader::preprocessor(library_source.get(), "HASH_1_" + macros);
+						value += src.replace("IN", texcoord.get()).replace("OUT", "$0").replace("\n", "\n\t");
+						value.removeBack();
+						value += "}\n";
+					}
+					if(getNumOutputConnections(node, "v2")) {
+						value += "vec2 $1 = vec2(0.0f); {";
+						String src = Shader::preprocessor(library_source.get(), "HASH_2_" + macros);
+						value += src.replace("IN", texcoord.get()).replace("OUT", "$1").replace("\n", "\n\t");
+						value.removeBack();
+						value += "}\n";
+					}
+					if(getNumOutputConnections(node, "v3")) {
+						value += "vec3 $2 = vec3(0.0f); {";
+						String src = Shader::preprocessor(library_source.get(), "HASH_3_" + macros);
+						value += src.replace("IN", texcoord.get()).replace("OUT", "$2").replace("\n", "\n\t");
+						value.removeBack();
+						value += "}\n";
+					}
+					if(getNumOutputConnections(node, "v4")) {
+						value += "vec4 $3 = vec4(0.0f); {";
+						String src = Shader::preprocessor(library_source.get(), "HASH_4_" + macros);
+						value += src.replace("IN", texcoord.get()).replace("OUT", "$3").replace("\n", "\n\t");
+						value.removeBack();
+						value += "}\n";
+					}
+				}
+				setNodeValue(node, value);
+				setNodeDynamic(node, true);
+			});
+			setProtoInputAttachCallback(proto, 0, [this](ControlFlow *flow, uint32_t node, uint32_t input, uint32_t output_node, uint32_t output_index) {
+				uint32_t texcoord_type = any_type;
+				if(output_node != Maxu32) texcoord_type = getOutputType(output_node, output_index);
+				if(texcoord_type == float_type || texcoord_type == vec2_type || texcoord_type == vec3_type || texcoord_type == vec4_type) {
+					setInputType(node, "texcoord", texcoord_type);
+					setInputType(node, "tile", texcoord_type);
+					return true;
+				}
+				setInputType(node, "texcoord", any_type);
+				setInputType(node, "tile", any_type);
+				return (output_node != Maxu32 && texcoord_type == any_type);
+			});
+			setProtoInfo(proto, "Hash noise sampler");
+		}
+		
 		// Perlin noise proto
 		{
 			uint32_t proto = addProto("perlin_noise", "Perlin Noise");
@@ -2000,10 +2100,11 @@ namespace Tellusim {
 				else if(type == vec3_type) macros += "; PERLIN_3_SHADER=1";
 				if(state == "Cubic") macros += "; CUBIC_SHADER=1";
 				if(has_dv) macros += "; DERIVATIVE_SHADER=1";
-				String src = Shader::preprocessor(library_source.get(), macros);
 				if(has_dv) value += "@dv $1; ";
-				value += "float $0; {\n";
-				value += src.replace("IN", "($texcoord) * ($tile)");
+				value += "float $0; {";
+				String src = Shader::preprocessor(library_source.get(), macros);
+				value += src.replace("IN", "($texcoord) * ($tile)").replace("\n", "\n\t");
+				value.removeBack();
 				if(has_dv) {
 					value += "\t$0 = OUT.x * (2.3f * 0.5f) + 0.5f;\n";
 					if(type == vec2_type) value += "\t$1 = -OUT.yz;\n";
@@ -2087,12 +2188,9 @@ namespace Tellusim {
 				else if(type == vec3_type) macros += "; PERLIN_3_SHADER=1";
 				if(has_offset || has_dv) macros += "; DERIVATIVE_SHADER=1";
 				value += "\tfloat steps = min(float($steps), 64.0f);\n";
-				value += "\tfor(float i = 0.0f; i < steps; i += 1.0f) {\n";
+				value += "\tfor(float i = 0.0f; i < steps; i += 1.0f) {";
 				String src = Shader::preprocessor(library_source.get(), macros);
-				src = src.replace("IN", "texcoord");
-				src = src.replace("\n", "\n\t\t");
-				value += "\t\t";
-				value += src;
+				value += src.replace("IN", "texcoord").replace("\n", "\n\t\t");
 				value.removeBack(2);
 				if(has_dv) {
 					value += "\t\tfloat v = OUT.x;\n";

@@ -1516,9 +1516,11 @@ namespace Tellusim {
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, atomicTextureu64) == offsetof(Device::Features, atomicTextureu64));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, matrix16f16) == offsetof(Device::Features, matrix16f16));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, matrix16x8x8f16) == offsetof(Device::Features, matrix16x8x8f16));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, matrix8x16x16f16) == offsetof(Device::Features, matrix8x16x16f16));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, matrix16x8x16f16) == offsetof(Device::Features, matrix16x8x16f16));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, matrix16f16f32) == offsetof(Device::Features, matrix16f16f32));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, matrix16x8x8f16f32) == offsetof(Device::Features, matrix16x8x8f16f32));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, matrix8x16x16f16f32) == offsetof(Device::Features, matrix8x16x16f16f32));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, matrix16x8x16f16f32) == offsetof(Device::Features, matrix16x8x16f16f32));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, uniformAlignment) == offsetof(Device::Features, uniformAlignment));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, storageAlignment) == offsetof(Device::Features, storageAlignment));
@@ -12159,6 +12161,18 @@ namespace Tellusim {
 	TS_CAPI void TS_CCALL tsVKContext_addAdapterFeatures(void *features) {
 		VKContext::addAdapterFeatures(features);
 	}
+	TS_CAPI TSString TS_CCALL tsVKContext_getLayers(void) {
+		return (TSString)(new String(VKContext::getLayers()));
+	}
+	TS_CAPI TSString TS_CCALL tsVKContext_getExtensions(void) {
+		return (TSString)(new String(VKContext::getExtensions()));
+	}
+	TS_CAPI bool_t TS_CCALL tsVKContext_checkLayer(const char *name) {
+		return VKContext::checkLayer(name);
+	}
+	TS_CAPI bool_t TS_CCALL tsVKContext_checkExtension(const char *name) {
+		return VKContext::checkExtension(name);
+	}
 	TS_CAPI PFN_vkGetInstanceProcAddr TS_CCALL tsVKContext_getInstanceProcAddress(void) {
 		return VKContext::getInstanceProcAddress();
 	}
@@ -12255,6 +12269,12 @@ namespace Tellusim {
 		TS_ASSERT(self);
 		return ((GLContext*)self)->getGLContext();
 	}
+	TS_CAPI TSString TS_CCALL tsGLContext_getExtensions(void) {
+		return (TSString)(new String(GLContext::getExtensions()));
+	}
+	TS_CAPI bool_t TS_CCALL tsGLContext_checkExtension(const char *name) {
+		return GLContext::checkExtension(name);
+	}
 	TS_CAPI void* TS_CCALL tsGLContext_getProcAddress(const char *name) {
 		return GLContext::getProcAddress(name);
 	}
@@ -12339,6 +12359,12 @@ namespace Tellusim {
 	TS_CAPI void* TS_CCALL tsGLESContext_getGLESContext(TSGLESContext self) {
 		TS_ASSERT(self);
 		return ((GLESContext*)self)->getGLESContext();
+	}
+	TS_CAPI TSString TS_CCALL tsGLESContext_getExtensions(void) {
+		return (TSString)(new String(GLESContext::getExtensions()));
+	}
+	TS_CAPI bool_t TS_CCALL tsGLESContext_checkExtension(const char *name) {
+		return GLESContext::checkExtension(name);
 	}
 	TS_CAPI void* TS_CCALL tsGLESContext_getProcAddress(const char *name) {
 		return GLESContext::getProcAddress(name);
@@ -18449,6 +18475,14 @@ namespace Tellusim {
 	TS_CAPI uint32_t TS_CCALL tsVKDevice_getFamily(TSVKDevice self) {
 		TS_ASSERT(self);
 		return ((VKDevice*)self)->getFamily();
+	}
+	TS_CAPI TSString TS_CCALL tsVKDevice_getExtensions(TSVKDevice self) {
+		TS_ASSERT(self);
+		return (TSString)(new String(((VKDevice*)self)->getExtensions()));
+	}
+	TS_CAPI bool_t TS_CCALL tsVKDevice_checkExtension(TSVKDevice self, const char *name) {
+		TS_ASSERT(self);
+		return ((VKDevice*)self)->checkExtension(name);
 	}
 	TS_CAPI const void* TS_CCALL tsVKDevice_getVKFeatures(TSVKDevice self, uint32_t type) {
 		TS_ASSERT(self);
@@ -32050,10 +32084,10 @@ namespace Tellusim {
 	TS_CAPI void TS_CCALL tsSystem_closeLibrary(void *handle) {
 		System::closeLibrary(handle);
 	}
-	TS_CAPI bool_t TS_CCALL tsSystem_exec_sbb(const char *command, bool_t wait, bool_t console) {
+	TS_CAPI int32_t TS_CCALL tsSystem_exec_sbb(const char *command, bool_t wait, bool_t console) {
 		return System::exec(command, (bool)wait, (bool)console);
 	}
-	TS_CAPI bool_t TS_CCALL tsSystem_exec_cSbb(const TSString command, bool_t wait, bool_t console) {
+	TS_CAPI int32_t TS_CCALL tsSystem_exec_cSbb(const TSString command, bool_t wait, bool_t console) {
 		return System::exec((command) ? *(const String*)command : String::null, (bool)wait, (bool)console);
 	}
 	TS_CAPI bool_t TS_CCALL tsSystem_open_s(const char *command) {

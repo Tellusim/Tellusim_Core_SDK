@@ -30,6 +30,8 @@ public class VKDevice extends Device {
 	public long getQueue() { return get_queue(self); }
 	public long getCommand() { return get_command(self); }
 	public int getFamily() { return get_family(self); }
+	public String getExtensions() { return get_extensions(self); }
+	public boolean checkExtension(String name) { return check_extension(self, name); }
 	public long getVKFeatures(int type) { return get_vk_features(self, type); }
 	
 	private static native long new_();
@@ -54,6 +56,8 @@ public class VKDevice extends Device {
 	private static native long get_queue(long self);
 	private static native long get_command(long self);
 	private static native int get_family(long self);
+	private static native String get_extensions(long self);
+	private static native boolean check_extension(long self, String name);
 	private static native long get_vk_features(long self, int type);
 	
 	protected VKDevice(long self) {
