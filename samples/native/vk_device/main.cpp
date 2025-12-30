@@ -27,18 +27,25 @@ int32_t main(int32_t argc, char **argv) {
 	if(device.getVendor()) TS_LOGF(Message, "Vendor: %s\n", device.getVendor().get());
 	if(device.getVersion()) TS_LOGF(Message, "Version: %s\n", device.getVersion().get());
 	
+	// device extensions
+	TS_LOGF(Message, "Layers: %s\n", VKContext::getLayers().get());
+	TS_LOGF(Message, "Extensions: %s\n", VKContext::getExtensions().get());
+	TS_LOGF(Message, "Extensions: %s\n", device.getExtensions().get());
+	
 	// device features
 	#define FEATURE(NAME) if(features) Log::printf("  " #NAME ": %u\n", (uint32_t)features->NAME);
 	#define FEATURE_X(NAME) if(features) Log::printf("  " #NAME ": 0x%x\n", (uint32_t)features->NAME);
 	#define FEATURE_U(NAME) if(features) Log::printf("  " #NAME ": %u\n", (uint32_t)features->NAME);
 	#define FEATURE_V(NAME) if(features) Log::printf("  " #NAME ": %u %u %u\n", (uint32_t)features->NAME[0], (uint32_t)features->NAME[1], (uint32_t)features->NAME[2]);
 	#define FEATURE_S(NAME) if(features) Log::printf("  " #NAME ": %s\n", features->NAME);
+	#define FEATURE_M(NAME) if(features) Log::printf("  " #NAME ": %s\n", String::fromBytes(features->NAME).get());
 	
 	#define FEATURE2(PREFIX, NAME) if(features) Log::printf("  " #NAME ": %u\n", (uint32_t)features->PREFIX.NAME);
 	#define FEATURE2_X(PREFIX, NAME) if(features) Log::printf("  " #NAME ": 0x%x\n", (uint32_t)features->PREFIX.NAME);
 	#define FEATURE2_U(PREFIX, NAME) if(features) Log::printf("  " #NAME ": %u\n", (uint32_t)features->PREFIX.NAME);
 	#define FEATURE2_V(PREFIX, NAME) if(features) Log::printf("  " #NAME ": %u %u %u\n", (uint32_t)features->PREFIX.NAME[0], (uint32_t)features->PREFIX.NAME[1], (uint32_t)features->PREFIX.NAME[2]);
 	#define FEATURE2_S(PREFIX, NAME) if(features) Log::printf("  " #NAME ": %s\n", features->PREFIX.NAME);
+	#define FEATURE2_M(PREFIX, NAME) if(features) Log::printf("  " #NAME ": %s\n", String::fromBytes(features->PREFIX.NAME).get());
 	
 	{
 		auto *features = (const VkPhysicalDeviceFeatures2*)device.getVKFeatures(VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2);
@@ -118,9 +125,9 @@ int32_t main(int32_t argc, char **argv) {
 		FEATURE2_U(properties.limits, maxImageDimensionCube)
 		FEATURE2_U(properties.limits, maxImageArrayLayers)
 		FEATURE2_U(properties.limits, maxTexelBufferElements)
-		FEATURE2_U(properties.limits, maxUniformBufferRange)
-		FEATURE2_U(properties.limits, maxStorageBufferRange)
-		FEATURE2_U(properties.limits, maxPushConstantsSize)
+		FEATURE2_M(properties.limits, maxUniformBufferRange)
+		FEATURE2_M(properties.limits, maxStorageBufferRange)
+		FEATURE2_M(properties.limits, maxPushConstantsSize)
 		FEATURE2_U(properties.limits, maxMemoryAllocationCount)
 		FEATURE2_U(properties.limits, maxSamplerAllocationCount)
 	}
@@ -138,9 +145,9 @@ int32_t main(int32_t argc, char **argv) {
 		auto *features = (const VkPhysicalDeviceSubgroupProperties*)device.getVKFeatures(VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_PROPERTIES);
 		if(features) Log::printf("\nSubgroupProperties:\n");
 		FEATURE_U(subgroupSize)
-		FEATURE_U(supportedStages)
-		FEATURE_U(supportedOperations)
-		FEATURE_U(quadOperationsInAllStages)
+		FEATURE_X(supportedStages)
+		FEATURE_X(supportedOperations)
+		FEATURE_X(quadOperationsInAllStages)
 	}
 	
 	{
@@ -263,6 +270,27 @@ int32_t main(int32_t argc, char **argv) {
 		if(features) Log::printf("\nCooperativeMatrixFeatures:\n");
 		FEATURE(cooperativeMatrix)
 		FEATURE(cooperativeMatrixRobustBufferAccess)
+	}
+	{
+		auto *features = (const VkPhysicalDeviceCooperativeMatrixPropertiesKHR*)device.getVKFeatures(VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_PROPERTIES_KHR);
+		if(features) Log::printf("\nCooperativeMatrixProperties:\n");
+		FEATURE_X(cooperativeMatrixSupportedStages)
+	}
+	{
+		auto *features = (const VkCooperativeMatrixPropertiesKHR*)device.getVKFeatures(VK_STRUCTURE_TYPE_COOPERATIVE_MATRIX_PROPERTIES_KHR);
+		while(features) {
+			Log::printf("\nCooperativeMatrixProperties:\n");
+			FEATURE_U(MSize)
+			FEATURE_U(NSize)
+			FEATURE_U(KSize)
+			FEATURE_U(AType)
+			FEATURE_U(BType)
+			FEATURE_U(CType)
+			FEATURE_U(ResultType)
+			FEATURE(saturatingAccumulation)
+			FEATURE_U(scope)
+			features = (const VkCooperativeMatrixPropertiesKHR*)features->pNext;
+		}
 	}
 	
 	{
@@ -470,7 +498,7 @@ int32_t main(int32_t argc, char **argv) {
 		FEATURE_U(storageTexelBufferOffsetSingleTexelAlignment)
 		FEATURE_U(uniformTexelBufferOffsetAlignmentBytes)
 		FEATURE_U(uniformTexelBufferOffsetSingleTexelAlignment)
-		FEATURE_U(maxBufferSize)
+		FEATURE_M(maxBufferSize)
 	}
 	
 	{
@@ -614,7 +642,7 @@ int32_t main(int32_t argc, char **argv) {
 		FEATURE_U(minSubgroupSize)
 		FEATURE_U(maxSubgroupSize)
 		FEATURE_U(maxComputeWorkgroupSubgroups)
-		FEATURE_U(requiredSubgroupSizeStages)
+		FEATURE_X(requiredSubgroupSizeStages)
 	}
 	
 	{
@@ -642,6 +670,18 @@ int32_t main(int32_t argc, char **argv) {
 	}
 	
 	{
+		auto *features = (const VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT*)device.getVKFeatures(VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_EXT);
+		if(features) Log::printf("\nVertexAttributeDivisorEXT:\n");
+		FEATURE(vertexAttributeInstanceRateDivisor)
+		FEATURE(vertexAttributeInstanceRateZeroDivisor)
+	}
+	{
+		auto *features = (const VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT*)device.getVKFeatures(VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES_EXT);
+		if(features) Log::printf("\nVertexAttributeDivisorEXT:\n");
+		FEATURE_U(maxVertexAttribDivisor)
+	}
+	
+	{
 		auto *features = (const VkPhysicalDeviceMeshShaderFeaturesEXT*)device.getVKFeatures(VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_FEATURES_EXT);
 		if(features) Log::printf("\nMeshShaderFeaturesEXT:\n");
 		FEATURE(taskShader)
@@ -650,7 +690,6 @@ int32_t main(int32_t argc, char **argv) {
 		FEATURE(primitiveFragmentShadingRateMeshShader)
 		FEATURE(meshShaderQueries)
 	}
-	
 	{
 		auto *features = (const VkPhysicalDeviceMeshShaderPropertiesEXT*)device.getVKFeatures(VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_PROPERTIES_EXT);
 		if(features) Log::printf("\nMeshShaderPropertiesEXT:\n");
@@ -659,16 +698,16 @@ int32_t main(int32_t argc, char **argv) {
 		FEATURE_U(maxTaskWorkGroupInvocations)
 		FEATURE_V(maxTaskWorkGroupSize)
 		FEATURE_U(maxTaskPayloadSize)
-		FEATURE_U(maxTaskSharedMemorySize)
-		FEATURE_U(maxTaskPayloadAndSharedMemorySize)
+		FEATURE_M(maxTaskSharedMemorySize)
+		FEATURE_M(maxTaskPayloadAndSharedMemorySize)
 		FEATURE_U(maxMeshWorkGroupTotalCount)
 		FEATURE_V(maxMeshWorkGroupCount)
 		FEATURE_U(maxMeshWorkGroupInvocations)
 		FEATURE_V(maxMeshWorkGroupSize)
-		FEATURE_U(maxMeshSharedMemorySize)
-		FEATURE_U(maxMeshPayloadAndSharedMemorySize)
-		FEATURE_U(maxMeshOutputMemorySize)
-		FEATURE_U(maxMeshPayloadAndOutputMemorySize)
+		FEATURE_M(maxMeshSharedMemorySize)
+		FEATURE_M(maxMeshPayloadAndSharedMemorySize)
+		FEATURE_M(maxMeshOutputMemorySize)
+		FEATURE_M(maxMeshPayloadAndOutputMemorySize)
 		FEATURE_U(maxMeshOutputComponents)
 		FEATURE_U(maxMeshOutputVertices)
 		FEATURE_U(maxMeshOutputPrimitives)
@@ -687,10 +726,10 @@ int32_t main(int32_t argc, char **argv) {
 	{
 		auto *features = (const VkPhysicalDevicePCIBusInfoPropertiesEXT*)device.getVKFeatures(VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PCI_BUS_INFO_PROPERTIES_EXT);
 		if(features) Log::printf("\nPCIBusInfoPropertiesEXT:\n");
-		FEATURE_U(pciDomain)
-		FEATURE_U(pciBus)
-		FEATURE_U(pciDevice)
-		FEATURE_U(pciFunction)
+		FEATURE_X(pciDomain)
+		FEATURE_X(pciBus)
+		FEATURE_X(pciDevice)
+		FEATURE_X(pciFunction)
 	}
 	
 	{
@@ -727,3 +766,10 @@ int32_t main(int32_t argc, char **argv) {
 	
 	return 0;
 }
+
+/*
+ */
+#if _ANDROID
+	#include <system/TellusimAndroid.h>
+	TS_DECLARE_ANDROID_NATIVE_ACTIVITY
+#endif
