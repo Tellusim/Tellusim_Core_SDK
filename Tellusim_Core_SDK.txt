@@ -19,7 +19,7 @@ For optimal performance, we recommend using the Vulkan or Direct3D12 graphics AP
 Learn more about our technology at: https://tellusim.com/
 For inquiries, email: info@tellusim.com
 
-(C) 2018-2025 Tellusim Technologies Inc. All rights reserved.
+(C) 2018-2026 Tellusim Technologies Inc. All rights reserved.
 
 
 USAGE RESTRICTIONS

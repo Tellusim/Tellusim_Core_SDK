@@ -1,4 +1,4 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 #ifndef __TELLUSIM_INTERFACE_CONTROLS_H__
@@ -364,6 +364,7 @@ namespace Tellusim {
 			float32_t getSplitSize() const;
 			
 			/// mouse button
+			void setMousePosition(const Vector2f &position);
 			void setMouse(int32_t x, int32_t y, Button buttons);
 			void setMouse(float32_t x, float32_t y, Button buttons);
 			const Vector2f &getMouse() const;
