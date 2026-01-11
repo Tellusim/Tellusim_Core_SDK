@@ -1,4 +1,4 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 #ifndef __TELLUSIM_PLUGINS_INTERFACE_CONTROL_FLOW_GLSL_H__
@@ -24,7 +24,7 @@ namespace Tellusim {
 			virtual bool create(Control *controls_root = nullptr, Control *tooltip_root = nullptr);
 			
 			/// create source for the node
-			String getSource(uint32_t node);
+			String getSource(uint32_t node, bool inverse);
 			
 			/// type name
 			virtual const char *getGLSLTypeName(uint32_t type) const;
@@ -32,7 +32,7 @@ namespace Tellusim {
 			/// flow colors
 			TS_INLINE const Color &getGLSLColor() const { return glsl_color; }
 			TS_INLINE const Color &getToolColor() const { return tool_color; }
-			TS_INLINE const Color &getNoiseColor() const { return noise_color; }
+			TS_INLINE const Color &getFieldColor() const { return field_color; }
 			
 			/// glsl types
 			TS_INLINE uint32_t getAnyType() const { return any_type; }
@@ -41,6 +41,9 @@ namespace Tellusim {
 			TS_INLINE uint32_t getVec2Type() const { return vec2_type; }
 			TS_INLINE uint32_t getVec3Type() const { return vec3_type; }
 			TS_INLINE uint32_t getVec4Type() const { return vec4_type; }
+			TS_INLINE uint32_t getIVec2Type() const { return ivec2_type; }
+			TS_INLINE uint32_t getIVec3Type() const { return ivec3_type; }
+			TS_INLINE uint32_t getIVec4Type() const { return ivec4_type; }
 			TS_INLINE uint32_t getMat2Type() const { return mat2_type; }
 			TS_INLINE uint32_t getMat3Type() const { return mat3_type; }
 			TS_INLINE uint32_t getMat4Type() const { return mat4_type; }
@@ -56,17 +59,20 @@ namespace Tellusim {
 		protected:
 			
 			/// glsl types
-			TS_INLINE bool is_vector_type(uint32_t type) const { return (type == vec2_type || type == vec3_type || type == vec4_type); }
+			TS_INLINE bool is_int_type(uint32_t type) const { return (type == int_type || type == ivec2_type || type == ivec3_type || type == ivec4_type); }
+			TS_INLINE bool is_float_type(uint32_t type) const { return (type == float_type || type == vec2_type || type == vec3_type || type == vec4_type); }
+			TS_INLINE bool is_vector_type(uint32_t type) const { return (type == vec2_type || type == vec3_type || type == vec4_type || type == ivec2_type || type == ivec3_type || type == ivec4_type); }
 			TS_INLINE bool is_matrix_type(uint32_t type) const { return (type == mat2_type || type == mat3_type || type == mat4_type || type == mat32_type || type == mat43_type); }
 			
 			/// create glsl
 			void create_types();
 			void create_protos();
 			void create_tools();
-			void create_noise();
+			void create_fields();
 			
 			/// create editable slider
-			ControlSlider create_slider(Control *root, const char *name = nullptr, uint32_t digits = 2, float64_t value = 0.0, float64_t min = 0.0, float64_t max = 1.0, float32_t width = 128.0f);
+			ControlSlider create_slider_i32(Control *root, const char *name = nullptr, int32_t value = 0, int32_t min = 0, int32_t max = 255, float32_t width = 128.0f);
+			ControlSlider create_slider_f64(Control *root, const char *name = nullptr, uint32_t digits = 2, float64_t value = 0.0, float64_t min = 0.0, float64_t max = 1.0, float32_t width = 128.0f);
 			static void expand_slider(ControlSlider &slider);
 			
 			/// create combo from items
@@ -94,6 +100,9 @@ namespace Tellusim {
 			uint32_t vec2_type = Maxu32;		// vector types
 			uint32_t vec3_type = Maxu32;
 			uint32_t vec4_type = Maxu32;
+			uint32_t ivec2_type = Maxu32;
+			uint32_t ivec3_type = Maxu32;
+			uint32_t ivec4_type = Maxu32;
 			
 			uint32_t mat2_type = Maxu32;		// matrix types
 			uint32_t mat3_type = Maxu32;
@@ -107,7 +116,7 @@ namespace Tellusim {
 			
 			Color glsl_color = Color(1.0f, 1.0f, 1.0f, 0.75f);
 			Color tool_color = Color(0.3f, 0.6f, 1.0f, 0.75f);
-			Color noise_color = Color(0.6f, 0.6f, 0.3f, 0.75f);
+			Color field_color = Color(0.6f, 0.6f, 0.3f, 0.75f);
 	};
 }
 

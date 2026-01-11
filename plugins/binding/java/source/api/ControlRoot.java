@@ -1,4 +1,4 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 package com.tellusim;
@@ -100,6 +100,7 @@ public class ControlRoot extends Control {
 	public Color getCheckedColor() { return new Color(get_checked_color(self)); }
 	public void setSplitSize(float size) { set_split_size(self, size); }
 	public float getSplitSize() { return get_split_size(self); }
+	public void setMousePosition(Vector2f position) { set_mouse_position(self, position.self); }
 	public void setMouse(int x, int y, Button buttons) { set_mouse(self, x, y, buttons.value); }
 	public void setMouse(int x, int y, Button.Enum buttons) { set_mouse(self, x, y, buttons.value); }
 	public void setMouse(float x, float y, Button buttons) { set_mouse_1(self, x, y, buttons.value); }
@@ -207,6 +208,7 @@ public class ControlRoot extends Control {
 	private static native long get_checked_color(long self);
 	private static native void set_split_size(long self, float size);
 	private static native float get_split_size(long self);
+	private static native void set_mouse_position(long self, long position);
 	private static native void set_mouse(long self, int x, int y, int buttons);
 	private static native void set_mouse_1(long self, float x, float y, int buttons);
 	private static native long get_mouse(long self);
