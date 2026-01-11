@@ -1,4 +1,4 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 #ifndef __TELLUSIM_C_API_H__
@@ -4641,7 +4641,7 @@ TS_CAPI bool_t TS_CCALL tsContext_flush(TSContext self);
 TS_CAPI bool_t TS_CCALL tsContext_finish(TSContext self);
 
 /// Tellusim::D3D12Context
-TS_CAPI TSD3D12Context TS_CCALL tsD3D12Context_new(void);
+TS_CAPI TSD3D12Context TS_CCALL tsD3D12Context_new(uint32_t index);
 TS_CAPI void TS_CCALL tsD3D12Context_delete(TSD3D12Context self);
 TS_CAPI bool_t TS_CCALL tsD3D12Context_equalPtr(const TSD3D12Context self, const TSD3D12Context ptr);
 TS_CAPI TSD3D12Context TS_CCALL tsD3D12Context_copyPtr(const TSD3D12Context self);
@@ -4667,7 +4667,7 @@ TS_CAPI void* TS_CCALL tsD3D12Context_getProcAddress(const char *name);
 TS_CAPI bool_t TS_CCALL tsD3D12Context_error(uint32_t result);
 
 /// Tellusim::D3D11Context
-TS_CAPI TSD3D11Context TS_CCALL tsD3D11Context_new(void);
+TS_CAPI TSD3D11Context TS_CCALL tsD3D11Context_new(uint32_t index);
 TS_CAPI void TS_CCALL tsD3D11Context_delete(TSD3D11Context self);
 TS_CAPI bool_t TS_CCALL tsD3D11Context_equalPtr(const TSD3D11Context self, const TSD3D11Context ptr);
 TS_CAPI TSD3D11Context TS_CCALL tsD3D11Context_copyPtr(const TSD3D11Context self);
@@ -4692,7 +4692,7 @@ TS_CAPI void* TS_CCALL tsD3D11Context_getProcAddress(const char *name);
 TS_CAPI bool_t TS_CCALL tsD3D11Context_error(uint32_t result);
 
 /// Tellusim::MTLContext
-TS_CAPI TSMTLContext TS_CCALL tsMTLContext_new(void);
+TS_CAPI TSMTLContext TS_CCALL tsMTLContext_new(uint32_t index);
 TS_CAPI void TS_CCALL tsMTLContext_delete(TSMTLContext self);
 TS_CAPI bool_t TS_CCALL tsMTLContext_equalPtr(const TSMTLContext self, const TSMTLContext ptr);
 TS_CAPI TSMTLContext TS_CCALL tsMTLContext_copyPtr(const TSMTLContext self);
@@ -4721,7 +4721,7 @@ TS_CAPI void* TS_CCALL tsMTLContext_getBlitEncoder(TSMTLContext self);
 TS_CAPI void TS_CCALL tsMTLContext_endEncoder(TSMTLContext self);
 
 /// Tellusim::VKContext
-TS_CAPI TSVKContext TS_CCALL tsVKContext_new(void);
+TS_CAPI TSVKContext TS_CCALL tsVKContext_new(uint32_t index);
 TS_CAPI void TS_CCALL tsVKContext_delete(TSVKContext self);
 TS_CAPI bool_t TS_CCALL tsVKContext_equalPtr(const TSVKContext self, const TSVKContext ptr);
 TS_CAPI TSVKContext TS_CCALL tsVKContext_copyPtr(const TSVKContext self);
@@ -4761,7 +4761,7 @@ TS_CAPI void* TS_CCALL tsVKContext_getProcAddress(const char *name);
 TS_CAPI bool_t TS_CCALL tsVKContext_error(uint32_t result);
 
 /// Tellusim::GLContext
-TS_CAPI TSGLContext TS_CCALL tsGLContext_new(void);
+TS_CAPI TSGLContext TS_CCALL tsGLContext_new(uint32_t index);
 TS_CAPI void TS_CCALL tsGLContext_delete(TSGLContext self);
 TS_CAPI bool_t TS_CCALL tsGLContext_equalPtr(const TSGLContext self, const TSGLContext ptr);
 TS_CAPI TSGLContext TS_CCALL tsGLContext_copyPtr(const TSGLContext self);
@@ -4791,7 +4791,7 @@ TS_CAPI bool_t TS_CCALL tsGLContext_error(uint32_t result);
 TS_CAPI bool_t TS_CCALL tsGLContext_check(void);
 
 /// Tellusim::GLESContext
-TS_CAPI TSGLESContext TS_CCALL tsGLESContext_new(void);
+TS_CAPI TSGLESContext TS_CCALL tsGLESContext_new(uint32_t index);
 TS_CAPI void TS_CCALL tsGLESContext_delete(TSGLESContext self);
 TS_CAPI bool_t TS_CCALL tsGLESContext_equalPtr(const TSGLESContext self, const TSGLESContext ptr);
 TS_CAPI TSGLESContext TS_CCALL tsGLESContext_copyPtr(const TSGLESContext self);
@@ -4819,7 +4819,7 @@ TS_CAPI bool_t TS_CCALL tsGLESContext_error(uint32_t result);
 TS_CAPI bool_t TS_CCALL tsGLESContext_check(void);
 
 /// Tellusim::WGContext
-TS_CAPI TSWGContext TS_CCALL tsWGContext_new(void);
+TS_CAPI TSWGContext TS_CCALL tsWGContext_new(uint32_t index);
 TS_CAPI void TS_CCALL tsWGContext_delete(TSWGContext self);
 TS_CAPI bool_t TS_CCALL tsWGContext_equalPtr(const TSWGContext self, const TSWGContext ptr);
 TS_CAPI TSWGContext TS_CCALL tsWGContext_copyPtr(const TSWGContext self);
@@ -4843,7 +4843,7 @@ TS_CAPI WGPUAdapter TS_CCALL tsWGContext_getAdapter(TSWGContext self);
 TS_CAPI WGPUDevice TS_CCALL tsWGContext_getDevice(TSWGContext self);
 
 /// Tellusim::CUContext
-TS_CAPI TSCUContext TS_CCALL tsCUContext_new(void);
+TS_CAPI TSCUContext TS_CCALL tsCUContext_new(uint32_t index);
 TS_CAPI void TS_CCALL tsCUContext_delete(TSCUContext self);
 TS_CAPI bool_t TS_CCALL tsCUContext_equalPtr(const TSCUContext self, const TSCUContext ptr);
 TS_CAPI TSCUContext TS_CCALL tsCUContext_copyPtr(const TSCUContext self);
@@ -4867,7 +4867,7 @@ TS_CAPI void* TS_CCALL tsCUContext_getProcAddress(const char *name);
 TS_CAPI bool_t TS_CCALL tsCUContext_error(uint32_t result);
 
 /// Tellusim::HIPContext
-TS_CAPI TSHIPContext TS_CCALL tsHIPContext_new(void);
+TS_CAPI TSHIPContext TS_CCALL tsHIPContext_new(uint32_t index);
 TS_CAPI void TS_CCALL tsHIPContext_delete(TSHIPContext self);
 TS_CAPI bool_t TS_CCALL tsHIPContext_equalPtr(const TSHIPContext self, const TSHIPContext ptr);
 TS_CAPI TSHIPContext TS_CCALL tsHIPContext_copyPtr(const TSHIPContext self);
@@ -8251,6 +8251,7 @@ TS_CAPI void TS_CCALL tsControlRoot_setCheckedColor(TSControlRoot self, const TS
 TS_CAPI TSColor TS_CCALL tsControlRoot_getCheckedColor(TSControlRoot self);
 TS_CAPI void TS_CCALL tsControlRoot_setSplitSize(TSControlRoot self, float32_t size);
 TS_CAPI float32_t TS_CCALL tsControlRoot_getSplitSize(TSControlRoot self);
+TS_CAPI void TS_CCALL tsControlRoot_setMousePosition(TSControlRoot self, const TSVector2f *position);
 TS_CAPI void TS_CCALL tsControlRoot_setMouse_iiCB(TSControlRoot self, int32_t x, int32_t y, TS_ControlButton buttons);
 TS_CAPI void TS_CCALL tsControlRoot_setMouse_ffCB(TSControlRoot self, float32_t x, float32_t y, TS_ControlButton buttons);
 TS_CAPI TSVector2f TS_CCALL tsControlRoot_getMouse(TSControlRoot self);
