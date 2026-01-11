@@ -54,7 +54,7 @@ if [ -z "$DEVELOPER" ]; then
 	DEVELOPER="iPhone Developer"
 fi
 
-# Check team and app identifier
+# Check app identifier
 if [ -z "$IDENTIFIER" ]; then
 	$ECHO r "IDENTIFIER is not defined"
 	exit 1
