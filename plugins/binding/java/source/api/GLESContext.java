@@ -1,4 +1,4 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 package com.tellusim;
@@ -9,7 +9,8 @@ import java.lang.ref.Cleaner;
  */
 public class GLESContext extends Context {
 	
-	public GLESContext() { init_(new_()); }
+	public GLESContext() { init_(new_(Base.Maxu32)); }
+	public GLESContext(int index) { init_(new_(index)); }
 	public GLESContext[] ref() { return new GLESContext[] { this }; }
 	public GLESContext(Context base) { init_(cast_context_ptr(base.self)); }
 	public Context toContext() { return new Context(base_context_ptr(self)); }
@@ -23,7 +24,7 @@ public class GLESContext extends Context {
 	public static boolean error(int result) { return error_(result); }
 	public static boolean check() { return check_(); }
 	
-	private static native long new_();
+	private static native long new_(int index);
 	private static native void delete_(long self);
 	private static native boolean equal_context_ptr(long self, long base);
 	private static native long cast_context_ptr(long self);

@@ -1,4 +1,4 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 #include <TellusimApp.h>
@@ -11786,8 +11786,8 @@ namespace Tellusim {
 	}
 	
 	// Tellusim::D3D12Context
-	TS_CAPI TSD3D12Context TS_CCALL tsD3D12Context_new(void) {
-		D3D12Context *ret = new D3D12Context();
+	TS_CAPI TSD3D12Context TS_CCALL tsD3D12Context_new(uint32_t index) {
+		D3D12Context *ret = new D3D12Context(index);
 		if(ret && !ret->isValidPtr()) { delete ret; ret = nullptr; }
 		return (TSD3D12Context)ret;
 	}
@@ -11872,8 +11872,8 @@ namespace Tellusim {
 	}
 	
 	// Tellusim::D3D11Context
-	TS_CAPI TSD3D11Context TS_CCALL tsD3D11Context_new(void) {
-		D3D11Context *ret = new D3D11Context();
+	TS_CAPI TSD3D11Context TS_CCALL tsD3D11Context_new(uint32_t index) {
+		D3D11Context *ret = new D3D11Context(index);
 		if(ret && !ret->isValidPtr()) { delete ret; ret = nullptr; }
 		return (TSD3D11Context)ret;
 	}
@@ -11954,8 +11954,8 @@ namespace Tellusim {
 	}
 	
 	// Tellusim::MTLContext
-	TS_CAPI TSMTLContext TS_CCALL tsMTLContext_new(void) {
-		MTLContext *ret = new MTLContext();
+	TS_CAPI TSMTLContext TS_CCALL tsMTLContext_new(uint32_t index) {
+		MTLContext *ret = new MTLContext(index);
 		if(ret && !ret->isValidPtr()) { delete ret; ret = nullptr; }
 		return (TSMTLContext)ret;
 	}
@@ -12054,8 +12054,8 @@ namespace Tellusim {
 	}
 	
 	// Tellusim::VKContext
-	TS_CAPI TSVKContext TS_CCALL tsVKContext_new(void) {
-		VKContext *ret = new VKContext();
+	TS_CAPI TSVKContext TS_CCALL tsVKContext_new(uint32_t index) {
+		VKContext *ret = new VKContext(index);
 		if(ret && !ret->isValidPtr()) { delete ret; ret = nullptr; }
 		return (TSVKContext)ret;
 	}
@@ -12187,8 +12187,8 @@ namespace Tellusim {
 	}
 	
 	// Tellusim::GLContext
-	TS_CAPI TSGLContext TS_CCALL tsGLContext_new(void) {
-		GLContext *ret = new GLContext();
+	TS_CAPI TSGLContext TS_CCALL tsGLContext_new(uint32_t index) {
+		GLContext *ret = new GLContext(index);
 		if(ret && !ret->isValidPtr()) { delete ret; ret = nullptr; }
 		return (TSGLContext)ret;
 	}
@@ -12286,8 +12286,8 @@ namespace Tellusim {
 	}
 	
 	// Tellusim::GLESContext
-	TS_CAPI TSGLESContext TS_CCALL tsGLESContext_new(void) {
-		GLESContext *ret = new GLESContext();
+	TS_CAPI TSGLESContext TS_CCALL tsGLESContext_new(uint32_t index) {
+		GLESContext *ret = new GLESContext(index);
 		if(ret && !ret->isValidPtr()) { delete ret; ret = nullptr; }
 		return (TSGLESContext)ret;
 	}
@@ -12377,8 +12377,8 @@ namespace Tellusim {
 	}
 	
 	// Tellusim::WGContext
-	TS_CAPI TSWGContext TS_CCALL tsWGContext_new(void) {
-		WGContext *ret = new WGContext();
+	TS_CAPI TSWGContext TS_CCALL tsWGContext_new(uint32_t index) {
+		WGContext *ret = new WGContext(index);
 		if(ret && !ret->isValidPtr()) { delete ret; ret = nullptr; }
 		return (TSWGContext)ret;
 	}
@@ -12456,8 +12456,8 @@ namespace Tellusim {
 	}
 	
 	// Tellusim::CUContext
-	TS_CAPI TSCUContext TS_CCALL tsCUContext_new(void) {
-		CUContext *ret = new CUContext();
+	TS_CAPI TSCUContext TS_CCALL tsCUContext_new(uint32_t index) {
+		CUContext *ret = new CUContext(index);
 		if(ret && !ret->isValidPtr()) { delete ret; ret = nullptr; }
 		return (TSCUContext)ret;
 	}
@@ -12534,8 +12534,8 @@ namespace Tellusim {
 	}
 	
 	// Tellusim::HIPContext
-	TS_CAPI TSHIPContext TS_CCALL tsHIPContext_new(void) {
-		HIPContext *ret = new HIPContext();
+	TS_CAPI TSHIPContext TS_CCALL tsHIPContext_new(uint32_t index) {
+		HIPContext *ret = new HIPContext(index);
 		if(ret && !ret->isValidPtr()) { delete ret; ret = nullptr; }
 		return (TSHIPContext)ret;
 	}
@@ -25289,6 +25289,11 @@ namespace Tellusim {
 	TS_CAPI float32_t TS_CCALL tsControlRoot_getSplitSize(TSControlRoot self) {
 		TS_ASSERT(self);
 		return ((ControlRoot*)self)->getSplitSize();
+	}
+	TS_CAPI void TS_CCALL tsControlRoot_setMousePosition(TSControlRoot self, const TSVector2f *position) {
+		TS_ASSERT(self);
+		TS_ASSERT(position);
+		((ControlRoot*)self)->setMousePosition(*(const Vector2f*)position);
 	}
 	TS_CAPI void TS_CCALL tsControlRoot_setMouse_iiCB(TSControlRoot self, int32_t x, int32_t y, TS_ControlButton buttons) {
 		TS_ASSERT(self);
