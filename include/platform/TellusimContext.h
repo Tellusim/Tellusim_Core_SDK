@@ -1,4 +1,4 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 #ifndef __TELLUSIM_PLATFORM_CONTEXT_H__
@@ -56,11 +56,11 @@ namespace Tellusim {
 	 */
 	class TS_API D3D12Context : public Context {
 			
-			TS_DECLARE_PTR_1(D3D12Context, Context, 0)
+			TS_DECLARE_PTR_1(D3D12Context, Context, 1)
 			
 		public:
 			
-			D3D12Context();
+			explicit D3D12Context(uint32_t index = Maxu32);
 			
 			/// create context
 			bool create(ID3D12Device *device, ID3D12CommandQueue *queue);
@@ -87,11 +87,11 @@ namespace Tellusim {
 	 */
 	class TS_API D3D11Context : public Context {
 			
-			TS_DECLARE_PTR_1(D3D11Context, Context, 0)
+			TS_DECLARE_PTR_1(D3D11Context, Context, 1)
 			
 		public:
 			
-			D3D11Context();
+			explicit D3D11Context(uint32_t index = Maxu32);
 			
 			/// create context
 			bool create(ID3D11Device *device);
@@ -117,11 +117,11 @@ namespace Tellusim {
 	 */
 	class TS_API MTLContext : public Context {
 			
-			TS_DECLARE_PTR_1(MTLContext, Context, 0)
+			TS_DECLARE_PTR_1(MTLContext, Context, 1)
 			
 		public:
 			
-			MTLContext();
+			explicit MTLContext(uint32_t index = Maxu32);
 			
 			/// create context
 			bool create(void *device, void *queue);
@@ -149,11 +149,11 @@ namespace Tellusim {
 	 */
 	class TS_API VKContext : public Context {
 			
-			TS_DECLARE_PTR_1(VKContext, Context, 0)
+			TS_DECLARE_PTR_1(VKContext, Context, 1)
 			
 		public:
 			
-			VKContext();
+			explicit VKContext(uint32_t index = Maxu32);
 			
 			/// create context
 			bool create(VkInstance instance, PFN_vkGetInstanceProcAddr func, VkPhysicalDevice adapter, VkDevice device, uint32_t family, uint32_t index);
@@ -206,11 +206,11 @@ namespace Tellusim {
 	 */
 	class TS_API GLContext : public Context {
 			
-			TS_DECLARE_PTR_1(GLContext, Context, 0)
+			TS_DECLARE_PTR_1(GLContext, Context, 1)
 			
 		public:
 			
-			GLContext();
+			explicit GLContext(uint32_t index = Maxu32);
 			
 			/// create context
 			bool create(void *context);
@@ -245,11 +245,11 @@ namespace Tellusim {
 	 */
 	class TS_API GLESContext : public Context {
 			
-			TS_DECLARE_PTR_1(GLESContext, Context, 0)
+			TS_DECLARE_PTR_1(GLESContext, Context, 1)
 			
 		public:
 			
-			GLESContext();
+			explicit GLESContext(uint32_t index = Maxu32);
 			
 			/// create context
 			bool create(void *context);
@@ -282,11 +282,11 @@ namespace Tellusim {
 	 */
 	class TS_API WGContext : public Context {
 			
-			TS_DECLARE_PTR_1(WGContext, Context, 0)
+			TS_DECLARE_PTR_1(WGContext, Context, 1)
 			
 		public:
 			
-			WGContext();
+			explicit WGContext(uint32_t index = Maxu32);
 			
 			/// open context
 			static bool open(WGPUInstance instance, WGPUAdapter adapter, WGPUDevice device);
@@ -309,11 +309,11 @@ namespace Tellusim {
 	 */
 	class TS_API CUContext : public Context {
 			
-			TS_DECLARE_PTR_1(CUContext, Context, 0)
+			TS_DECLARE_PTR_1(CUContext, Context, 1)
 			
 		public:
 			
-			CUContext();
+			explicit CUContext(uint32_t index = Maxu32);
 			
 			/// current device
 			int32_t getDevice() const;
@@ -334,11 +334,11 @@ namespace Tellusim {
 	 */
 	class TS_API HIPContext : public Context {
 			
-			TS_DECLARE_PTR_1(HIPContext, Context, 0)
+			TS_DECLARE_PTR_1(HIPContext, Context, 1)
 			
 		public:
 			
-			HIPContext();
+			explicit HIPContext(uint32_t index = Maxu32);
 			
 			/// current device
 			int32_t getDevice() const;
