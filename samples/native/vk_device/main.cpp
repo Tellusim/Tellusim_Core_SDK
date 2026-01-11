@@ -1,8 +1,9 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 #include <vulkan/vulkan.h>
 
+#include <TellusimApp.h>
 #include <platform/TellusimContext.h>
 #include <platform/TellusimDevice.h>
 
@@ -14,8 +15,12 @@ using namespace Tellusim;
  */
 int32_t main(int32_t argc, char **argv) {
 	
+	// create app
+	App app(argc, argv);
+	if(!app.create()) return 1;
+	
 	// create context
-	VKContext context;
+	VKContext context(app.getDevice());
 	if(!context.create()) return 1;
 	
 	// create device

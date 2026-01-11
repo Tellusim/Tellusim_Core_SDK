@@ -1,4 +1,4 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 use std::fmt;
@@ -13637,7 +13637,8 @@ pub struct D3D12Context {
 }
 impl D3D12Context {
 	pub fn null() -> D3D12Context { D3D12Context { this: ptr::null_mut(), owner: false } }
-	pub fn new() -> D3D12Context { unsafe { D3D12Context { this: tsD3D12Context_new(), owner: true } } }
+	pub fn new() -> D3D12Context { unsafe { D3D12Context { this: tsD3D12Context_new(MAXU32), owner: true } } }
+	pub fn new_with_index(index: u32) -> D3D12Context { unsafe { D3D12Context { this: tsD3D12Context_new(index), owner: true } } }
 	pub fn new_ptr(ptr: *mut c_void) -> D3D12Context { unsafe { D3D12Context { this: ptr, owner: tsD3D12Context_isOwnerPtr(ptr) != 0 } } }
 	pub fn copy_ptr(&self) -> D3D12Context { unsafe { D3D12Context { this: tsD3D12Context_copyPtr(self.this), owner: true } } }
 	pub fn from_context(ptr: &Context) -> D3D12Context { unsafe { D3D12Context::new_ptr(tsD3D12Context_castContextPtr(ptr.this)) } }
@@ -13697,7 +13698,7 @@ impl fmt::Display for D3D12Context {
 	}
 }
 extern "C" {
-	fn tsD3D12Context_new() -> *mut c_void;
+	fn tsD3D12Context_new(index: u32) -> *mut c_void;
 	fn tsD3D12Context_delete(this: *mut c_void);
 	fn tsD3D12Context_equalPtr(this: *const c_void, ptr: *const c_void) -> i32;
 	fn tsD3D12Context_copyPtr(this: *const c_void) -> *mut c_void;
@@ -13730,7 +13731,8 @@ pub struct D3D11Context {
 }
 impl D3D11Context {
 	pub fn null() -> D3D11Context { D3D11Context { this: ptr::null_mut(), owner: false } }
-	pub fn new() -> D3D11Context { unsafe { D3D11Context { this: tsD3D11Context_new(), owner: true } } }
+	pub fn new() -> D3D11Context { unsafe { D3D11Context { this: tsD3D11Context_new(MAXU32), owner: true } } }
+	pub fn new_with_index(index: u32) -> D3D11Context { unsafe { D3D11Context { this: tsD3D11Context_new(index), owner: true } } }
 	pub fn new_ptr(ptr: *mut c_void) -> D3D11Context { unsafe { D3D11Context { this: ptr, owner: tsD3D11Context_isOwnerPtr(ptr) != 0 } } }
 	pub fn copy_ptr(&self) -> D3D11Context { unsafe { D3D11Context { this: tsD3D11Context_copyPtr(self.this), owner: true } } }
 	pub fn from_context(ptr: &Context) -> D3D11Context { unsafe { D3D11Context::new_ptr(tsD3D11Context_castContextPtr(ptr.this)) } }
@@ -13789,7 +13791,7 @@ impl fmt::Display for D3D11Context {
 	}
 }
 extern "C" {
-	fn tsD3D11Context_new() -> *mut c_void;
+	fn tsD3D11Context_new(index: u32) -> *mut c_void;
 	fn tsD3D11Context_delete(this: *mut c_void);
 	fn tsD3D11Context_equalPtr(this: *const c_void, ptr: *const c_void) -> i32;
 	fn tsD3D11Context_copyPtr(this: *const c_void) -> *mut c_void;
@@ -13821,7 +13823,8 @@ pub struct MTLContext {
 }
 impl MTLContext {
 	pub fn null() -> MTLContext { MTLContext { this: ptr::null_mut(), owner: false } }
-	pub fn new() -> MTLContext { unsafe { MTLContext { this: tsMTLContext_new(), owner: true } } }
+	pub fn new() -> MTLContext { unsafe { MTLContext { this: tsMTLContext_new(MAXU32), owner: true } } }
+	pub fn new_with_index(index: u32) -> MTLContext { unsafe { MTLContext { this: tsMTLContext_new(index), owner: true } } }
 	pub fn new_ptr(ptr: *mut c_void) -> MTLContext { unsafe { MTLContext { this: ptr, owner: tsMTLContext_isOwnerPtr(ptr) != 0 } } }
 	pub fn copy_ptr(&self) -> MTLContext { unsafe { MTLContext { this: tsMTLContext_copyPtr(self.this), owner: true } } }
 	pub fn from_context(ptr: &Context) -> MTLContext { unsafe { MTLContext::new_ptr(tsMTLContext_castContextPtr(ptr.this)) } }
@@ -13881,7 +13884,7 @@ impl fmt::Display for MTLContext {
 	}
 }
 extern "C" {
-	fn tsMTLContext_new() -> *mut c_void;
+	fn tsMTLContext_new(index: u32) -> *mut c_void;
 	fn tsMTLContext_delete(this: *mut c_void);
 	fn tsMTLContext_equalPtr(this: *const c_void, ptr: *const c_void) -> i32;
 	fn tsMTLContext_copyPtr(this: *const c_void) -> *mut c_void;
@@ -13917,7 +13920,8 @@ pub struct VKContext {
 }
 impl VKContext {
 	pub fn null() -> VKContext { VKContext { this: ptr::null_mut(), owner: false } }
-	pub fn new() -> VKContext { unsafe { VKContext { this: tsVKContext_new(), owner: true } } }
+	pub fn new() -> VKContext { unsafe { VKContext { this: tsVKContext_new(MAXU32), owner: true } } }
+	pub fn new_with_index(index: u32) -> VKContext { unsafe { VKContext { this: tsVKContext_new(index), owner: true } } }
 	pub fn new_ptr(ptr: *mut c_void) -> VKContext { unsafe { VKContext { this: ptr, owner: tsVKContext_isOwnerPtr(ptr) != 0 } } }
 	pub fn copy_ptr(&self) -> VKContext { unsafe { VKContext { this: tsVKContext_copyPtr(self.this), owner: true } } }
 	pub fn from_context(ptr: &Context) -> VKContext { unsafe { VKContext::new_ptr(tsVKContext_castContextPtr(ptr.this)) } }
@@ -14003,7 +14007,7 @@ impl fmt::Display for VKContext {
 	}
 }
 extern "C" {
-	fn tsVKContext_new() -> *mut c_void;
+	fn tsVKContext_new(index: u32) -> *mut c_void;
 	fn tsVKContext_delete(this: *mut c_void);
 	fn tsVKContext_equalPtr(this: *const c_void, ptr: *const c_void) -> i32;
 	fn tsVKContext_copyPtr(this: *const c_void) -> *mut c_void;
@@ -14050,7 +14054,8 @@ pub struct GLContext {
 }
 impl GLContext {
 	pub fn null() -> GLContext { GLContext { this: ptr::null_mut(), owner: false } }
-	pub fn new() -> GLContext { unsafe { GLContext { this: tsGLContext_new(), owner: true } } }
+	pub fn new() -> GLContext { unsafe { GLContext { this: tsGLContext_new(MAXU32), owner: true } } }
+	pub fn new_with_index(index: u32) -> GLContext { unsafe { GLContext { this: tsGLContext_new(index), owner: true } } }
 	pub fn new_ptr(ptr: *mut c_void) -> GLContext { unsafe { GLContext { this: ptr, owner: tsGLContext_isOwnerPtr(ptr) != 0 } } }
 	pub fn copy_ptr(&self) -> GLContext { unsafe { GLContext { this: tsGLContext_copyPtr(self.this), owner: true } } }
 	pub fn from_context(ptr: &Context) -> GLContext { unsafe { GLContext::new_ptr(tsGLContext_castContextPtr(ptr.this)) } }
@@ -14117,7 +14122,7 @@ impl fmt::Display for GLContext {
 	}
 }
 extern "C" {
-	fn tsGLContext_new() -> *mut c_void;
+	fn tsGLContext_new(index: u32) -> *mut c_void;
 	fn tsGLContext_delete(this: *mut c_void);
 	fn tsGLContext_equalPtr(this: *const c_void, ptr: *const c_void) -> i32;
 	fn tsGLContext_copyPtr(this: *const c_void) -> *mut c_void;
@@ -14154,7 +14159,8 @@ pub struct GLESContext {
 }
 impl GLESContext {
 	pub fn null() -> GLESContext { GLESContext { this: ptr::null_mut(), owner: false } }
-	pub fn new() -> GLESContext { unsafe { GLESContext { this: tsGLESContext_new(), owner: true } } }
+	pub fn new() -> GLESContext { unsafe { GLESContext { this: tsGLESContext_new(MAXU32), owner: true } } }
+	pub fn new_with_index(index: u32) -> GLESContext { unsafe { GLESContext { this: tsGLESContext_new(index), owner: true } } }
 	pub fn new_ptr(ptr: *mut c_void) -> GLESContext { unsafe { GLESContext { this: ptr, owner: tsGLESContext_isOwnerPtr(ptr) != 0 } } }
 	pub fn copy_ptr(&self) -> GLESContext { unsafe { GLESContext { this: tsGLESContext_copyPtr(self.this), owner: true } } }
 	pub fn from_context(ptr: &Context) -> GLESContext { unsafe { GLESContext::new_ptr(tsGLESContext_castContextPtr(ptr.this)) } }
@@ -14219,7 +14225,7 @@ impl fmt::Display for GLESContext {
 	}
 }
 extern "C" {
-	fn tsGLESContext_new() -> *mut c_void;
+	fn tsGLESContext_new(index: u32) -> *mut c_void;
 	fn tsGLESContext_delete(this: *mut c_void);
 	fn tsGLESContext_equalPtr(this: *const c_void, ptr: *const c_void) -> i32;
 	fn tsGLESContext_copyPtr(this: *const c_void) -> *mut c_void;
@@ -14254,7 +14260,8 @@ pub struct WGContext {
 }
 impl WGContext {
 	pub fn null() -> WGContext { WGContext { this: ptr::null_mut(), owner: false } }
-	pub fn new() -> WGContext { unsafe { WGContext { this: tsWGContext_new(), owner: true } } }
+	pub fn new() -> WGContext { unsafe { WGContext { this: tsWGContext_new(MAXU32), owner: true } } }
+	pub fn new_with_index(index: u32) -> WGContext { unsafe { WGContext { this: tsWGContext_new(index), owner: true } } }
 	pub fn new_ptr(ptr: *mut c_void) -> WGContext { unsafe { WGContext { this: ptr, owner: tsWGContext_isOwnerPtr(ptr) != 0 } } }
 	pub fn copy_ptr(&self) -> WGContext { unsafe { WGContext { this: tsWGContext_copyPtr(self.this), owner: true } } }
 	pub fn from_context(ptr: &Context) -> WGContext { unsafe { WGContext::new_ptr(tsWGContext_castContextPtr(ptr.this)) } }
@@ -14309,7 +14316,7 @@ impl fmt::Display for WGContext {
 	}
 }
 extern "C" {
-	fn tsWGContext_new() -> *mut c_void;
+	fn tsWGContext_new(index: u32) -> *mut c_void;
 	fn tsWGContext_delete(this: *mut c_void);
 	fn tsWGContext_equalPtr(this: *const c_void, ptr: *const c_void) -> i32;
 	fn tsWGContext_copyPtr(this: *const c_void) -> *mut c_void;
@@ -14340,7 +14347,8 @@ pub struct CUContext {
 }
 impl CUContext {
 	pub fn null() -> CUContext { CUContext { this: ptr::null_mut(), owner: false } }
-	pub fn new() -> CUContext { unsafe { CUContext { this: tsCUContext_new(), owner: true } } }
+	pub fn new() -> CUContext { unsafe { CUContext { this: tsCUContext_new(MAXU32), owner: true } } }
+	pub fn new_with_index(index: u32) -> CUContext { unsafe { CUContext { this: tsCUContext_new(index), owner: true } } }
 	pub fn new_ptr(ptr: *mut c_void) -> CUContext { unsafe { CUContext { this: ptr, owner: tsCUContext_isOwnerPtr(ptr) != 0 } } }
 	pub fn copy_ptr(&self) -> CUContext { unsafe { CUContext { this: tsCUContext_copyPtr(self.this), owner: true } } }
 	pub fn from_context(ptr: &Context) -> CUContext { unsafe { CUContext::new_ptr(tsCUContext_castContextPtr(ptr.this)) } }
@@ -14398,7 +14406,7 @@ impl fmt::Display for CUContext {
 	}
 }
 extern "C" {
-	fn tsCUContext_new() -> *mut c_void;
+	fn tsCUContext_new(index: u32) -> *mut c_void;
 	fn tsCUContext_delete(this: *mut c_void);
 	fn tsCUContext_equalPtr(this: *const c_void, ptr: *const c_void) -> i32;
 	fn tsCUContext_copyPtr(this: *const c_void) -> *mut c_void;
@@ -14429,7 +14437,8 @@ pub struct HIPContext {
 }
 impl HIPContext {
 	pub fn null() -> HIPContext { HIPContext { this: ptr::null_mut(), owner: false } }
-	pub fn new() -> HIPContext { unsafe { HIPContext { this: tsHIPContext_new(), owner: true } } }
+	pub fn new() -> HIPContext { unsafe { HIPContext { this: tsHIPContext_new(MAXU32), owner: true } } }
+	pub fn new_with_index(index: u32) -> HIPContext { unsafe { HIPContext { this: tsHIPContext_new(index), owner: true } } }
 	pub fn new_ptr(ptr: *mut c_void) -> HIPContext { unsafe { HIPContext { this: ptr, owner: tsHIPContext_isOwnerPtr(ptr) != 0 } } }
 	pub fn copy_ptr(&self) -> HIPContext { unsafe { HIPContext { this: tsHIPContext_copyPtr(self.this), owner: true } } }
 	pub fn from_context(ptr: &Context) -> HIPContext { unsafe { HIPContext::new_ptr(tsHIPContext_castContextPtr(ptr.this)) } }
@@ -14487,7 +14496,7 @@ impl fmt::Display for HIPContext {
 	}
 }
 extern "C" {
-	fn tsHIPContext_new() -> *mut c_void;
+	fn tsHIPContext_new(index: u32) -> *mut c_void;
 	fn tsHIPContext_delete(this: *mut c_void);
 	fn tsHIPContext_equalPtr(this: *const c_void, ptr: *const c_void) -> i32;
 	fn tsHIPContext_copyPtr(this: *const c_void) -> *mut c_void;
@@ -34616,6 +34625,7 @@ impl ControlRoot {
 	pub fn checked_color(&self) -> Color { unsafe { tsControlRoot_getCheckedColor(self.this) } }
 	pub fn set_split_size(&mut self, size: f32) { unsafe { tsControlRoot_setSplitSize(self.this, size) } }
 	pub fn split_size(&self) -> f32 { unsafe { tsControlRoot_getSplitSize(self.this) } }
+	pub fn set_mouse_position(&mut self, position: &Vector2f) { unsafe { tsControlRoot_setMousePosition(self.this, position) } }
 	pub fn set_mouse(&mut self, x: i32, y: i32, buttons: ControlButtons) { unsafe { tsControlRoot_setMouse_iiCB(self.this, x, y, buttons) } }
 	pub fn set_mousef32(&mut self, x: f32, y: f32, buttons: ControlButtons) { unsafe { tsControlRoot_setMouse_ffCB(self.this, x, y, buttons) } }
 	pub fn mouse(&self) -> Vector2f { unsafe { tsControlRoot_getMouse(self.this) } }
@@ -34852,6 +34862,7 @@ extern "C" {
 	fn tsControlRoot_getCheckedColor(this: *const c_void) -> Color;
 	fn tsControlRoot_setSplitSize(this: *mut c_void, size: f32);
 	fn tsControlRoot_getSplitSize(this: *const c_void) -> f32;
+	fn tsControlRoot_setMousePosition(this: *mut c_void, position: *const Vector2f);
 	fn tsControlRoot_setMouse_iiCB(this: *mut c_void, x: i32, y: i32, buttons: ControlButtons);
 	fn tsControlRoot_setMouse_ffCB(this: *mut c_void, x: f32, y: f32, buttons: ControlButtons);
 	fn tsControlRoot_getMouse(this: *const c_void) -> Vector2f;
