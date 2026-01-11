@@ -1,4 +1,4 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 package com.tellusim;
@@ -9,7 +9,8 @@ import java.lang.ref.Cleaner;
  */
 public class MTLContext extends Context {
 	
-	public MTLContext() { init_(new_()); }
+	public MTLContext() { init_(new_(Base.Maxu32)); }
+	public MTLContext(int index) { init_(new_(index)); }
 	public MTLContext[] ref() { return new MTLContext[] { this }; }
 	public MTLContext(Context base) { init_(cast_context_ptr(base.self)); }
 	public Context toContext() { return new Context(base_context_ptr(self)); }
@@ -24,7 +25,7 @@ public class MTLContext extends Context {
 	public long getBlitEncoder() { return get_blit_encoder(self); }
 	public void endEncoder() { end_encoder(self); }
 	
-	private static native long new_();
+	private static native long new_(int index);
 	private static native void delete_(long self);
 	private static native boolean equal_context_ptr(long self, long base);
 	private static native long cast_context_ptr(long self);

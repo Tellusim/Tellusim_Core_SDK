@@ -1,4 +1,4 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 #include <common/common.h>
@@ -43,7 +43,7 @@ int32_t main(int32_t argc, char **argv) {
 	// create secondary device
 	Device secondary_device;
 	if((device.getPlatform() == PlatformVK || device.getPlatform() == PlatformD3D12) && !app.isArgument("single")) {
-		secondary_device = device.createDevice(1);
+		secondary_device = device.createDevice(max(app.getArgument("s").tou32(), 1u));
 		if(!secondary_device) secondary_device.clearPtr();
 	}
 	if(secondary_device && !secondary_device.hasShader(Shader::TypeCompute)) secondary_device.clearPtr();

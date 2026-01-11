@@ -1,4 +1,4 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 using System;
@@ -5766,7 +5766,7 @@ namespace Tellusim {
 	
 	// Tellusim::D3D12Context
 	public sealed class D3D12Context : Context {
-		public D3D12Context() { self = new HandleRef(this, tsD3D12Context_new()); owner = true; }
+		public D3D12Context(uint index = Base.Maxu32) { self = new HandleRef(this, tsD3D12Context_new(index)); owner = true; }
 		public D3D12Context(D3D12Context ptr) { self = new HandleRef(this, tsD3D12Context_copyPtr(ptr.getSelf())); owner = true; }
 		public D3D12Context(IntPtr ptr) { self = new HandleRef(this, ptr); owner = tsD3D12Context_isOwnerPtr(self); }
 		public D3D12Context(Context ptr) { self = new HandleRef(this, tsD3D12Context_castContextPtr(ptr.getSelf())); }
@@ -5781,7 +5781,7 @@ namespace Tellusim {
 		public static bool error(uint result) { return tsD3D12Context_error(result); }
 		public override string ToString() { return "Tellusim.D3D12Context: Valid: " + tsD3D12Context_isValidPtr(self) + "; Owner: " + tsD3D12Context_isOwnerPtr(self) + "; Const: " + tsD3D12Context_isConstPtr(self) + "; Count: " + tsD3D12Context_getCountPtr(self) + "; Internal: 0x" + tsD3D12Context_getInternalPtr(self).ToString("x8") + "; Self: 0x" + self.Handle.ToString("x8") + "; Owner: " + owner; }
 		public static implicit operator bool(D3D12Context ptr) { return (ptr != null && tsD3D12Context_isValidPtr(ptr.getSelf())); }
-		[DllImport(Base.Import)] private static extern IntPtr tsD3D12Context_new();
+		[DllImport(Base.Import)] private static extern IntPtr tsD3D12Context_new(uint index);
 		[DllImport(Base.Import)] private static extern void tsD3D12Context_delete(HandleRef self);
 		[DllImport(Base.Import)] private static extern bool tsD3D12Context_equalPtr(HandleRef self, HandleRef ptr);
 		[DllImport(Base.Import)] private static extern IntPtr tsD3D12Context_copyPtr(HandleRef self);
@@ -5809,7 +5809,7 @@ namespace Tellusim {
 	
 	// Tellusim::D3D11Context
 	public sealed class D3D11Context : Context {
-		public D3D11Context() { self = new HandleRef(this, tsD3D11Context_new()); owner = true; }
+		public D3D11Context(uint index = Base.Maxu32) { self = new HandleRef(this, tsD3D11Context_new(index)); owner = true; }
 		public D3D11Context(D3D11Context ptr) { self = new HandleRef(this, tsD3D11Context_copyPtr(ptr.getSelf())); owner = true; }
 		public D3D11Context(IntPtr ptr) { self = new HandleRef(this, ptr); owner = tsD3D11Context_isOwnerPtr(self); }
 		public D3D11Context(Context ptr) { self = new HandleRef(this, tsD3D11Context_castContextPtr(ptr.getSelf())); }
@@ -5823,7 +5823,7 @@ namespace Tellusim {
 		public static bool error(uint result) { return tsD3D11Context_error(result); }
 		public override string ToString() { return "Tellusim.D3D11Context: Valid: " + tsD3D11Context_isValidPtr(self) + "; Owner: " + tsD3D11Context_isOwnerPtr(self) + "; Const: " + tsD3D11Context_isConstPtr(self) + "; Count: " + tsD3D11Context_getCountPtr(self) + "; Internal: 0x" + tsD3D11Context_getInternalPtr(self).ToString("x8") + "; Self: 0x" + self.Handle.ToString("x8") + "; Owner: " + owner; }
 		public static implicit operator bool(D3D11Context ptr) { return (ptr != null && tsD3D11Context_isValidPtr(ptr.getSelf())); }
-		[DllImport(Base.Import)] private static extern IntPtr tsD3D11Context_new();
+		[DllImport(Base.Import)] private static extern IntPtr tsD3D11Context_new(uint index);
 		[DllImport(Base.Import)] private static extern void tsD3D11Context_delete(HandleRef self);
 		[DllImport(Base.Import)] private static extern bool tsD3D11Context_equalPtr(HandleRef self, HandleRef ptr);
 		[DllImport(Base.Import)] private static extern IntPtr tsD3D11Context_copyPtr(HandleRef self);
@@ -5850,7 +5850,7 @@ namespace Tellusim {
 	
 	// Tellusim::MTLContext
 	public sealed class MTLContext : Context {
-		public MTLContext() { self = new HandleRef(this, tsMTLContext_new()); owner = true; }
+		public MTLContext(uint index = Base.Maxu32) { self = new HandleRef(this, tsMTLContext_new(index)); owner = true; }
 		public MTLContext(MTLContext ptr) { self = new HandleRef(this, tsMTLContext_copyPtr(ptr.getSelf())); owner = true; }
 		public MTLContext(IntPtr ptr) { self = new HandleRef(this, ptr); owner = tsMTLContext_isOwnerPtr(self); }
 		public MTLContext(Context ptr) { self = new HandleRef(this, tsMTLContext_castContextPtr(ptr.getSelf())); }
@@ -5868,7 +5868,7 @@ namespace Tellusim {
 		public void endEncoder() { tsMTLContext_endEncoder(self); }
 		public override string ToString() { return "Tellusim.MTLContext: Valid: " + tsMTLContext_isValidPtr(self) + "; Owner: " + tsMTLContext_isOwnerPtr(self) + "; Const: " + tsMTLContext_isConstPtr(self) + "; Count: " + tsMTLContext_getCountPtr(self) + "; Internal: 0x" + tsMTLContext_getInternalPtr(self).ToString("x8") + "; Self: 0x" + self.Handle.ToString("x8") + "; Owner: " + owner; }
 		public static implicit operator bool(MTLContext ptr) { return (ptr != null && tsMTLContext_isValidPtr(ptr.getSelf())); }
-		[DllImport(Base.Import)] private static extern IntPtr tsMTLContext_new();
+		[DllImport(Base.Import)] private static extern IntPtr tsMTLContext_new(uint index);
 		[DllImport(Base.Import)] private static extern void tsMTLContext_delete(HandleRef self);
 		[DllImport(Base.Import)] private static extern bool tsMTLContext_equalPtr(HandleRef self, HandleRef ptr);
 		[DllImport(Base.Import)] private static extern IntPtr tsMTLContext_copyPtr(HandleRef self);
@@ -5899,7 +5899,7 @@ namespace Tellusim {
 	
 	// Tellusim::VKContext
 	public sealed class VKContext : Context {
-		public VKContext() { self = new HandleRef(this, tsVKContext_new()); owner = true; }
+		public VKContext(uint index = Base.Maxu32) { self = new HandleRef(this, tsVKContext_new(index)); owner = true; }
 		public VKContext(VKContext ptr) { self = new HandleRef(this, tsVKContext_copyPtr(ptr.getSelf())); owner = true; }
 		public VKContext(IntPtr ptr) { self = new HandleRef(this, ptr); owner = tsVKContext_isOwnerPtr(self); }
 		public VKContext(Context ptr) { self = new HandleRef(this, tsVKContext_castContextPtr(ptr.getSelf())); }
@@ -5928,7 +5928,7 @@ namespace Tellusim {
 		public static bool error(uint result) { return tsVKContext_error(result); }
 		public override string ToString() { return "Tellusim.VKContext: Valid: " + tsVKContext_isValidPtr(self) + "; Owner: " + tsVKContext_isOwnerPtr(self) + "; Const: " + tsVKContext_isConstPtr(self) + "; Count: " + tsVKContext_getCountPtr(self) + "; Internal: 0x" + tsVKContext_getInternalPtr(self).ToString("x8") + "; Self: 0x" + self.Handle.ToString("x8") + "; Owner: " + owner; }
 		public static implicit operator bool(VKContext ptr) { return (ptr != null && tsVKContext_isValidPtr(ptr.getSelf())); }
-		[DllImport(Base.Import)] private static extern IntPtr tsVKContext_new();
+		[DllImport(Base.Import)] private static extern IntPtr tsVKContext_new(uint index);
 		[DllImport(Base.Import)] private static extern void tsVKContext_delete(HandleRef self);
 		[DllImport(Base.Import)] private static extern bool tsVKContext_equalPtr(HandleRef self, HandleRef ptr);
 		[DllImport(Base.Import)] private static extern IntPtr tsVKContext_copyPtr(HandleRef self);
@@ -5970,7 +5970,7 @@ namespace Tellusim {
 	
 	// Tellusim::GLContext
 	public sealed class GLContext : Context {
-		public GLContext() { self = new HandleRef(this, tsGLContext_new()); owner = true; }
+		public GLContext(uint index = Base.Maxu32) { self = new HandleRef(this, tsGLContext_new(index)); owner = true; }
 		public GLContext(GLContext ptr) { self = new HandleRef(this, tsGLContext_copyPtr(ptr.getSelf())); owner = true; }
 		public GLContext(IntPtr ptr) { self = new HandleRef(this, ptr); owner = tsGLContext_isOwnerPtr(self); }
 		public GLContext(Context ptr) { self = new HandleRef(this, tsGLContext_castContextPtr(ptr.getSelf())); }
@@ -5989,7 +5989,7 @@ namespace Tellusim {
 		public static bool check() { return tsGLContext_check(); }
 		public override string ToString() { return "Tellusim.GLContext: Valid: " + tsGLContext_isValidPtr(self) + "; Owner: " + tsGLContext_isOwnerPtr(self) + "; Const: " + tsGLContext_isConstPtr(self) + "; Count: " + tsGLContext_getCountPtr(self) + "; Internal: 0x" + tsGLContext_getInternalPtr(self).ToString("x8") + "; Self: 0x" + self.Handle.ToString("x8") + "; Owner: " + owner; }
 		public static implicit operator bool(GLContext ptr) { return (ptr != null && tsGLContext_isValidPtr(ptr.getSelf())); }
-		[DllImport(Base.Import)] private static extern IntPtr tsGLContext_new();
+		[DllImport(Base.Import)] private static extern IntPtr tsGLContext_new(uint index);
 		[DllImport(Base.Import)] private static extern void tsGLContext_delete(HandleRef self);
 		[DllImport(Base.Import)] private static extern bool tsGLContext_equalPtr(HandleRef self, HandleRef ptr);
 		[DllImport(Base.Import)] private static extern IntPtr tsGLContext_copyPtr(HandleRef self);
@@ -6021,7 +6021,7 @@ namespace Tellusim {
 	
 	// Tellusim::GLESContext
 	public sealed class GLESContext : Context {
-		public GLESContext() { self = new HandleRef(this, tsGLESContext_new()); owner = true; }
+		public GLESContext(uint index = Base.Maxu32) { self = new HandleRef(this, tsGLESContext_new(index)); owner = true; }
 		public GLESContext(GLESContext ptr) { self = new HandleRef(this, tsGLESContext_copyPtr(ptr.getSelf())); owner = true; }
 		public GLESContext(IntPtr ptr) { self = new HandleRef(this, ptr); owner = tsGLESContext_isOwnerPtr(self); }
 		public GLESContext(Context ptr) { self = new HandleRef(this, tsGLESContext_castContextPtr(ptr.getSelf())); }
@@ -6038,7 +6038,7 @@ namespace Tellusim {
 		public static bool check() { return tsGLESContext_check(); }
 		public override string ToString() { return "Tellusim.GLESContext: Valid: " + tsGLESContext_isValidPtr(self) + "; Owner: " + tsGLESContext_isOwnerPtr(self) + "; Const: " + tsGLESContext_isConstPtr(self) + "; Count: " + tsGLESContext_getCountPtr(self) + "; Internal: 0x" + tsGLESContext_getInternalPtr(self).ToString("x8") + "; Self: 0x" + self.Handle.ToString("x8") + "; Owner: " + owner; }
 		public static implicit operator bool(GLESContext ptr) { return (ptr != null && tsGLESContext_isValidPtr(ptr.getSelf())); }
-		[DllImport(Base.Import)] private static extern IntPtr tsGLESContext_new();
+		[DllImport(Base.Import)] private static extern IntPtr tsGLESContext_new(uint index);
 		[DllImport(Base.Import)] private static extern void tsGLESContext_delete(HandleRef self);
 		[DllImport(Base.Import)] private static extern bool tsGLESContext_equalPtr(HandleRef self, HandleRef ptr);
 		[DllImport(Base.Import)] private static extern IntPtr tsGLESContext_copyPtr(HandleRef self);
@@ -6068,7 +6068,7 @@ namespace Tellusim {
 	
 	// Tellusim::WGContext
 	public sealed class WGContext : Context {
-		public WGContext() { self = new HandleRef(this, tsWGContext_new()); owner = true; }
+		public WGContext(uint index = Base.Maxu32) { self = new HandleRef(this, tsWGContext_new(index)); owner = true; }
 		public WGContext(WGContext ptr) { self = new HandleRef(this, tsWGContext_copyPtr(ptr.getSelf())); owner = true; }
 		public WGContext(IntPtr ptr) { self = new HandleRef(this, ptr); owner = tsWGContext_isOwnerPtr(self); }
 		public WGContext(Context ptr) { self = new HandleRef(this, tsWGContext_castContextPtr(ptr.getSelf())); }
@@ -6081,7 +6081,7 @@ namespace Tellusim {
 		public IntPtr getDevice() { return tsWGContext_getDevice(self); }
 		public override string ToString() { return "Tellusim.WGContext: Valid: " + tsWGContext_isValidPtr(self) + "; Owner: " + tsWGContext_isOwnerPtr(self) + "; Const: " + tsWGContext_isConstPtr(self) + "; Count: " + tsWGContext_getCountPtr(self) + "; Internal: 0x" + tsWGContext_getInternalPtr(self).ToString("x8") + "; Self: 0x" + self.Handle.ToString("x8") + "; Owner: " + owner; }
 		public static implicit operator bool(WGContext ptr) { return (ptr != null && tsWGContext_isValidPtr(ptr.getSelf())); }
-		[DllImport(Base.Import)] private static extern IntPtr tsWGContext_new();
+		[DllImport(Base.Import)] private static extern IntPtr tsWGContext_new(uint index);
 		[DllImport(Base.Import)] private static extern void tsWGContext_delete(HandleRef self);
 		[DllImport(Base.Import)] private static extern bool tsWGContext_equalPtr(HandleRef self, HandleRef ptr);
 		[DllImport(Base.Import)] private static extern IntPtr tsWGContext_copyPtr(HandleRef self);
@@ -6107,7 +6107,7 @@ namespace Tellusim {
 	
 	// Tellusim::CUContext
 	public sealed class CUContext : Context {
-		public CUContext() { self = new HandleRef(this, tsCUContext_new()); owner = true; }
+		public CUContext(uint index = Base.Maxu32) { self = new HandleRef(this, tsCUContext_new(index)); owner = true; }
 		public CUContext(CUContext ptr) { self = new HandleRef(this, tsCUContext_copyPtr(ptr.getSelf())); owner = true; }
 		public CUContext(IntPtr ptr) { self = new HandleRef(this, ptr); owner = tsCUContext_isOwnerPtr(self); }
 		public CUContext(Context ptr) { self = new HandleRef(this, tsCUContext_castContextPtr(ptr.getSelf())); }
@@ -6120,7 +6120,7 @@ namespace Tellusim {
 		public static bool error(uint result) { return tsCUContext_error(result); }
 		public override string ToString() { return "Tellusim.CUContext: Valid: " + tsCUContext_isValidPtr(self) + "; Owner: " + tsCUContext_isOwnerPtr(self) + "; Const: " + tsCUContext_isConstPtr(self) + "; Count: " + tsCUContext_getCountPtr(self) + "; Internal: 0x" + tsCUContext_getInternalPtr(self).ToString("x8") + "; Self: 0x" + self.Handle.ToString("x8") + "; Owner: " + owner; }
 		public static implicit operator bool(CUContext ptr) { return (ptr != null && tsCUContext_isValidPtr(ptr.getSelf())); }
-		[DllImport(Base.Import)] private static extern IntPtr tsCUContext_new();
+		[DllImport(Base.Import)] private static extern IntPtr tsCUContext_new(uint index);
 		[DllImport(Base.Import)] private static extern void tsCUContext_delete(HandleRef self);
 		[DllImport(Base.Import)] private static extern bool tsCUContext_equalPtr(HandleRef self, HandleRef ptr);
 		[DllImport(Base.Import)] private static extern IntPtr tsCUContext_copyPtr(HandleRef self);
@@ -6146,7 +6146,7 @@ namespace Tellusim {
 	
 	// Tellusim::HIPContext
 	public sealed class HIPContext : Context {
-		public HIPContext() { self = new HandleRef(this, tsHIPContext_new()); owner = true; }
+		public HIPContext(uint index = Base.Maxu32) { self = new HandleRef(this, tsHIPContext_new(index)); owner = true; }
 		public HIPContext(HIPContext ptr) { self = new HandleRef(this, tsHIPContext_copyPtr(ptr.getSelf())); owner = true; }
 		public HIPContext(IntPtr ptr) { self = new HandleRef(this, ptr); owner = tsHIPContext_isOwnerPtr(self); }
 		public HIPContext(Context ptr) { self = new HandleRef(this, tsHIPContext_castContextPtr(ptr.getSelf())); }
@@ -6159,7 +6159,7 @@ namespace Tellusim {
 		public static bool error(uint result) { return tsHIPContext_error(result); }
 		public override string ToString() { return "Tellusim.HIPContext: Valid: " + tsHIPContext_isValidPtr(self) + "; Owner: " + tsHIPContext_isOwnerPtr(self) + "; Const: " + tsHIPContext_isConstPtr(self) + "; Count: " + tsHIPContext_getCountPtr(self) + "; Internal: 0x" + tsHIPContext_getInternalPtr(self).ToString("x8") + "; Self: 0x" + self.Handle.ToString("x8") + "; Owner: " + owner; }
 		public static implicit operator bool(HIPContext ptr) { return (ptr != null && tsHIPContext_isValidPtr(ptr.getSelf())); }
-		[DllImport(Base.Import)] private static extern IntPtr tsHIPContext_new();
+		[DllImport(Base.Import)] private static extern IntPtr tsHIPContext_new(uint index);
 		[DllImport(Base.Import)] private static extern void tsHIPContext_delete(HandleRef self);
 		[DllImport(Base.Import)] private static extern bool tsHIPContext_equalPtr(HandleRef self, HandleRef ptr);
 		[DllImport(Base.Import)] private static extern IntPtr tsHIPContext_copyPtr(HandleRef self);
@@ -13367,6 +13367,7 @@ namespace Tellusim {
 		public Color getCheckedColor() { return tsControlRoot_getCheckedColor(self); }
 		public void setSplitSize(float size) { tsControlRoot_setSplitSize(self, size); }
 		public float getSplitSize() { return tsControlRoot_getSplitSize(self); }
+		public void setMousePosition(in Vector2f position) { tsControlRoot_setMousePosition(self, in position); }
 		public void setMouse(int x, int y, Button buttons) { tsControlRoot_setMouse_iiCB(self, x, y, buttons); }
 		public void setMouse(float x, float y, Button buttons) { tsControlRoot_setMouse_ffCB(self, x, y, buttons); }
 		public Vector2f getMouse() { return tsControlRoot_getMouse(self); }
@@ -13413,17 +13414,17 @@ namespace Tellusim {
 		public void setCopyCallback(CopyCallback func, IntPtr data = new IntPtr()) {
 			ControlRoot.CopyCallback_ func_ = null;
 			if(func != null) func_ = (IntPtr a0_, string text_, IntPtr data_) => { func(new ControlRoot(a0_), text_, data_); };
-			if(func_ != null) CopyCallback_89 = GCHandle.Alloc(func_);
+			if(func_ != null) CopyCallback_90 = GCHandle.Alloc(func_);
 			tsControlRoot_setCopyCallback(self, Base.getFunc(func_), data);
 		}
 		public void setPasteCallback(PasteCallback func, IntPtr data = new IntPtr()) {
 			ControlRoot.PasteCallback_ func_ = null;
 			if(func != null) func_ = (IntPtr a0_, IntPtr data_) => { return (new Tellusim.String(func(new ControlRoot(a0_), data_))).getSelfPtr(); };
-			if(func_ != null) PasteCallback_91 = GCHandle.Alloc(func_);
+			if(func_ != null) PasteCallback_92 = GCHandle.Alloc(func_);
 			tsControlRoot_setPasteCallback(self, Base.getFunc(func_), data);
 		}
-		private GCHandle CopyCallback_89;
-		private GCHandle PasteCallback_91;
+		private GCHandle CopyCallback_90;
+		private GCHandle PasteCallback_92;
 		public override string ToString() { return "Tellusim.ControlRoot: Valid: " + tsControlRoot_isValidPtr(self) + "; Owner: " + tsControlRoot_isOwnerPtr(self) + "; Const: " + tsControlRoot_isConstPtr(self) + "; Count: " + tsControlRoot_getCountPtr(self) + "; Internal: 0x" + tsControlRoot_getInternalPtr(self).ToString("x8") + "; Self: 0x" + self.Handle.ToString("x8") + "; Owner: " + owner; }
 		public static implicit operator bool(ControlRoot ptr) { return (ptr != null && tsControlRoot_isValidPtr(ptr.getSelf())); }
 		[DllImport(Base.Import)] private static extern IntPtr tsControlRoot_new();
@@ -13487,6 +13488,7 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern Color tsControlRoot_getCheckedColor(HandleRef self);
 		[DllImport(Base.Import)] private static extern void tsControlRoot_setSplitSize(HandleRef self, float size);
 		[DllImport(Base.Import)] private static extern float tsControlRoot_getSplitSize(HandleRef self);
+		[DllImport(Base.Import)] private static extern void tsControlRoot_setMousePosition(HandleRef self, in Vector2f position);
 		[DllImport(Base.Import)] private static extern void tsControlRoot_setMouse_iiCB(HandleRef self, int x, int y, Button buttons);
 		[DllImport(Base.Import)] private static extern void tsControlRoot_setMouse_ffCB(HandleRef self, float x, float y, Button buttons);
 		[DllImport(Base.Import)] private static extern Vector2f tsControlRoot_getMouse(HandleRef self);
