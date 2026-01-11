@@ -1,4 +1,4 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 #ifndef __TELLUSIM_PLUGINS_INTERFACE_CONTROL_ELEMENT_H__

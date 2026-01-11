@@ -1,4 +1,4 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 #include "../include/TellusimJNIMath.h"
@@ -9544,8 +9544,8 @@ namespace Tellusim {
 	};
 	
 	// Tellusim::D3D12Context
-	static jlong d3d12_context_new(TS_JNI_ARGS) {
-		return newD3D12Context();
+	static jlong d3d12_context_new(TS_JNI_ARGS, jint index) {
+		return newD3D12Context((uint32_t)index);
 	}
 	static void d3d12_context_delete(TS_JNI_ARGS, jlong self) {
 		delete (D3D12Context*)self;
@@ -9584,7 +9584,7 @@ namespace Tellusim {
 		return D3D12Context::error((uint32_t)result);
 	}
 	static const JNINativeMethod d3d12_context_methods[] = {
-		{ (char*)"new_", (char*)"()J", (void*)d3d12_context_new },
+		{ (char*)"new_", (char*)"(I)J", (void*)d3d12_context_new },
 		{ (char*)"delete_", (char*)"(J)V", (void*)d3d12_context_delete },
 		{ (char*)"equal_context_ptr", (char*)"(JJ)Z", (void*)d3d12_context_equal_context_ptr },
 		{ (char*)"cast_context_ptr", (char*)"(J)J", (void*)d3d12_context_cast_context_ptr },
@@ -9599,8 +9599,8 @@ namespace Tellusim {
 	};
 	
 	// Tellusim::D3D11Context
-	static jlong d3d11_context_new(TS_JNI_ARGS) {
-		return newD3D11Context();
+	static jlong d3d11_context_new(TS_JNI_ARGS, jint index) {
+		return newD3D11Context((uint32_t)index);
 	}
 	static void d3d11_context_delete(TS_JNI_ARGS, jlong self) {
 		delete (D3D11Context*)self;
@@ -9636,7 +9636,7 @@ namespace Tellusim {
 		return D3D11Context::error((uint32_t)result);
 	}
 	static const JNINativeMethod d3d11_context_methods[] = {
-		{ (char*)"new_", (char*)"()J", (void*)d3d11_context_new },
+		{ (char*)"new_", (char*)"(I)J", (void*)d3d11_context_new },
 		{ (char*)"delete_", (char*)"(J)V", (void*)d3d11_context_delete },
 		{ (char*)"equal_context_ptr", (char*)"(JJ)Z", (void*)d3d11_context_equal_context_ptr },
 		{ (char*)"cast_context_ptr", (char*)"(J)J", (void*)d3d11_context_cast_context_ptr },
@@ -9650,8 +9650,8 @@ namespace Tellusim {
 	};
 	
 	// Tellusim::MTLContext
-	static jlong mtl_context_new(TS_JNI_ARGS) {
-		return newMTLContext();
+	static jlong mtl_context_new(TS_JNI_ARGS, jint index) {
+		return newMTLContext((uint32_t)index);
 	}
 	static void mtl_context_delete(TS_JNI_ARGS, jlong self) {
 		delete (MTLContext*)self;
@@ -9696,7 +9696,7 @@ namespace Tellusim {
 		toMTLContext(self).endEncoder();
 	}
 	static const JNINativeMethod mtl_context_methods[] = {
-		{ (char*)"new_", (char*)"()J", (void*)mtl_context_new },
+		{ (char*)"new_", (char*)"(I)J", (void*)mtl_context_new },
 		{ (char*)"delete_", (char*)"(J)V", (void*)mtl_context_delete },
 		{ (char*)"equal_context_ptr", (char*)"(JJ)Z", (void*)mtl_context_equal_context_ptr },
 		{ (char*)"cast_context_ptr", (char*)"(J)J", (void*)mtl_context_cast_context_ptr },
@@ -9714,8 +9714,8 @@ namespace Tellusim {
 	};
 	
 	// Tellusim::VKContext
-	static jlong vk_context_new(TS_JNI_ARGS) {
-		return newVKContext();
+	static jlong vk_context_new(TS_JNI_ARGS, jint index) {
+		return newVKContext((uint32_t)index);
 	}
 	static void vk_context_delete(TS_JNI_ARGS, jlong self) {
 		delete (VKContext*)self;
@@ -9806,7 +9806,7 @@ namespace Tellusim {
 		return VKContext::error((uint32_t)result);
 	}
 	static const JNINativeMethod vk_context_methods[] = {
-		{ (char*)"new_", (char*)"()J", (void*)vk_context_new },
+		{ (char*)"new_", (char*)"(I)J", (void*)vk_context_new },
 		{ (char*)"delete_", (char*)"(J)V", (void*)vk_context_delete },
 		{ (char*)"equal_context_ptr", (char*)"(JJ)Z", (void*)vk_context_equal_context_ptr },
 		{ (char*)"cast_context_ptr", (char*)"(J)J", (void*)vk_context_cast_context_ptr },
@@ -9835,8 +9835,8 @@ namespace Tellusim {
 	};
 	
 	// Tellusim::GLContext
-	static jlong gl_context_new(TS_JNI_ARGS) {
-		return newGLContext();
+	static jlong gl_context_new(TS_JNI_ARGS, jint index) {
+		return newGLContext((uint32_t)index);
 	}
 	static void gl_context_delete(TS_JNI_ARGS, jlong self) {
 		delete (GLContext*)self;
@@ -9890,7 +9890,7 @@ namespace Tellusim {
 		return GLContext::check();
 	}
 	static const JNINativeMethod gl_context_methods[] = {
-		{ (char*)"new_", (char*)"()J", (void*)gl_context_new },
+		{ (char*)"new_", (char*)"(I)J", (void*)gl_context_new },
 		{ (char*)"delete_", (char*)"(J)V", (void*)gl_context_delete },
 		{ (char*)"equal_context_ptr", (char*)"(JJ)Z", (void*)gl_context_equal_context_ptr },
 		{ (char*)"cast_context_ptr", (char*)"(J)J", (void*)gl_context_cast_context_ptr },
@@ -9909,8 +9909,8 @@ namespace Tellusim {
 	};
 	
 	// Tellusim::GLESContext
-	static jlong gles_context_new(TS_JNI_ARGS) {
-		return newGLESContext();
+	static jlong gles_context_new(TS_JNI_ARGS, jint index) {
+		return newGLESContext((uint32_t)index);
 	}
 	static void gles_context_delete(TS_JNI_ARGS, jlong self) {
 		delete (GLESContext*)self;
@@ -9958,7 +9958,7 @@ namespace Tellusim {
 		return GLESContext::check();
 	}
 	static const JNINativeMethod gles_context_methods[] = {
-		{ (char*)"new_", (char*)"()J", (void*)gles_context_new },
+		{ (char*)"new_", (char*)"(I)J", (void*)gles_context_new },
 		{ (char*)"delete_", (char*)"(J)V", (void*)gles_context_delete },
 		{ (char*)"equal_context_ptr", (char*)"(JJ)Z", (void*)gles_context_equal_context_ptr },
 		{ (char*)"cast_context_ptr", (char*)"(J)J", (void*)gles_context_cast_context_ptr },
@@ -9975,8 +9975,8 @@ namespace Tellusim {
 	};
 	
 	// Tellusim::WGContext
-	static jlong wg_context_new(TS_JNI_ARGS) {
-		return newWGContext();
+	static jlong wg_context_new(TS_JNI_ARGS, jint index) {
+		return newWGContext((uint32_t)index);
 	}
 	static void wg_context_delete(TS_JNI_ARGS, jlong self) {
 		delete (WGContext*)self;
@@ -10006,7 +10006,7 @@ namespace Tellusim {
 		return (jlong)toWGContext(self).getDevice();
 	}
 	static const JNINativeMethod wg_context_methods[] = {
-		{ (char*)"new_", (char*)"()J", (void*)wg_context_new },
+		{ (char*)"new_", (char*)"(I)J", (void*)wg_context_new },
 		{ (char*)"delete_", (char*)"(J)V", (void*)wg_context_delete },
 		{ (char*)"equal_context_ptr", (char*)"(JJ)Z", (void*)wg_context_equal_context_ptr },
 		{ (char*)"cast_context_ptr", (char*)"(J)J", (void*)wg_context_cast_context_ptr },
@@ -10019,8 +10019,8 @@ namespace Tellusim {
 	};
 	
 	// Tellusim::CUContext
-	static jlong cu_context_new(TS_JNI_ARGS) {
-		return newCUContext();
+	static jlong cu_context_new(TS_JNI_ARGS, jint index) {
+		return newCUContext((uint32_t)index);
 	}
 	static void cu_context_delete(TS_JNI_ARGS, jlong self) {
 		delete (CUContext*)self;
@@ -10053,7 +10053,7 @@ namespace Tellusim {
 		return CUContext::error((uint32_t)result);
 	}
 	static const JNINativeMethod cu_context_methods[] = {
-		{ (char*)"new_", (char*)"()J", (void*)cu_context_new },
+		{ (char*)"new_", (char*)"(I)J", (void*)cu_context_new },
 		{ (char*)"delete_", (char*)"(J)V", (void*)cu_context_delete },
 		{ (char*)"equal_context_ptr", (char*)"(JJ)Z", (void*)cu_context_equal_context_ptr },
 		{ (char*)"cast_context_ptr", (char*)"(J)J", (void*)cu_context_cast_context_ptr },
@@ -10066,8 +10066,8 @@ namespace Tellusim {
 	};
 	
 	// Tellusim::HIPContext
-	static jlong hip_context_new(TS_JNI_ARGS) {
-		return newHIPContext();
+	static jlong hip_context_new(TS_JNI_ARGS, jint index) {
+		return newHIPContext((uint32_t)index);
 	}
 	static void hip_context_delete(TS_JNI_ARGS, jlong self) {
 		delete (HIPContext*)self;
@@ -10100,7 +10100,7 @@ namespace Tellusim {
 		return HIPContext::error((uint32_t)result);
 	}
 	static const JNINativeMethod hip_context_methods[] = {
-		{ (char*)"new_", (char*)"()J", (void*)hip_context_new },
+		{ (char*)"new_", (char*)"(I)J", (void*)hip_context_new },
 		{ (char*)"delete_", (char*)"(J)V", (void*)hip_context_delete },
 		{ (char*)"equal_context_ptr", (char*)"(JJ)Z", (void*)hip_context_equal_context_ptr },
 		{ (char*)"cast_context_ptr", (char*)"(J)J", (void*)hip_context_cast_context_ptr },
@@ -21978,6 +21978,9 @@ namespace Tellusim {
 	static jfloat control_root_get_split_size(TS_JNI_ARGS, jlong self) {
 		return toControlRoot(self).getSplitSize();
 	}
+	static void control_root_set_mouse_position(TS_JNI_ARGS, jlong self, jlong position) {
+		toControlRoot(self).setMousePosition(toVector2f(position));
+	}
 	static void control_root_set_mouse(TS_JNI_ARGS, jlong self, jint x, jint y, jint buttons) {
 		toControlRoot(self).setMouse(x, y, (Control::Button)buttons);
 	}
@@ -22164,6 +22167,7 @@ namespace Tellusim {
 		{ (char*)"get_checked_color", (char*)"(J)J", (void*)control_root_get_checked_color },
 		{ (char*)"set_split_size", (char*)"(JF)V", (void*)control_root_set_split_size },
 		{ (char*)"get_split_size", (char*)"(J)F", (void*)control_root_get_split_size },
+		{ (char*)"set_mouse_position", (char*)"(JJ)V", (void*)control_root_set_mouse_position },
 		{ (char*)"set_mouse", (char*)"(JIII)V", (void*)control_root_set_mouse },
 		{ (char*)"set_mouse_1", (char*)"(JFFI)V", (void*)control_root_set_mouse_1 },
 		{ (char*)"get_mouse", (char*)"(J)J", (void*)control_root_get_mouse },

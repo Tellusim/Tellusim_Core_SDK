@@ -1,4 +1,4 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 #include <core/TellusimLog.h>
@@ -1857,7 +1857,7 @@ namespace Tellusim {
 		NodeInput &input = node->inputs[index];
 		if(input.text) {
 			const String &text = protos[node->proto].inputs[index].text;
-			if(input.connections || !input.value) input.text.setText(text);
+			if(input.connections || !input.value || input.value.size() >= 8) input.text.setText(text);
 			else input.text.setText(String::format("%s %s", text.get(), input.value.get()));
 			update_nodes.append(node_index);
 		}
@@ -3248,17 +3248,15 @@ namespace Tellusim {
 		
 		// horizontal resize
 		if(view_rect.getWidth() > rect_size.x) {
-			if(view_rect.left > rect_min.x) {
-				float32_t offset = floor(view_rect.left - rect_min.x + 0.5f);
-				float64_t value = flow_area.getHorizontalValue() - offset * scale;
-				dialog.setMousePosition(mouse_position - Vector2f(offset, 0.0f));
+			if(view_rect.left > rect_min.x && offset.x < 0.0f) {
+				float64_t value = flow_area.getHorizontalValue() + offset.x * scale;
+				dialog.setMousePosition(mouse_position + Vector2f(offset.x, 0.0f));
 				if(value < 0.0) self->flow_resize.x -= (float32_t)value - rect_size.x;
 				flow_area.setHorizontalValue(max(value, 0.0));
-			} else if(view_rect.right < rect_max.x) {
-				float32_t offset = floor(rect_max.x - view_rect.right + 0.5f);
-				float64_t value = flow_area.getHorizontalValue() + offset * scale;
+			} else if(view_rect.right < rect_max.x && offset.x > 0.0f) {
+				float64_t value = flow_area.getHorizontalValue() + offset.x * scale;
 				float64_t max_value = flow_area.getHorizontalRange() - flow_area.getHorizontalFrame();
-				dialog.setMousePosition(mouse_position + Vector2f(offset, 0.0f));
+				dialog.setMousePosition(mouse_position + Vector2f(offset.x, 0.0f));
 				if(value > max_value) self->flow_resize.x += (float32_t)(value - max_value) + rect_size.x;
 				flow_area.setHorizontalValue(min(value, max_value));
 			}
@@ -3266,17 +3264,15 @@ namespace Tellusim {
 		
 		// vertical resize
 		if(view_rect.getHeight() > rect_size.y) {
-			if(view_rect.bottom > rect_min.y) {
-				float32_t offset = floor(view_rect.bottom - rect_min.y + 0.5f);
-				float64_t value = flow_area.getVerticalValue() - offset * scale;
-				dialog.setMousePosition(mouse_position - Vector2f(0.0f, offset));
+			if(view_rect.bottom > rect_min.y && offset.y < 0.0f) {
+				float64_t value = flow_area.getVerticalValue() + offset.y * scale;
+				dialog.setMousePosition(mouse_position + Vector2f(0.0f, offset.y));
 				if(value < 0.0) self->flow_resize.y -= (float32_t)value - rect_size.y;
 				flow_area.setVerticalValue(max(value, 0.0));
-			} else if(view_rect.top < rect_max.y) {
-				float32_t offset = floor(rect_max.y - view_rect.top + 0.5f);
-				float64_t value = flow_area.getVerticalValue() + offset * scale;
+			} else if(view_rect.top < rect_max.y && offset.y > 0.0f) {
+				float64_t value = flow_area.getVerticalValue() + offset.y * scale;
 				float64_t max_value = flow_area.getVerticalRange() - flow_area.getVerticalFrame();
-				dialog.setMousePosition(mouse_position + Vector2f(0.0f, offset));
+				dialog.setMousePosition(mouse_position + Vector2f(0.0f, offset.y));
 				if(value > max_value) self->flow_resize.y += (float32_t)(value - max_value) + rect_size.y;
 				flow_area.setVerticalValue(min(value, max_value));
 			}
