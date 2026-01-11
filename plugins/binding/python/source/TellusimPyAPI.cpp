@@ -1,4 +1,4 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 #include "../include/TellusimPyMath.h"
@@ -26874,13 +26874,17 @@ namespace Tellusim {
 			}
 		}
 		PyErr_Clear();
-		if(!args || PyTuple_Size(args) == 0) {
-			new(&self->ptr) D3D12Context();
-			pyD3D12Context_base(self);
-			return 0;
+		{
+			uint32_t index = Maxu32;
+			static const char *kwlist[] = { "index", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "|I", (char**)kwlist, &index)) {
+				new(&self->ptr) D3D12Context(index);
+				pyD3D12Context_base(self);
+				return 0;
+			}
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "D3D12Context::D3D12Context(): unknown arguments:\n(void)\n");
+			PyErr_SetString(PyExc_TypeError, "D3D12Context::D3D12Context(): unknown arguments:\n(uint32_t index)\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -27068,13 +27072,17 @@ namespace Tellusim {
 			}
 		}
 		PyErr_Clear();
-		if(!args || PyTuple_Size(args) == 0) {
-			new(&self->ptr) D3D11Context();
-			pyD3D11Context_base(self);
-			return 0;
+		{
+			uint32_t index = Maxu32;
+			static const char *kwlist[] = { "index", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "|I", (char**)kwlist, &index)) {
+				new(&self->ptr) D3D11Context(index);
+				pyD3D11Context_base(self);
+				return 0;
+			}
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "D3D11Context::D3D11Context(): unknown arguments:\n(void)\n");
+			PyErr_SetString(PyExc_TypeError, "D3D11Context::D3D11Context(): unknown arguments:\n(uint32_t index)\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -27247,13 +27255,17 @@ namespace Tellusim {
 			}
 		}
 		PyErr_Clear();
-		if(!args || PyTuple_Size(args) == 0) {
-			new(&self->ptr) MTLContext();
-			pyMTLContext_base(self);
-			return 0;
+		{
+			uint32_t index = Maxu32;
+			static const char *kwlist[] = { "index", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "|I", (char**)kwlist, &index)) {
+				new(&self->ptr) MTLContext(index);
+				pyMTLContext_base(self);
+				return 0;
+			}
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "MTLContext::MTLContext(): unknown arguments:\n(void)\n");
+			PyErr_SetString(PyExc_TypeError, "MTLContext::MTLContext(): unknown arguments:\n(uint32_t index)\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -27482,13 +27494,17 @@ namespace Tellusim {
 			}
 		}
 		PyErr_Clear();
-		if(!args || PyTuple_Size(args) == 0) {
-			new(&self->ptr) VKContext();
-			pyVKContext_base(self);
-			return 0;
+		{
+			uint32_t index = Maxu32;
+			static const char *kwlist[] = { "index", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "|I", (char**)kwlist, &index)) {
+				new(&self->ptr) VKContext(index);
+				pyVKContext_base(self);
+				return 0;
+			}
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "VKContext::VKContext(): unknown arguments:\n(void)\n");
+			PyErr_SetString(PyExc_TypeError, "VKContext::VKContext(): unknown arguments:\n(uint32_t index)\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -27872,13 +27888,17 @@ namespace Tellusim {
 			}
 		}
 		PyErr_Clear();
-		if(!args || PyTuple_Size(args) == 0) {
-			new(&self->ptr) GLContext();
-			pyGLContext_base(self);
-			return 0;
+		{
+			uint32_t index = Maxu32;
+			static const char *kwlist[] = { "index", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "|I", (char**)kwlist, &index)) {
+				new(&self->ptr) GLContext(index);
+				pyGLContext_base(self);
+				return 0;
+			}
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "GLContext::GLContext(): unknown arguments:\n(void)\n");
+			PyErr_SetString(PyExc_TypeError, "GLContext::GLContext(): unknown arguments:\n(uint32_t index)\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -28117,13 +28137,17 @@ namespace Tellusim {
 			}
 		}
 		PyErr_Clear();
-		if(!args || PyTuple_Size(args) == 0) {
-			new(&self->ptr) GLESContext();
-			pyGLESContext_base(self);
-			return 0;
+		{
+			uint32_t index = Maxu32;
+			static const char *kwlist[] = { "index", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "|I", (char**)kwlist, &index)) {
+				new(&self->ptr) GLESContext(index);
+				pyGLESContext_base(self);
+				return 0;
+			}
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "GLESContext::GLESContext(): unknown arguments:\n(void)\n");
+			PyErr_SetString(PyExc_TypeError, "GLESContext::GLESContext(): unknown arguments:\n(uint32_t index)\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -28334,13 +28358,17 @@ namespace Tellusim {
 			}
 		}
 		PyErr_Clear();
-		if(!args || PyTuple_Size(args) == 0) {
-			new(&self->ptr) WGContext();
-			pyWGContext_base(self);
-			return 0;
+		{
+			uint32_t index = Maxu32;
+			static const char *kwlist[] = { "index", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "|I", (char**)kwlist, &index)) {
+				new(&self->ptr) WGContext(index);
+				pyWGContext_base(self);
+				return 0;
+			}
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "WGContext::WGContext(): unknown arguments:\n(void)\n");
+			PyErr_SetString(PyExc_TypeError, "WGContext::WGContext(): unknown arguments:\n(uint32_t index)\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -28504,13 +28532,17 @@ namespace Tellusim {
 			}
 		}
 		PyErr_Clear();
-		if(!args || PyTuple_Size(args) == 0) {
-			new(&self->ptr) CUContext();
-			pyCUContext_base(self);
-			return 0;
+		{
+			uint32_t index = Maxu32;
+			static const char *kwlist[] = { "index", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "|I", (char**)kwlist, &index)) {
+				new(&self->ptr) CUContext(index);
+				pyCUContext_base(self);
+				return 0;
+			}
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "CUContext::CUContext(): unknown arguments:\n(void)\n");
+			PyErr_SetString(PyExc_TypeError, "CUContext::CUContext(): unknown arguments:\n(uint32_t index)\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -28670,13 +28702,17 @@ namespace Tellusim {
 			}
 		}
 		PyErr_Clear();
-		if(!args || PyTuple_Size(args) == 0) {
-			new(&self->ptr) HIPContext();
-			pyHIPContext_base(self);
-			return 0;
+		{
+			uint32_t index = Maxu32;
+			static const char *kwlist[] = { "index", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "|I", (char**)kwlist, &index)) {
+				new(&self->ptr) HIPContext(index);
+				pyHIPContext_base(self);
+				return 0;
+			}
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "HIPContext::HIPContext(): unknown arguments:\n(void)\n");
+			PyErr_SetString(PyExc_TypeError, "HIPContext::HIPContext(): unknown arguments:\n(uint32_t index)\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -62056,6 +62092,22 @@ namespace Tellusim {
 		#endif
 		return nullptr;
 	}
+	static PyObject *ControlRoot_setMousePosition(PYControlRoot *self, PyObject *args, PyObject *kwargs) {
+		PyObject *position_ = nullptr;
+		static const char *kwlist[] = { "position", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "O", (char**)kwlist, &position_)) {
+			if(!isPYVector2f(position_)) break;
+			const Vector2f &position = pyVector2f_get(position_);
+			self->ptr.setMousePosition(position);
+			Py_RETURN_NONE;
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlRoot::setMousePosition(): unknown arguments:\n(const Vector2f position) -> void\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
 	static PyObject *ControlRoot_setMouse(PYControlRoot *self, PyObject *args, PyObject *kwargs) {
 		int32_t x = {};
 		int32_t y = {};
@@ -91361,7 +91413,7 @@ namespace Tellusim {
 		Py_INCREF(&PYControl_Type);
 		
 		// Tellusim::ControlRoot
-		PYControlRoot_methods.reserve(PYControlRoot_methods.size() + 95);
+		PYControlRoot_methods.reserve(PYControlRoot_methods.size() + 96);
 		PYControlRoot_methods.append(PyMethodDef { "equalPtr", (PyCFunction)pyControlRoot_equalPtr, METH_VARARGS, "" });
 		PYControlRoot_methods.append(PyMethodDef { "clonePtr", (PyCFunction)pyControlRoot_clonePtr, METH_NOARGS, "" });
 		PYControlRoot_methods.append(PyMethodDef { "clearPtr", (PyCFunction)pyControlRoot_clearPtr, METH_NOARGS, "" });
@@ -91413,6 +91465,7 @@ namespace Tellusim {
 		PYControlRoot_methods.append(PyMethodDef { "getCheckedColor", (PyCFunction)ControlRoot_getCheckedColor, METH_NOARGS, "" });
 		PYControlRoot_methods.append(PyMethodDef { "setSplitSize", (PyCFunction)ControlRoot_setSplitSize, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControlRoot_methods.append(PyMethodDef { "getSplitSize", (PyCFunction)ControlRoot_getSplitSize, METH_NOARGS, "" });
+		PYControlRoot_methods.append(PyMethodDef { "setMousePosition", (PyCFunction)ControlRoot_setMousePosition, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControlRoot_methods.append(PyMethodDef { "setMouse", (PyCFunction)ControlRoot_setMouse, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControlRoot_methods.append(PyMethodDef { "getMouse", (PyCFunction)ControlRoot_getMouse, METH_NOARGS, "" });
 		PYControlRoot_methods.append(PyMethodDef { "getMouseButtons", (PyCFunction)ControlRoot_getMouseButtons, METH_NOARGS, "" });

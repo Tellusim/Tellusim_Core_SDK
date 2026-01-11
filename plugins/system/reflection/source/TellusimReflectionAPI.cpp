@@ -1,4 +1,4 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 #include <TellusimApp.h>
@@ -9515,7 +9515,7 @@ namespace Tellusim {
 			virtual ConstructorPtr getConstructor(uint32_t index) const {
 				#ifdef TS_REFLECTION_FUNC
 					switch(index) {
-						case 0: return ConstructorPtr(new ConstructorImpl<D3D12Context, TypeList<>>());
+						case 0: return ConstructorPtr(new ConstructorImpl<D3D12Context, TypeList<uint32_t>>(Maxu32));
 					}
 				#endif
 				return ReflectionImpl::getConstructor(index);
@@ -9611,10 +9611,10 @@ namespace Tellusim {
 				return reflection_names[enum_var_names[enum_bases[index] + var]];
 			}
 		private:
-			static constexpr uint16_t constructor_bases[] = { 0, 0 };
-			static constexpr uint16_t constructor_arg_types[] = { 0 };
-			static constexpr uint16_t constructor_arg_names[] = { 0 };
-			static constexpr uint16_t constructor_arg_values[] = { 0 };
+			static constexpr uint16_t constructor_bases[] = { 0, 1 };
+			static constexpr uint16_t constructor_arg_types[] = { 4052 };
+			static constexpr uint16_t constructor_arg_names[] = { 3005 };
+			static constexpr uint16_t constructor_arg_values[] = { 985 };
 			static constexpr uint8_t function_flags[] = { 0, 2, 2, 2, 2, 1, 1, 2, 0, 0, 0, 0, 2, 2, 2, 2, 2 };
 			static constexpr uint16_t function_names[] = { 1907, 2334, 2305, 2700, 2225, 2696, 2015, 1652, 1642, 1973, 1508, 4060, 3213, 3154, 3065, 2243, 2448 };
 			static constexpr uint16_t function_types[] = { 1588, 837, 831, 830, 832, 4087, 1588, 410, 4086, 4086, 411, 411, 1588, 1588, 1588, 4052, 1890 };
@@ -9679,7 +9679,7 @@ namespace Tellusim {
 			virtual ConstructorPtr getConstructor(uint32_t index) const {
 				#ifdef TS_REFLECTION_FUNC
 					switch(index) {
-						case 0: return ConstructorPtr(new ConstructorImpl<D3D11Context, TypeList<>>());
+						case 0: return ConstructorPtr(new ConstructorImpl<D3D11Context, TypeList<uint32_t>>(Maxu32));
 					}
 				#endif
 				return ReflectionImpl::getConstructor(index);
@@ -9774,10 +9774,10 @@ namespace Tellusim {
 				return reflection_names[enum_var_names[enum_bases[index] + var]];
 			}
 		private:
-			static constexpr uint16_t constructor_bases[] = { 0, 0 };
-			static constexpr uint16_t constructor_arg_types[] = { 0 };
-			static constexpr uint16_t constructor_arg_names[] = { 0 };
-			static constexpr uint16_t constructor_arg_values[] = { 0 };
+			static constexpr uint16_t constructor_bases[] = { 0, 1 };
+			static constexpr uint16_t constructor_arg_types[] = { 4052 };
+			static constexpr uint16_t constructor_arg_names[] = { 3005 };
+			static constexpr uint16_t constructor_arg_values[] = { 985 };
 			static constexpr uint8_t function_flags[] = { 0, 2, 2, 2, 1, 1, 2, 0, 0, 0, 0, 2, 2, 2, 2, 2 };
 			static constexpr uint16_t function_names[] = { 1907, 2334, 2305, 2256, 2696, 2015, 1652, 1642, 1973, 1508, 4060, 3213, 3154, 3065, 2243, 2448 };
 			static constexpr uint16_t function_types[] = { 1588, 836, 823, 824, 4087, 1588, 392, 4086, 4086, 393, 393, 1588, 1588, 1588, 4052, 1890 };
@@ -9842,7 +9842,7 @@ namespace Tellusim {
 			virtual ConstructorPtr getConstructor(uint32_t index) const {
 				#ifdef TS_REFLECTION_FUNC
 					switch(index) {
-						case 0: return ConstructorPtr(new ConstructorImpl<MTLContext, TypeList<>>());
+						case 0: return ConstructorPtr(new ConstructorImpl<MTLContext, TypeList<uint32_t>>(Maxu32));
 					}
 				#endif
 				return ReflectionImpl::getConstructor(index);
@@ -9941,10 +9941,10 @@ namespace Tellusim {
 				return reflection_names[enum_var_names[enum_bases[index] + var]];
 			}
 		private:
-			static constexpr uint16_t constructor_bases[] = { 0, 0 };
-			static constexpr uint16_t constructor_arg_types[] = { 0 };
-			static constexpr uint16_t constructor_arg_names[] = { 0 };
-			static constexpr uint16_t constructor_arg_values[] = { 0 };
+			static constexpr uint16_t constructor_bases[] = { 0, 1 };
+			static constexpr uint16_t constructor_arg_types[] = { 4052 };
+			static constexpr uint16_t constructor_arg_names[] = { 3005 };
+			static constexpr uint16_t constructor_arg_values[] = { 985 };
 			static constexpr uint8_t function_flags[] = { 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 2, 2, 2, 2, 2 };
 			static constexpr uint16_t function_names[] = { 1907, 2305, 2700, 2225, 2327, 2714, 2230, 2879, 2135, 2012, 1652, 1642, 1973, 1508, 4060, 3213, 3154, 3065, 2243, 2448 };
 			static constexpr uint16_t function_types[] = { 1588, 4087, 4087, 4087, 4087, 4087, 4087, 4087, 4087, 4086, 906, 4086, 4086, 907, 907, 1588, 1588, 1588, 4052, 1890 };
@@ -10009,7 +10009,7 @@ namespace Tellusim {
 			virtual ConstructorPtr getConstructor(uint32_t index) const {
 				#ifdef TS_REFLECTION_FUNC
 					switch(index) {
-						case 0: return ConstructorPtr(new ConstructorImpl<VKContext, TypeList<>>());
+						case 0: return ConstructorPtr(new ConstructorImpl<VKContext, TypeList<uint32_t>>(Maxu32));
 					}
 				#endif
 				return ReflectionImpl::getConstructor(index);
@@ -10119,10 +10119,10 @@ namespace Tellusim {
 				return reflection_names[enum_var_names[enum_bases[index] + var]];
 			}
 		private:
-			static constexpr uint16_t constructor_bases[] = { 0, 0 };
-			static constexpr uint16_t constructor_arg_types[] = { 0 };
-			static constexpr uint16_t constructor_arg_names[] = { 0 };
-			static constexpr uint16_t constructor_arg_values[] = { 0 };
+			static constexpr uint16_t constructor_bases[] = { 0, 1 };
+			static constexpr uint16_t constructor_arg_types[] = { 4052 };
+			static constexpr uint16_t constructor_arg_names[] = { 3005 };
+			static constexpr uint16_t constructor_arg_values[] = { 985 };
 			static constexpr uint8_t function_flags[] = { 0, 2, 2, 2, 2, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 2, 2, 2, 2, 2 };
 			static constexpr uint16_t function_names[] = { 1907, 2442, 2088, 2305, 2700, 2225, 2335, 2615, 2702, 2701, 1519, 1510, 1511, 2477, 2331, 1612, 1611, 2446, 2306, 2696, 2015, 1652, 1642, 1973, 1508, 4060, 3213, 3154, 3065, 2243, 2448 };
 			static constexpr uint16_t function_types[] = { 1588, 1462, 1463, 1457, 1464, 1455, 4052, 4052, 4052, 4052, 4086, 4086, 4086, 1275, 1275, 1588, 1588, 1129, 1128, 4087, 1588, 1403, 4086, 4086, 1404, 1404, 1588, 1588, 1588, 4052, 1890 };
@@ -10187,7 +10187,7 @@ namespace Tellusim {
 			virtual ConstructorPtr getConstructor(uint32_t index) const {
 				#ifdef TS_REFLECTION_FUNC
 					switch(index) {
-						case 0: return ConstructorPtr(new ConstructorImpl<GLContext, TypeList<>>());
+						case 0: return ConstructorPtr(new ConstructorImpl<GLContext, TypeList<uint32_t>>(Maxu32));
 					}
 				#endif
 				return ReflectionImpl::getConstructor(index);
@@ -10287,10 +10287,10 @@ namespace Tellusim {
 				return reflection_names[enum_var_names[enum_bases[index] + var]];
 			}
 		private:
-			static constexpr uint16_t constructor_bases[] = { 0, 0 };
-			static constexpr uint16_t constructor_arg_types[] = { 0 };
-			static constexpr uint16_t constructor_arg_names[] = { 0 };
-			static constexpr uint16_t constructor_arg_values[] = { 0 };
+			static constexpr uint16_t constructor_bases[] = { 0, 1 };
+			static constexpr uint16_t constructor_arg_types[] = { 4052 };
+			static constexpr uint16_t constructor_arg_names[] = { 3005 };
+			static constexpr uint16_t constructor_arg_values[] = { 985 };
 			static constexpr uint8_t function_flags[] = { 0, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 2, 2, 2, 2, 2 };
 			static constexpr uint16_t function_names[] = { 1907, 2378, 2383, 2376, 2382, 2377, 2331, 1611, 2696, 2015, 1610, 1652, 1642, 1973, 1508, 4060, 3213, 3154, 3065, 2243, 2448 };
 			static constexpr uint16_t function_types[] = { 1588, 4087, 4087, 4087, 4087, 4087, 1275, 1588, 4087, 1588, 1588, 782, 4086, 4086, 783, 783, 1588, 1588, 1588, 4052, 1890 };
@@ -10355,7 +10355,7 @@ namespace Tellusim {
 			virtual ConstructorPtr getConstructor(uint32_t index) const {
 				#ifdef TS_REFLECTION_FUNC
 					switch(index) {
-						case 0: return ConstructorPtr(new ConstructorImpl<GLESContext, TypeList<>>());
+						case 0: return ConstructorPtr(new ConstructorImpl<GLESContext, TypeList<uint32_t>>(Maxu32));
 					}
 				#endif
 				return ReflectionImpl::getConstructor(index);
@@ -10453,10 +10453,10 @@ namespace Tellusim {
 				return reflection_names[enum_var_names[enum_bases[index] + var]];
 			}
 		private:
-			static constexpr uint16_t constructor_bases[] = { 0, 0 };
-			static constexpr uint16_t constructor_arg_types[] = { 0 };
-			static constexpr uint16_t constructor_arg_names[] = { 0 };
-			static constexpr uint16_t constructor_arg_values[] = { 0 };
+			static constexpr uint16_t constructor_bases[] = { 0, 1 };
+			static constexpr uint16_t constructor_arg_types[] = { 4052 };
+			static constexpr uint16_t constructor_arg_names[] = { 3005 };
+			static constexpr uint16_t constructor_arg_values[] = { 985 };
 			static constexpr uint8_t function_flags[] = { 0, 2, 2, 2, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 2, 2, 2, 2, 2 };
 			static constexpr uint16_t function_names[] = { 1907, 2381, 2379, 2380, 2331, 1611, 2696, 2015, 1610, 1652, 1642, 1973, 1508, 4060, 3213, 3154, 3065, 2243, 2448 };
 			static constexpr uint16_t function_types[] = { 1588, 4087, 4087, 4087, 1275, 1588, 4087, 1588, 1588, 786, 4086, 4086, 787, 787, 1588, 1588, 1588, 4052, 1890 };
@@ -10521,7 +10521,7 @@ namespace Tellusim {
 			virtual ConstructorPtr getConstructor(uint32_t index) const {
 				#ifdef TS_REFLECTION_FUNC
 					switch(index) {
-						case 0: return ConstructorPtr(new ConstructorImpl<WGContext, TypeList<>>());
+						case 0: return ConstructorPtr(new ConstructorImpl<WGContext, TypeList<uint32_t>>(Maxu32));
 					}
 				#endif
 				return ReflectionImpl::getConstructor(index);
@@ -10615,10 +10615,10 @@ namespace Tellusim {
 				return reflection_names[enum_var_names[enum_bases[index] + var]];
 			}
 		private:
-			static constexpr uint16_t constructor_bases[] = { 0, 0 };
-			static constexpr uint16_t constructor_arg_types[] = { 0 };
-			static constexpr uint16_t constructor_arg_names[] = { 0 };
-			static constexpr uint16_t constructor_arg_values[] = { 0 };
+			static constexpr uint16_t constructor_bases[] = { 0, 1 };
+			static constexpr uint16_t constructor_arg_types[] = { 4052 };
+			static constexpr uint16_t constructor_arg_names[] = { 3005 };
+			static constexpr uint16_t constructor_arg_values[] = { 985 };
 			static constexpr uint8_t function_flags[] = { 1, 0, 2, 2, 2, 2, 0, 0, 0, 0, 2, 2, 2, 2, 2 };
 			static constexpr uint16_t function_names[] = { 3339, 1907, 2442, 2088, 2305, 1652, 1642, 1973, 1508, 4060, 3213, 3154, 3065, 2243, 2448 };
 			static constexpr uint16_t function_types[] = { 1588, 1588, 1473, 1471, 1472, 1469, 4086, 4086, 1470, 1470, 1588, 1588, 1588, 4052, 1890 };
@@ -10683,7 +10683,7 @@ namespace Tellusim {
 			virtual ConstructorPtr getConstructor(uint32_t index) const {
 				#ifdef TS_REFLECTION_FUNC
 					switch(index) {
-						case 0: return ConstructorPtr(new ConstructorImpl<CUContext, TypeList<>>());
+						case 0: return ConstructorPtr(new ConstructorImpl<CUContext, TypeList<uint32_t>>(Maxu32));
 					}
 				#endif
 				return ReflectionImpl::getConstructor(index);
@@ -10777,10 +10777,10 @@ namespace Tellusim {
 				return reflection_names[enum_var_names[enum_bases[index] + var]];
 			}
 		private:
-			static constexpr uint16_t constructor_bases[] = { 0, 0 };
-			static constexpr uint16_t constructor_arg_types[] = { 0 };
-			static constexpr uint16_t constructor_arg_names[] = { 0 };
-			static constexpr uint16_t constructor_arg_values[] = { 0 };
+			static constexpr uint16_t constructor_bases[] = { 0, 1 };
+			static constexpr uint16_t constructor_arg_types[] = { 4052 };
+			static constexpr uint16_t constructor_arg_names[] = { 3005 };
+			static constexpr uint16_t constructor_arg_values[] = { 985 };
 			static constexpr uint8_t function_flags[] = { 2, 2, 2, 1, 1, 2, 0, 0, 0, 0, 2, 2, 2, 2, 2 };
 			static constexpr uint16_t function_names[] = { 2305, 2183, 2805, 2696, 2015, 1652, 1642, 1973, 1508, 4060, 3213, 3154, 3065, 2243, 2448 };
 			static constexpr uint16_t function_types[] = { 3015, 210, 216, 4087, 1588, 203, 4086, 4086, 204, 204, 1588, 1588, 1588, 4052, 1890 };
@@ -10845,7 +10845,7 @@ namespace Tellusim {
 			virtual ConstructorPtr getConstructor(uint32_t index) const {
 				#ifdef TS_REFLECTION_FUNC
 					switch(index) {
-						case 0: return ConstructorPtr(new ConstructorImpl<HIPContext, TypeList<>>());
+						case 0: return ConstructorPtr(new ConstructorImpl<HIPContext, TypeList<uint32_t>>(Maxu32));
 					}
 				#endif
 				return ReflectionImpl::getConstructor(index);
@@ -10939,10 +10939,10 @@ namespace Tellusim {
 				return reflection_names[enum_var_names[enum_bases[index] + var]];
 			}
 		private:
-			static constexpr uint16_t constructor_bases[] = { 0, 0 };
-			static constexpr uint16_t constructor_arg_types[] = { 0 };
-			static constexpr uint16_t constructor_arg_names[] = { 0 };
-			static constexpr uint16_t constructor_arg_values[] = { 0 };
+			static constexpr uint16_t constructor_bases[] = { 0, 1 };
+			static constexpr uint16_t constructor_arg_types[] = { 4052 };
+			static constexpr uint16_t constructor_arg_names[] = { 3005 };
+			static constexpr uint16_t constructor_arg_values[] = { 985 };
 			static constexpr uint8_t function_flags[] = { 2, 2, 2, 1, 1, 2, 0, 0, 0, 0, 2, 2, 2, 2, 2 };
 			static constexpr uint16_t function_names[] = { 2305, 2413, 2805, 2696, 2015, 1652, 1642, 1973, 1508, 4060, 3213, 3154, 3065, 2243, 2448 };
 			static constexpr uint16_t function_types[] = { 3015, 4087, 4087, 4087, 1588, 807, 4086, 4086, 808, 808, 1588, 1588, 1588, 4052, 1890 };
@@ -25339,63 +25339,64 @@ namespace Tellusim {
 						case 41: return FunctionPtr(new FunctionImpl<const Color&(ControlRoot::*)() const>(&ControlRoot::getCheckedColor));
 						case 42: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(float32_t)>(&ControlRoot::setSplitSize));
 						case 43: return FunctionPtr(new FunctionImpl<float32_t(ControlRoot::*)() const>(&ControlRoot::getSplitSize));
-						case 44: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(int32_t, int32_t, Control::Button)>(&ControlRoot::setMouse));
-						case 45: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(float32_t, float32_t, Control::Button)>(&ControlRoot::setMouse));
-						case 46: return FunctionPtr(new FunctionImpl<const Vector2f&(ControlRoot::*)() const>(&ControlRoot::getMouse));
-						case 47: return FunctionPtr(new FunctionImpl<Control::Button(ControlRoot::*)() const>(&ControlRoot::getMouseButtons));
-						case 48: return FunctionPtr(new FunctionImpl<float32_t(ControlRoot::*)() const>(&ControlRoot::getMouseX));
-						case 49: return FunctionPtr(new FunctionImpl<float32_t(ControlRoot::*)() const>(&ControlRoot::getMouseY));
-						case 50: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(const Vector2f&)>(&ControlRoot::setMouseOffset));
-						case 51: return FunctionPtr(new FunctionImpl<const Vector2f&(ControlRoot::*)() const>(&ControlRoot::getMouseOffset));
-						case 52: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(Control::Axis, float32_t)>(&ControlRoot::setMouseAxis));
-						case 53: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(Control::Align, bool)>(&ControlRoot::setMouseAlign, (Control::Align)0, true));
-						case 54: return FunctionPtr(new FunctionImpl<Control::Align(ControlRoot::*)() const>(&ControlRoot::getMouseAlign));
-						case 55: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)(Control::Align) const>(&ControlRoot::hasMouseAlign));
-						case 56: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)(Control::Align) const>(&ControlRoot::hasMouseAligns));
-						case 57: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)(uint32_t, uint32_t, bool)>(&ControlRoot::setKeyboardKey));
-						case 58: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)(uint32_t, bool)>(&ControlRoot::getKeyboardKey, {}, false));
-						case 59: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)()>(&ControlRoot::clearCurrentControl));
-						case 60: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(Control, bool)>(&ControlRoot::setCurrentControl, {}, false));
-						case 61: return FunctionPtr(new FunctionImpl<Control(ControlRoot::*)() const>(&ControlRoot::getCurrentControl));
-						case 62: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)() const>(&ControlRoot::isCurrentControl));
-						case 63: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)() const>(&ControlRoot::getControlGrab));
-						case 64: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)()>(&ControlRoot::clearFocusedControl));
-						case 65: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(Control)>(&ControlRoot::setFocusedControl));
-						case 66: return FunctionPtr(new FunctionImpl<Control(ControlRoot::*)() const>(&ControlRoot::getFocusedControl));
-						case 67: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)() const>(&ControlRoot::isFocusedControl));
-						case 68: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)()>(&ControlRoot::clearMouseControl));
-						case 69: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(Control)>(&ControlRoot::setMouseControl));
-						case 70: return FunctionPtr(new FunctionImpl<Control(ControlRoot::*)() const>(&ControlRoot::getMouseControl));
-						case 71: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)() const>(&ControlRoot::isMouseControl));
-						case 72: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)()>(&ControlRoot::clearInputControl));
-						case 73: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(Control)>(&ControlRoot::setInputControl));
-						case 74: return FunctionPtr(new FunctionImpl<Control(ControlRoot::*)() const>(&ControlRoot::getInputControl));
-						case 75: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)() const>(&ControlRoot::isInputControl));
-						case 76: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)()>(&ControlRoot::clearModalControl));
-						case 77: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(Control, bool)>(&ControlRoot::setModalControl, {}, true));
-						case 78: return FunctionPtr(new FunctionImpl<Control(ControlRoot::*)() const>(&ControlRoot::getModalControl));
-						case 79: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)() const>(&ControlRoot::isModalDisabled));
-						case 80: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)() const>(&ControlRoot::isModalControl));
-						case 81: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(int32_t)>(&ControlRoot::setOverlayOrder));
-						case 82: return FunctionPtr(new FunctionImpl<int32_t(ControlRoot::*)() const>(&ControlRoot::getOverlayOrder));
-						case 83: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)(uint32_t, int32_t)>(&ControlRoot::update, 0, 0));
-						case 84: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(const char*)>(&ControlRoot::setCopyText));
-						case 85: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(const String&)>(&ControlRoot::setCopyText));
-						case 86: return FunctionPtr(new FunctionImpl<String(ControlRoot::*)()>(&ControlRoot::getPasteText));
-						case 87: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(const ControlRoot::CopyCallback&)>(&ControlRoot::setCopyCallback));
-						case 88: return FunctionPtr(new FunctionImpl<ControlRoot::CopyCallback(ControlRoot::*)() const>(&ControlRoot::getCopyCallback));
-						case 89: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(const ControlRoot::PasteCallback&)>(&ControlRoot::setPasteCallback));
-						case 90: return FunctionPtr(new FunctionImpl<ControlRoot::PasteCallback(ControlRoot::*)() const>(&ControlRoot::getPasteCallback));
-						case 91: return FunctionPtr(new FunctionImpl<ControlRoot(ControlRoot::*)() const>(&ControlRoot::clonePtr));
-						case 92: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)()>(&ControlRoot::clearPtr));
-						case 93: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)()>(&ControlRoot::destroyPtr));
-						case 94: return FunctionPtr(new FunctionImpl<ControlRoot&(ControlRoot::*)()>(&ControlRoot::acquirePtr));
-						case 95: return FunctionPtr(new FunctionImpl<ControlRoot&(ControlRoot::*)()>(&ControlRoot::unacquirePtr));
-						case 96: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)() const>(&ControlRoot::isValidPtr));
-						case 97: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)() const>(&ControlRoot::isOwnerPtr));
-						case 98: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)() const>(&ControlRoot::isConstPtr));
-						case 99: return FunctionPtr(new FunctionImpl<uint32_t(ControlRoot::*)() const>(&ControlRoot::getCountPtr));
-						case 100: return FunctionPtr(new FunctionImpl<const void*(ControlRoot::*)() const>(&ControlRoot::getInternalPtr));
+						case 44: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(const Vector2f&)>(&ControlRoot::setMousePosition));
+						case 45: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(int32_t, int32_t, Control::Button)>(&ControlRoot::setMouse));
+						case 46: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(float32_t, float32_t, Control::Button)>(&ControlRoot::setMouse));
+						case 47: return FunctionPtr(new FunctionImpl<const Vector2f&(ControlRoot::*)() const>(&ControlRoot::getMouse));
+						case 48: return FunctionPtr(new FunctionImpl<Control::Button(ControlRoot::*)() const>(&ControlRoot::getMouseButtons));
+						case 49: return FunctionPtr(new FunctionImpl<float32_t(ControlRoot::*)() const>(&ControlRoot::getMouseX));
+						case 50: return FunctionPtr(new FunctionImpl<float32_t(ControlRoot::*)() const>(&ControlRoot::getMouseY));
+						case 51: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(const Vector2f&)>(&ControlRoot::setMouseOffset));
+						case 52: return FunctionPtr(new FunctionImpl<const Vector2f&(ControlRoot::*)() const>(&ControlRoot::getMouseOffset));
+						case 53: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(Control::Axis, float32_t)>(&ControlRoot::setMouseAxis));
+						case 54: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(Control::Align, bool)>(&ControlRoot::setMouseAlign, (Control::Align)0, true));
+						case 55: return FunctionPtr(new FunctionImpl<Control::Align(ControlRoot::*)() const>(&ControlRoot::getMouseAlign));
+						case 56: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)(Control::Align) const>(&ControlRoot::hasMouseAlign));
+						case 57: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)(Control::Align) const>(&ControlRoot::hasMouseAligns));
+						case 58: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)(uint32_t, uint32_t, bool)>(&ControlRoot::setKeyboardKey));
+						case 59: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)(uint32_t, bool)>(&ControlRoot::getKeyboardKey, {}, false));
+						case 60: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)()>(&ControlRoot::clearCurrentControl));
+						case 61: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(Control, bool)>(&ControlRoot::setCurrentControl, {}, false));
+						case 62: return FunctionPtr(new FunctionImpl<Control(ControlRoot::*)() const>(&ControlRoot::getCurrentControl));
+						case 63: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)() const>(&ControlRoot::isCurrentControl));
+						case 64: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)() const>(&ControlRoot::getControlGrab));
+						case 65: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)()>(&ControlRoot::clearFocusedControl));
+						case 66: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(Control)>(&ControlRoot::setFocusedControl));
+						case 67: return FunctionPtr(new FunctionImpl<Control(ControlRoot::*)() const>(&ControlRoot::getFocusedControl));
+						case 68: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)() const>(&ControlRoot::isFocusedControl));
+						case 69: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)()>(&ControlRoot::clearMouseControl));
+						case 70: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(Control)>(&ControlRoot::setMouseControl));
+						case 71: return FunctionPtr(new FunctionImpl<Control(ControlRoot::*)() const>(&ControlRoot::getMouseControl));
+						case 72: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)() const>(&ControlRoot::isMouseControl));
+						case 73: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)()>(&ControlRoot::clearInputControl));
+						case 74: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(Control)>(&ControlRoot::setInputControl));
+						case 75: return FunctionPtr(new FunctionImpl<Control(ControlRoot::*)() const>(&ControlRoot::getInputControl));
+						case 76: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)() const>(&ControlRoot::isInputControl));
+						case 77: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)()>(&ControlRoot::clearModalControl));
+						case 78: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(Control, bool)>(&ControlRoot::setModalControl, {}, true));
+						case 79: return FunctionPtr(new FunctionImpl<Control(ControlRoot::*)() const>(&ControlRoot::getModalControl));
+						case 80: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)() const>(&ControlRoot::isModalDisabled));
+						case 81: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)() const>(&ControlRoot::isModalControl));
+						case 82: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(int32_t)>(&ControlRoot::setOverlayOrder));
+						case 83: return FunctionPtr(new FunctionImpl<int32_t(ControlRoot::*)() const>(&ControlRoot::getOverlayOrder));
+						case 84: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)(uint32_t, int32_t)>(&ControlRoot::update, 0, 0));
+						case 85: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(const char*)>(&ControlRoot::setCopyText));
+						case 86: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(const String&)>(&ControlRoot::setCopyText));
+						case 87: return FunctionPtr(new FunctionImpl<String(ControlRoot::*)()>(&ControlRoot::getPasteText));
+						case 88: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(const ControlRoot::CopyCallback&)>(&ControlRoot::setCopyCallback));
+						case 89: return FunctionPtr(new FunctionImpl<ControlRoot::CopyCallback(ControlRoot::*)() const>(&ControlRoot::getCopyCallback));
+						case 90: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)(const ControlRoot::PasteCallback&)>(&ControlRoot::setPasteCallback));
+						case 91: return FunctionPtr(new FunctionImpl<ControlRoot::PasteCallback(ControlRoot::*)() const>(&ControlRoot::getPasteCallback));
+						case 92: return FunctionPtr(new FunctionImpl<ControlRoot(ControlRoot::*)() const>(&ControlRoot::clonePtr));
+						case 93: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)()>(&ControlRoot::clearPtr));
+						case 94: return FunctionPtr(new FunctionVoidImpl<void(ControlRoot::*)()>(&ControlRoot::destroyPtr));
+						case 95: return FunctionPtr(new FunctionImpl<ControlRoot&(ControlRoot::*)()>(&ControlRoot::acquirePtr));
+						case 96: return FunctionPtr(new FunctionImpl<ControlRoot&(ControlRoot::*)()>(&ControlRoot::unacquirePtr));
+						case 97: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)() const>(&ControlRoot::isValidPtr));
+						case 98: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)() const>(&ControlRoot::isOwnerPtr));
+						case 99: return FunctionPtr(new FunctionImpl<bool(ControlRoot::*)() const>(&ControlRoot::isConstPtr));
+						case 100: return FunctionPtr(new FunctionImpl<uint32_t(ControlRoot::*)() const>(&ControlRoot::getCountPtr));
+						case 101: return FunctionPtr(new FunctionImpl<const void*(ControlRoot::*)() const>(&ControlRoot::getInternalPtr));
 					}
 				#endif
 				return ReflectionImpl::getFunction(index);
@@ -25435,13 +25436,13 @@ namespace Tellusim {
 			static constexpr uint16_t constructor_arg_types[] = { 218, 1588 };
 			static constexpr uint16_t constructor_arg_names[] = { 1605, 1586 };
 			static constexpr uint16_t constructor_arg_values[] = { 0, 2021 };
-			static constexpr uint8_t function_flags[] = { 0, 0, 0, 2, 2, 0, 0, 0, 0, 2, 0, 2, 0, 2, 0, 2, 0, 0, 0, 2, 2, 0, 0, 2, 2, 0, 0, 0, 2, 2, 2, 2, 0, 0, 2, 2, 0, 0, 2, 2, 0, 2, 0, 2, 0, 0, 2, 2, 2, 2, 0, 2, 0, 0, 2, 2, 2, 0, 0, 0, 0, 2, 2, 2, 0, 0, 2, 2, 0, 0, 2, 2, 0, 0, 2, 2, 0, 0, 2, 2, 2, 0, 2, 0, 0, 0, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 2, 2, 2, 2, 2 };
-			static constexpr uint16_t function_names[] = { 3954, 3954, 3954, 2937, 2358, 3649, 3649, 3647, 3651, 2360, 3650, 2359, 3652, 2361, 2361, 2851, 3906, 3906, 3900, 2861, 2844, 3895, 3897, 2837, 2838, 3725, 3726, 3727, 2512, 2513, 2514, 2515, 3666, 3665, 2408, 2407, 3781, 3780, 2649, 2648, 3566, 2194, 3849, 2778, 3744, 3744, 2546, 2550, 2561, 2562, 3755, 2556, 3746, 3745, 2547, 2972, 2973, 3709, 2473, 1625, 3598, 2250, 3072, 2237, 1626, 3643, 2352, 3092, 1638, 3751, 2552, 3139, 1630, 3687, 2438, 3112, 1635, 3735, 2533, 3137, 3136, 3779, 2645, 4064, 3592, 3592, 2668, 3591, 2242, 3787, 2667, 1652, 1642, 1973, 1508, 4060, 3213, 3154, 3065, 2243, 2448 };
-			static constexpr uint16_t function_types[] = { 4086, 4086, 4086, 1864, 1275, 4086, 4086, 1588, 1588, 4052, 1588, 4052, 1588, 1783, 765, 1275, 1588, 1588, 1588, 2056, 2056, 4086, 4086, 1726, 1861, 4086, 4086, 4086, 4052, 1835, 1835, 1835, 4086, 4086, 2056, 1726, 4086, 4086, 2056, 1726, 4086, 1726, 4086, 2056, 4086, 4086, 1859, 284, 2056, 2056, 4086, 1859, 4086, 4086, 282, 1588, 1588, 1588, 1588, 4086, 4086, 279, 1588, 1588, 4086, 4086, 279, 1588, 4086, 4086, 279, 1588, 4086, 4086, 279, 1588, 4086, 4086, 279, 1588, 1588, 4086, 3015, 1588, 4086, 4086, 1275, 4086, 327, 4086, 328, 324, 4086, 4086, 325, 325, 1588, 1588, 1588, 4052, 1890 };
-			static constexpr uint16_t function_bases[] = { 0, 1, 3, 5, 5, 5, 6, 7, 9, 11, 11, 13, 13, 15, 15, 15, 15, 19, 23, 28, 28, 28, 31, 34, 36, 38, 41, 45, 49, 51, 52, 53, 55, 56, 57, 57, 57, 58, 59, 59, 59, 60, 60, 61, 61, 64, 67, 67, 67, 67, 67, 68, 68, 70, 72, 72, 73, 74, 77, 79, 79, 81, 81, 81, 81, 81, 82, 82, 82, 82, 83, 83, 83, 83, 84, 84, 84, 84, 86, 86, 86, 86, 87, 87, 89, 90, 91, 91, 92, 92, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93 };
-			static constexpr uint16_t function_arg_types[] = { 1864, 4052, 4052, 2056, 2056, 1882, 1846, 1888, 1882, 4052, 1588, 4052, 1588, 1783, 1588, 1882, 4052, 4052, 2056, 1846, 4052, 4052, 2056, 1888, 1882, 4052, 4052, 2056, 287, 286, 1726, 287, 286, 1861, 287, 286, 287, 286, 285, 286, 1726, 285, 1835, 1835, 1859, 285, 1835, 1835, 1859, 285, 286, 285, 285, 285, 286, 2056, 1726, 2056, 1726, 1726, 2056, 3015, 3015, 284, 2056, 2056, 284, 1859, 283, 2056, 282, 1588, 282, 282, 4052, 4052, 1588, 4052, 1588, 279, 1588, 279, 279, 279, 279, 1588, 3015, 4052, 3015, 1882, 1846, 1748, 1749 };
-			static constexpr uint16_t function_arg_names[] = { 4084, 4102, 2992, 4102, 2992, 3300, 3300, 1586, 3300, 3973, 4064, 3496, 4064, 4005, 4064, 3300, 4102, 2992, 1590, 3300, 4102, 2992, 1590, 1586, 3300, 4102, 2992, 1590, 4049, 3996, 1655, 4049, 3996, 3329, 4049, 3996, 4049, 3996, 3281, 3996, 1655, 3281, 2948, 3415, 1590, 3281, 2948, 3416, 1590, 3281, 3996, 3281, 3281, 3281, 3996, 3385, 1655, 3385, 1655, 1655, 3973, 4128, 4129, 1602, 4128, 4129, 1602, 3329, 1569, 1963, 1549, 1617, 1549, 1551, 3243, 1654, 4069, 3243, 1617, 1893, 2947, 1893, 1893, 1893, 1893, 1978, 3351, 3496, 3351, 4024, 4024, 2079, 2079 };
-			static constexpr uint16_t function_arg_values[] = { 0, 0, 0, 0, 0, 0, 0, 0, 3306, 0, 2021, 0, 2021, 0, 2021, 0, 3, 3, 4, 0, 3, 3, 4, 0, 3306, 3, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4046, 0, 0, 0, 0, 0, 0, 2021, 0, 2021, 0, 0, 0, 0, 4046, 0, 3, 3, 0, 0, 0, 0 };
+			static constexpr uint8_t function_flags[] = { 0, 0, 0, 2, 2, 0, 0, 0, 0, 2, 0, 2, 0, 2, 0, 2, 0, 0, 0, 2, 2, 0, 0, 2, 2, 0, 0, 0, 2, 2, 2, 2, 0, 0, 2, 2, 0, 0, 2, 2, 0, 2, 0, 2, 0, 0, 0, 2, 2, 2, 2, 0, 2, 0, 0, 2, 2, 2, 0, 0, 0, 0, 2, 2, 2, 0, 0, 2, 2, 0, 0, 2, 2, 0, 0, 2, 2, 0, 0, 2, 2, 2, 0, 2, 0, 0, 0, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 2, 2, 2, 2, 2 };
+			static constexpr uint16_t function_names[] = { 3954, 3954, 3954, 2937, 2358, 3649, 3649, 3647, 3651, 2360, 3650, 2359, 3652, 2361, 2361, 2851, 3906, 3906, 3900, 2861, 2844, 3895, 3897, 2837, 2838, 3725, 3726, 3727, 2512, 2513, 2514, 2515, 3666, 3665, 2408, 2407, 3781, 3780, 2649, 2648, 3566, 2194, 3849, 2778, 3756, 3744, 3744, 2546, 2550, 2561, 2562, 3755, 2556, 3746, 3745, 2547, 2972, 2973, 3709, 2473, 1625, 3598, 2250, 3072, 2237, 1626, 3643, 2352, 3092, 1638, 3751, 2552, 3139, 1630, 3687, 2438, 3112, 1635, 3735, 2533, 3137, 3136, 3779, 2645, 4064, 3592, 3592, 2668, 3591, 2242, 3787, 2667, 1652, 1642, 1973, 1508, 4060, 3213, 3154, 3065, 2243, 2448 };
+			static constexpr uint16_t function_types[] = { 4086, 4086, 4086, 1864, 1275, 4086, 4086, 1588, 1588, 4052, 1588, 4052, 1588, 1783, 765, 1275, 1588, 1588, 1588, 2056, 2056, 4086, 4086, 1726, 1861, 4086, 4086, 4086, 4052, 1835, 1835, 1835, 4086, 4086, 2056, 1726, 4086, 4086, 2056, 1726, 4086, 1726, 4086, 2056, 4086, 4086, 4086, 1859, 284, 2056, 2056, 4086, 1859, 4086, 4086, 282, 1588, 1588, 1588, 1588, 4086, 4086, 279, 1588, 1588, 4086, 4086, 279, 1588, 4086, 4086, 279, 1588, 4086, 4086, 279, 1588, 4086, 4086, 279, 1588, 1588, 4086, 3015, 1588, 4086, 4086, 1275, 4086, 327, 4086, 328, 324, 4086, 4086, 325, 325, 1588, 1588, 1588, 4052, 1890 };
+			static constexpr uint16_t function_bases[] = { 0, 1, 3, 5, 5, 5, 6, 7, 9, 11, 11, 13, 13, 15, 15, 15, 15, 19, 23, 28, 28, 28, 31, 34, 36, 38, 41, 45, 49, 51, 52, 53, 55, 56, 57, 57, 57, 58, 59, 59, 59, 60, 60, 61, 61, 62, 65, 68, 68, 68, 68, 68, 69, 69, 71, 73, 73, 74, 75, 78, 80, 80, 82, 82, 82, 82, 82, 83, 83, 83, 83, 84, 84, 84, 84, 85, 85, 85, 85, 87, 87, 87, 87, 88, 88, 90, 91, 92, 92, 93, 93, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94 };
+			static constexpr uint16_t function_arg_types[] = { 1864, 4052, 4052, 2056, 2056, 1882, 1846, 1888, 1882, 4052, 1588, 4052, 1588, 1783, 1588, 1882, 4052, 4052, 2056, 1846, 4052, 4052, 2056, 1888, 1882, 4052, 4052, 2056, 287, 286, 1726, 287, 286, 1861, 287, 286, 287, 286, 285, 286, 1726, 285, 1835, 1835, 1859, 285, 1835, 1835, 1859, 285, 286, 285, 285, 285, 286, 2056, 1726, 2056, 1726, 1726, 2056, 1859, 3015, 3015, 284, 2056, 2056, 284, 1859, 283, 2056, 282, 1588, 282, 282, 4052, 4052, 1588, 4052, 1588, 279, 1588, 279, 279, 279, 279, 1588, 3015, 4052, 3015, 1882, 1846, 1748, 1749 };
+			static constexpr uint16_t function_arg_names[] = { 4084, 4102, 2992, 4102, 2992, 3300, 3300, 1586, 3300, 3973, 4064, 3496, 4064, 4005, 4064, 3300, 4102, 2992, 1590, 3300, 4102, 2992, 1590, 1586, 3300, 4102, 2992, 1590, 4049, 3996, 1655, 4049, 3996, 3329, 4049, 3996, 4049, 3996, 3281, 3996, 1655, 3281, 2948, 3415, 1590, 3281, 2948, 3416, 1590, 3281, 3996, 3281, 3281, 3281, 3996, 3385, 1655, 3385, 1655, 1655, 3973, 3367, 4128, 4129, 1602, 4128, 4129, 1602, 3329, 1569, 1963, 1549, 1617, 1549, 1551, 3243, 1654, 4069, 3243, 1617, 1893, 2947, 1893, 1893, 1893, 1893, 1978, 3351, 3496, 3351, 4024, 4024, 2079, 2079 };
+			static constexpr uint16_t function_arg_values[] = { 0, 0, 0, 0, 0, 0, 0, 0, 3306, 0, 2021, 0, 2021, 0, 2021, 0, 3, 3, 4, 0, 3, 3, 4, 0, 3306, 3, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4046, 0, 0, 0, 0, 0, 0, 2021, 0, 2021, 0, 0, 0, 0, 4046, 0, 3, 3, 0, 0, 0, 0 };
 			static constexpr uint16_t callback_names[] = { 367, 1130 };
 			static constexpr uint16_t callback_types[] = { 4086, 1275 };
 			static constexpr uint16_t callback_bases[] = { 0, 2, 3 };
