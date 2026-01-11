@@ -1,4 +1,4 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 #include <core/TellusimLog.h>
@@ -45,7 +45,7 @@ namespace Tellusim {
 		create_types();
 		create_protos();
 		create_tools();
-		create_noise();
+		create_fields();
 		
 		return true;
 	}
@@ -79,9 +79,15 @@ namespace Tellusim {
 		vec2_type = addType("vec2", Color(0.0f, vector_color, vector_color, 1.0f), ShapeCircle);
 		vec3_type = addType("vec3", Color(vector_color, 0.0f, vector_color, 1.0f), ShapeCircle);
 		vec4_type = addType("vec4", Color(vector_color, vector_color, 0.0f, 1.0f), ShapeCircle);
+		ivec2_type = addType("ivec2", Color(0.0f, vector_color, vector_color, 1.0f), ShapeTriangle);
+		ivec3_type = addType("ivec3", Color(vector_color, 0.0f, vector_color, 1.0f), ShapeTriangle);
+		ivec4_type = addType("ivec4", Color(vector_color, vector_color, 0.0f, 1.0f), ShapeTriangle);
 		setTypeConnectionWidth(vec2_type, vector_width);
 		setTypeConnectionWidth(vec3_type, vector_width);
 		setTypeConnectionWidth(vec4_type, vector_width);
+		setTypeConnectionWidth(ivec2_type, vector_width);
+		setTypeConnectionWidth(ivec3_type, vector_width);
+		setTypeConnectionWidth(ivec4_type, vector_width);
 		
 		// matrix types
 		float32_t matrix_width = 3.0f;
@@ -100,7 +106,7 @@ namespace Tellusim {
 		// any type mask
 		TypeMask any_mask;
 		for(uint32_t i = 0; i < getNumTypes(); i++) {
-			if(i != int_type) any_mask.set(i);
+			any_mask.set(i);
 		}
 		setTypeMask(any_type, any_mask);
 		setTypeOutputMask(float_type, any_mask);
@@ -449,7 +455,7 @@ namespace Tellusim {
 			setProtoColor(proto, tool_color);
 			addProtoOutput(proto, "v", "", "0", int_type, true);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
-				ControlSlider slider = create_slider(&grid, nullptr, 0, 0.0, 0.0, 32.0);
+				ControlSlider slider = create_slider_i32(&grid, nullptr);
 				slider.setChangedCallback(makeFunction([this](ControlSlider slider, uint32_t node) {
 					setOutputValue(node, "v", String::fromi32(slider.getValuei32()), !slider.isChanged(false));
 					setChanged();
@@ -468,7 +474,7 @@ namespace Tellusim {
 			setProtoColor(proto, tool_color);
 			addProtoOutput(proto, "v", "", "0.0", float_type, true);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
-				ControlSlider slider = create_slider(&grid, nullptr, 3);
+				ControlSlider slider = create_slider_f64(&grid, nullptr, 3);
 				slider.setChangedCallback(makeFunction([this](ControlSlider slider, uint32_t node) {
 					setOutputValue(node, "v", String::fromf64(slider.getValue(), 6, true, true), !slider.isChanged(false));
 					setChanged();
@@ -507,28 +513,46 @@ namespace Tellusim {
 			setProtoInfo(proto, "Floating-point constant");
 		}
 		
-		// scalar cast proto
+		// type cast proto
 		{
 			uint32_t proto = addProto("cast", "Cast");
 			setProtoColor(proto, tool_color);
-			addProtoInput(proto, "f", "Float", "", float_type);
-			addProtoInput(proto, "i", "Int", "", int_type);
-			addProtoOutput(proto, "f", "", "", float_type);
-			addProtoOutput(proto, "i", "", "", int_type);
-			for(uint32_t i = 0; i < getNumProtoOutputs(proto); i++) {
-				setProtoMultiOutput(proto, i, true);
-			}
-			setProtoUpdateCallback(proto, [this](ControlFlow *flow, uint32_t node, bool inverse) {
-				if(getNumInputConnections(node, "f")) {
-					setOutputValue(node, "f", "$f");
-					setOutputValue(node, "i", "int($f)");
-				} else if(getNumInputConnections(node, "i")) {
-					setOutputValue(node, "f", "float($i)");
-					setOutputValue(node, "i", "$i");
+			addProtoInput(proto, "i", "", "", any_type);
+			addProtoOutput(proto, "o", "", "", any_type, true);
+			setProtoInputAttachCallback(proto, 0, [this](ControlFlow *flow, uint32_t node, uint32_t input, uint32_t output_node, uint32_t output_index) {
+				uint32_t input_type = any_type;
+				uint32_t output_type = any_type;
+				if(output_node != Maxu32) {
+					input_type = flow->getOutputType(output_node, output_index);
+					if(input_type == int_type) output_type = float_type;
+					else if(input_type == float_type) output_type = int_type;
+					else if(input_type == vec2_type) output_type = ivec2_type;
+					else if(input_type == vec3_type) output_type = ivec3_type;
+					else if(input_type == vec4_type) output_type = ivec4_type;
+					else if(input_type == ivec2_type) output_type = vec2_type;
+					else if(input_type == ivec3_type) output_type = vec3_type;
+					else if(input_type == ivec4_type) output_type = vec4_type;
 				}
+				setInputType(node, "i", input_type);
+				setOutputType(node, "o", output_type);
+				return (output_type != any_type);
+			});
+			setProtoUpdateCallback(proto, [this](ControlFlow *flow, uint32_t node, bool inverse) {
+				String value;
+				uint32_t type = getInputType(node, "i");
+				if(type == int_type) value = "float($i)";
+				else if(type == float_type) value = "int($i)";
+				else if(type == vec2_type) value = "ivec2($i)";
+				else if(type == vec3_type) value = "ivec3($i)";
+				else if(type == vec4_type) value = "ivec4($i)";
+				else if(type == ivec2_type) value = "vec2($i)";
+				else if(type == ivec3_type) value = "vec3($i)";
+				else if(type == ivec4_type) value = "vec4($i)";
+				else value = "$i";
+				setOutputValue(node, "o", value);
 				setNodeDynamic(node, true);
 			});
-			setProtoInfo(proto, "Scalar cast");
+			setProtoInfo(proto, "Type cast");
 		}
 		
 		// vec2 value proto
@@ -540,7 +564,7 @@ namespace Tellusim {
 				ControlSlider sliders[2];
 				const char *names[] = { "X", "Y" };
 				for(uint32_t i = 0; i < 2; i++) {
-					sliders[i] = create_slider(&grid, names[i]);
+					sliders[i] = create_slider_f64(&grid, names[i]);
 				}
 				ControlSlider::ChangedCallback changed_func = makeFunction([this](ControlSlider slider, uint32_t node, ControlSlider x_slider, ControlSlider y_slider) {
 					String x = String::fromf64(x_slider.getValue(), 6, true, true);
@@ -576,7 +600,7 @@ namespace Tellusim {
 				ControlSlider sliders[3];
 				const char *names[] = { "X", "Y", "Z" };
 				for(uint32_t i = 0; i < 3; i++) {
-					sliders[i] = create_slider(&grid, names[i]);
+					sliders[i] = create_slider_f64(&grid, names[i]);
 				}
 				ControlSlider::ChangedCallback changed_func = makeFunction([this](ControlSlider slider, uint32_t node, ControlSlider x_slider, ControlSlider y_slider, ControlSlider z_slider) {
 					String x = String::fromf64(x_slider.getValue(), 6, true, true);
@@ -615,7 +639,7 @@ namespace Tellusim {
 				ControlSlider sliders[4];
 				const char *names[] = { "X", "Y", "Z", "W" };
 				for(uint32_t i = 0; i < 4; i++) {
-					sliders[i] = create_slider(&grid, names[i]);
+					sliders[i] = create_slider_f64(&grid, names[i]);
 				}
 				ControlSlider::ChangedCallback changed_func = makeFunction([this](ControlSlider slider, uint32_t node, ControlSlider x_slider, ControlSlider y_slider, ControlSlider z_slider, ControlSlider w_slider) {
 					String x = String::fromf64(x_slider.getValue(), 6, true, true);
@@ -702,6 +726,177 @@ namespace Tellusim {
 			setProtoInfo(proto, "Vector swizzle");
 		}
 		
+		// ivec2 value proto
+		{
+			uint32_t proto = addProto("ivec2", "IVec2");
+			setProtoColor(proto, tool_color);
+			addProtoOutput(proto, "v2", "", "ivec2(0)", ivec2_type, true);
+			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
+				ControlSlider sliders[2];
+				const char *names[] = { "X", "Y" };
+				for(uint32_t i = 0; i < 2; i++) {
+					sliders[i] = create_slider_i32(&grid, names[i]);
+				}
+				ControlSlider::ChangedCallback changed_func = makeFunction([this](ControlSlider slider, uint32_t node, ControlSlider x_slider, ControlSlider y_slider) {
+					int32_t x = x_slider.getValuei32();
+					int32_t y = y_slider.getValuei32();
+					setOutputValue(node, "v2", String::tformat("ivec2({0}, {1})", x, y), !slider.isChanged(false));
+					setChanged();
+				}, ControlSlider::null, node, sliders[0], sliders[1]);
+				for(uint32_t i = 0; i < 2; i++) {
+					sliders[i].setChangedCallback(changed_func);
+				}
+				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlSlider x_slider, ControlSlider y_slider) {
+					Vector2i value = Vector2i::zero;
+					const String &state = getOutputValue(node, "v2");
+					if(state.scanf("ivec2(%d, %d)", &value.x, &value.y) != 2) {
+						if(state.scanf("ivec2(%d)", &value.x) == 1) value.y = value.x;
+						else TS_LOGF(Error, "ControlFlowGLSL::ivec2_callback(): can't parse \"%s\"\n", state.get());
+					}
+					x_slider.setValue(value.x);
+					y_slider.setValue(value.y);
+					expand_slider(x_slider);
+					expand_slider(y_slider);
+				}, nullptr, 0, sliders[0], sliders[1]));
+			});
+			setProtoInfo(proto, "Vector value");
+		}
+		
+		// ivec3 value proto
+		{
+			uint32_t proto = addProto("ivec3", "IVec3");
+			setProtoColor(proto, tool_color);
+			addProtoOutput(proto, "v3", "", "ivec3(0.0)", ivec3_type, true);
+			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
+				ControlSlider sliders[3];
+				const char *names[] = { "X", "Y", "Z" };
+				for(uint32_t i = 0; i < 3; i++) {
+					sliders[i] = create_slider_i32(&grid, names[i]);
+				}
+				ControlSlider::ChangedCallback changed_func = makeFunction([this](ControlSlider slider, uint32_t node, ControlSlider x_slider, ControlSlider y_slider, ControlSlider z_slider) {
+					int32_t x = x_slider.getValuei32();
+					int32_t y = y_slider.getValuei32();
+					int32_t z = z_slider.getValuei32();
+					setOutputValue(node, "v3", String::tformat("ivec3({0}, {1}, {2})", x, y, z), !slider.isChanged(false));
+					setChanged();
+				}, ControlSlider::null, node, sliders[0], sliders[1], sliders[2]);
+				for(uint32_t i = 0; i < 3; i++) {
+					sliders[i].setChangedCallback(changed_func);
+				}
+				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlSlider x_slider, ControlSlider y_slider, ControlSlider z_slider) {
+					Vector3i value = Vector3i::zero;
+					const String &state = getOutputValue(node, "v3");
+					if(state.scanf("ivec3(%d, %d, %d)", &value.x, &value.y, &value.z) != 3) {
+						if(state.scanf("ivec3(%d)", &value.x) == 1) value = Vector3i(value.x);
+						else TS_LOGF(Error, "ControlFlowGLSL::ivec3_callback(): can't parse \"%s\"\n", state.get());
+					}
+					x_slider.setValue(value.x);
+					y_slider.setValue(value.y);
+					z_slider.setValue(value.z);
+					expand_slider(x_slider);
+					expand_slider(y_slider);
+					expand_slider(z_slider);
+				}, nullptr, 0, sliders[0], sliders[1], sliders[2]));
+			});
+			setProtoInfo(proto, "Vector value");
+		}
+		
+		// ivec4 value proto
+		{
+			uint32_t proto = addProto("ivec4", "IVec4");
+			setProtoColor(proto, tool_color);
+			addProtoOutput(proto, "v4", "", "ivec4(0.0)", ivec4_type, true);
+			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
+				ControlSlider sliders[4];
+				const char *names[] = { "X", "Y", "Z", "W" };
+				for(uint32_t i = 0; i < 4; i++) {
+					sliders[i] = create_slider_i32(&grid, names[i]);
+				}
+				ControlSlider::ChangedCallback changed_func = makeFunction([this](ControlSlider slider, uint32_t node, ControlSlider x_slider, ControlSlider y_slider, ControlSlider z_slider, ControlSlider w_slider) {
+					int32_t x = x_slider.getValuei32();
+					int32_t y = y_slider.getValuei32();
+					int32_t z = z_slider.getValuei32();
+					int32_t w = w_slider.getValuei32();
+					setOutputValue(node, "v4", String::tformat("ivec4({0}, {1}, {2}, {3})", x, y, z, w), !slider.isChanged(false));
+					setChanged();
+				}, ControlSlider::null, node, sliders[0], sliders[1], sliders[2], sliders[3]);
+				for(uint32_t i = 0; i < 4; i++) {
+					sliders[i].setChangedCallback(changed_func);
+				}
+				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlSlider x_slider, ControlSlider y_slider, ControlSlider z_slider, ControlSlider w_slider) {
+					Vector4i value = Vector4i::zero;
+					const String &state = getOutputValue(node, "v4");
+					if(state.scanf("ivec4(%d, %d, %d, %d)", &value.x, &value.y, &value.z, &value.w) != 4) {
+						if(state.scanf("ivec4(%d)", &value.x) == 1) value = Vector4i(value.x);
+						else TS_LOGF(Error, "ControlFlowGLSL::ivec4_callback(): can't parse \"%s\"\n", state.get());
+					}
+					x_slider.setValue(value.x);
+					y_slider.setValue(value.y);
+					z_slider.setValue(value.z);
+					w_slider.setValue(value.w);
+					expand_slider(x_slider);
+					expand_slider(y_slider);
+					expand_slider(z_slider);
+					expand_slider(w_slider);
+				}, nullptr, 0, sliders[0], sliders[1], sliders[2], sliders[3]));
+			});
+			setProtoInfo(proto, "Vector value");
+		}
+		
+		// vector swizzle proto
+		{
+			uint32_t proto = addProto("ivec", "IVec");
+			setProtoColor(proto, tool_color);
+			addProtoInput(proto, "v4", "V4", "", ivec4_type);
+			addProtoInput(proto, "v3", "V3", "", ivec3_type);
+			addProtoInput(proto, "v2", "V2", "", ivec2_type);
+			addProtoInput(proto, "zw", "ZW", "", ivec2_type);
+			addProtoInput(proto, "x", "X", "0", int_type);
+			addProtoInput(proto, "y", "Y", "0", int_type);
+			addProtoInput(proto, "z", "Z", "0", int_type);
+			addProtoInput(proto, "w", "W", "0", int_type);
+			addProtoOutput(proto, "v4", "V4", "$0", ivec4_type);
+			addProtoOutput(proto, "v3", "V3", "$0.xyz", ivec3_type);
+			addProtoOutput(proto, "v2", "V2", "$0.xy", ivec2_type);
+			addProtoOutput(proto, "zw", "ZW", "$0.zw", ivec2_type);
+			addProtoOutput(proto, "x", "X", "$0.x", int_type);
+			addProtoOutput(proto, "y", "Y", "$0.y", int_type);
+			addProtoOutput(proto, "z", "Z", "$0.z", int_type);
+			addProtoOutput(proto, "w", "W", "$0.w", int_type);
+			for(uint32_t i = 0; i < getNumProtoOutputs(proto); i++) {
+				setProtoMultiOutput(proto, i, true);
+			}
+			setProtoUpdateCallback(proto, [this](ControlFlow *flow, uint32_t node, bool inverse) {
+				String value;
+				if(getNumInputConnections(node, "v4")) {
+					value += "ivec4 $0 = $v4;\n";
+				}
+				if(getNumInputConnections(node, "v3")) {
+					if(value) value += "$0.xyz = $v3;\n";
+					else value += "ivec4 $0 = ivec4($v3, $w);\n";
+				}
+				if(getNumInputConnections(node, "v2")) {
+					if(value) value += "$0.xy = $v2;\n";
+					else value += "ivec4 $0 = ivec4($v2, $z, $w);\n";
+				}
+				if(getNumInputConnections(node, "zw")) {
+					if(value) value += "$0.zw = $(zw);\n";
+					else value += "ivec4 $0 = ivec4($x, $y, $(zw));\n";
+				}
+				if(value) {
+					if(getNumInputConnections(node, "x")) value += "$0.x = $x;\n";
+					if(getNumInputConnections(node, "y")) value += "$0.y = $y;\n";
+					if(getNumInputConnections(node, "z")) value += "$0.z = $z;\n";
+					if(getNumInputConnections(node, "w")) value += "$0.w = $w;\n";
+				} else {
+					value += "ivec4 $0 = ivec4($x, $y, $z, $w);";
+				}
+				setNodeValue(node, value);
+				setNodeDynamic(node, true);
+			});
+			setProtoInfo(proto, "Vector swizzle");
+		}
+		
 		// mat2 value proto
 		{
 			uint32_t proto = addProto("mat2", "Mat2");
@@ -712,12 +907,12 @@ namespace Tellusim {
 				grid.setSpacing(2.0f, 2.0f);
 				ControlText rotate_text(&grid, "R");
 				rotate_text.setAlign(AlignRight | AlignCenterY);
-				ControlSlider rotate_slider = create_slider(&grid, "", 1, 0.0, -180.0, 180.0, matrix_width);
+				ControlSlider rotate_slider = create_slider_f64(&grid, "", 1, 0.0, -180.0, 180.0, matrix_width);
 				Control spacer(&grid);
 				ControlText scale_text(&grid, "S");
 				scale_text.setAlign(AlignRight | AlignCenterY);
-				ControlSlider scale_x_slider = create_slider(&grid, "X", 2, 1.0, 0.0, 2.0, matrix_width);
-				ControlSlider scale_y_slider = create_slider(&grid, "Y", 2, 1.0, 0.0, 2.0, matrix_width);
+				ControlSlider scale_x_slider = create_slider_f64(&grid, "X", 2, 1.0, 0.0, 2.0, matrix_width);
+				ControlSlider scale_y_slider = create_slider_f64(&grid, "Y", 2, 1.0, 0.0, 2.0, matrix_width);
 				ControlSlider::ChangedCallback changed_func = makeFunction([this](ControlSlider slider, uint32_t node, ControlSlider rotate_slider, ControlSlider scale_x_slider, ControlSlider scale_y_slider) {
 					Matrix3x2f m = Matrix3x2f::rotate(rotate_slider.getValuef32()) *
 						Matrix3x2f::scale(scale_x_slider.getValuef32(), scale_y_slider.getValuef32());
@@ -760,16 +955,16 @@ namespace Tellusim {
 				grid.setSpacing(2.0f, 2.0f);
 				ControlText translate_text(&grid, "T");
 				translate_text.setAlign(AlignRight | AlignCenterY);
-				ControlSlider translate_x_slider = create_slider(&grid, "X", 2, 0.0, -1.0, 1.0, matrix_width);
-				ControlSlider translate_y_slider = create_slider(&grid, "Y", 2, 0.0, -1.0, 1.0, matrix_width);
+				ControlSlider translate_x_slider = create_slider_f64(&grid, "X", 2, 0.0, -1.0, 1.0, matrix_width);
+				ControlSlider translate_y_slider = create_slider_f64(&grid, "Y", 2, 0.0, -1.0, 1.0, matrix_width);
 				ControlText rotate_text(&grid, "R");
 				rotate_text.setAlign(AlignRight | AlignCenterY);
-				ControlSlider rotate_slider = create_slider(&grid, "", 1, 0.0, -180.0, 180.0, matrix_width);
+				ControlSlider rotate_slider = create_slider_f64(&grid, "", 1, 0.0, -180.0, 180.0, matrix_width);
 				Control spacer(&grid);
 				ControlText scale_text(&grid, "S");
 				scale_text.setAlign(AlignRight | AlignCenterY);
-				ControlSlider scale_x_slider = create_slider(&grid, "X", 2, 1.0, 0.0, 2.0, matrix_width);
-				ControlSlider scale_y_slider = create_slider(&grid, "Y", 2, 1.0, 0.0, 2.0, matrix_width);
+				ControlSlider scale_x_slider = create_slider_f64(&grid, "X", 2, 1.0, 0.0, 2.0, matrix_width);
+				ControlSlider scale_y_slider = create_slider_f64(&grid, "Y", 2, 1.0, 0.0, 2.0, matrix_width);
 				ControlSlider::ChangedCallback changed_func = makeFunction([this](ControlSlider slider, uint32_t node, ControlSlider translate_x_slider, ControlSlider translate_y_slider, ControlSlider rotate_slider, ControlSlider scale_x_slider, ControlSlider scale_y_slider) {
 					Matrix3x2f m = Matrix3x2f::translate(translate_x_slider.getValuef32(), translate_y_slider.getValuef32()) *
 						Matrix3x2f::rotate(rotate_slider.getValuef32()) *
@@ -821,14 +1016,14 @@ namespace Tellusim {
 				grid.setSpacing(2.0f, 2.0f);
 				ControlText rotate_text(&grid, "R");
 				rotate_text.setAlign(AlignRight | AlignCenterY);
-				ControlSlider rotate_x_slider = create_slider(&grid, "X", 1, 0.0, -180.0, 180.0, matrix_width);
-				ControlSlider rotate_y_slider = create_slider(&grid, "Y", 1, 0.0, -180.0, 180.0, matrix_width);
-				ControlSlider rotate_z_slider = create_slider(&grid, "Z", 1, 0.0, -180.0, 180.0, matrix_width);
+				ControlSlider rotate_x_slider = create_slider_f64(&grid, "X", 1, 0.0, -180.0, 180.0, matrix_width);
+				ControlSlider rotate_y_slider = create_slider_f64(&grid, "Y", 1, 0.0, -180.0, 180.0, matrix_width);
+				ControlSlider rotate_z_slider = create_slider_f64(&grid, "Z", 1, 0.0, -180.0, 180.0, matrix_width);
 				ControlText scale_text(&grid, "S");
 				scale_text.setAlign(AlignRight | AlignCenterY);
-				ControlSlider scale_x_slider = create_slider(&grid, "X", 2, 1.0, 0.0, 2.0, matrix_width);
-				ControlSlider scale_y_slider = create_slider(&grid, "Y", 2, 1.0, 0.0, 2.0, matrix_width);
-				ControlSlider scale_z_slider = create_slider(&grid, "Z", 2, 1.0, 0.0, 2.0, matrix_width);
+				ControlSlider scale_x_slider = create_slider_f64(&grid, "X", 2, 1.0, 0.0, 2.0, matrix_width);
+				ControlSlider scale_y_slider = create_slider_f64(&grid, "Y", 2, 1.0, 0.0, 2.0, matrix_width);
+				ControlSlider scale_z_slider = create_slider_f64(&grid, "Z", 2, 1.0, 0.0, 2.0, matrix_width);
 				ControlSlider::ChangedCallback changed_func = makeFunction([this](ControlSlider slider, uint32_t node, ControlSlider rotate_x_slider, ControlSlider rotate_y_slider, ControlSlider rotate_z_slider, ControlSlider scale_x_slider, ControlSlider scale_y_slider, ControlSlider scale_z_slider) {
 					Matrix4x3f m = Matrix4x3f::compose(Vector3f::zero,
 						Quaternionf::rotateZYX(rotate_x_slider.getValuef32(), rotate_y_slider.getValuef32(), rotate_z_slider.getValuef32()),
@@ -888,19 +1083,19 @@ namespace Tellusim {
 				grid.setSpacing(2.0f, 2.0f);
 				ControlText translate_text(&grid, "T");
 				translate_text.setAlign(AlignRight | AlignCenterY);
-				controls.translate_sliders[0] = create_slider(&grid, "X", 2, 0.0, -1.0, 1.0, matrix_width);
-				controls.translate_sliders[1] = create_slider(&grid, "Y", 2, 0.0, -1.0, 1.0, matrix_width);
-				controls.translate_sliders[2] = create_slider(&grid, "Z", 2, 0.0, -1.0, 1.0, matrix_width);
+				controls.translate_sliders[0] = create_slider_f64(&grid, "X", 2, 0.0, -1.0, 1.0, matrix_width);
+				controls.translate_sliders[1] = create_slider_f64(&grid, "Y", 2, 0.0, -1.0, 1.0, matrix_width);
+				controls.translate_sliders[2] = create_slider_f64(&grid, "Z", 2, 0.0, -1.0, 1.0, matrix_width);
 				ControlText rotate_text(&grid, "R");
 				rotate_text.setAlign(AlignRight | AlignCenterY);
-				controls.rotate_sliders[0] = create_slider(&grid, "X", 1, 0.0, -180.0, 180.0, matrix_width);
-				controls.rotate_sliders[1] = create_slider(&grid, "Y", 1, 0.0, -180.0, 180.0, matrix_width);
-				controls.rotate_sliders[2] = create_slider(&grid, "Z", 1, 0.0, -180.0, 180.0, matrix_width);
+				controls.rotate_sliders[0] = create_slider_f64(&grid, "X", 1, 0.0, -180.0, 180.0, matrix_width);
+				controls.rotate_sliders[1] = create_slider_f64(&grid, "Y", 1, 0.0, -180.0, 180.0, matrix_width);
+				controls.rotate_sliders[2] = create_slider_f64(&grid, "Z", 1, 0.0, -180.0, 180.0, matrix_width);
 				ControlText scale_text(&grid, "S");
 				scale_text.setAlign(AlignRight | AlignCenterY);
-				controls.scale_sliders[0] = create_slider(&grid, "X", 2, 1.0, 0.0, 2.0, matrix_width);
-				controls.scale_sliders[1] = create_slider(&grid, "Y", 2, 1.0, 0.0, 2.0, matrix_width);
-				controls.scale_sliders[2] = create_slider(&grid, "Z", 2, 1.0, 0.0, 2.0, matrix_width);
+				controls.scale_sliders[0] = create_slider_f64(&grid, "X", 2, 1.0, 0.0, 2.0, matrix_width);
+				controls.scale_sliders[1] = create_slider_f64(&grid, "Y", 2, 1.0, 0.0, 2.0, matrix_width);
+				controls.scale_sliders[2] = create_slider_f64(&grid, "Z", 2, 1.0, 0.0, 2.0, matrix_width);
 				ControlSlider::ChangedCallback changed_func = makeFunction([this](ControlSlider slider, uint32_t node, Controls controls) {
 					Matrix4x4f m = Matrix4x4f::compose(Vector3f(controls.translate_sliders[0].getValuef32(), controls.translate_sliders[1].getValuef32(), controls.translate_sliders[2].getValuef32()),
 						Quaternionf::rotateZYX(controls.rotate_sliders[0].getValuef32(), controls.rotate_sliders[1].getValuef32(), controls.rotate_sliders[2].getValuef32()),
@@ -974,19 +1169,19 @@ namespace Tellusim {
 				grid.setSpacing(2.0f, 2.0f);
 				ControlText translate_text(&grid, "T");
 				translate_text.setAlign(AlignRight | AlignCenterY);
-				controls.translate_sliders[0] = create_slider(&grid, "X", 2, 0.0, -1.0, 1.0, matrix_width);
-				controls.translate_sliders[1] = create_slider(&grid, "Y", 2, 0.0, -1.0, 1.0, matrix_width);
-				controls.translate_sliders[2] = create_slider(&grid, "Z", 2, 0.0, -1.0, 1.0, matrix_width);
+				controls.translate_sliders[0] = create_slider_f64(&grid, "X", 2, 0.0, -1.0, 1.0, matrix_width);
+				controls.translate_sliders[1] = create_slider_f64(&grid, "Y", 2, 0.0, -1.0, 1.0, matrix_width);
+				controls.translate_sliders[2] = create_slider_f64(&grid, "Z", 2, 0.0, -1.0, 1.0, matrix_width);
 				ControlText rotate_text(&grid, "R");
 				rotate_text.setAlign(AlignRight | AlignCenterY);
-				controls.rotate_sliders[0] = create_slider(&grid, "X", 1, 0.0, -180.0, 180.0, matrix_width);
-				controls.rotate_sliders[1] = create_slider(&grid, "Y", 1, 0.0, -180.0, 180.0, matrix_width);
-				controls.rotate_sliders[2] = create_slider(&grid, "Z", 1, 0.0, -180.0, 180.0, matrix_width);
+				controls.rotate_sliders[0] = create_slider_f64(&grid, "X", 1, 0.0, -180.0, 180.0, matrix_width);
+				controls.rotate_sliders[1] = create_slider_f64(&grid, "Y", 1, 0.0, -180.0, 180.0, matrix_width);
+				controls.rotate_sliders[2] = create_slider_f64(&grid, "Z", 1, 0.0, -180.0, 180.0, matrix_width);
 				ControlText scale_text(&grid, "S");
 				scale_text.setAlign(AlignRight | AlignCenterY);
-				controls.scale_sliders[0] = create_slider(&grid, "X", 2, 1.0, 0.0, 2.0, matrix_width);
-				controls.scale_sliders[1] = create_slider(&grid, "Y", 2, 1.0, 0.0, 2.0, matrix_width);
-				controls.scale_sliders[2] = create_slider(&grid, "Z", 2, 1.0, 0.0, 2.0, matrix_width);
+				controls.scale_sliders[0] = create_slider_f64(&grid, "X", 2, 1.0, 0.0, 2.0, matrix_width);
+				controls.scale_sliders[1] = create_slider_f64(&grid, "Y", 2, 1.0, 0.0, 2.0, matrix_width);
+				controls.scale_sliders[2] = create_slider_f64(&grid, "Z", 2, 1.0, 0.0, 2.0, matrix_width);
 				ControlSlider::ChangedCallback changed_func = makeFunction([this](ControlSlider slider, uint32_t node, Controls controls) {
 					Matrix4x3f m = Matrix4x3f::compose(Vector3f(controls.translate_sliders[0].getValuef32(), controls.translate_sliders[1].getValuef32(), controls.translate_sliders[2].getValuef32()),
 						Quaternionf::rotateZYX(controls.rotate_sliders[0].getValuef32(), controls.rotate_sliders[1].getValuef32(), controls.rotate_sliders[2].getValuef32()),
@@ -1479,11 +1674,11 @@ namespace Tellusim {
 			addProtoOutput(proto, "v", "", "$a", any_type, true);
 			setProtoInputAttachCallback(proto, 0, any_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
-				ControlSlider from_min_slider = create_slider(&grid, "From", 2, 0.0);
-				ControlSlider from_max_slider = create_slider(&grid, "", 2, 1.0);
-				ControlSlider power_slider = create_slider(&grid, "Power", 2, 1.0, 0.0, 2.0);
-				ControlSlider to_min_slider = create_slider(&grid, "To", 2, 0.0);
-				ControlSlider to_max_slider = create_slider(&grid, "", 2, 1.0);
+				ControlSlider from_min_slider = create_slider_f64(&grid, "From", 3, 0.0);
+				ControlSlider from_max_slider = create_slider_f64(&grid, "", 3, 1.0);
+				ControlSlider power_slider = create_slider_f64(&grid, "Power", 3, 1.0, 0.0, 2.0);
+				ControlSlider to_min_slider = create_slider_f64(&grid, "To", 3, 0.0);
+				ControlSlider to_max_slider = create_slider_f64(&grid, "", 3, 1.0);
 				static const char *values[][6] = { {
 					"(($a) - {0}f) * {6}f + {2}f",
 					"fract((($a) - {0}f) * {4}f) * {5}f + {2}f",
@@ -1571,9 +1766,9 @@ namespace Tellusim {
 			addProtoOutput(proto, "v", "", "$a", any_type, true);
 			setProtoInputAttachCallback(proto, 0, any_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
-				ControlSlider brighness_slider = create_slider(&grid, "B", 2, 0.0, -1.0, 1.0);
-				ControlSlider contrast_slider = create_slider(&grid, "C", 2, 0.0, -1.0, 1.0);
-				ControlSlider middle_slider = create_slider(&grid, "M", 2, 0.0, -1.0, 1.0);
+				ControlSlider brighness_slider = create_slider_f64(&grid, "B", 2, 0.0, -1.0, 1.0);
+				ControlSlider contrast_slider = create_slider_f64(&grid, "C", 2, 0.0, -1.0, 1.0);
+				ControlSlider middle_slider = create_slider_f64(&grid, "M", 2, 0.0, -1.0, 1.0);
 				ControlSlider::ChangedCallback changed_func = makeFunction([this](ControlSlider slider, uint32_t node, ControlSlider brighness_slider, ControlSlider contrast_slider, ControlSlider middle_slider) {
 					float32_t brighness = brighness_slider.getValuef32();
 					float32_t contrast = contrast_slider.getValuef32();
@@ -1756,14 +1951,14 @@ namespace Tellusim {
 					"max($a, $b)",
 					"1.0f - (1.0f - ($a)) * (1.0f - ($b))",
 					"($a) / max(1.0f - ($b), 1e-6f)",
-					"($a) + $(b)",
+					"($a) + ($b)",
 					"mix(1.0f - (1.0f - (($a) - 0.5f) * 2.0f) * (1.0f - ($b)), ($a) * ($b) * 2.0f, lessThanEqual($b, 0.5f))",
 					"mix(1.0f - (1.0f - ($a)) * (1.0f - (($b) - 0.5f)), ($a) * (($b) + 0.5f), lessThanEqual($b, 0.5f))",
 					"mix(1.0f - (1.0f - ($a)) * (1.0f - (($b) - 0.5f) * 2.0f), ($a) * ($b) * 2.0f, lessThanEqual($b, 0.5f))",
 					"mix(1.0f - (1.0f - ($a)) / max((($b) - 0.5f) * 2.0f, 1e-6f), ($a) / max(1.0f - ($b) * 2.0f, 1e-6f), lessThanEqual($b, 0.5f))",
-					"mix(($a) + (($b) - 0.5f) * 2.0f, $(a) + ($b) * 2.0f - 1.0f, lessThanEqual($b, 0.5f))",
+					"mix($a + ($b - 0.5f) * 2.0f, $a + ($b) * 2.0f - 1.0f, lessThanEqual($b, 0.5f))",
 					"mix(max($a, (($b) - 0.5f) * 2.0f), min($a, ($b) * 2.0f), lessThanEqual($b, 0.5f))",
-					"abs(($a) - $(b))",
+					"abs(($a) - ($b))",
 					"0.5f - (($a) - 0.5f) * (($b) - 0.5f) * 2.0f",
 				};
 				ControlCombo combo = create_combo(&getNodeInputGrid(node), {
@@ -1979,18 +2174,177 @@ namespace Tellusim {
 	
 	/*****************************************************************************\
 	 *
-	 * ControlFlowGLSL Noise
+	 * ControlFlowGLSL Fields
 	 *
 	\*****************************************************************************/
 	
 	/*
 	 */
-	void ControlFlowGLSL::create_noise() {
+	void ControlFlowGLSL::create_fields() {
+		
+		// Circle sdf proto
+		{
+			uint32_t proto = addProto("circle_sdf", "Circle SDF");
+			setProtoColor(proto, field_color);
+			addProtoInput(proto, "texcoord", "TexCoord", "", vec2_type);
+			addProtoInput(proto, "radius", "Radius", "1.0", float_type);
+			addProtoOutput(proto, "v", "", "length($texcoord) - ($radius)", float_type, true);
+			setProtoInfo(proto, "Circle SDF");
+		}
+		
+		// Triangle sdf proto
+		{
+			uint32_t proto = addProto("triangle_sdf", "Triangle SDF");
+			setProtoColor(proto, field_color);
+			addProtoInput(proto, "texcoord", "TexCoord", "", vec2_type);
+			addProtoInput(proto, "radius", "Radius", "1.0", float_type);
+			addProtoOutput(proto, "v", "", "$0", float_type, true);
+			String value;
+			value += "float $0 = 0.0f; {\n";
+			value += "\tvec2 p = vec2(abs(($texcoord).x), ($texcoord).y);\n";
+			value += "\tp -= vec2(0.5f, 0.866025403f) * max(p.x + 1.732050807f * p.y, 0.0f);\n";
+			value += "\tp -= vec2(clamp(p.x, -($radius) * 1.732050807f, ($radius) * 1.732050807f), -($radius));\n";
+			value += "\t$0 = length(p) * sign(-p.y);\n";
+			value += "}\n";
+			setProtoValue(proto, value);
+			setProtoInfo(proto, "Triangle SDF");
+		}
+		
+		// Box sdf proto
+		{
+			uint32_t proto = addProto("box_sdf", "Box SDF");
+			setProtoColor(proto, field_color);
+			addProtoInput(proto, "texcoord", "TexCoord", "", vec2_type);
+			addProtoInput(proto, "size", "Size", "1.0", vec2_type);
+			addProtoOutput(proto, "v", "", "$0", float_type, true);
+			String value;
+			value += "float $0 = 0.0f; {\n";
+			value += "\tvec2 p = abs($texcoord) - ($size);\n";
+			value += "\t$0 = length(max(p, 0.0f)) + min(max(p.x, p.y), 0.0f);\n";
+			value += "}\n";
+			setProtoValue(proto, value);
+			setProtoInfo(proto, "Box SDF");
+		}
+		
+		// Pentagon sdf proto
+		{
+			uint32_t proto = addProto("pentagon_sdf", "Pentagon SDF");
+			setProtoColor(proto, field_color);
+			addProtoInput(proto, "texcoord", "TexCoord", "", vec2_type);
+			addProtoInput(proto, "radius", "Radius", "1.0", float_type);
+			addProtoOutput(proto, "v", "", "$0", float_type, true);
+			String value;
+			value += "float $0 = 0.0f; {\n";
+			value += "\tvec2 p = vec2(abs(($texcoord).x), -($texcoord).y);\n";
+			value += "\tp -= vec2(-0.809016994f, 0.587785252f) * min(dot(vec2(-1.618033988f, 1.175570504f), p), 0.0f);\n";
+			value += "\tp -= vec2( 0.809016994f, 0.587785252f) * min(dot(vec2( 1.618033988f, 1.175570504f), p), 0.0f);\n";
+			value += "\tp -= vec2(clamp(p.x, -($radius) * 0.726542528f, ($radius) * 0.726542528f), $radius);\n";
+			value += "\t$0 = length(p) * sign(p.y);\n";
+			value += "}\n";
+			setProtoValue(proto, value);
+			setProtoInfo(proto, "Pentagon SDF");
+		}
+		
+		// Hexagon sdf proto
+		{
+			uint32_t proto = addProto("hexagon_sdf", "Hexagon SDF");
+			setProtoColor(proto, field_color);
+			addProtoInput(proto, "texcoord", "TexCoord", "", vec2_type);
+			addProtoInput(proto, "radius", "Radius", "1.0", float_type);
+			addProtoOutput(proto, "v", "", "$0", float_type, true);
+			String value;
+			value += "float $0 = 0.0f; {\n";
+			value += "\tvec2 p = abs($texcoord);\n";
+			value += "\tp -= vec2(-0.866025404f, 0.5f) * min(dot(vec2(-1.732050808f, 1.0f), p), 0.0f);\n";
+			value += "\tp -= vec2(clamp(p.x, -($radius) * 0.577350269f, ($radius) * 0.577350269f), $radius);\n";
+			value += "\t$0 = length(p) * sign(p.y);\n";
+			value += "}\n";
+			setProtoValue(proto, value);
+			setProtoInfo(proto, "Hexagon SDF");
+		}
+		
+		// Octagon sdf proto
+		{
+			uint32_t proto = addProto("octagon_sdf", "Octagon SDF");
+			setProtoColor(proto, field_color);
+			addProtoInput(proto, "texcoord", "TexCoord", "", vec2_type);
+			addProtoInput(proto, "radius", "Radius", "1.0", float_type);
+			addProtoOutput(proto, "v", "", "$0", float_type, true);
+			String value;
+			value += "float $0 = 0.0f; {\n";
+			value += "\tvec2 p = abs($texcoord);\n";
+			value += "\tp -= vec2(-0.9238795325f, 0.3826834323f) * min(dot(vec2(-1.847759065f, 0.765366864f), p), 0.0f);\n";
+			value += "\tp -= vec2( 0.9238795325f, 0.3826834323f) * min(dot(vec2( 1.847759065f, 0.765366864f), p), 0.0f);\n";
+			value += "\tp -= vec2(clamp(p.x, -($radius) * 0.4142135623f, ($radius) * 0.4142135623f), $radius);\n";
+			value += "\t$0 = length(p) * sign(p.y);\n";
+			value += "}\n";
+			setProtoValue(proto, value);
+			setProtoInfo(proto, "Octagon SDF");
+		}
+		
+		// Star sdf proto
+		{
+			uint32_t proto = addProto("star_sdf", "Star SDF");
+			setProtoColor(proto, field_color);
+			addProtoInput(proto, "texcoord", "TexCoord", "", vec2_type);
+			addProtoInput(proto, "radius", "Radius", "1.0", float_type);
+			addProtoInput(proto, "sides", "Sides", "7.0", float_type);
+			addProtoInput(proto, "angle", "Angle", "0.5", float_type);
+			addProtoOutput(proto, "v", "", "$0", float_type, true);
+			String value;
+			value += "float $0 = 0.0f; {\n";
+			value += "\tvec2 p = vec2(abs(($texcoord).x), ($texcoord).y);\n";
+			value += "\tfloat a0 = 3.141592654f * (1.0f / ($sides));\n";
+			value += "\tfloat a1 = 3.141592654f * (1.0f / (($sides) + (2.0f - ($sides)) * ($angle)));\n";
+			value += "\tfloat a2 = mod(atan(p.x, p.y), a0 * 2.0f) - a0;\n";
+			value += "\tvec2 k0 = vec2($radius, tan(a0) * ($radius));\n";
+			value += "\tvec2 k1 = vec2(cos(a1), sin(a1));\n";
+			value += "\tp = vec2(cos(a2), abs(sin(a2))) * length(p) - k0;\n";
+			value += "\tp += k1 * clamp(-dot(p, k1), 0.0f, k0.y / k1.y);\n";
+			value += "\t$0 = length(p) * sign(p.x);\n";
+			value += "}\n";
+			setProtoValue(proto, value);
+			setProtoInfo(proto, "Star SDF");
+		}
+		
+		// Checker proto
+		{
+			uint32_t proto = addProto("checker_sampler", "Checker Sampler");
+			setProtoColor(proto, field_color);
+			addProtoInput(proto, "texcoord", "TexCoord", "", vec2_type);
+			addProtoInput(proto, "tile", "Tile", "1.0", vec2_type);
+			addProtoInput(proto, "ratio", "Ratio", "0.5", vec2_type);
+			addProtoOutput(proto, "v", "", "$0", float_type, true);
+			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
+				Control spacer(&getNodeInputGrid(node));
+				ControlCombo combo(&getNodeInputGrid(node), { "Checker", "Grid" }, Maxu32);
+				combo.setChangedCallback(makeFunction([this](ControlCombo combo, ControlFlow *flow, uint32_t node) {
+					setNodeState(node, combo.getCurrentText(), true);
+					setChanged();
+				}, ControlCombo::null, flow, node));
+				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlCombo combo) {
+					set_state(combo, getNodeState(node));
+					setNodeDynamic(node, true);
+				}, nullptr, 0, combo));
+			});
+			setProtoUpdateCallback(proto, [this](ControlFlow *flow, uint32_t node, bool inverse) {
+				String value;
+				const String &state = getNodeState(node);
+				value += "float $0 = 0.0f; {\n";
+				value += "\tvec2 p = step(fract(($texcoord) * ($tile)), $ratio);\n";
+				if(state == "Grid") value += "\t$0 = 1.0f - p.x * p.y;\n";
+				else value += "\t$0 = 1.0f - p.x - p.y + 2.0f * p.x * p.y;\n";
+				value += "}\n";
+				setNodeValue(node, value);
+				setNodeDynamic(node, true);
+			});
+			setProtoInfo(proto, "Checker sampler");
+		}
 		
 		// Hash noise proto
 		{
 			uint32_t proto = addProto("hash_noise", "Hash Noise");
-			setProtoColor(proto, noise_color);
+			setProtoColor(proto, field_color);
 			addProtoInput(proto, "texcoord", "TexCoord", "", any_type);
 			addProtoInput(proto, "tile", "Tile", "1.0", any_type);
 			addProtoOutput(proto, "v1", "", "$0", float_type, true);
@@ -1999,7 +2353,7 @@ namespace Tellusim {
 			addProtoOutput(proto, "v4", "", "$3", vec4_type, true);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				Control spacer(&getNodeInputGrid(node));
-				ControlCombo combo(&getNodeInputGrid(node), { "None", "Floor", "Ceil", }, Maxu32);
+				ControlCombo combo(&getNodeInputGrid(node), { "None", "Floor", "Ceil" }, Maxu32);
 				combo.setChangedCallback(makeFunction([this](ControlCombo combo, ControlFlow *flow, uint32_t node) {
 					setNodeState(node, combo.getCurrentText(), true);
 					setChanged();
@@ -2073,14 +2427,14 @@ namespace Tellusim {
 		// Perlin noise proto
 		{
 			uint32_t proto = addProto("perlin_noise", "Perlin Noise");
-			setProtoColor(proto, noise_color);
+			setProtoColor(proto, field_color);
 			addProtoInput(proto, "texcoord", "TexCoord", "", any_type);
 			addProtoInput(proto, "tile", "Tile", "1.0", any_type);
 			addProtoOutput(proto, "v", "", "$0", float_type, true);
 			addProtoOutput(proto, "dv", "D", "$1", any_type, true);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				Control spacer(&getNodeInputGrid(node));
-				ControlCombo combo(&getNodeInputGrid(node), { "Quintic", "Cubic", }, Maxu32);
+				ControlCombo combo(&getNodeInputGrid(node), { "Quintic", "Cubic" }, Maxu32);
 				combo.setChangedCallback(makeFunction([this](ControlCombo combo, ControlFlow *flow, uint32_t node) {
 					setNodeState(node, combo.getCurrentText(), true);
 					setChanged();
@@ -2135,7 +2489,7 @@ namespace Tellusim {
 		// Fractal noise proto
 		{
 			uint32_t proto = addProto("fractal_noise", "Fractal Noise");
-			setProtoColor(proto, noise_color);
+			setProtoColor(proto, field_color);
 			addProtoInput(proto, "texcoord", "TexCoord", "", any_type);
 			addProtoInput(proto, "tile", "Tile", "1.0", any_type);
 			addProtoInput(proto, "matrix", "Matrix", "", any_type);
@@ -2163,10 +2517,7 @@ namespace Tellusim {
 				bool has_matrix = (getNumInputConnections(node, "matrix") != 0);
 				bool has_offset = (getNumInputConnections(node, "offset") || getInputValue(node, "offset") != "0.0");
 				bool has_dv = (getNumOutputConnections(node, "dv") != 0);
-				if(has_dv) {
-					if(type == vec2_type) value += "vec2 $1 = vec2(0.0f); ";
-					else if(type == vec3_type) value += "vec3 $1 = vec3(0.0f); ";
-				}
+				if(has_dv) value += "@dv $1 = @dv(0.0f); ";
 				value += "float $0 = 0.0f; {\n";
 				value += "\tfloat value = 1.0f;\n";
 				if(has_offset) value += "\tfloat offset = $offset;\n";
@@ -2187,15 +2538,15 @@ namespace Tellusim {
 				if(type == vec2_type) macros += "; PERLIN_2_SHADER=1";
 				else if(type == vec3_type) macros += "; PERLIN_3_SHADER=1";
 				if(has_offset || has_dv) macros += "; DERIVATIVE_SHADER=1";
-				value += "\tfloat steps = min(float($steps), 64.0f);\n";
+				value += "\tfloat steps = min($steps, 64.0f);\n";
 				value += "\tfor(float i = 0.0f; i < steps; i += 1.0f) {";
 				String src = Shader::preprocessor(library_source.get(), macros);
 				value += src.replace("IN", "texcoord").replace("\n", "\n\t\t");
 				value.removeBack(2);
 				if(has_dv) {
 					value += "\t\tfloat v = OUT.x;\n";
-					if(type == vec2_type) value += "\t$1 += OUT.yz * (value * dvalue);\n";
-					else if(type == vec3_type) value += "\t$1 += OUT.yzw * (value * dvalue);\n";
+					if(type == vec2_type) value += "\t\t$1 += OUT.yz * (value * dvalue);\n";
+					else if(type == vec3_type) value += "\t\t$1 += OUT.yzw * (value * dvalue);\n";
 					value += "\t\tdvalue *= dscale;\n";
 				} else if(has_offset) {
 					value += "\t\tfloat v = OUT.x;\n";
@@ -2252,7 +2603,7 @@ namespace Tellusim {
 		// Cell noise proto
 		{
 			uint32_t proto = addProto("cell_noise", "Cell Noise");
-			setProtoColor(proto, noise_color);
+			setProtoColor(proto, field_color);
 			addProtoInput(proto, "texcoord", "TexCoord", "", any_type);
 			addProtoInput(proto, "tile", "Tile", "1.0", any_type);
 			addProtoInput(proto, "matrix", "Matrix", "", any_type);
@@ -2262,6 +2613,7 @@ namespace Tellusim {
 			addProtoOutput(proto, "d1", "D1", "$0.y", float_type, true);
 			addProtoOutput(proto, "d2", "D2", "$0.z", float_type, true);
 			addProtoOutput(proto, "seed", "Seed", "$1", float_type, true);
+			addProtoOutput(proto, "texcoord", "TexCoord", "$2", any_type, true);
 			setProtoUpdateCallback(proto, [this](ControlFlow *flow, uint32_t node, bool inverse) {
 				String value;
 				uint32_t type = getInputType(node, "matrix");
@@ -2269,6 +2621,8 @@ namespace Tellusim {
 				bool has_d1 = (getNumOutputConnections(node, "d1") != 0);
 				bool has_d2 = (getNumOutputConnections(node, "d2") != 0);
 				bool has_seed = (getNumOutputConnections(node, "seed") != 0);
+				bool has_texcoord = (getNumOutputConnections(node, "texcoord") != 0);
+				if(has_texcoord) value += "@texcoord $2 = @texcoord(0.0f);\n";
 				if(has_seed) value += "float $1 = 0.0f; ";
 				value += "vec3 $0 = vec3(64.0f); {\n";
 				value += "\tfloat size = $size;\n";
@@ -2279,11 +2633,11 @@ namespace Tellusim {
 					value += "\tvec2 f = fract(texcoord);\n";
 					value += "\t[[unroll]] for(float x = -1.0f; x <= 1.0f; x += 1.0f)\n";
 					value += "\tfor(float y = -1.0f; y <= 1.0f; y += 1.0f) {\n";
-					value += "\t	vec2 t = fract((texcoord + vec2(x, y)) / size) * size - f;\n";
-					value += "\t	vec2 s = fract(vec2(dot(matrix[0], t), dot(matrix[1], t)));\n";
-					value += "\t	vec2 p = sin(s * 6.283185f + $seed) * 0.49f + 0.5f;\n";
-					value += "\t	vec2 r = vec2(x, y) + p - f;\n";
-					value += "\t	float"" d = dot(r, r);\n";
+					value += "\t\tvec2 t = fract((texcoord + vec2(x, y)) / size) * size - f;\n";
+					value += "\t\tvec2 s = fract(vec2(dot(matrix[0], t), dot(matrix[1], t)));\n";
+					value += "\t\tvec2 p = sin(s * 6.283185f + $seed) * 0.49f + 0.5f;\n";
+					value += "\t\tvec2 r = vec2(x, y) + p - f;\n";
+					value += "\t\tfloat"" d = dot(r, r);\n";
 				} else if(type == mat3_type) {
 					value += "\tvec3 texcoord = ($texcoord) * ($tile);\n";
 					if(has_matrix) value += "\tmat3 matrix = $matrix;\n";
@@ -2292,12 +2646,13 @@ namespace Tellusim {
 					value += "\t[[unroll]] for(float x = -1.0f; x <= 1.0f; x += 1.0f)\n";
 					value += "\tfor(float y = -1.0f; y <= 1.0f; y += 1.0f)\n";
 					value += "\tfor(float z = -1.0f; z <= 1.0f; z += 1.0f) {\n";
-					value += "\t	vec3 t = fract((texcoord + vec3(x, y, z)) / size) * size - f;\n";
-					value += "\t	vec3 s = fract(vec3(dot(matrix[0], t), dot(matrix[1], t), dot(matrix[2], t)));\n";
-					value += "\t	vec3 p = sin(s * 6.283185f + $seed) * 0.49f + 0.5f;\n";
-					value += "\t	vec3 r = vec3(x, y, z) + p - f;\n";
-					value += "\t	float"" d = dot(r, r);\n";
+					value += "\t\tvec3 t = fract((texcoord + vec3(x, y, z)) / size) * size - f;\n";
+					value += "\t\tvec3 s = fract(vec3(dot(matrix[0], t), dot(matrix[1], t), dot(matrix[2], t)));\n";
+					value += "\t\tvec3 p = sin(s * 6.283185f + $seed) * 0.49f + 0.5f;\n";
+					value += "\t\tvec3 r = vec3(x, y, z) + p - f;\n";
+					value += "\t\tfloat"" d = dot(r, r);\n";
 				}
+				if(has_texcoord) value += "\t\tif(d < $0.x) $2 = r;\n";
 				if(has_seed) value += "\t\tif(d < $0.x) $1 = dot(p, 1.0f / 3.0f);\n";
 				if(has_d2) value += "\t\t$0.z = max($0.x, max($0.y, min($0.z, d)));\n";
 				if(has_d2 || has_d1) value += "\t\t$0.y = max($0.x, min($0.y, d));\n";
@@ -2314,20 +2669,83 @@ namespace Tellusim {
 					setInputType(node, "texcoord", texcoord_type);
 					setInputType(node, "tile", texcoord_type);
 					setInputType(node, "matrix", mat2_type);
+					setOutputType(node, "texcoord", texcoord_type);
 					return true;
 				}
 				if(texcoord_type == vec3_type) {
 					setInputType(node, "texcoord", texcoord_type);
 					setInputType(node, "tile", texcoord_type);
 					setInputType(node, "matrix", mat3_type);
+					setOutputType(node, "texcoord", texcoord_type);
 					return true;
 				}
 				setInputType(node, "texcoord", any_type);
 				setInputType(node, "tile", any_type);
 				setInputType(node, "matrix", any_type);
+				setOutputType(node, "texcoord", any_type);
 				return (output_node != Maxu32 && texcoord_type == any_type);
 			});
 			setProtoInfo(proto, "Cell noise sampler");
+		}
+		
+		// Twist warp proto
+		{
+			uint32_t proto = addProto("twist_warp", "Twist Warp");
+			setProtoColor(proto, field_color);
+			addProtoInput(proto, "texcoord", "TexCoord", "", vec2_type);
+			addProtoInput(proto, "center", "Center", "0.5", vec2_type);
+			addProtoInput(proto, "angle", "Angle", "1.0", float_type);
+			addProtoOutput(proto, "v", "", "$0", vec2_type, true);
+			String value;
+			value += "vec2 $0 = vec2(0.0f); {\n";
+			value += "\tvec2 p = ($texcoord) - ($center);\n";
+			value += "\tfloat a = length(p) * ($angle);\n";
+			value += "\tfloat s = sin(a);\n";
+			value += "\tfloat c = cos(a);\n";
+			value += "\t$0 = ($center) + vec2(c * p.x - s * p.y, s * p.x + c * p.y);\n";
+			value += "}\n";
+			setProtoValue(proto, value);
+			setProtoInfo(proto, "Twist texcoord warp");
+		}
+		
+		// Ripple warp proto
+		{
+			uint32_t proto = addProto("ripple_warp", "Ripple Warp");
+			setProtoColor(proto, field_color);
+			addProtoInput(proto, "texcoord", "TexCoord", "", vec2_type);
+			addProtoInput(proto, "center", "Center", "0.5", vec2_type);
+			addProtoInput(proto, "amplitude", "Amplitude", "0.01", vec2_type);
+			addProtoInput(proto, "frequency", "Frequency", "16.0", vec2_type);
+			addProtoInput(proto, "time", "Time", "0.0", vec2_type);
+			addProtoOutput(proto, "v", "", "$0", vec2_type, true);
+			String value;
+			value += "vec2 $0 = $texcoord; {\n";
+			value += "\tvec2 p = ($texcoord) - ($center);\n";
+			value += "\tfloat r = length(p);\n";
+			value += "\tp *= 1.0f / max(r, 1e-6f);\n";
+			value += "\t$0 += p * ($amplitude) * sin(($frequency) * r - ($time));\n";
+			value += "}\n";
+			setProtoValue(proto, value);
+			setProtoInfo(proto, "Ripple texcoord warp");
+		}
+		
+		// Wave warp proto
+		{
+			uint32_t proto = addProto("wave_warp", "Wave Warp");
+			setProtoColor(proto, field_color);
+			addProtoInput(proto, "texcoord", "TexCoord", "", vec2_type);
+			addProtoInput(proto, "amplitude", "Amplitude", "0.01", vec2_type);
+			addProtoInput(proto, "frequency", "Frequency", "16.0", vec2_type);
+			addProtoInput(proto, "time", "Time", "0.0", vec2_type);
+			addProtoOutput(proto, "v", "", "$0", vec2_type, true);
+			String value;
+			value += "vec2 $0 = $texcoord; {\n";
+			value += "\t$0 += ($amplitude) * sin(($frequency) * ($texcoord).yx * vec2(1.13f, 1.41f) + ($time) * vec2(1.0f, -1.0f));\n";
+			value += "\t$0 += ($amplitude) * sin(($frequency) * ($texcoord).xy * vec2(1.27f, 1.73f) + ($time) * vec2(0.7f,  1.2f));\n";
+			value += "\t$0 += ($amplitude) * sin(($frequency) * ($texcoord).yx * vec2(1.19f, 1.61f) + ($time) * vec2(1.3f, -0.9f)) * 0.5f;\n";
+			value += "}\n";
+			setProtoValue(proto, value);
+			setProtoInfo(proto, "Wave texcoord warp");
 		}
 	}
 	
@@ -2339,7 +2757,63 @@ namespace Tellusim {
 	
 	/*
 	 */
-	ControlSlider ControlFlowGLSL::create_slider(Control *root, const char *name, uint32_t digits, float64_t value, float64_t min_value, float64_t max_value, float32_t width) {
+	ControlSlider ControlFlowGLSL::create_slider_i32(Control *root, const char *name, int32_t value, int32_t min_value, int32_t max_value, float32_t width) {
+		
+		// create slider
+		ControlSlider slider(root, name, value, min_value, max_value);
+		slider.setConstrained(false);
+		slider.setAlign(AlignExpandX);
+		slider.setSize(width, 14.0f);
+		
+		// create edit
+		ControlEdit edit(root);
+		edit.setAlign(AlignExpandX);
+		edit.setSize(width, 0.0f);
+		edit.setEnabled(false);
+		edit.setEditMode(ControlEdit::EditModeSigned);
+		
+		// slider double-clicked callback
+		// normalize slider range around the current value
+		slider.setClicked2Callback(makeFunction([](ControlSlider slider, int32_t min_value, int32_t max_value) {
+			int32_t value = slider.getValuei32();
+			int32_t range = max_value - min_value;
+			if(value < min_value || value > max_value) slider.setRange((float64_t)(value - range), (float64_t)(value + range));
+			else slider.setRange((float64_t)min_value, (float64_t)max_value);
+		}, ControlSlider::null, min_value, max_value));
+		
+		// slider right clicked callback
+		// disable slider and enable edit control
+		slider.setClickedRightCallback(makeFunction([](ControlSlider slider, ControlEdit edit) {
+			edit.setEnabled(true);
+			slider.setEnabled(false);
+			edit.setText(String::fromi32(slider.getValuei32()));
+			edit.setSelection(true, true);
+		}, ControlSlider::null, edit));
+		
+		// slider released callback
+		// expand slider value and save action
+		slider.setReleasedCallback(makeFunction([this](ControlSlider slider) {
+			if(slider.isChanged()) setChanged();
+			expand_slider(slider);
+		}, ControlSlider::null));
+		
+		// edit returned callback
+		// disable edit and enable slider control
+		edit.setReturnedCallback(makeFunction([this](ControlEdit edit, ControlSlider slider) {
+			edit.setEnabled(false);
+			slider.setEnabled(true);
+			if(edit.getText()) {
+				int32_t value = edit.getText().toi32();
+				slider.setValue((float64_t)value, true);
+				expand_slider(slider);
+				if(slider.isChanged()) setChanged();
+			}
+		}, ControlEdit::null, slider));
+		
+		return slider;
+	}
+	
+	ControlSlider ControlFlowGLSL::create_slider_f64(Control *root, const char *name, uint32_t digits, float64_t value, float64_t min_value, float64_t max_value, float32_t width) {
 		
 		// create slider
 		ControlSlider slider(root, name, digits, value, min_value, max_value);
@@ -2496,7 +2970,7 @@ namespace Tellusim {
 	
 	/*
 	 */
-	String ControlFlowGLSL::getSource(uint32_t node_index) {
+	String ControlFlowGLSL::getSource(uint32_t node_index, bool inverse) {
 		
 		String ret;
 		
@@ -2519,17 +2993,19 @@ namespace Tellusim {
 			uint32_t index = Maxu32;	// block index
 		};
 		
-		// inverse traversal
+		// node traversal
 		Array<Block> blocks;
 		blocks.reserve(getNumNodes());
 		Map<uint32_t, uint32_t> indices;
-		itraverseNodes(node_index, [&](ControlFlow *flow, uint32_t index, uint32_t parent) {
+		TraversalCallback traversal_func = [&](ControlFlow *flow, uint32_t index, uint32_t parent) {
 			indices.append(index, blocks.size());
 			Block &block = blocks.append();
 			block.value = getNodeValue(index);
 			if(!block.value) block.value = getProtoValue(getNodeProto(index));
 			block.index = index;
-		});
+		};
+		if(inverse) itraverseNodes(node_index, traversal_func);
+		else traverseNodes(node_index, traversal_func);
 		
 		// create blocks
 		for(Block &block : blocks) {

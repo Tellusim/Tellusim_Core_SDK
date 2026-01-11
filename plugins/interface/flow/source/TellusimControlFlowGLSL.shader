@@ -1,4 +1,4 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 /*
@@ -52,7 +52,7 @@
 #if HASH_3_1_SHADER
 	vec3 p3 = fract((IN) * vec3(0.1031f, 0.1030f, 0.0973f));
 	p3 += dot(p3, p3.yzx + 33.33f);
-	OUT = fract((p3.xxy + p3.yzz) * p3.zyx); 
+	OUT = fract((p3.xxy + p3.yzz) * p3.zyx);
 #endif
 
 #if HASH_3_2_SHADER
