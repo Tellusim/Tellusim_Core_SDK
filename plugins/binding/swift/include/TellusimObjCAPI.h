@@ -1,4 +1,4 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 #ifndef __TELLUSIM_OBJC_API_H__
@@ -7480,6 +7480,8 @@ TS_CAPI @interface TSContext : NSObject {
 NS_SWIFT_NAME(D3D12Context)
 TS_CAPI @interface TSD3D12Context : TSContext
 	-(id _Nonnull)init_3 NS_SWIFT_NAME(init());
+	-(id _Nonnull)init_4: (uint32_t)index NS_SWIFT_NAME(init(_:));
+	-(id _Nonnull)init_4_: (uint32_t)index NS_SWIFT_NAME(init(index:));
 	#if TS_OBJCPP
 		-(id _Nonnull)init_ptr: (Tellusim::D3D12Context* _Nullable)p;
 		-(id _Nonnull)init_ref: (const Tellusim::D3D12Context&)p;
@@ -7518,6 +7520,8 @@ TS_CAPI @interface TSD3D12Context : TSContext
 NS_SWIFT_NAME(D3D11Context)
 TS_CAPI @interface TSD3D11Context : TSContext
 	-(id _Nonnull)init_3 NS_SWIFT_NAME(init());
+	-(id _Nonnull)init_4: (uint32_t)index NS_SWIFT_NAME(init(_:));
+	-(id _Nonnull)init_4_: (uint32_t)index NS_SWIFT_NAME(init(index:));
 	#if TS_OBJCPP
 		-(id _Nonnull)init_ptr: (Tellusim::D3D11Context* _Nullable)p;
 		-(id _Nonnull)init_ref: (const Tellusim::D3D11Context&)p;
@@ -7555,6 +7559,8 @@ TS_CAPI @interface TSD3D11Context : TSContext
 NS_SWIFT_NAME(MTLContext)
 TS_CAPI @interface TSMTLContext : TSContext
 	-(id _Nonnull)init_3 NS_SWIFT_NAME(init());
+	-(id _Nonnull)init_4: (uint32_t)index NS_SWIFT_NAME(init(_:));
+	-(id _Nonnull)init_4_: (uint32_t)index NS_SWIFT_NAME(init(index:));
 	#if TS_OBJCPP
 		-(id _Nonnull)init_ptr: (Tellusim::MTLContext* _Nullable)p;
 		-(id _Nonnull)init_ref: (const Tellusim::MTLContext&)p;
@@ -7595,6 +7601,8 @@ TS_CAPI @interface TSMTLContext : TSContext
 NS_SWIFT_NAME(VKContext)
 TS_CAPI @interface TSVKContext : TSContext
 	-(id _Nonnull)init_3 NS_SWIFT_NAME(init());
+	-(id _Nonnull)init_4: (uint32_t)index NS_SWIFT_NAME(init(_:));
+	-(id _Nonnull)init_4_: (uint32_t)index NS_SWIFT_NAME(init(index:));
 	#if TS_OBJCPP
 		-(id _Nonnull)init_ptr: (Tellusim::VKContext* _Nullable)p;
 		-(id _Nonnull)init_ref: (const Tellusim::VKContext&)p;
@@ -7654,6 +7662,8 @@ TS_CAPI @interface TSVKContext : TSContext
 NS_SWIFT_NAME(GLContext)
 TS_CAPI @interface TSGLContext : TSContext
 	-(id _Nonnull)init_3 NS_SWIFT_NAME(init());
+	-(id _Nonnull)init_4: (uint32_t)index NS_SWIFT_NAME(init(_:));
+	-(id _Nonnull)init_4_: (uint32_t)index NS_SWIFT_NAME(init(index:));
 	#if TS_OBJCPP
 		-(id _Nonnull)init_ptr: (Tellusim::GLContext* _Nullable)p;
 		-(id _Nonnull)init_ref: (const Tellusim::GLContext&)p;
@@ -7697,6 +7707,8 @@ TS_CAPI @interface TSGLContext : TSContext
 NS_SWIFT_NAME(GLESContext)
 TS_CAPI @interface TSGLESContext : TSContext
 	-(id _Nonnull)init_3 NS_SWIFT_NAME(init());
+	-(id _Nonnull)init_4: (uint32_t)index NS_SWIFT_NAME(init(_:));
+	-(id _Nonnull)init_4_: (uint32_t)index NS_SWIFT_NAME(init(index:));
 	#if TS_OBJCPP
 		-(id _Nonnull)init_ptr: (Tellusim::GLESContext* _Nullable)p;
 		-(id _Nonnull)init_ref: (const Tellusim::GLESContext&)p;
@@ -7738,6 +7750,8 @@ TS_CAPI @interface TSGLESContext : TSContext
 NS_SWIFT_NAME(WGContext)
 TS_CAPI @interface TSWGContext : TSContext
 	-(id _Nonnull)init_3 NS_SWIFT_NAME(init());
+	-(id _Nonnull)init_4: (uint32_t)index NS_SWIFT_NAME(init(_:));
+	-(id _Nonnull)init_4_: (uint32_t)index NS_SWIFT_NAME(init(index:));
 	#if TS_OBJCPP
 		-(id _Nonnull)init_ptr: (Tellusim::WGContext* _Nullable)p;
 		-(id _Nonnull)init_ref: (const Tellusim::WGContext&)p;
@@ -7773,6 +7787,8 @@ TS_CAPI @interface TSWGContext : TSContext
 NS_SWIFT_NAME(CUContext)
 TS_CAPI @interface TSCUContext : TSContext
 	-(id _Nonnull)init_3 NS_SWIFT_NAME(init());
+	-(id _Nonnull)init_4: (uint32_t)index NS_SWIFT_NAME(init(_:));
+	-(id _Nonnull)init_4_: (uint32_t)index NS_SWIFT_NAME(init(index:));
 	#if TS_OBJCPP
 		-(id _Nonnull)init_ptr: (Tellusim::CUContext* _Nullable)p;
 		-(id _Nonnull)init_ref: (const Tellusim::CUContext&)p;
@@ -7808,6 +7824,8 @@ TS_CAPI @interface TSCUContext : TSContext
 NS_SWIFT_NAME(HIPContext)
 TS_CAPI @interface TSHIPContext : TSContext
 	-(id _Nonnull)init_3 NS_SWIFT_NAME(init());
+	-(id _Nonnull)init_4: (uint32_t)index NS_SWIFT_NAME(init(_:));
+	-(id _Nonnull)init_4_: (uint32_t)index NS_SWIFT_NAME(init(index:));
 	#if TS_OBJCPP
 		-(id _Nonnull)init_ptr: (Tellusim::HIPContext* _Nullable)p;
 		-(id _Nonnull)init_ref: (const Tellusim::HIPContext&)p;
@@ -13646,6 +13664,8 @@ TS_CAPI @interface TSControlRoot : TSControl
 	-(void)setSplitSize: (float32_t)size NS_SWIFT_NAME(setSplitSize(_:));
 	-(void)setSplitSize_: (float32_t)size NS_SWIFT_NAME(setSplitSize(size:));
 	-(float32_t)getSplitSize NS_SWIFT_NAME(splitSize());
+	-(void)setMousePosition: (TSVector2f)position NS_SWIFT_NAME(setMousePosition(_:));
+	-(void)setMousePosition_: (TSVector2f)position NS_SWIFT_NAME(setMousePosition(position:));
 	-(void)setMouse: (int32_t)x y: (int32_t)y buttons: (TS_ControlButton)buttons NS_SWIFT_NAME(setMouse(_:_:_:));
 	-(void)setMouse_: (int32_t)x y: (int32_t)y buttons: (TS_ControlButton)buttons NS_SWIFT_NAME(setMouse(x:y:buttons:));
 	-(void)setMouse_1: (float32_t)x y: (float32_t)y buttons: (TS_ControlButton)buttons NS_SWIFT_NAME(setMouse(_:_:_:));

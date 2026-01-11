@@ -1,4 +1,4 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 #include <TellusimApp.h>
@@ -18270,6 +18270,16 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 		impl = new Tellusim::D3D12Context();
 		return self;
 	}
+	-(id)init_4: (uint32_t)index {
+		self = [super init_ptr:nullptr];
+		impl = new Tellusim::D3D12Context(index);
+		return self;
+	}
+	-(id)init_4_: (uint32_t)index {
+		self = [super init_ptr:nullptr];
+		impl = new Tellusim::D3D12Context(index);
+		return self;
+	}
 	-(id)init_ptr: (Tellusim::D3D12Context*)ptr {
 		self = [super init_ptr:nullptr];
 		impl = ptr;
@@ -18376,6 +18386,16 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 		impl = new Tellusim::D3D11Context();
 		return self;
 	}
+	-(id)init_4: (uint32_t)index {
+		self = [super init_ptr:nullptr];
+		impl = new Tellusim::D3D11Context(index);
+		return self;
+	}
+	-(id)init_4_: (uint32_t)index {
+		self = [super init_ptr:nullptr];
+		impl = new Tellusim::D3D11Context(index);
+		return self;
+	}
 	-(id)init_ptr: (Tellusim::D3D11Context*)ptr {
 		self = [super init_ptr:nullptr];
 		impl = ptr;
@@ -18477,6 +18497,16 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(id)init_3 {
 		self = [super init_ptr:nullptr];
 		impl = new Tellusim::MTLContext();
+		return self;
+	}
+	-(id)init_4: (uint32_t)index {
+		self = [super init_ptr:nullptr];
+		impl = new Tellusim::MTLContext(index);
+		return self;
+	}
+	-(id)init_4_: (uint32_t)index {
+		self = [super init_ptr:nullptr];
+		impl = new Tellusim::MTLContext(index);
 		return self;
 	}
 	-(id)init_ptr: (Tellusim::MTLContext*)ptr {
@@ -18589,6 +18619,16 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(id)init_3 {
 		self = [super init_ptr:nullptr];
 		impl = new Tellusim::VKContext();
+		return self;
+	}
+	-(id)init_4: (uint32_t)index {
+		self = [super init_ptr:nullptr];
+		impl = new Tellusim::VKContext(index);
+		return self;
+	}
+	-(id)init_4_: (uint32_t)index {
+		self = [super init_ptr:nullptr];
+		impl = new Tellusim::VKContext(index);
 		return self;
 	}
 	-(id)init_ptr: (Tellusim::VKContext*)ptr {
@@ -18760,6 +18800,16 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 		impl = new Tellusim::GLContext();
 		return self;
 	}
+	-(id)init_4: (uint32_t)index {
+		self = [super init_ptr:nullptr];
+		impl = new Tellusim::GLContext(index);
+		return self;
+	}
+	-(id)init_4_: (uint32_t)index {
+		self = [super init_ptr:nullptr];
+		impl = new Tellusim::GLContext(index);
+		return self;
+	}
 	-(id)init_ptr: (Tellusim::GLContext*)ptr {
 		self = [super init_ptr:nullptr];
 		impl = ptr;
@@ -18881,6 +18931,16 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 		impl = new Tellusim::GLESContext();
 		return self;
 	}
+	-(id)init_4: (uint32_t)index {
+		self = [super init_ptr:nullptr];
+		impl = new Tellusim::GLESContext(index);
+		return self;
+	}
+	-(id)init_4_: (uint32_t)index {
+		self = [super init_ptr:nullptr];
+		impl = new Tellusim::GLESContext(index);
+		return self;
+	}
 	-(id)init_ptr: (Tellusim::GLESContext*)ptr {
 		self = [super init_ptr:nullptr];
 		impl = ptr;
@@ -18996,6 +19056,16 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 		impl = new Tellusim::WGContext();
 		return self;
 	}
+	-(id)init_4: (uint32_t)index {
+		self = [super init_ptr:nullptr];
+		impl = new Tellusim::WGContext(index);
+		return self;
+	}
+	-(id)init_4_: (uint32_t)index {
+		self = [super init_ptr:nullptr];
+		impl = new Tellusim::WGContext(index);
+		return self;
+	}
 	-(id)init_ptr: (Tellusim::WGContext*)ptr {
 		self = [super init_ptr:nullptr];
 		impl = ptr;
@@ -19093,6 +19163,16 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 		impl = new Tellusim::CUContext();
 		return self;
 	}
+	-(id)init_4: (uint32_t)index {
+		self = [super init_ptr:nullptr];
+		impl = new Tellusim::CUContext(index);
+		return self;
+	}
+	-(id)init_4_: (uint32_t)index {
+		self = [super init_ptr:nullptr];
+		impl = new Tellusim::CUContext(index);
+		return self;
+	}
 	-(id)init_ptr: (Tellusim::CUContext*)ptr {
 		self = [super init_ptr:nullptr];
 		impl = ptr;
@@ -19188,6 +19268,16 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(id)init_3 {
 		self = [super init_ptr:nullptr];
 		impl = new Tellusim::HIPContext();
+		return self;
+	}
+	-(id)init_4: (uint32_t)index {
+		self = [super init_ptr:nullptr];
+		impl = new Tellusim::HIPContext(index);
+		return self;
+	}
+	-(id)init_4_: (uint32_t)index {
+		self = [super init_ptr:nullptr];
+		impl = new Tellusim::HIPContext(index);
 		return self;
 	}
 	-(id)init_ptr: (Tellusim::HIPContext*)ptr {
@@ -36397,6 +36487,12 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	}
 	-(float32_t)getSplitSize {
 		return [self ref].getSplitSize();
+	}
+	-(void)setMousePosition: (TSVector2f)position {
+		[self ref].setMousePosition(*(Tellusim::Vector2f*)&position);
+	}
+	-(void)setMousePosition_: (TSVector2f)position {
+		[self ref].setMousePosition(*(Tellusim::Vector2f*)&position);
 	}
 	-(void)setMouse: (int32_t)x y: (int32_t)y buttons: (TS_ControlButton)buttons {
 		[self ref].setMouse(x, y, (Tellusim::Control::Button)buttons);
