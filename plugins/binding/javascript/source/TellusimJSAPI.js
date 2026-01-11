@@ -1,4 +1,4 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 // Tellusim::String
@@ -6774,7 +6774,8 @@ tsContext.prototype['finish'] = tsContext.prototype.finish = function() {
 
 // Tellusim::GLESContext
 function tsGLESContext() {
-	if(arguments.length == 0) return ts_bind(tsGLESContext, this, _tsGLESContext_new());
+	if(arguments.length == 1) return ts_bind(tsGLESContext, this, _tsGLESContext_new(arguments[0]));
+	if(arguments.length == 0) return ts_bind(tsGLESContext, this, _tsGLESContext_new(tsBase.Maxu32));
 	throw 'invalid GLESContext() arguments';
 }
 Module['GLESContext'] = tsGLESContext;
@@ -6827,7 +6828,8 @@ tsGLESContext['check'] = tsGLESContext.check = function() {
 
 // Tellusim::WGContext
 function tsWGContext() {
-	if(arguments.length == 0) return ts_bind(tsWGContext, this, _tsWGContext_new());
+	if(arguments.length == 1) return ts_bind(tsWGContext, this, _tsWGContext_new(arguments[0]));
+	if(arguments.length == 0) return ts_bind(tsWGContext, this, _tsWGContext_new(tsBase.Maxu32));
 	throw 'invalid WGContext() arguments';
 }
 Module['WGContext'] = tsWGContext;
@@ -14895,6 +14897,10 @@ tsControlRoot.prototype['getSplitSize'] = tsControlRoot.prototype.getSplitSize =
 	throw 'invalid ControlRoot.getSplitSize() arguments';
 };
 Object.defineProperty(tsControlRoot.prototype, 'split_size', { get: tsControlRoot.prototype.getSplitSize });
+tsControlRoot.prototype['setMousePosition'] = tsControlRoot.prototype.setMousePosition = function() {
+	if(arguments.length == 1 && arguments[0] instanceof tsVector2f) return _tsControlRoot_setMousePosition(this.self, arguments[0].self);
+	throw 'invalid ControlRoot.setMousePosition() arguments';
+};
 tsControlRoot.prototype['setMouse'] = tsControlRoot.prototype.setMouse = function() {
 	if(arguments.length == 3) return _tsControlRoot_setMouse(this.self, arguments[0], arguments[1], arguments[2]);
 	if(arguments.length == 3) return _tsControlRoot_setMouse_1(this.self, arguments[0], arguments[1], arguments[2]);

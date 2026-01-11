@@ -1,4 +1,4 @@
-// Copyright (C) 2018-2025, Tellusim Technologies Inc. All rights reserved
+// Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
 #include <TellusimApp.h>
@@ -5828,8 +5828,8 @@ namespace Tellusim {
 	}
 	
 	// Tellusim::GLESContext
-	TS_JSAPI GLESContext *tsGLESContext_new() {
-		return new GLESContext();
+	TS_JSAPI GLESContext *tsGLESContext_new(uint32_t index) {
+		return new GLESContext(index);
 	}
 	TS_JSAPI void tsGLESContext_delete(GLESContext *self) {
 		delete self;
@@ -5872,8 +5872,8 @@ namespace Tellusim {
 	}
 	
 	// Tellusim::WGContext
-	TS_JSAPI WGContext *tsWGContext_new() {
-		return new WGContext();
+	TS_JSAPI WGContext *tsWGContext_new(uint32_t index) {
+		return new WGContext(index);
 	}
 	TS_JSAPI void tsWGContext_delete(WGContext *self) {
 		delete self;
@@ -12440,6 +12440,9 @@ namespace Tellusim {
 	}
 	TS_JSAPI float32_t tsControlRoot_getSplitSize(const ControlRoot &self) {
 		return self.getSplitSize();
+	}
+	TS_JSAPI void tsControlRoot_setMousePosition(ControlRoot &self, const Vector2f &position) {
+		self.setMousePosition(position);
 	}
 	TS_JSAPI void tsControlRoot_setMouse(ControlRoot &self, int32_t x, int32_t y, uint32_t buttons) {
 		self.setMouse(x, y, (Control::Button)buttons);
