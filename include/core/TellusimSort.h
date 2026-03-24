@@ -73,7 +73,7 @@ namespace Tellusim {
 	/**
 	 * Make quickSort compare function
 	 */
-	template<class Type, class Func> QuickFunctionCompare<Type, Func> makeQuickCompare(const Func &func) {
+	template <class Type, class Func> QuickFunctionCompare<Type, Func> makeQuickCompare(const Func &func) {
 		return QuickFunctionCompare<Type, Func>(func);
 	}
 	

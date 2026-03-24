@@ -128,7 +128,8 @@ namespace Tellusim {
 			setProtoColor(proto, glsl_color); \
 			addProtoInput(proto, "a", "A", "", any_type); \
 			addProtoOutput(proto, "v", OUTPUT, SOURCE, any_type, true); \
-			setProtoInputAttachCallback(proto, 0, any_callback); \
+			setProtoInputAttachCallback(proto, 0, any_input_callback); \
+			setProtoOutputAttachCallback(proto, 0, any_output_callback); \
 			setProtoInfo(proto, INFO); \
 		}
 		TS_DECLARE_UNARY_PROTO("var", "Var", "$a", "", "Temporal variable")
@@ -179,8 +180,8 @@ namespace Tellusim {
 			addProtoInput(proto, "a", "A", "0.0", any_type); \
 			addProtoInput(proto, "b", "B", "0.0", any_type); \
 			addProtoOutput(proto, "v", OUTPUT, SOURCE, any_type, true); \
-			setProtoInputAttachCallback(proto, 0, any_callback); \
-			setProtoInputAttachCallback(proto, 1, any_callback); \
+			setProtoInputAttachCallback(proto, 0, any_input_callback); \
+			setProtoInputAttachCallback(proto, 1, any_input_callback); \
 			setProtoInfo(proto, INFO); \
 		}
 		TS_DECLARE_BINARY_PROTO("mul", "Mul", "($a) * ($b)", "*", "Multiplication of parameters")
@@ -212,9 +213,9 @@ namespace Tellusim {
 			addProtoInput(proto, "b", "B", "0.0", any_type); \
 			addProtoInput(proto, "c", "C", "0.0", any_type); \
 			addProtoOutput(proto, "v", OUTPUT, SOURCE, any_type, true); \
-			setProtoInputAttachCallback(proto, 0, any_callback); \
-			setProtoInputAttachCallback(proto, 1, any_callback); \
-			setProtoInputAttachCallback(proto, 2, any_callback); \
+			setProtoInputAttachCallback(proto, 0, any_input_callback); \
+			setProtoInputAttachCallback(proto, 1, any_input_callback); \
+			setProtoInputAttachCallback(proto, 2, any_input_callback); \
 			setProtoInfo(proto, INFO); \
 		}
 		TS_DECLARE_TERNARY_PROTO("mad", "Mad", "($a) * ($b) + ($c)", "", "Multiply-add")
@@ -325,8 +326,8 @@ namespace Tellusim {
 			addProtoInput(proto, "t", "True", "0.0", any_type);
 			addProtoInput(proto, "f", "False", "0.0", any_type);
 			addProtoOutput(proto, "v", "", "", any_type, true);
-			setProtoInputAttachCallback(proto, 2, any_callback);
-			setProtoInputAttachCallback(proto, 3, any_callback);
+			setProtoInputAttachCallback(proto, 2, any_input_callback);
+			setProtoInputAttachCallback(proto, 3, any_input_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				Control spacer(&getNodeInputGrid(node));
 				static const char *values[] = {
@@ -368,10 +369,10 @@ namespace Tellusim {
 			addProtoInput(proto, "t", "True", "0.0", any_type);
 			addProtoInput(proto, "f", "False", "0.0", any_type);
 			addProtoOutput(proto, "v", "", "", any_type, true);
-			setProtoInputAttachCallback(proto, 0, any_callback);
-			setProtoInputAttachCallback(proto, 1, any_callback);
-			setProtoInputAttachCallback(proto, 2, any_callback);
-			setProtoInputAttachCallback(proto, 3, any_callback);
+			setProtoInputAttachCallback(proto, 0, any_input_callback);
+			setProtoInputAttachCallback(proto, 1, any_input_callback);
+			setProtoInputAttachCallback(proto, 2, any_input_callback);
+			setProtoInputAttachCallback(proto, 3, any_input_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				Control spacer(&getNodeInputGrid(node));
 				static const char *values[] = {
@@ -421,7 +422,7 @@ namespace Tellusim {
 			addProtoInput(proto, "j", "9", "0.0", any_type);
 			addProtoOutput(proto, "v", "", "$0", any_type, true);
 			for(uint32_t i = 1; i < getNumProtoInputs(proto); i++) {
-				setProtoInputAttachCallback(proto, i, any_callback);
+				setProtoInputAttachCallback(proto, i, any_input_callback);
 			}
 			setProtoUpdateCallback(proto, [this](ControlFlow *flow, uint32_t node, bool inverse) {
 				String value;
@@ -1537,8 +1538,8 @@ namespace Tellusim {
 			addProtoInput(proto, "a", "A", "vec3(0.0)", any_type);
 			addProtoInput(proto, "b", "B", "vec3(0.0)", any_type);
 			addProtoOutput(proto, "m", "", "", any_type, true);
-			setProtoInputAttachCallback(proto, 0, any_callback);
-			setProtoInputAttachCallback(proto, 1, any_callback);
+			setProtoInputAttachCallback(proto, 0, any_input_callback);
+			setProtoInputAttachCallback(proto, 1, any_input_callback);
 			setProtoUpdateCallback(proto, [this](ControlFlow *flow, uint32_t node, bool inverse) {
 				String value;
 				ControlFlowGLSL *self = (ControlFlowGLSL*)flow;
@@ -1672,7 +1673,7 @@ namespace Tellusim {
 			setProtoColor(proto, tool_color);
 			addProtoInput(proto, "a", "", "", any_type);
 			addProtoOutput(proto, "v", "", "$a", any_type, true);
-			setProtoInputAttachCallback(proto, 0, any_callback);
+			setProtoInputAttachCallback(proto, 0, any_input_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				ControlSlider from_min_slider = create_slider_f64(&grid, "From", 3, 0.0);
 				ControlSlider from_max_slider = create_slider_f64(&grid, "", 3, 1.0);
@@ -1764,7 +1765,7 @@ namespace Tellusim {
 			setProtoColor(proto, tool_color);
 			addProtoInput(proto, "a", "", "", any_type);
 			addProtoOutput(proto, "v", "", "$a", any_type, true);
-			setProtoInputAttachCallback(proto, 0, any_callback);
+			setProtoInputAttachCallback(proto, 0, any_input_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				ControlSlider brighness_slider = create_slider_f64(&grid, "B", 2, 0.0, -1.0, 1.0);
 				ControlSlider contrast_slider = create_slider_f64(&grid, "C", 2, 0.0, -1.0, 1.0);
@@ -1939,8 +1940,8 @@ namespace Tellusim {
 			addProtoInput(proto, "a", "A", "0.0", any_type);
 			addProtoInput(proto, "b", "B", "0.0", any_type);
 			addProtoOutput(proto, "v", "", "", any_type, true);
-			setProtoInputAttachCallback(proto, 0, any_callback);
-			setProtoInputAttachCallback(proto, 1, any_callback);
+			setProtoInputAttachCallback(proto, 0, any_input_callback);
+			setProtoInputAttachCallback(proto, 1, any_input_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				Control spacer(&getNodeInputGrid(node));
 				static const char *values[] = {
@@ -1987,7 +1988,7 @@ namespace Tellusim {
 			setProtoColor(proto, tool_color);
 			addProtoInput(proto, "a", "A", "0.0", any_type);
 			addProtoOutput(proto, "v", "", "", any_type, true);
-			setProtoInputAttachCallback(proto, 0, any_callback);
+			setProtoInputAttachCallback(proto, 0, any_input_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				Control spacer(&getNodeInputGrid(node));
 				static const char *values[] = {
@@ -2021,8 +2022,8 @@ namespace Tellusim {
 			addProtoInput(proto, "a", "A", "0.0", any_type);
 			addProtoInput(proto, "b", "B", "0.0", any_type);
 			addProtoOutput(proto, "v", "", "", any_type, true);
-			setProtoInputAttachCallback(proto, 0, any_callback);
-			setProtoInputAttachCallback(proto, 1, any_callback);
+			setProtoInputAttachCallback(proto, 0, any_input_callback);
+			setProtoInputAttachCallback(proto, 1, any_input_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				Control spacer(&getNodeInputGrid(node));
 				static const char *values[] = {
@@ -2057,9 +2058,9 @@ namespace Tellusim {
 			addProtoInput(proto, "b", "B", "0.0", any_type);
 			addProtoInput(proto, "c", "C", "0.0", any_type);
 			addProtoOutput(proto, "v", "", "", any_type, true);
-			setProtoInputAttachCallback(proto, 0, any_callback);
-			setProtoInputAttachCallback(proto, 1, any_callback);
-			setProtoInputAttachCallback(proto, 2, any_callback);
+			setProtoInputAttachCallback(proto, 0, any_input_callback);
+			setProtoInputAttachCallback(proto, 1, any_input_callback);
+			setProtoInputAttachCallback(proto, 2, any_input_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				Control spacer(&getNodeInputGrid(node));
 				static const char *values[] = {
@@ -2098,10 +2099,10 @@ namespace Tellusim {
 			addProtoInput(proto, "c", "C", "0.0", any_type);
 			addProtoInput(proto, "d", "D", "0.0", any_type);
 			addProtoOutput(proto, "v", "", "", any_type, true);
-			setProtoInputAttachCallback(proto, 0, any_callback);
-			setProtoInputAttachCallback(proto, 1, any_callback);
-			setProtoInputAttachCallback(proto, 2, any_callback);
-			setProtoInputAttachCallback(proto, 3, any_callback);
+			setProtoInputAttachCallback(proto, 0, any_input_callback);
+			setProtoInputAttachCallback(proto, 1, any_input_callback);
+			setProtoInputAttachCallback(proto, 2, any_input_callback);
+			setProtoInputAttachCallback(proto, 3, any_input_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				Control spacer(&getNodeInputGrid(node));
 				static const char *values[] = {
@@ -2139,11 +2140,11 @@ namespace Tellusim {
 			addProtoInput(proto, "d", "D", "0.0", any_type);
 			addProtoInput(proto, "e", "E", "0.0", any_type);
 			addProtoOutput(proto, "v", "", "", any_type, true);
-			setProtoInputAttachCallback(proto, 0, any_callback);
-			setProtoInputAttachCallback(proto, 1, any_callback);
-			setProtoInputAttachCallback(proto, 2, any_callback);
-			setProtoInputAttachCallback(proto, 3, any_callback);
-			setProtoInputAttachCallback(proto, 4, any_callback);
+			setProtoInputAttachCallback(proto, 0, any_input_callback);
+			setProtoInputAttachCallback(proto, 1, any_input_callback);
+			setProtoInputAttachCallback(proto, 2, any_input_callback);
+			setProtoInputAttachCallback(proto, 3, any_input_callback);
+			setProtoInputAttachCallback(proto, 4, any_input_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				Control spacer(&getNodeInputGrid(node));
 				static const char *values[] = {
@@ -2188,7 +2189,8 @@ namespace Tellusim {
 			setProtoColor(proto, field_color);
 			addProtoInput(proto, "texcoord", "TexCoord", "", vec2_type);
 			addProtoInput(proto, "radius", "Radius", "1.0", float_type);
-			addProtoOutput(proto, "v", "", "length($texcoord) - ($radius)", float_type, true);
+			addProtoOutput(proto, "v", "", "length(($texcoord).xy) - ($radius)", float_type, true);
+			setProtoInputMask(proto, 0, TypeMask(vec3_type));
 			setProtoInfo(proto, "Circle SDF");
 		}
 		
@@ -2199,6 +2201,7 @@ namespace Tellusim {
 			addProtoInput(proto, "texcoord", "TexCoord", "", vec2_type);
 			addProtoInput(proto, "radius", "Radius", "1.0", float_type);
 			addProtoOutput(proto, "v", "", "$0", float_type, true);
+			setProtoInputMask(proto, 0, TypeMask(vec3_type));
 			String value;
 			value += "float $0 = 0.0f; {\n";
 			value += "\tvec2 p = vec2(abs(($texcoord).x), ($texcoord).y);\n";
@@ -2210,20 +2213,28 @@ namespace Tellusim {
 			setProtoInfo(proto, "Triangle SDF");
 		}
 		
-		// Box sdf proto
+		// Rect sdf proto
 		{
-			uint32_t proto = addProto("box_sdf", "Box SDF");
+			uint32_t proto = addProto("rect_sdf", "Rect SDF");
 			setProtoColor(proto, field_color);
 			addProtoInput(proto, "texcoord", "TexCoord", "", vec2_type);
 			addProtoInput(proto, "size", "Size", "1.0", vec2_type);
+			addProtoInput(proto, "radius", "Radius", "", float_type);
 			addProtoOutput(proto, "v", "", "$0", float_type, true);
-			String value;
-			value += "float $0 = 0.0f; {\n";
-			value += "\tvec2 p = abs($texcoord) - ($size);\n";
-			value += "\t$0 = length(max(p, 0.0f)) + min(max(p.x, p.y), 0.0f);\n";
-			value += "}\n";
-			setProtoValue(proto, value);
-			setProtoInfo(proto, "Box SDF");
+			setProtoInputMask(proto, 0, TypeMask(vec3_type));
+			setProtoUpdateCallback(proto, [this](ControlFlow *flow, uint32_t node, bool inverse) {
+				String value;
+				bool has_radius = (getNumInputConnections(node, "radius") != 0);
+				value += "float $0 = 0.0f; {\n";
+				value += "\tvec2 p = abs(($texcoord).xy) - ($size);\n";
+				if(has_radius) value += "\tp += $radius;\n";
+				value += "\t$0 = length(max(p, 0.0f)) + min(max(p.x, p.y), 0.0f);\n";
+				if(has_radius) value += "\t$0 -= $radius;\n";
+				value += "}\n";
+				setNodeValue(node, value);
+				setNodeDynamic(node, true);
+			});
+			setProtoInfo(proto, "Rect SDF");
 		}
 		
 		// Pentagon sdf proto
@@ -2233,6 +2244,7 @@ namespace Tellusim {
 			addProtoInput(proto, "texcoord", "TexCoord", "", vec2_type);
 			addProtoInput(proto, "radius", "Radius", "1.0", float_type);
 			addProtoOutput(proto, "v", "", "$0", float_type, true);
+			setProtoInputMask(proto, 0, TypeMask(vec3_type));
 			String value;
 			value += "float $0 = 0.0f; {\n";
 			value += "\tvec2 p = vec2(abs(($texcoord).x), -($texcoord).y);\n";
@@ -2252,9 +2264,10 @@ namespace Tellusim {
 			addProtoInput(proto, "texcoord", "TexCoord", "", vec2_type);
 			addProtoInput(proto, "radius", "Radius", "1.0", float_type);
 			addProtoOutput(proto, "v", "", "$0", float_type, true);
+			setProtoInputMask(proto, 0, TypeMask(vec3_type));
 			String value;
 			value += "float $0 = 0.0f; {\n";
-			value += "\tvec2 p = abs($texcoord);\n";
+			value += "\tvec2 p = abs(($texcoord).xy);\n";
 			value += "\tp -= vec2(-0.866025404f, 0.5f) * min(dot(vec2(-1.732050808f, 1.0f), p), 0.0f);\n";
 			value += "\tp -= vec2(clamp(p.x, -($radius) * 0.577350269f, ($radius) * 0.577350269f), $radius);\n";
 			value += "\t$0 = length(p) * sign(p.y);\n";
@@ -2270,9 +2283,10 @@ namespace Tellusim {
 			addProtoInput(proto, "texcoord", "TexCoord", "", vec2_type);
 			addProtoInput(proto, "radius", "Radius", "1.0", float_type);
 			addProtoOutput(proto, "v", "", "$0", float_type, true);
+			setProtoInputMask(proto, 0, TypeMask(vec3_type));
 			String value;
 			value += "float $0 = 0.0f; {\n";
-			value += "\tvec2 p = abs($texcoord);\n";
+			value += "\tvec2 p = abs(($texcoord).xy);\n";
 			value += "\tp -= vec2(-0.9238795325f, 0.3826834323f) * min(dot(vec2(-1.847759065f, 0.765366864f), p), 0.0f);\n";
 			value += "\tp -= vec2( 0.9238795325f, 0.3826834323f) * min(dot(vec2( 1.847759065f, 0.765366864f), p), 0.0f);\n";
 			value += "\tp -= vec2(clamp(p.x, -($radius) * 0.4142135623f, ($radius) * 0.4142135623f), $radius);\n";
@@ -2291,6 +2305,7 @@ namespace Tellusim {
 			addProtoInput(proto, "sides", "Sides", "7.0", float_type);
 			addProtoInput(proto, "angle", "Angle", "0.5", float_type);
 			addProtoOutput(proto, "v", "", "$0", float_type, true);
+			setProtoInputMask(proto, 0, TypeMask(vec3_type));
 			String value;
 			value += "float $0 = 0.0f; {\n";
 			value += "\tvec2 p = vec2(abs(($texcoord).x), ($texcoord).y);\n";
@@ -2305,6 +2320,88 @@ namespace Tellusim {
 			value += "}\n";
 			setProtoValue(proto, value);
 			setProtoInfo(proto, "Star SDF");
+		}
+		
+		// Sphere sdf proto
+		{
+			uint32_t proto = addProto("sphere_sdf", "Sphere SDF");
+			setProtoColor(proto, field_color);
+			addProtoInput(proto, "texcoord", "TexCoord", "", vec3_type);
+			addProtoInput(proto, "radius", "Radius", "1.0", float_type);
+			addProtoOutput(proto, "v", "", "length($texcoord) - ($radius)", float_type, true);
+			setProtoInfo(proto, "Sphere SDF");
+		}
+		
+		// Box sdf proto
+		{
+			uint32_t proto = addProto("box_sdf", "Box SDF");
+			setProtoColor(proto, field_color);
+			addProtoInput(proto, "texcoord", "TexCoord", "", vec3_type);
+			addProtoInput(proto, "size", "Size", "1.0", vec3_type);
+			addProtoInput(proto, "fillet", "Fillet", "", float_type);
+			addProtoInput(proto, "chamfer", "Chamfer", "", float_type);
+			addProtoOutput(proto, "v", "", "$0", float_type, true);
+			setProtoUpdateCallback(proto, [this](ControlFlow *flow, uint32_t node, bool inverse) {
+				String value;
+				bool has_fillet = (getNumInputConnections(node, "fillet") != 0);
+				bool has_chamfer = (getNumInputConnections(node, "chamfer") != 0);
+				value += "float $0 = 0.0f; {\n";
+				value += "\tvec3 p = abs($texcoord) - ($size);\n";
+				if(has_chamfer) value += "\tfloat c = max((max(max(p.x + p.y, p.y + p.z), p.x + p.z) + ($chamfer)) * 0.70710678f, (p.x + p.y + p.z + ($chamfer) * 2.0f) * 0.57735027f);\n";
+				if(has_fillet) value += "\tp += $fillet;\n";
+				value += "\t$0 = length(max(p, 0.0f)) + min(max(max(p.x, p.y), p.z), 0.0f);\n";
+				if(has_fillet) value += "\t$0 -= $fillet;\n";
+				if(has_chamfer) value += "\t$0 = max($0, c);\n";
+				value += "}\n";
+				setNodeValue(node, value);
+				setNodeDynamic(node, true);
+			});
+			setProtoInfo(proto, "Box SDF");
+		}
+		
+		// Cylinder sdf proto
+		{
+			uint32_t proto = addProto("cylinder_sdf", "Cylinder SDF");
+			setProtoColor(proto, field_color);
+			addProtoInput(proto, "texcoord", "TexCoord", "", vec3_type);
+			addProtoInput(proto, "radius", "Radius", "1.0", float_type);
+			addProtoInput(proto, "height", "Height", "1.0", float_type);
+			addProtoInput(proto, "fillet", "Fillet", "", float_type);
+			addProtoInput(proto, "chamfer", "Chamfer", "", float_type);
+			addProtoOutput(proto, "v", "", "$0", float_type, true);
+			setProtoUpdateCallback(proto, [this](ControlFlow *flow, uint32_t node, bool inverse) {
+				String value;
+				bool has_fillet = (getNumInputConnections(node, "fillet") != 0);
+				bool has_chamfer = (getNumInputConnections(node, "chamfer") != 0);
+				value += "float $0 = 0.0f; {\n";
+				value += "\tvec2 p = vec2(length(($texcoord).xy), abs(($texcoord).z)) - vec2($radius, $height);\n";
+				if(has_chamfer) value += "\tfloat c = (p.x + p.y + ($chamfer)) * 0.70710678f;\n";
+				if(has_fillet) value += "\tp += $fillet;\n";
+				value += "\t$0 = length(max(p, 0.0f)) + min(max(p.x, p.y), 0.0f);\n";
+				if(has_fillet) value += "\t$0 -= $fillet;\n";
+				if(has_chamfer) value += "\t$0 = max($0, c);\n";
+				value += "}\n";
+				setNodeValue(node, value);
+				setNodeDynamic(node, true);
+			});
+			setProtoInfo(proto, "Cylinder SDF");
+		}
+		
+		// Extrude sdf proto
+		{
+			uint32_t proto = addProto("extrude_sdf", "Extrude SDF");
+			setProtoColor(proto, field_color);
+			addProtoInput(proto, "texcoord", "TexCoord", "", vec3_type);
+			addProtoInput(proto, "function", "Function", "", float_type);
+			addProtoInput(proto, "height", "Height", "1.0", float_type);
+			addProtoOutput(proto, "v", "", "$0", float_type, true);
+			String value;
+			value += "float $0 = 0.0f; {\n";
+			value += "\tvec2 p = vec2($function, abs(($texcoord).z) - ($height));\n";
+			value += "\t$0 = length(max(p, 0.0f)) + min(max(p.x, p.y), 0.0f);\n";
+			value += "}\n";
+			setProtoValue(proto, value);
+			setProtoInfo(proto, "Extrude SDF");
 		}
 		
 		// Checker proto
@@ -2885,7 +2982,7 @@ namespace Tellusim {
 	
 	/*
 	 */
-	bool ControlFlowGLSL::any_callback(ControlFlow *flow, uint32_t node, uint32_t input, uint32_t output_node, uint32_t output_index) {
+	bool ControlFlowGLSL::any_input_callback(ControlFlow *flow, uint32_t node, uint32_t input, uint32_t output_node, uint32_t output_index) {
 		
 		uint32_t output_type = Maxu32;
 		ControlFlowGLSL *self = (ControlFlowGLSL*)flow;
@@ -2928,8 +3025,41 @@ namespace Tellusim {
 				// unknown operation
 				const String &input_name = flow->getTypeName(input_type);
 				const String &output_name = flow->getTypeName(output_type);
-				TS_LOGF(Error, "ControlFlowGLSL::any_callback(): can't combine %s and %s\n", input_name.get(), output_name.get());
+				TS_LOGF(Error, "ControlFlowGLSL::any_input_callback(): can't combine %s and %s\n", input_name.get(), output_name.get());
 				return false;
+			}
+		}
+		
+		// node output
+		if(output_type == Maxu32) output_type = self->any_type;
+		flow->setOutputType(node, 0u, output_type);
+		
+		return true;
+	}
+	
+	/*
+	 */
+	bool ControlFlowGLSL::any_output_callback(ControlFlow *flow, uint32_t node, uint32_t output, uint32_t input_node, uint32_t input_index) {
+		
+		uint32_t output_type = Maxu32;
+		ControlFlowGLSL *self = (ControlFlowGLSL*)flow;
+		
+		// check node input connections
+		for(uint32_t i = 0; i < flow->getNumInputs(node); i++) {
+			if(flow->getNumInputConnections(node, i)) return true;
+		}
+		
+		// node input type
+		for(uint32_t i = 0; i < flow->getNumOutputs(node); i++) {
+			for(uint32_t j = 0; j < flow->getNumOutputConnections(node, i); j++) {
+				uint32_t input_type = flow->getOutputConnectionType(node, i, j);
+				if(input_type == self->any_type) continue;
+				
+				// default type
+				if(output_type == Maxu32) output_type = input_type;
+				
+				// type expansion
+				output_type = max(output_type, input_type);
 			}
 		}
 		
@@ -2970,7 +3100,7 @@ namespace Tellusim {
 	
 	/*
 	 */
-	String ControlFlowGLSL::getSource(uint32_t node_index, bool inverse) {
+	String ControlFlowGLSL::getSource(uint32_t node_index, Flags flags) {
 		
 		String ret;
 		
@@ -3004,7 +3134,7 @@ namespace Tellusim {
 			if(!block.value) block.value = getProtoValue(getNodeProto(index));
 			block.index = index;
 		};
-		if(inverse) itraverseNodes(node_index, traversal_func);
+		if(flags & FlagInverse) itraverseNodes(node_index, traversal_func);
 		else traverseNodes(node_index, traversal_func);
 		
 		// create blocks
@@ -3013,6 +3143,21 @@ namespace Tellusim {
 			// block outputs
 			block.outputs.resize(getNumOutputs(block.index));
 			for(uint32_t i = 0; i < getNumOutputs(block.index); i++) {
+				
+				// target node output
+				if(block.index == node_index && (flags & FlagOutputs)) {
+					Variable &output = block.outputs[i];
+					if(output.index == Maxu32) {
+						output.type = getGLSLTypeName(getOutputType(block.index, i));
+						output.value = getOutputValue(block.index, i);
+						output.names.append("_" + getOutputName(block.index, i));
+						output.types.append(String(getGLSLTypeName(getOutputType(block.index, i))));
+						output.index = i;
+						output.counter = 2;
+					}
+				}
+				
+				// connection to node outputs
 				for(uint32_t j = 0; j < getNumOutputConnections(block.index, i); j++) {
 					uint32_t input_node = getOutputConnectionNode(block.index, i, j);
 					uint32_t input_index = getOutputConnectionInput(block.index, i, j);
@@ -3026,7 +3171,9 @@ namespace Tellusim {
 						output.value = getOutputValue(block.index, i);
 						output.index = i;
 					}
-					if(input_node == node_index) {
+					
+					// target node input
+					if(input_node == node_index && (flags & FlagInputs)) {
 						output.names.append("_" + getInputName(input_node, input_index));
 						output.types.append(String(getGLSLTypeName(getInputType(input_node, input_index))));
 						output.counter += 2;
@@ -3185,6 +3332,7 @@ namespace Tellusim {
 				// create input variable
 				for(uint32_t i = 0; i < output.names.size(); i++) {
 					const String &type = output.types[i];
+					if(type == "any") continue;
 					ret += type; ret += " ";
 					ret += output.names[i]; ret += " = ";
 					if(output.type == type) ret += output.name;
