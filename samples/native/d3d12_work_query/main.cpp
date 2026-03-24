@@ -4,14 +4,18 @@
 #include <d3d12.h>
 
 #include <common/common.h>
+#include <math/TellusimMath.h>
 #include <core/TellusimSystem.h>
 #include <core/TellusimPointer.h>
+#include <format/TellusimMesh.h>
 #include <platform/TellusimDevice.h>
 #include <platform/TellusimContext.h>
 #include <platform/TellusimCompute.h>
 #include <platform/TellusimCommand.h>
 #include <platform/TellusimKernel.h>
 #include <platform/TellusimPipeline.h>
+#include <geometry/TellusimMeshRefine.h>
+#include <graphics/TellusimMeshModel.h>
 
 /*
  */
@@ -41,9 +45,22 @@ int32_t main(int32_t argc, char **argv) {
 	System::loadLibrary(D3D12_SDK_PATH "/dxcompiler.dll");
 	
 	// create window
-	String title = String::format("%s Tellusim::D3D12WorkGraphState", window.getPlatformName());
+	String title = String::format("%s Tellusim::D3D12WorkQuery", window.getPlatformName());
 	DECLARE_WINDOW_CREATE(title)
 	
+	// structures
+	struct Vertex {
+		float32_t position[4];
+		float32_t normal[4];
+	};
+	
+	struct CommonParameters {
+		Matrix4x4f projection;
+		Matrix4x4f imodelview;
+		Vector4f camera;
+		Vector4f light;
+	};
+		
 	// create device
 	D3D12Device device(window);
 	if(!device) return 1;
@@ -56,45 +73,34 @@ int32_t main(int32_t argc, char **argv) {
 	}
 	
 	// get device interface
-	AutoComPtr<ID3D12Device7> d3d12_device;
+	AutoComPtr<ID3D12Device5> d3d12_device;
 	if(D3D12Context::error(device.getD3D12Device()->QueryInterface(IID_PPV_ARGS(d3d12_device.create())))) {
 		TS_LOG(Error, "can't get device interface\n");
 		return 1;
 	}
 	
 	// create root signature kernel (pointer must be moved)
-	D3D12Kernel kernel = D3D12Kernel(move(device.createKernel().setSurfaces(1).setUniforms(1)));
+	D3D12Kernel kernel = D3D12Kernel(move(device.createKernel().setUniforms(1).setStorages(2).setSurfaces(1).setTracings(1)));
 	if(!kernel.loadShaderGLSL("main.shader", "COMPUTE_SHADER=1")) return 1;
 	if(!kernel.create()) return 1;
 	
 	// load work graph shader library
 	// parameters are specified in the #pragma section
-	D3D12Shader main_shader = D3D12Shader(device.loadShader(Shader::TypeCompute, "main.hlsl", "MAIN_SHADER=1"));
-	D3D12Shader node_shader = D3D12Shader(device.loadShader(Shader::TypeCompute, "main.hlsl", "NODE_SHADER=1"));
-	if(!main_shader || !node_shader) return 1;
+	D3D12Shader shader = D3D12Shader(device.loadShader(Shader::TypeCompute, "main.hlsl"));
+	if(!shader) return 1;
 	
-	// work graph program name
-	const wchar_t *program_name = L"WorkGraph";
-	
-	// create main work graph state
-	AutoComPtr<ID3D12StateObject> main_work_graph_state;
+	// create work graph
+	size_t work_graph_memory = 0;
+	AutoComPtr<ID3D12StateObject> work_graph_state;
+	D3D12_PROGRAM_IDENTIFIER work_graph_program = {};
 	{
 		// work graph objects
 		Array<D3D12_STATE_SUBOBJECT> objects_desc;
 		
-		// state object config
-		D3D12_STATE_OBJECT_CONFIG object_config = {};
-		object_config.Flags = D3D12_STATE_OBJECT_FLAG_ALLOW_STATE_OBJECT_ADDITIONS;
-		{
-			D3D12_STATE_SUBOBJECT &object_desc = objects_desc.append();
-			object_desc.Type = D3D12_STATE_SUBOBJECT_TYPE_STATE_OBJECT_CONFIG;
-			object_desc.pDesc = &object_config;
-		}
-		
 		// shader library desc
 		D3D12_DXIL_LIBRARY_DESC library_desc = {};
-		library_desc.DXILLibrary.pShaderBytecode = main_shader.getShaderBlob()->GetBufferPointer();
-		library_desc.DXILLibrary.BytecodeLength = main_shader.getShaderBlob()->GetBufferSize();
+		library_desc.DXILLibrary.pShaderBytecode = shader.getShaderBlob()->GetBufferPointer();
+		library_desc.DXILLibrary.BytecodeLength = shader.getShaderBlob()->GetBufferSize();
 		{
 			D3D12_STATE_SUBOBJECT &object_desc = objects_desc.append();
 			object_desc.Type = D3D12_STATE_SUBOBJECT_TYPE_DXIL_LIBRARY;
@@ -104,7 +110,7 @@ int32_t main(int32_t argc, char **argv) {
 		// work graph desc
 		D3D12_WORK_GRAPH_DESC work_graph_desc = {};
 		work_graph_desc.Flags = D3D12_WORK_GRAPH_FLAG_INCLUDE_ALL_AVAILABLE_NODES;
-		work_graph_desc.ProgramName = program_name;
+		work_graph_desc.ProgramName = L"WorkGraph";
 		{
 			D3D12_STATE_SUBOBJECT &object_desc = objects_desc.append();
 			object_desc.Type = D3D12_STATE_SUBOBJECT_TYPE_WORK_GRAPH;
@@ -124,85 +130,18 @@ int32_t main(int32_t argc, char **argv) {
 		state_desc.Type = D3D12_STATE_OBJECT_TYPE_EXECUTABLE;
 		state_desc.NumSubobjects = objects_desc.size();
 		state_desc.pSubobjects = objects_desc.get();
-		if(D3D12Context::error(d3d12_device->CreateStateObject(&state_desc, IID_PPV_ARGS(main_work_graph_state.create())))) {
+		if(D3D12Context::error(d3d12_device->CreateStateObject(&state_desc, IID_PPV_ARGS(work_graph_state.create())))) {
 			TS_LOG(Error, "can't create state object\n");
 			return 1;
 		}
-	}
-	
-	// add nodes to the main program
-	AutoComPtr<ID3D12StateObject> work_graph_state;
-	{
-		// work graph objects
-		Array<D3D12_STATE_SUBOBJECT> objects_desc;
 		
-		// state object config
-		D3D12_STATE_OBJECT_CONFIG object_config = {};
-		object_config.Flags = D3D12_STATE_OBJECT_FLAG_ALLOW_STATE_OBJECT_ADDITIONS;
-		{
-			D3D12_STATE_SUBOBJECT &object_desc = objects_desc.append();
-			object_desc.Type = D3D12_STATE_SUBOBJECT_TYPE_STATE_OBJECT_CONFIG;
-			object_desc.pDesc = &object_config;
-		}
-		
-		// shader library desc
-		D3D12_DXIL_LIBRARY_DESC library_desc = {};
-		library_desc.DXILLibrary.pShaderBytecode = node_shader.getShaderBlob()->GetBufferPointer();
-		library_desc.DXILLibrary.BytecodeLength = node_shader.getShaderBlob()->GetBufferSize();
-		{
-			D3D12_STATE_SUBOBJECT &object_desc = objects_desc.append();
-			object_desc.Type = D3D12_STATE_SUBOBJECT_TYPE_DXIL_LIBRARY;
-			object_desc.pDesc = &library_desc;
-		}
-		
-		// work graph nodes
-		D3D12_NODE nodes[2] = {};
-		nodes[0].NodeType = D3D12_NODE_TYPE_SHADER;
-		nodes[0].Shader.Shader = L"plasma_node";
-		nodes[1].NodeType = D3D12_NODE_TYPE_SHADER;
-		nodes[1].Shader.Shader = L"clear_node";
-		
-		// work graph desc
-		D3D12_WORK_GRAPH_DESC work_graph_desc = {};
-		work_graph_desc.ProgramName = program_name;
-		work_graph_desc.NumExplicitlyDefinedNodes = TS_COUNTOF(nodes);
-		work_graph_desc.pExplicitlyDefinedNodes = nodes;
-		{
-			D3D12_STATE_SUBOBJECT &object_desc = objects_desc.append();
-			object_desc.Type = D3D12_STATE_SUBOBJECT_TYPE_WORK_GRAPH;
-			object_desc.pDesc = &work_graph_desc;
-		}
-		
-		// root signature
-		ID3D12RootSignature *root_signature = kernel.getRootSignature();
-		{
-			D3D12_STATE_SUBOBJECT &object_desc = objects_desc.append();
-			object_desc.Type = D3D12_STATE_SUBOBJECT_TYPE_GLOBAL_ROOT_SIGNATURE;
-			object_desc.pDesc = &root_signature;
-		}
-		
-		// create work graph state
-		D3D12_STATE_OBJECT_DESC state_desc = {};
-		state_desc.Type = D3D12_STATE_OBJECT_TYPE_EXECUTABLE;
-		state_desc.NumSubobjects = objects_desc.size();
-		state_desc.pSubobjects = objects_desc.get();
-		if(D3D12Context::error(d3d12_device->AddToStateObject(&state_desc, main_work_graph_state.get(), IID_PPV_ARGS(work_graph_state.create())))) {
-			TS_LOG(Error, "can't add to state object\n");
-			return 1;
-		}
-	}
-	
-	// create work graph program
-	size_t work_graph_memory = 0;
-	D3D12_PROGRAM_IDENTIFIER work_graph_program = {};
-	{
 		// get state object program
 		AutoComPtr<ID3D12StateObjectProperties1> state_properties;
 		if(D3D12Context::error(work_graph_state->QueryInterface(IID_PPV_ARGS(state_properties.create())))) {
 			TS_LOG(Error, "can't get state properties\n");
 			return 1;
 		}
-		work_graph_program = state_properties->GetProgramIdentifier(program_name);
+		work_graph_program = state_properties->GetProgramIdentifier(work_graph_desc.ProgramName);
 		
 		// get work graph properties
 		AutoComPtr<ID3D12WorkGraphProperties> work_graph_properties;
@@ -210,7 +149,7 @@ int32_t main(int32_t argc, char **argv) {
 			TS_LOG(Error, "can't get work graph properties\n");
 			return 1;
 		}
-		uint32_t index = work_graph_properties->GetWorkGraphIndex(program_name);
+		uint32_t index = work_graph_properties->GetWorkGraphIndex(work_graph_desc.ProgramName);
 		
 		// print work graph properties
 		TS_LOGF(Message, " Graphs: %u\n", work_graph_properties->GetNumWorkGraphs());
@@ -254,6 +193,57 @@ int32_t main(int32_t argc, char **argv) {
 	D3D12Texture surface = D3D12Texture(device.createTexture2D(FormatRGBAu8n, size, Texture::FlagSurface));
 	if(!surface) return 1;
 	
+	// create vertex pipeline
+	Pipeline vertex_pipeline = device.createPipeline();
+	vertex_pipeline.addAttribute(Pipeline::AttributePosition, FormatRGBf32, 0, offsetof(Vertex, position), sizeof(Vertex));
+	vertex_pipeline.addAttribute(Pipeline::AttributeNormal, FormatRGBf32, 0, offsetof(Vertex, normal), sizeof(Vertex));
+	
+	// load mesh
+	Mesh mesh, src_mesh;
+	if(!src_mesh.load("model.glb")) return 1;
+	if(!MeshRefine::subdiv(mesh, src_mesh, 5)) return 1;
+	mesh.createNormals();
+	mesh.optimizeIndices(32);
+	
+	// create model geometry
+	MeshModel model_geometry;
+	if(!model_geometry.create(device, vertex_pipeline, mesh, MeshModel::DefaultFlags | MeshModel::FlagIndices32 | MeshModel::FlagBufferStorage | MeshModel::FlagBufferTracing)) return 1;
+	Buffer vertex_buffer = model_geometry.getVertexBuffer();
+	Buffer index_buffer = model_geometry.getIndexBuffer();
+	
+	// create model tracing
+	Tracing model_tracing = device.createTracing();
+	model_tracing.addVertexBuffer(model_geometry.getNumGeometryVertices(0), vertex_pipeline.getAttributeFormat(0), model_geometry.getVertexBufferStride(0), vertex_buffer);
+	model_tracing.addIndexBuffer(model_geometry.getNumIndices(), model_geometry.getIndexFormat(), index_buffer);
+	if(!model_tracing.create(Tracing::TypeTriangle, Tracing::FlagCompact | Tracing::FlagFastTrace)) return 1;
+	
+	// create scratch buffer
+	Buffer scratch_buffer = device.createBuffer(Buffer::FlagStorage | Buffer::FlagScratch, model_tracing.getBuildSize() + 1024 * 8);
+	if(!scratch_buffer) return 1;
+	
+	// build model tracing
+	if(!device.buildTracing(model_tracing, scratch_buffer, Tracing::FlagCompact)) return 1;
+	device.flushTracing(model_tracing);
+	
+	// create instance buffer
+	Buffer instance_buffer = device.createBuffer(Buffer::FlagStorage | Buffer::FlagTracing, Tracing::InstanceSize);
+	if(!instance_buffer) return 1;
+	
+	// create instance tracing
+	Tracing instance_tracing = device.createTracing(1, instance_buffer);
+	if(!instance_tracing) return 1;
+	
+	// create instance
+	Tracing::Instance instance = {};
+	instance.mask = 0xff;
+	instance.tracing = &model_tracing;
+	Matrix4x3f::rotateX(90.0f).get(instance.transform);
+	if(!device.setTracing(instance_tracing, &instance, 1)) return 1;
+	
+	// build instance tracing
+	if(!device.buildTracing(instance_tracing, scratch_buffer)) return 1;
+	device.flushTracing(instance_tracing);
+	
 	// create target
 	Target target = device.createTarget(window);
 	
@@ -261,6 +251,8 @@ int32_t main(int32_t argc, char **argv) {
 	DECLARE_GLOBAL
 	window.run([&]() {
 		DECLARE_COMMON
+		
+		using Tellusim::sin;
 		
 		Window::update();
 		
@@ -280,10 +272,19 @@ int32_t main(int32_t argc, char **argv) {
 				return false;
 			}
 			
+			// common parameters
+			CommonParameters common_parameters;
+			common_parameters.camera = Matrix4x4f::rotateZ(time * 32.0f) * Vector4f(2.0f, 0.0f, 1.0f, 0.0f);
+			common_parameters.projection = Matrix4x4f::perspective(70.0f, (float32_t)window.getWidth() / window.getHeight(), 0.1f, true);
+			common_parameters.imodelview = Matrix4x4f::placeTo(common_parameters.camera.xyz, Vector3f::zero, Vector3f::oneZ);
+			common_parameters.light = Vector4f(8.0f, 0.0f, 4.0f, 0.0f);
+			
 			// set resources
 			compute.setKernel(kernel);
-			compute.setUniform(0, time);
+			compute.setUniform(0, common_parameters);
 			compute.setSurfaceTexture(0, surface);
+			compute.setStorageBuffers(0, { vertex_buffer, index_buffer });
+			compute.setTracing(0, instance_tracing);
 			compute.update();
 			
 			// set work graph

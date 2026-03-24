@@ -2,7 +2,6 @@
 // https://tellusim.com/
 
 #include <common/common.h>
-#include <common/sample_controls.h>
 #include <platform/TellusimDevice.h>
 #include <platform/TellusimContext.h>
 #include <platform/TellusimPipeline.h>
