@@ -1056,7 +1056,7 @@ namespace Tellusim {
 				signs[i][2] = bf.signs[i][2];
 			}
 		}
-		template<class CType> explicit BoundFrustum(const BoundFrustum<CType> &bf) : projection(Matrix4x4(bf.projection)), modelview(Matrix4x4(bf.modelview)), camera(Vector3(bf.camera)) {
+		template <class CType> explicit BoundFrustum(const BoundFrustum<CType> &bf) : projection(Matrix4x4(bf.projection)), modelview(Matrix4x4(bf.modelview)), camera(Vector3(bf.camera)) {
 			for(uint32_t i = 0; i < 6; i++) {
 				planes[i] = Vector4(bf.planes[i]);
 				signs[i][0] = bf.signs[i][0];

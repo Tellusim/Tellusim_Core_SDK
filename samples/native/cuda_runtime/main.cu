@@ -45,7 +45,7 @@ int32_t main(int32_t argc, char **argv) {
 	DECLARE_WINDOW
 	
 	// create window
-	String title = String::format("%s Tellusim::Cuda Runtime", window.getPlatformName());
+	String title = String::format("%s Tellusim::CudaRuntime", window.getPlatformName());
 	DECLARE_WINDOW_CREATE(title);
 	
 	// geometry parameters
