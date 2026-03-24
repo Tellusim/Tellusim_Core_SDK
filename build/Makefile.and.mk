@@ -51,6 +51,7 @@ CFLAGS += -std=c++11 -Wall -Wfloat-conversion -Os -fPIE -fPIC -ffast-math -fsign
 CFLAGS += -D_ANDROID=1 -DTS_CORE=1 -I$(TSROOT)/include -I$(TSROOT)/plugins
 CFLAGS += -Wno-null-dereference -Wno-undefined-var-template
 LDFLAGS += -fPIE -nostdlib++ -Wl,-Bstatic -lc++ -Wl,-Bdynamic
+LDFLAGS += -Wl,-z,max-page-size=16384
 LDFLAGS += -L$(TSROOT)/lib/android/$(ARCH)
 LIBS += -llog -landroid
 
