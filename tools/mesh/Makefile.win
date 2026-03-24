@@ -1,3 +1,5 @@
+TSROOT = $(MAKEDIR)\..\..
+
 TARGET = mesh$(POSTFIX).exe
 
 RESOURCES = mesh.rc
