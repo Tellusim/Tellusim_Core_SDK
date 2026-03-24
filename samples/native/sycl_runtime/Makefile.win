@@ -1,0 +1,58 @@
+# Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
+# https://tellusim.com/
+
+ICX = icx.exe
+
+TSROOT = $(MAKEDIR)\..\..\..
+ECHO = $(TSROOT)\bin\ts_echo.bat
+
+#
+# Debug configuration
+#
+!if "$(DEBUG)" != "0"
+POSTFIX = $(POSTFIX)d
+!endif
+
+#
+# Default configuration
+#
+CFLAGS = $(CFLAGS) /I$(TSROOT)\include
+CFLAGS = $(CFLAGS) /I$(TSROOT)\samples
+LDFLAGS = $(LDFLAGS) /LIBPATH:$(TSROOT)\source
+LDFLAGS = $(LDFLAGS) /LIBPATH:$(TSROOT)\lib\windows\$(VSVERSION)$(ARCH)
+LDFLAGS = $(LDFLAGS) Tellusim_$(ARCH)$(POSTFIX).lib
+
+#
+# OneAPI configuration
+#
+CFLAGS = $(CFLAGS) /EHsc /MDd /Wno-ignored-attributes /Wno-undefined-var-template
+LDFLAGS = $(LDFLAGS) /LIBPATH:$(ONEROOT)\compiler\latest\lib
+
+#
+# LevelZero configuration
+#
+CFLAGS = $(CFLAGS) /I"$(LEVEL_ZERO_V1_SDK_PATH)\include"
+LDFLAGS = $(LDFLAGS) /LIBPATH:"$(LEVEL_ZERO_V1_SDK_PATH)\lib" ze_loader.lib
+
+#
+# Main target
+#
+TARGET = main$(POSTFIX).exe
+
+OBJS = main.obj
+
+#
+# Build target
+#
+all: $(TARGET)
+
+main.obj: main.cpp
+	@$(ICX) /nologo /fsycl $(CFLAGS) /c /o $@ $**
+
+$(TARGET): $(OBJS)
+	@$(ICX) /nologo /fsycl /o $@ $** /link $(LDFLAGS)
+	@$(ECHO) g "Done %|fF"
+
+clean: $(MAKEDIR)
+	@$(ECHO) r "Cleaning %|fF"
+	@del /f $(TARGET) $(OBJS) *.exp *.lib

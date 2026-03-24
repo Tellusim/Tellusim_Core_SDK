@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+FLAGS = $(FLAGS) /I"$(LEVEL_ZERO_V1_SDK_PATH)\include"
+
+LDFLAGS = $(LDFLAGS) /LIBPATH:"$(LEVEL_ZERO_V1_SDK_PATH)\lib" ze_loader.lib
+
+include ..\..\Makefile.win.mk
