@@ -23,8 +23,20 @@ namespace Tellusim {
 			/// create flow
 			virtual bool create(Control *controls_root = nullptr, Control *tooltip_root = nullptr);
 			
+			/// Source flags
+			enum Flags {
+				FlagNone = 0,
+				FlagInverse			= (1 << 0),		// inverse traversal
+				FlagInputs			= (1 << 1),		// create input variables
+				FlagOutputs			= (1 << 2),		// create output variables
+				FlagInverseInputs	= (FlagInverse | FlagInputs),
+				FlagInverseOutputs	= (FlagInverse | FlagOutputs),
+			};
+			
 			/// create source for the node
-			String getSource(uint32_t node, bool inverse);
+			/// \param node Node index
+			/// \param flags Source flags
+			String getSource(uint32_t node, Flags flags);
 			
 			/// type name
 			virtual const char *getGLSLTypeName(uint32_t type) const;
@@ -79,7 +91,8 @@ namespace Tellusim {
 			template <class Value, uint32_t Size> static ControlCombo create_combo(Control *root, const char * const (&items)[Size], Value (&values)[Size]);
 			
 			/// type callback
-			static bool any_callback(ControlFlow *flow, uint32_t node, uint32_t input, uint32_t output_node, uint32_t output_index);
+			static bool any_input_callback(ControlFlow *flow, uint32_t node, uint32_t input, uint32_t output_node, uint32_t output_index);
+			static bool any_output_callback(ControlFlow *flow, uint32_t node, uint32_t output, uint32_t input_node, uint32_t input_index);
 			
 			/// flow state
 			static bool set_state(ControlCombo &combo, const String &name);
@@ -118,6 +131,10 @@ namespace Tellusim {
 			Color tool_color = Color(0.3f, 0.6f, 1.0f, 0.75f);
 			Color field_color = Color(0.6f, 0.6f, 0.3f, 0.75f);
 	};
+	
+	/*
+	 */
+	TS_DECLARE_ENUM_OP(ControlFlowGLSL::Flags)
 }
 
 #endif /* __TELLUSIM_PLUGINS_INTERFACE_CONTROL_FLOW_GLSL_H__ */
