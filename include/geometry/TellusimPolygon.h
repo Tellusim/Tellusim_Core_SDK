@@ -17,7 +17,7 @@ namespace Tellusim {
 	template <uint32_t Capacity = 256> struct Polygon final {
 		
 		/// 3D polygon normal
-		template<class Type>
+		template <class Type>
 		static Vector3<Type> normal(const Vector3<Type> *vertices, uint32_t num_vertices) {
 			
 			TS_ASSERT(num_vertices >= 3 && "Polygon::normal(): invalid vertices");
