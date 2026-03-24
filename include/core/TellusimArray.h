@@ -10,6 +10,10 @@
  */
 namespace Tellusim {
 	
+	/* Prototypes
+	 */
+	template <class, uint32_t> class ArrayStack;
+	
 	/**
 	 * Array container
 	 */
@@ -243,6 +247,8 @@ namespace Tellusim {
 			Array(uint32_t size, const Type &value) { resize(size, value); }
 			Array(const Array &array) { copy(array); }
 			Array(Array &&array) { impl.move(array.impl); }
+			template <uint32_t C> Array(const ArrayStack<Type, C> &array) { copy(array); }
+			template <uint32_t C> Array(ArrayStack<Type, C> &&array) { move((ArrayStack<Type, C>&&)array); }
 			~Array() { }
 			
 			/// initialize array data
@@ -279,6 +285,7 @@ namespace Tellusim {
 			TS_INLINE void swap(Array &array) {
 				impl.swap(array.impl);
 			}
+			template <uint32_t C> void swap(ArrayStack<Type, C> &array);
 			
 			/// copy array
 			void copy(const InitializerList<Type> &list) {
@@ -300,6 +307,7 @@ namespace Tellusim {
 			TS_INLINE void move(Array &&array) {
 				impl.move(array.impl);
 			}
+			template <uint32_t C> void move(ArrayStack<Type, C> &&array);
 			
 			/// assignment operators
 			TS_INLINE Array &operator=(const InitializerList<Type> &list) {
@@ -312,6 +320,10 @@ namespace Tellusim {
 			}
 			TS_INLINE Array &operator=(Array &&array) {
 				move((Array&&)array);
+				return *this;
+			}
+			template <uint32_t C> TS_INLINE Array &operator=(ArrayStack<Type, C> &&array) {
+				move((ArrayStack<Type, C>&&)array);
 				return *this;
 			}
 			
@@ -568,15 +580,130 @@ namespace Tellusim {
 			
 		private:
 			
+			template <class, uint32_t> friend class ArrayStack;
+			
 			ArrayImpl impl;		// array implementation
 	};
 	
 	/**
+	 * ArrayStack container
+	 */
+	template <class Type, uint32_t Capacity> class ArrayStack : public Array<Type> {
+			
+		public:
+			
+			using Array = Tellusim::Array<Type>;
+			
+			ArrayStack() { Array::init(data, Capacity); }
+			explicit ArrayStack(uint32_t size) { Array::init(data, Capacity); Array::resize(size); }
+			ArrayStack(const InitializerList<Type> &list) { Array::init(data, Capacity); Array::copy(list); }
+			ArrayStack(uint32_t size, const Type *array) { Array::init(data, Capacity); Array::copy(array, size); }
+			ArrayStack(uint32_t size, const Type &value) { Array::init(data, Capacity); Array::resize(size, value); }
+			ArrayStack(const Array &array) { Array::init(data, Capacity); Array::copy(array); }
+			ArrayStack(const ArrayStack &array) { Array::init(data, Capacity); Array::copy(array); }
+			ArrayStack(Array &&array) { Array::move((Array&&)array); }
+			ArrayStack(ArrayStack &&array) { move((ArrayStack&&)array); }
+			template <uint32_t C> ArrayStack(const ArrayStack<Type, C> &array) { Array::init(data, Capacity); Array::copy(array); }
+			template <uint32_t C> ArrayStack(ArrayStack<Type, C> &&array) { move((ArrayStack<Type, C>&&)array); }
+			
+			/// swap arrays
+			TS_INLINE void swap(Array &array) {
+				array.swap(*this);
+			}
+			void swap(ArrayStack &array) {
+				if(Array::get() != data && array.get() != array.data) {
+					Array::swap(array);
+				} else {
+					ArrayStack temp = array;
+					array.copy(Array::get(), Array::size());
+					Array::copy(temp);
+				}
+			}
+			template <uint32_t C> void swap(ArrayStack<Type, C> &array) {
+				if(Array::get() != data && array.get() != array.data) {
+					Array::swap(array);
+				} else {
+					ArrayStack temp = array;
+					array.copy(Array::get(), Array::size());
+					Array::copy(temp);
+				}
+			}
+			
+			/// copy array
+			void move(ArrayStack &&array) {
+				Array::init(data, Capacity);
+				if(array.get() != array.data) Array::move((Array&&)array);
+				else Array::copy(array);
+			}
+			template <uint32_t C> void move(ArrayStack<Type, C> &&array) {
+				Array::init(data, Capacity);
+				if(array.get() != array.data) Array::move((Array&&)array);
+				else Array::copy(array);
+			}
+			
+			/// assignment operators
+			TS_INLINE Array &operator=(const InitializerList<Type> &list) {
+				Array::copy(list);
+				return *this;
+			}
+			TS_INLINE ArrayStack &operator=(const Array &array) {
+				if(array.get() != Array::get()) Array::copy(array);
+				return *this;
+			}
+			TS_INLINE ArrayStack &operator=(const ArrayStack &array) {
+				if(array.get() != Array::get()) Array::copy(array);
+				return *this;
+			}
+			template <uint32_t C> TS_INLINE ArrayStack &operator=(const ArrayStack<Type, C> &array) {
+				if(array.get() != Array::get()) Array::copy(array);
+				return *this;
+			}
+			TS_INLINE ArrayStack &operator=(Array &&array) {
+				Array::move((Array&&)array);
+				return *this;
+			}
+			TS_INLINE ArrayStack &operator=(ArrayStack &&array) {
+				Array::move((ArrayStack&&)array);
+				return *this;
+			}
+			template <uint32_t C> TS_INLINE ArrayStack &operator=(ArrayStack<Type, C> &&array) {
+				Array::move((ArrayStack<Type, C>&&)array);
+				return *this;
+			}
+			
+		private:
+			
+			template <class> friend class Tellusim::Array;
+			template <class, uint32_t> friend class ArrayStack;
+			
+			Type data[Capacity];	// stack data
+	};
+	
+	/// swap arrays
+	template <class Type> template <uint32_t C> void Array<Type>::swap(ArrayStack<Type, C> &array) {
+		if(array.get() != array.data) {
+			swap((Array&)array);
+		} else {
+			ArrayStack<Type, C> temp = array;
+			array.copy(get(), size());
+			copy(temp);
+		}
+	}
+	
+	/// copy array
+	template <class Type> template <uint32_t C> void Array<Type>::move(ArrayStack<Type, C> &&array) {
+		if(array.get() != array.data) move((Array&&)array);
+		else copy(array);
+	}
+	
+	/**
 	 * Swap arrays
 	 */
-	template <class Type> void swap(Array<Type> &a0, Array<Type> &a1) {
-		a0.swap(a1);
-	}
+	template <class Type> void swap(Array<Type> &a0, Array<Type> &a1) { a0.swap(a1); }
+	template <class Type, uint32_t C> void swap(Array<Type> &a0, ArrayStack<Type, C> &a1) { a0.swap(a1); }
+	template <class Type, uint32_t C> void swap(ArrayStack<Type, C> &a0, Array<Type> &a1) { a0.swap(a1); }
+	template <class Type, uint32_t C> void swap(ArrayStack<Type, C> &a0, ArrayStack<Type, C> &a1) { a0.swap(a1); }
+	template <class Type, uint32_t C0, uint32_t C1> void swap(ArrayStack<Type, C0> &a0, ArrayStack<Type, C1> &a1) { a0.swap(a1); }
 }
 
 #endif /* __TELLUSIM_CORE_ARRAY_H__ */
