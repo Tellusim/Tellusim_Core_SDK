@@ -1964,11 +1964,12 @@ tsImage.Flags = Object.freeze({
 	Fast : 8,
 	Best : 16,
 	Perceptual : 32,
-	Panorama : 64,
-	Normalize : 128,
-	Gamma : 256,
-	SRGB : 512,
-	NumFlags : 10,
+	Array : 64,
+	Panorama : 128,
+	Normalize : 256,
+	Gamma : 512,
+	SRGB : 1024,
+	NumFlags : 11,
 });
 tsImage.Filter = Object.freeze({
 	Unknown : 0,
@@ -19081,8 +19082,9 @@ tsPrefixScan.Flags = Object.freeze({
 	Single : 1,
 	Multiple : 2,
 	Indirect : 4,
-	Repeat : 8,
-	All : 7,
+	Stride : 8,
+	Repeat : 16,
+	All : 15,
 });
 tsPrefixScan.DispatchParameters = function() {
 	return ts_bind(tsPrefixScan.DispatchParameters, this, tsPrefixScanDispatchParameters_new());
@@ -19141,21 +19143,26 @@ tsPrefixScan.prototype['create'] = tsPrefixScan.prototype.create = function() {
 	throw 'invalid PrefixScan.create() arguments';
 };
 tsPrefixScan.prototype['dispatch'] = tsPrefixScan.prototype.dispatch = function() {
-	if(arguments.length == 6 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer) return _tsPrefixScan_dispatch_1(this.self, arguments[0].self, arguments[1].self, arguments[2], arguments[3], arguments[4], arguments[5]);
-	if(arguments.length == 4 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer) return _tsPrefixScan_dispatch(this.self, arguments[0].self, arguments[1].self, arguments[2], arguments[3]);
-	if(arguments.length == 5 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer) return _tsPrefixScan_dispatch_1(this.self, arguments[0].self, arguments[1].self, arguments[2], arguments[3], arguments[4], 0);
+	if(arguments.length == 7 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer) return _tsPrefixScan_dispatch_1(this.self, arguments[0].self, arguments[1].self, arguments[2], arguments[3], arguments[4], arguments[5], arguments[6]);
+	if(arguments.length == 5 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer) return _tsPrefixScan_dispatch(this.self, arguments[0].self, arguments[1].self, arguments[2], arguments[3], arguments[4]);
+	if(arguments.length == 6 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer) return _tsPrefixScan_dispatch_1(this.self, arguments[0].self, arguments[1].self, arguments[2], arguments[3], arguments[4], arguments[5], 1);
+	if(arguments.length == 5 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer) return _tsPrefixScan_dispatch_1(this.self, arguments[0].self, arguments[1].self, arguments[2], arguments[3], arguments[4], 0, 1);
+	if(arguments.length == 4 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer) return _tsPrefixScan_dispatch(this.self, arguments[0].self, arguments[1].self, arguments[2], arguments[3], 1);
 	throw 'invalid PrefixScan.dispatch() arguments';
 };
 tsPrefixScan.prototype['dispatchIndirect'] = tsPrefixScan.prototype.dispatchIndirect = function() {
-	if(arguments.length == 8 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[2] instanceof tsBuffer && arguments[3] instanceof tsBuffer) return _tsPrefixScan_dispatchIndirect_2(this.self, arguments[0].self, arguments[1].self, arguments[2].self, arguments[3].self, arguments[4], arguments[5], arguments[6], arguments[7]);
-	if(arguments.length == 7 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[3] instanceof tsBuffer) return _tsPrefixScan_dispatchIndirect_1(this.self, arguments[0].self, arguments[1].self, arguments[2], arguments[3].self, arguments[4], arguments[5], arguments[6]);
-	if(arguments.length == 6 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[2] instanceof tsBuffer) return _tsPrefixScan_dispatchIndirect(this.self, arguments[0].self, arguments[1].self, arguments[2].self, arguments[3], arguments[4], arguments[5]);
-	if(arguments.length == 7 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[2] instanceof tsBuffer && arguments[3] instanceof tsBuffer) return _tsPrefixScan_dispatchIndirect_2(this.self, arguments[0].self, arguments[1].self, arguments[2].self, arguments[3].self, arguments[4], arguments[5], arguments[6], tsBase.Maxu32);
-	if(arguments.length == 6 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[2] instanceof tsBuffer && arguments[3] instanceof tsBuffer) return _tsPrefixScan_dispatchIndirect_2(this.self, arguments[0].self, arguments[1].self, arguments[2].self, arguments[3].self, arguments[4], arguments[5], 0, tsBase.Maxu32);
-	if(arguments.length == 6 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[3] instanceof tsBuffer) return _tsPrefixScan_dispatchIndirect_1(this.self, arguments[0].self, arguments[1].self, arguments[2], arguments[3].self, arguments[4], arguments[5], tsBase.Maxu32);
-	if(arguments.length == 5 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[3] instanceof tsBuffer) return _tsPrefixScan_dispatchIndirect_1(this.self, arguments[0].self, arguments[1].self, arguments[2], arguments[3].self, arguments[4], 0, tsBase.Maxu32);
-	if(arguments.length == 5 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[2] instanceof tsBuffer) return _tsPrefixScan_dispatchIndirect(this.self, arguments[0].self, arguments[1].self, arguments[2].self, arguments[3], arguments[4], tsBase.Maxu32);
-	if(arguments.length == 4 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[2] instanceof tsBuffer) return _tsPrefixScan_dispatchIndirect(this.self, arguments[0].self, arguments[1].self, arguments[2].self, arguments[3], 0, tsBase.Maxu32);
+	if(arguments.length == 9 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[2] instanceof tsBuffer && arguments[3] instanceof tsBuffer) return _tsPrefixScan_dispatchIndirect_2(this.self, arguments[0].self, arguments[1].self, arguments[2].self, arguments[3].self, arguments[4], arguments[5], arguments[6], arguments[7], arguments[8]);
+	if(arguments.length == 8 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[3] instanceof tsBuffer) return _tsPrefixScan_dispatchIndirect_1(this.self, arguments[0].self, arguments[1].self, arguments[2], arguments[3].self, arguments[4], arguments[5], arguments[6], arguments[7]);
+	if(arguments.length == 7 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[2] instanceof tsBuffer) return _tsPrefixScan_dispatchIndirect(this.self, arguments[0].self, arguments[1].self, arguments[2].self, arguments[3], arguments[4], arguments[5], arguments[6]);
+	if(arguments.length == 8 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[2] instanceof tsBuffer && arguments[3] instanceof tsBuffer) return _tsPrefixScan_dispatchIndirect_2(this.self, arguments[0].self, arguments[1].self, arguments[2].self, arguments[3].self, arguments[4], arguments[5], arguments[6], arguments[7], 1);
+	if(arguments.length == 7 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[2] instanceof tsBuffer && arguments[3] instanceof tsBuffer) return _tsPrefixScan_dispatchIndirect_2(this.self, arguments[0].self, arguments[1].self, arguments[2].self, arguments[3].self, arguments[4], arguments[5], arguments[6], tsBase.Maxu32, 1);
+	if(arguments.length == 6 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[2] instanceof tsBuffer && arguments[3] instanceof tsBuffer) return _tsPrefixScan_dispatchIndirect_2(this.self, arguments[0].self, arguments[1].self, arguments[2].self, arguments[3].self, arguments[4], arguments[5], 0, tsBase.Maxu32, 1);
+	if(arguments.length == 7 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[3] instanceof tsBuffer) return _tsPrefixScan_dispatchIndirect_1(this.self, arguments[0].self, arguments[1].self, arguments[2], arguments[3].self, arguments[4], arguments[5], arguments[6], 1);
+	if(arguments.length == 6 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[3] instanceof tsBuffer) return _tsPrefixScan_dispatchIndirect_1(this.self, arguments[0].self, arguments[1].self, arguments[2], arguments[3].self, arguments[4], arguments[5], tsBase.Maxu32, 1);
+	if(arguments.length == 5 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[3] instanceof tsBuffer) return _tsPrefixScan_dispatchIndirect_1(this.self, arguments[0].self, arguments[1].self, arguments[2], arguments[3].self, arguments[4], 0, tsBase.Maxu32, 1);
+	if(arguments.length == 6 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[2] instanceof tsBuffer) return _tsPrefixScan_dispatchIndirect(this.self, arguments[0].self, arguments[1].self, arguments[2].self, arguments[3], arguments[4], arguments[5], 1);
+	if(arguments.length == 5 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[2] instanceof tsBuffer) return _tsPrefixScan_dispatchIndirect(this.self, arguments[0].self, arguments[1].self, arguments[2].self, arguments[3], arguments[4], tsBase.Maxu32, 1);
+	if(arguments.length == 4 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[2] instanceof tsBuffer) return _tsPrefixScan_dispatchIndirect(this.self, arguments[0].self, arguments[1].self, arguments[2].self, arguments[3], 0, tsBase.Maxu32, 1);
 	throw 'invalid PrefixScan.dispatchIndirect() arguments';
 };
 

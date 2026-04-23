@@ -16128,20 +16128,20 @@ namespace Tellusim {
 	TS_JSAPI bool tsPrefixScan_create_1(PrefixScan &self, const Device &device, uint32_t flags, uint32_t groups, uint32_t regions, Async *async) {
 		return self.create(device, (PrefixScan::Flags)flags, groups, regions, async);
 	}
-	TS_JSAPI bool tsPrefixScan_dispatch(PrefixScan &self, Compute &compute, Buffer &data, uint32_t offset, uint32_t size) {
-		return self.dispatch(compute, data, offset, size);
+	TS_JSAPI bool tsPrefixScan_dispatch(PrefixScan &self, Compute &compute, Buffer &data, uint32_t offset, uint32_t size, uint32_t stride) {
+		return self.dispatch(compute, data, offset, size, stride);
 	}
-	TS_JSAPI bool tsPrefixScan_dispatch_1(PrefixScan &self, Compute &compute, Buffer &data, uint32_t count, const uint32_t *offsets, const uint32_t *sizes, uint32_t flags) {
-		return self.dispatch(compute, data, count, offsets, sizes, (PrefixScan::Flags)flags);
+	TS_JSAPI bool tsPrefixScan_dispatch_1(PrefixScan &self, Compute &compute, Buffer &data, uint32_t count, const uint32_t *offsets, const uint32_t *sizes, uint32_t flags, uint32_t stride) {
+		return self.dispatch(compute, data, count, offsets, sizes, (PrefixScan::Flags)flags, stride);
 	}
-	TS_JSAPI bool tsPrefixScan_dispatchIndirect(PrefixScan &self, Compute &compute, Buffer &data, Buffer &dispatch, uint32_t offset, uint32_t flags, uint32_t max_size) {
-		return self.dispatchIndirect(compute, data, dispatch, offset, (PrefixScan::Flags)flags, max_size);
+	TS_JSAPI bool tsPrefixScan_dispatchIndirect(PrefixScan &self, Compute &compute, Buffer &data, Buffer &dispatch, uint32_t offset, uint32_t flags, uint32_t max_size, uint32_t stride) {
+		return self.dispatchIndirect(compute, data, dispatch, offset, (PrefixScan::Flags)flags, max_size, stride);
 	}
-	TS_JSAPI bool tsPrefixScan_dispatchIndirect_1(PrefixScan &self, Compute &compute, Buffer &data, uint32_t count, Buffer &dispatch, uint32_t offset, uint32_t flags, uint32_t max_size) {
-		return self.dispatchIndirect(compute, data, count, dispatch, offset, (PrefixScan::Flags)flags, max_size);
+	TS_JSAPI bool tsPrefixScan_dispatchIndirect_1(PrefixScan &self, Compute &compute, Buffer &data, uint32_t count, Buffer &dispatch, uint32_t offset, uint32_t flags, uint32_t max_size, uint32_t stride) {
+		return self.dispatchIndirect(compute, data, count, dispatch, offset, (PrefixScan::Flags)flags, max_size, stride);
 	}
-	TS_JSAPI bool tsPrefixScan_dispatchIndirect_2(PrefixScan &self, Compute &compute, Buffer &data, Buffer &count, Buffer &dispatch, uint32_t count_offset, uint32_t dispatch_offset, uint32_t flags, uint32_t max_size) {
-		return self.dispatchIndirect(compute, data, count, dispatch, count_offset, dispatch_offset, (PrefixScan::Flags)flags, max_size);
+	TS_JSAPI bool tsPrefixScan_dispatchIndirect_2(PrefixScan &self, Compute &compute, Buffer &data, Buffer &count, Buffer &dispatch, uint32_t count_offset, uint32_t dispatch_offset, uint32_t flags, uint32_t max_size, uint32_t stride) {
+		return self.dispatchIndirect(compute, data, count, dispatch, count_offset, dispatch_offset, (PrefixScan::Flags)flags, max_size, stride);
 	}
 	
 	// Tellusim::RadixSort::DispatchParameters
