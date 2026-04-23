@@ -28000,20 +28000,20 @@ namespace Tellusim {
 	static jboolean prefix_scan_create_1(TS_JNI_ARGS, jlong self, jlong device, jint flags, jint groups, jint regions, jlong async) {
 		return toPrefixScan(self).create(toDevice(device), (PrefixScan::Flags)flags, (uint32_t)groups, (uint32_t)regions, (Async*)async);
 	}
-	static jboolean prefix_scan_dispatch(TS_JNI_ARGS, jlong self, jlong compute, jlong data, jint offset, jint size) {
-		return toPrefixScan(self).dispatch(toCompute(compute), toBuffer(data), (uint32_t)offset, (uint32_t)size);
+	static jboolean prefix_scan_dispatch(TS_JNI_ARGS, jlong self, jlong compute, jlong data, jint offset, jint size, jint stride) {
+		return toPrefixScan(self).dispatch(toCompute(compute), toBuffer(data), (uint32_t)offset, (uint32_t)size, (uint32_t)stride);
 	}
-	static jboolean prefix_scan_dispatch_1(TS_JNI_ARGS, jlong self, jlong compute, jlong data, jint count, jintArray offsets, jintArray sizes, jint flags) {
-		return toPrefixScan(self).dispatch(toCompute(compute), toBuffer(data), (uint32_t)count, (uint32_t*)IntArray(env, offsets).get(), (uint32_t*)IntArray(env, sizes).get(), (PrefixScan::Flags)flags);
+	static jboolean prefix_scan_dispatch_1(TS_JNI_ARGS, jlong self, jlong compute, jlong data, jint count, jintArray offsets, jintArray sizes, jint flags, jint stride) {
+		return toPrefixScan(self).dispatch(toCompute(compute), toBuffer(data), (uint32_t)count, (uint32_t*)IntArray(env, offsets).get(), (uint32_t*)IntArray(env, sizes).get(), (PrefixScan::Flags)flags, (uint32_t)stride);
 	}
-	static jboolean prefix_scan_dispatch_indirect(TS_JNI_ARGS, jlong self, jlong compute, jlong data, jlong dispatch, jint offset, jint flags, jint max_size) {
-		return toPrefixScan(self).dispatchIndirect(toCompute(compute), toBuffer(data), toBuffer(dispatch), (uint32_t)offset, (PrefixScan::Flags)flags, (uint32_t)max_size);
+	static jboolean prefix_scan_dispatch_indirect(TS_JNI_ARGS, jlong self, jlong compute, jlong data, jlong dispatch, jint offset, jint flags, jint max_size, jint stride) {
+		return toPrefixScan(self).dispatchIndirect(toCompute(compute), toBuffer(data), toBuffer(dispatch), (uint32_t)offset, (PrefixScan::Flags)flags, (uint32_t)max_size, (uint32_t)stride);
 	}
-	static jboolean prefix_scan_dispatch_indirect_1(TS_JNI_ARGS, jlong self, jlong compute, jlong data, jint count, jlong dispatch, jint offset, jint flags, jint max_size) {
-		return toPrefixScan(self).dispatchIndirect(toCompute(compute), toBuffer(data), (uint32_t)count, toBuffer(dispatch), (uint32_t)offset, (PrefixScan::Flags)flags, (uint32_t)max_size);
+	static jboolean prefix_scan_dispatch_indirect_1(TS_JNI_ARGS, jlong self, jlong compute, jlong data, jint count, jlong dispatch, jint offset, jint flags, jint max_size, jint stride) {
+		return toPrefixScan(self).dispatchIndirect(toCompute(compute), toBuffer(data), (uint32_t)count, toBuffer(dispatch), (uint32_t)offset, (PrefixScan::Flags)flags, (uint32_t)max_size, (uint32_t)stride);
 	}
-	static jboolean prefix_scan_dispatch_indirect_2(TS_JNI_ARGS, jlong self, jlong compute, jlong data, jlong count, jlong dispatch, jint count_offset, jint dispatch_offset, jint flags, jint max_size) {
-		return toPrefixScan(self).dispatchIndirect(toCompute(compute), toBuffer(data), toBuffer(count), toBuffer(dispatch), (uint32_t)count_offset, (uint32_t)dispatch_offset, (PrefixScan::Flags)flags, (uint32_t)max_size);
+	static jboolean prefix_scan_dispatch_indirect_2(TS_JNI_ARGS, jlong self, jlong compute, jlong data, jlong count, jlong dispatch, jint count_offset, jint dispatch_offset, jint flags, jint max_size, jint stride) {
+		return toPrefixScan(self).dispatchIndirect(toCompute(compute), toBuffer(data), toBuffer(count), toBuffer(dispatch), (uint32_t)count_offset, (uint32_t)dispatch_offset, (PrefixScan::Flags)flags, (uint32_t)max_size, (uint32_t)stride);
 	}
 	static const JNINativeMethod prefix_scan_methods[] = {
 		{ (char*)"new_", (char*)"()J", (void*)prefix_scan_new },
@@ -28037,11 +28037,11 @@ namespace Tellusim {
 		{ (char*)"get_max_regions", (char*)"(J)I", (void*)prefix_scan_get_max_regions },
 		{ (char*)"create_", (char*)"(JJIIIJ)Z", (void*)prefix_scan_create },
 		{ (char*)"create_1", (char*)"(JJIIIJ)Z", (void*)prefix_scan_create_1 },
-		{ (char*)"dispatch_", (char*)"(JJJII)Z", (void*)prefix_scan_dispatch },
-		{ (char*)"dispatch_1", (char*)"(JJJI[I[II)Z", (void*)prefix_scan_dispatch_1 },
-		{ (char*)"dispatch_indirect", (char*)"(JJJJIII)Z", (void*)prefix_scan_dispatch_indirect },
-		{ (char*)"dispatch_indirect_1", (char*)"(JJJIJIII)Z", (void*)prefix_scan_dispatch_indirect_1 },
-		{ (char*)"dispatch_indirect_2", (char*)"(JJJJJIIII)Z", (void*)prefix_scan_dispatch_indirect_2 },
+		{ (char*)"dispatch_", (char*)"(JJJIII)Z", (void*)prefix_scan_dispatch },
+		{ (char*)"dispatch_1", (char*)"(JJJI[I[III)Z", (void*)prefix_scan_dispatch_1 },
+		{ (char*)"dispatch_indirect", (char*)"(JJJJIIII)Z", (void*)prefix_scan_dispatch_indirect },
+		{ (char*)"dispatch_indirect_1", (char*)"(JJJIJIIII)Z", (void*)prefix_scan_dispatch_indirect_1 },
+		{ (char*)"dispatch_indirect_2", (char*)"(JJJJJIIIII)Z", (void*)prefix_scan_dispatch_indirect_2 },
 	};
 	
 	// Tellusim::RadixSort::DispatchParameters

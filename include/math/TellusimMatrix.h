@@ -65,6 +65,12 @@ namespace Tellusim {
 			} else if(size == 6) {
 				row_0.set(m[0], m[2], m[4]);
 				row_1.set(m[1], m[3], m[5]);
+			} else if(row_major && size == 4) {
+				row_0.set(m[0], m[1], 0.0f);
+				row_1.set(m[2], m[3], 0.0f);
+			} else if(size == 4) {
+				row_0.set(m[0], m[2], 0.0f);
+				row_1.set(m[1], m[3], 0.0f);
 			} else {
 				TS_ASSERT(0);
 			}
@@ -83,6 +89,12 @@ namespace Tellusim {
 			} else if(size == 6) {
 				m[0] = m00; m[2] = m01; m[4] = m02;
 				m[1] = m10; m[3] = m11; m[5] = m12;
+			} else if(row_major && size == 4) {
+				m[0] = m00; m[1] = m01;
+				m[2] = m10; m[3] = m11;
+			} else if(size == 4) {
+				m[0] = m00; m[2] = m01;
+				m[1] = m10; m[3] = m11;
 			} else {
 				TS_ASSERT(0);
 			}
