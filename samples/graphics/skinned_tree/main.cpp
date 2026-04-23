@@ -117,7 +117,7 @@ int32_t main(int32_t argc, char **argv) {
 	
 	// create trace kernel
 	Kernel trace_kernel = device.createKernel().setSamplers(1).setTextures(2).setSurfaces(1).setUniforms(1).setStorages(5, BindFlagFixed).setStorageFlags(0, BindFlagNone);
-	if(!trace_kernel.loadShaderGLSL("main.shader", "COMPUTE_TRACE_SHADER=1; NUM_INSTANCES=%uu", num_instances2)) return 1;
+	if(!trace_kernel.loadShaderGLSL("main.shader", "COMPUTE_TRACE_SHADER=1")) return 1;
 	if(!trace_kernel.create()) return 1;
 	
 	// create vertex pipeline
