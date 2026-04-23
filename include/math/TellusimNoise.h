@@ -16,13 +16,13 @@ namespace Tellusim {
 	namespace Noise {
 		
 		/// utils
-		template <class Type> TS_INLINE void mod289(Type &x) {
-			x -= floor(x * (1.0f / 289.0f)) * 289.0f;
+		template <class Type> TS_INLINE void mod(Type &x, float32_t period) {
+			x -= floor(x * (1.0f / period)) * period;
 		}
 		
-		template <class Type> TS_INLINE void perm(Type &x) {
+		template <class Type> TS_INLINE void perm(Type &x, float32_t period) {
 			x *= x * 34.0f + 1.0f;
-			mod289(x);
+			mod(x, period);
 		}
 		
 		template <class Type> TS_INLINE Type fract(const Type &x) {
@@ -34,7 +34,7 @@ namespace Tellusim {
 		}
 		
 		/// 2D Perlin noise
-		template <class Type> Type perlin(const Type &x, const Type &y, bool cubic = false) {
+		template <class Type> Type perlin(const Type &x, const Type &y, bool cubic = false, float32_t period = 289.0f) {
 			Type fx = fract(x);
 			Type fy = fract(y);
 			Type ix = floor(x);
@@ -43,20 +43,20 @@ namespace Tellusim {
 			Type fw = fy - 1.0f;
 			Type iz = ix + 1.0f;
 			Type iw = iy + 1.0f;
-			mod289(ix);
-			mod289(iy);
-			mod289(iz);
-			mod289(iw);
-			perm(ix);
-			perm(iz);
+			mod(ix, period);
+			mod(iy, period);
+			mod(iz, period);
+			mod(iw, period);
+			perm(ix, period);
+			perm(iz, period);
 			Type px = ix + iy;
 			Type py = iz + iy;
 			Type pz = ix + iw;
 			Type pw = iz + iw;
-			perm(px);
-			perm(py);
-			perm(pz);
-			perm(pw);
+			perm(px, period);
+			perm(py, period);
+			perm(pz, period);
+			perm(pw, period);
 			Type xx = fract(px * (1.0f / 41.0f)) * 2.0f - 1.0f;
 			Type xy = fract(py * (1.0f / 41.0f)) * 2.0f - 1.0f;
 			Type xz = fract(pz * (1.0f / 41.0f)) * 2.0f - 1.0f;
@@ -85,7 +85,7 @@ namespace Tellusim {
 		}
 		
 		/// 3D Perlin noise
-		template <class Type> Type perlin(const Type &x, const Type &y, const Type &z, bool cubic = false) {
+		template <class Type> Type perlin(const Type &x, const Type &y, const Type &z, bool cubic = false, float32_t period = 289.0f) {
 			Type f0x = fract(x);
 			Type f0y = fract(y);
 			Type f0z = fract(z);
@@ -98,22 +98,22 @@ namespace Tellusim {
 			Type i1x = i0x + 1.0f;
 			Type i1y = i0y + 1.0f;
 			Type i1z = i0z + 1.0f;
-			mod289(i0x);
-			mod289(i0y);
-			mod289(i0z);
-			mod289(i1x);
-			mod289(i1y);
-			mod289(i1z);
-			perm(i0x);
-			perm(i1x);
+			mod(i0x, period);
+			mod(i0y, period);
+			mod(i0z, period);
+			mod(i1x, period);
+			mod(i1y, period);
+			mod(i1z, period);
+			perm(i0x, period);
+			perm(i1x, period);
 			Type px = i0x + i0y;
 			Type py = i1x + i0y;
 			Type pz = i0x + i1y;
 			Type pw = i1x + i1y;
-			perm(px);
-			perm(py);
-			perm(pz);
-			perm(pw);
+			perm(px, period);
+			perm(py, period);
+			perm(pz, period);
+			perm(pw, period);
 			Type p0x = px + i0z;
 			Type p0y = py + i0z;
 			Type p0z = pz + i0z;
@@ -122,14 +122,14 @@ namespace Tellusim {
 			Type p1y = py + i1z;
 			Type p1z = pz + i1z;
 			Type p1w = pw + i1z;
-			perm(p0x);
-			perm(p0y);
-			perm(p0z);
-			perm(p0w);
-			perm(p1x);
-			perm(p1y);
-			perm(p1z);
-			perm(p1w);
+			perm(p0x, period);
+			perm(p0y, period);
+			perm(p0z, period);
+			perm(p0w, period);
+			perm(p1x, period);
+			perm(p1y, period);
+			perm(p1z, period);
+			perm(p1w, period);
 			Type gx0x = p0x * (1.0f / 7.0f);
 			Type gx0y = p0y * (1.0f / 7.0f);
 			Type gx0z = p0z * (1.0f / 7.0f);
@@ -210,13 +210,20 @@ namespace Tellusim {
 		}
 		
 		/// 2D Fractal noise
-		template <class Type> Type fractal(Type x, Type y, uint32_t steps = 5, float32_t scale = 0.5f) {
-			Type ret = Type(0.0f);
+		template <class Type> Type fractal(Type x, Type y, uint32_t steps = 5, float32_t scale = 0.5f, bool cubic = false, float32_t period = 0.0f) {
 			float32_t value = 1.0f;
+			Type sx, sy, ret = Type(0.0f);
 			for(uint32_t i = 0; i < steps; i++) {
-				ret += (perlin(x, y) - 0.5f) * value;
-				Type sx = x * (-1.47f) + y * (-1.35f);
-				Type sy = x * ( 1.35f) + y * (-1.47f);
+				if(period > 0.0f) {
+					ret += (perlin(x, y, cubic, period) - 0.5f) * value;
+					sx = y * ( 2.0f) + 17.0f;
+					sy = x * (-2.0f) + 31.0f;
+					period *= 2.0f;
+				} else {
+					ret += (perlin(x, y, cubic) - 0.5f) * value;
+					sx = x * (-1.47f) + y * (-1.35f);
+					sy = x * ( 1.35f) + y * (-1.47f);
+				}
 				value *= scale;
 				x = sx;
 				y = sy;
@@ -225,14 +232,22 @@ namespace Tellusim {
 		}
 		
 		/// 3D Fractal noise
-		template <class Type> Type fractal(Type x, Type y, Type z, uint32_t steps = 5, float32_t scale = 0.5f) {
-			Type ret = Type(0.0f);
+		template <class Type> Type fractal(Type x, Type y, Type z, uint32_t steps = 5, float32_t scale = 0.5f, bool cubic = false, float32_t period = 0.0f) {
 			float32_t value = 1.0f;
+			Type sx, sy, sz, ret = Type(0.0f);
 			for(uint32_t i = 0; i < steps; i++) {
-				ret += (perlin(x, y, z) - 0.5f) * value;
-				Type sx = x * ( 1.119847f) + y * (-1.635496f) + z * 0.266637f;
-				Type sy = x * ( 0.580474f) + y * ( 0.688591f) + z * 1.785747f;
-				Type sz = x * (-1.552093f) + y * (-0.922494f) + z * 0.860240f;
+				if(period > 0.0f) {
+					ret += (perlin(x, y, z, cubic, period) - 0.5f) * value;
+					sx = z * ( 2.0f) + 13.0f;
+					sy = y * ( 2.0f) + 17.0f;
+					sz = x * (-2.0f) + 31.0f;
+					period *= 2.0f;
+				} else {
+					ret += (perlin(x, y, z, cubic) - 0.5f) * value;
+					sx = x * ( 1.119847f) + y * (-1.635496f) + z * 0.266637f;
+					sy = x * ( 0.580474f) + y * ( 0.688591f) + z * 1.785747f;
+					sz = x * (-1.552093f) + y * (-0.922494f) + z * 0.860240f;
+				}
 				value *= scale;
 				x = sx;
 				y = sy;

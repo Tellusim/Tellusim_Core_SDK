@@ -96,8 +96,8 @@
 /*
  */
 #if PERLIN_2_SHADER || PERLIN_3_SHADER
-	#define MOD289(NAME) NAME -= floor(NAME * (1.0f / 289.0f)) * 289.0f;
-	#define PERM(NAME) NAME *= NAME * 34.0f + 1.0f; MOD289(NAME)
+	#define MOD(NAME) NAME -= floor(NAME * (1.0f / PERIOD)) * PERIOD;
+	#define PERM(NAME) NAME *= NAME * 34.0f + 1.0f; MOD(NAME)
 	#define INVERSESQRT(VALUE) (1.79284291400159f - VALUE * 0.85373472095314f)
 #endif
 
@@ -107,7 +107,7 @@
 	
 	vec4 f = fract(IN).xyxy - vec4(0.0f, 0.0f, 1.0f, 1.0f);
 	vec4 i = floor(IN).xyxy + vec4(0.0f, 0.0f, 1.0f, 1.0f);
-	MOD289(i)
+	MOD(i)
 	vec2 p2 = i.xz;
 	PERM(p2)
 	vec4 p4 = p2.xyxy + i.yyww;
@@ -154,8 +154,8 @@
 	vec3 i0 = floor(IN);
 	vec3 f1 = f0 - 1.0f;
 	vec3 i1 = i0 + 1.0f;
-	MOD289(i0)
-	MOD289(i1)
+	MOD(i0)
+	MOD(i1)
 	vec2 p2 = vec2(i0.x, i1.x);
 	PERM(p2)
 	vec4 p4 = p2.xyxy + vec4(i0.yy, i1.yy);

@@ -40,11 +40,12 @@ public class Image {
 			Fast(8),
 			Best(16),
 			Perceptual(32),
-			Panorama(64),
-			Normalize(128),
-			Gamma(256),
-			SRGB(512),
-			Num(10);
+			Array(64),
+			Panorama(128),
+			Normalize(256),
+			Gamma(512),
+			SRGB(1024),
+			Num(11);
 			Enum(int value) { this.value = value; }
 			public Flags and(Flags e) { return new Flags(value & e.value); }
 			public Flags and(Enum e) { return new Flags(value & e.value); }
@@ -61,6 +62,7 @@ public class Image {
 		public static final Enum Fast = Enum.Fast;
 		public static final Enum Best = Enum.Best;
 		public static final Enum Perceptual = Enum.Perceptual;
+		public static final Enum Array = Enum.Array;
 		public static final Enum Panorama = Enum.Panorama;
 		public static final Enum Normalize = Enum.Normalize;
 		public static final Enum Gamma = Enum.Gamma;
