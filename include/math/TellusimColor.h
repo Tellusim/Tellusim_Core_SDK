@@ -289,7 +289,7 @@ namespace Tellusim {
 		return c * Color(rsqrt(length2(c)), 1.0f);
 	}
 	TS_INLINE Color lerp(const Color &c0, const Color &c1, float32_t k) {
-		return c0 + (c1 - c0) * k;
+		return c0 + (c1 - c0) * Color(k, k);
 	}
 }
 
