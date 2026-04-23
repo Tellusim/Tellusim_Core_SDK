@@ -430,11 +430,12 @@ typedef NS_ENUM(NSInteger, TS_ImageFlags) {
 	TS_ImageFlagsFast NS_SWIFT_NAME(Fast) = 8,
 	TS_ImageFlagsBest NS_SWIFT_NAME(Best) = 16,
 	TS_ImageFlagsPerceptual NS_SWIFT_NAME(Perceptual) = 32,
-	TS_ImageFlagsPanorama NS_SWIFT_NAME(Panorama) = 64,
-	TS_ImageFlagsNormalize NS_SWIFT_NAME(Normalize) = 128,
-	TS_ImageFlagsGamma NS_SWIFT_NAME(Gamma) = 256,
-	TS_ImageFlagsSRGB NS_SWIFT_NAME(SRGB) = 512,
-	TS_ImageFlagsNumFlags NS_SWIFT_NAME(Num) = 10,
+	TS_ImageFlagsArray NS_SWIFT_NAME(Array) = 64,
+	TS_ImageFlagsPanorama NS_SWIFT_NAME(Panorama) = 128,
+	TS_ImageFlagsNormalize NS_SWIFT_NAME(Normalize) = 256,
+	TS_ImageFlagsGamma NS_SWIFT_NAME(Gamma) = 512,
+	TS_ImageFlagsSRGB NS_SWIFT_NAME(SRGB) = 1024,
+	TS_ImageFlagsNumFlags NS_SWIFT_NAME(Num) = 11,
 } NS_SWIFT_NAME(Image.Flags);
 
 /// Tellusim::Image::Filter
@@ -1516,8 +1517,9 @@ typedef NS_ENUM(NSInteger, TS_PrefixScanFlags) {
 	TS_PrefixScanFlagsSingle NS_SWIFT_NAME(Single) = 1,
 	TS_PrefixScanFlagsMultiple NS_SWIFT_NAME(Multiple) = 2,
 	TS_PrefixScanFlagsIndirect NS_SWIFT_NAME(Indirect) = 4,
-	TS_PrefixScanFlagsRepeat NS_SWIFT_NAME(Repeat) = 8,
-	TS_PrefixScanFlagsAll NS_SWIFT_NAME(All) = 7,
+	TS_PrefixScanFlagsStride NS_SWIFT_NAME(Stride) = 8,
+	TS_PrefixScanFlagsRepeat NS_SWIFT_NAME(Repeat) = 16,
+	TS_PrefixScanFlagsAll NS_SWIFT_NAME(All) = 15,
 } NS_SWIFT_NAME(PrefixScan.Flags);
 
 /// Tellusim::RadixSort::Mode
@@ -16376,28 +16378,38 @@ TS_CAPI @interface TSPrefixScan : NSObject {
 	-(BOOL)create_7_: (const TSDevice* _Nonnull)device flags: (TS_PrefixScanFlags)flags groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(device:flags:groups:regions:async:));
 	-(BOOL)dispatch: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data offset: (uint32_t)offset size: (uint32_t)size NS_SWIFT_NAME(dispatch(_:_:_:_:));
 	-(BOOL)dispatch_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data offset: (uint32_t)offset size: (uint32_t)size NS_SWIFT_NAME(dispatch(compute:data:offset:size:));
-	-(BOOL)dispatch_1: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count offsets: (const uint32_t* _Nonnull)offsets sizes: (const uint32_t* _Nonnull)sizes NS_SWIFT_NAME(dispatch(_:_:_:_:_:));
-	-(BOOL)dispatch_1_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count offsets: (const uint32_t* _Nonnull)offsets sizes: (const uint32_t* _Nonnull)sizes NS_SWIFT_NAME(dispatch(compute:data:count:offsets:sizes:));
-	-(BOOL)dispatch_2: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count offsets: (const uint32_t* _Nonnull)offsets sizes: (const uint32_t* _Nonnull)sizes flags: (TS_PrefixScanFlags)flags NS_SWIFT_NAME(dispatch(_:_:_:_:_:_:));
-	-(BOOL)dispatch_2_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count offsets: (const uint32_t* _Nonnull)offsets sizes: (const uint32_t* _Nonnull)sizes flags: (TS_PrefixScanFlags)flags NS_SWIFT_NAME(dispatch(compute:data:count:offsets:sizes:flags:));
+	-(BOOL)dispatch_1: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data offset: (uint32_t)offset size: (uint32_t)size stride: (uint32_t)stride NS_SWIFT_NAME(dispatch(_:_:_:_:_:));
+	-(BOOL)dispatch_1_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data offset: (uint32_t)offset size: (uint32_t)size stride: (uint32_t)stride NS_SWIFT_NAME(dispatch(compute:data:offset:size:stride:));
+	-(BOOL)dispatch_2: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count offsets: (const uint32_t* _Nonnull)offsets sizes: (const uint32_t* _Nonnull)sizes NS_SWIFT_NAME(dispatch(_:_:_:_:_:));
+	-(BOOL)dispatch_2_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count offsets: (const uint32_t* _Nonnull)offsets sizes: (const uint32_t* _Nonnull)sizes NS_SWIFT_NAME(dispatch(compute:data:count:offsets:sizes:));
+	-(BOOL)dispatch_3: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count offsets: (const uint32_t* _Nonnull)offsets sizes: (const uint32_t* _Nonnull)sizes flags: (TS_PrefixScanFlags)flags NS_SWIFT_NAME(dispatch(_:_:_:_:_:_:));
+	-(BOOL)dispatch_3_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count offsets: (const uint32_t* _Nonnull)offsets sizes: (const uint32_t* _Nonnull)sizes flags: (TS_PrefixScanFlags)flags NS_SWIFT_NAME(dispatch(compute:data:count:offsets:sizes:flags:));
+	-(BOOL)dispatch_4: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count offsets: (const uint32_t* _Nonnull)offsets sizes: (const uint32_t* _Nonnull)sizes flags: (TS_PrefixScanFlags)flags stride: (uint32_t)stride NS_SWIFT_NAME(dispatch(_:_:_:_:_:_:_:));
+	-(BOOL)dispatch_4_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count offsets: (const uint32_t* _Nonnull)offsets sizes: (const uint32_t* _Nonnull)sizes flags: (TS_PrefixScanFlags)flags stride: (uint32_t)stride NS_SWIFT_NAME(dispatch(compute:data:count:offsets:sizes:flags:stride:));
 	-(BOOL)dispatchIndirect: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data dispatch: (TSBuffer* _Nonnull)dispatch offset: (uint32_t)offset NS_SWIFT_NAME(dispatchIndirect(_:_:_:_:));
 	-(BOOL)dispatchIndirect_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data dispatch: (TSBuffer* _Nonnull)dispatch offset: (uint32_t)offset NS_SWIFT_NAME(dispatchIndirect(compute:data:dispatch:offset:));
 	-(BOOL)dispatchIndirect_1: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data dispatch: (TSBuffer* _Nonnull)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags NS_SWIFT_NAME(dispatchIndirect(_:_:_:_:_:));
 	-(BOOL)dispatchIndirect_1_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data dispatch: (TSBuffer* _Nonnull)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags NS_SWIFT_NAME(dispatchIndirect(compute:data:dispatch:offset:flags:));
 	-(BOOL)dispatchIndirect_2: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data dispatch: (TSBuffer* _Nonnull)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size NS_SWIFT_NAME(dispatchIndirect(_:_:_:_:_:_:));
 	-(BOOL)dispatchIndirect_2_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data dispatch: (TSBuffer* _Nonnull)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size NS_SWIFT_NAME(dispatchIndirect(compute:data:dispatch:offset:flags:max_size:));
-	-(BOOL)dispatchIndirect_3: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count dispatch: (TSBuffer* _Nonnull)dispatch offset: (uint32_t)offset NS_SWIFT_NAME(dispatchIndirect(_:_:_:_:_:));
-	-(BOOL)dispatchIndirect_3_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count dispatch: (TSBuffer* _Nonnull)dispatch offset: (uint32_t)offset NS_SWIFT_NAME(dispatchIndirect(compute:data:count:dispatch:offset:));
-	-(BOOL)dispatchIndirect_4: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count dispatch: (TSBuffer* _Nonnull)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags NS_SWIFT_NAME(dispatchIndirect(_:_:_:_:_:_:));
-	-(BOOL)dispatchIndirect_4_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count dispatch: (TSBuffer* _Nonnull)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags NS_SWIFT_NAME(dispatchIndirect(compute:data:count:dispatch:offset:flags:));
-	-(BOOL)dispatchIndirect_5: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count dispatch: (TSBuffer* _Nonnull)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size NS_SWIFT_NAME(dispatchIndirect(_:_:_:_:_:_:_:));
-	-(BOOL)dispatchIndirect_5_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count dispatch: (TSBuffer* _Nonnull)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size NS_SWIFT_NAME(dispatchIndirect(compute:data:count:dispatch:offset:flags:max_size:));
-	-(BOOL)dispatchIndirect_6: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (TSBuffer* _Nonnull)count dispatch: (TSBuffer* _Nonnull)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset NS_SWIFT_NAME(dispatchIndirect(_:_:_:_:_:_:));
-	-(BOOL)dispatchIndirect_6_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (TSBuffer* _Nonnull)count dispatch: (TSBuffer* _Nonnull)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset NS_SWIFT_NAME(dispatchIndirect(compute:data:count:dispatch:count_offset:dispatch_offset:));
-	-(BOOL)dispatchIndirect_7: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (TSBuffer* _Nonnull)count dispatch: (TSBuffer* _Nonnull)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset flags: (TS_PrefixScanFlags)flags NS_SWIFT_NAME(dispatchIndirect(_:_:_:_:_:_:_:));
-	-(BOOL)dispatchIndirect_7_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (TSBuffer* _Nonnull)count dispatch: (TSBuffer* _Nonnull)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset flags: (TS_PrefixScanFlags)flags NS_SWIFT_NAME(dispatchIndirect(compute:data:count:dispatch:count_offset:dispatch_offset:flags:));
-	-(BOOL)dispatchIndirect_8: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (TSBuffer* _Nonnull)count dispatch: (TSBuffer* _Nonnull)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size NS_SWIFT_NAME(dispatchIndirect(_:_:_:_:_:_:_:_:));
-	-(BOOL)dispatchIndirect_8_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (TSBuffer* _Nonnull)count dispatch: (TSBuffer* _Nonnull)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size NS_SWIFT_NAME(dispatchIndirect(compute:data:count:dispatch:count_offset:dispatch_offset:flags:max_size:));
+	-(BOOL)dispatchIndirect_3: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data dispatch: (TSBuffer* _Nonnull)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size stride: (uint32_t)stride NS_SWIFT_NAME(dispatchIndirect(_:_:_:_:_:_:_:));
+	-(BOOL)dispatchIndirect_3_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data dispatch: (TSBuffer* _Nonnull)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size stride: (uint32_t)stride NS_SWIFT_NAME(dispatchIndirect(compute:data:dispatch:offset:flags:max_size:stride:));
+	-(BOOL)dispatchIndirect_4: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count dispatch: (TSBuffer* _Nonnull)dispatch offset: (uint32_t)offset NS_SWIFT_NAME(dispatchIndirect(_:_:_:_:_:));
+	-(BOOL)dispatchIndirect_4_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count dispatch: (TSBuffer* _Nonnull)dispatch offset: (uint32_t)offset NS_SWIFT_NAME(dispatchIndirect(compute:data:count:dispatch:offset:));
+	-(BOOL)dispatchIndirect_5: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count dispatch: (TSBuffer* _Nonnull)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags NS_SWIFT_NAME(dispatchIndirect(_:_:_:_:_:_:));
+	-(BOOL)dispatchIndirect_5_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count dispatch: (TSBuffer* _Nonnull)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags NS_SWIFT_NAME(dispatchIndirect(compute:data:count:dispatch:offset:flags:));
+	-(BOOL)dispatchIndirect_6: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count dispatch: (TSBuffer* _Nonnull)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size NS_SWIFT_NAME(dispatchIndirect(_:_:_:_:_:_:_:));
+	-(BOOL)dispatchIndirect_6_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count dispatch: (TSBuffer* _Nonnull)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size NS_SWIFT_NAME(dispatchIndirect(compute:data:count:dispatch:offset:flags:max_size:));
+	-(BOOL)dispatchIndirect_7: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count dispatch: (TSBuffer* _Nonnull)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size stride: (uint32_t)stride NS_SWIFT_NAME(dispatchIndirect(_:_:_:_:_:_:_:_:));
+	-(BOOL)dispatchIndirect_7_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (uint32_t)count dispatch: (TSBuffer* _Nonnull)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size stride: (uint32_t)stride NS_SWIFT_NAME(dispatchIndirect(compute:data:count:dispatch:offset:flags:max_size:stride:));
+	-(BOOL)dispatchIndirect_8: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (TSBuffer* _Nonnull)count dispatch: (TSBuffer* _Nonnull)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset NS_SWIFT_NAME(dispatchIndirect(_:_:_:_:_:_:));
+	-(BOOL)dispatchIndirect_8_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (TSBuffer* _Nonnull)count dispatch: (TSBuffer* _Nonnull)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset NS_SWIFT_NAME(dispatchIndirect(compute:data:count:dispatch:count_offset:dispatch_offset:));
+	-(BOOL)dispatchIndirect_9: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (TSBuffer* _Nonnull)count dispatch: (TSBuffer* _Nonnull)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset flags: (TS_PrefixScanFlags)flags NS_SWIFT_NAME(dispatchIndirect(_:_:_:_:_:_:_:));
+	-(BOOL)dispatchIndirect_9_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (TSBuffer* _Nonnull)count dispatch: (TSBuffer* _Nonnull)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset flags: (TS_PrefixScanFlags)flags NS_SWIFT_NAME(dispatchIndirect(compute:data:count:dispatch:count_offset:dispatch_offset:flags:));
+	-(BOOL)dispatchIndirect_10: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (TSBuffer* _Nonnull)count dispatch: (TSBuffer* _Nonnull)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size NS_SWIFT_NAME(dispatchIndirect(_:_:_:_:_:_:_:_:));
+	-(BOOL)dispatchIndirect_10_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (TSBuffer* _Nonnull)count dispatch: (TSBuffer* _Nonnull)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size NS_SWIFT_NAME(dispatchIndirect(compute:data:count:dispatch:count_offset:dispatch_offset:flags:max_size:));
+	-(BOOL)dispatchIndirect_11: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (TSBuffer* _Nonnull)count dispatch: (TSBuffer* _Nonnull)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size stride: (uint32_t)stride NS_SWIFT_NAME(dispatchIndirect(_:_:_:_:_:_:_:_:_:));
+	-(BOOL)dispatchIndirect_11_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data count: (TSBuffer* _Nonnull)count dispatch: (TSBuffer* _Nonnull)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size stride: (uint32_t)stride NS_SWIFT_NAME(dispatchIndirect(compute:data:count:dispatch:count_offset:dispatch_offset:flags:max_size:stride:));
 @end
 
 /// Tellusim::RadixSort
