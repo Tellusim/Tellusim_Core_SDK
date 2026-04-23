@@ -42,8 +42,9 @@ namespace Tellusim {
 				FlagSingle		= (1 << ModeSingle),		// enable Single array prefix mode
 				FlagMultiple	= (1 << ModeMultiple),		// enable Multi array prefix mode
 				FlagIndirect	= (1 << (NumModes + 0)),	// enable Dispatch Indirect mode
-				FlagRepeat		= (1 << (NumModes + 1)),	// repeat Dispatch Indirect prefix scan with the same parameters
-				FlagsAll		= (FlagSingle | FlagMultiple | FlagIndirect),
+				FlagStride		= (1 << (NumModes + 1)),	// enable elements stride mode
+				FlagRepeat		= (1 << (NumModes + 2)),	// repeat Dispatch Indirect prefix scan with the same parameters
+				FlagsAll		= (FlagSingle | FlagMultiple | FlagIndirect | FlagStride),
 			};
 			
 			PrefixScan();
@@ -70,21 +71,24 @@ namespace Tellusim {
 			/// \param data Buffer of uint32_t elements to scan.
 			/// \param offset Elements offset index (4 aligned).
 			/// \param size Number of uint32_t elements to scan.
-			bool dispatch(Compute &compute, Buffer &data, uint32_t offset, uint32_t size);
+			/// \param stride Element stride in uint32_t elements.
+			bool dispatch(Compute &compute, Buffer &data, uint32_t offset, uint32_t size, uint32_t stride = 1);
 			
 			/// dispatch multiple in-place prefix scans
 			/// \param data Buffer of uint32_t elements to scan.
 			/// \param count Number of regions to scan.
 			/// \param offsets Elements offset index (4 aligned).
 			/// \param sizes Number of uint32_t elements to scan.
-			bool dispatch(Compute &compute, Buffer &data, uint32_t count, const uint32_t *offsets, const uint32_t *sizes, Flags flags = FlagNone);
+			/// \param stride Element stride in uint32_t elements.
+			bool dispatch(Compute &compute, Buffer &data, uint32_t count, const uint32_t *offsets, const uint32_t *sizes, Flags flags = FlagNone, uint32_t stride = 1);
 			
 			/// dispatch single in-place indirect prefix scan
 			/// \param data Buffer of uint32_t elements to scan.
 			/// \param dispatch Dispatch indirect buffer.
 			/// \param offset Dispatch indirect buffer offset.
 			/// \param max_size Maximum number of elements to scan.
-			bool dispatchIndirect(Compute &compute, Buffer &data, Buffer &dispatch, uint32_t offset, Flags flags = FlagNone, uint32_t max_size = Maxu32);
+			/// \param stride Element stride in uint32_t elements.
+			bool dispatchIndirect(Compute &compute, Buffer &data, Buffer &dispatch, uint32_t offset, Flags flags = FlagNone, uint32_t max_size = Maxu32, uint32_t stride = 1);
 			
 			/// dispatch multiple in-place indirect prefix scans
 			/// \param data Buffer of uint32_t elements to scan.
@@ -92,7 +96,8 @@ namespace Tellusim {
 			/// \param dispatch Dispatch indirect buffer.
 			/// \param offset Dispatch indirect buffer offset.
 			/// \param max_size Maximum number of elements to scan.
-			bool dispatchIndirect(Compute &compute, Buffer &data, uint32_t count, Buffer &dispatch, uint32_t offset, Flags flags = FlagNone, uint32_t max_size = Maxu32);
+			/// \param stride Element stride in uint32_t elements.
+			bool dispatchIndirect(Compute &compute, Buffer &data, uint32_t count, Buffer &dispatch, uint32_t offset, Flags flags = FlagNone, uint32_t max_size = Maxu32, uint32_t stride = 1);
 			
 			/// dispatch multiple in-place indirect prefix scans
 			/// \param data Buffer of uint32_t elements to scan.
@@ -101,7 +106,8 @@ namespace Tellusim {
 			/// \param count_offset Count indirect buffer offset.
 			/// \param dispatch_offset Dispatch indirect buffer offset.
 			/// \param max_size Maximum number of elements to scan.
-			bool dispatchIndirect(Compute &compute, Buffer &data, Buffer &count, Buffer &dispatch, uint32_t count_offset, uint32_t dispatch_offset, Flags flags = FlagNone, uint32_t max_size = Maxu32);
+			/// \param stride Element stride in uint32_t elements.
+			bool dispatchIndirect(Compute &compute, Buffer &data, Buffer &count, Buffer &dispatch, uint32_t count_offset, uint32_t dispatch_offset, Flags flags = FlagNone, uint32_t max_size = Maxu32, uint32_t stride = 1);
 			
 			struct DispatchParameters {
 				uint32_t offset;			// elements offset index (4 aligned)
