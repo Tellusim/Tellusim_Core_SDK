@@ -118,10 +118,6 @@ int32_t main(int32_t argc, char **argv) {
 	window.run([&]() -> bool {
 		DECLARE_COMMON
 		
-		// suppress warnings
-		simulate = simulate;
-		pause = pause;
-		
 		Window::update();
 		
 		if(!window.render()) return false;

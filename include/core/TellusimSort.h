@@ -207,7 +207,7 @@ namespace Tellusim {
 		using Radix = uint32_t;
 		TS_INLINE uint32_t operator()(float32_t value) {
 			union { float32_t f; uint32_t u; } f32u32 = { value };
-			if(f32u32.u & 0x80000000u) return f32u32.u ^ 0xffffffffu;
+			if(f32u32.u & 0x80000000u) return ~f32u32.u;
 			return f32u32.u ^ 0x80000000u;
 		}
 	};

@@ -1575,11 +1575,12 @@ namespace Tellusim {
 			Fast = 8,
 			Best = 16,
 			Perceptual = 32,
-			Panorama = 64,
-			Normalize = 128,
-			Gamma = 256,
-			SRGB = 512,
-			Num = 10,
+			Array = 64,
+			Panorama = 128,
+			Normalize = 256,
+			Gamma = 512,
+			SRGB = 1024,
+			Num = 11,
 		}
 		public enum Filter : uint {
 			Unknown = 0,
@@ -16831,8 +16832,9 @@ namespace Tellusim {
 			Single = 1,
 			Multiple = 2,
 			Indirect = 4,
-			Repeat = 8,
-			All = 7,
+			Stride = 8,
+			Repeat = 16,
+			All = 15,
 		}
 		public PrefixScan() { self = new HandleRef(this, tsPrefixScan_new()); owner = true; }
 		public PrefixScan(PrefixScan ptr) { self = new HandleRef(this, tsPrefixScan_copyPtr(ptr.getSelf())); owner = true; }
@@ -16866,11 +16868,11 @@ namespace Tellusim {
 			IntPtr async_ = (async != null) ? async.getSelfPtr() : IntPtr.Zero;
 			return tsPrefixScan_create_cDPSFuuA(self, device.getSelf(), flags, groups, regions, ref async_);
 		}
-		public bool dispatch(Compute compute, Buffer data, uint offset, uint size) { return tsPrefixScan_dispatch_CBuu(self, compute.getSelf(), data.getSelf(), offset, size); }
-		public bool dispatch(Compute compute, Buffer data, uint count, uint[] offsets, uint[] sizes, Flags flags = Flags.None) { return tsPrefixScan_dispatch_CBuupupPSF(self, compute.getSelf(), data.getSelf(), count, offsets, sizes, flags); }
-		public bool dispatchIndirect(Compute compute, Buffer data, Buffer dispatch, uint offset, Flags flags = Flags.None, uint max_size = Base.Maxu32) { return tsPrefixScan_dispatchIndirect_CBBuPSFu(self, compute.getSelf(), data.getSelf(), dispatch.getSelf(), offset, flags, max_size); }
-		public bool dispatchIndirect(Compute compute, Buffer data, uint count, Buffer dispatch, uint offset, Flags flags = Flags.None, uint max_size = Base.Maxu32) { return tsPrefixScan_dispatchIndirect_CBuBuPSFu(self, compute.getSelf(), data.getSelf(), count, dispatch.getSelf(), offset, flags, max_size); }
-		public bool dispatchIndirect(Compute compute, Buffer data, Buffer count, Buffer dispatch, uint count_offset, uint dispatch_offset, Flags flags = Flags.None, uint max_size = Base.Maxu32) { return tsPrefixScan_dispatchIndirect_CBBBuuPSFu(self, compute.getSelf(), data.getSelf(), count.getSelf(), dispatch.getSelf(), count_offset, dispatch_offset, flags, max_size); }
+		public bool dispatch(Compute compute, Buffer data, uint offset, uint size, uint stride = 1) { return tsPrefixScan_dispatch_CBuuu(self, compute.getSelf(), data.getSelf(), offset, size, stride); }
+		public bool dispatch(Compute compute, Buffer data, uint count, uint[] offsets, uint[] sizes, Flags flags = Flags.None, uint stride = 1) { return tsPrefixScan_dispatch_CBuupupPSFu(self, compute.getSelf(), data.getSelf(), count, offsets, sizes, flags, stride); }
+		public bool dispatchIndirect(Compute compute, Buffer data, Buffer dispatch, uint offset, Flags flags = Flags.None, uint max_size = Base.Maxu32, uint stride = 1) { return tsPrefixScan_dispatchIndirect_CBBuPSFuu(self, compute.getSelf(), data.getSelf(), dispatch.getSelf(), offset, flags, max_size, stride); }
+		public bool dispatchIndirect(Compute compute, Buffer data, uint count, Buffer dispatch, uint offset, Flags flags = Flags.None, uint max_size = Base.Maxu32, uint stride = 1) { return tsPrefixScan_dispatchIndirect_CBuBuPSFuu(self, compute.getSelf(), data.getSelf(), count, dispatch.getSelf(), offset, flags, max_size, stride); }
+		public bool dispatchIndirect(Compute compute, Buffer data, Buffer count, Buffer dispatch, uint count_offset, uint dispatch_offset, Flags flags = Flags.None, uint max_size = Base.Maxu32, uint stride = 1) { return tsPrefixScan_dispatchIndirect_CBBBuuPSFuu(self, compute.getSelf(), data.getSelf(), count.getSelf(), dispatch.getSelf(), count_offset, dispatch_offset, flags, max_size, stride); }
 		public override string ToString() { return "Tellusim.PrefixScan: Valid: " + tsPrefixScan_isValidPtr(self) + "; Owner: " + tsPrefixScan_isOwnerPtr(self) + "; Const: " + tsPrefixScan_isConstPtr(self) + "; Count: " + tsPrefixScan_getCountPtr(self) + "; Internal: 0x" + tsPrefixScan_getInternalPtr(self).ToString("x8") + "; Self: 0x" + self.Handle.ToString("x8") + "; Owner: " + owner; }
 		public static implicit operator bool(PrefixScan ptr) { return (ptr != null && tsPrefixScan_isValidPtr(ptr.getSelf())); }
 		[DllImport(Base.Import)] private static extern IntPtr tsPrefixScan_new();
@@ -16895,11 +16897,11 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern uint tsPrefixScan_getMaxRegions(HandleRef self);
 		[DllImport(Base.Import)] private static extern bool tsPrefixScan_create_cDPSMuuA(HandleRef self, HandleRef device, Mode mode, uint groups, uint regions, ref IntPtr async);
 		[DllImport(Base.Import)] private static extern bool tsPrefixScan_create_cDPSFuuA(HandleRef self, HandleRef device, Flags flags, uint groups, uint regions, ref IntPtr async);
-		[DllImport(Base.Import)] private static extern bool tsPrefixScan_dispatch_CBuu(HandleRef self, HandleRef compute, HandleRef data, uint offset, uint size);
-		[DllImport(Base.Import)] private static extern bool tsPrefixScan_dispatch_CBuupupPSF(HandleRef self, HandleRef compute, HandleRef data, uint count, uint[] offsets, uint[] sizes, Flags flags);
-		[DllImport(Base.Import)] private static extern bool tsPrefixScan_dispatchIndirect_CBBuPSFu(HandleRef self, HandleRef compute, HandleRef data, HandleRef dispatch, uint offset, Flags flags, uint max_size);
-		[DllImport(Base.Import)] private static extern bool tsPrefixScan_dispatchIndirect_CBuBuPSFu(HandleRef self, HandleRef compute, HandleRef data, uint count, HandleRef dispatch, uint offset, Flags flags, uint max_size);
-		[DllImport(Base.Import)] private static extern bool tsPrefixScan_dispatchIndirect_CBBBuuPSFu(HandleRef self, HandleRef compute, HandleRef data, HandleRef count, HandleRef dispatch, uint count_offset, uint dispatch_offset, Flags flags, uint max_size);
+		[DllImport(Base.Import)] private static extern bool tsPrefixScan_dispatch_CBuuu(HandleRef self, HandleRef compute, HandleRef data, uint offset, uint size, uint stride);
+		[DllImport(Base.Import)] private static extern bool tsPrefixScan_dispatch_CBuupupPSFu(HandleRef self, HandleRef compute, HandleRef data, uint count, uint[] offsets, uint[] sizes, Flags flags, uint stride);
+		[DllImport(Base.Import)] private static extern bool tsPrefixScan_dispatchIndirect_CBBuPSFuu(HandleRef self, HandleRef compute, HandleRef data, HandleRef dispatch, uint offset, Flags flags, uint max_size, uint stride);
+		[DllImport(Base.Import)] private static extern bool tsPrefixScan_dispatchIndirect_CBuBuPSFuu(HandleRef self, HandleRef compute, HandleRef data, uint count, HandleRef dispatch, uint offset, Flags flags, uint max_size, uint stride);
+		[DllImport(Base.Import)] private static extern bool tsPrefixScan_dispatchIndirect_CBBBuuPSFuu(HandleRef self, HandleRef compute, HandleRef data, HandleRef count, HandleRef dispatch, uint count_offset, uint dispatch_offset, Flags flags, uint max_size, uint stride);
 		[StructLayout(LayoutKind.Sequential)] public struct DispatchParameters {
 			public uint offset;
 			public uint size;

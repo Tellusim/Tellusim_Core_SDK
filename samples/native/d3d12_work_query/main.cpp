@@ -59,6 +59,7 @@ int32_t main(int32_t argc, char **argv) {
 		Matrix4x4f imodelview;
 		Vector4f camera;
 		Vector4f light;
+		float32_t time;
 	};
 		
 	// create device
@@ -278,6 +279,7 @@ int32_t main(int32_t argc, char **argv) {
 			common_parameters.projection = Matrix4x4f::perspective(70.0f, (float32_t)window.getWidth() / window.getHeight(), 0.1f, true);
 			common_parameters.imodelview = Matrix4x4f::placeTo(common_parameters.camera.xyz, Vector3f::zero, Vector3f::oneZ);
 			common_parameters.light = Vector4f(8.0f, 0.0f, 4.0f, 0.0f);
+			common_parameters.time = time;
 			
 			// set resources
 			compute.setKernel(kernel);
