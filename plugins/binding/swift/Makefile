@@ -64,7 +64,7 @@ include $(TSROOT)/build/Makefile.unx.mk
 # Module
 #
 $(MODULE_TARGET): $(MODULE_SRCS)
-	@$(SWC) $(SWFLAGS) -enable-library-evolution -import-underlying-module -emit-module-interface -emit-module -emit-library -static -module-name Tellusim $(MODULE_SRCS)
+	@$(SWC) $(SWFLAGS) -enable-library-evolution -import-underlying-module -emit-module-interface -emit-module -emit-library -language-mode 6 -static -module-name Tellusim $(MODULE_SRCS)
 	@$(ECHO) g "Done `basename $@`"
 
 #

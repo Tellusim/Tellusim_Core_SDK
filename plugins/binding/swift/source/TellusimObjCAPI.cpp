@@ -248,6 +248,7 @@ namespace Tellusim {
 	TS_STATIC_ASSERT(TS_ImageFlagsFast == (uint32_t)Image::FlagFast);
 	TS_STATIC_ASSERT(TS_ImageFlagsBest == (uint32_t)Image::FlagBest);
 	TS_STATIC_ASSERT(TS_ImageFlagsPerceptual == (uint32_t)Image::FlagPerceptual);
+	TS_STATIC_ASSERT(TS_ImageFlagsArray == (uint32_t)Image::FlagArray);
 	TS_STATIC_ASSERT(TS_ImageFlagsPanorama == (uint32_t)Image::FlagPanorama);
 	TS_STATIC_ASSERT(TS_ImageFlagsNormalize == (uint32_t)Image::FlagNormalize);
 	TS_STATIC_ASSERT(TS_ImageFlagsGamma == (uint32_t)Image::FlagGamma);
@@ -1162,6 +1163,7 @@ namespace Tellusim {
 	TS_STATIC_ASSERT(TS_PrefixScanFlagsSingle == (uint32_t)PrefixScan::FlagSingle);
 	TS_STATIC_ASSERT(TS_PrefixScanFlagsMultiple == (uint32_t)PrefixScan::FlagMultiple);
 	TS_STATIC_ASSERT(TS_PrefixScanFlagsIndirect == (uint32_t)PrefixScan::FlagIndirect);
+	TS_STATIC_ASSERT(TS_PrefixScanFlagsStride == (uint32_t)PrefixScan::FlagStride);
 	TS_STATIC_ASSERT(TS_PrefixScanFlagsRepeat == (uint32_t)PrefixScan::FlagRepeat);
 	TS_STATIC_ASSERT(TS_PrefixScanFlagsAll == (uint32_t)PrefixScan::FlagsAll);
 	
@@ -44139,17 +44141,29 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(BOOL)dispatch_: (TSCompute*)compute data: (TSBuffer*)data offset: (uint32_t)offset size: (uint32_t)size {
 		return [self ref].dispatch([compute ref], [data ref], offset, size);
 	}
-	-(BOOL)dispatch_1: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count offsets: (const uint32_t*)offsets sizes: (const uint32_t*)sizes {
+	-(BOOL)dispatch_1: (TSCompute*)compute data: (TSBuffer*)data offset: (uint32_t)offset size: (uint32_t)size stride: (uint32_t)stride {
+		return [self ref].dispatch([compute ref], [data ref], offset, size, stride);
+	}
+	-(BOOL)dispatch_1_: (TSCompute*)compute data: (TSBuffer*)data offset: (uint32_t)offset size: (uint32_t)size stride: (uint32_t)stride {
+		return [self ref].dispatch([compute ref], [data ref], offset, size, stride);
+	}
+	-(BOOL)dispatch_2: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count offsets: (const uint32_t*)offsets sizes: (const uint32_t*)sizes {
 		return [self ref].dispatch([compute ref], [data ref], count, offsets, sizes);
 	}
-	-(BOOL)dispatch_1_: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count offsets: (const uint32_t*)offsets sizes: (const uint32_t*)sizes {
+	-(BOOL)dispatch_2_: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count offsets: (const uint32_t*)offsets sizes: (const uint32_t*)sizes {
 		return [self ref].dispatch([compute ref], [data ref], count, offsets, sizes);
 	}
-	-(BOOL)dispatch_2: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count offsets: (const uint32_t*)offsets sizes: (const uint32_t*)sizes flags: (TS_PrefixScanFlags)flags {
+	-(BOOL)dispatch_3: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count offsets: (const uint32_t*)offsets sizes: (const uint32_t*)sizes flags: (TS_PrefixScanFlags)flags {
 		return [self ref].dispatch([compute ref], [data ref], count, offsets, sizes, (Tellusim::PrefixScan::Flags)flags);
 	}
-	-(BOOL)dispatch_2_: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count offsets: (const uint32_t*)offsets sizes: (const uint32_t*)sizes flags: (TS_PrefixScanFlags)flags {
+	-(BOOL)dispatch_3_: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count offsets: (const uint32_t*)offsets sizes: (const uint32_t*)sizes flags: (TS_PrefixScanFlags)flags {
 		return [self ref].dispatch([compute ref], [data ref], count, offsets, sizes, (Tellusim::PrefixScan::Flags)flags);
+	}
+	-(BOOL)dispatch_4: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count offsets: (const uint32_t*)offsets sizes: (const uint32_t*)sizes flags: (TS_PrefixScanFlags)flags stride: (uint32_t)stride {
+		return [self ref].dispatch([compute ref], [data ref], count, offsets, sizes, (Tellusim::PrefixScan::Flags)flags, stride);
+	}
+	-(BOOL)dispatch_4_: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count offsets: (const uint32_t*)offsets sizes: (const uint32_t*)sizes flags: (TS_PrefixScanFlags)flags stride: (uint32_t)stride {
+		return [self ref].dispatch([compute ref], [data ref], count, offsets, sizes, (Tellusim::PrefixScan::Flags)flags, stride);
 	}
 	-(BOOL)dispatchIndirect: (TSCompute*)compute data: (TSBuffer*)data dispatch: (TSBuffer*)dispatch offset: (uint32_t)offset {
 		return [self ref].dispatchIndirect([compute ref], [data ref], [dispatch ref], offset);
@@ -44169,41 +44183,59 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(BOOL)dispatchIndirect_2_: (TSCompute*)compute data: (TSBuffer*)data dispatch: (TSBuffer*)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size {
 		return [self ref].dispatchIndirect([compute ref], [data ref], [dispatch ref], offset, (Tellusim::PrefixScan::Flags)flags, max_size);
 	}
-	-(BOOL)dispatchIndirect_3: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count dispatch: (TSBuffer*)dispatch offset: (uint32_t)offset {
+	-(BOOL)dispatchIndirect_3: (TSCompute*)compute data: (TSBuffer*)data dispatch: (TSBuffer*)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size stride: (uint32_t)stride {
+		return [self ref].dispatchIndirect([compute ref], [data ref], [dispatch ref], offset, (Tellusim::PrefixScan::Flags)flags, max_size, stride);
+	}
+	-(BOOL)dispatchIndirect_3_: (TSCompute*)compute data: (TSBuffer*)data dispatch: (TSBuffer*)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size stride: (uint32_t)stride {
+		return [self ref].dispatchIndirect([compute ref], [data ref], [dispatch ref], offset, (Tellusim::PrefixScan::Flags)flags, max_size, stride);
+	}
+	-(BOOL)dispatchIndirect_4: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count dispatch: (TSBuffer*)dispatch offset: (uint32_t)offset {
 		return [self ref].dispatchIndirect([compute ref], [data ref], count, [dispatch ref], offset);
 	}
-	-(BOOL)dispatchIndirect_3_: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count dispatch: (TSBuffer*)dispatch offset: (uint32_t)offset {
+	-(BOOL)dispatchIndirect_4_: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count dispatch: (TSBuffer*)dispatch offset: (uint32_t)offset {
 		return [self ref].dispatchIndirect([compute ref], [data ref], count, [dispatch ref], offset);
 	}
-	-(BOOL)dispatchIndirect_4: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count dispatch: (TSBuffer*)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags {
+	-(BOOL)dispatchIndirect_5: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count dispatch: (TSBuffer*)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags {
 		return [self ref].dispatchIndirect([compute ref], [data ref], count, [dispatch ref], offset, (Tellusim::PrefixScan::Flags)flags);
 	}
-	-(BOOL)dispatchIndirect_4_: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count dispatch: (TSBuffer*)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags {
+	-(BOOL)dispatchIndirect_5_: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count dispatch: (TSBuffer*)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags {
 		return [self ref].dispatchIndirect([compute ref], [data ref], count, [dispatch ref], offset, (Tellusim::PrefixScan::Flags)flags);
 	}
-	-(BOOL)dispatchIndirect_5: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count dispatch: (TSBuffer*)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size {
+	-(BOOL)dispatchIndirect_6: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count dispatch: (TSBuffer*)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size {
 		return [self ref].dispatchIndirect([compute ref], [data ref], count, [dispatch ref], offset, (Tellusim::PrefixScan::Flags)flags, max_size);
 	}
-	-(BOOL)dispatchIndirect_5_: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count dispatch: (TSBuffer*)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size {
+	-(BOOL)dispatchIndirect_6_: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count dispatch: (TSBuffer*)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size {
 		return [self ref].dispatchIndirect([compute ref], [data ref], count, [dispatch ref], offset, (Tellusim::PrefixScan::Flags)flags, max_size);
 	}
-	-(BOOL)dispatchIndirect_6: (TSCompute*)compute data: (TSBuffer*)data count: (TSBuffer*)count dispatch: (TSBuffer*)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset {
+	-(BOOL)dispatchIndirect_7: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count dispatch: (TSBuffer*)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size stride: (uint32_t)stride {
+		return [self ref].dispatchIndirect([compute ref], [data ref], count, [dispatch ref], offset, (Tellusim::PrefixScan::Flags)flags, max_size, stride);
+	}
+	-(BOOL)dispatchIndirect_7_: (TSCompute*)compute data: (TSBuffer*)data count: (uint32_t)count dispatch: (TSBuffer*)dispatch offset: (uint32_t)offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size stride: (uint32_t)stride {
+		return [self ref].dispatchIndirect([compute ref], [data ref], count, [dispatch ref], offset, (Tellusim::PrefixScan::Flags)flags, max_size, stride);
+	}
+	-(BOOL)dispatchIndirect_8: (TSCompute*)compute data: (TSBuffer*)data count: (TSBuffer*)count dispatch: (TSBuffer*)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset {
 		return [self ref].dispatchIndirect([compute ref], [data ref], [count ref], [dispatch ref], count_offset, dispatch_offset);
 	}
-	-(BOOL)dispatchIndirect_6_: (TSCompute*)compute data: (TSBuffer*)data count: (TSBuffer*)count dispatch: (TSBuffer*)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset {
+	-(BOOL)dispatchIndirect_8_: (TSCompute*)compute data: (TSBuffer*)data count: (TSBuffer*)count dispatch: (TSBuffer*)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset {
 		return [self ref].dispatchIndirect([compute ref], [data ref], [count ref], [dispatch ref], count_offset, dispatch_offset);
 	}
-	-(BOOL)dispatchIndirect_7: (TSCompute*)compute data: (TSBuffer*)data count: (TSBuffer*)count dispatch: (TSBuffer*)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset flags: (TS_PrefixScanFlags)flags {
+	-(BOOL)dispatchIndirect_9: (TSCompute*)compute data: (TSBuffer*)data count: (TSBuffer*)count dispatch: (TSBuffer*)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset flags: (TS_PrefixScanFlags)flags {
 		return [self ref].dispatchIndirect([compute ref], [data ref], [count ref], [dispatch ref], count_offset, dispatch_offset, (Tellusim::PrefixScan::Flags)flags);
 	}
-	-(BOOL)dispatchIndirect_7_: (TSCompute*)compute data: (TSBuffer*)data count: (TSBuffer*)count dispatch: (TSBuffer*)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset flags: (TS_PrefixScanFlags)flags {
+	-(BOOL)dispatchIndirect_9_: (TSCompute*)compute data: (TSBuffer*)data count: (TSBuffer*)count dispatch: (TSBuffer*)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset flags: (TS_PrefixScanFlags)flags {
 		return [self ref].dispatchIndirect([compute ref], [data ref], [count ref], [dispatch ref], count_offset, dispatch_offset, (Tellusim::PrefixScan::Flags)flags);
 	}
-	-(BOOL)dispatchIndirect_8: (TSCompute*)compute data: (TSBuffer*)data count: (TSBuffer*)count dispatch: (TSBuffer*)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size {
+	-(BOOL)dispatchIndirect_10: (TSCompute*)compute data: (TSBuffer*)data count: (TSBuffer*)count dispatch: (TSBuffer*)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size {
 		return [self ref].dispatchIndirect([compute ref], [data ref], [count ref], [dispatch ref], count_offset, dispatch_offset, (Tellusim::PrefixScan::Flags)flags, max_size);
 	}
-	-(BOOL)dispatchIndirect_8_: (TSCompute*)compute data: (TSBuffer*)data count: (TSBuffer*)count dispatch: (TSBuffer*)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size {
+	-(BOOL)dispatchIndirect_10_: (TSCompute*)compute data: (TSBuffer*)data count: (TSBuffer*)count dispatch: (TSBuffer*)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size {
 		return [self ref].dispatchIndirect([compute ref], [data ref], [count ref], [dispatch ref], count_offset, dispatch_offset, (Tellusim::PrefixScan::Flags)flags, max_size);
+	}
+	-(BOOL)dispatchIndirect_11: (TSCompute*)compute data: (TSBuffer*)data count: (TSBuffer*)count dispatch: (TSBuffer*)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size stride: (uint32_t)stride {
+		return [self ref].dispatchIndirect([compute ref], [data ref], [count ref], [dispatch ref], count_offset, dispatch_offset, (Tellusim::PrefixScan::Flags)flags, max_size, stride);
+	}
+	-(BOOL)dispatchIndirect_11_: (TSCompute*)compute data: (TSBuffer*)data count: (TSBuffer*)count dispatch: (TSBuffer*)dispatch count_offset: (uint32_t)count_offset dispatch_offset: (uint32_t)dispatch_offset flags: (TS_PrefixScanFlags)flags max_size: (uint32_t)max_size stride: (uint32_t)stride {
+		return [self ref].dispatchIndirect([compute ref], [data ref], [count ref], [dispatch ref], count_offset, dispatch_offset, (Tellusim::PrefixScan::Flags)flags, max_size, stride);
 	}
 @end
 

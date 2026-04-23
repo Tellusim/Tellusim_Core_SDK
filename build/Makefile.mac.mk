@@ -47,8 +47,9 @@ endif
 # Default configuration
 #
 CFLAGS += -std=c++11 -Wall -Wfloat-conversion -Os -ffast-math -fvisibility=hidden
-CFLAGS += -Wno-null-dereference -Wno-return-std-move -Wno-undefined-var-template
 CFLAGS += -D_MACOS=1 -DTS_CORE=1 -I$(TSROOT)/include -I$(TSROOT)/plugins
+CFLAGS += -Wno-null-dereference -Wno-return-std-move -Wno-undefined-var-template
+CFLAGS += -Wno-nontrivial-memcall -Wno-unknown-warning-option
 ifeq "$(ARCH)" "arm64"
 	ARCHFLAGS = -target arm64-apple-macos13
 	LDFLAGS += $(ARCHFLAGS)
