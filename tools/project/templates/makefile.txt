@@ -32,8 +32,8 @@ endif
 ifeq "$(PLATFORM)" "Linux"
 	
 	CFLAGS += -std=c++@STD@ -Wall -Wfloat-conversion -Os -fPIC -ffast-math -fvisibility=hidden
-	CFLAGS += -Wno-null-dereference -Wno-undefined-var-template
 	CFLAGS += -D_LINUX=1 -I$(TSROOT)/include -I$(TSROOT)/plugins -I$(TSROOT)/samples@CFLAGS@
+	CFLAGS += -Wno-null-dereference -Wno-undefined-var-template
 	LDFLAGS += -L$(TSROOT)/lib/linux/$(ARCH) -lstdc++ -lm -lpthread -ldl@LDFLAGS@
 	LDFLAGS += -Wl,-rpath,./bin,-rpath,$(TSROOT)/lib/linux/$(ARCH)
 	SIGN = test
@@ -42,8 +42,9 @@ else ifeq "$(PLATFORM)" "Darwin"
 	
 	ARCHFLAGS := -target $(shell uname -m)-apple-macos13
 	CFLAGS += $(ARCHFLAGS) -std=c++@STD@ -Wall -Wfloat-conversion -Os -ffast-math -fvisibility=hidden
-	CFLAGS += -Wno-null-dereference -Wno-return-std-move -Wno-undefined-var-template
 	CFLAGS += -D_MACOS=1 -I$(TSROOT)/include -I$(TSROOT)/plugins -I$(TSROOT)/samples@CFLAGS@
+	CFLAGS += -Wno-null-dereference -Wno-return-std-move -Wno-undefined-var-template
+	CFLAGS += -Wno-nontrivial-memcall -Wno-unknown-warning-option
 	LDFLAGS += $(ARCHFLAGS) -L$(TSROOT)/lib/macos/$(ARCH) -lm@LDFLAGS@
 	LDFLAGS += -Wl,-rpath,@loader_path/bin,-rpath,@loader_path/$(TSROOT)/lib/macos/$(ARCH)/
 	SIGN = codesign --force --deep --sign "Mac Developer"

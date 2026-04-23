@@ -51,11 +51,12 @@ namespace Tellusim {
 				FlagFast		= (1 << 3),		// fast compression
 				FlagBest		= (1 << 4),		// best compression
 				FlagPerceptual	= (1 << 5),		// perceptual block encoding
-				FlagPanorama	= (1 << 6),		// cube to panorama type conversion
-				FlagNormalize	= (1 << 7),		// normalize format conversion
-				FlagGamma		= (1 << 8),		// gamma format conversion
-				FlagSRGB		= (1 << 9),		// sRGB format conversion
-				NumFlags = 10,
+				FlagArray		= (1 << 6),		// cube to array type conversion
+				FlagPanorama	= (1 << 7),		// cube to panorama type conversion
+				FlagNormalize	= (1 << 8),		// normalize format conversion
+				FlagGamma		= (1 << 9),		// gamma format conversion
+				FlagSRGB		= (1 << 10),	// sRGB format conversion
+				NumFlags = 11,
 			};
 			
 			/// Image filters

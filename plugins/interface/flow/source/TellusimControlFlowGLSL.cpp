@@ -2527,6 +2527,7 @@ namespace Tellusim {
 			setProtoColor(proto, field_color);
 			addProtoInput(proto, "texcoord", "TexCoord", "", any_type);
 			addProtoInput(proto, "tile", "Tile", "1.0", any_type);
+			addProtoInput(proto, "period", "Period", "289.0", float_type);
 			addProtoOutput(proto, "v", "", "$0", float_type, true);
 			addProtoOutput(proto, "dv", "D", "$1", any_type, true);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
@@ -2554,7 +2555,7 @@ namespace Tellusim {
 				if(has_dv) value += "@dv $1; ";
 				value += "float $0; {";
 				String src = Shader::preprocessor(library_source.get(), macros);
-				value += src.replace("IN", "($texcoord) * ($tile)").replace("\n", "\n\t");
+				value += src.replace("IN", "($texcoord) * ($tile)").replace("PERIOD", "($period)").replace("\n", "\n\t");
 				value.removeBack();
 				if(has_dv) {
 					value += "\t$0 = OUT.x * (2.3f * 0.5f) + 0.5f;\n";
@@ -2592,6 +2593,7 @@ namespace Tellusim {
 			addProtoInput(proto, "matrix", "Matrix", "", any_type);
 			addProtoInput(proto, "steps", "Steps", "5.0", float_type);
 			addProtoInput(proto, "scale", "Scale", "0.5", float_type);
+			addProtoInput(proto, "period", "Period", "289.0", float_type);
 			addProtoInput(proto, "offset", "Offset", "0.0", float_type);
 			addProtoOutput(proto, "v", "", "$0", float_type, true);
 			addProtoOutput(proto, "dv", "D", "$1", any_type, true);
@@ -2613,18 +2615,22 @@ namespace Tellusim {
 				uint32_t type = getOutputType(node, "dv");
 				bool has_matrix = (getNumInputConnections(node, "matrix") != 0);
 				bool has_offset = (getNumInputConnections(node, "offset") || getInputValue(node, "offset") != "0.0");
+				bool has_period = (getNumInputConnections(node, "period") != 0);
 				bool has_dv = (getNumOutputConnections(node, "dv") != 0);
 				if(has_dv) value += "@dv $1 = @dv(0.0f); ";
 				value += "float $0 = 0.0f; {\n";
 				value += "\tfloat value = 1.0f;\n";
+				if(has_period) value += "\tfloat period = $period;\n";
 				if(has_offset) value += "\tfloat offset = $offset;\n";
 				if(type == vec2_type) {
 					value += "\tvec2 texcoord = ($texcoord) * ($tile);\n";
 					if(has_matrix) value += "\tmat2 matrix = $matrix;\n";
+					else if(has_period) value += "\tmat2 matrix = mat2(0.0, 2.0, -2.0, 0.0);\n";
 					else value += "\tmat2 matrix = mat2(-1.47, -1.35, 1.35, -1.47);\n";
 				} else if(type == vec3_type) {
 					value += "\tvec3 texcoord = ($texcoord) * ($tile);\n";
 					if(has_matrix) value += "\tmat3 matrix = $matrix;\n";
+					else if(has_period) value += "\tmat3 matrix = mat3(0.0, 0.0, 2.0, 0.0, 2.0, -2.0, 0.0, 0.0);\n";
 					else value += "\tmat3 matrix = mat3(1.119847, -1.635496, 0.266637, 0.580474, 0.688591, 1.785747, -1.552093, -0.922494, 0.86024);\n";
 				}
 				if(has_dv) {
@@ -2638,7 +2644,7 @@ namespace Tellusim {
 				value += "\tfloat steps = min($steps, 64.0f);\n";
 				value += "\tfor(float i = 0.0f; i < steps; i += 1.0f) {";
 				String src = Shader::preprocessor(library_source.get(), macros);
-				value += src.replace("IN", "texcoord").replace("\n", "\n\t\t");
+				value += src.replace("IN", "texcoord").replace("PERIOD", (has_period) ? "period" : "$period").replace("\n", "\n\t\t");
 				value.removeBack(2);
 				if(has_dv) {
 					value += "\t\tfloat v = OUT.x;\n";
@@ -2661,6 +2667,7 @@ namespace Tellusim {
 					else if(type == vec3_type) value += "\t\ttexcoord += OUT.yzw * offset;\n";
 					value += "\t\toffset *= $scale;\n";
 				}
+				if(has_period) value += "\t\tperiod *= 2.0f;\n";
 				value += "\t\tvalue *= $scale;\n";
 				value += "\t}\n";
 				value += "\t$0 = $0 * (2.3f * 0.5f) + 0.5f;\n";

@@ -246,6 +246,7 @@ namespace Tellusim {
 	TS_STATIC_ASSERT(TS_ImageFlagFast == (uint32_t)Image::FlagFast);
 	TS_STATIC_ASSERT(TS_ImageFlagBest == (uint32_t)Image::FlagBest);
 	TS_STATIC_ASSERT(TS_ImageFlagPerceptual == (uint32_t)Image::FlagPerceptual);
+	TS_STATIC_ASSERT(TS_ImageFlagArray == (uint32_t)Image::FlagArray);
 	TS_STATIC_ASSERT(TS_ImageFlagPanorama == (uint32_t)Image::FlagPanorama);
 	TS_STATIC_ASSERT(TS_ImageFlagNormalize == (uint32_t)Image::FlagNormalize);
 	TS_STATIC_ASSERT(TS_ImageFlagGamma == (uint32_t)Image::FlagGamma);
@@ -1160,6 +1161,7 @@ namespace Tellusim {
 	TS_STATIC_ASSERT(TS_PrefixScanFlagSingle == (uint32_t)PrefixScan::FlagSingle);
 	TS_STATIC_ASSERT(TS_PrefixScanFlagMultiple == (uint32_t)PrefixScan::FlagMultiple);
 	TS_STATIC_ASSERT(TS_PrefixScanFlagIndirect == (uint32_t)PrefixScan::FlagIndirect);
+	TS_STATIC_ASSERT(TS_PrefixScanFlagStride == (uint32_t)PrefixScan::FlagStride);
 	TS_STATIC_ASSERT(TS_PrefixScanFlagRepeat == (uint32_t)PrefixScan::FlagRepeat);
 	TS_STATIC_ASSERT(TS_PrefixScanAll == (uint32_t)PrefixScan::FlagsAll);
 	
@@ -30675,39 +30677,39 @@ namespace Tellusim {
 		TS_ASSERT(device);
 		return ((PrefixScan*)self)->create(*(const Device*)device, (PrefixScan::Flags)flags, groups, regions, (async) ? *(Async**)async : nullptr);
 	}
-	TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatch_CBuu(TSPrefixScan self, TSCompute compute, TSBuffer data, uint32_t offset, uint32_t size) {
+	TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatch_CBuuu(TSPrefixScan self, TSCompute compute, TSBuffer data, uint32_t offset, uint32_t size, uint32_t stride) {
 		TS_ASSERT(self);
 		TS_ASSERT(compute);
 		TS_ASSERT(data);
-		return ((PrefixScan*)self)->dispatch(*(Compute*)compute, *(Buffer*)data, offset, size);
+		return ((PrefixScan*)self)->dispatch(*(Compute*)compute, *(Buffer*)data, offset, size, stride);
 	}
-	TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatch_CBuupupPSF(TSPrefixScan self, TSCompute compute, TSBuffer data, uint32_t count, const uint32_t *offsets, const uint32_t *sizes, TS_PrefixScanFlags flags) {
+	TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatch_CBuupupPSFu(TSPrefixScan self, TSCompute compute, TSBuffer data, uint32_t count, const uint32_t *offsets, const uint32_t *sizes, TS_PrefixScanFlags flags, uint32_t stride) {
 		TS_ASSERT(self);
 		TS_ASSERT(compute);
 		TS_ASSERT(data);
-		return ((PrefixScan*)self)->dispatch(*(Compute*)compute, *(Buffer*)data, count, offsets, sizes, (PrefixScan::Flags)flags);
+		return ((PrefixScan*)self)->dispatch(*(Compute*)compute, *(Buffer*)data, count, offsets, sizes, (PrefixScan::Flags)flags, stride);
 	}
-	TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatchIndirect_CBBuPSFu(TSPrefixScan self, TSCompute compute, TSBuffer data, TSBuffer dispatch, uint32_t offset, TS_PrefixScanFlags flags, uint32_t max_size) {
-		TS_ASSERT(self);
-		TS_ASSERT(compute);
-		TS_ASSERT(data);
-		TS_ASSERT(dispatch);
-		return ((PrefixScan*)self)->dispatchIndirect(*(Compute*)compute, *(Buffer*)data, *(Buffer*)dispatch, offset, (PrefixScan::Flags)flags, max_size);
-	}
-	TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatchIndirect_CBuBuPSFu(TSPrefixScan self, TSCompute compute, TSBuffer data, uint32_t count, TSBuffer dispatch, uint32_t offset, TS_PrefixScanFlags flags, uint32_t max_size) {
+	TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatchIndirect_CBBuPSFuu(TSPrefixScan self, TSCompute compute, TSBuffer data, TSBuffer dispatch, uint32_t offset, TS_PrefixScanFlags flags, uint32_t max_size, uint32_t stride) {
 		TS_ASSERT(self);
 		TS_ASSERT(compute);
 		TS_ASSERT(data);
 		TS_ASSERT(dispatch);
-		return ((PrefixScan*)self)->dispatchIndirect(*(Compute*)compute, *(Buffer*)data, count, *(Buffer*)dispatch, offset, (PrefixScan::Flags)flags, max_size);
+		return ((PrefixScan*)self)->dispatchIndirect(*(Compute*)compute, *(Buffer*)data, *(Buffer*)dispatch, offset, (PrefixScan::Flags)flags, max_size, stride);
 	}
-	TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatchIndirect_CBBBuuPSFu(TSPrefixScan self, TSCompute compute, TSBuffer data, TSBuffer count, TSBuffer dispatch, uint32_t count_offset, uint32_t dispatch_offset, TS_PrefixScanFlags flags, uint32_t max_size) {
+	TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatchIndirect_CBuBuPSFuu(TSPrefixScan self, TSCompute compute, TSBuffer data, uint32_t count, TSBuffer dispatch, uint32_t offset, TS_PrefixScanFlags flags, uint32_t max_size, uint32_t stride) {
+		TS_ASSERT(self);
+		TS_ASSERT(compute);
+		TS_ASSERT(data);
+		TS_ASSERT(dispatch);
+		return ((PrefixScan*)self)->dispatchIndirect(*(Compute*)compute, *(Buffer*)data, count, *(Buffer*)dispatch, offset, (PrefixScan::Flags)flags, max_size, stride);
+	}
+	TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatchIndirect_CBBBuuPSFuu(TSPrefixScan self, TSCompute compute, TSBuffer data, TSBuffer count, TSBuffer dispatch, uint32_t count_offset, uint32_t dispatch_offset, TS_PrefixScanFlags flags, uint32_t max_size, uint32_t stride) {
 		TS_ASSERT(self);
 		TS_ASSERT(compute);
 		TS_ASSERT(data);
 		TS_ASSERT(count);
 		TS_ASSERT(dispatch);
-		return ((PrefixScan*)self)->dispatchIndirect(*(Compute*)compute, *(Buffer*)data, *(Buffer*)count, *(Buffer*)dispatch, count_offset, dispatch_offset, (PrefixScan::Flags)flags, max_size);
+		return ((PrefixScan*)self)->dispatchIndirect(*(Compute*)compute, *(Buffer*)data, *(Buffer*)count, *(Buffer*)dispatch, count_offset, dispatch_offset, (PrefixScan::Flags)flags, max_size, stride);
 	}
 	
 	// Tellusim::RadixSort

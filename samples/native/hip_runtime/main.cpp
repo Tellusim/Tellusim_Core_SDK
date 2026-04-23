@@ -128,10 +128,6 @@ int32_t main(int32_t argc, char **argv) {
 	window.run([&]() {
 		DECLARE_COMMON
 		
-		// suppress warnings
-		simulate = simulate;
-		pause = pause;
-		
 		Window::update();
 		
 		if(!window.render()) return false;

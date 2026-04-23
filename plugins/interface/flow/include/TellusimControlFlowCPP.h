@@ -100,6 +100,8 @@ namespace Tellusim {
 			
 		protected:
 			
+			friend class ScriptFlow;
+			
 			/// create CPP
 			void create_types();
 			void create_protos();
