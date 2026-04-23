@@ -47,6 +47,7 @@ endif
 CFLAGS += -std=c++11 -Wall -Wfloat-conversion -Os -ffast-math -fsigned-char -fvisibility=hidden
 CFLAGS += -D_IOS=1 -DTS_CORE=1 -ObjC++ -fobjc-arc -I$(TSROOT)/include -I$(TSROOT)/plugins
 CFLAGS += -Wno-return-std-move -Wno-undefined-var-template
+CFLAGS += -Wno-nontrivial-memcall -Wno-unknown-warning-option
 LDFLAGS += -L$(TSROOT)/lib/ios/$(ARCH)
 LIBS += -framework Foundation
 LIBS += -framework QuartzCore
