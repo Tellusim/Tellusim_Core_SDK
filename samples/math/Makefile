@@ -1,9 +1,11 @@
 TESTS = \
+	expression \
 	float \
 	matrix \
 	numerical \
+	polynomial \
 	quaternion \
-	expression \
+	random \
 	simd
 
 include ../Makefile
