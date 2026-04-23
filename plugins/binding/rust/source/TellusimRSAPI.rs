@@ -263,11 +263,12 @@ pub enum ImageFlags {
 	Fast = 8,
 	Best = 16,
 	Perceptual = 32,
-	Panorama = 64,
-	Normalize = 128,
-	Gamma = 256,
-	SRGB = 512,
-	Num = 10,
+	Array = 64,
+	Panorama = 128,
+	Normalize = 256,
+	Gamma = 512,
+	SRGB = 1024,
+	Num = 11,
 }
 impl ImageFlags {
 	pub fn has_flag(self, flag: ImageFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
@@ -2217,8 +2218,9 @@ pub enum PrefixScanFlags {
 	Single = 1,
 	Multiple = 2,
 	Indirect = 4,
-	Repeat = 8,
-	All = 7,
+	Stride = 8,
+	Repeat = 16,
+	All = 15,
 }
 impl PrefixScanFlags {
 	pub fn has_flag(self, flag: PrefixScanFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
@@ -41638,18 +41640,23 @@ impl PrefixScan {
 	pub fn create_with_flags_groups(&mut self, device: &Device, flags: PrefixScanFlags, groups: u32) -> bool { unsafe { tsPrefixScan_create_cDPSFuuA(self.this, device.this, flags, groups, 1, ptr::null_mut()) != 0 } }
 	pub fn create_with_flags_groups_regions(&mut self, device: &Device, flags: PrefixScanFlags, groups: u32, regions: u32) -> bool { unsafe { tsPrefixScan_create_cDPSFuuA(self.this, device.this, flags, groups, regions, ptr::null_mut()) != 0 } }
 	pub fn create_with_flags_groups_regions_async(&mut self, device: &Device, flags: PrefixScanFlags, groups: u32, regions: u32, async_: Option<&Async>) -> bool { unsafe { tsPrefixScan_create_cDPSFuuA(self.this, device.this, flags, groups, regions, match async_ { Some(async_) => &async_.this, None => ptr::null() }) != 0 } }
-	pub fn dispatch(&mut self, compute: &mut Compute, data: &mut Buffer, offset: u32, size: u32) -> bool { unsafe { tsPrefixScan_dispatch_CBuu(self.this, compute.this, data.this, offset, size) != 0 } }
-	pub fn dispatch_with_count(&mut self, compute: &mut Compute, data: &mut Buffer, count: u32, offsets: *const u32, sizes: *const u32) -> bool { unsafe { tsPrefixScan_dispatch_CBuupupPSF(self.this, compute.this, data.this, count, offsets, sizes, PrefixScanFlags::None) != 0 } }
-	pub fn dispatch_with_count_flags(&mut self, compute: &mut Compute, data: &mut Buffer, count: u32, offsets: *const u32, sizes: *const u32, flags: PrefixScanFlags) -> bool { unsafe { tsPrefixScan_dispatch_CBuupupPSF(self.this, compute.this, data.this, count, offsets, sizes, flags) != 0 } }
-	pub fn dispatch_indirect_with_dispatch(&mut self, compute: &mut Compute, data: &mut Buffer, dispatch: &mut Buffer, offset: u32) -> bool { unsafe { tsPrefixScan_dispatchIndirect_CBBuPSFu(self.this, compute.this, data.this, dispatch.this, offset, PrefixScanFlags::None, MAXU32) != 0 } }
-	pub fn dispatch_indirect_with_dispatch_flags(&mut self, compute: &mut Compute, data: &mut Buffer, dispatch: &mut Buffer, offset: u32, flags: PrefixScanFlags) -> bool { unsafe { tsPrefixScan_dispatchIndirect_CBBuPSFu(self.this, compute.this, data.this, dispatch.this, offset, flags, MAXU32) != 0 } }
-	pub fn dispatch_indirect_with_dispatch_flags_maxsize(&mut self, compute: &mut Compute, data: &mut Buffer, dispatch: &mut Buffer, offset: u32, flags: PrefixScanFlags, max_size: u32) -> bool { unsafe { tsPrefixScan_dispatchIndirect_CBBuPSFu(self.this, compute.this, data.this, dispatch.this, offset, flags, max_size) != 0 } }
-	pub fn dispatch_indirect_with_countu32(&mut self, compute: &mut Compute, data: &mut Buffer, count: u32, dispatch: &mut Buffer, offset: u32) -> bool { unsafe { tsPrefixScan_dispatchIndirect_CBuBuPSFu(self.this, compute.this, data.this, count, dispatch.this, offset, PrefixScanFlags::None, MAXU32) != 0 } }
-	pub fn dispatch_indirect_with_countu32_flags(&mut self, compute: &mut Compute, data: &mut Buffer, count: u32, dispatch: &mut Buffer, offset: u32, flags: PrefixScanFlags) -> bool { unsafe { tsPrefixScan_dispatchIndirect_CBuBuPSFu(self.this, compute.this, data.this, count, dispatch.this, offset, flags, MAXU32) != 0 } }
-	pub fn dispatch_indirect_with_countu32_flags_maxsize(&mut self, compute: &mut Compute, data: &mut Buffer, count: u32, dispatch: &mut Buffer, offset: u32, flags: PrefixScanFlags, max_size: u32) -> bool { unsafe { tsPrefixScan_dispatchIndirect_CBuBuPSFu(self.this, compute.this, data.this, count, dispatch.this, offset, flags, max_size) != 0 } }
-	pub fn dispatch_indirect_with_countb(&mut self, compute: &mut Compute, data: &mut Buffer, count: &mut Buffer, dispatch: &mut Buffer, count_offset: u32, dispatch_offset: u32) -> bool { unsafe { tsPrefixScan_dispatchIndirect_CBBBuuPSFu(self.this, compute.this, data.this, count.this, dispatch.this, count_offset, dispatch_offset, PrefixScanFlags::None, MAXU32) != 0 } }
-	pub fn dispatch_indirect_with_countb_flags(&mut self, compute: &mut Compute, data: &mut Buffer, count: &mut Buffer, dispatch: &mut Buffer, count_offset: u32, dispatch_offset: u32, flags: PrefixScanFlags) -> bool { unsafe { tsPrefixScan_dispatchIndirect_CBBBuuPSFu(self.this, compute.this, data.this, count.this, dispatch.this, count_offset, dispatch_offset, flags, MAXU32) != 0 } }
-	pub fn dispatch_indirect_with_countb_flags_maxsize(&mut self, compute: &mut Compute, data: &mut Buffer, count: &mut Buffer, dispatch: &mut Buffer, count_offset: u32, dispatch_offset: u32, flags: PrefixScanFlags, max_size: u32) -> bool { unsafe { tsPrefixScan_dispatchIndirect_CBBBuuPSFu(self.this, compute.this, data.this, count.this, dispatch.this, count_offset, dispatch_offset, flags, max_size) != 0 } }
+	pub fn dispatch(&mut self, compute: &mut Compute, data: &mut Buffer, offset: u32, size: u32) -> bool { unsafe { tsPrefixScan_dispatch_CBuuu(self.this, compute.this, data.this, offset, size, 1) != 0 } }
+	pub fn dispatch_with_stride(&mut self, compute: &mut Compute, data: &mut Buffer, offset: u32, size: u32, stride: u32) -> bool { unsafe { tsPrefixScan_dispatch_CBuuu(self.this, compute.this, data.this, offset, size, stride) != 0 } }
+	pub fn dispatch_with_count(&mut self, compute: &mut Compute, data: &mut Buffer, count: u32, offsets: *const u32, sizes: *const u32) -> bool { unsafe { tsPrefixScan_dispatch_CBuupupPSFu(self.this, compute.this, data.this, count, offsets, sizes, PrefixScanFlags::None, 1) != 0 } }
+	pub fn dispatch_with_count_flags(&mut self, compute: &mut Compute, data: &mut Buffer, count: u32, offsets: *const u32, sizes: *const u32, flags: PrefixScanFlags) -> bool { unsafe { tsPrefixScan_dispatch_CBuupupPSFu(self.this, compute.this, data.this, count, offsets, sizes, flags, 1) != 0 } }
+	pub fn dispatch_with_count_flags_stride(&mut self, compute: &mut Compute, data: &mut Buffer, count: u32, offsets: *const u32, sizes: *const u32, flags: PrefixScanFlags, stride: u32) -> bool { unsafe { tsPrefixScan_dispatch_CBuupupPSFu(self.this, compute.this, data.this, count, offsets, sizes, flags, stride) != 0 } }
+	pub fn dispatch_indirect_with_dispatch(&mut self, compute: &mut Compute, data: &mut Buffer, dispatch: &mut Buffer, offset: u32) -> bool { unsafe { tsPrefixScan_dispatchIndirect_CBBuPSFuu(self.this, compute.this, data.this, dispatch.this, offset, PrefixScanFlags::None, MAXU32, 1) != 0 } }
+	pub fn dispatch_indirect_with_dispatch_flags(&mut self, compute: &mut Compute, data: &mut Buffer, dispatch: &mut Buffer, offset: u32, flags: PrefixScanFlags) -> bool { unsafe { tsPrefixScan_dispatchIndirect_CBBuPSFuu(self.this, compute.this, data.this, dispatch.this, offset, flags, MAXU32, 1) != 0 } }
+	pub fn dispatch_indirect_with_dispatch_flags_maxsize(&mut self, compute: &mut Compute, data: &mut Buffer, dispatch: &mut Buffer, offset: u32, flags: PrefixScanFlags, max_size: u32) -> bool { unsafe { tsPrefixScan_dispatchIndirect_CBBuPSFuu(self.this, compute.this, data.this, dispatch.this, offset, flags, max_size, 1) != 0 } }
+	pub fn dispatch_indirect_with_dispatch_flags_maxsize_stride(&mut self, compute: &mut Compute, data: &mut Buffer, dispatch: &mut Buffer, offset: u32, flags: PrefixScanFlags, max_size: u32, stride: u32) -> bool { unsafe { tsPrefixScan_dispatchIndirect_CBBuPSFuu(self.this, compute.this, data.this, dispatch.this, offset, flags, max_size, stride) != 0 } }
+	pub fn dispatch_indirect_with_countu32(&mut self, compute: &mut Compute, data: &mut Buffer, count: u32, dispatch: &mut Buffer, offset: u32) -> bool { unsafe { tsPrefixScan_dispatchIndirect_CBuBuPSFuu(self.this, compute.this, data.this, count, dispatch.this, offset, PrefixScanFlags::None, MAXU32, 1) != 0 } }
+	pub fn dispatch_indirect_with_countu32_flags(&mut self, compute: &mut Compute, data: &mut Buffer, count: u32, dispatch: &mut Buffer, offset: u32, flags: PrefixScanFlags) -> bool { unsafe { tsPrefixScan_dispatchIndirect_CBuBuPSFuu(self.this, compute.this, data.this, count, dispatch.this, offset, flags, MAXU32, 1) != 0 } }
+	pub fn dispatch_indirect_with_countu32_flags_maxsize(&mut self, compute: &mut Compute, data: &mut Buffer, count: u32, dispatch: &mut Buffer, offset: u32, flags: PrefixScanFlags, max_size: u32) -> bool { unsafe { tsPrefixScan_dispatchIndirect_CBuBuPSFuu(self.this, compute.this, data.this, count, dispatch.this, offset, flags, max_size, 1) != 0 } }
+	pub fn dispatch_indirect_with_countu32_flags_maxsize_stride(&mut self, compute: &mut Compute, data: &mut Buffer, count: u32, dispatch: &mut Buffer, offset: u32, flags: PrefixScanFlags, max_size: u32, stride: u32) -> bool { unsafe { tsPrefixScan_dispatchIndirect_CBuBuPSFuu(self.this, compute.this, data.this, count, dispatch.this, offset, flags, max_size, stride) != 0 } }
+	pub fn dispatch_indirect_with_countb(&mut self, compute: &mut Compute, data: &mut Buffer, count: &mut Buffer, dispatch: &mut Buffer, count_offset: u32, dispatch_offset: u32) -> bool { unsafe { tsPrefixScan_dispatchIndirect_CBBBuuPSFuu(self.this, compute.this, data.this, count.this, dispatch.this, count_offset, dispatch_offset, PrefixScanFlags::None, MAXU32, 1) != 0 } }
+	pub fn dispatch_indirect_with_countb_flags(&mut self, compute: &mut Compute, data: &mut Buffer, count: &mut Buffer, dispatch: &mut Buffer, count_offset: u32, dispatch_offset: u32, flags: PrefixScanFlags) -> bool { unsafe { tsPrefixScan_dispatchIndirect_CBBBuuPSFuu(self.this, compute.this, data.this, count.this, dispatch.this, count_offset, dispatch_offset, flags, MAXU32, 1) != 0 } }
+	pub fn dispatch_indirect_with_countb_flags_maxsize(&mut self, compute: &mut Compute, data: &mut Buffer, count: &mut Buffer, dispatch: &mut Buffer, count_offset: u32, dispatch_offset: u32, flags: PrefixScanFlags, max_size: u32) -> bool { unsafe { tsPrefixScan_dispatchIndirect_CBBBuuPSFuu(self.this, compute.this, data.this, count.this, dispatch.this, count_offset, dispatch_offset, flags, max_size, 1) != 0 } }
+	pub fn dispatch_indirect_with_countb_flags_maxsize_stride(&mut self, compute: &mut Compute, data: &mut Buffer, count: &mut Buffer, dispatch: &mut Buffer, count_offset: u32, dispatch_offset: u32, flags: PrefixScanFlags, max_size: u32, stride: u32) -> bool { unsafe { tsPrefixScan_dispatchIndirect_CBBBuuPSFuu(self.this, compute.this, data.this, count.this, dispatch.this, count_offset, dispatch_offset, flags, max_size, stride) != 0 } }
 }
 impl Drop for PrefixScan {
 	fn drop(&mut self) { if self.owner { unsafe { tsPrefixScan_delete(self.this) } } }
@@ -41696,11 +41703,11 @@ extern "C" {
 	fn tsPrefixScan_getMaxRegions(this: *const c_void) -> u32;
 	fn tsPrefixScan_create_cDPSMuuA(this: *mut c_void, device: *mut c_void, mode: PrefixScanMode, groups: u32, regions: u32, async_: *const *mut c_void) -> i32;
 	fn tsPrefixScan_create_cDPSFuuA(this: *mut c_void, device: *mut c_void, flags: PrefixScanFlags, groups: u32, regions: u32, async_: *const *mut c_void) -> i32;
-	fn tsPrefixScan_dispatch_CBuu(this: *mut c_void, compute: *mut c_void, data: *mut c_void, offset: u32, size: u32) -> i32;
-	fn tsPrefixScan_dispatch_CBuupupPSF(this: *mut c_void, compute: *mut c_void, data: *mut c_void, count: u32, offsets: *const u32, sizes: *const u32, flags: PrefixScanFlags) -> i32;
-	fn tsPrefixScan_dispatchIndirect_CBBuPSFu(this: *mut c_void, compute: *mut c_void, data: *mut c_void, dispatch: *mut c_void, offset: u32, flags: PrefixScanFlags, max_size: u32) -> i32;
-	fn tsPrefixScan_dispatchIndirect_CBuBuPSFu(this: *mut c_void, compute: *mut c_void, data: *mut c_void, count: u32, dispatch: *mut c_void, offset: u32, flags: PrefixScanFlags, max_size: u32) -> i32;
-	fn tsPrefixScan_dispatchIndirect_CBBBuuPSFu(this: *mut c_void, compute: *mut c_void, data: *mut c_void, count: *mut c_void, dispatch: *mut c_void, count_offset: u32, dispatch_offset: u32, flags: PrefixScanFlags, max_size: u32) -> i32;
+	fn tsPrefixScan_dispatch_CBuuu(this: *mut c_void, compute: *mut c_void, data: *mut c_void, offset: u32, size: u32, stride: u32) -> i32;
+	fn tsPrefixScan_dispatch_CBuupupPSFu(this: *mut c_void, compute: *mut c_void, data: *mut c_void, count: u32, offsets: *const u32, sizes: *const u32, flags: PrefixScanFlags, stride: u32) -> i32;
+	fn tsPrefixScan_dispatchIndirect_CBBuPSFuu(this: *mut c_void, compute: *mut c_void, data: *mut c_void, dispatch: *mut c_void, offset: u32, flags: PrefixScanFlags, max_size: u32, stride: u32) -> i32;
+	fn tsPrefixScan_dispatchIndirect_CBuBuPSFuu(this: *mut c_void, compute: *mut c_void, data: *mut c_void, count: u32, dispatch: *mut c_void, offset: u32, flags: PrefixScanFlags, max_size: u32, stride: u32) -> i32;
+	fn tsPrefixScan_dispatchIndirect_CBBBuuPSFuu(this: *mut c_void, compute: *mut c_void, data: *mut c_void, count: *mut c_void, dispatch: *mut c_void, count_offset: u32, dispatch_offset: u32, flags: PrefixScanFlags, max_size: u32, stride: u32) -> i32;
 }
 #[repr(C)]
 #[derive(Copy, Clone)]

@@ -33,8 +33,9 @@ public class PrefixScan {
 			Single(1),
 			Multiple(2),
 			Indirect(4),
-			Repeat(8),
-			All(7);
+			Stride(8),
+			Repeat(16),
+			All(15);
 			Enum(int value) { this.value = value; }
 			public Flags and(Flags e) { return new Flags(value & e.value); }
 			public Flags and(Enum e) { return new Flags(value & e.value); }
@@ -48,6 +49,7 @@ public class PrefixScan {
 		public static final Enum Single = Enum.Single;
 		public static final Enum Multiple = Enum.Multiple;
 		public static final Enum Indirect = Enum.Indirect;
+		public static final Enum Stride = Enum.Stride;
 		public static final Enum Repeat = Enum.Repeat;
 		public static final Enum All = Enum.All;
 		public Flags(int value) { this.value = value; }
@@ -140,25 +142,34 @@ public class PrefixScan {
 	public boolean create(Device device, Flags.Enum flags, int groups, int regions) { return create_1(self, device.self, flags.value, groups, regions, 0); }
 	public boolean create(Device device, Flags flags, int groups, int regions, Async async) { return create_1(self, device.self, flags.value, groups, regions, async.self); }
 	public boolean create(Device device, Flags.Enum flags, int groups, int regions, Async async) { return create_1(self, device.self, flags.value, groups, regions, async.self); }
-	public boolean dispatch(Compute compute, Buffer data, int offset, int size) { return dispatch_(self, compute.self, data.self, offset, size); }
-	public boolean dispatch(Compute compute, Buffer data, int count, int[] offsets, int[] sizes) { return dispatch_1(self, compute.self, data.self, count, offsets, sizes, Flags.None.value); }
-	public boolean dispatch(Compute compute, Buffer data, int count, int[] offsets, int[] sizes, Flags flags) { return dispatch_1(self, compute.self, data.self, count, offsets, sizes, flags.value); }
-	public boolean dispatch(Compute compute, Buffer data, int count, int[] offsets, int[] sizes, Flags.Enum flags) { return dispatch_1(self, compute.self, data.self, count, offsets, sizes, flags.value); }
-	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer dispatch, int offset) { return dispatch_indirect(self, compute.self, data.self, dispatch.self, offset, Flags.None.value, Base.Maxu32); }
-	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer dispatch, int offset, Flags flags) { return dispatch_indirect(self, compute.self, data.self, dispatch.self, offset, flags.value, Base.Maxu32); }
-	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer dispatch, int offset, Flags.Enum flags) { return dispatch_indirect(self, compute.self, data.self, dispatch.self, offset, flags.value, Base.Maxu32); }
-	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer dispatch, int offset, Flags flags, int max_size) { return dispatch_indirect(self, compute.self, data.self, dispatch.self, offset, flags.value, max_size); }
-	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer dispatch, int offset, Flags.Enum flags, int max_size) { return dispatch_indirect(self, compute.self, data.self, dispatch.self, offset, flags.value, max_size); }
-	public boolean dispatchIndirect(Compute compute, Buffer data, int count, Buffer dispatch, int offset) { return dispatch_indirect_1(self, compute.self, data.self, count, dispatch.self, offset, Flags.None.value, Base.Maxu32); }
-	public boolean dispatchIndirect(Compute compute, Buffer data, int count, Buffer dispatch, int offset, Flags flags) { return dispatch_indirect_1(self, compute.self, data.self, count, dispatch.self, offset, flags.value, Base.Maxu32); }
-	public boolean dispatchIndirect(Compute compute, Buffer data, int count, Buffer dispatch, int offset, Flags.Enum flags) { return dispatch_indirect_1(self, compute.self, data.self, count, dispatch.self, offset, flags.value, Base.Maxu32); }
-	public boolean dispatchIndirect(Compute compute, Buffer data, int count, Buffer dispatch, int offset, Flags flags, int max_size) { return dispatch_indirect_1(self, compute.self, data.self, count, dispatch.self, offset, flags.value, max_size); }
-	public boolean dispatchIndirect(Compute compute, Buffer data, int count, Buffer dispatch, int offset, Flags.Enum flags, int max_size) { return dispatch_indirect_1(self, compute.self, data.self, count, dispatch.self, offset, flags.value, max_size); }
-	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer count, Buffer dispatch, int count_offset, int dispatch_offset) { return dispatch_indirect_2(self, compute.self, data.self, count.self, dispatch.self, count_offset, dispatch_offset, Flags.None.value, Base.Maxu32); }
-	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer count, Buffer dispatch, int count_offset, int dispatch_offset, Flags flags) { return dispatch_indirect_2(self, compute.self, data.self, count.self, dispatch.self, count_offset, dispatch_offset, flags.value, Base.Maxu32); }
-	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer count, Buffer dispatch, int count_offset, int dispatch_offset, Flags.Enum flags) { return dispatch_indirect_2(self, compute.self, data.self, count.self, dispatch.self, count_offset, dispatch_offset, flags.value, Base.Maxu32); }
-	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer count, Buffer dispatch, int count_offset, int dispatch_offset, Flags flags, int max_size) { return dispatch_indirect_2(self, compute.self, data.self, count.self, dispatch.self, count_offset, dispatch_offset, flags.value, max_size); }
-	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer count, Buffer dispatch, int count_offset, int dispatch_offset, Flags.Enum flags, int max_size) { return dispatch_indirect_2(self, compute.self, data.self, count.self, dispatch.self, count_offset, dispatch_offset, flags.value, max_size); }
+	public boolean dispatch(Compute compute, Buffer data, int offset, int size) { return dispatch_(self, compute.self, data.self, offset, size, 1); }
+	public boolean dispatch(Compute compute, Buffer data, int offset, int size, int stride) { return dispatch_(self, compute.self, data.self, offset, size, stride); }
+	public boolean dispatch(Compute compute, Buffer data, int count, int[] offsets, int[] sizes) { return dispatch_1(self, compute.self, data.self, count, offsets, sizes, Flags.None.value, 1); }
+	public boolean dispatch(Compute compute, Buffer data, int count, int[] offsets, int[] sizes, Flags flags) { return dispatch_1(self, compute.self, data.self, count, offsets, sizes, flags.value, 1); }
+	public boolean dispatch(Compute compute, Buffer data, int count, int[] offsets, int[] sizes, Flags.Enum flags) { return dispatch_1(self, compute.self, data.self, count, offsets, sizes, flags.value, 1); }
+	public boolean dispatch(Compute compute, Buffer data, int count, int[] offsets, int[] sizes, Flags flags, int stride) { return dispatch_1(self, compute.self, data.self, count, offsets, sizes, flags.value, stride); }
+	public boolean dispatch(Compute compute, Buffer data, int count, int[] offsets, int[] sizes, Flags.Enum flags, int stride) { return dispatch_1(self, compute.self, data.self, count, offsets, sizes, flags.value, stride); }
+	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer dispatch, int offset) { return dispatch_indirect(self, compute.self, data.self, dispatch.self, offset, Flags.None.value, Base.Maxu32, 1); }
+	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer dispatch, int offset, Flags flags) { return dispatch_indirect(self, compute.self, data.self, dispatch.self, offset, flags.value, Base.Maxu32, 1); }
+	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer dispatch, int offset, Flags.Enum flags) { return dispatch_indirect(self, compute.self, data.self, dispatch.self, offset, flags.value, Base.Maxu32, 1); }
+	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer dispatch, int offset, Flags flags, int max_size) { return dispatch_indirect(self, compute.self, data.self, dispatch.self, offset, flags.value, max_size, 1); }
+	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer dispatch, int offset, Flags.Enum flags, int max_size) { return dispatch_indirect(self, compute.self, data.self, dispatch.self, offset, flags.value, max_size, 1); }
+	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer dispatch, int offset, Flags flags, int max_size, int stride) { return dispatch_indirect(self, compute.self, data.self, dispatch.self, offset, flags.value, max_size, stride); }
+	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer dispatch, int offset, Flags.Enum flags, int max_size, int stride) { return dispatch_indirect(self, compute.self, data.self, dispatch.self, offset, flags.value, max_size, stride); }
+	public boolean dispatchIndirect(Compute compute, Buffer data, int count, Buffer dispatch, int offset) { return dispatch_indirect_1(self, compute.self, data.self, count, dispatch.self, offset, Flags.None.value, Base.Maxu32, 1); }
+	public boolean dispatchIndirect(Compute compute, Buffer data, int count, Buffer dispatch, int offset, Flags flags) { return dispatch_indirect_1(self, compute.self, data.self, count, dispatch.self, offset, flags.value, Base.Maxu32, 1); }
+	public boolean dispatchIndirect(Compute compute, Buffer data, int count, Buffer dispatch, int offset, Flags.Enum flags) { return dispatch_indirect_1(self, compute.self, data.self, count, dispatch.self, offset, flags.value, Base.Maxu32, 1); }
+	public boolean dispatchIndirect(Compute compute, Buffer data, int count, Buffer dispatch, int offset, Flags flags, int max_size) { return dispatch_indirect_1(self, compute.self, data.self, count, dispatch.self, offset, flags.value, max_size, 1); }
+	public boolean dispatchIndirect(Compute compute, Buffer data, int count, Buffer dispatch, int offset, Flags.Enum flags, int max_size) { return dispatch_indirect_1(self, compute.self, data.self, count, dispatch.self, offset, flags.value, max_size, 1); }
+	public boolean dispatchIndirect(Compute compute, Buffer data, int count, Buffer dispatch, int offset, Flags flags, int max_size, int stride) { return dispatch_indirect_1(self, compute.self, data.self, count, dispatch.self, offset, flags.value, max_size, stride); }
+	public boolean dispatchIndirect(Compute compute, Buffer data, int count, Buffer dispatch, int offset, Flags.Enum flags, int max_size, int stride) { return dispatch_indirect_1(self, compute.self, data.self, count, dispatch.self, offset, flags.value, max_size, stride); }
+	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer count, Buffer dispatch, int count_offset, int dispatch_offset) { return dispatch_indirect_2(self, compute.self, data.self, count.self, dispatch.self, count_offset, dispatch_offset, Flags.None.value, Base.Maxu32, 1); }
+	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer count, Buffer dispatch, int count_offset, int dispatch_offset, Flags flags) { return dispatch_indirect_2(self, compute.self, data.self, count.self, dispatch.self, count_offset, dispatch_offset, flags.value, Base.Maxu32, 1); }
+	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer count, Buffer dispatch, int count_offset, int dispatch_offset, Flags.Enum flags) { return dispatch_indirect_2(self, compute.self, data.self, count.self, dispatch.self, count_offset, dispatch_offset, flags.value, Base.Maxu32, 1); }
+	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer count, Buffer dispatch, int count_offset, int dispatch_offset, Flags flags, int max_size) { return dispatch_indirect_2(self, compute.self, data.self, count.self, dispatch.self, count_offset, dispatch_offset, flags.value, max_size, 1); }
+	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer count, Buffer dispatch, int count_offset, int dispatch_offset, Flags.Enum flags, int max_size) { return dispatch_indirect_2(self, compute.self, data.self, count.self, dispatch.self, count_offset, dispatch_offset, flags.value, max_size, 1); }
+	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer count, Buffer dispatch, int count_offset, int dispatch_offset, Flags flags, int max_size, int stride) { return dispatch_indirect_2(self, compute.self, data.self, count.self, dispatch.self, count_offset, dispatch_offset, flags.value, max_size, stride); }
+	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer count, Buffer dispatch, int count_offset, int dispatch_offset, Flags.Enum flags, int max_size, int stride) { return dispatch_indirect_2(self, compute.self, data.self, count.self, dispatch.self, count_offset, dispatch_offset, flags.value, max_size, stride); }
 	
 	private static native long new_();
 	private static native void delete_(long self);
@@ -181,11 +192,11 @@ public class PrefixScan {
 	private static native int get_max_regions(long self);
 	private static native boolean create_(long self, long device, int mode, int groups, int regions, long async);
 	private static native boolean create_1(long self, long device, int flags, int groups, int regions, long async);
-	private static native boolean dispatch_(long self, long compute, long data, int offset, int size);
-	private static native boolean dispatch_1(long self, long compute, long data, int count, int[] offsets, int[] sizes, int flags);
-	private static native boolean dispatch_indirect(long self, long compute, long data, long dispatch, int offset, int flags, int max_size);
-	private static native boolean dispatch_indirect_1(long self, long compute, long data, int count, long dispatch, int offset, int flags, int max_size);
-	private static native boolean dispatch_indirect_2(long self, long compute, long data, long count, long dispatch, int count_offset, int dispatch_offset, int flags, int max_size);
+	private static native boolean dispatch_(long self, long compute, long data, int offset, int size, int stride);
+	private static native boolean dispatch_1(long self, long compute, long data, int count, int[] offsets, int[] sizes, int flags, int stride);
+	private static native boolean dispatch_indirect(long self, long compute, long data, long dispatch, int offset, int flags, int max_size, int stride);
+	private static native boolean dispatch_indirect_1(long self, long compute, long data, int count, long dispatch, int offset, int flags, int max_size, int stride);
+	private static native boolean dispatch_indirect_2(long self, long compute, long data, long count, long dispatch, int count_offset, int dispatch_offset, int flags, int max_size, int stride);
 	
 	protected PrefixScan(long self) {
 		init_(self);

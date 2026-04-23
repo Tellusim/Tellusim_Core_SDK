@@ -55,20 +55,44 @@ namespace Tellusim {
 	}
 	
 	/**
-	 * Log system macros
+	 * Log macros
 	 */
-	#define TS_LOG(LEVEL, STR) Tellusim::Log::print(Tellusim::Log::LEVEL, STR)
-	#define TS_LOGE(LEVEL, STR) Tellusim::Log::printe(Tellusim::Log::LEVEL, STR)
-	#define TS_LOGF(LEVEL, FORMAT, ...) Tellusim::Log::printf(Tellusim::Log::LEVEL, FORMAT, __VA_ARGS__)
-	#define TS_LOGEF(LEVEL, FORMAT, ...) Tellusim::Log::printef(Tellusim::Log::LEVEL, FORMAT, __VA_ARGS__)
-	#define TS_LOGT(LEVEL, FORMAT, ...) Tellusim::Log::print(Tellusim::Log::LEVEL, String::tformat(FORMAT, __VA_ARGS__).get())
-	#define TS_LOGET(LEVEL, FORMAT, ...) Tellusim::Log::printe(Tellusim::Log::LEVEL, String::tformat(FORMAT, __VA_ARGS__).get())
-	
-	/**
-	 * Log pointer macros
-	 */
-	#define TS_LOGPTR(LEVEL, STR, PTR) Tellusim::Log::printf(Tellusim::Log::LEVEL, "%sValid: %u; Owner: %u; Const: %u; Count: %u; Internal: %p\n", \
-		STR, (PTR).isValidPtr(), (PTR).isOwnerPtr(), (PTR).isConstPtr(), (PTR).getCountPtr(), (PTR).getInternalPtr())
+	#if TS_NO_LOG
+		
+		/**
+		 * Log system macros
+		 */
+		#define TS_LOG(LEVEL, STR) ((void)0)
+		#define TS_LOGE(LEVEL, STR) ((void)0)
+		#define TS_LOGF(LEVEL, FORMAT, ...) ((void)0)
+		#define TS_LOGEF(LEVEL, FORMAT, ...) ((void)0)
+		#define TS_LOGT(LEVEL, FORMAT, ...) ((void)0)
+		#define TS_LOGET(LEVEL, FORMAT, ...) ((void)0)
+		
+		/**
+		 * Log pointer macros
+		 */
+		#define TS_LOGPTR(LEVEL, STR, PTR) ((void)0)
+		
+	#else
+		
+		/**
+		 * Log system macros
+		 */
+		#define TS_LOG(LEVEL, STR) Tellusim::Log::print(Tellusim::Log::LEVEL, STR)
+		#define TS_LOGE(LEVEL, STR) Tellusim::Log::printe(Tellusim::Log::LEVEL, STR)
+		#define TS_LOGF(LEVEL, FORMAT, ...) Tellusim::Log::printf(Tellusim::Log::LEVEL, FORMAT, __VA_ARGS__)
+		#define TS_LOGEF(LEVEL, FORMAT, ...) Tellusim::Log::printef(Tellusim::Log::LEVEL, FORMAT, __VA_ARGS__)
+		#define TS_LOGT(LEVEL, FORMAT, ...) Tellusim::Log::print(Tellusim::Log::LEVEL, String::tformat(FORMAT, __VA_ARGS__).get())
+		#define TS_LOGET(LEVEL, FORMAT, ...) Tellusim::Log::printe(Tellusim::Log::LEVEL, String::tformat(FORMAT, __VA_ARGS__).get())
+		
+		/**
+		 * Log pointer macros
+		 */
+		#define TS_LOGPTR(LEVEL, STR, PTR) Tellusim::Log::printf(Tellusim::Log::LEVEL, "%sValid: %u; Owner: %u; Const: %u; Count: %u; Internal: %p\n", \
+			STR, (PTR).isValidPtr(), (PTR).isOwnerPtr(), (PTR).isConstPtr(), (PTR).getCountPtr(), (PTR).getInternalPtr())
+		
+	#endif
 }
 
 #endif /* __TELLUSIM_CORE_LOG_H__ */

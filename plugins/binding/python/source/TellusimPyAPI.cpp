@@ -77224,13 +77224,14 @@ namespace Tellusim {
 		const uint32_t *offsets = nullptr;
 		const uint32_t *sizes = nullptr;
 		uint32_t flags = PrefixScan::FlagNone;
-		static const char *kwlist[] = { "compute", "data", "count", "offsets", "sizes", "flags", nullptr };
-		while(PyArg_ParseTupleAndKeywords(args, kwargs, "OOInn|I", (char**)kwlist, &compute_, &data_, &count, &offsets, &sizes, &flags)) {
+		uint32_t stride = 1;
+		static const char *kwlist[] = { "compute", "data", "count", "offsets", "sizes", "flags", "stride", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "OOInn|II", (char**)kwlist, &compute_, &data_, &count, &offsets, &sizes, &flags, &stride)) {
 			if(!isPYCompute(compute_)) break;
 			Compute &compute = pyCompute_get(compute_);
 			if(!isPYBuffer(data_)) break;
 			Buffer &data = pyBuffer_get(data_);
-			return PyLong_FromLong(self->ptr.dispatch(compute, data, count, offsets, sizes, (PrefixScan::Flags)flags));
+			return PyLong_FromLong(self->ptr.dispatch(compute, data, count, offsets, sizes, (PrefixScan::Flags)flags, stride));
 		}
 		PyErr_Clear();
 		{
@@ -77238,17 +77239,18 @@ namespace Tellusim {
 			PyObject *data_ = nullptr;
 			uint32_t offset = {};
 			uint32_t size = {};
-			static const char *kwlist[] = { "compute", "data", "offset", "size", nullptr };
-			while(PyArg_ParseTupleAndKeywords(args, kwargs, "OOII", (char**)kwlist, &compute_, &data_, &offset, &size)) {
+			uint32_t stride = 1;
+			static const char *kwlist[] = { "compute", "data", "offset", "size", "stride", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "OOII|I", (char**)kwlist, &compute_, &data_, &offset, &size, &stride)) {
 				if(!isPYCompute(compute_)) break;
 				Compute &compute = pyCompute_get(compute_);
 				if(!isPYBuffer(data_)) break;
 				Buffer &data = pyBuffer_get(data_);
-				return PyLong_FromLong(self->ptr.dispatch(compute, data, offset, size));
+				return PyLong_FromLong(self->ptr.dispatch(compute, data, offset, size, stride));
 			}
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "PrefixScan::dispatch(): unknown arguments:\n(Compute compute, Buffer data, uint32_t count, const uint32_t* offsets, const uint32_t* sizes, PrefixScan.Flags flags) -> bool\n(Compute compute, Buffer data, uint32_t offset, uint32_t size) -> bool\n");
+			PyErr_SetString(PyExc_TypeError, "PrefixScan::dispatch(): unknown arguments:\n(Compute compute, Buffer data, uint32_t count, const uint32_t* offsets, const uint32_t* sizes, PrefixScan.Flags flags, uint32_t stride) -> bool\n(Compute compute, Buffer data, uint32_t offset, uint32_t size, uint32_t stride) -> bool\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -77263,8 +77265,9 @@ namespace Tellusim {
 		uint32_t dispatch_offset = {};
 		uint32_t flags = PrefixScan::FlagNone;
 		uint32_t max_size = Maxu32;
-		static const char *kwlist[] = { "compute", "data", "count", "dispatch", "count_offset", "dispatch_offset", "flags", "max_size", nullptr };
-		while(PyArg_ParseTupleAndKeywords(args, kwargs, "OOOOII|II", (char**)kwlist, &compute_, &data_, &count_, &dispatch_, &count_offset, &dispatch_offset, &flags, &max_size)) {
+		uint32_t stride = 1;
+		static const char *kwlist[] = { "compute", "data", "count", "dispatch", "count_offset", "dispatch_offset", "flags", "max_size", "stride", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "OOOOII|III", (char**)kwlist, &compute_, &data_, &count_, &dispatch_, &count_offset, &dispatch_offset, &flags, &max_size, &stride)) {
 			if(!isPYCompute(compute_)) break;
 			Compute &compute = pyCompute_get(compute_);
 			if(!isPYBuffer(data_)) break;
@@ -77273,7 +77276,7 @@ namespace Tellusim {
 			Buffer &count = pyBuffer_get(count_);
 			if(!isPYBuffer(dispatch_)) break;
 			Buffer &dispatch = pyBuffer_get(dispatch_);
-			return PyLong_FromLong(self->ptr.dispatchIndirect(compute, data, count, dispatch, count_offset, dispatch_offset, (PrefixScan::Flags)flags, max_size));
+			return PyLong_FromLong(self->ptr.dispatchIndirect(compute, data, count, dispatch, count_offset, dispatch_offset, (PrefixScan::Flags)flags, max_size, stride));
 		}
 		PyErr_Clear();
 		{
@@ -77284,15 +77287,16 @@ namespace Tellusim {
 			uint32_t offset = {};
 			uint32_t flags = PrefixScan::FlagNone;
 			uint32_t max_size = Maxu32;
-			static const char *kwlist[] = { "compute", "data", "count", "dispatch", "offset", "flags", "max_size", nullptr };
-			while(PyArg_ParseTupleAndKeywords(args, kwargs, "OOIOI|II", (char**)kwlist, &compute_, &data_, &count, &dispatch_, &offset, &flags, &max_size)) {
+			uint32_t stride = 1;
+			static const char *kwlist[] = { "compute", "data", "count", "dispatch", "offset", "flags", "max_size", "stride", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "OOIOI|III", (char**)kwlist, &compute_, &data_, &count, &dispatch_, &offset, &flags, &max_size, &stride)) {
 				if(!isPYCompute(compute_)) break;
 				Compute &compute = pyCompute_get(compute_);
 				if(!isPYBuffer(data_)) break;
 				Buffer &data = pyBuffer_get(data_);
 				if(!isPYBuffer(dispatch_)) break;
 				Buffer &dispatch = pyBuffer_get(dispatch_);
-				return PyLong_FromLong(self->ptr.dispatchIndirect(compute, data, count, dispatch, offset, (PrefixScan::Flags)flags, max_size));
+				return PyLong_FromLong(self->ptr.dispatchIndirect(compute, data, count, dispatch, offset, (PrefixScan::Flags)flags, max_size, stride));
 			}
 		}
 		PyErr_Clear();
@@ -77303,19 +77307,20 @@ namespace Tellusim {
 			uint32_t offset = {};
 			uint32_t flags = PrefixScan::FlagNone;
 			uint32_t max_size = Maxu32;
-			static const char *kwlist[] = { "compute", "data", "dispatch", "offset", "flags", "max_size", nullptr };
-			while(PyArg_ParseTupleAndKeywords(args, kwargs, "OOOI|II", (char**)kwlist, &compute_, &data_, &dispatch_, &offset, &flags, &max_size)) {
+			uint32_t stride = 1;
+			static const char *kwlist[] = { "compute", "data", "dispatch", "offset", "flags", "max_size", "stride", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "OOOI|III", (char**)kwlist, &compute_, &data_, &dispatch_, &offset, &flags, &max_size, &stride)) {
 				if(!isPYCompute(compute_)) break;
 				Compute &compute = pyCompute_get(compute_);
 				if(!isPYBuffer(data_)) break;
 				Buffer &data = pyBuffer_get(data_);
 				if(!isPYBuffer(dispatch_)) break;
 				Buffer &dispatch = pyBuffer_get(dispatch_);
-				return PyLong_FromLong(self->ptr.dispatchIndirect(compute, data, dispatch, offset, (PrefixScan::Flags)flags, max_size));
+				return PyLong_FromLong(self->ptr.dispatchIndirect(compute, data, dispatch, offset, (PrefixScan::Flags)flags, max_size, stride));
 			}
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "PrefixScan::dispatchIndirect(): unknown arguments:\n(Compute compute, Buffer data, Buffer count, Buffer dispatch, uint32_t count_offset, uint32_t dispatch_offset, PrefixScan.Flags flags, uint32_t max_size) -> bool\n(Compute compute, Buffer data, uint32_t count, Buffer dispatch, uint32_t offset, PrefixScan.Flags flags, uint32_t max_size) -> bool\n(Compute compute, Buffer data, Buffer dispatch, uint32_t offset, PrefixScan.Flags flags, uint32_t max_size) -> bool\n");
+			PyErr_SetString(PyExc_TypeError, "PrefixScan::dispatchIndirect(): unknown arguments:\n(Compute compute, Buffer data, Buffer count, Buffer dispatch, uint32_t count_offset, uint32_t dispatch_offset, PrefixScan.Flags flags, uint32_t max_size, uint32_t stride) -> bool\n(Compute compute, Buffer data, uint32_t count, Buffer dispatch, uint32_t offset, PrefixScan.Flags flags, uint32_t max_size, uint32_t stride) -> bool\n(Compute compute, Buffer data, Buffer dispatch, uint32_t offset, PrefixScan.Flags flags, uint32_t max_size, uint32_t stride) -> bool\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -82843,11 +82848,12 @@ namespace Tellusim {
 		PyDict_SetItemString(PYImage_Type.tp_dict, "FlagFast", PyLong_FromLong(8));
 		PyDict_SetItemString(PYImage_Type.tp_dict, "FlagBest", PyLong_FromLong(16));
 		PyDict_SetItemString(PYImage_Type.tp_dict, "FlagPerceptual", PyLong_FromLong(32));
-		PyDict_SetItemString(PYImage_Type.tp_dict, "FlagPanorama", PyLong_FromLong(64));
-		PyDict_SetItemString(PYImage_Type.tp_dict, "FlagNormalize", PyLong_FromLong(128));
-		PyDict_SetItemString(PYImage_Type.tp_dict, "FlagGamma", PyLong_FromLong(256));
-		PyDict_SetItemString(PYImage_Type.tp_dict, "FlagSRGB", PyLong_FromLong(512));
-		PyDict_SetItemString(PYImage_Type.tp_dict, "NumFlags", PyLong_FromLong(10));
+		PyDict_SetItemString(PYImage_Type.tp_dict, "FlagArray", PyLong_FromLong(64));
+		PyDict_SetItemString(PYImage_Type.tp_dict, "FlagPanorama", PyLong_FromLong(128));
+		PyDict_SetItemString(PYImage_Type.tp_dict, "FlagNormalize", PyLong_FromLong(256));
+		PyDict_SetItemString(PYImage_Type.tp_dict, "FlagGamma", PyLong_FromLong(512));
+		PyDict_SetItemString(PYImage_Type.tp_dict, "FlagSRGB", PyLong_FromLong(1024));
+		PyDict_SetItemString(PYImage_Type.tp_dict, "NumFlags", PyLong_FromLong(11));
 		PyDict_SetItemString(PYImage_Type.tp_dict, "FilterUnknown", PyLong_FromLong(0));
 		PyDict_SetItemString(PYImage_Type.tp_dict, "FilterPoint", PyLong_FromLong(1));
 		PyDict_SetItemString(PYImage_Type.tp_dict, "FilterLinear", PyLong_FromLong(2));
@@ -93656,8 +93662,9 @@ namespace Tellusim {
 		PyDict_SetItemString(PYPrefixScan_Type.tp_dict, "FlagSingle", PyLong_FromLong(1));
 		PyDict_SetItemString(PYPrefixScan_Type.tp_dict, "FlagMultiple", PyLong_FromLong(2));
 		PyDict_SetItemString(PYPrefixScan_Type.tp_dict, "FlagIndirect", PyLong_FromLong(4));
-		PyDict_SetItemString(PYPrefixScan_Type.tp_dict, "FlagRepeat", PyLong_FromLong(8));
-		PyDict_SetItemString(PYPrefixScan_Type.tp_dict, "FlagsAll", PyLong_FromLong(7));
+		PyDict_SetItemString(PYPrefixScan_Type.tp_dict, "FlagStride", PyLong_FromLong(8));
+		PyDict_SetItemString(PYPrefixScan_Type.tp_dict, "FlagRepeat", PyLong_FromLong(16));
+		PyDict_SetItemString(PYPrefixScan_Type.tp_dict, "FlagsAll", PyLong_FromLong(15));
 		PyType_Modified(&PYPrefixScan_Type);
 		Py_INCREF(&PYPrefixScan_Type);
 		

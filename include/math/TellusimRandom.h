@@ -64,6 +64,63 @@ namespace Tellusim {
 		Integer seed_0;
 		Integer seed_1;
 	};
+	
+	/**
+	 * Stratified samplers
+	 */
+	namespace Stratified {
+		
+		/// Halton sampler
+		TS_INLINE float32_t halton2(uint32_t sample) {
+			uint32_t bits = (sample << 16u) | (sample >> 16u);
+			bits = ((bits & 0x00ff00ffu) << 8u) | ((bits & 0xff00ff00u) >> 8u);
+			bits = ((bits & 0x0f0f0f0fu) << 4u) | ((bits & 0xf0f0f0f0u) >> 4u);
+			bits = ((bits & 0x33333333u) << 2u) | ((bits & 0xccccccccu) >> 2u);
+			bits = ((bits & 0x55555555u) << 1u) | ((bits & 0xaaaaaaaau) >> 1u);
+			return bits * 0x1p-32f;
+		}
+		
+		template <class Type, uint32_t Base> Type haltonN(uint32_t sample) {
+			Type f = 1.0f, r = 0.0f;
+			Type ibase = 1.0f / Base;
+			while(sample > 0) {
+				f *= ibase;
+				r += f * (sample % Base);
+				sample /= Base;
+			}
+			return r;
+		}
+		
+		template <class Vector2> Vector2 halton23(uint32_t sample) {
+			using Type = typename Vector2::Type;
+			return Vector2(haltonN<Type, 2>(sample), haltonN<Type, 3>(sample));
+		}
+		
+		template <class Vector2> Vector2 halton34(uint32_t sample) {
+			using Type = typename Vector2::Type;
+			return Vector2(haltonN<Type, 3>(sample), haltonN<Type, 4>(sample));
+		}
+		
+		/// Hammersley sampler
+		template <class Vector2> Vector2 hammersley(uint32_t sample, uint32_t samples) {
+			using Type = typename Vector2::Type;
+			return Vector2((Type)((sample % samples) + 0.5f) / (Type)samples, haltonN<Type, 2>(sample));
+		}
+		
+		/// Vogel disk sampler
+		template <class Vector2> Vector2 vogel(uint32_t sample, uint32_t samples, float32_t offset = 0.0f) {
+			float32_t angle = sample * 2.39996322973f + offset;
+			float32_t radius = sqrt(sample + 1.0f) / sqrt((float32_t)samples);
+			return Vector2(sin(angle) * radius, cos(angle) * radius);
+		}
+		
+		template <class Vector2> Vector2 vogelFast(uint32_t sample, uint32_t samples, float32_t offset = 0.0f) {
+			float32_t radius = sample + 1.0f;
+			float32_t angle = sample * 2.39996322973f + offset;
+			radius = radius * rsqrtFast(radius) * rsqrtFast((float32_t)samples);
+			return Vector2(sinFast(angle) * radius, cosFast(angle) * radius);
+		}
+	}
 }
 
 #endif /* __TELLUSIM_MATH_RANDOM_H__ */
