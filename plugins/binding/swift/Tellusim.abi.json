@@ -28084,6 +28084,13 @@
           },
           {
             "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
             "name": "CustomStringConvertible",
             "printedName": "CustomStringConvertible",
             "usr": "s:s23CustomStringConvertibleP",
@@ -28648,6 +28655,13 @@
             "printedName": "Escapable",
             "usr": "s:s9EscapableP",
             "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
           },
           {
             "kind": "Conformance",
@@ -33687,6 +33701,13 @@
           },
           {
             "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
             "name": "CustomStringConvertible",
             "printedName": "CustomStringConvertible",
             "usr": "s:s23CustomStringConvertibleP",
@@ -34070,6 +34091,13 @@
             "printedName": "Escapable",
             "usr": "s:s9EscapableP",
             "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
           },
           {
             "kind": "Conformance",
@@ -34459,6 +34487,13 @@
           },
           {
             "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
             "name": "CustomStringConvertible",
             "printedName": "CustomStringConvertible",
             "usr": "s:s23CustomStringConvertibleP",
@@ -34845,6 +34880,13 @@
           },
           {
             "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
             "name": "CustomStringConvertible",
             "printedName": "CustomStringConvertible",
             "usr": "s:s23CustomStringConvertibleP",
@@ -35228,6 +35270,13 @@
             "printedName": "Escapable",
             "usr": "s:s9EscapableP",
             "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
           },
           {
             "kind": "Conformance",
@@ -35629,6 +35678,13 @@
           },
           {
             "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
             "name": "CustomStringConvertible",
             "printedName": "CustomStringConvertible",
             "usr": "s:s23CustomStringConvertibleP",
@@ -36024,6 +36080,13 @@
             "printedName": "Escapable",
             "usr": "s:s9EscapableP",
             "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
           },
           {
             "kind": "Conformance",
@@ -37253,6 +37316,13 @@
           },
           {
             "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
             "name": "CustomStringConvertible",
             "printedName": "CustomStringConvertible",
             "usr": "s:s23CustomStringConvertibleP",
@@ -37666,6 +37736,13 @@
             "printedName": "Escapable",
             "usr": "s:s9EscapableP",
             "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
           },
           {
             "kind": "Conformance",
@@ -39033,6 +39110,13 @@
           },
           {
             "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
             "name": "CustomStringConvertible",
             "printedName": "CustomStringConvertible",
             "usr": "s:s23CustomStringConvertibleP",
@@ -39380,6 +39464,13 @@
             "printedName": "Escapable",
             "usr": "s:s9EscapableP",
             "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
           },
           {
             "kind": "Conformance",
@@ -40251,6 +40342,13 @@
           },
           {
             "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
             "name": "CustomStringConvertible",
             "printedName": "CustomStringConvertible",
             "usr": "s:s23CustomStringConvertibleP",
@@ -41116,6 +41214,13 @@
             "printedName": "Escapable",
             "usr": "s:s9EscapableP",
             "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
           },
           {
             "kind": "Conformance",
@@ -42265,6 +42370,13 @@
           },
           {
             "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
             "name": "CustomStringConvertible",
             "printedName": "CustomStringConvertible",
             "usr": "s:s23CustomStringConvertibleP",
@@ -43411,6 +43523,13 @@
           },
           {
             "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
             "name": "CustomStringConvertible",
             "printedName": "CustomStringConvertible",
             "usr": "s:s23CustomStringConvertibleP",
@@ -44000,6 +44119,13 @@
           },
           {
             "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
             "name": "CustomStringConvertible",
             "printedName": "CustomStringConvertible",
             "usr": "s:s23CustomStringConvertibleP",
@@ -44586,6 +44712,13 @@
             "printedName": "Escapable",
             "usr": "s:s9EscapableP",
             "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
           },
           {
             "kind": "Conformance",
@@ -47650,20 +47783,6 @@
           },
           {
             "kind": "Conformance",
-            "name": "Copyable",
-            "printedName": "Copyable",
-            "usr": "s:s8CopyableP",
-            "mangledName": "$ss8CopyableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Escapable",
-            "printedName": "Escapable",
-            "usr": "s:s9EscapableP",
-            "mangledName": "$ss9EscapableP"
-          },
-          {
-            "kind": "Conformance",
             "name": "Equatable",
             "printedName": "Equatable",
             "usr": "s:SQ",
@@ -48551,20 +48670,6 @@
           "ObjectiveC.NSObject"
         ],
         "conformances": [
-          {
-            "kind": "Conformance",
-            "name": "Copyable",
-            "printedName": "Copyable",
-            "usr": "s:s8CopyableP",
-            "mangledName": "$ss8CopyableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Escapable",
-            "printedName": "Escapable",
-            "usr": "s:s9EscapableP",
-            "mangledName": "$ss9EscapableP"
-          },
           {
             "kind": "Conformance",
             "name": "Copyable",
@@ -58438,20 +58543,6 @@
           },
           {
             "kind": "Conformance",
-            "name": "Copyable",
-            "printedName": "Copyable",
-            "usr": "s:s8CopyableP",
-            "mangledName": "$ss8CopyableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Escapable",
-            "printedName": "Escapable",
-            "usr": "s:s9EscapableP",
-            "mangledName": "$ss9EscapableP"
-          },
-          {
-            "kind": "Conformance",
             "name": "Equatable",
             "printedName": "Equatable",
             "usr": "s:SQ",
@@ -59908,6 +59999,90 @@
     {
       "filePath": "source\/TellusimSwMath.swift",
       "kind": "IntegerLiteral",
+      "offset": 1906,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "source\/TellusimSwMath.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1913,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "source\/TellusimSwMath.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2122,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "source\/TellusimSwMath.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2133,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "source\/TellusimSwMath.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2150,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "source\/TellusimSwMath.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2229,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "source\/TellusimSwMath.swift",
+      "kind": "IntegerLiteral",
+      "offset": 3132,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "source\/TellusimSwMath.swift",
+      "kind": "IntegerLiteral",
+      "offset": 3139,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "source\/TellusimSwMath.swift",
+      "kind": "IntegerLiteral",
+      "offset": 3348,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "source\/TellusimSwMath.swift",
+      "kind": "IntegerLiteral",
+      "offset": 3359,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "source\/TellusimSwMath.swift",
+      "kind": "IntegerLiteral",
+      "offset": 3376,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "source\/TellusimSwMath.swift",
+      "kind": "IntegerLiteral",
+      "offset": 3455,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "source\/TellusimSwMath.swift",
+      "kind": "IntegerLiteral",
       "offset": 7306,
       "length": 1,
       "value": "0"
@@ -59950,6 +60125,13 @@
     {
       "filePath": "source\/TellusimSwMath.swift",
       "kind": "FloatLiteral",
+      "offset": 15271,
+      "length": 3,
+      "value": "1.0"
+    },
+    {
+      "filePath": "source\/TellusimSwMath.swift",
+      "kind": "FloatLiteral",
       "offset": 16340,
       "length": 3,
       "value": "0.0"
@@ -59958,6 +60140,13 @@
       "filePath": "source\/TellusimSwMath.swift",
       "kind": "FloatLiteral",
       "offset": 16374,
+      "length": 3,
+      "value": "1.0"
+    },
+    {
+      "filePath": "source\/TellusimSwMath.swift",
+      "kind": "FloatLiteral",
+      "offset": 18309,
       "length": 3,
       "value": "1.0"
     },
@@ -60006,6 +60195,13 @@
     {
       "filePath": "source\/TellusimSwMath.swift",
       "kind": "FloatLiteral",
+      "offset": 28945,
+      "length": 3,
+      "value": "1.0"
+    },
+    {
+      "filePath": "source\/TellusimSwMath.swift",
+      "kind": "FloatLiteral",
       "offset": 30176,
       "length": 3,
       "value": "0.0"
@@ -60014,6 +60210,13 @@
       "filePath": "source\/TellusimSwMath.swift",
       "kind": "FloatLiteral",
       "offset": 30210,
+      "length": 3,
+      "value": "1.0"
+    },
+    {
+      "filePath": "source\/TellusimSwMath.swift",
+      "kind": "FloatLiteral",
+      "offset": 32770,
       "length": 3,
       "value": "1.0"
     },
@@ -60062,6 +60265,20 @@
     {
       "filePath": "source\/TellusimSwMath.swift",
       "kind": "FloatLiteral",
+      "offset": 45300,
+      "length": 3,
+      "value": "1.0"
+    },
+    {
+      "filePath": "source\/TellusimSwMath.swift",
+      "kind": "FloatLiteral",
+      "offset": 45380,
+      "length": 3,
+      "value": "1.0"
+    },
+    {
+      "filePath": "source\/TellusimSwMath.swift",
+      "kind": "FloatLiteral",
       "offset": 46786,
       "length": 3,
       "value": "0.0"
@@ -60070,6 +60287,20 @@
       "filePath": "source\/TellusimSwMath.swift",
       "kind": "FloatLiteral",
       "offset": 46820,
+      "length": 3,
+      "value": "1.0"
+    },
+    {
+      "filePath": "source\/TellusimSwMath.swift",
+      "kind": "FloatLiteral",
+      "offset": 50244,
+      "length": 3,
+      "value": "1.0"
+    },
+    {
+      "filePath": "source\/TellusimSwMath.swift",
+      "kind": "FloatLiteral",
+      "offset": 50324,
       "length": 3,
       "value": "1.0"
     },
