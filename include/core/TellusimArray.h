@@ -592,82 +592,82 @@ namespace Tellusim {
 			
 		public:
 			
-			using Array = Tellusim::Array<Type>;
+			using ArrayBase = Tellusim::Array<Type>;
 			
-			ArrayStack() { Array::init(data, Capacity); }
-			explicit ArrayStack(uint32_t size) { Array::init(data, Capacity); Array::resize(size); }
-			ArrayStack(const InitializerList<Type> &list) { Array::init(data, Capacity); Array::copy(list); }
-			ArrayStack(uint32_t size, const Type *array) { Array::init(data, Capacity); Array::copy(array, size); }
-			ArrayStack(uint32_t size, const Type &value) { Array::init(data, Capacity); Array::resize(size, value); }
-			ArrayStack(const Array &array) { Array::init(data, Capacity); Array::copy(array); }
-			ArrayStack(const ArrayStack &array) { Array::init(data, Capacity); Array::copy(array); }
-			ArrayStack(Array &&array) { Array::move((Array&&)array); }
+			ArrayStack() { ArrayBase::init(data, Capacity); }
+			explicit ArrayStack(uint32_t size) { ArrayBase::init(data, Capacity); ArrayBase::resize(size); }
+			ArrayStack(const InitializerList<Type> &list) { ArrayBase::init(data, Capacity); ArrayBase::copy(list); }
+			ArrayStack(uint32_t size, const Type *array) { ArrayBase::init(data, Capacity); ArrayBase::copy(array, size); }
+			ArrayStack(uint32_t size, const Type &value) { ArrayBase::init(data, Capacity); ArrayBase::resize(size, value); }
+			ArrayStack(const ArrayBase &array) { ArrayBase::init(data, Capacity); ArrayBase::copy(array); }
+			ArrayStack(const ArrayStack &array) { ArrayBase::init(data, Capacity); ArrayBase::copy(array); }
+			ArrayStack(ArrayBase &&array) { ArrayBase::move((ArrayBase&&)array); }
 			ArrayStack(ArrayStack &&array) { move((ArrayStack&&)array); }
-			template <uint32_t C> ArrayStack(const ArrayStack<Type, C> &array) { Array::init(data, Capacity); Array::copy(array); }
+			template <uint32_t C> ArrayStack(const ArrayStack<Type, C> &array) { ArrayBase::init(data, Capacity); ArrayBase::copy(array); }
 			template <uint32_t C> ArrayStack(ArrayStack<Type, C> &&array) { move((ArrayStack<Type, C>&&)array); }
 			
 			/// swap arrays
-			TS_INLINE void swap(Array &array) {
+			TS_INLINE void swap(ArrayBase &array) {
 				array.swap(*this);
 			}
 			void swap(ArrayStack &array) {
-				if(Array::get() != data && array.get() != array.data) {
-					Array::swap(array);
+				if(ArrayBase::get() != data && array.get() != array.data) {
+					ArrayBase::swap(array);
 				} else {
 					ArrayStack temp = array;
-					array.copy(Array::get(), Array::size());
-					Array::copy(temp);
+					array.copy(ArrayBase::get(), ArrayBase::size());
+					ArrayBase::copy(temp);
 				}
 			}
 			template <uint32_t C> void swap(ArrayStack<Type, C> &array) {
-				if(Array::get() != data && array.get() != array.data) {
-					Array::swap(array);
+				if(ArrayBase::get() != data && array.get() != array.data) {
+					ArrayBase::swap(array);
 				} else {
 					ArrayStack temp = array;
-					array.copy(Array::get(), Array::size());
-					Array::copy(temp);
+					array.copy(ArrayBase::get(), ArrayBase::size());
+					ArrayBase::copy(temp);
 				}
 			}
 			
 			/// copy array
 			void move(ArrayStack &&array) {
-				Array::init(data, Capacity);
-				if(array.get() != array.data) Array::move((Array&&)array);
-				else Array::copy(array);
+				ArrayBase::init(data, Capacity);
+				if(array.get() != array.data) ArrayBase::move((ArrayBase&&)array);
+				else ArrayBase::copy(array);
 			}
 			template <uint32_t C> void move(ArrayStack<Type, C> &&array) {
-				Array::init(data, Capacity);
-				if(array.get() != array.data) Array::move((Array&&)array);
-				else Array::copy(array);
+				ArrayBase::init(data, Capacity);
+				if(array.get() != array.data) ArrayBase::move((ArrayBase&&)array);
+				else ArrayBase::copy(array);
 			}
 			
 			/// assignment operators
-			TS_INLINE Array &operator=(const InitializerList<Type> &list) {
-				Array::copy(list);
+			TS_INLINE ArrayStack &operator=(const InitializerList<Type> &list) {
+				ArrayBase::copy(list);
 				return *this;
 			}
-			TS_INLINE ArrayStack &operator=(const Array &array) {
-				if(array.get() != Array::get()) Array::copy(array);
+			TS_INLINE ArrayStack &operator=(const ArrayBase &array) {
+				if(array.get() != ArrayBase::get()) ArrayBase::copy(array);
 				return *this;
 			}
 			TS_INLINE ArrayStack &operator=(const ArrayStack &array) {
-				if(array.get() != Array::get()) Array::copy(array);
+				if(array.get() != ArrayBase::get()) ArrayBase::copy(array);
 				return *this;
 			}
 			template <uint32_t C> TS_INLINE ArrayStack &operator=(const ArrayStack<Type, C> &array) {
-				if(array.get() != Array::get()) Array::copy(array);
+				if(array.get() != ArrayBase::get()) ArrayBase::copy(array);
 				return *this;
 			}
-			TS_INLINE ArrayStack &operator=(Array &&array) {
-				Array::move((Array&&)array);
+			TS_INLINE ArrayStack &operator=(ArrayBase &&array) {
+				ArrayBase::move((ArrayBase&&)array);
 				return *this;
 			}
 			TS_INLINE ArrayStack &operator=(ArrayStack &&array) {
-				Array::move((ArrayStack&&)array);
+				ArrayBase::move((ArrayStack&&)array);
 				return *this;
 			}
 			template <uint32_t C> TS_INLINE ArrayStack &operator=(ArrayStack<Type, C> &&array) {
-				Array::move((ArrayStack<Type, C>&&)array);
+				ArrayBase::move((ArrayStack<Type, C>&&)array);
 				return *this;
 			}
 			

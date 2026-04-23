@@ -439,11 +439,12 @@ typedef enum TS_ImageFlags {
 	TS_ImageFlagFast = 8,
 	TS_ImageFlagBest = 16,
 	TS_ImageFlagPerceptual = 32,
-	TS_ImageFlagPanorama = 64,
-	TS_ImageFlagNormalize = 128,
-	TS_ImageFlagGamma = 256,
-	TS_ImageFlagSRGB = 512,
-	TS_ImageNumFlags = 10,
+	TS_ImageFlagArray = 64,
+	TS_ImageFlagPanorama = 128,
+	TS_ImageFlagNormalize = 256,
+	TS_ImageFlagGamma = 512,
+	TS_ImageFlagSRGB = 1024,
+	TS_ImageNumFlags = 11,
 	TS_ImageFlags_Maxi32 = 0x7fffffff,
 } TS_ImageFlags;
 
@@ -1611,8 +1612,9 @@ typedef enum TS_PrefixScanFlags {
 	TS_PrefixScanFlagSingle = 1,
 	TS_PrefixScanFlagMultiple = 2,
 	TS_PrefixScanFlagIndirect = 4,
-	TS_PrefixScanFlagRepeat = 8,
-	TS_PrefixScanAll = 7,
+	TS_PrefixScanFlagStride = 8,
+	TS_PrefixScanFlagRepeat = 16,
+	TS_PrefixScanAll = 15,
 	TS_PrefixScanFlags_Maxi32 = 0x7fffffff,
 } TS_PrefixScanFlags;
 
@@ -9682,11 +9684,11 @@ TS_CAPI uint32_t TS_CCALL tsPrefixScan_getMaxElements(TSPrefixScan self);
 TS_CAPI uint32_t TS_CCALL tsPrefixScan_getMaxRegions(TSPrefixScan self);
 TS_CAPI bool_t TS_CCALL tsPrefixScan_create_cDPSMuuA(TSPrefixScan self, const TSDevice device, TS_PrefixScanMode mode, uint32_t groups, uint32_t regions, TSAsync *async);
 TS_CAPI bool_t TS_CCALL tsPrefixScan_create_cDPSFuuA(TSPrefixScan self, const TSDevice device, TS_PrefixScanFlags flags, uint32_t groups, uint32_t regions, TSAsync *async);
-TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatch_CBuu(TSPrefixScan self, TSCompute compute, TSBuffer data, uint32_t offset, uint32_t size);
-TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatch_CBuupupPSF(TSPrefixScan self, TSCompute compute, TSBuffer data, uint32_t count, const uint32_t *offsets, const uint32_t *sizes, TS_PrefixScanFlags flags);
-TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatchIndirect_CBBuPSFu(TSPrefixScan self, TSCompute compute, TSBuffer data, TSBuffer dispatch, uint32_t offset, TS_PrefixScanFlags flags, uint32_t max_size);
-TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatchIndirect_CBuBuPSFu(TSPrefixScan self, TSCompute compute, TSBuffer data, uint32_t count, TSBuffer dispatch, uint32_t offset, TS_PrefixScanFlags flags, uint32_t max_size);
-TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatchIndirect_CBBBuuPSFu(TSPrefixScan self, TSCompute compute, TSBuffer data, TSBuffer count, TSBuffer dispatch, uint32_t count_offset, uint32_t dispatch_offset, TS_PrefixScanFlags flags, uint32_t max_size);
+TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatch_CBuuu(TSPrefixScan self, TSCompute compute, TSBuffer data, uint32_t offset, uint32_t size, uint32_t stride);
+TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatch_CBuupupPSFu(TSPrefixScan self, TSCompute compute, TSBuffer data, uint32_t count, const uint32_t *offsets, const uint32_t *sizes, TS_PrefixScanFlags flags, uint32_t stride);
+TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatchIndirect_CBBuPSFuu(TSPrefixScan self, TSCompute compute, TSBuffer data, TSBuffer dispatch, uint32_t offset, TS_PrefixScanFlags flags, uint32_t max_size, uint32_t stride);
+TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatchIndirect_CBuBuPSFuu(TSPrefixScan self, TSCompute compute, TSBuffer data, uint32_t count, TSBuffer dispatch, uint32_t offset, TS_PrefixScanFlags flags, uint32_t max_size, uint32_t stride);
+TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatchIndirect_CBBBuuPSFuu(TSPrefixScan self, TSCompute compute, TSBuffer data, TSBuffer count, TSBuffer dispatch, uint32_t count_offset, uint32_t dispatch_offset, TS_PrefixScanFlags flags, uint32_t max_size, uint32_t stride);
 
 /// Tellusim::RadixSort
 TS_CAPI TSRadixSort TS_CCALL tsRadixSort_new(void);
