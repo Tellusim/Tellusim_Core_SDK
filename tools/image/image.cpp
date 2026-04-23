@@ -139,6 +139,7 @@ static bool print_compare(const String name_0, const Image &image_0, const Strin
 #define DECLARE_IS(NAME, SHORT) static bool is_ ## NAME(const String &name) { return (name == #NAME || name == #SHORT); }
 DECLARE_IS(fast, f)
 DECLARE_IS(best, b)
+DECLARE_IS(array, a)
 DECLARE_IS(panorama, p)
 DECLARE_IS(perceptual, p)
 DECLARE_IS(normalize, n)
@@ -449,7 +450,8 @@ int32_t main(int32_t argc, char **argv) {
 					Image::Flags flags = Image::FlagNone;
 					while(i + 1 < argc) {
 						command = argv[i + 1];
-						if(is_panorama(command)) { flags |= Image::FlagPanorama; i += 1; }
+						if(is_array(command)) { flags |= Image::FlagArray; i += 1; }
+						else if(is_panorama(command)) { flags |= Image::FlagPanorama; i += 1; }
 						else break;
 					}
 					DECLARE_COMMAND(image = image.toType(Image::Type2D, flags, &async), "convert to 2D type")

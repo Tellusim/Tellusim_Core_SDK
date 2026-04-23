@@ -229,6 +229,9 @@ namespace Tellusim {
 			uint32_t toHashu32(uint32_t pos = 0) const;
 			uint64_t toHashu64(uint32_t pos = 0) const;
 			
+			static constexpr uint32_t hashu32(const char *str) { return hash_u32(str, 0); }
+			static constexpr uint64_t hashu64(const char *str) { return hash_u64(str, 0); }
+			
 			/// string to color value
 			uint32_t toRGBAu8(uint32_t pos = 0) const;
 			
@@ -299,6 +302,10 @@ namespace Tellusim {
 				TS_INLINE static void tformat_args(Array<String> &args, size_t arg) { args.append(String::fromu64(arg)); }
 				template <class... List> static void tformat_args(Array<String> &args, size_t arg, List... Args) { args.append(String::fromu64(arg)); tformat_args(args, Args...); }
 			#endif
+			
+			/// const hash functions
+			static constexpr uint32_t hash_u32(const char *str, uint32_t hash) { return (*str) ? hash_u32(str + 1, hash * 131 + *str) : hash; }
+			static constexpr uint64_t hash_u64(const char *str, uint64_t hash) { return (*str) ? hash_u64(str + 1, hash * 131 + *str) : hash; }
 	};
 	
 	/**
