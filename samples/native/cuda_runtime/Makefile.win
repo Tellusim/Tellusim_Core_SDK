@@ -40,7 +40,7 @@ OBJS = main.obj
 all: $(TARGET)
 
 main.obj: main.cu
-	$(NVCC) $(CFLAGS) -c -o $@ $**
+	@$(NVCC) $(CFLAGS) -c -o $@ $**
 
 $(TARGET): $(OBJS)
 	@$(NVCC) $(LDFLAGS) -o $@ $**
