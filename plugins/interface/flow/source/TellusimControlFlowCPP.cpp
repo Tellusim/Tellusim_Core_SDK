@@ -887,7 +887,7 @@ namespace Tellusim {
 					setOutputValue(node, "b", "$f64 != 0.0");
 					setOutputValue(node, "i32", "(int32_t)($f64)");
 					setOutputValue(node, "i64", "(int64_t)($f64)");
-					setOutputValue(node, "f32", "(float32_t)$f64");
+					setOutputValue(node, "f32", "(float32_t)($f64)");
 					setOutputValue(node, "f64", "$f64");
 				}
 				setNodeDynamic(node, true);

@@ -13,6 +13,7 @@ cbuffer CommonParameters : register(b0) {
 	row_major float4x4 imodelview;
 	float4 camera;
 	float4 light;
+	float time;
 };
 
 RWByteAddressBuffer vertex_buffer : register(u1);
@@ -24,27 +25,8 @@ RaytracingAccelerationStructure tracing : register(t0);
 
 /*
  */
-[Shader("node")]
-[NodeIsProgramEntry]
-[NodeLaunch("broadcasting")]
-[NodeDispatchGrid(128, 128, 1)]
-[NumThreads(8, 8, 1)]
-void main(uint3 global_id : SV_DispatchThreadID,
-	[MaxRecords(64)] NodeOutput<Index> node) {
+float4 trace(float2 texcoord, float4 color) {
 	
-	// thread output
-	ThreadNodeOutputRecords<Index> OUT = node.GetThreadNodeOutputRecords(1);
-	OUT[0].index = global_id.xy;
-	OUT.OutputComplete();
-}
-
-/*
- */
-[Shader("node")]
-[NodeLaunch("thread")]
-void node(ThreadNodeInputRecord<Index> IN) {
-	
-	float2 texcoord = (float2(IN.Get().index) + 0.5f) / 1024.0f;
 	float x = (texcoord.x * 2.0f - 1.0f + projection[2].x) / projection[0].x;
 	float y = (texcoord.y * 2.0f - 1.0f + projection[2].y) / projection[1].y;
 	
@@ -66,8 +48,6 @@ void node(ThreadNodeInputRecord<Index> IN) {
 			ray_query.CommitNonOpaqueTriangleHit();
 		}
 	}
-	
-	float4 color = float4(0.2f, 0.2f, 0.2f, 0.0f);
 	
 	// triangle intersection
 	[branch] if(ray_query.CommittedStatus() == COMMITTED_TRIANGLE_HIT) {
@@ -100,5 +80,56 @@ void node(ThreadNodeInputRecord<Index> IN) {
 		color = float4(float3(0.2f, 0.8f, 0.8f) * diffuse + specular, 1.0f);
 	}
 	
-	out_surface[IN.Get().index] = color;
+	return color;
+}
+
+/*
+ */
+[Shader("node")]
+[NodeIsProgramEntry]
+[NodeLaunch("broadcasting")]
+[NodeDispatchGrid(128, 128, 1)]
+[NumThreads(8, 8, 1)]
+void main(uint3 global_id : SV_DispatchThreadID,
+	[MaxRecords(64)] [NodeArraySize(3)] NodeOutputArray<Index> nodes) {
+	
+	// thread output
+	uint index = 0u;
+	switch(uint(time) % 6u) {
+		case 0: index = 0u; break;
+		case 1: index = 1u; break;
+		case 2: index = 2u; break;
+		case 3: index = global_id.x; break;
+		case 4: index = global_id.y; break;
+		case 5: index = global_id.x ^ global_id.y; break;
+	}
+	ThreadNodeOutputRecords<Index> OUT = nodes[index % 3].GetThreadNodeOutputRecords(1);
+	OUT[0].index = global_id.xy;
+	OUT.OutputComplete();
+}
+
+/*
+ */
+[Shader("node")]
+[NodeID("nodes", 0)]
+[NodeLaunch("thread")]
+void node_0(ThreadNodeInputRecord<Index> IN) {
+	float2 texcoord = (float2(IN.Get().index) + 0.5f) / 1024.0f;
+	out_surface[IN.Get().index] = trace(texcoord, float4(0.1f, 0.3f, 0.3f, 0.0f));
+}
+
+[Shader("node")]
+[NodeID("nodes", 1)]
+[NodeLaunch("thread")]
+void node_1(ThreadNodeInputRecord<Index> IN) {
+	float2 texcoord = (float2(IN.Get().index) + 0.5f) / 1024.0f;
+	out_surface[IN.Get().index] = trace(texcoord, float4(0.3f, 0.1f, 0.3f, 0.0f));
+}
+
+[Shader("node")]
+[NodeID("nodes", 2)]
+[NodeLaunch("thread")]
+void node_2(ThreadNodeInputRecord<Index> IN) {
+	float2 texcoord = (float2(IN.Get().index) + 0.5f) / 1024.0f;
+	out_surface[IN.Get().index] = trace(texcoord, float4(0.3f, 0.3f, 0.1f, 0.0f));
 }
