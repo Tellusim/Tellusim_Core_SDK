@@ -25,7 +25,7 @@ using namespace Tellusim;
  */
 extern "C" {
 	__declspec(dllexport) extern const char *D3D12SDKPath = D3D12_SDK_PATH;
-	__declspec(dllexport) extern const uint32_t D3D12SDKVersion = D3D12_SDK_VERSION;
+	__declspec(dllexport) extern const uint32_t D3D12SDKVersion = D3D12_PREVIEW_SDK_VERSION;
 }
 
 /*

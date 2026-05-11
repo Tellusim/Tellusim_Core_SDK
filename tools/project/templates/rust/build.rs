@@ -7,4 +7,7 @@ fn main() {
 	
 	#[cfg(debug_assertions)]
 	println!("cargo:rustc-link-lib=dylib=TellusimC_@ARCH@d");
+	
+	#[cfg(target_os = "macos")]
+	println!("cargo:rustc-link-arg=-Wl,-rpath,@loader_path/../../");
 }

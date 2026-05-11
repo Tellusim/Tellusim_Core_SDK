@@ -42,7 +42,7 @@
 	 */
 	void main() {
 		
-		out_color = texture(samplerCube(in_texture, in_sampler), s_normal);
+		out_color = textureLod(samplerCube(in_texture, in_sampler), s_normal, 1.0f);
 	}
 	
 #endif

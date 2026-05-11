@@ -94,9 +94,9 @@ namespace Tellusim {
 			
 			/// color callback
 			using ColorChangedCallback = Function<void(Color color, bool is_changed)>;
-			using ColorCallback = Function<bool(uint32_t node, Color color, ColorChangedCallback func)>;
-			void setColorCallback(const ColorCallback &func) { color_func = func; }
-			TS_INLINE const ColorCallback &getColorCallback() const { return color_func; }
+			using ColorCreateCallback = Function<bool(uint32_t node, Color color, ColorChangedCallback func)>;
+			void setColorCreateCallback(const ColorCreateCallback &func) { color_create_func = func; }
+			TS_INLINE const ColorCreateCallback &getColorCreateCallback() const { return color_create_func; }
 			
 		protected:
 			
@@ -108,14 +108,19 @@ namespace Tellusim {
 			void create_tools();
 			
 			/// create editable slider
-			ControlSlider create_slider(Control *root, const char *name = nullptr, uint32_t digits = 2, float64_t value = 0.0, float64_t min = 0.0, float64_t max = 1.0, float32_t width = 128.0f);
+			ControlSlider create_slider_f64(Control *root, const char *name = nullptr, uint32_t digits = 2, float64_t value = 0.0, float64_t min = 0.0, float64_t max = 1.0, float32_t width = 128.0f);
 			static void expand_slider(ControlSlider &slider);
 			
 			/// create combo from items
-			template <class Value, uint32_t Size> static ControlCombo create_combo(Control *root, const char * const (&items)[Size], Value (&values)[Size]);
+			template <class VType, uint32_t Size> static ControlCombo create_combo(Control *root, const char * const (&items)[Size], VType (&values)[Size]);
 			
-			/// type callbacks
-			static bool any_callback(ControlFlow *flow, uint32_t node, uint32_t input, uint32_t output_node, uint32_t output_index);
+			/// node callbacks
+			static bool any_input_callback(ControlFlow *flow, uint32_t node, uint32_t input, uint32_t output_node, uint32_t output_index);
+			static bool text_output_callback(ControlFlow *flow, uint32_t node, uint32_t output, uint32_t input_node, uint32_t input_index);
+			
+			/// output proto
+			virtual uint32_t get_output_proto(uint32_t input_node, uint32_t input_index, uint32_t &output_index) const;
+			virtual void update_output_node(uint32_t input_node, uint32_t input_index, uint32_t output_node, uint32_t output_index);
 			
 			/// flow state
 			static bool set_state(ControlCombo &combo, const String &name);
@@ -215,7 +220,7 @@ namespace Tellusim {
 			uint32_t if_branch_proto = Maxu32;		// if branch proto
 			uint32_t for_loop_proto = Maxu32;		// for loop proto
 			
-			ColorCallback color_func;				// color callback
+			ColorCreateCallback color_create_func;	// color callback
 			
 			Color cpp_color = Color(1.0f, 1.0f, 1.0f, 0.75f);
 			Color tool_color = Color(0.3f, 0.6f, 1.0f, 0.75f);

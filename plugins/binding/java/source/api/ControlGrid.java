@@ -24,6 +24,10 @@ public class ControlGrid extends Control {
 	public Vector2f getSpacing() { return new Vector2f(get_spacing(self)); }
 	public void setColumnRatio(int index, float ratio) { set_column_ratio(self, index, ratio); }
 	public float getColumnRatio(int index) { return get_column_ratio(self, index); }
+	public void setColumnSpacing(int index, float spacing) { set_column_spacing(self, index, spacing); }
+	public float getColumnSpacing(int index) { return get_column_spacing(self, index); }
+	public void setRowSpacing(int index, float spacing) { set_row_spacing(self, index, spacing); }
+	public float getRowSpacing(int index) { return get_row_spacing(self, index); }
 	public Vector2f getControlsSize() { return new Vector2f(get_controls_size(self)); }
 	
 	private static native long new_();
@@ -41,6 +45,10 @@ public class ControlGrid extends Control {
 	private static native long get_spacing(long self);
 	private static native void set_column_ratio(long self, int index, float ratio);
 	private static native float get_column_ratio(long self, int index);
+	private static native void set_column_spacing(long self, int index, float spacing);
+	private static native float get_column_spacing(long self, int index);
+	private static native void set_row_spacing(long self, int index, float spacing);
+	private static native float get_row_spacing(long self, int index);
 	private static native long get_controls_size(long self);
 	
 	protected ControlGrid(long self) {

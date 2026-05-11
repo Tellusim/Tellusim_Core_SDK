@@ -13,2715 +13,3990 @@ pub use crate::base::*;
 pub use crate::math::*;
 
 // Tellusim::Vendor
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum Vendor {
-	ARM = 0x13b5,
-	AMD = 0x1002,
-	Apple = 0x106b,
-	Intel = 0x8086,
-	Nvidia = 0x10de,
-	Qualcomm = 0x5143,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct Vendor(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl Vendor {
+	pub const ARM: Vendor = Vendor(0x13b5);
+	pub const AMD: Vendor = Vendor(0x1002);
+	pub const Apple: Vendor = Vendor(0x106b);
+	pub const Intel: Vendor = Vendor(0x8086);
+	pub const Nvidia: Vendor = Vendor(0x10de);
+	pub const Qualcomm: Vendor = Vendor(0x5143);
 }
-impl cmp::PartialEq for Vendor {
-	fn eq(&self, flags: &Vendor) -> bool { unsafe { *mem::transmute::<&Vendor, &u32>(self) as u32 == *mem::transmute::<&Vendor, &u32>(flags) as u32 } }
+
+impl Vendor {
+	pub fn value(self) -> u32 { self.0 }
 }
 
 // Tellusim::Platform
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum Platform {
-	Unknown = 0,
-	Fusion,
-	D3D12,
-	D3D11,
-	MTL,
-	VK,
-	GL,
-	GLES,
-	WG,
-	CU,
-	HIP,
-	Any,
-	NumPlatforms,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct Platform(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl Platform {
+	pub const Unknown: Platform = Platform(0);
+	pub const Fusion: Platform = Platform(1);
+	pub const D3D12: Platform = Platform(2);
+	pub const D3D11: Platform = Platform(3);
+	pub const MTL: Platform = Platform(4);
+	pub const VK: Platform = Platform(5);
+	pub const GL: Platform = Platform(6);
+	pub const GLES: Platform = Platform(7);
+	pub const WG: Platform = Platform(8);
+	pub const CU: Platform = Platform(9);
+	pub const HIP: Platform = Platform(10);
+	pub const Any: Platform = Platform(11);
+	pub const NumPlatforms: Platform = Platform(12);
 }
-impl cmp::PartialEq for Platform {
-	fn eq(&self, flags: &Platform) -> bool { unsafe { *mem::transmute::<&Platform, &u32>(self) as u32 == *mem::transmute::<&Platform, &u32>(flags) as u32 } }
+
+impl Platform {
+	pub fn value(self) -> u32 { self.0 }
 }
 
 // Tellusim::BindFlags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum BindFlags {
-	BindFlagNone = 0,
-	BindFlagFixed = 1,
-	BindFlagRead = 2,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct BindFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl BindFlags {
+	pub const BindFlagNone: BindFlags = BindFlags(0);
+	pub const BindFlagFixed: BindFlags = BindFlags(1);
+	pub const BindFlagRead: BindFlags = BindFlags(2);
 }
-impl cmp::PartialEq for BindFlags {
-	fn eq(&self, flags: &BindFlags) -> bool { unsafe { *mem::transmute::<&BindFlags, &u32>(self) as u32 == *mem::transmute::<&BindFlags, &u32>(flags) as u32 } }
+
+impl BindFlags {
+	pub fn value(self) -> u32 { self.0 }
 }
 
 // Tellusim::TableType
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum TableType {
-	Texture = 0,
-	Storage,
-	NumTableTypes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct TableType(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl TableType {
+	pub const Texture: TableType = TableType(0);
+	pub const Storage: TableType = TableType(1);
+	pub const NumTableTypes: TableType = TableType(2);
 }
-impl cmp::PartialEq for TableType {
-	fn eq(&self, flags: &TableType) -> bool { unsafe { *mem::transmute::<&TableType, &u32>(self) as u32 == *mem::transmute::<&TableType, &u32>(flags) as u32 } }
+
+impl TableType {
+	pub fn value(self) -> u32 { self.0 }
 }
 
 // Tellusim::Format
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum Format {
-	Unknown = 0,
-	Ri8,
-	Ru8,
-	Ri8n,
-	Ru8n,
-	RGi8,
-	RGu8,
-	RGi8n,
-	RGu8n,
-	RGBi8,
-	RGBu8,
-	RGBi8n,
-	RGBu8n,
-	RGBu8ns,
-	RGBAi8,
-	RGBAu8,
-	RGBAi8n,
-	RGBAu8n,
-	RGBAu8ns,
-	BGRAu8n,
-	BGRAu8ns,
-	Ri16,
-	Ru16,
-	Ri16n,
-	Ru16n,
-	Rf16,
-	RGi16,
-	RGu16,
-	RGi16n,
-	RGu16n,
-	RGf16,
-	RGBi16,
-	RGBu16,
-	RGBi16n,
-	RGBu16n,
-	RGBf16,
-	RGBAi16,
-	RGBAu16,
-	RGBAi16n,
-	RGBAu16n,
-	RGBAf16,
-	Ri32,
-	Ru32,
-	Rf32,
-	RGi32,
-	RGu32,
-	RGf32,
-	RGBi32,
-	RGBu32,
-	RGBf32,
-	RGBAi32,
-	RGBAu32,
-	RGBAf32,
-	Ri64,
-	Ru64,
-	Rf64,
-	RGi64,
-	RGu64,
-	RGf64,
-	RGBi64,
-	RGBu64,
-	RGBf64,
-	RGBAi64,
-	RGBAu64,
-	RGBAf64,
-	RGBAu4n,
-	RGBu5Au1n,
-	Ru5Gu6Bu5n,
-	RGBu10Au2,
-	RGBu10Au2n,
-	RGf11Bf10,
-	RGBf9Eu5,
-	RGBf21,
-	BC1RGBu8n,
-	BC1RGBu8ns,
-	BC1RGBAu8n,
-	BC1RGBAu8ns,
-	BC2RGBAu8n,
-	BC2RGBAu8ns,
-	BC3RGBAu8n,
-	BC3RGBAu8ns,
-	BC4Ri8n,
-	BC4Ru8n,
-	BC5RGi8n,
-	BC5RGu8n,
-	BC6RGBf16s,
-	BC6RGBf16u,
-	BC7RGBAu8n,
-	BC7RGBAu8ns,
-	EACRi8n,
-	EACRu8n,
-	EACRGi8n,
-	EACRGu8n,
-	ETC2RGBu8n,
-	ETC2RGBu8ns,
-	ETC2RGBAu8n,
-	ETC2RGBAu8ns,
-	ETC2RGBu8Au1n,
-	ETC2RGBu8Au1ns,
-	ASTC44RGBAu8n,
-	ASTC44RGBAu8ns,
-	ASTC44RGBAf16,
-	ASTC54RGBAu8n,
-	ASTC54RGBAu8ns,
-	ASTC54RGBAf16,
-	ASTC55RGBAu8n,
-	ASTC55RGBAu8ns,
-	ASTC55RGBAf16,
-	ASTC65RGBAu8n,
-	ASTC65RGBAu8ns,
-	ASTC65RGBAf16,
-	ASTC66RGBAu8n,
-	ASTC66RGBAu8ns,
-	ASTC66RGBAf16,
-	ASTC85RGBAu8n,
-	ASTC85RGBAu8ns,
-	ASTC85RGBAf16,
-	ASTC86RGBAu8n,
-	ASTC86RGBAu8ns,
-	ASTC86RGBAf16,
-	ASTC88RGBAu8n,
-	ASTC88RGBAu8ns,
-	ASTC88RGBAf16,
-	Du16,
-	Du16Su8,
-	Du24,
-	Du24Su8,
-	Df32,
-	Df32Su8,
-	NumFormats,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct Format(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl Format {
+	pub const Unknown: Format = Format(0);
+	pub const Ri8: Format = Format(1);
+	pub const Ru8: Format = Format(2);
+	pub const Ri8n: Format = Format(3);
+	pub const Ru8n: Format = Format(4);
+	pub const RGi8: Format = Format(5);
+	pub const RGu8: Format = Format(6);
+	pub const RGi8n: Format = Format(7);
+	pub const RGu8n: Format = Format(8);
+	pub const RGBi8: Format = Format(9);
+	pub const RGBu8: Format = Format(10);
+	pub const RGBi8n: Format = Format(11);
+	pub const RGBu8n: Format = Format(12);
+	pub const RGBu8ns: Format = Format(13);
+	pub const RGBAi8: Format = Format(14);
+	pub const RGBAu8: Format = Format(15);
+	pub const RGBAi8n: Format = Format(16);
+	pub const RGBAu8n: Format = Format(17);
+	pub const RGBAu8ns: Format = Format(18);
+	pub const BGRAu8n: Format = Format(19);
+	pub const BGRAu8ns: Format = Format(20);
+	pub const Ri16: Format = Format(21);
+	pub const Ru16: Format = Format(22);
+	pub const Ri16n: Format = Format(23);
+	pub const Ru16n: Format = Format(24);
+	pub const Rf16: Format = Format(25);
+	pub const RGi16: Format = Format(26);
+	pub const RGu16: Format = Format(27);
+	pub const RGi16n: Format = Format(28);
+	pub const RGu16n: Format = Format(29);
+	pub const RGf16: Format = Format(30);
+	pub const RGBi16: Format = Format(31);
+	pub const RGBu16: Format = Format(32);
+	pub const RGBi16n: Format = Format(33);
+	pub const RGBu16n: Format = Format(34);
+	pub const RGBf16: Format = Format(35);
+	pub const RGBAi16: Format = Format(36);
+	pub const RGBAu16: Format = Format(37);
+	pub const RGBAi16n: Format = Format(38);
+	pub const RGBAu16n: Format = Format(39);
+	pub const RGBAf16: Format = Format(40);
+	pub const Ri32: Format = Format(41);
+	pub const Ru32: Format = Format(42);
+	pub const Rf32: Format = Format(43);
+	pub const RGi32: Format = Format(44);
+	pub const RGu32: Format = Format(45);
+	pub const RGf32: Format = Format(46);
+	pub const RGBi32: Format = Format(47);
+	pub const RGBu32: Format = Format(48);
+	pub const RGBf32: Format = Format(49);
+	pub const RGBAi32: Format = Format(50);
+	pub const RGBAu32: Format = Format(51);
+	pub const RGBAf32: Format = Format(52);
+	pub const Ri64: Format = Format(53);
+	pub const Ru64: Format = Format(54);
+	pub const Rf64: Format = Format(55);
+	pub const RGi64: Format = Format(56);
+	pub const RGu64: Format = Format(57);
+	pub const RGf64: Format = Format(58);
+	pub const RGBi64: Format = Format(59);
+	pub const RGBu64: Format = Format(60);
+	pub const RGBf64: Format = Format(61);
+	pub const RGBAi64: Format = Format(62);
+	pub const RGBAu64: Format = Format(63);
+	pub const RGBAf64: Format = Format(64);
+	pub const RGBAu4n: Format = Format(65);
+	pub const RGBu5Au1n: Format = Format(66);
+	pub const Ru5Gu6Bu5n: Format = Format(67);
+	pub const RGBu10Au2: Format = Format(68);
+	pub const RGBu10Au2n: Format = Format(69);
+	pub const RGf11Bf10: Format = Format(70);
+	pub const RGBf9Eu5: Format = Format(71);
+	pub const RGBf21: Format = Format(72);
+	pub const BC1RGBu8n: Format = Format(73);
+	pub const BC1RGBu8ns: Format = Format(74);
+	pub const BC1RGBAu8n: Format = Format(75);
+	pub const BC1RGBAu8ns: Format = Format(76);
+	pub const BC2RGBAu8n: Format = Format(77);
+	pub const BC2RGBAu8ns: Format = Format(78);
+	pub const BC3RGBAu8n: Format = Format(79);
+	pub const BC3RGBAu8ns: Format = Format(80);
+	pub const BC4Ri8n: Format = Format(81);
+	pub const BC4Ru8n: Format = Format(82);
+	pub const BC5RGi8n: Format = Format(83);
+	pub const BC5RGu8n: Format = Format(84);
+	pub const BC6RGBf16s: Format = Format(85);
+	pub const BC6RGBf16u: Format = Format(86);
+	pub const BC7RGBAu8n: Format = Format(87);
+	pub const BC7RGBAu8ns: Format = Format(88);
+	pub const EACRi8n: Format = Format(89);
+	pub const EACRu8n: Format = Format(90);
+	pub const EACRGi8n: Format = Format(91);
+	pub const EACRGu8n: Format = Format(92);
+	pub const ETC2RGBu8n: Format = Format(93);
+	pub const ETC2RGBu8ns: Format = Format(94);
+	pub const ETC2RGBAu8n: Format = Format(95);
+	pub const ETC2RGBAu8ns: Format = Format(96);
+	pub const ETC2RGBu8Au1n: Format = Format(97);
+	pub const ETC2RGBu8Au1ns: Format = Format(98);
+	pub const ASTC44RGBAu8n: Format = Format(99);
+	pub const ASTC44RGBAu8ns: Format = Format(100);
+	pub const ASTC44RGBAf16: Format = Format(101);
+	pub const ASTC54RGBAu8n: Format = Format(102);
+	pub const ASTC54RGBAu8ns: Format = Format(103);
+	pub const ASTC54RGBAf16: Format = Format(104);
+	pub const ASTC55RGBAu8n: Format = Format(105);
+	pub const ASTC55RGBAu8ns: Format = Format(106);
+	pub const ASTC55RGBAf16: Format = Format(107);
+	pub const ASTC65RGBAu8n: Format = Format(108);
+	pub const ASTC65RGBAu8ns: Format = Format(109);
+	pub const ASTC65RGBAf16: Format = Format(110);
+	pub const ASTC66RGBAu8n: Format = Format(111);
+	pub const ASTC66RGBAu8ns: Format = Format(112);
+	pub const ASTC66RGBAf16: Format = Format(113);
+	pub const ASTC85RGBAu8n: Format = Format(114);
+	pub const ASTC85RGBAu8ns: Format = Format(115);
+	pub const ASTC85RGBAf16: Format = Format(116);
+	pub const ASTC86RGBAu8n: Format = Format(117);
+	pub const ASTC86RGBAu8ns: Format = Format(118);
+	pub const ASTC86RGBAf16: Format = Format(119);
+	pub const ASTC88RGBAu8n: Format = Format(120);
+	pub const ASTC88RGBAu8ns: Format = Format(121);
+	pub const ASTC88RGBAf16: Format = Format(122);
+	pub const Du16: Format = Format(123);
+	pub const Du16Su8: Format = Format(124);
+	pub const Du24: Format = Format(125);
+	pub const Du24Su8: Format = Format(126);
+	pub const Df32: Format = Format(127);
+	pub const Df32Su8: Format = Format(128);
+	pub const NumFormats: Format = Format(129);
 }
-impl cmp::PartialEq for Format {
-	fn eq(&self, flags: &Format) -> bool { unsafe { *mem::transmute::<&Format, &u32>(self) as u32 == *mem::transmute::<&Format, &u32>(flags) as u32 } }
+
+impl Format {
+	pub fn value(self) -> u32 { self.0 }
 }
 
 // Tellusim::App::
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum AppVersion {
-	Version = 20251220,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct AppVersion(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl AppVersion {
+	pub const Version: AppVersion = AppVersion(20251220);
+}
+
+impl AppVersion {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for AppVersion {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<AppVersion> for u32 {
+	fn eq(&self, value: &AppVersion) -> bool { *self == value.0 }
 }
 
 // Tellusim::Socket::Type
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum SocketType {
-	Stream = 0,
-	Datagram,
-	NumTypes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct SocketType(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl SocketType {
+	pub const Stream: SocketType = SocketType(0);
+	pub const Datagram: SocketType = SocketType(1);
+	pub const NumTypes: SocketType = SocketType(2);
+}
+
+impl SocketType {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for SocketType {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<SocketType> for u32 {
+	fn eq(&self, value: &SocketType) -> bool { *self == value.0 }
 }
 
 // Tellusim::Directory::Attributes
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum DirectoryAttributes {
-	None = 0,
-	Read = 1,
-	Write = 2,
-	Hidden = 4,
-	Execute = 8,
-	Temporary = 16,
-	NumAttributes = 5,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct DirectoryAttributes(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl DirectoryAttributes {
+	pub const None: DirectoryAttributes = DirectoryAttributes(0);
+	pub const Read: DirectoryAttributes = DirectoryAttributes(1);
+	pub const Write: DirectoryAttributes = DirectoryAttributes(2);
+	pub const Hidden: DirectoryAttributes = DirectoryAttributes(4);
+	pub const Execute: DirectoryAttributes = DirectoryAttributes(8);
+	pub const Temporary: DirectoryAttributes = DirectoryAttributes(16);
+	pub const NumAttributes: DirectoryAttributes = DirectoryAttributes(5);
+}
+
+impl DirectoryAttributes {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for DirectoryAttributes {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<DirectoryAttributes> for u32 {
+	fn eq(&self, value: &DirectoryAttributes) -> bool { *self == value.0 }
 }
 
 // Tellusim::Image::Type
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum ImageType {
-	Unknown = 0,
-	_2D,
-	_3D,
-	Cube,
-	NumTypes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct ImageType(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl ImageType {
+	pub const Unknown: ImageType = ImageType(0);
+	pub const _2D: ImageType = ImageType(1);
+	pub const _3D: ImageType = ImageType(2);
+	pub const Cube: ImageType = ImageType(3);
+	pub const NumTypes: ImageType = ImageType(4);
+}
+
+impl ImageType {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for ImageType {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<ImageType> for u32 {
+	fn eq(&self, value: &ImageType) -> bool { *self == value.0 }
 }
 
 // Tellusim::Image::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum ImageFlags {
-	None = 0,
-	Mipmaps = 1,
-	NoClear = 2,
-	NoAllocate = 4,
-	Fast = 8,
-	Best = 16,
-	Perceptual = 32,
-	Array = 64,
-	Panorama = 128,
-	Normalize = 256,
-	Gamma = 512,
-	SRGB = 1024,
-	Num = 11,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct ImageFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl ImageFlags {
-	pub fn has_flag(self, flag: ImageFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: ImageFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: ImageFlags = ImageFlags(0);
+	pub const Mipmaps: ImageFlags = ImageFlags(1);
+	pub const NoClear: ImageFlags = ImageFlags(2);
+	pub const NoAllocate: ImageFlags = ImageFlags(4);
+	pub const Fast: ImageFlags = ImageFlags(8);
+	pub const Best: ImageFlags = ImageFlags(16);
+	pub const Perceptual: ImageFlags = ImageFlags(32);
+	pub const Array: ImageFlags = ImageFlags(64);
+	pub const Panorama: ImageFlags = ImageFlags(128);
+	pub const Normalize: ImageFlags = ImageFlags(256);
+	pub const Gamma: ImageFlags = ImageFlags(512);
+	pub const SRGB: ImageFlags = ImageFlags(1024);
+	pub const Num: ImageFlags = ImageFlags(11);
 }
-impl cmp::PartialEq for ImageFlags {
-	fn eq(&self, flags: &ImageFlags) -> bool { unsafe { *mem::transmute::<&ImageFlags, &u32>(self) as u32 == *mem::transmute::<&ImageFlags, &u32>(flags) as u32 } }
+
+impl ImageFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: ImageFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: ImageFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for ImageFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<ImageFlags> for u32 {
+	fn eq(&self, value: &ImageFlags) -> bool { *self == value.0 }
 }
 impl ops::BitOr for ImageFlags {
 	type Output = ImageFlags;
-	fn bitor(self, flags: ImageFlags) -> ImageFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: ImageFlags) -> ImageFlags { ImageFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for ImageFlags {
 	type Output = ImageFlags;
-	fn bitand(self, flags: ImageFlags) -> ImageFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: ImageFlags) -> ImageFlags { ImageFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for ImageFlags {
-	fn bitor_assign(&mut self, flags: ImageFlags) { unsafe { *mem::transmute::<&mut ImageFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: ImageFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for ImageFlags {
-	fn bitand_assign(&mut self, flags: ImageFlags) { unsafe { *mem::transmute::<&mut ImageFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: ImageFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for ImageFlags {
 	type Output = ImageFlags;
-	fn not(self) -> ImageFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> ImageFlags { ImageFlags(!self.0) }
 }
 
 // Tellusim::Image::Filter
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum ImageFilter {
-	Unknown = 0,
-	Point,
-	Linear,
-	Cubic,
-	Sinc,
-	Box,
-	Max,
-	Min,
-	Mip,
-	CR,
-	NumFilters,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct ImageFilter(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl ImageFilter {
+	pub const Unknown: ImageFilter = ImageFilter(0);
+	pub const Point: ImageFilter = ImageFilter(1);
+	pub const Linear: ImageFilter = ImageFilter(2);
+	pub const Cubic: ImageFilter = ImageFilter(3);
+	pub const Sinc: ImageFilter = ImageFilter(4);
+	pub const Box: ImageFilter = ImageFilter(5);
+	pub const Max: ImageFilter = ImageFilter(6);
+	pub const Min: ImageFilter = ImageFilter(7);
+	pub const Mip: ImageFilter = ImageFilter(8);
+	pub const CR: ImageFilter = ImageFilter(9);
+	pub const NumFilters: ImageFilter = ImageFilter(10);
+}
+
+impl ImageFilter {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for ImageFilter {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<ImageFilter> for u32 {
+	fn eq(&self, value: &ImageFilter) -> bool { *self == value.0 }
 }
 
 // Tellusim::MeshIndices::Type
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum MeshIndicesType {
-	Unknown = 0,
-	Point,
-	Line,
-	Triangle,
-	Quadrilateral,
-	Tetrahedron,
-	Material,
-	Island,
-	Group,
-	Joint,
-	Edge,
-	NumTypes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct MeshIndicesType(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl MeshIndicesType {
+	pub const Unknown: MeshIndicesType = MeshIndicesType(0);
+	pub const Point: MeshIndicesType = MeshIndicesType(1);
+	pub const Line: MeshIndicesType = MeshIndicesType(2);
+	pub const Triangle: MeshIndicesType = MeshIndicesType(3);
+	pub const Quadrilateral: MeshIndicesType = MeshIndicesType(4);
+	pub const Tetrahedron: MeshIndicesType = MeshIndicesType(5);
+	pub const Material: MeshIndicesType = MeshIndicesType(6);
+	pub const Island: MeshIndicesType = MeshIndicesType(7);
+	pub const Group: MeshIndicesType = MeshIndicesType(8);
+	pub const Joint: MeshIndicesType = MeshIndicesType(9);
+	pub const Edge: MeshIndicesType = MeshIndicesType(10);
+	pub const NumTypes: MeshIndicesType = MeshIndicesType(11);
+}
+
+impl MeshIndicesType {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for MeshIndicesType {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<MeshIndicesType> for u32 {
+	fn eq(&self, value: &MeshIndicesType) -> bool { *self == value.0 }
 }
 
 // Tellusim::MeshAttribute::Type
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum MeshAttributeType {
-	Unknown = 0,
-	Position,
-	Basis,
-	Normal,
-	Tangent,
-	Binormal,
-	TexCoord,
-	Weights,
-	Joints,
-	Color,
-	Crease,
-	Index,
-	NumTypes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct MeshAttributeType(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl MeshAttributeType {
+	pub const Unknown: MeshAttributeType = MeshAttributeType(0);
+	pub const Position: MeshAttributeType = MeshAttributeType(1);
+	pub const Basis: MeshAttributeType = MeshAttributeType(2);
+	pub const Normal: MeshAttributeType = MeshAttributeType(3);
+	pub const Tangent: MeshAttributeType = MeshAttributeType(4);
+	pub const Binormal: MeshAttributeType = MeshAttributeType(5);
+	pub const TexCoord: MeshAttributeType = MeshAttributeType(6);
+	pub const Weights: MeshAttributeType = MeshAttributeType(7);
+	pub const Joints: MeshAttributeType = MeshAttributeType(8);
+	pub const Color: MeshAttributeType = MeshAttributeType(9);
+	pub const Crease: MeshAttributeType = MeshAttributeType(10);
+	pub const Index: MeshAttributeType = MeshAttributeType(11);
+	pub const NumTypes: MeshAttributeType = MeshAttributeType(12);
+}
+
+impl MeshAttributeType {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for MeshAttributeType {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<MeshAttributeType> for u32 {
+	fn eq(&self, value: &MeshAttributeType) -> bool { *self == value.0 }
 }
 
 // Tellusim::MeshMaterial::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum MeshMaterialFlags {
-	None = 0,
-	Bool = 1,
-	Scalarf32 = 2,
-	Vector4f = 4,
-	Matrix3x2f = 8,
-	Color = 16,
-	Name = 32,
-	Layout = 64,
-	Blob = 128,
-	Image = 256,
-	Texture = 416,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct MeshMaterialFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl MeshMaterialFlags {
-	pub fn has_flag(self, flag: MeshMaterialFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: MeshMaterialFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: MeshMaterialFlags = MeshMaterialFlags(0);
+	pub const Bool: MeshMaterialFlags = MeshMaterialFlags(1);
+	pub const Scalarf32: MeshMaterialFlags = MeshMaterialFlags(2);
+	pub const Vector4f: MeshMaterialFlags = MeshMaterialFlags(4);
+	pub const Matrix3x2f: MeshMaterialFlags = MeshMaterialFlags(8);
+	pub const Color: MeshMaterialFlags = MeshMaterialFlags(16);
+	pub const Name: MeshMaterialFlags = MeshMaterialFlags(32);
+	pub const Layout: MeshMaterialFlags = MeshMaterialFlags(64);
+	pub const Blob: MeshMaterialFlags = MeshMaterialFlags(128);
+	pub const Image: MeshMaterialFlags = MeshMaterialFlags(256);
+	pub const Texture: MeshMaterialFlags = MeshMaterialFlags(416);
 }
-impl cmp::PartialEq for MeshMaterialFlags {
-	fn eq(&self, flags: &MeshMaterialFlags) -> bool { unsafe { *mem::transmute::<&MeshMaterialFlags, &u32>(self) as u32 == *mem::transmute::<&MeshMaterialFlags, &u32>(flags) as u32 } }
+
+impl MeshMaterialFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: MeshMaterialFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: MeshMaterialFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for MeshMaterialFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<MeshMaterialFlags> for u32 {
+	fn eq(&self, value: &MeshMaterialFlags) -> bool { *self == value.0 }
 }
 impl ops::BitOr for MeshMaterialFlags {
 	type Output = MeshMaterialFlags;
-	fn bitor(self, flags: MeshMaterialFlags) -> MeshMaterialFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: MeshMaterialFlags) -> MeshMaterialFlags { MeshMaterialFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for MeshMaterialFlags {
 	type Output = MeshMaterialFlags;
-	fn bitand(self, flags: MeshMaterialFlags) -> MeshMaterialFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: MeshMaterialFlags) -> MeshMaterialFlags { MeshMaterialFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for MeshMaterialFlags {
-	fn bitor_assign(&mut self, flags: MeshMaterialFlags) { unsafe { *mem::transmute::<&mut MeshMaterialFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: MeshMaterialFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for MeshMaterialFlags {
-	fn bitand_assign(&mut self, flags: MeshMaterialFlags) { unsafe { *mem::transmute::<&mut MeshMaterialFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: MeshMaterialFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for MeshMaterialFlags {
 	type Output = MeshMaterialFlags;
-	fn not(self) -> MeshMaterialFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> MeshMaterialFlags { MeshMaterialFlags(!self.0) }
 }
 
 // Tellusim::MeshAttachment::Type
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum MeshAttachmentType {
-	Unknown = 0,
-	LightGlobal,
-	LightPoint,
-	LightSpot,
-	LightImage,
-	CameraPerspective,
-	CameraOrthographic,
-	NumTypes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct MeshAttachmentType(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl MeshAttachmentType {
+	pub const Unknown: MeshAttachmentType = MeshAttachmentType(0);
+	pub const LightGlobal: MeshAttachmentType = MeshAttachmentType(1);
+	pub const LightPoint: MeshAttachmentType = MeshAttachmentType(2);
+	pub const LightSpot: MeshAttachmentType = MeshAttachmentType(3);
+	pub const LightImage: MeshAttachmentType = MeshAttachmentType(4);
+	pub const CameraPerspective: MeshAttachmentType = MeshAttachmentType(5);
+	pub const CameraOrthographic: MeshAttachmentType = MeshAttachmentType(6);
+	pub const NumTypes: MeshAttachmentType = MeshAttachmentType(7);
+}
+
+impl MeshAttachmentType {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for MeshAttachmentType {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<MeshAttachmentType> for u32 {
+	fn eq(&self, value: &MeshAttachmentType) -> bool { *self == value.0 }
 }
 
 // Tellusim::MeshAttachment::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum MeshAttachmentFlags {
-	None = 0,
-	Bool = 1,
-	Scalarf32 = 2,
-	Vector4f = 4,
-	Color = 8,
-	Name = 16,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct MeshAttachmentFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl MeshAttachmentFlags {
-	pub fn has_flag(self, flag: MeshAttachmentFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: MeshAttachmentFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: MeshAttachmentFlags = MeshAttachmentFlags(0);
+	pub const Bool: MeshAttachmentFlags = MeshAttachmentFlags(1);
+	pub const Scalarf32: MeshAttachmentFlags = MeshAttachmentFlags(2);
+	pub const Vector4f: MeshAttachmentFlags = MeshAttachmentFlags(4);
+	pub const Color: MeshAttachmentFlags = MeshAttachmentFlags(8);
+	pub const Name: MeshAttachmentFlags = MeshAttachmentFlags(16);
 }
-impl cmp::PartialEq for MeshAttachmentFlags {
-	fn eq(&self, flags: &MeshAttachmentFlags) -> bool { unsafe { *mem::transmute::<&MeshAttachmentFlags, &u32>(self) as u32 == *mem::transmute::<&MeshAttachmentFlags, &u32>(flags) as u32 } }
+
+impl MeshAttachmentFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: MeshAttachmentFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: MeshAttachmentFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for MeshAttachmentFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<MeshAttachmentFlags> for u32 {
+	fn eq(&self, value: &MeshAttachmentFlags) -> bool { *self == value.0 }
 }
 impl ops::BitOr for MeshAttachmentFlags {
 	type Output = MeshAttachmentFlags;
-	fn bitor(self, flags: MeshAttachmentFlags) -> MeshAttachmentFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: MeshAttachmentFlags) -> MeshAttachmentFlags { MeshAttachmentFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for MeshAttachmentFlags {
 	type Output = MeshAttachmentFlags;
-	fn bitand(self, flags: MeshAttachmentFlags) -> MeshAttachmentFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: MeshAttachmentFlags) -> MeshAttachmentFlags { MeshAttachmentFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for MeshAttachmentFlags {
-	fn bitor_assign(&mut self, flags: MeshAttachmentFlags) { unsafe { *mem::transmute::<&mut MeshAttachmentFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: MeshAttachmentFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for MeshAttachmentFlags {
-	fn bitand_assign(&mut self, flags: MeshAttachmentFlags) { unsafe { *mem::transmute::<&mut MeshAttachmentFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: MeshAttachmentFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for MeshAttachmentFlags {
 	type Output = MeshAttachmentFlags;
-	fn not(self) -> MeshAttachmentFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> MeshAttachmentFlags { MeshAttachmentFlags(!self.0) }
 }
 
 // Tellusim::Mesh::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum MeshFlags {
-	None = 0,
-	Embed = 1,
-	_32Bit = 2,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct MeshFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl MeshFlags {
-	pub fn has_flag(self, flag: MeshFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: MeshFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: MeshFlags = MeshFlags(0);
+	pub const Embed: MeshFlags = MeshFlags(1);
+	pub const _32Bit: MeshFlags = MeshFlags(2);
 }
-impl cmp::PartialEq for MeshFlags {
-	fn eq(&self, flags: &MeshFlags) -> bool { unsafe { *mem::transmute::<&MeshFlags, &u32>(self) as u32 == *mem::transmute::<&MeshFlags, &u32>(flags) as u32 } }
+
+impl MeshFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: MeshFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: MeshFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for MeshFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<MeshFlags> for u32 {
+	fn eq(&self, value: &MeshFlags) -> bool { *self == value.0 }
 }
 impl ops::BitOr for MeshFlags {
 	type Output = MeshFlags;
-	fn bitor(self, flags: MeshFlags) -> MeshFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: MeshFlags) -> MeshFlags { MeshFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for MeshFlags {
 	type Output = MeshFlags;
-	fn bitand(self, flags: MeshFlags) -> MeshFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: MeshFlags) -> MeshFlags { MeshFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for MeshFlags {
-	fn bitor_assign(&mut self, flags: MeshFlags) { unsafe { *mem::transmute::<&mut MeshFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: MeshFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for MeshFlags {
-	fn bitand_assign(&mut self, flags: MeshFlags) { unsafe { *mem::transmute::<&mut MeshFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: MeshFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for MeshFlags {
 	type Output = MeshFlags;
-	fn not(self) -> MeshFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> MeshFlags { MeshFlags(!self.0) }
 }
 
 // Tellusim::Mesh::Basis
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum MeshBasis {
-	Unknown = 0,
-	XUpRight,
-	YUpRight,
-	ZUpRight,
-	XUpLeft,
-	YUpLeft,
-	ZUpLeft,
-	ZUpMaya,
-	NumBases,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct MeshBasis(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl MeshBasis {
+	pub const Unknown: MeshBasis = MeshBasis(0);
+	pub const XUpRight: MeshBasis = MeshBasis(1);
+	pub const YUpRight: MeshBasis = MeshBasis(2);
+	pub const ZUpRight: MeshBasis = MeshBasis(3);
+	pub const XUpLeft: MeshBasis = MeshBasis(4);
+	pub const YUpLeft: MeshBasis = MeshBasis(5);
+	pub const ZUpLeft: MeshBasis = MeshBasis(6);
+	pub const ZUpMaya: MeshBasis = MeshBasis(7);
+	pub const NumBases: MeshBasis = MeshBasis(8);
+}
+
+impl MeshBasis {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for MeshBasis {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<MeshBasis> for u32 {
+	fn eq(&self, value: &MeshBasis) -> bool { *self == value.0 }
 }
 
 // Tellusim::Mesh::Axis
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum MeshAxis {
-	Unknown = 0,
-	PX,
-	PY,
-	PZ,
-	NX,
-	NY,
-	NZ,
-	NumAxes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct MeshAxis(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl MeshAxis {
+	pub const Unknown: MeshAxis = MeshAxis(0);
+	pub const PX: MeshAxis = MeshAxis(1);
+	pub const PY: MeshAxis = MeshAxis(2);
+	pub const PZ: MeshAxis = MeshAxis(3);
+	pub const NX: MeshAxis = MeshAxis(4);
+	pub const NY: MeshAxis = MeshAxis(5);
+	pub const NZ: MeshAxis = MeshAxis(6);
+	pub const NumAxes: MeshAxis = MeshAxis(7);
+}
+
+impl MeshAxis {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for MeshAxis {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<MeshAxis> for u32 {
+	fn eq(&self, value: &MeshAxis) -> bool { *self == value.0 }
 }
 
 // Tellusim::Json::Type
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum JsonType {
-	Unknown = 0,
-	Null,
-	Bool,
-	Number,
-	String,
-	Object,
-	Array,
-	NumTypes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct JsonType(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl JsonType {
+	pub const Unknown: JsonType = JsonType(0);
+	pub const Null: JsonType = JsonType(1);
+	pub const Bool: JsonType = JsonType(2);
+	pub const Number: JsonType = JsonType(3);
+	pub const String: JsonType = JsonType(4);
+	pub const Object: JsonType = JsonType(5);
+	pub const Array: JsonType = JsonType(6);
+	pub const NumTypes: JsonType = JsonType(7);
+}
+
+impl JsonType {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for JsonType {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<JsonType> for u32 {
+	fn eq(&self, value: &JsonType) -> bool { *self == value.0 }
 }
 
 // Tellusim::Buffer::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum BufferFlags {
-	None = 0,
-	Read = 1,
-	Write = 2,
-	Source = 4,
-	Sparse = 8,
-	Shared = 16,
-	Mapped = 32,
-	Extern = 64,
-	Interop = 128,
-	Dynamic = 256,
-	Uniform = 512,
-	Storage = 1024,
-	Address = 2048,
-	Tracing = 4096,
-	Scratch = 8192,
-	Binding = 16384,
-	Indirect = 32768,
-	Conditional = 65536,
-	Vertex = 131072,
-	Index = 262144,
-	Texel = 524288,
-	Accel = 1048576,
-	Num = 21,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct BufferFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl BufferFlags {
-	pub fn has_flag(self, flag: BufferFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: BufferFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: BufferFlags = BufferFlags(0);
+	pub const Read: BufferFlags = BufferFlags(1);
+	pub const Write: BufferFlags = BufferFlags(2);
+	pub const Source: BufferFlags = BufferFlags(4);
+	pub const Sparse: BufferFlags = BufferFlags(8);
+	pub const Shared: BufferFlags = BufferFlags(16);
+	pub const Mapped: BufferFlags = BufferFlags(32);
+	pub const Extern: BufferFlags = BufferFlags(64);
+	pub const Interop: BufferFlags = BufferFlags(128);
+	pub const Dynamic: BufferFlags = BufferFlags(256);
+	pub const Uniform: BufferFlags = BufferFlags(512);
+	pub const Storage: BufferFlags = BufferFlags(1024);
+	pub const Address: BufferFlags = BufferFlags(2048);
+	pub const Tracing: BufferFlags = BufferFlags(4096);
+	pub const Scratch: BufferFlags = BufferFlags(8192);
+	pub const Binding: BufferFlags = BufferFlags(16384);
+	pub const Indirect: BufferFlags = BufferFlags(32768);
+	pub const Conditional: BufferFlags = BufferFlags(65536);
+	pub const Vertex: BufferFlags = BufferFlags(131072);
+	pub const Index: BufferFlags = BufferFlags(262144);
+	pub const Texel: BufferFlags = BufferFlags(524288);
+	pub const Accel: BufferFlags = BufferFlags(1048576);
+	pub const Num: BufferFlags = BufferFlags(21);
+}
+
+impl BufferFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: BufferFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: BufferFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for BufferFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<BufferFlags> for u32 {
+	fn eq(&self, value: &BufferFlags) -> bool { *self == value.0 }
 }
 impl Default for BufferFlags {
 	fn default() -> BufferFlags { BufferFlags::None }
 }
-impl cmp::PartialEq for BufferFlags {
-	fn eq(&self, flags: &BufferFlags) -> bool { unsafe { *mem::transmute::<&BufferFlags, &u32>(self) as u32 == *mem::transmute::<&BufferFlags, &u32>(flags) as u32 } }
-}
 impl ops::BitOr for BufferFlags {
 	type Output = BufferFlags;
-	fn bitor(self, flags: BufferFlags) -> BufferFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: BufferFlags) -> BufferFlags { BufferFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for BufferFlags {
 	type Output = BufferFlags;
-	fn bitand(self, flags: BufferFlags) -> BufferFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: BufferFlags) -> BufferFlags { BufferFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for BufferFlags {
-	fn bitor_assign(&mut self, flags: BufferFlags) { unsafe { *mem::transmute::<&mut BufferFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: BufferFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for BufferFlags {
-	fn bitand_assign(&mut self, flags: BufferFlags) { unsafe { *mem::transmute::<&mut BufferFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: BufferFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for BufferFlags {
 	type Output = BufferFlags;
-	fn not(self) -> BufferFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> BufferFlags { BufferFlags(!self.0) }
 }
 
 // Tellusim::Query::Type
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum QueryType {
-	Unknown = 0,
-	Time,
-	Clock,
-	Samples,
-	Samples1,
-	Statistics,
-	NumTypes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct QueryType(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl QueryType {
+	pub const Unknown: QueryType = QueryType(0);
+	pub const Time: QueryType = QueryType(1);
+	pub const Clock: QueryType = QueryType(2);
+	pub const Samples: QueryType = QueryType(3);
+	pub const Samples1: QueryType = QueryType(4);
+	pub const Statistics: QueryType = QueryType(5);
+	pub const NumTypes: QueryType = QueryType(6);
+}
+
+impl QueryType {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for QueryType {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<QueryType> for u32 {
+	fn eq(&self, value: &QueryType) -> bool { *self == value.0 }
 }
 
 // Tellusim::Fence::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum FenceFlags {
-	None = 0,
-	Semaphore = 1,
-	Signaled = 2,
-	Shared = 4,
-	Extern = 8,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct FenceFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl FenceFlags {
-	pub fn has_flag(self, flag: FenceFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: FenceFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: FenceFlags = FenceFlags(0);
+	pub const Semaphore: FenceFlags = FenceFlags(1);
+	pub const Signaled: FenceFlags = FenceFlags(2);
+	pub const Shared: FenceFlags = FenceFlags(4);
+	pub const Extern: FenceFlags = FenceFlags(8);
+}
+
+impl FenceFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: FenceFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: FenceFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for FenceFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<FenceFlags> for u32 {
+	fn eq(&self, value: &FenceFlags) -> bool { *self == value.0 }
 }
 impl Default for FenceFlags {
 	fn default() -> FenceFlags { FenceFlags::None }
 }
-impl cmp::PartialEq for FenceFlags {
-	fn eq(&self, flags: &FenceFlags) -> bool { unsafe { *mem::transmute::<&FenceFlags, &u32>(self) as u32 == *mem::transmute::<&FenceFlags, &u32>(flags) as u32 } }
-}
 impl ops::BitOr for FenceFlags {
 	type Output = FenceFlags;
-	fn bitor(self, flags: FenceFlags) -> FenceFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: FenceFlags) -> FenceFlags { FenceFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for FenceFlags {
 	type Output = FenceFlags;
-	fn bitand(self, flags: FenceFlags) -> FenceFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: FenceFlags) -> FenceFlags { FenceFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for FenceFlags {
-	fn bitor_assign(&mut self, flags: FenceFlags) { unsafe { *mem::transmute::<&mut FenceFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: FenceFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for FenceFlags {
-	fn bitand_assign(&mut self, flags: FenceFlags) { unsafe { *mem::transmute::<&mut FenceFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: FenceFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for FenceFlags {
 	type Output = FenceFlags;
-	fn not(self) -> FenceFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> FenceFlags { FenceFlags(!self.0) }
 }
 
 // Tellusim::Shader::Type
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum ShaderType {
-	Unknown = 0,
-	Vertex,
-	Control,
-	Evaluate,
-	Geometry,
-	Fragment,
-	Compute,
-	Task,
-	Mesh,
-	RayGen,
-	RayMiss,
-	Closest,
-	FirstHit,
-	Intersection,
-	Callable,
-	NumTypes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct ShaderType(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl ShaderType {
+	pub const Unknown: ShaderType = ShaderType(0);
+	pub const Vertex: ShaderType = ShaderType(1);
+	pub const Control: ShaderType = ShaderType(2);
+	pub const Evaluate: ShaderType = ShaderType(3);
+	pub const Geometry: ShaderType = ShaderType(4);
+	pub const Fragment: ShaderType = ShaderType(5);
+	pub const Compute: ShaderType = ShaderType(6);
+	pub const Task: ShaderType = ShaderType(7);
+	pub const Mesh: ShaderType = ShaderType(8);
+	pub const RayGen: ShaderType = ShaderType(9);
+	pub const RayMiss: ShaderType = ShaderType(10);
+	pub const Closest: ShaderType = ShaderType(11);
+	pub const FirstHit: ShaderType = ShaderType(12);
+	pub const Intersection: ShaderType = ShaderType(13);
+	pub const Callable: ShaderType = ShaderType(14);
+	pub const NumTypes: ShaderType = ShaderType(15);
+}
+
+impl ShaderType {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for ShaderType {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<ShaderType> for u32 {
+	fn eq(&self, value: &ShaderType) -> bool { *self == value.0 }
 }
 
 // Tellusim::Shader::Mask
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum ShaderMask {
-	None = 0,
-	Vertex = 2,
-	Control = 4,
-	Evaluate = 8,
-	Geometry = 16,
-	Fragment = 32,
-	Compute = 64,
-	Task = 128,
-	Mesh = 256,
-	RayGen = 512,
-	RayMiss = 1024,
-	Closest = 2048,
-	FirstHit = 4096,
-	Intersection = 8192,
-	Callable = 16384,
-	VertexFragment = 34,
-	Graphics = 62,
-	Tracing = 32256,
-	All = 32766,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct ShaderMask(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl ShaderMask {
-	pub fn has_flag(self, flag: ShaderMask) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: ShaderMask) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: ShaderMask = ShaderMask(0);
+	pub const Vertex: ShaderMask = ShaderMask(2);
+	pub const Control: ShaderMask = ShaderMask(4);
+	pub const Evaluate: ShaderMask = ShaderMask(8);
+	pub const Geometry: ShaderMask = ShaderMask(16);
+	pub const Fragment: ShaderMask = ShaderMask(32);
+	pub const Compute: ShaderMask = ShaderMask(64);
+	pub const Task: ShaderMask = ShaderMask(128);
+	pub const Mesh: ShaderMask = ShaderMask(256);
+	pub const RayGen: ShaderMask = ShaderMask(512);
+	pub const RayMiss: ShaderMask = ShaderMask(1024);
+	pub const Closest: ShaderMask = ShaderMask(2048);
+	pub const FirstHit: ShaderMask = ShaderMask(4096);
+	pub const Intersection: ShaderMask = ShaderMask(8192);
+	pub const Callable: ShaderMask = ShaderMask(16384);
+	pub const VertexFragment: ShaderMask = ShaderMask(34);
+	pub const Graphics: ShaderMask = ShaderMask(62);
+	pub const Tracing: ShaderMask = ShaderMask(32256);
+	pub const All: ShaderMask = ShaderMask(32766);
 }
-impl cmp::PartialEq for ShaderMask {
-	fn eq(&self, flags: &ShaderMask) -> bool { unsafe { *mem::transmute::<&ShaderMask, &u32>(self) as u32 == *mem::transmute::<&ShaderMask, &u32>(flags) as u32 } }
+
+impl ShaderMask {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: ShaderMask) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: ShaderMask) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for ShaderMask {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<ShaderMask> for u32 {
+	fn eq(&self, value: &ShaderMask) -> bool { *self == value.0 }
 }
 impl ops::BitOr for ShaderMask {
 	type Output = ShaderMask;
-	fn bitor(self, flags: ShaderMask) -> ShaderMask { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: ShaderMask) -> ShaderMask { ShaderMask(self.0 | flags.0) }
 }
 impl ops::BitAnd for ShaderMask {
 	type Output = ShaderMask;
-	fn bitand(self, flags: ShaderMask) -> ShaderMask { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: ShaderMask) -> ShaderMask { ShaderMask(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for ShaderMask {
-	fn bitor_assign(&mut self, flags: ShaderMask) { unsafe { *mem::transmute::<&mut ShaderMask, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: ShaderMask) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for ShaderMask {
-	fn bitand_assign(&mut self, flags: ShaderMask) { unsafe { *mem::transmute::<&mut ShaderMask, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: ShaderMask) { self.0 &= flags.0 }
 }
 impl ops::Not for ShaderMask {
 	type Output = ShaderMask;
-	fn not(self) -> ShaderMask { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> ShaderMask { ShaderMask(!self.0) }
 }
 
 // Tellusim::ShaderCompiler::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum ShaderCompilerFlags {
-	None = 0,
-	MSLIndirect = 1,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct ShaderCompilerFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl ShaderCompilerFlags {
-	pub fn has_flag(self, flag: ShaderCompilerFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: ShaderCompilerFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: ShaderCompilerFlags = ShaderCompilerFlags(0);
+	pub const MSLIndirect: ShaderCompilerFlags = ShaderCompilerFlags(1);
 }
-impl cmp::PartialEq for ShaderCompilerFlags {
-	fn eq(&self, flags: &ShaderCompilerFlags) -> bool { unsafe { *mem::transmute::<&ShaderCompilerFlags, &u32>(self) as u32 == *mem::transmute::<&ShaderCompilerFlags, &u32>(flags) as u32 } }
+
+impl ShaderCompilerFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: ShaderCompilerFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: ShaderCompilerFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for ShaderCompilerFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<ShaderCompilerFlags> for u32 {
+	fn eq(&self, value: &ShaderCompilerFlags) -> bool { *self == value.0 }
 }
 impl ops::BitOr for ShaderCompilerFlags {
 	type Output = ShaderCompilerFlags;
-	fn bitor(self, flags: ShaderCompilerFlags) -> ShaderCompilerFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: ShaderCompilerFlags) -> ShaderCompilerFlags { ShaderCompilerFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for ShaderCompilerFlags {
 	type Output = ShaderCompilerFlags;
-	fn bitand(self, flags: ShaderCompilerFlags) -> ShaderCompilerFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: ShaderCompilerFlags) -> ShaderCompilerFlags { ShaderCompilerFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for ShaderCompilerFlags {
-	fn bitor_assign(&mut self, flags: ShaderCompilerFlags) { unsafe { *mem::transmute::<&mut ShaderCompilerFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: ShaderCompilerFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for ShaderCompilerFlags {
-	fn bitand_assign(&mut self, flags: ShaderCompilerFlags) { unsafe { *mem::transmute::<&mut ShaderCompilerFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: ShaderCompilerFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for ShaderCompilerFlags {
 	type Output = ShaderCompilerFlags;
-	fn not(self) -> ShaderCompilerFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> ShaderCompilerFlags { ShaderCompilerFlags(!self.0) }
 }
 
 // Tellusim::Sampler::Filter
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum SamplerFilter {
-	Point = 0,
-	Linear,
-	Bipoint,
-	Bilinear,
-	Trilinear,
-	NumFilters,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct SamplerFilter(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl SamplerFilter {
+	pub const Point: SamplerFilter = SamplerFilter(0);
+	pub const Linear: SamplerFilter = SamplerFilter(1);
+	pub const Bipoint: SamplerFilter = SamplerFilter(2);
+	pub const Bilinear: SamplerFilter = SamplerFilter(3);
+	pub const Trilinear: SamplerFilter = SamplerFilter(4);
+	pub const NumFilters: SamplerFilter = SamplerFilter(5);
+}
+
+impl SamplerFilter {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for SamplerFilter {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<SamplerFilter> for u32 {
+	fn eq(&self, value: &SamplerFilter) -> bool { *self == value.0 }
 }
 
 // Tellusim::Sampler::
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum SamplerCommon {
-	MinAnisotropy = 1,
-	MaxAnisotropy = 16,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct SamplerCommon(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl SamplerCommon {
+	pub const MinAnisotropy: SamplerCommon = SamplerCommon(1);
+	pub const MaxAnisotropy: SamplerCommon = SamplerCommon(16);
+}
+
+impl SamplerCommon {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for SamplerCommon {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<SamplerCommon> for u32 {
+	fn eq(&self, value: &SamplerCommon) -> bool { *self == value.0 }
 }
 
 // Tellusim::Sampler::WrapMode
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum SamplerWrapMode {
-	Clamp = 0,
-	Repeat,
-	Mirror,
-	Border,
-	NumWrapModes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct SamplerWrapMode(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl SamplerWrapMode {
+	pub const Clamp: SamplerWrapMode = SamplerWrapMode(0);
+	pub const Repeat: SamplerWrapMode = SamplerWrapMode(1);
+	pub const Mirror: SamplerWrapMode = SamplerWrapMode(2);
+	pub const Border: SamplerWrapMode = SamplerWrapMode(3);
+	pub const NumWrapModes: SamplerWrapMode = SamplerWrapMode(4);
+}
+
+impl SamplerWrapMode {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for SamplerWrapMode {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<SamplerWrapMode> for u32 {
+	fn eq(&self, value: &SamplerWrapMode) -> bool { *self == value.0 }
 }
 
 // Tellusim::Sampler::CompareFunc
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum SamplerCompareFunc {
-	None = 0,
-	Equal,
-	Less,
-	Greater,
-	NotEqual,
-	LessEqual,
-	GreaterEqual,
-	NumCompareFunctions,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct SamplerCompareFunc(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl SamplerCompareFunc {
+	pub const None: SamplerCompareFunc = SamplerCompareFunc(0);
+	pub const Equal: SamplerCompareFunc = SamplerCompareFunc(1);
+	pub const Less: SamplerCompareFunc = SamplerCompareFunc(2);
+	pub const Greater: SamplerCompareFunc = SamplerCompareFunc(3);
+	pub const NotEqual: SamplerCompareFunc = SamplerCompareFunc(4);
+	pub const LessEqual: SamplerCompareFunc = SamplerCompareFunc(5);
+	pub const GreaterEqual: SamplerCompareFunc = SamplerCompareFunc(6);
+	pub const NumCompareFunctions: SamplerCompareFunc = SamplerCompareFunc(7);
+}
+
+impl SamplerCompareFunc {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for SamplerCompareFunc {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<SamplerCompareFunc> for u32 {
+	fn eq(&self, value: &SamplerCompareFunc) -> bool { *self == value.0 }
 }
 
 // Tellusim::Sampler::ReductionMode
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum SamplerReductionMode {
-	Average = 0,
-	Min,
-	Max,
-	NumReductionModes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct SamplerReductionMode(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl SamplerReductionMode {
+	pub const Average: SamplerReductionMode = SamplerReductionMode(0);
+	pub const Min: SamplerReductionMode = SamplerReductionMode(1);
+	pub const Max: SamplerReductionMode = SamplerReductionMode(2);
+	pub const NumReductionModes: SamplerReductionMode = SamplerReductionMode(3);
+}
+
+impl SamplerReductionMode {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for SamplerReductionMode {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<SamplerReductionMode> for u32 {
+	fn eq(&self, value: &SamplerReductionMode) -> bool { *self == value.0 }
 }
 
 // Tellusim::Texture::Type
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum TextureType {
-	Unknown = 0,
-	_2D,
-	_3D,
-	Cube,
-	NumTypes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct TextureType(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl TextureType {
+	pub const Unknown: TextureType = TextureType(0);
+	pub const _2D: TextureType = TextureType(1);
+	pub const _3D: TextureType = TextureType(2);
+	pub const Cube: TextureType = TextureType(3);
+	pub const NumTypes: TextureType = TextureType(4);
+}
+
+impl TextureType {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for TextureType {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<TextureType> for u32 {
+	fn eq(&self, value: &TextureType) -> bool { *self == value.0 }
 }
 
 // Tellusim::Texture::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum TextureFlags {
-	None = 0,
-	Read = 1,
-	Write = 2,
-	Target = 4,
-	Buffer = 8,
-	Source = 16,
-	Sparse = 32,
-	Shared = 64,
-	Extern = 128,
-	Interop = 256,
-	Surface = 512,
-	Mutable = 1024,
-	Mipmaps = 2048,
-	Generate = 4096,
-	FormatNorm = 8192,
-	FormatSRGB = 16384,
-	FormatSigned = 32768,
-	Multisample2 = 65536,
-	Multisample4 = 131072,
-	Multisample8 = 262144,
-	ClearOne = 524288,
-	ClearZero = 1048576,
-	ClearNormal = 2097152,
-	Multisample = 458752,
-	Num = 22,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct TextureFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl TextureFlags {
-	pub fn has_flag(self, flag: TextureFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: TextureFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: TextureFlags = TextureFlags(0);
+	pub const Read: TextureFlags = TextureFlags(1);
+	pub const Write: TextureFlags = TextureFlags(2);
+	pub const Target: TextureFlags = TextureFlags(4);
+	pub const Buffer: TextureFlags = TextureFlags(8);
+	pub const Source: TextureFlags = TextureFlags(16);
+	pub const Sparse: TextureFlags = TextureFlags(32);
+	pub const Shared: TextureFlags = TextureFlags(64);
+	pub const Extern: TextureFlags = TextureFlags(128);
+	pub const Interop: TextureFlags = TextureFlags(256);
+	pub const Surface: TextureFlags = TextureFlags(512);
+	pub const Mutable: TextureFlags = TextureFlags(1024);
+	pub const Mipmaps: TextureFlags = TextureFlags(2048);
+	pub const Generate: TextureFlags = TextureFlags(4096);
+	pub const FormatNorm: TextureFlags = TextureFlags(8192);
+	pub const FormatSRGB: TextureFlags = TextureFlags(16384);
+	pub const FormatSigned: TextureFlags = TextureFlags(32768);
+	pub const Multisample2: TextureFlags = TextureFlags(65536);
+	pub const Multisample4: TextureFlags = TextureFlags(131072);
+	pub const Multisample8: TextureFlags = TextureFlags(262144);
+	pub const ClearOne: TextureFlags = TextureFlags(524288);
+	pub const ClearZero: TextureFlags = TextureFlags(1048576);
+	pub const ClearNormal: TextureFlags = TextureFlags(2097152);
+	pub const Multisample: TextureFlags = TextureFlags(458752);
+	pub const Num: TextureFlags = TextureFlags(22);
+}
+
+impl TextureFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: TextureFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: TextureFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for TextureFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<TextureFlags> for u32 {
+	fn eq(&self, value: &TextureFlags) -> bool { *self == value.0 }
 }
 impl Default for TextureFlags {
 	fn default() -> TextureFlags { TextureFlags::None }
 }
-impl cmp::PartialEq for TextureFlags {
-	fn eq(&self, flags: &TextureFlags) -> bool { unsafe { *mem::transmute::<&TextureFlags, &u32>(self) as u32 == *mem::transmute::<&TextureFlags, &u32>(flags) as u32 } }
-}
 impl ops::BitOr for TextureFlags {
 	type Output = TextureFlags;
-	fn bitor(self, flags: TextureFlags) -> TextureFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: TextureFlags) -> TextureFlags { TextureFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for TextureFlags {
 	type Output = TextureFlags;
-	fn bitand(self, flags: TextureFlags) -> TextureFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: TextureFlags) -> TextureFlags { TextureFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for TextureFlags {
-	fn bitor_assign(&mut self, flags: TextureFlags) { unsafe { *mem::transmute::<&mut TextureFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: TextureFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for TextureFlags {
-	fn bitand_assign(&mut self, flags: TextureFlags) { unsafe { *mem::transmute::<&mut TextureFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: TextureFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for TextureFlags {
 	type Output = TextureFlags;
-	fn not(self) -> TextureFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> TextureFlags { TextureFlags(!self.0) }
 }
 
 // Tellusim::Tracing::Type
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum TracingType {
-	Unknown = 0,
-	Instance,
-	Triangle,
-	Bound,
-	NumTypes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct TracingType(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl TracingType {
+	pub const Unknown: TracingType = TracingType(0);
+	pub const Instance: TracingType = TracingType(1);
+	pub const Triangle: TracingType = TracingType(2);
+	pub const Bound: TracingType = TracingType(3);
+	pub const NumTypes: TracingType = TracingType(4);
+}
+
+impl TracingType {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for TracingType {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<TracingType> for u32 {
+	fn eq(&self, value: &TracingType) -> bool { *self == value.0 }
 }
 
 // Tellusim::Tracing::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum TracingFlags {
-	None = 0,
-	Info = 1,
-	Update = 2,
-	Compact = 4,
-	Transparent = 8,
-	FastBuild = 16,
-	FastTrace = 32,
-	Num = 6,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct TracingFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl TracingFlags {
-	pub fn has_flag(self, flag: TracingFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: TracingFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: TracingFlags = TracingFlags(0);
+	pub const Info: TracingFlags = TracingFlags(1);
+	pub const Update: TracingFlags = TracingFlags(2);
+	pub const Compact: TracingFlags = TracingFlags(4);
+	pub const Transparent: TracingFlags = TracingFlags(8);
+	pub const FastBuild: TracingFlags = TracingFlags(16);
+	pub const FastTrace: TracingFlags = TracingFlags(32);
+	pub const Num: TracingFlags = TracingFlags(6);
+}
+
+impl TracingFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: TracingFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: TracingFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for TracingFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<TracingFlags> for u32 {
+	fn eq(&self, value: &TracingFlags) -> bool { *self == value.0 }
 }
 impl Default for TracingFlags {
 	fn default() -> TracingFlags { TracingFlags::None }
 }
-impl cmp::PartialEq for TracingFlags {
-	fn eq(&self, flags: &TracingFlags) -> bool { unsafe { *mem::transmute::<&TracingFlags, &u32>(self) as u32 == *mem::transmute::<&TracingFlags, &u32>(flags) as u32 } }
-}
 impl ops::BitOr for TracingFlags {
 	type Output = TracingFlags;
-	fn bitor(self, flags: TracingFlags) -> TracingFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: TracingFlags) -> TracingFlags { TracingFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for TracingFlags {
 	type Output = TracingFlags;
-	fn bitand(self, flags: TracingFlags) -> TracingFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: TracingFlags) -> TracingFlags { TracingFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for TracingFlags {
-	fn bitor_assign(&mut self, flags: TracingFlags) { unsafe { *mem::transmute::<&mut TracingFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: TracingFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for TracingFlags {
-	fn bitand_assign(&mut self, flags: TracingFlags) { unsafe { *mem::transmute::<&mut TracingFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: TracingFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for TracingFlags {
 	type Output = TracingFlags;
-	fn not(self) -> TracingFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> TracingFlags { TracingFlags(!self.0) }
 }
 
 // Tellusim::Tracing::
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum TracingCommon {
-	InstanceSize = 64,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct TracingCommon(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl TracingCommon {
+	pub const InstanceSize: TracingCommon = TracingCommon(64);
+}
+
+impl TracingCommon {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for TracingCommon {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<TracingCommon> for u32 {
+	fn eq(&self, value: &TracingCommon) -> bool { *self == value.0 }
 }
 
 // Tellusim::Target::Operation
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum TargetOperation {
-	BeginLoad = 1,
-	BeginClear = 2,
-	BeginDiscard = 4,
-	BeginMask = 7,
-	EndStore = 8,
-	EndResolve = 16,
-	EndDiscard = 32,
-	EndMask = 56,
-	OpNone = 0,
-	OpLoadStore = 9,
-	OpClearStore = 10,
-	OpClearDiscard = 34,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct TargetOperation(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl TargetOperation {
+	pub const BeginLoad: TargetOperation = TargetOperation(1);
+	pub const BeginClear: TargetOperation = TargetOperation(2);
+	pub const BeginDiscard: TargetOperation = TargetOperation(4);
+	pub const BeginMask: TargetOperation = TargetOperation(7);
+	pub const EndStore: TargetOperation = TargetOperation(8);
+	pub const EndResolve: TargetOperation = TargetOperation(16);
+	pub const EndDiscard: TargetOperation = TargetOperation(32);
+	pub const EndMask: TargetOperation = TargetOperation(56);
+	pub const OpNone: TargetOperation = TargetOperation(0);
+	pub const OpLoadStore: TargetOperation = TargetOperation(9);
+	pub const OpClearStore: TargetOperation = TargetOperation(10);
+	pub const OpClearDiscard: TargetOperation = TargetOperation(34);
+}
+
+impl TargetOperation {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for TargetOperation {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<TargetOperation> for u32 {
+	fn eq(&self, value: &TargetOperation) -> bool { *self == value.0 }
 }
 
 // Tellusim::Pipeline::Primitive
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum PipelinePrimitive {
-	Point = 0,
-	PointPatch,
-	Line,
-	LineAdj,
-	LineStrip,
-	LinePatch,
-	Triangle,
-	TriangleAdj,
-	TriangleStrip,
-	TrianglePatch,
-	QuadrilateralPatch,
-	NumPrimitiveTypes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct PipelinePrimitive(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl PipelinePrimitive {
+	pub const Point: PipelinePrimitive = PipelinePrimitive(0);
+	pub const PointPatch: PipelinePrimitive = PipelinePrimitive(1);
+	pub const Line: PipelinePrimitive = PipelinePrimitive(2);
+	pub const LineAdj: PipelinePrimitive = PipelinePrimitive(3);
+	pub const LineStrip: PipelinePrimitive = PipelinePrimitive(4);
+	pub const LinePatch: PipelinePrimitive = PipelinePrimitive(5);
+	pub const Triangle: PipelinePrimitive = PipelinePrimitive(6);
+	pub const TriangleAdj: PipelinePrimitive = PipelinePrimitive(7);
+	pub const TriangleStrip: PipelinePrimitive = PipelinePrimitive(8);
+	pub const TrianglePatch: PipelinePrimitive = PipelinePrimitive(9);
+	pub const QuadrilateralPatch: PipelinePrimitive = PipelinePrimitive(10);
+	pub const NumPrimitiveTypes: PipelinePrimitive = PipelinePrimitive(11);
+}
+
+impl PipelinePrimitive {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for PipelinePrimitive {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<PipelinePrimitive> for u32 {
+	fn eq(&self, value: &PipelinePrimitive) -> bool { *self == value.0 }
 }
 
 // Tellusim::Pipeline::Attribute
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum PipelineAttribute {
-	Position = 0,
-	Basis,
-	Normal,
-	Tangent,
-	Binormal,
-	TexCoord,
-	Weights,
-	Joints,
-	Color,
-	Index,
-	NumAttributeTypes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct PipelineAttribute(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl PipelineAttribute {
+	pub const Position: PipelineAttribute = PipelineAttribute(0);
+	pub const Basis: PipelineAttribute = PipelineAttribute(1);
+	pub const Normal: PipelineAttribute = PipelineAttribute(2);
+	pub const Tangent: PipelineAttribute = PipelineAttribute(3);
+	pub const Binormal: PipelineAttribute = PipelineAttribute(4);
+	pub const TexCoord: PipelineAttribute = PipelineAttribute(5);
+	pub const Weights: PipelineAttribute = PipelineAttribute(6);
+	pub const Joints: PipelineAttribute = PipelineAttribute(7);
+	pub const Color: PipelineAttribute = PipelineAttribute(8);
+	pub const Index: PipelineAttribute = PipelineAttribute(9);
+	pub const NumAttributeTypes: PipelineAttribute = PipelineAttribute(10);
+}
+
+impl PipelineAttribute {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for PipelineAttribute {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<PipelineAttribute> for u32 {
+	fn eq(&self, value: &PipelineAttribute) -> bool { *self == value.0 }
 }
 
 // Tellusim::Pipeline::FillMode
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum PipelineFillMode {
-	Line = 0,
-	Solid,
-	NumFillModes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct PipelineFillMode(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl PipelineFillMode {
+	pub const Line: PipelineFillMode = PipelineFillMode(0);
+	pub const Solid: PipelineFillMode = PipelineFillMode(1);
+	pub const NumFillModes: PipelineFillMode = PipelineFillMode(2);
+}
+
+impl PipelineFillMode {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for PipelineFillMode {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<PipelineFillMode> for u32 {
+	fn eq(&self, value: &PipelineFillMode) -> bool { *self == value.0 }
 }
 
 // Tellusim::Pipeline::CullMode
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum PipelineCullMode {
-	None = 0,
-	Back,
-	Front,
-	NumCullModes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct PipelineCullMode(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl PipelineCullMode {
+	pub const None: PipelineCullMode = PipelineCullMode(0);
+	pub const Back: PipelineCullMode = PipelineCullMode(1);
+	pub const Front: PipelineCullMode = PipelineCullMode(2);
+	pub const NumCullModes: PipelineCullMode = PipelineCullMode(3);
+}
+
+impl PipelineCullMode {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for PipelineCullMode {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<PipelineCullMode> for u32 {
+	fn eq(&self, value: &PipelineCullMode) -> bool { *self == value.0 }
 }
 
 // Tellusim::Pipeline::FrontMode
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum PipelineFrontMode {
-	CCW = 0,
-	CW,
-	NumFrontModes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct PipelineFrontMode(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl PipelineFrontMode {
+	pub const CCW: PipelineFrontMode = PipelineFrontMode(0);
+	pub const CW: PipelineFrontMode = PipelineFrontMode(1);
+	pub const NumFrontModes: PipelineFrontMode = PipelineFrontMode(2);
+}
+
+impl PipelineFrontMode {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for PipelineFrontMode {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<PipelineFrontMode> for u32 {
+	fn eq(&self, value: &PipelineFrontMode) -> bool { *self == value.0 }
 }
 
 // Tellusim::Pipeline::BlendOp
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum PipelineBlendOp {
-	Add = 0,
-	Sub,
-	Min,
-	Max,
-	NumBlendOperations,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct PipelineBlendOp(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl PipelineBlendOp {
+	pub const Add: PipelineBlendOp = PipelineBlendOp(0);
+	pub const Sub: PipelineBlendOp = PipelineBlendOp(1);
+	pub const Min: PipelineBlendOp = PipelineBlendOp(2);
+	pub const Max: PipelineBlendOp = PipelineBlendOp(3);
+	pub const NumBlendOperations: PipelineBlendOp = PipelineBlendOp(4);
+}
+
+impl PipelineBlendOp {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for PipelineBlendOp {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<PipelineBlendOp> for u32 {
+	fn eq(&self, value: &PipelineBlendOp) -> bool { *self == value.0 }
 }
 
 // Tellusim::Pipeline::BlendFunc
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum PipelineBlendFunc {
-	None = 0,
-	Zero,
-	One,
-	SrcColor,
-	SrcAlpha,
-	Src1Color,
-	Src1Alpha,
-	DestColor,
-	DestAlpha,
-	FactorColor,
-	FactorAlpha,
-	InvSrcColor,
-	InvSrcAlpha,
-	InvSrc1Color,
-	InvSrc1Alpha,
-	InvDestColor,
-	InvDestAlpha,
-	InvFactorColor,
-	InvFactorAlpha,
-	NumBlendFunctions,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct PipelineBlendFunc(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl PipelineBlendFunc {
+	pub const None: PipelineBlendFunc = PipelineBlendFunc(0);
+	pub const Zero: PipelineBlendFunc = PipelineBlendFunc(1);
+	pub const One: PipelineBlendFunc = PipelineBlendFunc(2);
+	pub const SrcColor: PipelineBlendFunc = PipelineBlendFunc(3);
+	pub const SrcAlpha: PipelineBlendFunc = PipelineBlendFunc(4);
+	pub const Src1Color: PipelineBlendFunc = PipelineBlendFunc(5);
+	pub const Src1Alpha: PipelineBlendFunc = PipelineBlendFunc(6);
+	pub const DestColor: PipelineBlendFunc = PipelineBlendFunc(7);
+	pub const DestAlpha: PipelineBlendFunc = PipelineBlendFunc(8);
+	pub const FactorColor: PipelineBlendFunc = PipelineBlendFunc(9);
+	pub const FactorAlpha: PipelineBlendFunc = PipelineBlendFunc(10);
+	pub const InvSrcColor: PipelineBlendFunc = PipelineBlendFunc(11);
+	pub const InvSrcAlpha: PipelineBlendFunc = PipelineBlendFunc(12);
+	pub const InvSrc1Color: PipelineBlendFunc = PipelineBlendFunc(13);
+	pub const InvSrc1Alpha: PipelineBlendFunc = PipelineBlendFunc(14);
+	pub const InvDestColor: PipelineBlendFunc = PipelineBlendFunc(15);
+	pub const InvDestAlpha: PipelineBlendFunc = PipelineBlendFunc(16);
+	pub const InvFactorColor: PipelineBlendFunc = PipelineBlendFunc(17);
+	pub const InvFactorAlpha: PipelineBlendFunc = PipelineBlendFunc(18);
+	pub const NumBlendFunctions: PipelineBlendFunc = PipelineBlendFunc(19);
+}
+
+impl PipelineBlendFunc {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for PipelineBlendFunc {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<PipelineBlendFunc> for u32 {
+	fn eq(&self, value: &PipelineBlendFunc) -> bool { *self == value.0 }
 }
 
 // Tellusim::Pipeline::ColorMask
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum PipelineColorMask {
-	None = 0,
-	R = 1,
-	G = 2,
-	B = 4,
-	A = 8,
-	Unknown = 16,
-	RGB = 7,
-	All = 15,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct PipelineColorMask(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl PipelineColorMask {
+	pub const None: PipelineColorMask = PipelineColorMask(0);
+	pub const R: PipelineColorMask = PipelineColorMask(1);
+	pub const G: PipelineColorMask = PipelineColorMask(2);
+	pub const B: PipelineColorMask = PipelineColorMask(4);
+	pub const A: PipelineColorMask = PipelineColorMask(8);
+	pub const Unknown: PipelineColorMask = PipelineColorMask(16);
+	pub const RGB: PipelineColorMask = PipelineColorMask(7);
+	pub const All: PipelineColorMask = PipelineColorMask(15);
+}
+
+impl PipelineColorMask {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for PipelineColorMask {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<PipelineColorMask> for u32 {
+	fn eq(&self, value: &PipelineColorMask) -> bool { *self == value.0 }
 }
 
 // Tellusim::Pipeline::DepthMask
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum PipelineDepthMask {
-	None = 0,
-	Read,
-	Write,
-	NumDepthMasks,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct PipelineDepthMask(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl PipelineDepthMask {
+	pub const None: PipelineDepthMask = PipelineDepthMask(0);
+	pub const Read: PipelineDepthMask = PipelineDepthMask(1);
+	pub const Write: PipelineDepthMask = PipelineDepthMask(2);
+	pub const NumDepthMasks: PipelineDepthMask = PipelineDepthMask(3);
+}
+
+impl PipelineDepthMask {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for PipelineDepthMask {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<PipelineDepthMask> for u32 {
+	fn eq(&self, value: &PipelineDepthMask) -> bool { *self == value.0 }
 }
 
 // Tellusim::Pipeline::DepthFunc
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum PipelineDepthFunc {
-	None = 0,
-	Never,
-	Always,
-	Equal,
-	Less,
-	Greater,
-	NotEqual,
-	LessEqual,
-	GreaterEqual,
-	NumDepthFunctions,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct PipelineDepthFunc(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl PipelineDepthFunc {
+	pub const None: PipelineDepthFunc = PipelineDepthFunc(0);
+	pub const Never: PipelineDepthFunc = PipelineDepthFunc(1);
+	pub const Always: PipelineDepthFunc = PipelineDepthFunc(2);
+	pub const Equal: PipelineDepthFunc = PipelineDepthFunc(3);
+	pub const Less: PipelineDepthFunc = PipelineDepthFunc(4);
+	pub const Greater: PipelineDepthFunc = PipelineDepthFunc(5);
+	pub const NotEqual: PipelineDepthFunc = PipelineDepthFunc(6);
+	pub const LessEqual: PipelineDepthFunc = PipelineDepthFunc(7);
+	pub const GreaterEqual: PipelineDepthFunc = PipelineDepthFunc(8);
+	pub const NumDepthFunctions: PipelineDepthFunc = PipelineDepthFunc(9);
+}
+
+impl PipelineDepthFunc {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for PipelineDepthFunc {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<PipelineDepthFunc> for u32 {
+	fn eq(&self, value: &PipelineDepthFunc) -> bool { *self == value.0 }
 }
 
 // Tellusim::Pipeline::StencilOp
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum PipelineStencilOp {
-	Keep = 0,
-	Invert,
-	Replace,
-	IncrWrap,
-	DecrWrap,
-	IncrSat,
-	DecrSat,
-	NumStencilOperations,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct PipelineStencilOp(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl PipelineStencilOp {
+	pub const Keep: PipelineStencilOp = PipelineStencilOp(0);
+	pub const Invert: PipelineStencilOp = PipelineStencilOp(1);
+	pub const Replace: PipelineStencilOp = PipelineStencilOp(2);
+	pub const IncrWrap: PipelineStencilOp = PipelineStencilOp(3);
+	pub const DecrWrap: PipelineStencilOp = PipelineStencilOp(4);
+	pub const IncrSat: PipelineStencilOp = PipelineStencilOp(5);
+	pub const DecrSat: PipelineStencilOp = PipelineStencilOp(6);
+	pub const NumStencilOperations: PipelineStencilOp = PipelineStencilOp(7);
+}
+
+impl PipelineStencilOp {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for PipelineStencilOp {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<PipelineStencilOp> for u32 {
+	fn eq(&self, value: &PipelineStencilOp) -> bool { *self == value.0 }
 }
 
 // Tellusim::Pipeline::StencilFunc
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum PipelineStencilFunc {
-	None = 0,
-	Never,
-	Always,
-	Equal,
-	Less,
-	Greater,
-	NotEqual,
-	LessEqual,
-	GreaterEqual,
-	NumStencilFunctions,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct PipelineStencilFunc(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl PipelineStencilFunc {
+	pub const None: PipelineStencilFunc = PipelineStencilFunc(0);
+	pub const Never: PipelineStencilFunc = PipelineStencilFunc(1);
+	pub const Always: PipelineStencilFunc = PipelineStencilFunc(2);
+	pub const Equal: PipelineStencilFunc = PipelineStencilFunc(3);
+	pub const Less: PipelineStencilFunc = PipelineStencilFunc(4);
+	pub const Greater: PipelineStencilFunc = PipelineStencilFunc(5);
+	pub const NotEqual: PipelineStencilFunc = PipelineStencilFunc(6);
+	pub const LessEqual: PipelineStencilFunc = PipelineStencilFunc(7);
+	pub const GreaterEqual: PipelineStencilFunc = PipelineStencilFunc(8);
+	pub const NumStencilFunctions: PipelineStencilFunc = PipelineStencilFunc(9);
+}
+
+impl PipelineStencilFunc {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for PipelineStencilFunc {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<PipelineStencilFunc> for u32 {
+	fn eq(&self, value: &PipelineStencilFunc) -> bool { *self == value.0 }
 }
 
 // Tellusim::Window::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum WindowFlags {
-	None = 0,
-	Title = 1,
-	Close = 2,
-	Frame = 4,
-	Resize = 8,
-	Minimize = 16,
-	Maximize = 32,
-	Transient = 64,
-	Fullscreen = 128,
-	Transparent = 256,
-	FileDropped = 512,
-	Multisample2 = 1024,
-	Multisample4 = 2048,
-	Multisample8 = 4096,
-	VerticalSync = 8192,
-	RefreshSync = 16384,
-	ColorRGBAu8ns = 32768,
-	ColorRGBu10Au2n = 65536,
-	ColorRGBAf16 = 131072,
-	Multisample = 7168,
-	Default = 59,
-	Num = 18,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct WindowFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl WindowFlags {
-	pub fn has_flag(self, flag: WindowFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: WindowFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: WindowFlags = WindowFlags(0);
+	pub const Title: WindowFlags = WindowFlags(1);
+	pub const Close: WindowFlags = WindowFlags(2);
+	pub const Frame: WindowFlags = WindowFlags(4);
+	pub const Resize: WindowFlags = WindowFlags(8);
+	pub const Minimize: WindowFlags = WindowFlags(16);
+	pub const Maximize: WindowFlags = WindowFlags(32);
+	pub const Transient: WindowFlags = WindowFlags(64);
+	pub const Fullscreen: WindowFlags = WindowFlags(128);
+	pub const Transparent: WindowFlags = WindowFlags(256);
+	pub const FileDropped: WindowFlags = WindowFlags(512);
+	pub const Multisample2: WindowFlags = WindowFlags(1024);
+	pub const Multisample4: WindowFlags = WindowFlags(2048);
+	pub const Multisample8: WindowFlags = WindowFlags(4096);
+	pub const VerticalSync: WindowFlags = WindowFlags(8192);
+	pub const RefreshSync: WindowFlags = WindowFlags(16384);
+	pub const ColorRGBAu8ns: WindowFlags = WindowFlags(32768);
+	pub const ColorRGBu10Au2n: WindowFlags = WindowFlags(65536);
+	pub const ColorRGBAf16: WindowFlags = WindowFlags(131072);
+	pub const Multisample: WindowFlags = WindowFlags(7168);
+	pub const Default: WindowFlags = WindowFlags(59);
+	pub const Num: WindowFlags = WindowFlags(18);
+}
+
+impl WindowFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: WindowFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: WindowFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for WindowFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<WindowFlags> for u32 {
+	fn eq(&self, value: &WindowFlags) -> bool { *self == value.0 }
 }
 impl Default for WindowFlags {
 	fn default() -> WindowFlags { WindowFlags::Default }
 }
-impl cmp::PartialEq for WindowFlags {
-	fn eq(&self, flags: &WindowFlags) -> bool { unsafe { *mem::transmute::<&WindowFlags, &u32>(self) as u32 == *mem::transmute::<&WindowFlags, &u32>(flags) as u32 } }
-}
 impl ops::BitOr for WindowFlags {
 	type Output = WindowFlags;
-	fn bitor(self, flags: WindowFlags) -> WindowFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: WindowFlags) -> WindowFlags { WindowFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for WindowFlags {
 	type Output = WindowFlags;
-	fn bitand(self, flags: WindowFlags) -> WindowFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: WindowFlags) -> WindowFlags { WindowFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for WindowFlags {
-	fn bitor_assign(&mut self, flags: WindowFlags) { unsafe { *mem::transmute::<&mut WindowFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: WindowFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for WindowFlags {
-	fn bitand_assign(&mut self, flags: WindowFlags) { unsafe { *mem::transmute::<&mut WindowFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: WindowFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for WindowFlags {
 	type Output = WindowFlags;
-	fn not(self) -> WindowFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> WindowFlags { WindowFlags(!self.0) }
 }
 
 // Tellusim::Window::Cursor
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum WindowCursor {
-	Arrow = 0,
-	Invalid,
-	Left,
-	Right,
-	Bottom,
-	Top,
-	Width,
-	Height,
-	Major,
-	Minor,
-	All,
-	NumCursors,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct WindowCursor(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl WindowCursor {
+	pub const Arrow: WindowCursor = WindowCursor(0);
+	pub const Invalid: WindowCursor = WindowCursor(1);
+	pub const Left: WindowCursor = WindowCursor(2);
+	pub const Right: WindowCursor = WindowCursor(3);
+	pub const Bottom: WindowCursor = WindowCursor(4);
+	pub const Top: WindowCursor = WindowCursor(5);
+	pub const Width: WindowCursor = WindowCursor(6);
+	pub const Height: WindowCursor = WindowCursor(7);
+	pub const Major: WindowCursor = WindowCursor(8);
+	pub const Minor: WindowCursor = WindowCursor(9);
+	pub const All: WindowCursor = WindowCursor(10);
+	pub const NumCursors: WindowCursor = WindowCursor(11);
+}
+
+impl WindowCursor {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for WindowCursor {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<WindowCursor> for u32 {
+	fn eq(&self, value: &WindowCursor) -> bool { *self == value.0 }
 }
 
 // Tellusim::Window::Button
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum WindowButton {
-	None = 0,
-	Left = 1,
-	Left2 = 2,
-	Right = 4,
-	Right2 = 8,
-	Middle = 16,
-	Middle2 = 32,
-	Back = 64,
-	Back2 = 128,
-	Forward = 256,
-	Forward2 = 512,
-	NumButtons = 10,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct WindowButton(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl WindowButton {
-	pub fn has_flag(self, flag: WindowButton) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: WindowButton) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: WindowButton = WindowButton(0);
+	pub const Left: WindowButton = WindowButton(1);
+	pub const Left2: WindowButton = WindowButton(2);
+	pub const Right: WindowButton = WindowButton(4);
+	pub const Right2: WindowButton = WindowButton(8);
+	pub const Middle: WindowButton = WindowButton(16);
+	pub const Middle2: WindowButton = WindowButton(32);
+	pub const Back: WindowButton = WindowButton(64);
+	pub const Back2: WindowButton = WindowButton(128);
+	pub const Forward: WindowButton = WindowButton(256);
+	pub const Forward2: WindowButton = WindowButton(512);
+	pub const NumButtons: WindowButton = WindowButton(10);
 }
-impl cmp::PartialEq for WindowButton {
-	fn eq(&self, flags: &WindowButton) -> bool { unsafe { *mem::transmute::<&WindowButton, &u32>(self) as u32 == *mem::transmute::<&WindowButton, &u32>(flags) as u32 } }
+
+impl WindowButton {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: WindowButton) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: WindowButton) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for WindowButton {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<WindowButton> for u32 {
+	fn eq(&self, value: &WindowButton) -> bool { *self == value.0 }
 }
 impl ops::BitOr for WindowButton {
 	type Output = WindowButton;
-	fn bitor(self, flags: WindowButton) -> WindowButton { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: WindowButton) -> WindowButton { WindowButton(self.0 | flags.0) }
 }
 impl ops::BitAnd for WindowButton {
 	type Output = WindowButton;
-	fn bitand(self, flags: WindowButton) -> WindowButton { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: WindowButton) -> WindowButton { WindowButton(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for WindowButton {
-	fn bitor_assign(&mut self, flags: WindowButton) { unsafe { *mem::transmute::<&mut WindowButton, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: WindowButton) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for WindowButton {
-	fn bitand_assign(&mut self, flags: WindowButton) { unsafe { *mem::transmute::<&mut WindowButton, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: WindowButton) { self.0 &= flags.0 }
 }
 impl ops::Not for WindowButton {
 	type Output = WindowButton;
-	fn not(self) -> WindowButton { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> WindowButton { WindowButton(!self.0) }
 }
 
 // Tellusim::Window::Axis
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum WindowAxis {
-	X = 0,
-	Y,
-	Z,
-	W,
-	NumAxes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct WindowAxis(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl WindowAxis {
+	pub const X: WindowAxis = WindowAxis(0);
+	pub const Y: WindowAxis = WindowAxis(1);
+	pub const Z: WindowAxis = WindowAxis(2);
+	pub const W: WindowAxis = WindowAxis(3);
+	pub const NumAxes: WindowAxis = WindowAxis(4);
+}
+
+impl WindowAxis {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for WindowAxis {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<WindowAxis> for u32 {
+	fn eq(&self, value: &WindowAxis) -> bool { *self == value.0 }
 }
 
 // Tellusim::Window::
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum WindowCommon {
-	NumTouches = 16,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct WindowCommon(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl WindowCommon {
+	pub const NumTouches: WindowCommon = WindowCommon(16);
+}
+
+impl WindowCommon {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for WindowCommon {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<WindowCommon> for u32 {
+	fn eq(&self, value: &WindowCommon) -> bool { *self == value.0 }
 }
 
 // Tellusim::Window::Key
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum WindowKey {
-	None = 128,
-	Esc,
-	Tab,
-	Backspace,
-	Delete,
-	Insert,
-	Return,
-	Pause,
-	Prior,
-	Next,
-	End,
-	Home,
-	Up,
-	Down,
-	Left,
-	Right,
-	Num,
-	Caps,
-	Scroll,
-	Shift,
-	Ctrl,
-	Alt,
-	Win,
-	Cmd,
-	Menu,
-	F1,
-	F2,
-	F3,
-	F4,
-	F5,
-	F6,
-	F7,
-	F8,
-	F9,
-	F10,
-	F11,
-	F12,
-	NumKeys,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct WindowKey(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl WindowKey {
+	pub const None: WindowKey = WindowKey(128);
+	pub const Esc: WindowKey = WindowKey(129);
+	pub const Tab: WindowKey = WindowKey(130);
+	pub const Backspace: WindowKey = WindowKey(131);
+	pub const Delete: WindowKey = WindowKey(132);
+	pub const Insert: WindowKey = WindowKey(133);
+	pub const Return: WindowKey = WindowKey(134);
+	pub const Pause: WindowKey = WindowKey(135);
+	pub const Prior: WindowKey = WindowKey(136);
+	pub const Next: WindowKey = WindowKey(137);
+	pub const End: WindowKey = WindowKey(138);
+	pub const Home: WindowKey = WindowKey(139);
+	pub const Up: WindowKey = WindowKey(140);
+	pub const Down: WindowKey = WindowKey(141);
+	pub const Left: WindowKey = WindowKey(142);
+	pub const Right: WindowKey = WindowKey(143);
+	pub const Num: WindowKey = WindowKey(144);
+	pub const Caps: WindowKey = WindowKey(145);
+	pub const Scroll: WindowKey = WindowKey(146);
+	pub const Shift: WindowKey = WindowKey(147);
+	pub const Ctrl: WindowKey = WindowKey(148);
+	pub const Alt: WindowKey = WindowKey(149);
+	pub const Win: WindowKey = WindowKey(150);
+	pub const Cmd: WindowKey = WindowKey(151);
+	pub const Menu: WindowKey = WindowKey(152);
+	pub const F1: WindowKey = WindowKey(153);
+	pub const F2: WindowKey = WindowKey(154);
+	pub const F3: WindowKey = WindowKey(155);
+	pub const F4: WindowKey = WindowKey(156);
+	pub const F5: WindowKey = WindowKey(157);
+	pub const F6: WindowKey = WindowKey(158);
+	pub const F7: WindowKey = WindowKey(159);
+	pub const F8: WindowKey = WindowKey(160);
+	pub const F9: WindowKey = WindowKey(161);
+	pub const F10: WindowKey = WindowKey(162);
+	pub const F11: WindowKey = WindowKey(163);
+	pub const F12: WindowKey = WindowKey(164);
+	pub const NumKeys: WindowKey = WindowKey(165);
+}
+
+impl WindowKey {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for WindowKey {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<WindowKey> for u32 {
+	fn eq(&self, value: &WindowKey) -> bool { *self == value.0 }
 }
 
 // Tellusim::CanvasElement::Type
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum CanvasElementType {
-	Unknown = 0,
-	Text,
-	Mesh,
-	Rect,
-	Triangle,
-	Ellipse,
-	Shape,
-	Strip,
-	NumTypes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct CanvasElementType(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl CanvasElementType {
+	pub const Unknown: CanvasElementType = CanvasElementType(0);
+	pub const Text: CanvasElementType = CanvasElementType(1);
+	pub const Mesh: CanvasElementType = CanvasElementType(2);
+	pub const Rect: CanvasElementType = CanvasElementType(3);
+	pub const Triangle: CanvasElementType = CanvasElementType(4);
+	pub const Ellipse: CanvasElementType = CanvasElementType(5);
+	pub const Shape: CanvasElementType = CanvasElementType(6);
+	pub const Strip: CanvasElementType = CanvasElementType(7);
+	pub const NumTypes: CanvasElementType = CanvasElementType(8);
+}
+
+impl CanvasElementType {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for CanvasElementType {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<CanvasElementType> for u32 {
+	fn eq(&self, value: &CanvasElementType) -> bool { *self == value.0 }
 }
 
 // Tellusim::CanvasElement::Mode
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum CanvasElementMode {
-	Solid = 0,
-	Texture,
-	TextureFetch,
-	TextureClamp,
-	TextureCubic,
-	TextureCubic3x3,
-	TextureCubic5x5,
-	TextureRed,
-	TextureGreen,
-	TextureBlue,
-	TextureAlpha,
-	TextureYOG,
-	Gradient,
-	NumModes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct CanvasElementMode(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl CanvasElementMode {
+	pub const Solid: CanvasElementMode = CanvasElementMode(0);
+	pub const Texture: CanvasElementMode = CanvasElementMode(1);
+	pub const TextureFetch: CanvasElementMode = CanvasElementMode(2);
+	pub const TextureClamp: CanvasElementMode = CanvasElementMode(3);
+	pub const TextureCubic: CanvasElementMode = CanvasElementMode(4);
+	pub const TextureCubic3x3: CanvasElementMode = CanvasElementMode(5);
+	pub const TextureCubic5x5: CanvasElementMode = CanvasElementMode(6);
+	pub const TextureRed: CanvasElementMode = CanvasElementMode(7);
+	pub const TextureGreen: CanvasElementMode = CanvasElementMode(8);
+	pub const TextureBlue: CanvasElementMode = CanvasElementMode(9);
+	pub const TextureAlpha: CanvasElementMode = CanvasElementMode(10);
+	pub const TextureYOG: CanvasElementMode = CanvasElementMode(11);
+	pub const Gradient: CanvasElementMode = CanvasElementMode(12);
+	pub const NumModes: CanvasElementMode = CanvasElementMode(13);
+}
+
+impl CanvasElementMode {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for CanvasElementMode {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<CanvasElementMode> for u32 {
+	fn eq(&self, value: &CanvasElementMode) -> bool { *self == value.0 }
 }
 
 // Tellusim::CanvasElement::Align
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum CanvasElementAlign {
-	None = 0,
-	Left = 1,
-	Right = 2,
-	Bottom = 4,
-	Top = 8,
-	CenterX = 16,
-	CenterY = 32,
-	LeftBottom = 5,
-	LeftTop = 9,
-	RightBottom = 6,
-	RightTop = 10,
-	Center = 48,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct CanvasElementAlign(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl CanvasElementAlign {
+	pub const None: CanvasElementAlign = CanvasElementAlign(0);
+	pub const Left: CanvasElementAlign = CanvasElementAlign(1);
+	pub const Right: CanvasElementAlign = CanvasElementAlign(2);
+	pub const Bottom: CanvasElementAlign = CanvasElementAlign(4);
+	pub const Top: CanvasElementAlign = CanvasElementAlign(8);
+	pub const CenterX: CanvasElementAlign = CanvasElementAlign(16);
+	pub const CenterY: CanvasElementAlign = CanvasElementAlign(32);
+	pub const LeftBottom: CanvasElementAlign = CanvasElementAlign(5);
+	pub const LeftTop: CanvasElementAlign = CanvasElementAlign(9);
+	pub const RightBottom: CanvasElementAlign = CanvasElementAlign(6);
+	pub const RightTop: CanvasElementAlign = CanvasElementAlign(10);
+	pub const Center: CanvasElementAlign = CanvasElementAlign(48);
+}
+
+impl CanvasElementAlign {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for CanvasElementAlign {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<CanvasElementAlign> for u32 {
+	fn eq(&self, value: &CanvasElementAlign) -> bool { *self == value.0 }
 }
 
 // Tellusim::CanvasElement::Stack
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum CanvasElementStack {
-	None = 0,
-	Push = 1,
-	Pop = 2,
-	Set = 4,
-	Mul = 8,
-	Get = 16,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct CanvasElementStack(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl CanvasElementStack {
+	pub const None: CanvasElementStack = CanvasElementStack(0);
+	pub const Push: CanvasElementStack = CanvasElementStack(1);
+	pub const Pop: CanvasElementStack = CanvasElementStack(2);
+	pub const Set: CanvasElementStack = CanvasElementStack(4);
+	pub const Mul: CanvasElementStack = CanvasElementStack(8);
+	pub const Get: CanvasElementStack = CanvasElementStack(16);
+}
+
+impl CanvasElementStack {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for CanvasElementStack {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<CanvasElementStack> for u32 {
+	fn eq(&self, value: &CanvasElementStack) -> bool { *self == value.0 }
 }
 
 // Tellusim::Control::Type
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum ControlType {
-	Unknown = 0,
-	Root,
-	Text,
-	Rect,
-	Grid,
-	Group,
-	Panel,
-	Dialog,
-	Window,
-	Check,
-	Combo,
-	Button,
-	Slider,
-	Scroll,
-	Split,
-	Area,
-	Tree,
-	Edit,
-	NumTypes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct ControlType(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl ControlType {
+	pub const Unknown: ControlType = ControlType(0);
+	pub const Root: ControlType = ControlType(1);
+	pub const Text: ControlType = ControlType(2);
+	pub const Rect: ControlType = ControlType(3);
+	pub const Grid: ControlType = ControlType(4);
+	pub const Group: ControlType = ControlType(5);
+	pub const Panel: ControlType = ControlType(6);
+	pub const Dialog: ControlType = ControlType(7);
+	pub const Window: ControlType = ControlType(8);
+	pub const Check: ControlType = ControlType(9);
+	pub const Combo: ControlType = ControlType(10);
+	pub const Button: ControlType = ControlType(11);
+	pub const Slider: ControlType = ControlType(12);
+	pub const Scroll: ControlType = ControlType(13);
+	pub const Split: ControlType = ControlType(14);
+	pub const Area: ControlType = ControlType(15);
+	pub const Tree: ControlType = ControlType(16);
+	pub const Edit: ControlType = ControlType(17);
+	pub const NumTypes: ControlType = ControlType(18);
+}
+
+impl ControlType {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for ControlType {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<ControlType> for u32 {
+	fn eq(&self, value: &ControlType) -> bool { *self == value.0 }
 }
 
 // Tellusim::Control::State
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum ControlState {
-	Unknown = 0,
-	Normal,
-	Focused,
-	Pressed,
-	Disabled,
-	NumStates,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct ControlState(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl ControlState {
+	pub const Unknown: ControlState = ControlState(0);
+	pub const Normal: ControlState = ControlState(1);
+	pub const Focused: ControlState = ControlState(2);
+	pub const Pressed: ControlState = ControlState(3);
+	pub const Disabled: ControlState = ControlState(4);
+	pub const NumStates: ControlState = ControlState(5);
+}
+
+impl ControlState {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for ControlState {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<ControlState> for u32 {
+	fn eq(&self, value: &ControlState) -> bool { *self == value.0 }
 }
 
 // Tellusim::Control::Mesh
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum ControlMesh {
-	Check = 0,
-	Button,
-	SliderLine,
-	HScrollLine,
-	VScrollLine,
-	SliderHandle,
-	HScrollHandle,
-	VScrollHandle,
-	Background,
-	Selection,
-	Border,
-	Frame,
-	NumMeshes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct ControlMesh(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl ControlMesh {
+	pub const Check: ControlMesh = ControlMesh(0);
+	pub const Button: ControlMesh = ControlMesh(1);
+	pub const SliderLine: ControlMesh = ControlMesh(2);
+	pub const HScrollLine: ControlMesh = ControlMesh(3);
+	pub const VScrollLine: ControlMesh = ControlMesh(4);
+	pub const SliderHandle: ControlMesh = ControlMesh(5);
+	pub const HScrollHandle: ControlMesh = ControlMesh(6);
+	pub const VScrollHandle: ControlMesh = ControlMesh(7);
+	pub const Background: ControlMesh = ControlMesh(8);
+	pub const Selection: ControlMesh = ControlMesh(9);
+	pub const Border: ControlMesh = ControlMesh(10);
+	pub const Frame: ControlMesh = ControlMesh(11);
+	pub const NumMeshes: ControlMesh = ControlMesh(12);
+}
+
+impl ControlMesh {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for ControlMesh {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<ControlMesh> for u32 {
+	fn eq(&self, value: &ControlMesh) -> bool { *self == value.0 }
 }
 
 // Tellusim::Control::Align
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum ControlAlign {
-	None = 0,
-	Left = 1,
-	Right = 2,
-	Bottom = 4,
-	Top = 8,
-	CenterX = 16,
-	CenterY = 32,
-	ExpandX = 64,
-	ExpandY = 128,
-	Overlap = 256,
-	Spacer = 512,
-	Aspect = 1024,
-	Local = 2048,
-	LeftBottom = 5,
-	LeftTop = 9,
-	RightBottom = 6,
-	RightTop = 10,
-	Center = 48,
-	Expand = 192,
-	NumAligns = 12,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct ControlAlign(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl ControlAlign {
+	pub const None: ControlAlign = ControlAlign(0);
+	pub const Left: ControlAlign = ControlAlign(1);
+	pub const Right: ControlAlign = ControlAlign(2);
+	pub const Bottom: ControlAlign = ControlAlign(4);
+	pub const Top: ControlAlign = ControlAlign(8);
+	pub const CenterX: ControlAlign = ControlAlign(16);
+	pub const CenterY: ControlAlign = ControlAlign(32);
+	pub const ExpandX: ControlAlign = ControlAlign(64);
+	pub const ExpandY: ControlAlign = ControlAlign(128);
+	pub const Overlap: ControlAlign = ControlAlign(256);
+	pub const Spacer: ControlAlign = ControlAlign(512);
+	pub const Aspect: ControlAlign = ControlAlign(1024);
+	pub const Local: ControlAlign = ControlAlign(2048);
+	pub const LeftBottom: ControlAlign = ControlAlign(5);
+	pub const LeftTop: ControlAlign = ControlAlign(9);
+	pub const RightBottom: ControlAlign = ControlAlign(6);
+	pub const RightTop: ControlAlign = ControlAlign(10);
+	pub const Center: ControlAlign = ControlAlign(48);
+	pub const Expand: ControlAlign = ControlAlign(192);
+	pub const NumAligns: ControlAlign = ControlAlign(12);
+}
+
+impl ControlAlign {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for ControlAlign {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<ControlAlign> for u32 {
+	fn eq(&self, value: &ControlAlign) -> bool { *self == value.0 }
 }
 
 // Tellusim::Control::Button
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum ControlButtons {
-	None = 0,
-	Left = 1,
-	Left2 = 2,
-	Right = 4,
-	Right2 = 8,
-	Middle = 16,
-	Middle2 = 32,
-	NumButtons = 6,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct ControlButtons(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl ControlButtons {
-	pub fn has_flag(self, flag: ControlButtons) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: ControlButtons) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: ControlButtons = ControlButtons(0);
+	pub const Left: ControlButtons = ControlButtons(1);
+	pub const Left2: ControlButtons = ControlButtons(2);
+	pub const Right: ControlButtons = ControlButtons(4);
+	pub const Right2: ControlButtons = ControlButtons(8);
+	pub const Middle: ControlButtons = ControlButtons(16);
+	pub const Middle2: ControlButtons = ControlButtons(32);
+	pub const NumButtons: ControlButtons = ControlButtons(6);
 }
-impl cmp::PartialEq for ControlButtons {
-	fn eq(&self, flags: &ControlButtons) -> bool { unsafe { *mem::transmute::<&ControlButtons, &u32>(self) as u32 == *mem::transmute::<&ControlButtons, &u32>(flags) as u32 } }
+
+impl ControlButtons {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: ControlButtons) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: ControlButtons) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for ControlButtons {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<ControlButtons> for u32 {
+	fn eq(&self, value: &ControlButtons) -> bool { *self == value.0 }
 }
 impl ops::BitOr for ControlButtons {
 	type Output = ControlButtons;
-	fn bitor(self, flags: ControlButtons) -> ControlButtons { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: ControlButtons) -> ControlButtons { ControlButtons(self.0 | flags.0) }
 }
 impl ops::BitAnd for ControlButtons {
 	type Output = ControlButtons;
-	fn bitand(self, flags: ControlButtons) -> ControlButtons { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: ControlButtons) -> ControlButtons { ControlButtons(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for ControlButtons {
-	fn bitor_assign(&mut self, flags: ControlButtons) { unsafe { *mem::transmute::<&mut ControlButtons, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: ControlButtons) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for ControlButtons {
-	fn bitand_assign(&mut self, flags: ControlButtons) { unsafe { *mem::transmute::<&mut ControlButtons, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: ControlButtons) { self.0 &= flags.0 }
 }
 impl ops::Not for ControlButtons {
 	type Output = ControlButtons;
-	fn not(self) -> ControlButtons { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> ControlButtons { ControlButtons(!self.0) }
 }
 
 // Tellusim::Control::Axis
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum ControlAxis {
-	Unknown = 0,
-	X,
-	Y,
-	Z,
-	W,
-	NumAxes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct ControlAxis(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl ControlAxis {
+	pub const Unknown: ControlAxis = ControlAxis(0);
+	pub const X: ControlAxis = ControlAxis(1);
+	pub const Y: ControlAxis = ControlAxis(2);
+	pub const Z: ControlAxis = ControlAxis(3);
+	pub const W: ControlAxis = ControlAxis(4);
+	pub const NumAxes: ControlAxis = ControlAxis(5);
+}
+
+impl ControlAxis {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for ControlAxis {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<ControlAxis> for u32 {
+	fn eq(&self, value: &ControlAxis) -> bool { *self == value.0 }
 }
 
 // Tellusim::Control::Key
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum ControlKey {
-	None = 128,
-	Tab,
-	Backspace,
-	Delete,
-	Insert,
-	Return,
-	Prior,
-	Next,
-	End,
-	Home,
-	Up,
-	Down,
-	Left,
-	Right,
-	Shift,
-	Ctrl,
-	Alt,
-	Cmd,
-	NumKeys,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct ControlKey(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl ControlKey {
+	pub const None: ControlKey = ControlKey(128);
+	pub const Tab: ControlKey = ControlKey(129);
+	pub const Backspace: ControlKey = ControlKey(130);
+	pub const Delete: ControlKey = ControlKey(131);
+	pub const Insert: ControlKey = ControlKey(132);
+	pub const Return: ControlKey = ControlKey(133);
+	pub const Prior: ControlKey = ControlKey(134);
+	pub const Next: ControlKey = ControlKey(135);
+	pub const End: ControlKey = ControlKey(136);
+	pub const Home: ControlKey = ControlKey(137);
+	pub const Up: ControlKey = ControlKey(138);
+	pub const Down: ControlKey = ControlKey(139);
+	pub const Left: ControlKey = ControlKey(140);
+	pub const Right: ControlKey = ControlKey(141);
+	pub const Shift: ControlKey = ControlKey(142);
+	pub const Ctrl: ControlKey = ControlKey(143);
+	pub const Alt: ControlKey = ControlKey(144);
+	pub const Cmd: ControlKey = ControlKey(145);
+	pub const NumKeys: ControlKey = ControlKey(146);
+}
+
+impl ControlKey {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for ControlKey {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<ControlKey> for u32 {
+	fn eq(&self, value: &ControlKey) -> bool { *self == value.0 }
 }
 
 // Tellusim::ControlEdit::EditMode
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum ControlEditEditMode {
-	Text,
-	Password,
-	Number,
-	Signed,
-	Unsigned,
-	Hexadecimal,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct ControlEditEditMode(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl ControlEditEditMode {
+	pub const Text: ControlEditEditMode = ControlEditEditMode(0);
+	pub const Password: ControlEditEditMode = ControlEditEditMode(1);
+	pub const Number: ControlEditEditMode = ControlEditEditMode(2);
+	pub const Signed: ControlEditEditMode = ControlEditEditMode(3);
+	pub const Unsigned: ControlEditEditMode = ControlEditEditMode(4);
+	pub const Hexadecimal: ControlEditEditMode = ControlEditEditMode(5);
+}
+
+impl ControlEditEditMode {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for ControlEditEditMode {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<ControlEditEditMode> for u32 {
+	fn eq(&self, value: &ControlEditEditMode) -> bool { *self == value.0 }
 }
 
 // Tellusim::DialogMessage::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum DialogMessageFlags {
-	None = 0,
-	Yes = 1,
-	No = 2,
-	Ok = 4,
-	Cancel = 8,
-	Close = 16,
-	Message = 32,
-	Warning = 64,
-	Question = 128,
-	Error = 256,
-	Mouse = 512,
-	YesNo = 3,
-	OkCancel = 12,
-	Num = 10,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct DialogMessageFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl DialogMessageFlags {
-	pub fn has_flag(self, flag: DialogMessageFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: DialogMessageFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: DialogMessageFlags = DialogMessageFlags(0);
+	pub const Yes: DialogMessageFlags = DialogMessageFlags(1);
+	pub const No: DialogMessageFlags = DialogMessageFlags(2);
+	pub const Ok: DialogMessageFlags = DialogMessageFlags(4);
+	pub const Cancel: DialogMessageFlags = DialogMessageFlags(8);
+	pub const Close: DialogMessageFlags = DialogMessageFlags(16);
+	pub const Message: DialogMessageFlags = DialogMessageFlags(32);
+	pub const Warning: DialogMessageFlags = DialogMessageFlags(64);
+	pub const Question: DialogMessageFlags = DialogMessageFlags(128);
+	pub const Error: DialogMessageFlags = DialogMessageFlags(256);
+	pub const Mouse: DialogMessageFlags = DialogMessageFlags(512);
+	pub const YesNo: DialogMessageFlags = DialogMessageFlags(3);
+	pub const OkCancel: DialogMessageFlags = DialogMessageFlags(12);
+	pub const Num: DialogMessageFlags = DialogMessageFlags(10);
+}
+
+impl DialogMessageFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: DialogMessageFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: DialogMessageFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for DialogMessageFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<DialogMessageFlags> for u32 {
+	fn eq(&self, value: &DialogMessageFlags) -> bool { *self == value.0 }
 }
 impl Default for DialogMessageFlags {
 	fn default() -> DialogMessageFlags { DialogMessageFlags::Ok }
 }
-impl cmp::PartialEq for DialogMessageFlags {
-	fn eq(&self, flags: &DialogMessageFlags) -> bool { unsafe { *mem::transmute::<&DialogMessageFlags, &u32>(self) as u32 == *mem::transmute::<&DialogMessageFlags, &u32>(flags) as u32 } }
-}
 impl ops::BitOr for DialogMessageFlags {
 	type Output = DialogMessageFlags;
-	fn bitor(self, flags: DialogMessageFlags) -> DialogMessageFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: DialogMessageFlags) -> DialogMessageFlags { DialogMessageFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for DialogMessageFlags {
 	type Output = DialogMessageFlags;
-	fn bitand(self, flags: DialogMessageFlags) -> DialogMessageFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: DialogMessageFlags) -> DialogMessageFlags { DialogMessageFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for DialogMessageFlags {
-	fn bitor_assign(&mut self, flags: DialogMessageFlags) { unsafe { *mem::transmute::<&mut DialogMessageFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: DialogMessageFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for DialogMessageFlags {
-	fn bitand_assign(&mut self, flags: DialogMessageFlags) { unsafe { *mem::transmute::<&mut DialogMessageFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: DialogMessageFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for DialogMessageFlags {
 	type Output = DialogMessageFlags;
-	fn not(self) -> DialogMessageFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> DialogMessageFlags { DialogMessageFlags(!self.0) }
 }
 
 // Tellusim::DialogMessage::Result
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum DialogMessageResult {
-	Close = 0,
-	Cancel,
-	Ok,
-	No,
-	Yes,
-	NumResults,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct DialogMessageResult(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl DialogMessageResult {
+	pub const Close: DialogMessageResult = DialogMessageResult(0);
+	pub const Cancel: DialogMessageResult = DialogMessageResult(1);
+	pub const Ok: DialogMessageResult = DialogMessageResult(2);
+	pub const No: DialogMessageResult = DialogMessageResult(3);
+	pub const Yes: DialogMessageResult = DialogMessageResult(4);
+	pub const NumResults: DialogMessageResult = DialogMessageResult(5);
+}
+
+impl DialogMessageResult {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for DialogMessageResult {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<DialogMessageResult> for u32 {
+	fn eq(&self, value: &DialogMessageResult) -> bool { *self == value.0 }
 }
 
 // Tellusim::DialogFileOpen::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum DialogFileOpenFlags {
-	None = 0,
-	Hidden = 1,
-	Mouse = 2,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct DialogFileOpenFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl DialogFileOpenFlags {
-	pub fn has_flag(self, flag: DialogFileOpenFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: DialogFileOpenFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: DialogFileOpenFlags = DialogFileOpenFlags(0);
+	pub const Hidden: DialogFileOpenFlags = DialogFileOpenFlags(1);
+	pub const Mouse: DialogFileOpenFlags = DialogFileOpenFlags(2);
+}
+
+impl DialogFileOpenFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: DialogFileOpenFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: DialogFileOpenFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for DialogFileOpenFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<DialogFileOpenFlags> for u32 {
+	fn eq(&self, value: &DialogFileOpenFlags) -> bool { *self == value.0 }
 }
 impl Default for DialogFileOpenFlags {
 	fn default() -> DialogFileOpenFlags { DialogFileOpenFlags::None }
 }
-impl cmp::PartialEq for DialogFileOpenFlags {
-	fn eq(&self, flags: &DialogFileOpenFlags) -> bool { unsafe { *mem::transmute::<&DialogFileOpenFlags, &u32>(self) as u32 == *mem::transmute::<&DialogFileOpenFlags, &u32>(flags) as u32 } }
-}
 impl ops::BitOr for DialogFileOpenFlags {
 	type Output = DialogFileOpenFlags;
-	fn bitor(self, flags: DialogFileOpenFlags) -> DialogFileOpenFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: DialogFileOpenFlags) -> DialogFileOpenFlags { DialogFileOpenFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for DialogFileOpenFlags {
 	type Output = DialogFileOpenFlags;
-	fn bitand(self, flags: DialogFileOpenFlags) -> DialogFileOpenFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: DialogFileOpenFlags) -> DialogFileOpenFlags { DialogFileOpenFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for DialogFileOpenFlags {
-	fn bitor_assign(&mut self, flags: DialogFileOpenFlags) { unsafe { *mem::transmute::<&mut DialogFileOpenFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: DialogFileOpenFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for DialogFileOpenFlags {
-	fn bitand_assign(&mut self, flags: DialogFileOpenFlags) { unsafe { *mem::transmute::<&mut DialogFileOpenFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: DialogFileOpenFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for DialogFileOpenFlags {
 	type Output = DialogFileOpenFlags;
-	fn not(self) -> DialogFileOpenFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> DialogFileOpenFlags { DialogFileOpenFlags(!self.0) }
 }
 
 // Tellusim::DialogFileOpen::Result
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum DialogFileOpenResult {
-	Cancel = 0,
-	Ok,
-	NumResults,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct DialogFileOpenResult(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl DialogFileOpenResult {
+	pub const Cancel: DialogFileOpenResult = DialogFileOpenResult(0);
+	pub const Ok: DialogFileOpenResult = DialogFileOpenResult(1);
+	pub const NumResults: DialogFileOpenResult = DialogFileOpenResult(2);
+}
+
+impl DialogFileOpenResult {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for DialogFileOpenResult {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<DialogFileOpenResult> for u32 {
+	fn eq(&self, value: &DialogFileOpenResult) -> bool { *self == value.0 }
 }
 
 // Tellusim::DialogFileSave::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum DialogFileSaveFlags {
-	None = 0,
-	Hidden = 1,
-	Overwrite = 2,
-	Mouse = 4,
-	Num = 3,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct DialogFileSaveFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl DialogFileSaveFlags {
-	pub fn has_flag(self, flag: DialogFileSaveFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: DialogFileSaveFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: DialogFileSaveFlags = DialogFileSaveFlags(0);
+	pub const Hidden: DialogFileSaveFlags = DialogFileSaveFlags(1);
+	pub const Overwrite: DialogFileSaveFlags = DialogFileSaveFlags(2);
+	pub const Mouse: DialogFileSaveFlags = DialogFileSaveFlags(4);
+	pub const Num: DialogFileSaveFlags = DialogFileSaveFlags(3);
+}
+
+impl DialogFileSaveFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: DialogFileSaveFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: DialogFileSaveFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for DialogFileSaveFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<DialogFileSaveFlags> for u32 {
+	fn eq(&self, value: &DialogFileSaveFlags) -> bool { *self == value.0 }
 }
 impl Default for DialogFileSaveFlags {
 	fn default() -> DialogFileSaveFlags { DialogFileSaveFlags::Overwrite }
 }
-impl cmp::PartialEq for DialogFileSaveFlags {
-	fn eq(&self, flags: &DialogFileSaveFlags) -> bool { unsafe { *mem::transmute::<&DialogFileSaveFlags, &u32>(self) as u32 == *mem::transmute::<&DialogFileSaveFlags, &u32>(flags) as u32 } }
-}
 impl ops::BitOr for DialogFileSaveFlags {
 	type Output = DialogFileSaveFlags;
-	fn bitor(self, flags: DialogFileSaveFlags) -> DialogFileSaveFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: DialogFileSaveFlags) -> DialogFileSaveFlags { DialogFileSaveFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for DialogFileSaveFlags {
 	type Output = DialogFileSaveFlags;
-	fn bitand(self, flags: DialogFileSaveFlags) -> DialogFileSaveFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: DialogFileSaveFlags) -> DialogFileSaveFlags { DialogFileSaveFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for DialogFileSaveFlags {
-	fn bitor_assign(&mut self, flags: DialogFileSaveFlags) { unsafe { *mem::transmute::<&mut DialogFileSaveFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: DialogFileSaveFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for DialogFileSaveFlags {
-	fn bitand_assign(&mut self, flags: DialogFileSaveFlags) { unsafe { *mem::transmute::<&mut DialogFileSaveFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: DialogFileSaveFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for DialogFileSaveFlags {
 	type Output = DialogFileSaveFlags;
-	fn not(self) -> DialogFileSaveFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> DialogFileSaveFlags { DialogFileSaveFlags(!self.0) }
 }
 
 // Tellusim::DialogFileSave::Result
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum DialogFileSaveResult {
-	Cancel = 0,
-	Ok,
-	NumResults,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct DialogFileSaveResult(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl DialogFileSaveResult {
+	pub const Cancel: DialogFileSaveResult = DialogFileSaveResult(0);
+	pub const Ok: DialogFileSaveResult = DialogFileSaveResult(1);
+	pub const NumResults: DialogFileSaveResult = DialogFileSaveResult(2);
+}
+
+impl DialogFileSaveResult {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for DialogFileSaveResult {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<DialogFileSaveResult> for u32 {
+	fn eq(&self, value: &DialogFileSaveResult) -> bool { *self == value.0 }
 }
 
 // Tellusim::DialogDirectory::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum DialogDirectoryFlags {
-	None = 0,
-	Mouse = 1,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct DialogDirectoryFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl DialogDirectoryFlags {
-	pub fn has_flag(self, flag: DialogDirectoryFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: DialogDirectoryFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: DialogDirectoryFlags = DialogDirectoryFlags(0);
+	pub const Mouse: DialogDirectoryFlags = DialogDirectoryFlags(1);
+}
+
+impl DialogDirectoryFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: DialogDirectoryFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: DialogDirectoryFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for DialogDirectoryFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<DialogDirectoryFlags> for u32 {
+	fn eq(&self, value: &DialogDirectoryFlags) -> bool { *self == value.0 }
 }
 impl Default for DialogDirectoryFlags {
 	fn default() -> DialogDirectoryFlags { DialogDirectoryFlags::None }
 }
-impl cmp::PartialEq for DialogDirectoryFlags {
-	fn eq(&self, flags: &DialogDirectoryFlags) -> bool { unsafe { *mem::transmute::<&DialogDirectoryFlags, &u32>(self) as u32 == *mem::transmute::<&DialogDirectoryFlags, &u32>(flags) as u32 } }
-}
 impl ops::BitOr for DialogDirectoryFlags {
 	type Output = DialogDirectoryFlags;
-	fn bitor(self, flags: DialogDirectoryFlags) -> DialogDirectoryFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: DialogDirectoryFlags) -> DialogDirectoryFlags { DialogDirectoryFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for DialogDirectoryFlags {
 	type Output = DialogDirectoryFlags;
-	fn bitand(self, flags: DialogDirectoryFlags) -> DialogDirectoryFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: DialogDirectoryFlags) -> DialogDirectoryFlags { DialogDirectoryFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for DialogDirectoryFlags {
-	fn bitor_assign(&mut self, flags: DialogDirectoryFlags) { unsafe { *mem::transmute::<&mut DialogDirectoryFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: DialogDirectoryFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for DialogDirectoryFlags {
-	fn bitand_assign(&mut self, flags: DialogDirectoryFlags) { unsafe { *mem::transmute::<&mut DialogDirectoryFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: DialogDirectoryFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for DialogDirectoryFlags {
 	type Output = DialogDirectoryFlags;
-	fn not(self) -> DialogDirectoryFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> DialogDirectoryFlags { DialogDirectoryFlags(!self.0) }
 }
 
 // Tellusim::DialogDirectory::Result
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum DialogDirectoryResult {
-	Cancel = 0,
-	Ok,
-	NumResults,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct DialogDirectoryResult(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl DialogDirectoryResult {
+	pub const Cancel: DialogDirectoryResult = DialogDirectoryResult(0);
+	pub const Ok: DialogDirectoryResult = DialogDirectoryResult(1);
+	pub const NumResults: DialogDirectoryResult = DialogDirectoryResult(2);
+}
+
+impl DialogDirectoryResult {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for DialogDirectoryResult {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<DialogDirectoryResult> for u32 {
+	fn eq(&self, value: &DialogDirectoryResult) -> bool { *self == value.0 }
 }
 
 // Tellusim::DialogProgress::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum DialogProgressFlags {
-	None = 0,
-	Mouse = 1,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct DialogProgressFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl DialogProgressFlags {
-	pub fn has_flag(self, flag: DialogProgressFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: DialogProgressFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: DialogProgressFlags = DialogProgressFlags(0);
+	pub const Mouse: DialogProgressFlags = DialogProgressFlags(1);
+}
+
+impl DialogProgressFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: DialogProgressFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: DialogProgressFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for DialogProgressFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<DialogProgressFlags> for u32 {
+	fn eq(&self, value: &DialogProgressFlags) -> bool { *self == value.0 }
 }
 impl Default for DialogProgressFlags {
 	fn default() -> DialogProgressFlags { DialogProgressFlags::None }
 }
-impl cmp::PartialEq for DialogProgressFlags {
-	fn eq(&self, flags: &DialogProgressFlags) -> bool { unsafe { *mem::transmute::<&DialogProgressFlags, &u32>(self) as u32 == *mem::transmute::<&DialogProgressFlags, &u32>(flags) as u32 } }
-}
 impl ops::BitOr for DialogProgressFlags {
 	type Output = DialogProgressFlags;
-	fn bitor(self, flags: DialogProgressFlags) -> DialogProgressFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: DialogProgressFlags) -> DialogProgressFlags { DialogProgressFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for DialogProgressFlags {
 	type Output = DialogProgressFlags;
-	fn bitand(self, flags: DialogProgressFlags) -> DialogProgressFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: DialogProgressFlags) -> DialogProgressFlags { DialogProgressFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for DialogProgressFlags {
-	fn bitor_assign(&mut self, flags: DialogProgressFlags) { unsafe { *mem::transmute::<&mut DialogProgressFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: DialogProgressFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for DialogProgressFlags {
-	fn bitand_assign(&mut self, flags: DialogProgressFlags) { unsafe { *mem::transmute::<&mut DialogProgressFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: DialogProgressFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for DialogProgressFlags {
 	type Output = DialogProgressFlags;
-	fn not(self) -> DialogProgressFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> DialogProgressFlags { DialogProgressFlags(!self.0) }
 }
 
 // Tellusim::DialogProgress::Result
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum DialogProgressResult {
-	Cancel = 0,
-	Ok,
-	NumResults,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct DialogProgressResult(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl DialogProgressResult {
+	pub const Cancel: DialogProgressResult = DialogProgressResult(0);
+	pub const Ok: DialogProgressResult = DialogProgressResult(1);
+	pub const NumResults: DialogProgressResult = DialogProgressResult(2);
+}
+
+impl DialogProgressResult {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for DialogProgressResult {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<DialogProgressResult> for u32 {
+	fn eq(&self, value: &DialogProgressResult) -> bool { *self == value.0 }
 }
 
 // Tellusim::DialogColor::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum DialogColorFlags {
-	None = 0,
-	Alpha = 1,
-	Mouse = 2,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct DialogColorFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl DialogColorFlags {
-	pub fn has_flag(self, flag: DialogColorFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: DialogColorFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: DialogColorFlags = DialogColorFlags(0);
+	pub const Alpha: DialogColorFlags = DialogColorFlags(1);
+	pub const Mouse: DialogColorFlags = DialogColorFlags(2);
+}
+
+impl DialogColorFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: DialogColorFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: DialogColorFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for DialogColorFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<DialogColorFlags> for u32 {
+	fn eq(&self, value: &DialogColorFlags) -> bool { *self == value.0 }
 }
 impl Default for DialogColorFlags {
 	fn default() -> DialogColorFlags { DialogColorFlags::None }
 }
-impl cmp::PartialEq for DialogColorFlags {
-	fn eq(&self, flags: &DialogColorFlags) -> bool { unsafe { *mem::transmute::<&DialogColorFlags, &u32>(self) as u32 == *mem::transmute::<&DialogColorFlags, &u32>(flags) as u32 } }
-}
 impl ops::BitOr for DialogColorFlags {
 	type Output = DialogColorFlags;
-	fn bitor(self, flags: DialogColorFlags) -> DialogColorFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: DialogColorFlags) -> DialogColorFlags { DialogColorFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for DialogColorFlags {
 	type Output = DialogColorFlags;
-	fn bitand(self, flags: DialogColorFlags) -> DialogColorFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: DialogColorFlags) -> DialogColorFlags { DialogColorFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for DialogColorFlags {
-	fn bitor_assign(&mut self, flags: DialogColorFlags) { unsafe { *mem::transmute::<&mut DialogColorFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: DialogColorFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for DialogColorFlags {
-	fn bitand_assign(&mut self, flags: DialogColorFlags) { unsafe { *mem::transmute::<&mut DialogColorFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: DialogColorFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for DialogColorFlags {
 	type Output = DialogColorFlags;
-	fn not(self) -> DialogColorFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> DialogColorFlags { DialogColorFlags(!self.0) }
 }
 
 // Tellusim::DialogColor::Result
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum DialogColorResult {
-	Cancel = 0,
-	Ok,
-	NumResults,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct DialogColorResult(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl DialogColorResult {
+	pub const Cancel: DialogColorResult = DialogColorResult(0);
+	pub const Ok: DialogColorResult = DialogColorResult(1);
+	pub const NumResults: DialogColorResult = DialogColorResult(2);
+}
+
+impl DialogColorResult {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for DialogColorResult {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<DialogColorResult> for u32 {
+	fn eq(&self, value: &DialogColorResult) -> bool { *self == value.0 }
 }
 
 // Tellusim::DialogMenu::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum DialogMenuFlags {
-	None = 0,
-	Mouse = 1,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct DialogMenuFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl DialogMenuFlags {
-	pub fn has_flag(self, flag: DialogMenuFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: DialogMenuFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: DialogMenuFlags = DialogMenuFlags(0);
+	pub const Mouse: DialogMenuFlags = DialogMenuFlags(1);
+}
+
+impl DialogMenuFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: DialogMenuFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: DialogMenuFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for DialogMenuFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<DialogMenuFlags> for u32 {
+	fn eq(&self, value: &DialogMenuFlags) -> bool { *self == value.0 }
 }
 impl Default for DialogMenuFlags {
 	fn default() -> DialogMenuFlags { DialogMenuFlags::None }
 }
-impl cmp::PartialEq for DialogMenuFlags {
-	fn eq(&self, flags: &DialogMenuFlags) -> bool { unsafe { *mem::transmute::<&DialogMenuFlags, &u32>(self) as u32 == *mem::transmute::<&DialogMenuFlags, &u32>(flags) as u32 } }
-}
 impl ops::BitOr for DialogMenuFlags {
 	type Output = DialogMenuFlags;
-	fn bitor(self, flags: DialogMenuFlags) -> DialogMenuFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: DialogMenuFlags) -> DialogMenuFlags { DialogMenuFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for DialogMenuFlags {
 	type Output = DialogMenuFlags;
-	fn bitand(self, flags: DialogMenuFlags) -> DialogMenuFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: DialogMenuFlags) -> DialogMenuFlags { DialogMenuFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for DialogMenuFlags {
-	fn bitor_assign(&mut self, flags: DialogMenuFlags) { unsafe { *mem::transmute::<&mut DialogMenuFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: DialogMenuFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for DialogMenuFlags {
-	fn bitand_assign(&mut self, flags: DialogMenuFlags) { unsafe { *mem::transmute::<&mut DialogMenuFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: DialogMenuFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for DialogMenuFlags {
 	type Output = DialogMenuFlags;
-	fn not(self) -> DialogMenuFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> DialogMenuFlags { DialogMenuFlags(!self.0) }
 }
 
 // Tellusim::DialogMenu::Result
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum DialogMenuResult {
-	Cancel = 0,
-	Click,
-	NumResults,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct DialogMenuResult(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl DialogMenuResult {
+	pub const Cancel: DialogMenuResult = DialogMenuResult(0);
+	pub const Click: DialogMenuResult = DialogMenuResult(1);
+	pub const NumResults: DialogMenuResult = DialogMenuResult(2);
+}
+
+impl DialogMenuResult {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for DialogMenuResult {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<DialogMenuResult> for u32 {
+	fn eq(&self, value: &DialogMenuResult) -> bool { *self == value.0 }
 }
 
 // Tellusim::CubeFilter::Mode
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum CubeFilterMode {
-	Cube = 0,
-	Panorama,
-	NumModes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct CubeFilterMode(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl CubeFilterMode {
+	pub const Cube: CubeFilterMode = CubeFilterMode(0);
+	pub const Panorama: CubeFilterMode = CubeFilterMode(1);
+	pub const NumModes: CubeFilterMode = CubeFilterMode(2);
+}
+
+impl CubeFilterMode {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for CubeFilterMode {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<CubeFilterMode> for u32 {
+	fn eq(&self, value: &CubeFilterMode) -> bool { *self == value.0 }
 }
 
 // Tellusim::CubeFilter::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum CubeFilterFlags {
-	Cube = 1,
-	Panorama = 2,
-	All = 3,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct CubeFilterFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl CubeFilterFlags {
-	pub fn has_flag(self, flag: CubeFilterFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: CubeFilterFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const Cube: CubeFilterFlags = CubeFilterFlags(1);
+	pub const Panorama: CubeFilterFlags = CubeFilterFlags(2);
+	pub const All: CubeFilterFlags = CubeFilterFlags(3);
 }
-impl cmp::PartialEq for CubeFilterFlags {
-	fn eq(&self, flags: &CubeFilterFlags) -> bool { unsafe { *mem::transmute::<&CubeFilterFlags, &u32>(self) as u32 == *mem::transmute::<&CubeFilterFlags, &u32>(flags) as u32 } }
+
+impl CubeFilterFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: CubeFilterFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: CubeFilterFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for CubeFilterFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<CubeFilterFlags> for u32 {
+	fn eq(&self, value: &CubeFilterFlags) -> bool { *self == value.0 }
 }
 impl ops::BitOr for CubeFilterFlags {
 	type Output = CubeFilterFlags;
-	fn bitor(self, flags: CubeFilterFlags) -> CubeFilterFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: CubeFilterFlags) -> CubeFilterFlags { CubeFilterFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for CubeFilterFlags {
 	type Output = CubeFilterFlags;
-	fn bitand(self, flags: CubeFilterFlags) -> CubeFilterFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: CubeFilterFlags) -> CubeFilterFlags { CubeFilterFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for CubeFilterFlags {
-	fn bitor_assign(&mut self, flags: CubeFilterFlags) { unsafe { *mem::transmute::<&mut CubeFilterFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: CubeFilterFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for CubeFilterFlags {
-	fn bitand_assign(&mut self, flags: CubeFilterFlags) { unsafe { *mem::transmute::<&mut CubeFilterFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: CubeFilterFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for CubeFilterFlags {
 	type Output = CubeFilterFlags;
-	fn not(self) -> CubeFilterFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> CubeFilterFlags { CubeFilterFlags(!self.0) }
 }
 
 // Tellusim::DecoderJPEG::Mode
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum DecoderJPEGMode {
-	R = 0,
-	RG,
-	RGBA,
-	YUV444,
-	YUV422H,
-	YUV422V,
-	YUV420,
-	NumModes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct DecoderJPEGMode(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl DecoderJPEGMode {
+	pub const R: DecoderJPEGMode = DecoderJPEGMode(0);
+	pub const RG: DecoderJPEGMode = DecoderJPEGMode(1);
+	pub const RGBA: DecoderJPEGMode = DecoderJPEGMode(2);
+	pub const YUV444: DecoderJPEGMode = DecoderJPEGMode(3);
+	pub const YUV422H: DecoderJPEGMode = DecoderJPEGMode(4);
+	pub const YUV422V: DecoderJPEGMode = DecoderJPEGMode(5);
+	pub const YUV420: DecoderJPEGMode = DecoderJPEGMode(6);
+	pub const NumModes: DecoderJPEGMode = DecoderJPEGMode(7);
+}
+
+impl DecoderJPEGMode {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for DecoderJPEGMode {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<DecoderJPEGMode> for u32 {
+	fn eq(&self, value: &DecoderJPEGMode) -> bool { *self == value.0 }
 }
 
 // Tellusim::DecoderJPEG::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum DecoderJPEGFlags {
-	None = 0,
-	R = 1,
-	RG = 2,
-	RGBA = 4,
-	YUV444 = 8,
-	YUV422H = 16,
-	YUV422V = 32,
-	YUV420 = 64,
-	All = 127,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct DecoderJPEGFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl DecoderJPEGFlags {
-	pub fn has_flag(self, flag: DecoderJPEGFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: DecoderJPEGFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: DecoderJPEGFlags = DecoderJPEGFlags(0);
+	pub const R: DecoderJPEGFlags = DecoderJPEGFlags(1);
+	pub const RG: DecoderJPEGFlags = DecoderJPEGFlags(2);
+	pub const RGBA: DecoderJPEGFlags = DecoderJPEGFlags(4);
+	pub const YUV444: DecoderJPEGFlags = DecoderJPEGFlags(8);
+	pub const YUV422H: DecoderJPEGFlags = DecoderJPEGFlags(16);
+	pub const YUV422V: DecoderJPEGFlags = DecoderJPEGFlags(32);
+	pub const YUV420: DecoderJPEGFlags = DecoderJPEGFlags(64);
+	pub const All: DecoderJPEGFlags = DecoderJPEGFlags(127);
 }
-impl cmp::PartialEq for DecoderJPEGFlags {
-	fn eq(&self, flags: &DecoderJPEGFlags) -> bool { unsafe { *mem::transmute::<&DecoderJPEGFlags, &u32>(self) as u32 == *mem::transmute::<&DecoderJPEGFlags, &u32>(flags) as u32 } }
+
+impl DecoderJPEGFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: DecoderJPEGFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: DecoderJPEGFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for DecoderJPEGFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<DecoderJPEGFlags> for u32 {
+	fn eq(&self, value: &DecoderJPEGFlags) -> bool { *self == value.0 }
 }
 impl ops::BitOr for DecoderJPEGFlags {
 	type Output = DecoderJPEGFlags;
-	fn bitor(self, flags: DecoderJPEGFlags) -> DecoderJPEGFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: DecoderJPEGFlags) -> DecoderJPEGFlags { DecoderJPEGFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for DecoderJPEGFlags {
 	type Output = DecoderJPEGFlags;
-	fn bitand(self, flags: DecoderJPEGFlags) -> DecoderJPEGFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: DecoderJPEGFlags) -> DecoderJPEGFlags { DecoderJPEGFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for DecoderJPEGFlags {
-	fn bitor_assign(&mut self, flags: DecoderJPEGFlags) { unsafe { *mem::transmute::<&mut DecoderJPEGFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: DecoderJPEGFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for DecoderJPEGFlags {
-	fn bitand_assign(&mut self, flags: DecoderJPEGFlags) { unsafe { *mem::transmute::<&mut DecoderJPEGFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: DecoderJPEGFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for DecoderJPEGFlags {
 	type Output = DecoderJPEGFlags;
-	fn not(self) -> DecoderJPEGFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> DecoderJPEGFlags { DecoderJPEGFlags(!self.0) }
 }
 
 // Tellusim::EncoderBC15::Mode
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum EncoderBC15Mode {
-	BC1RGBu8n = 0,
-	BC2RGBAu8n,
-	BC3RGBAu8n,
-	BC4Ru8n,
-	BC5RGu8n,
-	NumModes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct EncoderBC15Mode(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl EncoderBC15Mode {
+	pub const BC1RGBu8n: EncoderBC15Mode = EncoderBC15Mode(0);
+	pub const BC2RGBAu8n: EncoderBC15Mode = EncoderBC15Mode(1);
+	pub const BC3RGBAu8n: EncoderBC15Mode = EncoderBC15Mode(2);
+	pub const BC4Ru8n: EncoderBC15Mode = EncoderBC15Mode(3);
+	pub const BC5RGu8n: EncoderBC15Mode = EncoderBC15Mode(4);
+	pub const NumModes: EncoderBC15Mode = EncoderBC15Mode(5);
+}
+
+impl EncoderBC15Mode {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for EncoderBC15Mode {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<EncoderBC15Mode> for u32 {
+	fn eq(&self, value: &EncoderBC15Mode) -> bool { *self == value.0 }
 }
 
 // Tellusim::EncoderBC15::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum EncoderBC15Flags {
-	None = 0,
-	BC1RGBu8n = 1,
-	BC2RGBAu8n = 2,
-	BC3RGBAu8n = 4,
-	BC4Ru8n = 8,
-	BC5RGu8n = 16,
-	Cube = 64,
-	BC13 = 7,
-	BC45 = 24,
-	All = 31,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct EncoderBC15Flags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl EncoderBC15Flags {
-	pub fn has_flag(self, flag: EncoderBC15Flags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: EncoderBC15Flags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: EncoderBC15Flags = EncoderBC15Flags(0);
+	pub const BC1RGBu8n: EncoderBC15Flags = EncoderBC15Flags(1);
+	pub const BC2RGBAu8n: EncoderBC15Flags = EncoderBC15Flags(2);
+	pub const BC3RGBAu8n: EncoderBC15Flags = EncoderBC15Flags(4);
+	pub const BC4Ru8n: EncoderBC15Flags = EncoderBC15Flags(8);
+	pub const BC5RGu8n: EncoderBC15Flags = EncoderBC15Flags(16);
+	pub const Cube: EncoderBC15Flags = EncoderBC15Flags(64);
+	pub const BC13: EncoderBC15Flags = EncoderBC15Flags(7);
+	pub const BC45: EncoderBC15Flags = EncoderBC15Flags(24);
+	pub const All: EncoderBC15Flags = EncoderBC15Flags(31);
 }
-impl cmp::PartialEq for EncoderBC15Flags {
-	fn eq(&self, flags: &EncoderBC15Flags) -> bool { unsafe { *mem::transmute::<&EncoderBC15Flags, &u32>(self) as u32 == *mem::transmute::<&EncoderBC15Flags, &u32>(flags) as u32 } }
+
+impl EncoderBC15Flags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: EncoderBC15Flags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: EncoderBC15Flags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for EncoderBC15Flags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<EncoderBC15Flags> for u32 {
+	fn eq(&self, value: &EncoderBC15Flags) -> bool { *self == value.0 }
 }
 impl ops::BitOr for EncoderBC15Flags {
 	type Output = EncoderBC15Flags;
-	fn bitor(self, flags: EncoderBC15Flags) -> EncoderBC15Flags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: EncoderBC15Flags) -> EncoderBC15Flags { EncoderBC15Flags(self.0 | flags.0) }
 }
 impl ops::BitAnd for EncoderBC15Flags {
 	type Output = EncoderBC15Flags;
-	fn bitand(self, flags: EncoderBC15Flags) -> EncoderBC15Flags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: EncoderBC15Flags) -> EncoderBC15Flags { EncoderBC15Flags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for EncoderBC15Flags {
-	fn bitor_assign(&mut self, flags: EncoderBC15Flags) { unsafe { *mem::transmute::<&mut EncoderBC15Flags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: EncoderBC15Flags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for EncoderBC15Flags {
-	fn bitand_assign(&mut self, flags: EncoderBC15Flags) { unsafe { *mem::transmute::<&mut EncoderBC15Flags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: EncoderBC15Flags) { self.0 &= flags.0 }
 }
 impl ops::Not for EncoderBC15Flags {
 	type Output = EncoderBC15Flags;
-	fn not(self) -> EncoderBC15Flags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> EncoderBC15Flags { EncoderBC15Flags(!self.0) }
 }
 
 // Tellusim::EncoderBC67::Mode
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum EncoderBC67Mode {
-	BC6RGBf16s = 0,
-	BC6RGBf16u,
-	BC7RGBAu8n,
-	NumModes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct EncoderBC67Mode(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl EncoderBC67Mode {
+	pub const BC6RGBf16s: EncoderBC67Mode = EncoderBC67Mode(0);
+	pub const BC6RGBf16u: EncoderBC67Mode = EncoderBC67Mode(1);
+	pub const BC7RGBAu8n: EncoderBC67Mode = EncoderBC67Mode(2);
+	pub const NumModes: EncoderBC67Mode = EncoderBC67Mode(3);
+}
+
+impl EncoderBC67Mode {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for EncoderBC67Mode {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<EncoderBC67Mode> for u32 {
+	fn eq(&self, value: &EncoderBC67Mode) -> bool { *self == value.0 }
 }
 
 // Tellusim::EncoderBC67::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum EncoderBC67Flags {
-	None = 0,
-	BC6RGBf16s = 1,
-	BC6RGBf16u = 2,
-	BC7RGBAu8n = 4,
-	Cube = 16,
-	All = 7,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct EncoderBC67Flags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl EncoderBC67Flags {
-	pub fn has_flag(self, flag: EncoderBC67Flags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: EncoderBC67Flags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: EncoderBC67Flags = EncoderBC67Flags(0);
+	pub const BC6RGBf16s: EncoderBC67Flags = EncoderBC67Flags(1);
+	pub const BC6RGBf16u: EncoderBC67Flags = EncoderBC67Flags(2);
+	pub const BC7RGBAu8n: EncoderBC67Flags = EncoderBC67Flags(4);
+	pub const Cube: EncoderBC67Flags = EncoderBC67Flags(16);
+	pub const All: EncoderBC67Flags = EncoderBC67Flags(7);
 }
-impl cmp::PartialEq for EncoderBC67Flags {
-	fn eq(&self, flags: &EncoderBC67Flags) -> bool { unsafe { *mem::transmute::<&EncoderBC67Flags, &u32>(self) as u32 == *mem::transmute::<&EncoderBC67Flags, &u32>(flags) as u32 } }
+
+impl EncoderBC67Flags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: EncoderBC67Flags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: EncoderBC67Flags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for EncoderBC67Flags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<EncoderBC67Flags> for u32 {
+	fn eq(&self, value: &EncoderBC67Flags) -> bool { *self == value.0 }
 }
 impl ops::BitOr for EncoderBC67Flags {
 	type Output = EncoderBC67Flags;
-	fn bitor(self, flags: EncoderBC67Flags) -> EncoderBC67Flags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: EncoderBC67Flags) -> EncoderBC67Flags { EncoderBC67Flags(self.0 | flags.0) }
 }
 impl ops::BitAnd for EncoderBC67Flags {
 	type Output = EncoderBC67Flags;
-	fn bitand(self, flags: EncoderBC67Flags) -> EncoderBC67Flags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: EncoderBC67Flags) -> EncoderBC67Flags { EncoderBC67Flags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for EncoderBC67Flags {
-	fn bitor_assign(&mut self, flags: EncoderBC67Flags) { unsafe { *mem::transmute::<&mut EncoderBC67Flags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: EncoderBC67Flags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for EncoderBC67Flags {
-	fn bitand_assign(&mut self, flags: EncoderBC67Flags) { unsafe { *mem::transmute::<&mut EncoderBC67Flags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: EncoderBC67Flags) { self.0 &= flags.0 }
 }
 impl ops::Not for EncoderBC67Flags {
 	type Output = EncoderBC67Flags;
-	fn not(self) -> EncoderBC67Flags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> EncoderBC67Flags { EncoderBC67Flags(!self.0) }
 }
 
 // Tellusim::EncoderASTC::Mode
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum EncoderASTCMode {
-	ASTC44RGBAu8n = 0,
-	ASTC54RGBAu8n,
-	ASTC55RGBAu8n,
-	NumModes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct EncoderASTCMode(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl EncoderASTCMode {
+	pub const ASTC44RGBAu8n: EncoderASTCMode = EncoderASTCMode(0);
+	pub const ASTC54RGBAu8n: EncoderASTCMode = EncoderASTCMode(1);
+	pub const ASTC55RGBAu8n: EncoderASTCMode = EncoderASTCMode(2);
+	pub const NumModes: EncoderASTCMode = EncoderASTCMode(3);
+}
+
+impl EncoderASTCMode {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for EncoderASTCMode {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<EncoderASTCMode> for u32 {
+	fn eq(&self, value: &EncoderASTCMode) -> bool { *self == value.0 }
 }
 
 // Tellusim::EncoderASTC::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum EncoderASTCFlags {
-	None = 0,
-	ASTC44RGBAu8n = 1,
-	ASTC54RGBAu8n = 2,
-	ASTC55RGBAu8n = 4,
-	Cube = 16,
-	All = 7,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct EncoderASTCFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl EncoderASTCFlags {
-	pub fn has_flag(self, flag: EncoderASTCFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: EncoderASTCFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: EncoderASTCFlags = EncoderASTCFlags(0);
+	pub const ASTC44RGBAu8n: EncoderASTCFlags = EncoderASTCFlags(1);
+	pub const ASTC54RGBAu8n: EncoderASTCFlags = EncoderASTCFlags(2);
+	pub const ASTC55RGBAu8n: EncoderASTCFlags = EncoderASTCFlags(4);
+	pub const Cube: EncoderASTCFlags = EncoderASTCFlags(16);
+	pub const All: EncoderASTCFlags = EncoderASTCFlags(7);
 }
-impl cmp::PartialEq for EncoderASTCFlags {
-	fn eq(&self, flags: &EncoderASTCFlags) -> bool { unsafe { *mem::transmute::<&EncoderASTCFlags, &u32>(self) as u32 == *mem::transmute::<&EncoderASTCFlags, &u32>(flags) as u32 } }
+
+impl EncoderASTCFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: EncoderASTCFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: EncoderASTCFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for EncoderASTCFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<EncoderASTCFlags> for u32 {
+	fn eq(&self, value: &EncoderASTCFlags) -> bool { *self == value.0 }
 }
 impl ops::BitOr for EncoderASTCFlags {
 	type Output = EncoderASTCFlags;
-	fn bitor(self, flags: EncoderASTCFlags) -> EncoderASTCFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: EncoderASTCFlags) -> EncoderASTCFlags { EncoderASTCFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for EncoderASTCFlags {
 	type Output = EncoderASTCFlags;
-	fn bitand(self, flags: EncoderASTCFlags) -> EncoderASTCFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: EncoderASTCFlags) -> EncoderASTCFlags { EncoderASTCFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for EncoderASTCFlags {
-	fn bitor_assign(&mut self, flags: EncoderASTCFlags) { unsafe { *mem::transmute::<&mut EncoderASTCFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: EncoderASTCFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for EncoderASTCFlags {
-	fn bitand_assign(&mut self, flags: EncoderASTCFlags) { unsafe { *mem::transmute::<&mut EncoderASTCFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: EncoderASTCFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for EncoderASTCFlags {
 	type Output = EncoderASTCFlags;
-	fn not(self) -> EncoderASTCFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> EncoderASTCFlags { EncoderASTCFlags(!self.0) }
 }
 
 // Tellusim::MeshModel::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum MeshModelFlags {
-	None = 0,
-	Direct = 1,
-	Verbose = 2,
-	Optimize = 4,
-	Materials = 8,
-	Indices10 = 16,
-	Indices16 = 32,
-	Indices32 = 64,
-	Meshlet64x84 = 128,
-	Meshlet64x126 = 256,
-	Meshlet96x169 = 512,
-	Meshlet128x212 = 1024,
-	BufferWrite = 2048,
-	BufferSource = 4096,
-	BufferStorage = 8192,
-	BufferTracing = 16384,
-	BufferAddress = 32768,
-	BufferTexel = 65536,
-	Meshlets = 1920,
-	Default = 10,
-	Num = 17,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct MeshModelFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl MeshModelFlags {
-	pub fn has_flag(self, flag: MeshModelFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: MeshModelFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: MeshModelFlags = MeshModelFlags(0);
+	pub const Direct: MeshModelFlags = MeshModelFlags(1);
+	pub const Verbose: MeshModelFlags = MeshModelFlags(2);
+	pub const Optimize: MeshModelFlags = MeshModelFlags(4);
+	pub const Materials: MeshModelFlags = MeshModelFlags(8);
+	pub const Indices10: MeshModelFlags = MeshModelFlags(16);
+	pub const Indices16: MeshModelFlags = MeshModelFlags(32);
+	pub const Indices32: MeshModelFlags = MeshModelFlags(64);
+	pub const Meshlet64x84: MeshModelFlags = MeshModelFlags(128);
+	pub const Meshlet64x126: MeshModelFlags = MeshModelFlags(256);
+	pub const Meshlet96x169: MeshModelFlags = MeshModelFlags(512);
+	pub const Meshlet128x212: MeshModelFlags = MeshModelFlags(1024);
+	pub const BufferWrite: MeshModelFlags = MeshModelFlags(2048);
+	pub const BufferSource: MeshModelFlags = MeshModelFlags(4096);
+	pub const BufferStorage: MeshModelFlags = MeshModelFlags(8192);
+	pub const BufferTracing: MeshModelFlags = MeshModelFlags(16384);
+	pub const BufferAddress: MeshModelFlags = MeshModelFlags(32768);
+	pub const BufferTexel: MeshModelFlags = MeshModelFlags(65536);
+	pub const Meshlets: MeshModelFlags = MeshModelFlags(1920);
+	pub const Default: MeshModelFlags = MeshModelFlags(10);
+	pub const Num: MeshModelFlags = MeshModelFlags(17);
+}
+
+impl MeshModelFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: MeshModelFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: MeshModelFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for MeshModelFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<MeshModelFlags> for u32 {
+	fn eq(&self, value: &MeshModelFlags) -> bool { *self == value.0 }
 }
 impl Default for MeshModelFlags {
 	fn default() -> MeshModelFlags { MeshModelFlags::Default }
 }
-impl cmp::PartialEq for MeshModelFlags {
-	fn eq(&self, flags: &MeshModelFlags) -> bool { unsafe { *mem::transmute::<&MeshModelFlags, &u32>(self) as u32 == *mem::transmute::<&MeshModelFlags, &u32>(flags) as u32 } }
-}
 impl ops::BitOr for MeshModelFlags {
 	type Output = MeshModelFlags;
-	fn bitor(self, flags: MeshModelFlags) -> MeshModelFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: MeshModelFlags) -> MeshModelFlags { MeshModelFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for MeshModelFlags {
 	type Output = MeshModelFlags;
-	fn bitand(self, flags: MeshModelFlags) -> MeshModelFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: MeshModelFlags) -> MeshModelFlags { MeshModelFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for MeshModelFlags {
-	fn bitor_assign(&mut self, flags: MeshModelFlags) { unsafe { *mem::transmute::<&mut MeshModelFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: MeshModelFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for MeshModelFlags {
-	fn bitand_assign(&mut self, flags: MeshModelFlags) { unsafe { *mem::transmute::<&mut MeshModelFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: MeshModelFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for MeshModelFlags {
 	type Output = MeshModelFlags;
-	fn not(self) -> MeshModelFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> MeshModelFlags { MeshModelFlags(!self.0) }
 }
 
 // Tellusim::SeparableFilter::Mode
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum SeparableFilterMode {
-	Horizontal = 0,
-	Vertical,
-	NumModes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct SeparableFilterMode(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl SeparableFilterMode {
+	pub const Horizontal: SeparableFilterMode = SeparableFilterMode(0);
+	pub const Vertical: SeparableFilterMode = SeparableFilterMode(1);
+	pub const NumModes: SeparableFilterMode = SeparableFilterMode(2);
+}
+
+impl SeparableFilterMode {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for SeparableFilterMode {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<SeparableFilterMode> for u32 {
+	fn eq(&self, value: &SeparableFilterMode) -> bool { *self == value.0 }
 }
 
 // Tellusim::SeparableFilter::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum SeparableFilterFlags {
-	None = 0,
-	Repeat = 1,
-	Zero = 2,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct SeparableFilterFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl SeparableFilterFlags {
-	pub fn has_flag(self, flag: SeparableFilterFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: SeparableFilterFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: SeparableFilterFlags = SeparableFilterFlags(0);
+	pub const Repeat: SeparableFilterFlags = SeparableFilterFlags(1);
+	pub const Zero: SeparableFilterFlags = SeparableFilterFlags(2);
+}
+
+impl SeparableFilterFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: SeparableFilterFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: SeparableFilterFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for SeparableFilterFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<SeparableFilterFlags> for u32 {
+	fn eq(&self, value: &SeparableFilterFlags) -> bool { *self == value.0 }
 }
 impl Default for SeparableFilterFlags {
 	fn default() -> SeparableFilterFlags { SeparableFilterFlags::None }
 }
-impl cmp::PartialEq for SeparableFilterFlags {
-	fn eq(&self, flags: &SeparableFilterFlags) -> bool { unsafe { *mem::transmute::<&SeparableFilterFlags, &u32>(self) as u32 == *mem::transmute::<&SeparableFilterFlags, &u32>(flags) as u32 } }
-}
 impl ops::BitOr for SeparableFilterFlags {
 	type Output = SeparableFilterFlags;
-	fn bitor(self, flags: SeparableFilterFlags) -> SeparableFilterFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: SeparableFilterFlags) -> SeparableFilterFlags { SeparableFilterFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for SeparableFilterFlags {
 	type Output = SeparableFilterFlags;
-	fn bitand(self, flags: SeparableFilterFlags) -> SeparableFilterFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: SeparableFilterFlags) -> SeparableFilterFlags { SeparableFilterFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for SeparableFilterFlags {
-	fn bitor_assign(&mut self, flags: SeparableFilterFlags) { unsafe { *mem::transmute::<&mut SeparableFilterFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: SeparableFilterFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for SeparableFilterFlags {
-	fn bitand_assign(&mut self, flags: SeparableFilterFlags) { unsafe { *mem::transmute::<&mut SeparableFilterFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: SeparableFilterFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for SeparableFilterFlags {
 	type Output = SeparableFilterFlags;
-	fn not(self) -> SeparableFilterFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> SeparableFilterFlags { SeparableFilterFlags(!self.0) }
 }
 
 // Tellusim::PrefixScan::Mode
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum PrefixScanMode {
-	Single = 0,
-	Multiple,
-	NumModes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct PrefixScanMode(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl PrefixScanMode {
+	pub const Single: PrefixScanMode = PrefixScanMode(0);
+	pub const Multiple: PrefixScanMode = PrefixScanMode(1);
+	pub const NumModes: PrefixScanMode = PrefixScanMode(2);
+}
+
+impl PrefixScanMode {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for PrefixScanMode {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<PrefixScanMode> for u32 {
+	fn eq(&self, value: &PrefixScanMode) -> bool { *self == value.0 }
 }
 
 // Tellusim::PrefixScan::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum PrefixScanFlags {
-	None = 0,
-	Single = 1,
-	Multiple = 2,
-	Indirect = 4,
-	Stride = 8,
-	Repeat = 16,
-	All = 15,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct PrefixScanFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl PrefixScanFlags {
-	pub fn has_flag(self, flag: PrefixScanFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: PrefixScanFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: PrefixScanFlags = PrefixScanFlags(0);
+	pub const Single: PrefixScanFlags = PrefixScanFlags(1);
+	pub const Multiple: PrefixScanFlags = PrefixScanFlags(2);
+	pub const Indirect: PrefixScanFlags = PrefixScanFlags(4);
+	pub const Stride: PrefixScanFlags = PrefixScanFlags(8);
+	pub const Repeat: PrefixScanFlags = PrefixScanFlags(16);
+	pub const All: PrefixScanFlags = PrefixScanFlags(15);
 }
-impl cmp::PartialEq for PrefixScanFlags {
-	fn eq(&self, flags: &PrefixScanFlags) -> bool { unsafe { *mem::transmute::<&PrefixScanFlags, &u32>(self) as u32 == *mem::transmute::<&PrefixScanFlags, &u32>(flags) as u32 } }
+
+impl PrefixScanFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: PrefixScanFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: PrefixScanFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for PrefixScanFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<PrefixScanFlags> for u32 {
+	fn eq(&self, value: &PrefixScanFlags) -> bool { *self == value.0 }
 }
 impl ops::BitOr for PrefixScanFlags {
 	type Output = PrefixScanFlags;
-	fn bitor(self, flags: PrefixScanFlags) -> PrefixScanFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: PrefixScanFlags) -> PrefixScanFlags { PrefixScanFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for PrefixScanFlags {
 	type Output = PrefixScanFlags;
-	fn bitand(self, flags: PrefixScanFlags) -> PrefixScanFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: PrefixScanFlags) -> PrefixScanFlags { PrefixScanFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for PrefixScanFlags {
-	fn bitor_assign(&mut self, flags: PrefixScanFlags) { unsafe { *mem::transmute::<&mut PrefixScanFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: PrefixScanFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for PrefixScanFlags {
-	fn bitand_assign(&mut self, flags: PrefixScanFlags) { unsafe { *mem::transmute::<&mut PrefixScanFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: PrefixScanFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for PrefixScanFlags {
 	type Output = PrefixScanFlags;
-	fn not(self) -> PrefixScanFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> PrefixScanFlags { PrefixScanFlags(!self.0) }
 }
 
 // Tellusim::RadixSort::Mode
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum RadixSortMode {
-	Single = 0,
-	Multiple,
-	NumModes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct RadixSortMode(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl RadixSortMode {
+	pub const Single: RadixSortMode = RadixSortMode(0);
+	pub const Multiple: RadixSortMode = RadixSortMode(1);
+	pub const NumModes: RadixSortMode = RadixSortMode(2);
+}
+
+impl RadixSortMode {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for RadixSortMode {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<RadixSortMode> for u32 {
+	fn eq(&self, value: &RadixSortMode) -> bool { *self == value.0 }
 }
 
 // Tellusim::RadixSort::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum RadixSortFlags {
-	None = 0,
-	Single = 1,
-	Multiple = 2,
-	Indirect = 4,
-	Order = 8,
-	Tracing = 16,
-	Scratch = 32,
-	All = 15,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct RadixSortFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl RadixSortFlags {
-	pub fn has_flag(self, flag: RadixSortFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: RadixSortFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: RadixSortFlags = RadixSortFlags(0);
+	pub const Single: RadixSortFlags = RadixSortFlags(1);
+	pub const Multiple: RadixSortFlags = RadixSortFlags(2);
+	pub const Indirect: RadixSortFlags = RadixSortFlags(4);
+	pub const Order: RadixSortFlags = RadixSortFlags(8);
+	pub const Tracing: RadixSortFlags = RadixSortFlags(16);
+	pub const Scratch: RadixSortFlags = RadixSortFlags(32);
+	pub const All: RadixSortFlags = RadixSortFlags(15);
 }
-impl cmp::PartialEq for RadixSortFlags {
-	fn eq(&self, flags: &RadixSortFlags) -> bool { unsafe { *mem::transmute::<&RadixSortFlags, &u32>(self) as u32 == *mem::transmute::<&RadixSortFlags, &u32>(flags) as u32 } }
+
+impl RadixSortFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: RadixSortFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: RadixSortFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for RadixSortFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<RadixSortFlags> for u32 {
+	fn eq(&self, value: &RadixSortFlags) -> bool { *self == value.0 }
 }
 impl ops::BitOr for RadixSortFlags {
 	type Output = RadixSortFlags;
-	fn bitor(self, flags: RadixSortFlags) -> RadixSortFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: RadixSortFlags) -> RadixSortFlags { RadixSortFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for RadixSortFlags {
 	type Output = RadixSortFlags;
-	fn bitand(self, flags: RadixSortFlags) -> RadixSortFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: RadixSortFlags) -> RadixSortFlags { RadixSortFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for RadixSortFlags {
-	fn bitor_assign(&mut self, flags: RadixSortFlags) { unsafe { *mem::transmute::<&mut RadixSortFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: RadixSortFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for RadixSortFlags {
-	fn bitand_assign(&mut self, flags: RadixSortFlags) { unsafe { *mem::transmute::<&mut RadixSortFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: RadixSortFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for RadixSortFlags {
 	type Output = RadixSortFlags;
-	fn not(self) -> RadixSortFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> RadixSortFlags { RadixSortFlags(!self.0) }
 }
 
 // Tellusim::BitonicSort::Mode
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum BitonicSortMode {
-	Single = 0,
-	Multiple,
-	NumModes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct BitonicSortMode(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl BitonicSortMode {
+	pub const Single: BitonicSortMode = BitonicSortMode(0);
+	pub const Multiple: BitonicSortMode = BitonicSortMode(1);
+	pub const NumModes: BitonicSortMode = BitonicSortMode(2);
+}
+
+impl BitonicSortMode {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for BitonicSortMode {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<BitonicSortMode> for u32 {
+	fn eq(&self, value: &BitonicSortMode) -> bool { *self == value.0 }
 }
 
 // Tellusim::BitonicSort::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum BitonicSortFlags {
-	None = 0,
-	Single = 1,
-	Multiple = 2,
-	Indirect = 4,
-	Order = 8,
-	All = 15,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct BitonicSortFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl BitonicSortFlags {
-	pub fn has_flag(self, flag: BitonicSortFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: BitonicSortFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: BitonicSortFlags = BitonicSortFlags(0);
+	pub const Single: BitonicSortFlags = BitonicSortFlags(1);
+	pub const Multiple: BitonicSortFlags = BitonicSortFlags(2);
+	pub const Indirect: BitonicSortFlags = BitonicSortFlags(4);
+	pub const Order: BitonicSortFlags = BitonicSortFlags(8);
+	pub const All: BitonicSortFlags = BitonicSortFlags(15);
 }
-impl cmp::PartialEq for BitonicSortFlags {
-	fn eq(&self, flags: &BitonicSortFlags) -> bool { unsafe { *mem::transmute::<&BitonicSortFlags, &u32>(self) as u32 == *mem::transmute::<&BitonicSortFlags, &u32>(flags) as u32 } }
+
+impl BitonicSortFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: BitonicSortFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: BitonicSortFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for BitonicSortFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<BitonicSortFlags> for u32 {
+	fn eq(&self, value: &BitonicSortFlags) -> bool { *self == value.0 }
 }
 impl ops::BitOr for BitonicSortFlags {
 	type Output = BitonicSortFlags;
-	fn bitor(self, flags: BitonicSortFlags) -> BitonicSortFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: BitonicSortFlags) -> BitonicSortFlags { BitonicSortFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for BitonicSortFlags {
 	type Output = BitonicSortFlags;
-	fn bitand(self, flags: BitonicSortFlags) -> BitonicSortFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: BitonicSortFlags) -> BitonicSortFlags { BitonicSortFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for BitonicSortFlags {
-	fn bitor_assign(&mut self, flags: BitonicSortFlags) { unsafe { *mem::transmute::<&mut BitonicSortFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: BitonicSortFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for BitonicSortFlags {
-	fn bitand_assign(&mut self, flags: BitonicSortFlags) { unsafe { *mem::transmute::<&mut BitonicSortFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: BitonicSortFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for BitonicSortFlags {
 	type Output = BitonicSortFlags;
-	fn not(self) -> BitonicSortFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> BitonicSortFlags { BitonicSortFlags(!self.0) }
 }
 
 // Tellusim::SpatialTree::Mode
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum SpatialTreeMode {
-	Single = 0,
-	Multiple,
-	NumModes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct SpatialTreeMode(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl SpatialTreeMode {
+	pub const Single: SpatialTreeMode = SpatialTreeMode(0);
+	pub const Multiple: SpatialTreeMode = SpatialTreeMode(1);
+	pub const NumModes: SpatialTreeMode = SpatialTreeMode(2);
+}
+
+impl SpatialTreeMode {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for SpatialTreeMode {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<SpatialTreeMode> for u32 {
+	fn eq(&self, value: &SpatialTreeMode) -> bool { *self == value.0 }
 }
 
 // Tellusim::SpatialTree::Hash
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum SpatialTreeHash {
-	XYZ10,
-	XYZ9,
-	XYZ8,
-	XY15,
-	XY14,
-	XY12,
-	XY10,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct SpatialTreeHash(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl SpatialTreeHash {
+	pub const XYZ10: SpatialTreeHash = SpatialTreeHash(0);
+	pub const XYZ9: SpatialTreeHash = SpatialTreeHash(1);
+	pub const XYZ8: SpatialTreeHash = SpatialTreeHash(2);
+	pub const XY15: SpatialTreeHash = SpatialTreeHash(3);
+	pub const XY14: SpatialTreeHash = SpatialTreeHash(4);
+	pub const XY12: SpatialTreeHash = SpatialTreeHash(5);
+	pub const XY10: SpatialTreeHash = SpatialTreeHash(6);
+}
+
+impl SpatialTreeHash {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for SpatialTreeHash {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<SpatialTreeHash> for u32 {
+	fn eq(&self, value: &SpatialTreeHash) -> bool { *self == value.0 }
 }
 
 // Tellusim::SpatialTree::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum SpatialTreeFlags {
-	None = 0,
-	Single = 1,
-	Multiple = 2,
-	Update = 4,
-	Optimize = 8,
-	Tracing = 16,
-	Scratch = 32,
-	Atomic = 64,
-	LeafNodef16 = 128,
-	SpatialData = 256,
-	SingleUpdate = 5,
-	MultipleUpdate = 6,
-	SingleOptimize = 9,
-	MultipleOptimize = 10,
-	All = 3,
-	AllOptimize = 11,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct SpatialTreeFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl SpatialTreeFlags {
-	pub fn has_flag(self, flag: SpatialTreeFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: SpatialTreeFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: SpatialTreeFlags = SpatialTreeFlags(0);
+	pub const Single: SpatialTreeFlags = SpatialTreeFlags(1);
+	pub const Multiple: SpatialTreeFlags = SpatialTreeFlags(2);
+	pub const Update: SpatialTreeFlags = SpatialTreeFlags(4);
+	pub const Optimize: SpatialTreeFlags = SpatialTreeFlags(8);
+	pub const Tracing: SpatialTreeFlags = SpatialTreeFlags(16);
+	pub const Scratch: SpatialTreeFlags = SpatialTreeFlags(32);
+	pub const Atomic: SpatialTreeFlags = SpatialTreeFlags(64);
+	pub const LeafNodef16: SpatialTreeFlags = SpatialTreeFlags(128);
+	pub const SpatialData: SpatialTreeFlags = SpatialTreeFlags(256);
+	pub const SingleUpdate: SpatialTreeFlags = SpatialTreeFlags(5);
+	pub const MultipleUpdate: SpatialTreeFlags = SpatialTreeFlags(6);
+	pub const SingleOptimize: SpatialTreeFlags = SpatialTreeFlags(9);
+	pub const MultipleOptimize: SpatialTreeFlags = SpatialTreeFlags(10);
+	pub const All: SpatialTreeFlags = SpatialTreeFlags(3);
+	pub const AllOptimize: SpatialTreeFlags = SpatialTreeFlags(11);
 }
-impl cmp::PartialEq for SpatialTreeFlags {
-	fn eq(&self, flags: &SpatialTreeFlags) -> bool { unsafe { *mem::transmute::<&SpatialTreeFlags, &u32>(self) as u32 == *mem::transmute::<&SpatialTreeFlags, &u32>(flags) as u32 } }
+
+impl SpatialTreeFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: SpatialTreeFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: SpatialTreeFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for SpatialTreeFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<SpatialTreeFlags> for u32 {
+	fn eq(&self, value: &SpatialTreeFlags) -> bool { *self == value.0 }
 }
 impl ops::BitOr for SpatialTreeFlags {
 	type Output = SpatialTreeFlags;
-	fn bitor(self, flags: SpatialTreeFlags) -> SpatialTreeFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: SpatialTreeFlags) -> SpatialTreeFlags { SpatialTreeFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for SpatialTreeFlags {
 	type Output = SpatialTreeFlags;
-	fn bitand(self, flags: SpatialTreeFlags) -> SpatialTreeFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: SpatialTreeFlags) -> SpatialTreeFlags { SpatialTreeFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for SpatialTreeFlags {
-	fn bitor_assign(&mut self, flags: SpatialTreeFlags) { unsafe { *mem::transmute::<&mut SpatialTreeFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: SpatialTreeFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for SpatialTreeFlags {
-	fn bitand_assign(&mut self, flags: SpatialTreeFlags) { unsafe { *mem::transmute::<&mut SpatialTreeFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: SpatialTreeFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for SpatialTreeFlags {
 	type Output = SpatialTreeFlags;
-	fn not(self) -> SpatialTreeFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> SpatialTreeFlags { SpatialTreeFlags(!self.0) }
 }
 
 // Tellusim::FourierTransform::Mode
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum FourierTransformMode {
-	Rf16i = 0,
-	Rf32i,
-	RGf16i,
-	RGf32i,
-	RGBf16c,
-	RGBf21c,
-	RGBf16p,
-	RGBf32p,
-	NumModes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct FourierTransformMode(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl FourierTransformMode {
+	pub const Rf16i: FourierTransformMode = FourierTransformMode(0);
+	pub const Rf32i: FourierTransformMode = FourierTransformMode(1);
+	pub const RGf16i: FourierTransformMode = FourierTransformMode(2);
+	pub const RGf32i: FourierTransformMode = FourierTransformMode(3);
+	pub const RGBf16c: FourierTransformMode = FourierTransformMode(4);
+	pub const RGBf21c: FourierTransformMode = FourierTransformMode(5);
+	pub const RGBf16p: FourierTransformMode = FourierTransformMode(6);
+	pub const RGBf32p: FourierTransformMode = FourierTransformMode(7);
+	pub const NumModes: FourierTransformMode = FourierTransformMode(8);
+}
+
+impl FourierTransformMode {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for FourierTransformMode {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<FourierTransformMode> for u32 {
+	fn eq(&self, value: &FourierTransformMode) -> bool { *self == value.0 }
 }
 
 // Tellusim::FourierTransform::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum FourierTransformFlags {
-	None = 0,
-	Rf16i = 1,
-	Rf32i = 2,
-	RGf16i = 4,
-	RGf32i = 8,
-	RGBf16c = 16,
-	RGBf21c = 32,
-	RGBf16p = 64,
-	RGBf32p = 128,
-	Npot = 256,
-	Interleaved = 15,
-	Complex = 48,
-	Planar = 192,
-	All = 511,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct FourierTransformFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl FourierTransformFlags {
-	pub fn has_flag(self, flag: FourierTransformFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: FourierTransformFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: FourierTransformFlags = FourierTransformFlags(0);
+	pub const Rf16i: FourierTransformFlags = FourierTransformFlags(1);
+	pub const Rf32i: FourierTransformFlags = FourierTransformFlags(2);
+	pub const RGf16i: FourierTransformFlags = FourierTransformFlags(4);
+	pub const RGf32i: FourierTransformFlags = FourierTransformFlags(8);
+	pub const RGBf16c: FourierTransformFlags = FourierTransformFlags(16);
+	pub const RGBf21c: FourierTransformFlags = FourierTransformFlags(32);
+	pub const RGBf16p: FourierTransformFlags = FourierTransformFlags(64);
+	pub const RGBf32p: FourierTransformFlags = FourierTransformFlags(128);
+	pub const Npot: FourierTransformFlags = FourierTransformFlags(256);
+	pub const Interleaved: FourierTransformFlags = FourierTransformFlags(15);
+	pub const Complex: FourierTransformFlags = FourierTransformFlags(48);
+	pub const Planar: FourierTransformFlags = FourierTransformFlags(192);
+	pub const All: FourierTransformFlags = FourierTransformFlags(511);
 }
-impl cmp::PartialEq for FourierTransformFlags {
-	fn eq(&self, flags: &FourierTransformFlags) -> bool { unsafe { *mem::transmute::<&FourierTransformFlags, &u32>(self) as u32 == *mem::transmute::<&FourierTransformFlags, &u32>(flags) as u32 } }
+
+impl FourierTransformFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: FourierTransformFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: FourierTransformFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for FourierTransformFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<FourierTransformFlags> for u32 {
+	fn eq(&self, value: &FourierTransformFlags) -> bool { *self == value.0 }
 }
 impl ops::BitOr for FourierTransformFlags {
 	type Output = FourierTransformFlags;
-	fn bitor(self, flags: FourierTransformFlags) -> FourierTransformFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: FourierTransformFlags) -> FourierTransformFlags { FourierTransformFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for FourierTransformFlags {
 	type Output = FourierTransformFlags;
-	fn bitand(self, flags: FourierTransformFlags) -> FourierTransformFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: FourierTransformFlags) -> FourierTransformFlags { FourierTransformFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for FourierTransformFlags {
-	fn bitor_assign(&mut self, flags: FourierTransformFlags) { unsafe { *mem::transmute::<&mut FourierTransformFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: FourierTransformFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for FourierTransformFlags {
-	fn bitand_assign(&mut self, flags: FourierTransformFlags) { unsafe { *mem::transmute::<&mut FourierTransformFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: FourierTransformFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for FourierTransformFlags {
 	type Output = FourierTransformFlags;
-	fn not(self) -> FourierTransformFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> FourierTransformFlags { FourierTransformFlags(!self.0) }
 }
 
 // Tellusim::FourierTransform::Operation
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum FourierTransformOperation {
-	ForwardCtoC = 0,
-	BackwardCtoC,
-	ForwardRtoC,
-	BackwardCtoR,
-	NumOperations,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct FourierTransformOperation(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl FourierTransformOperation {
+	pub const ForwardCtoC: FourierTransformOperation = FourierTransformOperation(0);
+	pub const BackwardCtoC: FourierTransformOperation = FourierTransformOperation(1);
+	pub const ForwardRtoC: FourierTransformOperation = FourierTransformOperation(2);
+	pub const BackwardCtoR: FourierTransformOperation = FourierTransformOperation(3);
+	pub const NumOperations: FourierTransformOperation = FourierTransformOperation(4);
+}
+
+impl FourierTransformOperation {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for FourierTransformOperation {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<FourierTransformOperation> for u32 {
+	fn eq(&self, value: &FourierTransformOperation) -> bool { *self == value.0 }
 }
 
 // Tellusim::TensorGraph::Operation
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum TensorGraphOperation {
-	Clear = 0,
-	Range,
-	Copy,
-	Cat,
-	Transpose,
-	MatMul,
-	Mul,
-	Mad,
-	Div,
-	Add,
-	Conv,
-	DeConv,
-	BatchNorm,
-	BatchMad,
-	SoftMin,
-	SoftMax,
-	MaxPool,
-	AvgPool,
-	GELU,
-	ReLU,
-	SiLU,
-	Sigm,
-	Tanh,
-	Sin,
-	Cos,
-	Exp,
-	NumOperations,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct TensorGraphOperation(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl TensorGraphOperation {
+	pub const Clear: TensorGraphOperation = TensorGraphOperation(0);
+	pub const Range: TensorGraphOperation = TensorGraphOperation(1);
+	pub const Copy: TensorGraphOperation = TensorGraphOperation(2);
+	pub const Cat: TensorGraphOperation = TensorGraphOperation(3);
+	pub const Transpose: TensorGraphOperation = TensorGraphOperation(4);
+	pub const MatMul: TensorGraphOperation = TensorGraphOperation(5);
+	pub const Mul: TensorGraphOperation = TensorGraphOperation(6);
+	pub const Mad: TensorGraphOperation = TensorGraphOperation(7);
+	pub const Div: TensorGraphOperation = TensorGraphOperation(8);
+	pub const Add: TensorGraphOperation = TensorGraphOperation(9);
+	pub const Conv: TensorGraphOperation = TensorGraphOperation(10);
+	pub const DeConv: TensorGraphOperation = TensorGraphOperation(11);
+	pub const BatchNorm: TensorGraphOperation = TensorGraphOperation(12);
+	pub const BatchMad: TensorGraphOperation = TensorGraphOperation(13);
+	pub const SoftMin: TensorGraphOperation = TensorGraphOperation(14);
+	pub const SoftMax: TensorGraphOperation = TensorGraphOperation(15);
+	pub const MaxPool: TensorGraphOperation = TensorGraphOperation(16);
+	pub const AvgPool: TensorGraphOperation = TensorGraphOperation(17);
+	pub const GELU: TensorGraphOperation = TensorGraphOperation(18);
+	pub const ReLU: TensorGraphOperation = TensorGraphOperation(19);
+	pub const SiLU: TensorGraphOperation = TensorGraphOperation(20);
+	pub const Sigm: TensorGraphOperation = TensorGraphOperation(21);
+	pub const Tanh: TensorGraphOperation = TensorGraphOperation(22);
+	pub const Sin: TensorGraphOperation = TensorGraphOperation(23);
+	pub const Cos: TensorGraphOperation = TensorGraphOperation(24);
+	pub const Exp: TensorGraphOperation = TensorGraphOperation(25);
+	pub const NumOperations: TensorGraphOperation = TensorGraphOperation(26);
+}
+
+impl TensorGraphOperation {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for TensorGraphOperation {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<TensorGraphOperation> for u32 {
+	fn eq(&self, value: &TensorGraphOperation) -> bool { *self == value.0 }
 }
 
 // Tellusim::TensorGraph::Flags
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum TensorGraphFlags {
-	None = 0,
-	SizeQuery = 1,
-	FormatRf32 = 2,
-	FormatRf16 = 4,
-	Transpose = 8,
-	WrapClamp = 16,
-	WrapRepeat = 32,
-	ReadScale = 64,
-	ReadBias = 128,
-	Convert = 256,
-	Kernel = 512,
-	GELU = 1024,
-	ReLU = 2048,
-	SiLU = 4096,
-	Sigm = 8192,
-	Tanh = 16384,
-	Sin = 32768,
-	Cos = 65536,
-	Exp = 131072,
-	Format = 6,
-	Wrap = 48,
-	Read = 192,
-	Unit = 7168,
-	Math = 253952,
-	All = 262142,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct TensorGraphFlags(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl TensorGraphFlags {
-	pub fn has_flag(self, flag: TensorGraphFlags) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: TensorGraphFlags) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const None: TensorGraphFlags = TensorGraphFlags(0);
+	pub const SizeQuery: TensorGraphFlags = TensorGraphFlags(1);
+	pub const FormatRf32: TensorGraphFlags = TensorGraphFlags(2);
+	pub const FormatRf16: TensorGraphFlags = TensorGraphFlags(4);
+	pub const Transpose: TensorGraphFlags = TensorGraphFlags(8);
+	pub const WrapClamp: TensorGraphFlags = TensorGraphFlags(16);
+	pub const WrapRepeat: TensorGraphFlags = TensorGraphFlags(32);
+	pub const ReadScale: TensorGraphFlags = TensorGraphFlags(64);
+	pub const ReadBias: TensorGraphFlags = TensorGraphFlags(128);
+	pub const Convert: TensorGraphFlags = TensorGraphFlags(256);
+	pub const Kernel: TensorGraphFlags = TensorGraphFlags(512);
+	pub const GELU: TensorGraphFlags = TensorGraphFlags(1024);
+	pub const ReLU: TensorGraphFlags = TensorGraphFlags(2048);
+	pub const SiLU: TensorGraphFlags = TensorGraphFlags(4096);
+	pub const Sigm: TensorGraphFlags = TensorGraphFlags(8192);
+	pub const Tanh: TensorGraphFlags = TensorGraphFlags(16384);
+	pub const Sin: TensorGraphFlags = TensorGraphFlags(32768);
+	pub const Cos: TensorGraphFlags = TensorGraphFlags(65536);
+	pub const Exp: TensorGraphFlags = TensorGraphFlags(131072);
+	pub const Format: TensorGraphFlags = TensorGraphFlags(6);
+	pub const Wrap: TensorGraphFlags = TensorGraphFlags(48);
+	pub const Read: TensorGraphFlags = TensorGraphFlags(192);
+	pub const Unit: TensorGraphFlags = TensorGraphFlags(7168);
+	pub const Math: TensorGraphFlags = TensorGraphFlags(253952);
+	pub const All: TensorGraphFlags = TensorGraphFlags(262142);
 }
-impl cmp::PartialEq for TensorGraphFlags {
-	fn eq(&self, flags: &TensorGraphFlags) -> bool { unsafe { *mem::transmute::<&TensorGraphFlags, &u32>(self) as u32 == *mem::transmute::<&TensorGraphFlags, &u32>(flags) as u32 } }
+
+impl TensorGraphFlags {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: TensorGraphFlags) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: TensorGraphFlags) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for TensorGraphFlags {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<TensorGraphFlags> for u32 {
+	fn eq(&self, value: &TensorGraphFlags) -> bool { *self == value.0 }
 }
 impl ops::BitOr for TensorGraphFlags {
 	type Output = TensorGraphFlags;
-	fn bitor(self, flags: TensorGraphFlags) -> TensorGraphFlags { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: TensorGraphFlags) -> TensorGraphFlags { TensorGraphFlags(self.0 | flags.0) }
 }
 impl ops::BitAnd for TensorGraphFlags {
 	type Output = TensorGraphFlags;
-	fn bitand(self, flags: TensorGraphFlags) -> TensorGraphFlags { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: TensorGraphFlags) -> TensorGraphFlags { TensorGraphFlags(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for TensorGraphFlags {
-	fn bitor_assign(&mut self, flags: TensorGraphFlags) { unsafe { *mem::transmute::<&mut TensorGraphFlags, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: TensorGraphFlags) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for TensorGraphFlags {
-	fn bitand_assign(&mut self, flags: TensorGraphFlags) { unsafe { *mem::transmute::<&mut TensorGraphFlags, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: TensorGraphFlags) { self.0 &= flags.0 }
 }
 impl ops::Not for TensorGraphFlags {
 	type Output = TensorGraphFlags;
-	fn not(self) -> TensorGraphFlags { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> TensorGraphFlags { TensorGraphFlags(!self.0) }
 }
 
 // Tellusim::TensorGraph::Masks
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum TensorGraphMasks {
-	MaskNone = 0,
-	MaskClear = 1,
-	MaskRange = 2,
-	MaskCopy = 4,
-	MaskCat = 8,
-	MaskTranspose = 16,
-	MaskMatMul = 32,
-	MaskMul = 64,
-	MaskMad = 128,
-	MaskDiv = 256,
-	MaskAdd = 512,
-	MaskConv = 1024,
-	MaskDeConv = 2048,
-	MaskBatchNorm = 4096,
-	MaskBatchMad = 8192,
-	MaskSoftMin = 16384,
-	MaskSoftMax = 32768,
-	MaskMaxPool = 65536,
-	MaskAvgPool = 131072,
-	MaskGELU = 262144,
-	MaskReLU = 524288,
-	MaskSiLU = 1048576,
-	MaskSigm = 2097152,
-	MaskTanh = 4194304,
-	MaskSin = 8388608,
-	MaskCos = 16777216,
-	MaskExp = 33554432,
-	All = 67108863,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct TensorGraphMasks(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl TensorGraphMasks {
+	pub const MaskNone: TensorGraphMasks = TensorGraphMasks(0);
+	pub const MaskClear: TensorGraphMasks = TensorGraphMasks(1);
+	pub const MaskRange: TensorGraphMasks = TensorGraphMasks(2);
+	pub const MaskCopy: TensorGraphMasks = TensorGraphMasks(4);
+	pub const MaskCat: TensorGraphMasks = TensorGraphMasks(8);
+	pub const MaskTranspose: TensorGraphMasks = TensorGraphMasks(16);
+	pub const MaskMatMul: TensorGraphMasks = TensorGraphMasks(32);
+	pub const MaskMul: TensorGraphMasks = TensorGraphMasks(64);
+	pub const MaskMad: TensorGraphMasks = TensorGraphMasks(128);
+	pub const MaskDiv: TensorGraphMasks = TensorGraphMasks(256);
+	pub const MaskAdd: TensorGraphMasks = TensorGraphMasks(512);
+	pub const MaskConv: TensorGraphMasks = TensorGraphMasks(1024);
+	pub const MaskDeConv: TensorGraphMasks = TensorGraphMasks(2048);
+	pub const MaskBatchNorm: TensorGraphMasks = TensorGraphMasks(4096);
+	pub const MaskBatchMad: TensorGraphMasks = TensorGraphMasks(8192);
+	pub const MaskSoftMin: TensorGraphMasks = TensorGraphMasks(16384);
+	pub const MaskSoftMax: TensorGraphMasks = TensorGraphMasks(32768);
+	pub const MaskMaxPool: TensorGraphMasks = TensorGraphMasks(65536);
+	pub const MaskAvgPool: TensorGraphMasks = TensorGraphMasks(131072);
+	pub const MaskGELU: TensorGraphMasks = TensorGraphMasks(262144);
+	pub const MaskReLU: TensorGraphMasks = TensorGraphMasks(524288);
+	pub const MaskSiLU: TensorGraphMasks = TensorGraphMasks(1048576);
+	pub const MaskSigm: TensorGraphMasks = TensorGraphMasks(2097152);
+	pub const MaskTanh: TensorGraphMasks = TensorGraphMasks(4194304);
+	pub const MaskSin: TensorGraphMasks = TensorGraphMasks(8388608);
+	pub const MaskCos: TensorGraphMasks = TensorGraphMasks(16777216);
+	pub const MaskExp: TensorGraphMasks = TensorGraphMasks(33554432);
+	pub const All: TensorGraphMasks = TensorGraphMasks(67108863);
+}
+
+impl TensorGraphMasks {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for TensorGraphMasks {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<TensorGraphMasks> for u32 {
+	fn eq(&self, value: &TensorGraphMasks) -> bool { *self == value.0 }
 }
 
 // Tellusim::Controller::Type
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum ControllerType {
-	Unknown = 0,
-	Joystick,
-	GamePad,
-	Wheel,
-	NumTypes,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct ControllerType(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl ControllerType {
+	pub const Unknown: ControllerType = ControllerType(0);
+	pub const Joystick: ControllerType = ControllerType(1);
+	pub const GamePad: ControllerType = ControllerType(2);
+	pub const Wheel: ControllerType = ControllerType(3);
+	pub const NumTypes: ControllerType = ControllerType(4);
+}
+
+impl ControllerType {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for ControllerType {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<ControllerType> for u32 {
+	fn eq(&self, value: &ControllerType) -> bool { *self == value.0 }
 }
 
 // Tellusim::Controller::Stick
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum ControllerStick {
-	Left = 0,
-	Right,
-	NumSticks,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct ControllerStick(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl ControllerStick {
+	pub const Left: ControllerStick = ControllerStick(0);
+	pub const Right: ControllerStick = ControllerStick(1);
+	pub const NumSticks: ControllerStick = ControllerStick(2);
+}
+
+impl ControllerStick {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for ControllerStick {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<ControllerStick> for u32 {
+	fn eq(&self, value: &ControllerStick) -> bool { *self == value.0 }
 }
 
 // Tellusim::Controller::Axis
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum ControllerAxis {
-	X = 0,
-	Y,
-	Z,
-	RX,
-	RY,
-	RZ,
-	NumAxes = 16,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct ControllerAxis(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl ControllerAxis {
+	pub const X: ControllerAxis = ControllerAxis(0);
+	pub const Y: ControllerAxis = ControllerAxis(1);
+	pub const Z: ControllerAxis = ControllerAxis(2);
+	pub const RX: ControllerAxis = ControllerAxis(3);
+	pub const RY: ControllerAxis = ControllerAxis(4);
+	pub const RZ: ControllerAxis = ControllerAxis(5);
+	pub const NumAxes: ControllerAxis = ControllerAxis(16);
+}
+
+impl ControllerAxis {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for ControllerAxis {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<ControllerAxis> for u32 {
+	fn eq(&self, value: &ControllerAxis) -> bool { *self == value.0 }
 }
 
 // Tellusim::Controller::Button
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum ControllerButton {
-	Left = 0,
-	Right,
-	Down,
-	Up,
-	Home,
-	ShoulderLeft,
-	ShoulderRight,
-	TriggerLeft,
-	TriggerRight,
-	StickLeft,
-	StickRight,
-	A,
-	B,
-	X,
-	Y,
-	View,
-	Menu,
-	NumButtons = 32,
-}
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct ControllerButton(pub u32);
+
+#[allow(non_upper_case_globals)]
 impl ControllerButton {
-	pub fn has_flag(self, flag: ControllerButton) -> bool { if (self as u32) & (flag as u32) != 0 { true } else { false } }
-	pub fn has_flags(self, flags: ControllerButton) -> bool { let flags = flags as u32; if (self as u32) & flags != flags { true } else { false } }
+	pub const Left: ControllerButton = ControllerButton(0);
+	pub const Right: ControllerButton = ControllerButton(1);
+	pub const Down: ControllerButton = ControllerButton(2);
+	pub const Up: ControllerButton = ControllerButton(3);
+	pub const Home: ControllerButton = ControllerButton(4);
+	pub const ShoulderLeft: ControllerButton = ControllerButton(5);
+	pub const ShoulderRight: ControllerButton = ControllerButton(6);
+	pub const TriggerLeft: ControllerButton = ControllerButton(7);
+	pub const TriggerRight: ControllerButton = ControllerButton(8);
+	pub const StickLeft: ControllerButton = ControllerButton(9);
+	pub const StickRight: ControllerButton = ControllerButton(10);
+	pub const A: ControllerButton = ControllerButton(11);
+	pub const B: ControllerButton = ControllerButton(12);
+	pub const X: ControllerButton = ControllerButton(13);
+	pub const Y: ControllerButton = ControllerButton(14);
+	pub const View: ControllerButton = ControllerButton(15);
+	pub const Menu: ControllerButton = ControllerButton(16);
+	pub const NumButtons: ControllerButton = ControllerButton(32);
 }
-impl cmp::PartialEq for ControllerButton {
-	fn eq(&self, flags: &ControllerButton) -> bool { unsafe { *mem::transmute::<&ControllerButton, &u32>(self) as u32 == *mem::transmute::<&ControllerButton, &u32>(flags) as u32 } }
+
+impl ControllerButton {
+	pub fn value(self) -> u32 { self.0 }
+	pub fn has_flag(self, flag: ControllerButton) -> bool { (self.0 & flag.0) != 0 }
+	pub fn has_flags(self, flags: ControllerButton) -> bool { (self.0 & flags.0) == flags.0 }
+}
+impl PartialEq<u32> for ControllerButton {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<ControllerButton> for u32 {
+	fn eq(&self, value: &ControllerButton) -> bool { *self == value.0 }
 }
 impl ops::BitOr for ControllerButton {
 	type Output = ControllerButton;
-	fn bitor(self, flags: ControllerButton) -> ControllerButton { unsafe { mem::transmute(self as u32 | flags as u32) } }
+	fn bitor(self, flags: ControllerButton) -> ControllerButton { ControllerButton(self.0 | flags.0) }
 }
 impl ops::BitAnd for ControllerButton {
 	type Output = ControllerButton;
-	fn bitand(self, flags: ControllerButton) -> ControllerButton { unsafe { mem::transmute(self as u32 & flags as u32) } }
+	fn bitand(self, flags: ControllerButton) -> ControllerButton { ControllerButton(self.0 & flags.0) }
 }
 impl ops::BitOrAssign for ControllerButton {
-	fn bitor_assign(&mut self, flags: ControllerButton) { unsafe { *mem::transmute::<&mut ControllerButton, &mut u32>(self) |= flags as u32 } }
+	fn bitor_assign(&mut self, flags: ControllerButton) { self.0 |= flags.0 }
 }
 impl ops::BitAndAssign for ControllerButton {
-	fn bitand_assign(&mut self, flags: ControllerButton) { unsafe { *mem::transmute::<&mut ControllerButton, &mut u32>(self) &= flags as u32 } }
+	fn bitand_assign(&mut self, flags: ControllerButton) { self.0 &= flags.0 }
 }
 impl ops::Not for ControllerButton {
 	type Output = ControllerButton;
-	fn not(self) -> ControllerButton { unsafe { mem::transmute(!(self as u32)) } }
+	fn not(self) -> ControllerButton { ControllerButton(!self.0) }
 }
 
 // Tellusim::Controller::Motor
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum ControllerMotor {
-	Low = 0,
-	High,
-	NumMotors,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct ControllerMotor(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl ControllerMotor {
+	pub const Low: ControllerMotor = ControllerMotor(0);
+	pub const High: ControllerMotor = ControllerMotor(1);
+	pub const NumMotors: ControllerMotor = ControllerMotor(2);
+}
+
+impl ControllerMotor {
+	pub fn value(self) -> u32 { self.0 }
+}
+impl PartialEq<u32> for ControllerMotor {
+	fn eq(&self, value: &u32) -> bool { self.0 == *value }
+}
+impl PartialEq<ControllerMotor> for u32 {
+	fn eq(&self, value: &ControllerMotor) -> bool { *self == value.0 }
 }
 
 // Tellusim::Log::Level
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum LogLevel {
-	Fatal = 0,
-	Error,
-	Warning,
-	Message,
-	Verbose,
-	Unknown,
-	NumLevels,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct LogLevel(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl LogLevel {
+	pub const Fatal: LogLevel = LogLevel(0);
+	pub const Error: LogLevel = LogLevel(1);
+	pub const Warning: LogLevel = LogLevel(2);
+	pub const Message: LogLevel = LogLevel(3);
+	pub const Verbose: LogLevel = LogLevel(4);
+	pub const Unknown: LogLevel = LogLevel(5);
+	pub const NumLevels: LogLevel = LogLevel(6);
 }
-impl cmp::PartialEq for LogLevel {
-	fn eq(&self, flags: &LogLevel) -> bool { unsafe { *mem::transmute::<&LogLevel, &u32>(self) as u32 == *mem::transmute::<&LogLevel, &u32>(flags) as u32 } }
+
+impl LogLevel {
+	pub fn value(self) -> u32 { self.0 }
 }
 
 // Tellusim::Time::
-#[repr(u32)]
-#[derive(Copy, Clone)]
-pub enum Time {
-	Seconds = 1000000,
-	MSeconds = 1000,
-	USeconds = 1,
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct Time(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl Time {
+	pub const Seconds: Time = Time(1000000);
+	pub const MSeconds: Time = Time(1000);
+	pub const USeconds: Time = Time(1);
 }
-impl cmp::PartialEq for Time {
-	fn eq(&self, flags: &Time) -> bool { unsafe { *mem::transmute::<&Time, &u32>(self) as u32 == *mem::transmute::<&Time, &u32>(flags) as u32 } }
+
+impl Time {
+	pub fn value(self) -> u32 { self.0 }
 }
 
 // Tellusim::String
@@ -3289,9 +4564,9 @@ impl App {
 		let name_ = CString::new(name).unwrap();
 		unsafe { get_string(tsApp_getArgument_cs(self.this, name_.as_ptr())) }
 	}
-	pub fn create(&mut self) -> bool { unsafe { tsApp_create(self.this, Platform::Unknown, AppVersion::Version as u32) != 0 } }
-	pub fn create_with_platform(&mut self, platform: Platform) -> bool { unsafe { tsApp_create(self.this, platform, AppVersion::Version as u32) != 0 } }
-	pub fn create_with_platform_version(&mut self, platform: Platform, version: AppVersion) -> bool { unsafe { tsApp_create(self.this, platform, version as u32) != 0 } }
+	pub fn create(&mut self) -> bool { unsafe { tsApp_create(self.this, Platform::Unknown, AppVersion::Version.0) != 0 } }
+	pub fn create_with_platform(&mut self, platform: Platform) -> bool { unsafe { tsApp_create(self.this, platform, AppVersion::Version.0) != 0 } }
+	pub fn create_with_platform_version(&mut self, platform: Platform, version: AppVersion) -> bool { unsafe { tsApp_create(self.this, platform, version.0) != 0 } }
 	pub fn set_platform(platform: Platform) { unsafe { tsApp_setPlatform(platform, MAXU32) } }
 	pub fn set_platform_with_device(platform: Platform, device: u32) { unsafe { tsApp_setPlatform(platform, device) } }
 	pub fn set_size(width: u32, height: u32) { unsafe { tsApp_setSize(width, height, 0) } }
@@ -6894,7 +8169,8 @@ impl MeshAttribute {
 	pub fn compare_with_transform_threshold(&self, attribute: &MeshAttribute, transform: &Matrix4x3f, threshold: f32) -> i32 { unsafe { tsMeshAttribute_compare(self.this, attribute.this, transform, threshold, 1) } }
 	pub fn compare_with_transform_threshold_spatial(&self, attribute: &MeshAttribute, transform: &Matrix4x3f, threshold: f32, spatial: bool) -> i32 { unsafe { tsMeshAttribute_compare(self.this, attribute.this, transform, threshold, if spatial {1} else {0}) } }
 	pub fn add_attribute(&mut self, attribute: &MeshAttribute) { unsafe { tsMeshAttribute_addAttribute(self.this, attribute.this) } }
-	pub fn set_transform(&mut self, transform: &Matrix4x3f) -> bool { unsafe { tsMeshAttribute_setTransform(self.this, transform) != 0 } }
+	pub fn set_transform(&mut self, scale: &Vector3f) -> bool { unsafe { tsMeshAttribute_setTransform_cV3(self.this, scale) != 0 } }
+	pub fn set_transform_with_transform(&mut self, transform: &Matrix4x3f) -> bool { unsafe { tsMeshAttribute_setTransform_cM43(self.this, transform) != 0 } }
 	pub fn morph_attribute(&mut self, attribute: &MeshAttribute, k: f32) -> bool { unsafe { tsMeshAttribute_morphAttribute(self.this, attribute.this, k) != 0 } }
 	pub fn pack_attributes(&mut self, attribute_0: &MeshAttribute, attribute_1: &MeshAttribute, format: Format) -> bool { unsafe { tsMeshAttribute_packAttributes(self.this, attribute_0.this, attribute_1.this, format) != 0 } }
 	pub fn unpack_attributes(&self, attribute_0: &mut MeshAttribute, attribute_1: &mut MeshAttribute) -> bool { unsafe { tsMeshAttribute_unpackAttributes(self.this, attribute_0.this, attribute_1.this) != 0 } }
@@ -7000,7 +8276,8 @@ extern "C" {
 	fn tsMeshAttribute_getPtr_u(this: *mut c_void, index: u32) -> *mut c_void;
 	fn tsMeshAttribute_compare(this: *const c_void, attribute: *mut c_void, transform: *const Matrix4x3f, threshold: f32, spatial: i32) -> i32;
 	fn tsMeshAttribute_addAttribute(this: *mut c_void, attribute: *mut c_void);
-	fn tsMeshAttribute_setTransform(this: *mut c_void, transform: *const Matrix4x3f) -> i32;
+	fn tsMeshAttribute_setTransform_cV3(this: *mut c_void, scale: *const Vector3f) -> i32;
+	fn tsMeshAttribute_setTransform_cM43(this: *mut c_void, transform: *const Matrix4x3f) -> i32;
 	fn tsMeshAttribute_morphAttribute(this: *mut c_void, attribute: *mut c_void, k: f32) -> i32;
 	fn tsMeshAttribute_packAttributes(this: *mut c_void, attribute_0: *mut c_void, attribute_1: *mut c_void, format: Format) -> i32;
 	fn tsMeshAttribute_unpackAttributes(this: *const c_void, attribute_0: *mut c_void, attribute_1: *mut c_void) -> i32;
@@ -7622,6 +8899,7 @@ impl MeshGeometry {
 	pub fn has_visibility_range(&self) -> bool { unsafe { tsMeshGeometry_hasVisibilityRange(self.this) != 0 } }
 	pub fn set_visibility_error(&mut self, error: f32) { unsafe { tsMeshGeometry_setVisibilityError(self.this, error) } }
 	pub fn visibility_error(&self) -> f32 { unsafe { tsMeshGeometry_getVisibilityError(self.this) } }
+	pub fn flip_winding(&mut self) { unsafe { tsMeshGeometry_flipWinding(self.this) } }
 	pub fn create_bounds(&mut self) -> bool { unsafe { tsMeshGeometry_createBounds(self.this, 0, MAXU32) != 0 } }
 	pub fn create_bounds_with_force(&mut self, force: bool) -> bool { unsafe { tsMeshGeometry_createBounds(self.this, if force {1} else {0}, MAXU32) != 0 } }
 	pub fn create_bounds_with_force_position(&mut self, force: bool, position: u32) -> bool { unsafe { tsMeshGeometry_createBounds(self.this, if force {1} else {0}, position) != 0 } }
@@ -7664,10 +8942,13 @@ impl MeshGeometry {
 	pub fn optimize_attributes(&mut self) -> bool { unsafe { tsMeshGeometry_optimizeAttributes(self.this, MAXU32) != 0 } }
 	pub fn optimize_attributes_with_material(&mut self, material: u32) -> bool { unsafe { tsMeshGeometry_optimizeAttributes(self.this, material) != 0 } }
 	pub fn optimize_materials(&mut self) { unsafe { tsMeshGeometry_optimizeMaterials(self.this) } }
+	pub fn optimize_order(&mut self) { unsafe { tsMeshGeometry_optimizeOrder(self.this) } }
 	pub fn pack_attributes(&mut self) -> bool { unsafe { tsMeshGeometry_packAttributes(self.this, 1) != 0 } }
 	pub fn pack_attributes_with_remove(&mut self, remove: bool) -> bool { unsafe { tsMeshGeometry_packAttributes(self.this, if remove {1} else {0}) != 0 } }
 	pub fn unpack_attributes(&mut self) -> bool { unsafe { tsMeshGeometry_unpackAttributes(self.this, 1) != 0 } }
 	pub fn unpack_attributes_with_remove(&mut self, remove: bool) -> bool { unsafe { tsMeshGeometry_unpackAttributes(self.this, if remove {1} else {0}) != 0 } }
+	pub fn add_geometry(&mut self, geometry: &MeshGeometry) -> bool { unsafe { tsMeshGeometry_addGeometry(self.this, geometry.this, &Matrix4x3f::identity()) != 0 } }
+	pub fn add_geometry_with_transform(&mut self, geometry: &MeshGeometry, transform: &Matrix4x3f) -> bool { unsafe { tsMeshGeometry_addGeometry(self.this, geometry.this, transform) != 0 } }
 	pub fn compare(&self, geometry: &MeshGeometry) -> i32 { unsafe { tsMeshGeometry_compare(self.this, geometry.this, &Matrix4x3f::identity(), 1e-6, 1) } }
 	pub fn compare_with_transform(&self, geometry: &MeshGeometry, transform: &Matrix4x3f) -> i32 { unsafe { tsMeshGeometry_compare(self.this, geometry.this, transform, 1e-6, 1) } }
 	pub fn compare_with_transform_threshold(&self, geometry: &MeshGeometry, transform: &Matrix4x3f, threshold: f32) -> i32 { unsafe { tsMeshGeometry_compare(self.this, geometry.this, transform, threshold, 1) } }
@@ -7814,6 +9095,7 @@ extern "C" {
 	fn tsMeshGeometry_hasVisibilityRange(this: *const c_void) -> i32;
 	fn tsMeshGeometry_setVisibilityError(this: *mut c_void, error: f32);
 	fn tsMeshGeometry_getVisibilityError(this: *const c_void) -> f32;
+	fn tsMeshGeometry_flipWinding(this: *mut c_void);
 	fn tsMeshGeometry_createBounds(this: *mut c_void, force: i32, position: u32) -> i32;
 	fn tsMeshGeometry_createBasis_buuub(this: *mut c_void, force: i32, position: u32, normal: u32, tangent: u32, append: i32) -> u32;
 	fn tsMeshGeometry_createBasis_fbuuub(this: *mut c_void, angle: f32, force: i32, position: u32, normal: u32, tangent: u32, append: i32) -> u32;
@@ -7824,8 +9106,10 @@ extern "C" {
 	fn tsMeshGeometry_optimizeIndices(this: *mut c_void, cache: u32, transparent: i32, index: u32, position: u32) -> i32;
 	fn tsMeshGeometry_optimizeAttributes(this: *mut c_void, material: u32) -> i32;
 	fn tsMeshGeometry_optimizeMaterials(this: *mut c_void);
+	fn tsMeshGeometry_optimizeOrder(this: *mut c_void);
 	fn tsMeshGeometry_packAttributes(this: *mut c_void, remove: i32) -> i32;
 	fn tsMeshGeometry_unpackAttributes(this: *mut c_void, remove: i32) -> i32;
+	fn tsMeshGeometry_addGeometry(this: *mut c_void, geometry: *mut c_void, transform: *const Matrix4x3f) -> i32;
 	fn tsMeshGeometry_compare(this: *const c_void, geometry: *mut c_void, transform: *const Matrix4x3f, threshold: f32, spatial: i32) -> i32;
 	fn tsMeshGeometry_isOptimized(this: *const c_void) -> i32;
 	fn tsMeshGeometry_validate(this: *const c_void) -> i32;
@@ -23354,8 +24638,8 @@ impl DeviceTrait for Device {
 	fn create_buffer_with_flags_src_format(&self, flags: BufferFlags, src: *const c_void, size: usize, format: Format) -> Buffer { unsafe { Buffer::new_ptr(tsDevice_createBuffer_cBFpzF(self.this, flags, src, size, format)) } }
 	fn create_sampler(&self) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_c(self.this)) } }
 	fn create_sampler_with_sampler(&self, sampler: &Sampler) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_ccS(self.this, sampler.this)) } }
-	fn create_sampler_with_filter(&self, filter: SamplerFilter) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, SamplerWrapMode::Repeat, SamplerCommon::MaxAnisotropy as u32)) } }
-	fn create_sampler_with_filter_mode(&self, filter: SamplerFilter, mode: SamplerWrapMode) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, mode, SamplerCommon::MaxAnisotropy as u32)) } }
+	fn create_sampler_with_filter(&self, filter: SamplerFilter) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, SamplerWrapMode::Repeat, SamplerCommon::MaxAnisotropy.0)) } }
+	fn create_sampler_with_filter_mode(&self, filter: SamplerFilter, mode: SamplerWrapMode) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, mode, SamplerCommon::MaxAnisotropy.0)) } }
 	fn create_sampler_with_filter_mode_anisotropy(&self, filter: SamplerFilter, mode: SamplerWrapMode, anisotropy: u32) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, mode, anisotropy)) } }
 	fn create_texture(&self) -> Texture { unsafe { Texture::new_ptr(tsDevice_createTexture_c(self.this)) } }
 	fn create_texture_with_shared(&self, shared: &mut Texture) -> Texture { unsafe { Texture::new_ptr(tsDevice_createTexture_cT(self.this, shared.this)) } }
@@ -24158,8 +25442,8 @@ impl DeviceTrait for D3D12Device {
 	fn create_buffer_with_flags_src_format(&self, flags: BufferFlags, src: *const c_void, size: usize, format: Format) -> Buffer { unsafe { Buffer::new_ptr(tsDevice_createBuffer_cBFpzF(self.this, flags, src, size, format)) } }
 	fn create_sampler(&self) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_c(self.this)) } }
 	fn create_sampler_with_sampler(&self, sampler: &Sampler) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_ccS(self.this, sampler.this)) } }
-	fn create_sampler_with_filter(&self, filter: SamplerFilter) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, SamplerWrapMode::Repeat, SamplerCommon::MaxAnisotropy as u32)) } }
-	fn create_sampler_with_filter_mode(&self, filter: SamplerFilter, mode: SamplerWrapMode) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, mode, SamplerCommon::MaxAnisotropy as u32)) } }
+	fn create_sampler_with_filter(&self, filter: SamplerFilter) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, SamplerWrapMode::Repeat, SamplerCommon::MaxAnisotropy.0)) } }
+	fn create_sampler_with_filter_mode(&self, filter: SamplerFilter, mode: SamplerWrapMode) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, mode, SamplerCommon::MaxAnisotropy.0)) } }
 	fn create_sampler_with_filter_mode_anisotropy(&self, filter: SamplerFilter, mode: SamplerWrapMode, anisotropy: u32) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, mode, anisotropy)) } }
 	fn create_texture(&self) -> Texture { unsafe { Texture::new_ptr(tsDevice_createTexture_c(self.this)) } }
 	fn create_texture_with_shared(&self, shared: &mut Texture) -> Texture { unsafe { Texture::new_ptr(tsDevice_createTexture_cT(self.this, shared.this)) } }
@@ -24637,8 +25921,8 @@ impl DeviceTrait for D3D11Device {
 	fn create_buffer_with_flags_src_format(&self, flags: BufferFlags, src: *const c_void, size: usize, format: Format) -> Buffer { unsafe { Buffer::new_ptr(tsDevice_createBuffer_cBFpzF(self.this, flags, src, size, format)) } }
 	fn create_sampler(&self) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_c(self.this)) } }
 	fn create_sampler_with_sampler(&self, sampler: &Sampler) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_ccS(self.this, sampler.this)) } }
-	fn create_sampler_with_filter(&self, filter: SamplerFilter) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, SamplerWrapMode::Repeat, SamplerCommon::MaxAnisotropy as u32)) } }
-	fn create_sampler_with_filter_mode(&self, filter: SamplerFilter, mode: SamplerWrapMode) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, mode, SamplerCommon::MaxAnisotropy as u32)) } }
+	fn create_sampler_with_filter(&self, filter: SamplerFilter) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, SamplerWrapMode::Repeat, SamplerCommon::MaxAnisotropy.0)) } }
+	fn create_sampler_with_filter_mode(&self, filter: SamplerFilter, mode: SamplerWrapMode) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, mode, SamplerCommon::MaxAnisotropy.0)) } }
 	fn create_sampler_with_filter_mode_anisotropy(&self, filter: SamplerFilter, mode: SamplerWrapMode, anisotropy: u32) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, mode, anisotropy)) } }
 	fn create_texture(&self) -> Texture { unsafe { Texture::new_ptr(tsDevice_createTexture_c(self.this)) } }
 	fn create_texture_with_shared(&self, shared: &mut Texture) -> Texture { unsafe { Texture::new_ptr(tsDevice_createTexture_cT(self.this, shared.this)) } }
@@ -25118,8 +26402,8 @@ impl DeviceTrait for MTLDevice {
 	fn create_buffer_with_flags_src_format(&self, flags: BufferFlags, src: *const c_void, size: usize, format: Format) -> Buffer { unsafe { Buffer::new_ptr(tsDevice_createBuffer_cBFpzF(self.this, flags, src, size, format)) } }
 	fn create_sampler(&self) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_c(self.this)) } }
 	fn create_sampler_with_sampler(&self, sampler: &Sampler) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_ccS(self.this, sampler.this)) } }
-	fn create_sampler_with_filter(&self, filter: SamplerFilter) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, SamplerWrapMode::Repeat, SamplerCommon::MaxAnisotropy as u32)) } }
-	fn create_sampler_with_filter_mode(&self, filter: SamplerFilter, mode: SamplerWrapMode) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, mode, SamplerCommon::MaxAnisotropy as u32)) } }
+	fn create_sampler_with_filter(&self, filter: SamplerFilter) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, SamplerWrapMode::Repeat, SamplerCommon::MaxAnisotropy.0)) } }
+	fn create_sampler_with_filter_mode(&self, filter: SamplerFilter, mode: SamplerWrapMode) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, mode, SamplerCommon::MaxAnisotropy.0)) } }
 	fn create_sampler_with_filter_mode_anisotropy(&self, filter: SamplerFilter, mode: SamplerWrapMode, anisotropy: u32) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, mode, anisotropy)) } }
 	fn create_texture(&self) -> Texture { unsafe { Texture::new_ptr(tsDevice_createTexture_c(self.this)) } }
 	fn create_texture_with_shared(&self, shared: &mut Texture) -> Texture { unsafe { Texture::new_ptr(tsDevice_createTexture_cT(self.this, shared.this)) } }
@@ -25616,8 +26900,8 @@ impl DeviceTrait for VKDevice {
 	fn create_buffer_with_flags_src_format(&self, flags: BufferFlags, src: *const c_void, size: usize, format: Format) -> Buffer { unsafe { Buffer::new_ptr(tsDevice_createBuffer_cBFpzF(self.this, flags, src, size, format)) } }
 	fn create_sampler(&self) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_c(self.this)) } }
 	fn create_sampler_with_sampler(&self, sampler: &Sampler) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_ccS(self.this, sampler.this)) } }
-	fn create_sampler_with_filter(&self, filter: SamplerFilter) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, SamplerWrapMode::Repeat, SamplerCommon::MaxAnisotropy as u32)) } }
-	fn create_sampler_with_filter_mode(&self, filter: SamplerFilter, mode: SamplerWrapMode) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, mode, SamplerCommon::MaxAnisotropy as u32)) } }
+	fn create_sampler_with_filter(&self, filter: SamplerFilter) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, SamplerWrapMode::Repeat, SamplerCommon::MaxAnisotropy.0)) } }
+	fn create_sampler_with_filter_mode(&self, filter: SamplerFilter, mode: SamplerWrapMode) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, mode, SamplerCommon::MaxAnisotropy.0)) } }
 	fn create_sampler_with_filter_mode_anisotropy(&self, filter: SamplerFilter, mode: SamplerWrapMode, anisotropy: u32) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, mode, anisotropy)) } }
 	fn create_texture(&self) -> Texture { unsafe { Texture::new_ptr(tsDevice_createTexture_c(self.this)) } }
 	fn create_texture_with_shared(&self, shared: &mut Texture) -> Texture { unsafe { Texture::new_ptr(tsDevice_createTexture_cT(self.this, shared.this)) } }
@@ -26114,8 +27398,8 @@ impl DeviceTrait for FUDevice {
 	fn create_buffer_with_flags_src_format(&self, flags: BufferFlags, src: *const c_void, size: usize, format: Format) -> Buffer { unsafe { Buffer::new_ptr(tsDevice_createBuffer_cBFpzF(self.this, flags, src, size, format)) } }
 	fn create_sampler(&self) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_c(self.this)) } }
 	fn create_sampler_with_sampler(&self, sampler: &Sampler) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_ccS(self.this, sampler.this)) } }
-	fn create_sampler_with_filter(&self, filter: SamplerFilter) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, SamplerWrapMode::Repeat, SamplerCommon::MaxAnisotropy as u32)) } }
-	fn create_sampler_with_filter_mode(&self, filter: SamplerFilter, mode: SamplerWrapMode) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, mode, SamplerCommon::MaxAnisotropy as u32)) } }
+	fn create_sampler_with_filter(&self, filter: SamplerFilter) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, SamplerWrapMode::Repeat, SamplerCommon::MaxAnisotropy.0)) } }
+	fn create_sampler_with_filter_mode(&self, filter: SamplerFilter, mode: SamplerWrapMode) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, mode, SamplerCommon::MaxAnisotropy.0)) } }
 	fn create_sampler_with_filter_mode_anisotropy(&self, filter: SamplerFilter, mode: SamplerWrapMode, anisotropy: u32) -> Sampler { unsafe { Sampler::new_ptr(tsDevice_createSampler_cSFSWMu(self.this, filter, mode, anisotropy)) } }
 	fn create_texture(&self) -> Texture { unsafe { Texture::new_ptr(tsDevice_createTexture_c(self.this)) } }
 	fn create_texture_with_shared(&self, shared: &mut Texture) -> Texture { unsafe { Texture::new_ptr(tsDevice_createTexture_cT(self.this, shared.this)) } }
@@ -35640,6 +36924,10 @@ impl ControlGrid {
 	pub fn spacing(&self) -> Vector2f { unsafe { tsControlGrid_getSpacing(self.this) } }
 	pub fn set_column_ratio(&mut self, index: u32, ratio: f32) { unsafe { tsControlGrid_setColumnRatio(self.this, index, ratio) } }
 	pub fn column_ratio(&self, index: u32) -> f32 { unsafe { tsControlGrid_getColumnRatio(self.this, index) } }
+	pub fn set_column_spacing(&mut self, index: u32, spacing: f32) { unsafe { tsControlGrid_setColumnSpacing(self.this, index, spacing) } }
+	pub fn column_spacing(&self, index: u32) -> f32 { unsafe { tsControlGrid_getColumnSpacing(self.this, index) } }
+	pub fn set_row_spacing(&mut self, index: u32, spacing: f32) { unsafe { tsControlGrid_setRowSpacing(self.this, index, spacing) } }
+	pub fn row_spacing(&self, index: u32) -> f32 { unsafe { tsControlGrid_getRowSpacing(self.this, index) } }
 	pub fn controls_size(&self) -> Vector2f { unsafe { tsControlGrid_getControlsSize(self.this) } }
 }
 impl ControlTrait for ControlGrid {
@@ -35780,6 +37068,10 @@ extern "C" {
 	fn tsControlGrid_getSpacing(this: *const c_void) -> Vector2f;
 	fn tsControlGrid_setColumnRatio(this: *mut c_void, index: u32, ratio: f32);
 	fn tsControlGrid_getColumnRatio(this: *const c_void, index: u32) -> f32;
+	fn tsControlGrid_setColumnSpacing(this: *mut c_void, index: u32, spacing: f32);
+	fn tsControlGrid_getColumnSpacing(this: *const c_void, index: u32) -> f32;
+	fn tsControlGrid_setRowSpacing(this: *mut c_void, index: u32, spacing: f32);
+	fn tsControlGrid_getRowSpacing(this: *const c_void, index: u32) -> f32;
 	fn tsControlGrid_getControlsSize(this: *const c_void) -> Vector2f;
 }
 
@@ -35879,6 +37171,10 @@ impl ControlGroup {
 	pub fn spacing(&self) -> Vector2f { unsafe { tsControlGroup_getSpacing(self.this) } }
 	pub fn set_column_ratio(&mut self, index: u32, ratio: f32) { unsafe { tsControlGroup_setColumnRatio(self.this, index, ratio) } }
 	pub fn column_ratio(&self, index: u32) -> f32 { unsafe { tsControlGroup_getColumnRatio(self.this, index) } }
+	pub fn set_column_spacing(&mut self, index: u32, spacing: f32) { unsafe { tsControlGroup_setColumnSpacing(self.this, index, spacing) } }
+	pub fn column_spacing(&self, index: u32) -> f32 { unsafe { tsControlGroup_getColumnSpacing(self.this, index) } }
+	pub fn set_row_spacing(&mut self, index: u32, spacing: f32) { unsafe { tsControlGroup_setRowSpacing(self.this, index, spacing) } }
+	pub fn row_spacing(&self, index: u32) -> f32 { unsafe { tsControlGroup_getRowSpacing(self.this, index) } }
 	pub fn controls_size(&self) -> Vector2f { unsafe { tsControlGroup_getControlsSize(self.this) } }
 	pub fn set_clicked_callback<Func>(&mut self, func: Func) where Func: FnMut(ControlGroup) {
 		let func = Box::leak(Box::new(func));
@@ -36104,6 +37400,10 @@ extern "C" {
 	fn tsControlGroup_getSpacing(this: *const c_void) -> Vector2f;
 	fn tsControlGroup_setColumnRatio(this: *mut c_void, index: u32, ratio: f32);
 	fn tsControlGroup_getColumnRatio(this: *const c_void, index: u32) -> f32;
+	fn tsControlGroup_setColumnSpacing(this: *mut c_void, index: u32, spacing: f32);
+	fn tsControlGroup_getColumnSpacing(this: *const c_void, index: u32) -> f32;
+	fn tsControlGroup_setRowSpacing(this: *mut c_void, index: u32, spacing: f32);
+	fn tsControlGroup_getRowSpacing(this: *const c_void, index: u32) -> f32;
 	fn tsControlGroup_getControlsSize(this: *const c_void) -> Vector2f;
 	fn tsControlGroup_setClickedCallback(this: *mut c_void, func: ControlGroupClickedCallback, data_: *mut c_void);
 	fn tsControlGroup_isClicked(this: *mut c_void) -> i32;
@@ -36148,6 +37448,10 @@ pub trait ControlPanelTrait {
 	fn spacing(&self) -> Vector2f;
 	fn set_column_ratio(&mut self, index: u32, ratio: f32);
 	fn column_ratio(&self, index: u32) -> f32;
+	fn set_column_spacing(&mut self, index: u32, spacing: f32);
+	fn column_spacing(&self, index: u32) -> f32;
+	fn set_row_spacing(&mut self, index: u32, spacing: f32);
+	fn row_spacing(&self, index: u32) -> f32;
 	fn controls_size(&self) -> Vector2f;
 }
 impl ControlPanelTrait for ControlPanel {
@@ -36158,6 +37462,10 @@ impl ControlPanelTrait for ControlPanel {
 	fn spacing(&self) -> Vector2f { unsafe { tsControlPanel_getSpacing(self.this) } }
 	fn set_column_ratio(&mut self, index: u32, ratio: f32) { unsafe { tsControlPanel_setColumnRatio(self.this, index, ratio) } }
 	fn column_ratio(&self, index: u32) -> f32 { unsafe { tsControlPanel_getColumnRatio(self.this, index) } }
+	fn set_column_spacing(&mut self, index: u32, spacing: f32) { unsafe { tsControlPanel_setColumnSpacing(self.this, index, spacing) } }
+	fn column_spacing(&self, index: u32) -> f32 { unsafe { tsControlPanel_getColumnSpacing(self.this, index) } }
+	fn set_row_spacing(&mut self, index: u32, spacing: f32) { unsafe { tsControlPanel_setRowSpacing(self.this, index, spacing) } }
+	fn row_spacing(&self, index: u32) -> f32 { unsafe { tsControlPanel_getRowSpacing(self.this, index) } }
 	fn controls_size(&self) -> Vector2f { unsafe { tsControlPanel_getControlsSize(self.this) } }
 }
 impl ControlRectTrait for ControlPanel {
@@ -36391,6 +37699,10 @@ extern "C" {
 	fn tsControlPanel_getSpacing(this: *const c_void) -> Vector2f;
 	fn tsControlPanel_setColumnRatio(this: *mut c_void, index: u32, ratio: f32);
 	fn tsControlPanel_getColumnRatio(this: *const c_void, index: u32) -> f32;
+	fn tsControlPanel_setColumnSpacing(this: *mut c_void, index: u32, spacing: f32);
+	fn tsControlPanel_getColumnSpacing(this: *const c_void, index: u32) -> f32;
+	fn tsControlPanel_setRowSpacing(this: *mut c_void, index: u32, spacing: f32);
+	fn tsControlPanel_getRowSpacing(this: *const c_void, index: u32) -> f32;
 	fn tsControlPanel_getControlsSize(this: *const c_void) -> Vector2f;
 }
 
@@ -36478,6 +37790,10 @@ impl ControlPanelTrait for ControlDialog {
 	fn spacing(&self) -> Vector2f { unsafe { tsControlPanel_getSpacing(self.this) } }
 	fn set_column_ratio(&mut self, index: u32, ratio: f32) { unsafe { tsControlPanel_setColumnRatio(self.this, index, ratio) } }
 	fn column_ratio(&self, index: u32) -> f32 { unsafe { tsControlPanel_getColumnRatio(self.this, index) } }
+	fn set_column_spacing(&mut self, index: u32, spacing: f32) { unsafe { tsControlPanel_setColumnSpacing(self.this, index, spacing) } }
+	fn column_spacing(&self, index: u32) -> f32 { unsafe { tsControlPanel_getColumnSpacing(self.this, index) } }
+	fn set_row_spacing(&mut self, index: u32, spacing: f32) { unsafe { tsControlPanel_setRowSpacing(self.this, index, spacing) } }
+	fn row_spacing(&self, index: u32) -> f32 { unsafe { tsControlPanel_getRowSpacing(self.this, index) } }
 	fn controls_size(&self) -> Vector2f { unsafe { tsControlPanel_getControlsSize(self.this) } }
 }
 impl ControlRectTrait for ControlDialog {
@@ -36786,6 +38102,10 @@ impl ControlPanelTrait for ControlWindow {
 	fn spacing(&self) -> Vector2f { unsafe { tsControlPanel_getSpacing(self.this) } }
 	fn set_column_ratio(&mut self, index: u32, ratio: f32) { unsafe { tsControlPanel_setColumnRatio(self.this, index, ratio) } }
 	fn column_ratio(&self, index: u32) -> f32 { unsafe { tsControlPanel_getColumnRatio(self.this, index) } }
+	fn set_column_spacing(&mut self, index: u32, spacing: f32) { unsafe { tsControlPanel_setColumnSpacing(self.this, index, spacing) } }
+	fn column_spacing(&self, index: u32) -> f32 { unsafe { tsControlPanel_getColumnSpacing(self.this, index) } }
+	fn set_row_spacing(&mut self, index: u32, spacing: f32) { unsafe { tsControlPanel_setRowSpacing(self.this, index, spacing) } }
+	fn row_spacing(&self, index: u32) -> f32 { unsafe { tsControlPanel_getRowSpacing(self.this, index) } }
 	fn controls_size(&self) -> Vector2f { unsafe { tsControlPanel_getControlsSize(self.this) } }
 }
 impl ControlRectTrait for ControlWindow {
@@ -38859,6 +40179,10 @@ impl ControlArea {
 	pub fn spacing(&self) -> Vector2f { unsafe { tsControlArea_getSpacing(self.this) } }
 	pub fn set_column_ratio(&mut self, index: u32, ratio: f32) { unsafe { tsControlArea_setColumnRatio(self.this, index, ratio) } }
 	pub fn column_ratio(&self, index: u32) -> f32 { unsafe { tsControlArea_getColumnRatio(self.this, index) } }
+	pub fn set_column_spacing(&mut self, index: u32, spacing: f32) { unsafe { tsControlArea_setColumnSpacing(self.this, index, spacing) } }
+	pub fn column_spacing(&self, index: u32) -> f32 { unsafe { tsControlArea_getColumnSpacing(self.this, index) } }
+	pub fn set_row_spacing(&mut self, index: u32, spacing: f32) { unsafe { tsControlArea_setRowSpacing(self.this, index, spacing) } }
+	pub fn row_spacing(&self, index: u32) -> f32 { unsafe { tsControlArea_getRowSpacing(self.this, index) } }
 	pub fn controls_size(&self) -> Vector2f { unsafe { tsControlArea_getControlsSize(self.this) } }
 	pub fn controls_offset(&self) -> Vector2f { unsafe { tsControlArea_getControlsOffset(self.this) } }
 	pub fn view_rect(&self) -> Rect { unsafe { tsControlArea_getViewRect(self.this) } }
@@ -39047,6 +40371,10 @@ extern "C" {
 	fn tsControlArea_getSpacing(this: *const c_void) -> Vector2f;
 	fn tsControlArea_setColumnRatio(this: *mut c_void, index: u32, ratio: f32);
 	fn tsControlArea_getColumnRatio(this: *const c_void, index: u32) -> f32;
+	fn tsControlArea_setColumnSpacing(this: *mut c_void, index: u32, spacing: f32);
+	fn tsControlArea_getColumnSpacing(this: *const c_void, index: u32) -> f32;
+	fn tsControlArea_setRowSpacing(this: *mut c_void, index: u32, spacing: f32);
+	fn tsControlArea_getRowSpacing(this: *const c_void, index: u32) -> f32;
 	fn tsControlArea_getControlsSize(this: *const c_void) -> Vector2f;
 	fn tsControlArea_getControlsOffset(this: *const c_void) -> Vector2f;
 	fn tsControlArea_getViewRect(this: *const c_void) -> Rect;
@@ -40847,6 +42175,16 @@ impl CubeFilter {
 		unsafe { tsCubeFilter_dispatch_cCTcSBu(self.this, compute.this, texture.this, match slice { Some(slice) => slice, None => &slice_ }, buffer.this, offset) != 0 }
 	}
 	pub fn dispatch_with_texture(&self, compute: &mut Compute, texture: &mut Texture, buffer: &mut Buffer, offset: u32) -> bool { unsafe { tsCubeFilter_dispatch_cCTBu(self.this, compute.this, texture.this, buffer.this, offset) != 0 } }
+	pub fn dispatch_with_dest_destslice(&self, compute: &mut Compute, dest: &mut Texture, src: &mut Texture, dest_slice: Option<&Slice>, src_slice: Option<&Slice>) -> bool {
+		let dest_slice_ = Slice::default();
+		let src_slice_ = Slice::default();
+		unsafe { tsCubeFilter_dispatch_cCTTcScS(self.this, compute.this, dest.this, src.this, match dest_slice { Some(dest_slice) => dest_slice, None => &dest_slice_ }, match src_slice { Some(src_slice) => src_slice, None => &src_slice_ }) != 0 }
+	}
+	pub fn dispatch_with_dest_srcslice(&self, compute: &mut Compute, dest: &mut Texture, src: &mut Texture, src_slice: Option<&Slice>) -> bool {
+		let src_slice_ = Slice::default();
+		unsafe { tsCubeFilter_dispatch_cCTTcS(self.this, compute.this, dest.this, src.this, match src_slice { Some(src_slice) => src_slice, None => &src_slice_ }) != 0 }
+	}
+	pub fn dispatch_with_dest(&self, compute: &mut Compute, dest: &mut Texture, src: &mut Texture) -> bool { unsafe { tsCubeFilter_dispatch_cCTT(self.this, compute.this, dest.this, src.this) != 0 } }
 }
 impl Drop for CubeFilter {
 	fn drop(&mut self) { if self.owner { unsafe { tsCubeFilter_delete(self.this) } } }
@@ -40897,6 +42235,9 @@ extern "C" {
 	fn tsCubeFilter_dispatch_cCBuT(this: *const c_void, compute: *mut c_void, buffer: *mut c_void, offset: u32, texture: *mut c_void) -> i32;
 	fn tsCubeFilter_dispatch_cCTcSBu(this: *const c_void, compute: *mut c_void, texture: *mut c_void, slice: *const Slice, buffer: *mut c_void, offset: u32) -> i32;
 	fn tsCubeFilter_dispatch_cCTBu(this: *const c_void, compute: *mut c_void, texture: *mut c_void, buffer: *mut c_void, offset: u32) -> i32;
+	fn tsCubeFilter_dispatch_cCTTcScS(this: *const c_void, compute: *mut c_void, dest: *mut c_void, src: *mut c_void, dest_slice: *const Slice, src_slice: *const Slice) -> i32;
+	fn tsCubeFilter_dispatch_cCTTcS(this: *const c_void, compute: *mut c_void, dest: *mut c_void, src: *mut c_void, src_slice: *const Slice) -> i32;
+	fn tsCubeFilter_dispatch_cCTT(this: *const c_void, compute: *mut c_void, dest: *mut c_void, src: *mut c_void) -> i32;
 }
 
 // Tellusim::DecoderJPEG
