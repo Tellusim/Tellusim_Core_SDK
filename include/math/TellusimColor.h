@@ -258,6 +258,12 @@ namespace Tellusim {
 	TS_INLINE bool operator!=(const Color &c0, const Color &c1) {
 		return (c0.r != c1.r || c0.g != c1.g || c0.b != c1.b || c0.a != c1.a);
 	}
+	TS_INLINE bool compare(const Color &c0, const Color &c1, float32_t a) {
+		return (compare(c0.r, c1.r, a) && compare(c0.g, c1.g, a) && compare(c0.b, c1.b, a) && compare(c0.a, c1.a, a));
+	}
+	TS_INLINE bool compare(const Color &c0, const Color &c1, float32_t a, float32_t r) {
+		return (compare(c0.r, c1.r, a, r) && compare(c0.g, c1.g, a, r) && compare(c0.b, c1.b, a, r) && compare(c0.a, c1.a, a, r));
+	}
 	
 	/// min/max functions
 	TS_INLINE Color min(const Color &c0, const Color &c1) {
@@ -290,6 +296,9 @@ namespace Tellusim {
 	}
 	TS_INLINE Color lerp(const Color &c0, const Color &c1, float32_t k) {
 		return c0 + (c1 - c0) * Color(k, k);
+	}
+	TS_INLINE Color lerp(const Color &c0, const Color &c1, const Color &k) {
+		return c0 + (c1 - c0) * k;
 	}
 }
 

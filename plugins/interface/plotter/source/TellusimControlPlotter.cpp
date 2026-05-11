@@ -19,7 +19,17 @@ namespace Tellusim {
 	}
 	
 	ControlPlotter::~ControlPlotter() {
-		if(canvas_rect) canvas_rect.setDrawCallback(CanvasElement::DrawCallback());
+		
+	}
+	
+	/*
+	 */
+	void ControlPlotter::clear() {
+		Canvas canvas = getCanvas();
+		canvas_rect = CanvasRect(canvas);
+		canvas.removeElement(canvas_rect);
+		canvas_rect.clearPtr();
+		ControlBase::clear();
 	}
 	
 	/*

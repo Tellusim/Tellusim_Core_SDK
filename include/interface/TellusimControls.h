@@ -692,6 +692,14 @@ namespace Tellusim {
 			void setColumnRatio(uint32_t index, float32_t ratio);
 			float32_t getColumnRatio(uint32_t index) const;
 			
+			/// grid column spacing
+			void setColumnSpacing(uint32_t index, float32_t spacing);
+			float32_t getColumnSpacing(uint32_t index) const;
+			
+			/// grid row spacing
+			void setRowSpacing(uint32_t index, float32_t spacing);
+			float32_t getRowSpacing(uint32_t index) const;
+			
 			/// controls size
 			const Vector2f &getControlsSize() const;
 	};
@@ -774,6 +782,14 @@ namespace Tellusim {
 			void setColumnRatio(uint32_t index, float32_t ratio);
 			float32_t getColumnRatio(uint32_t index) const;
 			
+			/// grid column spacing
+			void setColumnSpacing(uint32_t index, float32_t spacing);
+			float32_t getColumnSpacing(uint32_t index) const;
+			
+			/// grid row spacing
+			void setRowSpacing(uint32_t index, float32_t spacing);
+			float32_t getRowSpacing(uint32_t index) const;
+			
 			/// controls size
 			const Vector2f &getControlsSize() const;
 			
@@ -815,6 +831,14 @@ namespace Tellusim {
 			/// grid column ratio
 			void setColumnRatio(uint32_t index, float32_t ratio);
 			float32_t getColumnRatio(uint32_t index) const;
+			
+			/// grid column spacing
+			void setColumnSpacing(uint32_t index, float32_t spacing);
+			float32_t getColumnSpacing(uint32_t index) const;
+			
+			/// grid row spacing
+			void setRowSpacing(uint32_t index, float32_t spacing);
+			float32_t getRowSpacing(uint32_t index) const;
 			
 			/// controls size
 			const Vector2f &getControlsSize() const;
@@ -1409,6 +1433,14 @@ namespace Tellusim {
 			/// grid column ratio
 			void setColumnRatio(uint32_t index, float32_t ratio);
 			float32_t getColumnRatio(uint32_t index) const;
+			
+			/// grid column spacing
+			void setColumnSpacing(uint32_t index, float32_t spacing);
+			float32_t getColumnSpacing(uint32_t index) const;
+			
+			/// grid row spacing
+			void setRowSpacing(uint32_t index, float32_t spacing);
+			float32_t getRowSpacing(uint32_t index) const;
 			
 			/// controls size
 			const Vector2f &getControlsSize() const;

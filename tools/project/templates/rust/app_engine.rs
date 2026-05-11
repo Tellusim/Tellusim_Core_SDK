@@ -173,8 +173,8 @@ impl Application {
 		window.set_keyboard_pressed_callback({
 			let mut window = window.copy_ptr();
 			move |key: u32, _code: u32| {
-				if key == WindowKey::F4 as u32 && window.keyboard_key(WindowKey::Alt as u32) { window.stop() }
-				if key == WindowKey::Esc as u32 { window.stop() }
+				if key == WindowKey::F4 && window.keyboard_key(WindowKey::Alt.value()) { window.stop() }
+				if key == WindowKey::Esc { window.stop() }
 			}
 		});
 		window.set_close_clicked_callback({

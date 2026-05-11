@@ -158,6 +158,7 @@ public class MeshGeometry {
 	public boolean hasVisibilityRange() { return has_visibility_range(self); }
 	public void setVisibilityError(float error) { set_visibility_error(self, error); }
 	public float getVisibilityError() { return get_visibility_error(self); }
+	public void flipWinding() { flip_winding(self); }
 	public boolean createBounds() { return create_bounds(self, false, Base.Maxu32); }
 	public boolean createBounds(boolean force) { return create_bounds(self, force, Base.Maxu32); }
 	public boolean createBounds(boolean force, int position) { return create_bounds(self, force, position); }
@@ -200,10 +201,13 @@ public class MeshGeometry {
 	public boolean optimizeAttributes() { return optimize_attributes(self, Base.Maxu32); }
 	public boolean optimizeAttributes(int material) { return optimize_attributes(self, material); }
 	public void optimizeMaterials() { optimize_materials(self); }
+	public void optimizeOrder() { optimize_order(self); }
 	public boolean packAttributes() { return pack_attributes(self, true); }
 	public boolean packAttributes(boolean remove) { return pack_attributes(self, remove); }
 	public boolean unpackAttributes() { return unpack_attributes(self, true); }
 	public boolean unpackAttributes(boolean remove) { return unpack_attributes(self, remove); }
+	public boolean addGeometry(MeshGeometry geometry) { return add_geometry(self, geometry.self, Matrix4x3f.identity().self); }
+	public boolean addGeometry(MeshGeometry geometry, Matrix4x3f transform) { return add_geometry(self, geometry.self, transform.self); }
 	public int compare(MeshGeometry geometry) { return compare_(self, geometry.self, Matrix4x3f.identity().self, 1e-6f, true); }
 	public int compare(MeshGeometry geometry, Matrix4x3f transform) { return compare_(self, geometry.self, transform.self, 1e-6f, true); }
 	public int compare(MeshGeometry geometry, Matrix4x3f transform, float threshold) { return compare_(self, geometry.self, transform.self, threshold, true); }
@@ -326,6 +330,7 @@ public class MeshGeometry {
 	private static native boolean has_visibility_range(long self);
 	private static native void set_visibility_error(long self, float error);
 	private static native float get_visibility_error(long self);
+	private static native void flip_winding(long self);
 	private static native boolean create_bounds(long self, boolean force, int position);
 	private static native int create_basis(long self, boolean force, int position, int normal, int tangent, boolean append);
 	private static native int create_basis_1(long self, float angle, boolean force, int position, int normal, int tangent, boolean append);
@@ -336,8 +341,10 @@ public class MeshGeometry {
 	private static native boolean optimize_indices(long self, int cache, boolean transparent, int index, int position);
 	private static native boolean optimize_attributes(long self, int material);
 	private static native void optimize_materials(long self);
+	private static native void optimize_order(long self);
 	private static native boolean pack_attributes(long self, boolean remove);
 	private static native boolean unpack_attributes(long self, boolean remove);
+	private static native boolean add_geometry(long self, long geometry, long transform);
 	private static native int compare_(long self, long geometry, long transform, float threshold, boolean spatial);
 	private static native boolean is_optimized(long self);
 	private static native boolean validate_(long self);
