@@ -77,6 +77,15 @@ namespace Tellusim {
 			/// \param offset Source buffer offset.
 			bool dispatch(Compute &compute, Texture &texture, const Slice &slice, Buffer &buffer, uint32_t offset) const;
 			bool dispatch(Compute &compute, Texture &texture, Buffer &buffer, uint32_t offset) const;
+			
+			/// dispatch cube mipmaps generation
+			/// \param dest Destination cube texture (RGBAf16).
+			/// \param src Source environment texture.
+			/// \param dest_slice Destination texture slice.
+			/// \param src_slice Source environment texture slice.
+			bool dispatch(Compute &compute, Texture &dest, Texture &src, const Slice &dest_slice, const Slice &src_slice) const;
+			bool dispatch(Compute &compute, Texture &dest, Texture &src, const Slice &src_slice) const;
+			bool dispatch(Compute &compute, Texture &dest, Texture &src) const;
 	};
 	
 	/*
