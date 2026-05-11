@@ -3158,7 +3158,8 @@ TS_CAPI const void* TS_CCALL tsMeshAttribute_getPtr_cu(TSMeshAttribute self, uin
 TS_CAPI void* TS_CCALL tsMeshAttribute_getPtr_u(TSMeshAttribute self, uint32_t index);
 TS_CAPI int32_t TS_CCALL tsMeshAttribute_compare(TSMeshAttribute self, const TSMeshAttribute attribute, const TSMatrix4x3f *transform, float32_t threshold, bool_t spatial);
 TS_CAPI void TS_CCALL tsMeshAttribute_addAttribute(TSMeshAttribute self, const TSMeshAttribute attribute);
-TS_CAPI bool_t TS_CCALL tsMeshAttribute_setTransform(TSMeshAttribute self, const TSMatrix4x3f *transform);
+TS_CAPI bool_t TS_CCALL tsMeshAttribute_setTransform_cV3(TSMeshAttribute self, const TSVector3f *scale);
+TS_CAPI bool_t TS_CCALL tsMeshAttribute_setTransform_cM43(TSMeshAttribute self, const TSMatrix4x3f *transform);
 TS_CAPI bool_t TS_CCALL tsMeshAttribute_morphAttribute(TSMeshAttribute self, const TSMeshAttribute attribute, float32_t k);
 TS_CAPI bool_t TS_CCALL tsMeshAttribute_packAttributes(TSMeshAttribute self, const TSMeshAttribute attribute_0, const TSMeshAttribute attribute_1, TS_Format format);
 TS_CAPI bool_t TS_CCALL tsMeshAttribute_unpackAttributes(TSMeshAttribute self, TSMeshAttribute attribute_0, TSMeshAttribute attribute_1);
@@ -3437,6 +3438,7 @@ TS_CAPI float32_t TS_CCALL tsMeshGeometry_getMaxVisibility(TSMeshGeometry self);
 TS_CAPI bool_t TS_CCALL tsMeshGeometry_hasVisibilityRange(TSMeshGeometry self);
 TS_CAPI void TS_CCALL tsMeshGeometry_setVisibilityError(TSMeshGeometry self, float32_t error);
 TS_CAPI float32_t TS_CCALL tsMeshGeometry_getVisibilityError(TSMeshGeometry self);
+TS_CAPI void TS_CCALL tsMeshGeometry_flipWinding(TSMeshGeometry self);
 TS_CAPI bool_t TS_CCALL tsMeshGeometry_createBounds(TSMeshGeometry self, bool_t force, uint32_t position);
 TS_CAPI uint32_t TS_CCALL tsMeshGeometry_createBasis_buuub(TSMeshGeometry self, bool_t force, uint32_t position, uint32_t normal, uint32_t tangent, bool_t append);
 TS_CAPI uint32_t TS_CCALL tsMeshGeometry_createBasis_fbuuub(TSMeshGeometry self, float32_t angle, bool_t force, uint32_t position, uint32_t normal, uint32_t tangent, bool_t append);
@@ -3447,8 +3449,10 @@ TS_CAPI uint32_t TS_CCALL tsMeshGeometry_createIslands(TSMeshGeometry self, uint
 TS_CAPI bool_t TS_CCALL tsMeshGeometry_optimizeIndices(TSMeshGeometry self, uint32_t cache, bool_t transparent, uint32_t index, uint32_t position);
 TS_CAPI bool_t TS_CCALL tsMeshGeometry_optimizeAttributes(TSMeshGeometry self, uint32_t material);
 TS_CAPI void TS_CCALL tsMeshGeometry_optimizeMaterials(TSMeshGeometry self);
+TS_CAPI void TS_CCALL tsMeshGeometry_optimizeOrder(TSMeshGeometry self);
 TS_CAPI bool_t TS_CCALL tsMeshGeometry_packAttributes(TSMeshGeometry self, bool_t remove);
 TS_CAPI bool_t TS_CCALL tsMeshGeometry_unpackAttributes(TSMeshGeometry self, bool_t remove);
+TS_CAPI bool_t TS_CCALL tsMeshGeometry_addGeometry(TSMeshGeometry self, const TSMeshGeometry geometry, const TSMatrix4x3f *transform);
 TS_CAPI int32_t TS_CCALL tsMeshGeometry_compare(TSMeshGeometry self, const TSMeshGeometry geometry, const TSMatrix4x3f *transform, float32_t threshold, bool_t spatial);
 TS_CAPI bool_t TS_CCALL tsMeshGeometry_isOptimized(TSMeshGeometry self);
 TS_CAPI bool_t TS_CCALL tsMeshGeometry_validate(TSMeshGeometry self);
@@ -8473,6 +8477,10 @@ TS_CAPI void TS_CCALL tsControlGrid_setSpacing_ff(TSControlGrid self, float32_t 
 TS_CAPI TSVector2f TS_CCALL tsControlGrid_getSpacing(TSControlGrid self);
 TS_CAPI void TS_CCALL tsControlGrid_setColumnRatio(TSControlGrid self, uint32_t index, float32_t ratio);
 TS_CAPI float32_t TS_CCALL tsControlGrid_getColumnRatio(TSControlGrid self, uint32_t index);
+TS_CAPI void TS_CCALL tsControlGrid_setColumnSpacing(TSControlGrid self, uint32_t index, float32_t spacing);
+TS_CAPI float32_t TS_CCALL tsControlGrid_getColumnSpacing(TSControlGrid self, uint32_t index);
+TS_CAPI void TS_CCALL tsControlGrid_setRowSpacing(TSControlGrid self, uint32_t index, float32_t spacing);
+TS_CAPI float32_t TS_CCALL tsControlGrid_getRowSpacing(TSControlGrid self, uint32_t index);
 TS_CAPI TSVector2f TS_CCALL tsControlGrid_getControlsSize(TSControlGrid self);
 
 /// Tellusim::ControlGroup
@@ -8536,6 +8544,10 @@ TS_CAPI void TS_CCALL tsControlGroup_setSpacing_ff(TSControlGroup self, float32_
 TS_CAPI TSVector2f TS_CCALL tsControlGroup_getSpacing(TSControlGroup self);
 TS_CAPI void TS_CCALL tsControlGroup_setColumnRatio(TSControlGroup self, uint32_t index, float32_t ratio);
 TS_CAPI float32_t TS_CCALL tsControlGroup_getColumnRatio(TSControlGroup self, uint32_t index);
+TS_CAPI void TS_CCALL tsControlGroup_setColumnSpacing(TSControlGroup self, uint32_t index, float32_t spacing);
+TS_CAPI float32_t TS_CCALL tsControlGroup_getColumnSpacing(TSControlGroup self, uint32_t index);
+TS_CAPI void TS_CCALL tsControlGroup_setRowSpacing(TSControlGroup self, uint32_t index, float32_t spacing);
+TS_CAPI float32_t TS_CCALL tsControlGroup_getRowSpacing(TSControlGroup self, uint32_t index);
 TS_CAPI TSVector2f TS_CCALL tsControlGroup_getControlsSize(TSControlGroup self);
 TS_CAPI void TS_CCALL tsControlGroup_setClickedCallback(TSControlGroup self, const TSControlGroupClickedCallback func, void *data_);
 TS_CAPI bool_t TS_CCALL tsControlGroup_isClicked(TSControlGroup self);
@@ -8572,6 +8584,10 @@ TS_CAPI void TS_CCALL tsControlPanel_setSpacing_ff(TSControlPanel self, float32_
 TS_CAPI TSVector2f TS_CCALL tsControlPanel_getSpacing(TSControlPanel self);
 TS_CAPI void TS_CCALL tsControlPanel_setColumnRatio(TSControlPanel self, uint32_t index, float32_t ratio);
 TS_CAPI float32_t TS_CCALL tsControlPanel_getColumnRatio(TSControlPanel self, uint32_t index);
+TS_CAPI void TS_CCALL tsControlPanel_setColumnSpacing(TSControlPanel self, uint32_t index, float32_t spacing);
+TS_CAPI float32_t TS_CCALL tsControlPanel_getColumnSpacing(TSControlPanel self, uint32_t index);
+TS_CAPI void TS_CCALL tsControlPanel_setRowSpacing(TSControlPanel self, uint32_t index, float32_t spacing);
+TS_CAPI float32_t TS_CCALL tsControlPanel_getRowSpacing(TSControlPanel self, uint32_t index);
 TS_CAPI TSVector2f TS_CCALL tsControlPanel_getControlsSize(TSControlPanel self);
 
 /// Tellusim::ControlDialog
@@ -9042,6 +9058,10 @@ TS_CAPI void TS_CCALL tsControlArea_setSpacing_ff(TSControlArea self, float32_t 
 TS_CAPI TSVector2f TS_CCALL tsControlArea_getSpacing(TSControlArea self);
 TS_CAPI void TS_CCALL tsControlArea_setColumnRatio(TSControlArea self, uint32_t index, float32_t ratio);
 TS_CAPI float32_t TS_CCALL tsControlArea_getColumnRatio(TSControlArea self, uint32_t index);
+TS_CAPI void TS_CCALL tsControlArea_setColumnSpacing(TSControlArea self, uint32_t index, float32_t spacing);
+TS_CAPI float32_t TS_CCALL tsControlArea_getColumnSpacing(TSControlArea self, uint32_t index);
+TS_CAPI void TS_CCALL tsControlArea_setRowSpacing(TSControlArea self, uint32_t index, float32_t spacing);
+TS_CAPI float32_t TS_CCALL tsControlArea_getRowSpacing(TSControlArea self, uint32_t index);
 TS_CAPI TSVector2f TS_CCALL tsControlArea_getControlsSize(TSControlArea self);
 TS_CAPI TSVector2f TS_CCALL tsControlArea_getControlsOffset(TSControlArea self);
 TS_CAPI TSRect TS_CCALL tsControlArea_getViewRect(TSControlArea self);
@@ -9475,6 +9495,9 @@ TS_CAPI bool_t TS_CCALL tsCubeFilter_dispatch_cCBuTcS(TSCubeFilter self, TSCompu
 TS_CAPI bool_t TS_CCALL tsCubeFilter_dispatch_cCBuT(TSCubeFilter self, TSCompute compute, TSBuffer buffer, uint32_t offset, TSTexture texture);
 TS_CAPI bool_t TS_CCALL tsCubeFilter_dispatch_cCTcSBu(TSCubeFilter self, TSCompute compute, TSTexture texture, const TSSlice *slice, TSBuffer buffer, uint32_t offset);
 TS_CAPI bool_t TS_CCALL tsCubeFilter_dispatch_cCTBu(TSCubeFilter self, TSCompute compute, TSTexture texture, TSBuffer buffer, uint32_t offset);
+TS_CAPI bool_t TS_CCALL tsCubeFilter_dispatch_cCTTcScS(TSCubeFilter self, TSCompute compute, TSTexture dest, TSTexture src, const TSSlice *dest_slice, const TSSlice *src_slice);
+TS_CAPI bool_t TS_CCALL tsCubeFilter_dispatch_cCTTcS(TSCubeFilter self, TSCompute compute, TSTexture dest, TSTexture src, const TSSlice *src_slice);
+TS_CAPI bool_t TS_CCALL tsCubeFilter_dispatch_cCTT(TSCubeFilter self, TSCompute compute, TSTexture dest, TSTexture src);
 
 /// Tellusim::DecoderJPEG
 TS_CAPI TSDecoderJPEG TS_CCALL tsDecoderJPEG_new(void);

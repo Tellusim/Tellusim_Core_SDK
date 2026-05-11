@@ -235,6 +235,7 @@ namespace Tellusim {
 								else if(name == "info") setProtoInfo(proto_index, proto_xml.getData());
 								else if(name == "title") setProtoTitle(proto_index, proto_xml.getData());
 								else if(name == "value") setProtoValue(proto_index, proto_xml.getData());
+								else if(name == "state") setProtoState(proto_index, proto_xml.getData());
 								else if(name == "color") proto_xml.getData(protos[proto_index].color.c, 4);
 								else if(name == "stroke") load_stroke_style(proto_xml, protos[proto_index].stroke_style);
 								else if(name == "gradient") load_gradient_style(proto_xml, protos[proto_index].gradient_style);
@@ -259,6 +260,7 @@ namespace Tellusim {
 												else if(name == "value") setProtoInputValue(proto_index, input_index, input_xml.getData());
 												else if(name == "multi") setProtoMultiInput(proto_index, input_index, input_xml.getDataBool());
 												else if(name == "final") setProtoFinalInput(proto_index, input_index, input_xml.getDataBool());
+												else if(name == "separator") setProtoSeparatorInput(proto_index, input_index, input_xml.getDataBool());
 												else TS_LOGF(Warning, "ControlFlow::load(): unknown input node \"%s\"\n", name.get());
 											}
 										}
@@ -288,6 +290,7 @@ namespace Tellusim {
 												else if(name == "value") setProtoOutputValue(proto_index, output_index, output_xml.getData());
 												else if(name == "multi") setProtoMultiOutput(proto_index, output_index, output_xml.getDataBool());
 												else if(name == "final") setProtoFinalOutput(proto_index, output_index, output_xml.getDataBool());
+												else if(name == "separator") setProtoSeparatorOutput(proto_index, output_index, output_xml.getDataBool());
 												else TS_LOGF(Warning, "ControlFlow::load(): unknown output node \"%s\"\n", name.get());
 											}
 										}
@@ -685,6 +688,7 @@ namespace Tellusim {
 					if(proto.text) child.setData("text", proto.text);
 					if(proto.title) child.setData("title", proto.title);
 					if(proto.value) child.setData("value", proto.value);
+					if(proto.state) child.setData("state", proto.state);
 					if(proto.info) child.setData("info", proto.info);
 					if(proto.color != getProtoColor()) child.setData("color", proto.color.c, 4);
 					if(proto.stroke_style != getProtoStrokeStyle()) save_stroke_style(child, proto.stroke_style);
@@ -710,6 +714,7 @@ namespace Tellusim {
 							if(input.value && input.value != type.value) child.setData("value", input.value);
 							if(input.is_multi) child.setData("multi", input.is_multi);
 							if(input.is_final) child.setData("final", input.is_final);
+							if(input.is_separator) child.setData("separator", input.is_separator);
 						}
 					}
 					if(!inputs.getNumChildren()) child.removeChild(inputs);
@@ -734,6 +739,7 @@ namespace Tellusim {
 							if(output.value && output.value != type.value) child.setData("value", output.value);
 							if(output.is_multi) child.setData("multi", output.is_multi);
 							if(output.is_final) child.setData("final", output.is_final);
+							if(output.is_separator) child.setData("separator", output.is_separator);
 						}
 					}
 					if(!outputs.getNumChildren()) child.removeChild(outputs);
@@ -1421,10 +1427,11 @@ namespace Tellusim {
 		input_node_index = Maxu32;
 		
 		selected_nodes.clear();
-		old_selected_nodes.clear();
+		prev_selected_nodes.clear();
 		
 		update_nodes.clear();
-		old_update_nodes.clear();
+		prev_update_nodes.clear();
+		next_update_nodes.clear();
 		
 		spatial_indices.clear();
 		spatial_nodes.clear();
@@ -1453,7 +1460,7 @@ namespace Tellusim {
 	
 	/*
 	 */
-	uint32_t ControlFlow::addNode(uint32_t proto_index, const Vector2f &position, const char *value) {
+	uint32_t ControlFlow::addNode(uint32_t proto_index, const Vector2f &position, const char *value, const char *state) {
 		
 		// node proto
 		const Proto &proto = protos[proto_index];
@@ -1461,6 +1468,7 @@ namespace Tellusim {
 		// create node
 		Node *node = new Node();
 		node->value = value;
+		node->state = state;
 		node->proto = proto_index;
 		node->index = nodes.size();
 		node->position = position;
@@ -1520,6 +1528,12 @@ namespace Tellusim {
 			// create socket
 			if(isCreated()) {
 				
+				// input separator
+				if(proto_input.is_separator) {
+					uint32_t index = node->input_grid.getNumChildren();
+					node->input_grid.setRowSpacing(index / 2, spacing.y * 2.0f);
+				}
+				
 				// input socket
 				node_input.socket = makeAutoPtr(create_socket(&node->input_grid, types[proto_input.type]));
 				node_input.socket->setAlign(AlignLeft | AlignCenterY);
@@ -1547,6 +1561,12 @@ namespace Tellusim {
 			
 			// create socket
 			if(isCreated()) {
+				
+				// input separator
+				if(proto_output.is_separator) {
+					uint32_t index = node->output_grid.getNumChildren();
+					node->output_grid.setRowSpacing(index / 2, spacing.y * 2.0f);
+				}
 				
 				// output text
 				node_output.text = ControlText(&node->output_grid, proto_output.text);
@@ -1591,8 +1611,8 @@ namespace Tellusim {
 		return node->index;
 	}
 	
-	uint32_t ControlFlow::addNode(uint32_t proto_index, const Vector2f &position, const String &value) {
-		return addNode(proto_index, position, value.get());
+	uint32_t ControlFlow::addNode(uint32_t proto_index, const Vector2f &position, const String &value, const String &state) {
+		return addNode(proto_index, position, value.get(), state.get());
 	}
 	
 	/*
@@ -1636,6 +1656,9 @@ namespace Tellusim {
 		// clear node
 		NodePtr &node = nodes[node_index];
 		if(node->index == Maxu32) return;
+		if(node->remove_func) node->remove_func(this, node_index);
+		const Proto &proto = protos[node->proto];
+		if(proto.remove_func) proto.remove_func(this, node_index);
 		clearConnections(node_index);
 		node->index = Maxu32;
 		
@@ -1668,7 +1691,7 @@ namespace Tellusim {
 	 */
 	void ControlFlow::setNodeValue(uint32_t index, const char *value, bool action) {
 		NodePtr &node = nodes[index];
-		if(node->value != value) {
+		if(node->value != value || action) {
 			if(action) {
 				Action *action = new Action(ActionValue);
 				action->indices.append(index);
@@ -1687,7 +1710,7 @@ namespace Tellusim {
 	 */
 	void ControlFlow::setNodeState(uint32_t index, const char *state, bool action) {
 		NodePtr &node = nodes[index];
-		if(node->state != state) {
+		if(node->state != state || action) {
 			if(action) {
 				Action *action = new Action(ActionState);
 				action->indices.append(index);
@@ -1741,9 +1764,7 @@ namespace Tellusim {
 			const Node *node = nodes[index].get();
 			if(node->is_static) continue;
 			if(node->index == Maxu32) continue;
-			node_indices[i] = addNode(node->proto, node->position);
-			setNodeValue(node_indices[i], getNodeValue(index));
-			setNodeState(node_indices[i], getNodeState(index));
+			node_indices[i] = addNode(node->proto, node->position, getNodeValue(index), getNodeState(index));
 			for(const NodeInput &input : node->inputs) {
 				setInputValue(node_indices[i], input.index, getInputValue(index, input.index));
 			}
@@ -1829,7 +1850,7 @@ namespace Tellusim {
 	void ControlFlow::setInputValue(uint32_t node_index, uint32_t index, const char *value, bool action) {
 		NodePtr &node = nodes[node_index];
 		NodeInput &input = node->inputs[index];
-		if(input.value != value) {
+		if(input.value != value || action) {
 			if(action) {
 				Action *action = new Action(ActionInput);
 				action->indices.append(node_index);
@@ -1842,7 +1863,7 @@ namespace Tellusim {
 			const ProtoInput &proto_input = protos[node->proto].inputs[index];
 			if(type.update_func) type.update_func(this, input.text, input.value, input.type);
 			if(proto_input.update_func) proto_input.update_func(this, node_index, index);
-			update_input(node_index, index);
+			update_input_text(node_index, index);
 		}
 	}
 	
@@ -1852,14 +1873,14 @@ namespace Tellusim {
 	
 	/*
 	 */
-	void ControlFlow::update_input(uint32_t node_index, uint32_t index) {
+	void ControlFlow::update_input_text(uint32_t node_index, uint32_t index) {
 		NodePtr &node = nodes[node_index];
 		NodeInput &input = node->inputs[index];
 		if(input.text) {
-			const String &text = protos[node->proto].inputs[index].text;
-			if(input.connections || !input.value || input.value.size() >= 8) input.text.setText(text);
-			else input.text.setText(String::format("%s %s", text.get(), input.value.get()));
-			update_nodes.append(node_index);
+			const ProtoInput &proto_input = protos[node->proto].inputs[index];
+			if(input.connections || !input.value || input.value == proto_input.value || input.value.size() >= 8) input.text.setText(proto_input.text);
+			else input.text.setText(String::format("%s %s", proto_input.text.get(), input.value.get()));
+			next_update_nodes.append(node_index);
 		}
 	}
 	
@@ -1950,7 +1971,7 @@ namespace Tellusim {
 	void ControlFlow::setOutputValue(uint32_t node_index, uint32_t index, const char *value, bool action) {
 		NodePtr &node = nodes[node_index];
 		NodeOutput &output = node->outputs[index];
-		if(output.value != value) {
+		if(output.value != value || action) {
 			if(action) {
 				Action *action = new Action(ActionOutput);
 				action->indices.append(node_index);
@@ -2100,7 +2121,7 @@ namespace Tellusim {
 				}
 			}
 			input_connections.remove(i - 1);
-			update_input(node, input);
+			update_input_text(node, input);
 			is_changed = true;
 			is_removed = true;
 		}
@@ -2209,7 +2230,7 @@ namespace Tellusim {
 		}
 		
 		// update input text
-		update_input(input_node_index, input_index);
+		update_input_text(input_node_index, input_index);
 		
 		// update node
 		update_nodes.append(output_node_index);
@@ -2284,11 +2305,13 @@ namespace Tellusim {
 					input_connections.remove(j - 1);
 					const ProtoInput &proto_input = protos[getNodeProto(output_connection.node)].inputs[output_connection.input];
 					if(proto_input.attach_func && !is_clear) proto_input.attach_func(this, output_connection.node, output_connection.input, Maxu32, Maxu32);
+					update_input_text(output_connection.node, output_connection.input);
 				}
 			}
 			removed_elements.append(output_connection.strip.release());
 			output_connections.remove(i - 1);
 			is_changed = true;
+			is_removed = true;
 		}
 		if(is_removed) {
 			const ProtoOutput &proto_output = protos[getNodeProto(node)].outputs[output];
@@ -3069,11 +3092,13 @@ namespace Tellusim {
 			node->is_expanded = !node->is_expanded;
 			node->node_grid.setEnabled(node->is_expanded);
 			if(node->node_grid.getNumChildren()) ret = true;
+			const Proto &proto = protos[node->proto];
 			for(NodeInput &input : node->inputs) {
 				uint32_t index = input.index * 2;
 				bool is_enabled = (input.connections || node->is_expanded);
 				node->input_grid.getChild(index + 0).setEnabled(is_enabled);
 				node->input_grid.getChild(index + 1).setEnabled(is_enabled);
+				if(proto.inputs[input.index].is_separator) node->input_grid.setRowSpacing(input.index, node->is_expanded ? spacing.y * 2.0f : 0.0f);
 				ret = true;
 			}
 			for(uint32_t i = node->inputs.size() * 2; i < node->input_grid.getNumChildren(); i++) {
@@ -3085,6 +3110,7 @@ namespace Tellusim {
 				bool is_enabled = (output.connections || node->is_expanded);
 				node->output_grid.getChild(index + 0).setEnabled(is_enabled);
 				node->output_grid.getChild(index + 1).setEnabled(is_enabled);
+				if(proto.outputs[output.index].is_separator) node->output_grid.setRowSpacing(output.index, node->is_expanded ? spacing.y * 2.0f : 0.0f);
 				ret = true;
 			}
 			for(uint32_t i = node->outputs.size() * 2; i < node->output_grid.getNumChildren(); i++) {
@@ -3395,7 +3421,7 @@ namespace Tellusim {
 				ControlRoot root = tree.getRoot();
 				Vector2f position = root.getMouse();
 				if(self->flow_area.getViewRect().inside(position)) {
-					uint32_t node = self->addNode(proto.index, self->get_mouse_position(root));
+					uint32_t node = self->addNode(proto.index, self->get_mouse_position(root), proto.value, proto.state);
 					if(self->nodes[node]->create_func) self->nodes[node]->create_func(self, node);
 					self->mode = ModeNodePressed;
 					self->current_node_index = node;
@@ -3436,6 +3462,16 @@ namespace Tellusim {
 		self->current_node_index = Maxu32;
 		self->selected_nodes.clear();
 		self->mode = ModeClear;
+	}
+	
+	/*
+	 */
+	uint32_t ControlFlow::get_output_proto(uint32_t input_node, uint32_t input_index, uint32_t &output_index) const {
+		return Maxu32;
+	}
+	
+	void ControlFlow::update_output_node(uint32_t input_node, uint32_t input_index, uint32_t output_node, uint32_t output_index) {
+		
 	}
 	
 	/*****************************************************************************\
@@ -3485,6 +3521,7 @@ namespace Tellusim {
 			NodePtr &node = nodes[index];
 			if(node->is_static) continue;
 			if(node->index == Maxu32) continue;
+			if(node->remove_func) node->remove_func(this, index);
 			add_indices(action->remove_indices, node);
 			add_node(action, node);
 		}
@@ -3567,8 +3604,9 @@ namespace Tellusim {
 		node->dialog.setStrokeStyle(node->stroke_style);
 		node->dialog.setEnabled(false);
 		node->dialog.clearPtr();
-		node->update_func.clear();
 		node->create_func.clear();
+		node->update_func.clear();
+		node->remove_func.clear();
 		node->load_func.clear();
 		node->save_func.clear();
 		node->index = Maxu32;
@@ -3593,6 +3631,8 @@ namespace Tellusim {
 		}
 		else if(action->type == ActionCreate) {
 			for(uint32_t i = 0; i < action->indices.size(); i++) {
+				NodePtr &node = nodes[action->indices[i]];
+				if(node->remove_func) node->remove_func(this, node->index);
 				add_node(action, nodes[action->indices[i]]);
 			}
 			action->type = ActionRemove;
@@ -3604,6 +3644,7 @@ namespace Tellusim {
 				NodePtr &node = nodes[action->indices[i]];
 				node.ref() = action->nodes[i];
 				node->dialog.setEnabled(true);
+				if(node->create_func) node->create_func(this, node->index);
 			}
 			for(const Vector4u &index : action->remove_indices) {
 				addOutputConnection(index.x, index.y, index.z, index.w);
@@ -3611,7 +3652,7 @@ namespace Tellusim {
 			action->type = ActionCreate;
 			action->create_indices.swap(action->remove_indices);
 			action->nodes.release();
-			old_selected_nodes.clear();
+			prev_selected_nodes.clear();
 			selected_nodes = action->indices;
 			mode = ModeNodePressed;
 		}
@@ -3881,21 +3922,35 @@ namespace Tellusim {
 			frame++;
 		}
 		
+		// move node output under the mouse pointer
+		if(mode == ModeNone && mouse_node_index != Maxu32) {
+			if(mouse_node_index < nodes.size()) {
+				ControlDialog &dialog = nodes[mouse_node_index]->dialog;
+				Vector3f offset = getOutputSocket(mouse_node_index, mouse_output_index)->getOffset() - dialog.getOffset();
+				offset.y += dialog.getMargin().bottom * 2.0f - dialog.getRect().getHeight();
+				dialog.setPosition(dialog.getPosition() - offset * 0.5f);
+				nodes[mouse_node_index]->position -= offset.xy * 0.5f;
+				update_nodes.append(mouse_node_index);
+			}
+			mouse_node_index = Maxu32;
+			mouse_output_index = Maxu32;
+		}
+		
 		// update selected nodes style
-		for(uint32_t index : old_selected_nodes) {
+		for(uint32_t index : prev_selected_nodes) {
 			if(selected_nodes.find(index)) continue;
 			NodePtr &node = nodes[index];
 			if(node->index == Maxu32) continue;
 			node->dialog.setStrokeStyle(node->stroke_style);
 		}
 		for(uint32_t index : selected_nodes) {
-			if(old_selected_nodes.find(index)) continue;
+			if(prev_selected_nodes.find(index)) continue;
 			NodePtr &node = nodes[index];
 			if(node->index == Maxu32) continue;
 			node->stroke_style = node->dialog.getStrokeStyle();
 			node->dialog.setStrokeStyle(getSelectionStyle());
 		}
-		old_selected_nodes = selected_nodes;
+		prev_selected_nodes = selected_nodes;
 		
 		// update node inputs
 		if((mode == ModeNodePressed) && current_node_index < nodes.size()) {
@@ -4019,22 +4074,77 @@ namespace Tellusim {
 				addOutputConnection(index.node, index.index, current_node_index, current_input_index);
 				mode = ModeClear;
 			}
-			// create output proto tree
 			else {
-				String name = proto_edit.getText().lower();
-				const Type &input_type = get_node_input_type(current_node_index, current_input_index);
-				const TypeMask &input_mask = get_node_input_mask(current_node_index, current_input_index);
-				for(const Proto &proto : protos) {
-					bool is_hidden = true;
-					if(proto.item == Maxu32) continue;
-					for(const ProtoOutput &proto_output : proto.outputs) {
-						if(!is_compatible_types(types[proto_output.type], input_type, proto_output.mask, input_mask)) continue;
-						is_hidden = false;
-						break;
+				
+				// create output proto node
+				if(getNumInputConnections(current_node_index, current_input_index) == 0) {
+					Vector2f input_position = getInputSocket(current_node_index, current_input_index)->getOffset().xy;
+					if(length(mouse_position - input_position) > getThreshold()) {
+						uint32_t output_index = Maxu32;
+						uint32_t proto_index = get_output_proto(current_node_index, current_input_index, output_index);
+						if(proto_index != Maxu32) {
+							if(output_index == Maxu32) {
+								if(getNumProtoOutputs(proto_index) == 1) {
+									output_index = 0;
+								} else {
+									uint32_t input_type = getInputType(current_node_index, current_input_index);
+									for(uint32_t i = 0; i < getNumProtoOutputs(proto_index); i++) {
+										if(getProtoOutputType(proto_index, i) == input_type) {
+											output_index = i;
+											break;
+										}
+									}
+								}
+							}
+							if(output_index != Maxu32) {
+								const Proto &proto = protos[proto_index];
+								uint32_t node = addNode(proto_index, get_mouse_position(root), proto.value, proto.state);
+								update_output_node(current_node_index, current_input_index, node, output_index);
+								if(nodes[node]->create_func) nodes[node]->create_func(this, node);
+								addOutputConnection(node, output_index, current_node_index, current_input_index);
+								current_node_index = node;
+								selected_nodes.copy({ node });
+								add_create_action();
+								root.setCurrentControl(nodes[node]->dialog);
+								proto_edit.setText(nullptr);
+								proto_changed_callback(proto_edit, this);
+								current_input_index = Maxu32;
+								mouse_node_index = node;
+								mouse_output_index = output_index;
+							}
+						}
 					}
-					if(!is_hidden) is_hidden = (name && !proto.match.contains(name.get()) && !proto.match.match(name.get()));
-					proto_tree.setItemHidden(proto.item, is_hidden);
 				}
+				
+				// remove input connection
+				if(current_input_index != Maxu32 && getNumInputConnections(current_node_index, current_input_index) && !isProtoMultiInput(getNodeProto(current_node_index), current_input_index)) {
+					Vector2f input_position = getInputSocket(current_node_index, current_input_index)->getOffset().xy;
+					if(length(mouse_position - input_position) > getThreshold()) {
+						uint32_t output_node = getInputConnectionNode(current_node_index, current_input_index, 0);
+						uint32_t output_index = getInputConnectionOutput(current_node_index, current_input_index, 0);
+						add_connect_action(Maxu32, Maxu32, current_node_index, current_input_index);
+						removeInputConnection(current_node_index, current_input_index, output_node, output_index);
+					}
+				}
+				
+				// create output proto tree
+				if(current_input_index != Maxu32) {
+					String name = proto_edit.getText().lower();
+					const Type &input_type = get_node_input_type(current_node_index, current_input_index);
+					const TypeMask &input_mask = get_node_input_mask(current_node_index, current_input_index);
+					for(const Proto &proto : protos) {
+						bool is_hidden = true;
+						if(proto.item == Maxu32) continue;
+						for(const ProtoOutput &proto_output : proto.outputs) {
+							if(!is_compatible_types(types[proto_output.type], input_type, proto_output.mask, input_mask)) continue;
+							is_hidden = false;
+							break;
+						}
+						if(!is_hidden) is_hidden = (name && !proto.match.contains(name.get()) && !proto.match.match(name.get()));
+						proto_tree.setItemHidden(proto.item, is_hidden);
+					}
+				}
+				
 				mode = ModeClear;
 				ret = true;
 			}
@@ -4090,7 +4200,7 @@ namespace Tellusim {
 				flow_area.setVerticalValue(floor(flow_area.getVerticalRange() - flow_area.getVerticalFrame()) * 0.5 + center.y);
 				for(const NodePtr &node : nodes) {
 					if(node->index == Maxu32) continue;
-					old_update_nodes.append(node->index);
+					prev_update_nodes.append(node->index);
 				}
 				is_loaded = false;
 			}
@@ -4098,7 +4208,7 @@ namespace Tellusim {
 		}
 		
 		// create node strips
-		for(uint32_t index : old_update_nodes) {
+		for(uint32_t index : prev_update_nodes) {
 			NodePtr &node = nodes[index];
 			if(node->frame == frame) continue;
 			if(node->index == Maxu32) continue;
@@ -4149,7 +4259,7 @@ namespace Tellusim {
 		}
 		
 		// updated flag
-		is_updated = (!update_nodes && !old_update_nodes);
+		is_updated = (!update_nodes && !prev_update_nodes && !next_update_nodes);
 		is_updated &= (!removed_controls && !removed_elements);
 		
 		// remove controls
@@ -4170,8 +4280,9 @@ namespace Tellusim {
 		
 		// clear update nodes
 		ret |= (bool)update_nodes;
-		old_update_nodes = update_nodes;
-		update_nodes.clear();
+		prev_update_nodes = update_nodes;
+		update_nodes = next_update_nodes;
+		next_update_nodes.clear();
 		return ret;
 	}
 }

@@ -29,74 +29,74 @@ class Application {
 		
 	public:
 		
-		// constructor initializing the application with command-line arguments
+		/// constructor initializing the application with command-line arguments
 		Application(int32_t argc, char **argv) : app(argc, argv) {
 			
 		}
 		
-		// destructor cleans up resources
+		/// destructor cleans up resources
 		virtual ~Application() {
 			
-			// stop process thread
+			/// stop process thread
 			if(process_thread) {
 				scene_manager.terminate();
 				process_thread->stop(true);
 			}
 			
-			// finish device
+			/// finish device
 			if(device) device.finish();
 			
-			// release render
+			/// release render
 			render_frame.clearPtr();
 			render_system.clear();
 			
-			// clear Scene
+			/// clear Scene
 			if(scene) scene.clear();
 			if(scene_manager) scene_manager.update(device, main_async);
 			if(device) device.finish();
 			
-			// release Scene
+			/// release Scene
 			scene.clearPtr();
 			scene_manager.clearPtr();
 			
 			TS_LOG(Verbose, "Application::~Application(): Done\n");
 		}
 		
-		// create function responsible for initialization
+		/// create function responsible for initialization
 		virtual bool create() {
 			
-			// create app
+			/// create app
 			if(!app.create()) {
 				TS_LOG(Error, "Application::create(): can't create App\n");
 				return false;
 			}
 			
-			// create window
+			/// create window
 			if(!create_window()) return false;
 			
-			// create scene
+			/// create scene
 			if(!create_scene()) return false;
 			
-			// create render
+			/// create render
 			if(!create_render()) return false;
 			
-			// additional initialization code can go here
+			/// additional initialization code can go here
 			
 			return true;
 		}
 		
-		// update function for logic updates
+		/// update function for logic updates
 		virtual bool update() {
 			
-			// your update logic here
+			/// your update logic here
 			
 			return true;
 		}
 		
-		// main run loop
+		/// main run loop
 		virtual bool run() {
 			
-			// run application
+			/// run application
 			if(window) return window.run([this]() {
 				return render_window();
 			});
@@ -106,29 +106,29 @@ class Application {
 		
 	protected:
 		
-		// helper function to create and initialize Window
+		/// helper function to create and initialize Window
 		virtual bool create_window() {
 			
-			// initialize Window
+			/// initialize Window
 			window = Window(app.getPlatform(), app.getDevice());
 			if(!window || !window.setSize(app.getWidth(), app.getHeight())) {
 				TS_LOG(Error, "Application::create_window(): can't initialize Window\n");
 				return false;
 			}
 			
-			// window flags
+			/// window flags
 			Window::Flags window_flags = Window::DefaultFlags;
 			if(app.getArgument("fullscreen").tou32() || app.getArgument("fs").tou32()) window_flags = (window_flags & ~Window::DefaultFlags) | Window::FlagFullscreen;
 			if(app.getArgument("vsync").tou32() || app.getArgument("vs").tou32()) window_flags |= Window::FlagVerticalSync;
 			
-			// window refresh rate
+			/// window refresh rate
 			uint32_t window_refresh = Tellusim::max(app.getArgument("refresh").tou32(), app.getArgument("r").tou32());
 			if(window_refresh != 0) {
 				window.setRefreshRate(window_refresh);
 				window_flags |= Window::FlagRefreshSync;
 			}
 			
-			// fullscreen mode
+			/// fullscreen mode
 			if(window_flags & Window::FlagFullscreen) {
 				Desktop desktop;
 				int32_t x = 0, y = 0;
@@ -138,27 +138,27 @@ class Application {
 				}
 			}
 			
-			// create Window
+			/// create Window
 			if(!window.create(String(window.getPlatformName()) + " @NAME@", window_flags) || !window.setHidden(false)) {
 				TS_LOG(Error, "Application::create_window(): can't create Window\n");
 				return false;
 			}
 			
-			// set Window callbacks
+			/// set Window callbacks
 			window.setKeyboardPressedCallback([this](uint32_t key, uint32_t code) {
 				if(key == Window::KeyF4 && window.getKeyboardKey(Window::KeyAlt)) window.stop();
 				if(key == Window::KeyEsc) window.stop();
 			});
 			window.setCloseClickedCallback([&]() { window.stop(); });
 			
-			// create Device
+			/// create Device
 			device = Device(window);
 			if(!device) {
 				TS_LOG(Error, "Application::create_window(): can't create Device\n");
 				return false;
 			}
 			
-			// create Target
+			/// create Target
 			target = device.createTarget(window);
 			if(!target) {
 				TS_LOG(Error, "Application::create_window(): can't create Target\n");
@@ -168,22 +168,22 @@ class Application {
 			return true;
 		}
 		
-		// helper function to create and initialize Scene
+		/// helper function to create and initialize Scene
 		virtual bool create_scene(SceneManager::Flags flags = SceneManager::DefaultFlags) {
 			
-			// main async
+			/// main async
 			if(!main_async.init()) {
 				TS_LOGE(Error, "Application::create_scene(): can't initialize main Async\n");
 				return false;
 			}
 			
-			// process async
+			/// process async
 			if(!process_async.init()) {
 				TS_LOGE(Error, "Application::create_scene(): can't initialize process Async\n");
 				return false;
 			}
 			
-			// cache location
+			/// cache location
 			#if _ANDROID
 				SceneManager::setShaderCache(Android::getCacheDirectory() + "/shader.cache");
 				SceneManager::setTextureCache(Android::getCacheDirectory() + "/texture.cache");
@@ -192,7 +192,7 @@ class Application {
 				SceneManager::setTextureCache("texture.cache");
 			#endif
 			
-			// scene formats
+			/// scene formats
 			#if _ANDROID || _IOS
 				scene_manager.setCubeTextureParameters(FormatRGBAu8n, 512, 32, 2);
 				scene_manager.setEnvironmentParameters(device, 128, 32, 512, 1024);
@@ -200,7 +200,7 @@ class Application {
 			
 			TS_LOG(Verbose, "Application::create_scene(): create SceneManager\n");
 			
-			// create scene manager
+			/// create scene manager
 			if(!scene_manager.create(device, flags, nullptr, &main_async)) {
 				TS_LOG(Error, "Application::create_scene(): can't create SceneManager\n");
 				return false;
@@ -208,24 +208,24 @@ class Application {
 			
 			TS_LOG(Verbose, "Application::create_scene(): SceneManager is ready\n");
 			
-			// create process thread
+			/// create process thread
 			process_thread = makeAutoPtr(makeThreadFunction([this](Thread *thread) {
 				bool done = !scene_manager.process(process_async);
 				if(done) Time::sleep(1000);
 			}));
 			
-			// run process thread
+			/// run process thread
 			if(!process_thread->run()) {
 				TS_LOGE(Error, "Application::create_scene(): can't run process Thread\n");
 				return false;
 			}
 			
-			// initialize scene
+			/// initialize scene
 			scene.setManager(scene_manager);
 			scene.addGraph(graph);
 			scene.updateGraph(graph);
 			
-			// create camera
+			/// create camera
 			scene.addCamera(camera);
 			graph.addNode(node_camera);
 			node_camera.setCamera(camera);
@@ -233,12 +233,12 @@ class Application {
 			return true;
 		}
 		
-		// helper function to create and initialize Render
+		/// helper function to create and initialize Render
 		virtual bool create_render(RenderRenderer::Flags flags = RenderRenderer::FlagAntialiasing | RenderRenderer::FlagMotionBuffer | RenderRenderer::FlagScreenOcclusion | RenderRenderer::FlagScreenReflection) {
 			
 			TS_LOG(Verbose, "Application::create_render(): create RenderSystem\n");
 			
-			// create render system
+			/// create render system
 			render_system = makeAutoPtr(new RenderSystem(scene_manager));
 			if(!render_system->create(device, window.getSurface(), flags)) {
 				TS_LOG(Error, "Application::create_render(): can't create manager\n");
@@ -247,28 +247,28 @@ class Application {
 			
 			TS_LOG(Verbose, "Application::create_render(): RenderSystem is ready\n");
 			
-			// create render frame
+			/// create render frame
 			render_frame = RenderFrame(render_system->getManager(), node_camera);
 			
-			// scene render
+			/// scene render
 			scene.setRender(render_system->getRender());
 			
 			return true;
 		}
 		
-		// helper function to render the Window
+		/// helper function to render the Window
 		virtual bool render_window(SceneManager::Flags scene_flags = SceneManager::FlagNone, RenderSystem::Flags render_flags = RenderSystem::DefaultFlags, uint64_t usec = 10000) {
 			
-			// update events
+			/// update events
 			Window::update();
 			
-			// update application
+			/// update application
 			if(!update()) return false;
 			
-			// render Window
+			/// render Window
 			if(!window.render()) return false;
 			
-			// resize RenderFrame with 200% upscale
+			/// resize RenderFrame with 200% upscale
 			uint32_t width = window.getWidth();
 			uint32_t height = window.getHeight();
 			Texture texture = render_frame.getCompositeTexture();
@@ -277,40 +277,40 @@ class Application {
 				render_frame.create(device, render_system->getRenderer(), width / 2, height / 2, Size(width, height));
 			}
 			
-			// create Scene
+			/// create Scene
 			if(!scene.create(device, &main_async)) {
 				TS_LOG(Error, "Application::render_window(): can't create Scene\n");
 				return false;
 			}
 			
-			// update Scene
+			/// update Scene
 			scene.setTime(Time::seconds());
 			scene.update(device);
 			
-			// update SceneManager
+			/// update SceneManager
 			if(!scene_manager.update(device, main_async, counter++, 0, usec, scene_flags)) {
 				TS_LOG(Error, "Application::render_window(): can't update SceneManager\n");
 				return false;
 			}
 			
-			// dispatch SceneManager
+			/// dispatch SceneManager
 			{
 				Compute compute = device.createCompute();
 				
-				// dispatch SceneManager
+				/// dispatch SceneManager
 				scene_manager.dispatch(device, compute);
 				
-				// dispatch Scene
+				/// dispatch Scene
 				scene.dispatch(device, compute);
 			}
 			
-			// render frame
+			/// render frame
 			if(!render_system->render(device, render_frame, render_flags)) {
 				TS_LOG(Error, "Application::render_window(): can't render RenderSystem\n");
 				return false;
 			}
 			
-			// window target
+			/// window target
 			target.begin();
 			{
 				Command command = device.createCommand(target);
@@ -320,10 +320,10 @@ class Application {
 			}
 			target.end();
 			
-			// present Window
+			/// present Window
 			if(!window.present()) return false;
 			
-			// check errors
+			/// check errors
 			if(!device.check()) return false;
 			
 			return true;
