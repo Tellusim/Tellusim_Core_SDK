@@ -53,17 +53,23 @@ TARGET = main$(POSTFIX)
 
 MAIN = main.rs
 
+LDFLAGS = -L../../../bin -L../capi --extern tellusim=$(LIBRARY)
+
+ifeq "$(shell uname -s)" "Darwin"
+	LDFLAGS += -C link-args="-Wl,-rpath,@loader_path/,-rpath,@loader_path/../../../bin/,-rpath,@loader_path/../capi/"
+endif
+
 #
 # Build rules
 #
 all: $(TARGET)
 
 $(LIBRARY): $(SRCS)
-	@$(RSC) $(RSFLAGS) -o $@ $(LIBS) $<
+	@+$(RSC) $(RSFLAGS) -o $@ $(LIBS) $<
 	@echo "Done `basename $@`"
 
 $(TARGET): $(MAIN) $(LIBRARY)
-	@$(RSC) $(RSFLAGS) -o $@ -L$(TSROOT)/bin -L../capi --extern tellusim=$(LIBRARY) $<
+	@+$(RSC) $(RSFLAGS) $(LDFLAGS) -o $@ $<
 	@echo "Done `basename $@`"
 
 clean:

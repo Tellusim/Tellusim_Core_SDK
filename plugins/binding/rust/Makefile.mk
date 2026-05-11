@@ -37,10 +37,14 @@ TARGET = main$(POSTFIX)
 
 LIBRARY = libTellusimRS_$(ARCH)$(POSTFIX).rlib
 
-FLAGS = -L$(TSROOT)/bin --extern tellusim=$(TSROOT)/plugins/binding/rust/$(LIBRARY)
+LDFLAGS = -L$(TSROOT)/bin --extern tellusim=$(TSROOT)/plugins/binding/rust/$(LIBRARY)
+
+ifeq "$(shell uname -s)" "Darwin"
+	LDFLAGS += -C link-args="-Wl,-rpath,@loader_path/,-rpath,@loader_path/../../../bin/"
+endif
 
 $(TARGET): $(SRC)
-	@$(RSC) $(FLAGS) -o $@ $<
+	@+$(RSC) $(LDFLAGS) -o $@ $<
 	@echo "Done `basename $@`"
 
 clean:
