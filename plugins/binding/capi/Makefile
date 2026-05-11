@@ -21,6 +21,10 @@ endif
 #
 LDFLAGS = -shared $(CLDFLAGS)
 
+ifeq "$(shell uname -s)" "Darwin"
+	LDFLAGS += -install_name @rpath/$(TARGET)
+endif
+
 #
 # Sources
 #
