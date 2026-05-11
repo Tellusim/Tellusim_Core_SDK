@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{a091c80f-eddd-9919-a41b-15916e4e99ac}</ProjectGuid>
+		<ProjectGuid>{d8926e73-26c5-6811-ab36-e57eba8ec07c}</ProjectGuid>
 		<ProjectName>flow</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
@@ -142,6 +142,7 @@
 		<ClCompile Include="source\TellusimControlFlow.cpp"/>
 		<ClCompile Include="source\TellusimControlFlowCPP.cpp"/>
 		<ClCompile Include="source\TellusimControlFlowGLSL.cpp"/>
+		<ClCompile Include="source\TellusimControlFlowMath.cpp"/>
 	</ItemGroup>
 	<ItemGroup>
 	</ItemGroup>

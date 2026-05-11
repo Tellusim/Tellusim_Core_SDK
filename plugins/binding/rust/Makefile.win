@@ -35,6 +35,8 @@ TARGET = main$(POSTFIX).exe
 
 MAIN = main.rs
 
+LDFLAGS = -L$(TSROOT)/bin -L../capi --extern tellusim=$(LIBRARY)
+
 #
 # Build rules
 #
@@ -45,7 +47,7 @@ $(LIBRARY): $(SRCS)
 	@echo Done $@
 
 $(TARGET): $(MAIN) $(LIBRARY)
-	@$(RSC) $(RSFLAGS) -o $@ -L$(TSROOT)/bin -L../capi --extern tellusim=$(LIBRARY) $(MAIN)
+	@$(RSC) $(RSFLAGS) $(LDFLAGS) -o $@ $(MAIN)
 	@echo Done $@
 
 clean: $(MAKEDIR)
