@@ -46,7 +46,7 @@ namespace Tellusim {
 	
 	bool XRWindow::create(Window::Flags flags) {
 		
-		TS_ASSERT(!isCreated() && "XRWindow::create(): is already created\n");
+		TS_ASSERT(!isCreated() && "XRWindow::create(): is already created");
 		
 		// open OpenXR
 		if(open) {

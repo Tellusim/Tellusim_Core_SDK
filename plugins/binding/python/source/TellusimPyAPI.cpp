@@ -12072,15 +12072,25 @@ namespace Tellusim {
 		return nullptr;
 	}
 	static PyObject *MeshAttribute_setTransform(PYMeshAttribute *self, PyObject *args, PyObject *kwargs) {
-		PyObject *transform_ = nullptr;
-		static const char *kwlist[] = { "transform", nullptr };
-		while(PyArg_ParseTupleAndKeywords(args, kwargs, "O", (char**)kwlist, &transform_)) {
-			if(!isPYMatrix4x3f(transform_)) break;
-			const Matrix4x3f &transform = pyMatrix4x3f_get(transform_);
-			return PyLong_FromLong(self->ptr.setTransform(transform));
+		PyObject *scale_ = nullptr;
+		static const char *kwlist[] = { "scale", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "O", (char**)kwlist, &scale_)) {
+			if(!isPYVector3f(scale_)) break;
+			const Vector3f &scale = pyVector3f_get(scale_);
+			return PyLong_FromLong(self->ptr.setTransform(scale));
+		}
+		PyErr_Clear();
+		{
+			PyObject *transform_ = nullptr;
+			static const char *kwlist[] = { "transform", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "O", (char**)kwlist, &transform_)) {
+				if(!isPYMatrix4x3f(transform_)) break;
+				const Matrix4x3f &transform = pyMatrix4x3f_get(transform_);
+				return PyLong_FromLong(self->ptr.setTransform(transform));
+			}
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "MeshAttribute::setTransform(): unknown arguments:\n(const Matrix4x3f transform) -> bool\n");
+			PyErr_SetString(PyExc_TypeError, "MeshAttribute::setTransform(): unknown arguments:\n(const Vector3f scale) -> bool\n(const Matrix4x3f transform) -> bool\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -14886,6 +14896,18 @@ namespace Tellusim {
 		#endif
 		return nullptr;
 	}
+	static PyObject *MeshGeometry_flipWinding(PYMeshGeometry *self, PyObject *args) {
+		if(!args || PyTuple_Size(args) == 0) {
+			self->ptr.flipWinding();
+			Py_RETURN_NONE;
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "MeshGeometry::flipWinding(): unknown arguments:\n(void) -> void\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
 	static PyObject *MeshGeometry_createBounds(PYMeshGeometry *self, PyObject *args, PyObject *kwargs) {
 		int32_t force = false;
 		uint32_t position = Maxu32;
@@ -15032,6 +15054,18 @@ namespace Tellusim {
 		#endif
 		return nullptr;
 	}
+	static PyObject *MeshGeometry_optimizeOrder(PYMeshGeometry *self, PyObject *args) {
+		if(!args || PyTuple_Size(args) == 0) {
+			self->ptr.optimizeOrder();
+			Py_RETURN_NONE;
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "MeshGeometry::optimizeOrder(): unknown arguments:\n(void) -> void\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
 	static PyObject *MeshGeometry_packAttributes(PYMeshGeometry *self, PyObject *args, PyObject *kwargs) {
 		int32_t remove = true;
 		static const char *kwlist[] = { "remove", nullptr };
@@ -15053,6 +15087,23 @@ namespace Tellusim {
 		}
 		#if TS_DEBUG
 			PyErr_SetString(PyExc_TypeError, "MeshGeometry::unpackAttributes(): unknown arguments:\n(bool remove) -> bool\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *MeshGeometry_addGeometry(PYMeshGeometry *self, PyObject *args, PyObject *kwargs) {
+		PyObject *geometry_ = nullptr;
+		PyObject *transform_ = nullptr;
+		static const char *kwlist[] = { "geometry", "transform", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "O|O", (char**)kwlist, &geometry_, &transform_)) {
+			if(!isPYMeshGeometry(geometry_)) break;
+			const MeshGeometry &geometry = pyMeshGeometry_get(geometry_);
+			const Matrix4x3f &transform = pyMatrix4x3f_get(transform_);
+			return PyLong_FromLong(self->ptr.addGeometry(geometry, transform));
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "MeshGeometry::addGeometry(): unknown arguments:\n(const MeshGeometry geometry, const Matrix4x3f transform) -> bool\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -64702,6 +64753,62 @@ namespace Tellusim {
 		#endif
 		return nullptr;
 	}
+	static PyObject *ControlGrid_setColumnSpacing(PYControlGrid *self, PyObject *args, PyObject *kwargs) {
+		uint32_t index = {};
+		float32_t spacing = {};
+		static const char *kwlist[] = { "index", "spacing", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "If", (char**)kwlist, &index, &spacing)) {
+			self->ptr.setColumnSpacing(index, spacing);
+			Py_RETURN_NONE;
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlGrid::setColumnSpacing(): unknown arguments:\n(uint32_t index, float32_t spacing) -> void\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *ControlGrid_getColumnSpacing(PYControlGrid *self, PyObject *args, PyObject *kwargs) {
+		uint32_t index = {};
+		static const char *kwlist[] = { "index", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "I", (char**)kwlist, &index)) {
+			return PyFloat_FromDouble(self->ptr.getColumnSpacing(index));
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlGrid::getColumnSpacing(): unknown arguments:\n(uint32_t index) -> float32_t\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *ControlGrid_setRowSpacing(PYControlGrid *self, PyObject *args, PyObject *kwargs) {
+		uint32_t index = {};
+		float32_t spacing = {};
+		static const char *kwlist[] = { "index", "spacing", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "If", (char**)kwlist, &index, &spacing)) {
+			self->ptr.setRowSpacing(index, spacing);
+			Py_RETURN_NONE;
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlGrid::setRowSpacing(): unknown arguments:\n(uint32_t index, float32_t spacing) -> void\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *ControlGrid_getRowSpacing(PYControlGrid *self, PyObject *args, PyObject *kwargs) {
+		uint32_t index = {};
+		static const char *kwlist[] = { "index", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "I", (char**)kwlist, &index)) {
+			return PyFloat_FromDouble(self->ptr.getRowSpacing(index));
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlGrid::getRowSpacing(): unknown arguments:\n(uint32_t index) -> float32_t\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
 	static PyObject *ControlGrid_getControlsSize(PYControlGrid *self, PyObject *args) {
 		if(!args || PyTuple_Size(args) == 0) {
 			return pyVector2f_new(self->ptr.getControlsSize());
@@ -65327,6 +65434,62 @@ namespace Tellusim {
 		#endif
 		return nullptr;
 	}
+	static PyObject *ControlGroup_setColumnSpacing(PYControlGroup *self, PyObject *args, PyObject *kwargs) {
+		uint32_t index = {};
+		float32_t spacing = {};
+		static const char *kwlist[] = { "index", "spacing", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "If", (char**)kwlist, &index, &spacing)) {
+			self->ptr.setColumnSpacing(index, spacing);
+			Py_RETURN_NONE;
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlGroup::setColumnSpacing(): unknown arguments:\n(uint32_t index, float32_t spacing) -> void\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *ControlGroup_getColumnSpacing(PYControlGroup *self, PyObject *args, PyObject *kwargs) {
+		uint32_t index = {};
+		static const char *kwlist[] = { "index", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "I", (char**)kwlist, &index)) {
+			return PyFloat_FromDouble(self->ptr.getColumnSpacing(index));
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlGroup::getColumnSpacing(): unknown arguments:\n(uint32_t index) -> float32_t\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *ControlGroup_setRowSpacing(PYControlGroup *self, PyObject *args, PyObject *kwargs) {
+		uint32_t index = {};
+		float32_t spacing = {};
+		static const char *kwlist[] = { "index", "spacing", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "If", (char**)kwlist, &index, &spacing)) {
+			self->ptr.setRowSpacing(index, spacing);
+			Py_RETURN_NONE;
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlGroup::setRowSpacing(): unknown arguments:\n(uint32_t index, float32_t spacing) -> void\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *ControlGroup_getRowSpacing(PYControlGroup *self, PyObject *args, PyObject *kwargs) {
+		uint32_t index = {};
+		static const char *kwlist[] = { "index", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "I", (char**)kwlist, &index)) {
+			return PyFloat_FromDouble(self->ptr.getRowSpacing(index));
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlGroup::getRowSpacing(): unknown arguments:\n(uint32_t index) -> float32_t\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
 	static PyObject *ControlGroup_getControlsSize(PYControlGroup *self, PyObject *args) {
 		if(!args || PyTuple_Size(args) == 0) {
 			return pyVector2f_new(self->ptr.getControlsSize());
@@ -65649,6 +65812,62 @@ namespace Tellusim {
 		}
 		#if TS_DEBUG
 			PyErr_SetString(PyExc_TypeError, "ControlPanel::getColumnRatio(): unknown arguments:\n(uint32_t index) -> float32_t\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *ControlPanel_setColumnSpacing(PYControlPanel *self, PyObject *args, PyObject *kwargs) {
+		uint32_t index = {};
+		float32_t spacing = {};
+		static const char *kwlist[] = { "index", "spacing", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "If", (char**)kwlist, &index, &spacing)) {
+			self->ptr.setColumnSpacing(index, spacing);
+			Py_RETURN_NONE;
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlPanel::setColumnSpacing(): unknown arguments:\n(uint32_t index, float32_t spacing) -> void\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *ControlPanel_getColumnSpacing(PYControlPanel *self, PyObject *args, PyObject *kwargs) {
+		uint32_t index = {};
+		static const char *kwlist[] = { "index", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "I", (char**)kwlist, &index)) {
+			return PyFloat_FromDouble(self->ptr.getColumnSpacing(index));
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlPanel::getColumnSpacing(): unknown arguments:\n(uint32_t index) -> float32_t\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *ControlPanel_setRowSpacing(PYControlPanel *self, PyObject *args, PyObject *kwargs) {
+		uint32_t index = {};
+		float32_t spacing = {};
+		static const char *kwlist[] = { "index", "spacing", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "If", (char**)kwlist, &index, &spacing)) {
+			self->ptr.setRowSpacing(index, spacing);
+			Py_RETURN_NONE;
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlPanel::setRowSpacing(): unknown arguments:\n(uint32_t index, float32_t spacing) -> void\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *ControlPanel_getRowSpacing(PYControlPanel *self, PyObject *args, PyObject *kwargs) {
+		uint32_t index = {};
+		static const char *kwlist[] = { "index", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "I", (char**)kwlist, &index)) {
+			return PyFloat_FromDouble(self->ptr.getRowSpacing(index));
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlPanel::getRowSpacing(): unknown arguments:\n(uint32_t index) -> float32_t\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -70268,6 +70487,62 @@ namespace Tellusim {
 		}
 		#if TS_DEBUG
 			PyErr_SetString(PyExc_TypeError, "ControlArea::getColumnRatio(): unknown arguments:\n(uint32_t index) -> float32_t\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *ControlArea_setColumnSpacing(PYControlArea *self, PyObject *args, PyObject *kwargs) {
+		uint32_t index = {};
+		float32_t spacing = {};
+		static const char *kwlist[] = { "index", "spacing", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "If", (char**)kwlist, &index, &spacing)) {
+			self->ptr.setColumnSpacing(index, spacing);
+			Py_RETURN_NONE;
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlArea::setColumnSpacing(): unknown arguments:\n(uint32_t index, float32_t spacing) -> void\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *ControlArea_getColumnSpacing(PYControlArea *self, PyObject *args, PyObject *kwargs) {
+		uint32_t index = {};
+		static const char *kwlist[] = { "index", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "I", (char**)kwlist, &index)) {
+			return PyFloat_FromDouble(self->ptr.getColumnSpacing(index));
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlArea::getColumnSpacing(): unknown arguments:\n(uint32_t index) -> float32_t\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *ControlArea_setRowSpacing(PYControlArea *self, PyObject *args, PyObject *kwargs) {
+		uint32_t index = {};
+		float32_t spacing = {};
+		static const char *kwlist[] = { "index", "spacing", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "If", (char**)kwlist, &index, &spacing)) {
+			self->ptr.setRowSpacing(index, spacing);
+			Py_RETURN_NONE;
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlArea::setRowSpacing(): unknown arguments:\n(uint32_t index, float32_t spacing) -> void\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *ControlArea_getRowSpacing(PYControlArea *self, PyObject *args, PyObject *kwargs) {
+		uint32_t index = {};
+		static const char *kwlist[] = { "index", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "I", (char**)kwlist, &index)) {
+			return PyFloat_FromDouble(self->ptr.getRowSpacing(index));
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlArea::getRowSpacing(): unknown arguments:\n(uint32_t index) -> float32_t\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -74906,6 +75181,28 @@ namespace Tellusim {
 		PyErr_Clear();
 		{
 			PyObject *compute_ = nullptr;
+			PyObject *dest_ = nullptr;
+			PyObject *src_ = nullptr;
+			PyObject *dest_slice_ = nullptr;
+			PyObject *src_slice_ = nullptr;
+			static const char *kwlist[] = { "compute", "dest", "src", "dest_slice", "src_slice", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "OOOOO", (char**)kwlist, &compute_, &dest_, &src_, &dest_slice_, &src_slice_)) {
+				if(!isPYCompute(compute_)) break;
+				Compute &compute = pyCompute_get(compute_);
+				if(!isPYTexture(dest_)) break;
+				Texture &dest = pyTexture_get(dest_);
+				if(!isPYTexture(src_)) break;
+				Texture &src = pyTexture_get(src_);
+				if(!isPYSlice(dest_slice_)) break;
+				const Slice &dest_slice = pySlice_get(dest_slice_);
+				if(!isPYSlice(src_slice_)) break;
+				const Slice &src_slice = pySlice_get(src_slice_);
+				return PyLong_FromLong(self->ptr.dispatch(compute, dest, src, dest_slice, src_slice));
+			}
+		}
+		PyErr_Clear();
+		{
+			PyObject *compute_ = nullptr;
 			PyObject *buffer_ = nullptr;
 			uint32_t offset = {};
 			PyObject *texture_ = nullptr;
@@ -74937,8 +75234,43 @@ namespace Tellusim {
 				return PyLong_FromLong(self->ptr.dispatch(compute, texture, buffer, offset));
 			}
 		}
+		PyErr_Clear();
+		{
+			PyObject *compute_ = nullptr;
+			PyObject *dest_ = nullptr;
+			PyObject *src_ = nullptr;
+			PyObject *src_slice_ = nullptr;
+			static const char *kwlist[] = { "compute", "dest", "src", "src_slice", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "OOOO", (char**)kwlist, &compute_, &dest_, &src_, &src_slice_)) {
+				if(!isPYCompute(compute_)) break;
+				Compute &compute = pyCompute_get(compute_);
+				if(!isPYTexture(dest_)) break;
+				Texture &dest = pyTexture_get(dest_);
+				if(!isPYTexture(src_)) break;
+				Texture &src = pyTexture_get(src_);
+				if(!isPYSlice(src_slice_)) break;
+				const Slice &src_slice = pySlice_get(src_slice_);
+				return PyLong_FromLong(self->ptr.dispatch(compute, dest, src, src_slice));
+			}
+		}
+		PyErr_Clear();
+		{
+			PyObject *compute_ = nullptr;
+			PyObject *dest_ = nullptr;
+			PyObject *src_ = nullptr;
+			static const char *kwlist[] = { "compute", "dest", "src", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "OOO", (char**)kwlist, &compute_, &dest_, &src_)) {
+				if(!isPYCompute(compute_)) break;
+				Compute &compute = pyCompute_get(compute_);
+				if(!isPYTexture(dest_)) break;
+				Texture &dest = pyTexture_get(dest_);
+				if(!isPYTexture(src_)) break;
+				Texture &src = pyTexture_get(src_);
+				return PyLong_FromLong(self->ptr.dispatch(compute, dest, src));
+			}
+		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "CubeFilter::dispatch(): unknown arguments:\n(Compute compute, Buffer buffer, uint32_t offset, Texture texture, const Slice slice) -> bool\n(Compute compute, Texture texture, const Slice slice, Buffer buffer, uint32_t offset) -> bool\n(Compute compute, Buffer buffer, uint32_t offset, Texture texture) -> bool\n(Compute compute, Texture texture, Buffer buffer, uint32_t offset) -> bool\n");
+			PyErr_SetString(PyExc_TypeError, "CubeFilter::dispatch(): unknown arguments:\n(Compute compute, Buffer buffer, uint32_t offset, Texture texture, const Slice slice) -> bool\n(Compute compute, Texture texture, const Slice slice, Buffer buffer, uint32_t offset) -> bool\n(Compute compute, Texture dest, Texture src, const Slice dest_slice, const Slice src_slice) -> bool\n(Compute compute, Buffer buffer, uint32_t offset, Texture texture) -> bool\n(Compute compute, Texture texture, Buffer buffer, uint32_t offset) -> bool\n(Compute compute, Texture dest, Texture src, const Slice src_slice) -> bool\n(Compute compute, Texture dest, Texture src) -> bool\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -83437,7 +83769,7 @@ namespace Tellusim {
 		Py_INCREF(&PYMeshMaterial_Type);
 		
 		// Tellusim::MeshGeometry
-		PYMeshGeometry_methods.reserve(PYMeshGeometry_methods.size() + 101);
+		PYMeshGeometry_methods.reserve(PYMeshGeometry_methods.size() + 104);
 		PYMeshGeometry_methods.append(PyMethodDef { "equalPtr", (PyCFunction)pyMeshGeometry_equalPtr, METH_VARARGS, "" });
 		PYMeshGeometry_methods.append(PyMethodDef { "clonePtr", (PyCFunction)pyMeshGeometry_clonePtr, METH_NOARGS, "" });
 		PYMeshGeometry_methods.append(PyMethodDef { "clearPtr", (PyCFunction)pyMeshGeometry_clearPtr, METH_NOARGS, "" });
@@ -83524,6 +83856,7 @@ namespace Tellusim {
 		PYMeshGeometry_methods.append(PyMethodDef { "hasVisibilityRange", (PyCFunction)MeshGeometry_hasVisibilityRange, METH_NOARGS, "" });
 		PYMeshGeometry_methods.append(PyMethodDef { "setVisibilityError", (PyCFunction)MeshGeometry_setVisibilityError, METH_VARARGS | METH_KEYWORDS, "" });
 		PYMeshGeometry_methods.append(PyMethodDef { "getVisibilityError", (PyCFunction)MeshGeometry_getVisibilityError, METH_NOARGS, "" });
+		PYMeshGeometry_methods.append(PyMethodDef { "flipWinding", (PyCFunction)MeshGeometry_flipWinding, METH_NOARGS, "" });
 		PYMeshGeometry_methods.append(PyMethodDef { "createBounds", (PyCFunction)MeshGeometry_createBounds, METH_VARARGS | METH_KEYWORDS, "" });
 		PYMeshGeometry_methods.append(PyMethodDef { "createBasis", (PyCFunction)MeshGeometry_createBasis, METH_VARARGS | METH_KEYWORDS, "" });
 		PYMeshGeometry_methods.append(PyMethodDef { "createNormals", (PyCFunction)MeshGeometry_createNormals, METH_VARARGS | METH_KEYWORDS, "" });
@@ -83532,8 +83865,10 @@ namespace Tellusim {
 		PYMeshGeometry_methods.append(PyMethodDef { "optimizeIndices", (PyCFunction)MeshGeometry_optimizeIndices, METH_VARARGS | METH_KEYWORDS, "" });
 		PYMeshGeometry_methods.append(PyMethodDef { "optimizeAttributes", (PyCFunction)MeshGeometry_optimizeAttributes, METH_VARARGS | METH_KEYWORDS, "" });
 		PYMeshGeometry_methods.append(PyMethodDef { "optimizeMaterials", (PyCFunction)MeshGeometry_optimizeMaterials, METH_NOARGS, "" });
+		PYMeshGeometry_methods.append(PyMethodDef { "optimizeOrder", (PyCFunction)MeshGeometry_optimizeOrder, METH_NOARGS, "" });
 		PYMeshGeometry_methods.append(PyMethodDef { "packAttributes", (PyCFunction)MeshGeometry_packAttributes, METH_VARARGS | METH_KEYWORDS, "" });
 		PYMeshGeometry_methods.append(PyMethodDef { "unpackAttributes", (PyCFunction)MeshGeometry_unpackAttributes, METH_VARARGS | METH_KEYWORDS, "" });
+		PYMeshGeometry_methods.append(PyMethodDef { "addGeometry", (PyCFunction)MeshGeometry_addGeometry, METH_VARARGS | METH_KEYWORDS, "" });
 		PYMeshGeometry_methods.append(PyMethodDef { "compare", (PyCFunction)MeshGeometry_compare, METH_VARARGS | METH_KEYWORDS, "" });
 		PYMeshGeometry_methods.append(PyMethodDef { "isOptimized", (PyCFunction)MeshGeometry_isOptimized, METH_NOARGS, "" });
 		PYMeshGeometry_methods.append(PyMethodDef { "validate", (PyCFunction)MeshGeometry_validate, METH_NOARGS, "" });
@@ -91767,7 +92102,7 @@ namespace Tellusim {
 		Py_INCREF(&PYControlRect_Type);
 		
 		// Tellusim::ControlGrid
-		PYControlGrid_methods.reserve(PYControlGrid_methods.size() + 20);
+		PYControlGrid_methods.reserve(PYControlGrid_methods.size() + 24);
 		PYControlGrid_methods.append(PyMethodDef { "equalPtr", (PyCFunction)pyControlGrid_equalPtr, METH_VARARGS, "" });
 		PYControlGrid_methods.append(PyMethodDef { "clonePtr", (PyCFunction)pyControlGrid_clonePtr, METH_NOARGS, "" });
 		PYControlGrid_methods.append(PyMethodDef { "clearPtr", (PyCFunction)pyControlGrid_clearPtr, METH_NOARGS, "" });
@@ -91786,6 +92121,10 @@ namespace Tellusim {
 		PYControlGrid_methods.append(PyMethodDef { "getSpacing", (PyCFunction)ControlGrid_getSpacing, METH_NOARGS, "" });
 		PYControlGrid_methods.append(PyMethodDef { "setColumnRatio", (PyCFunction)ControlGrid_setColumnRatio, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControlGrid_methods.append(PyMethodDef { "getColumnRatio", (PyCFunction)ControlGrid_getColumnRatio, METH_VARARGS | METH_KEYWORDS, "" });
+		PYControlGrid_methods.append(PyMethodDef { "setColumnSpacing", (PyCFunction)ControlGrid_setColumnSpacing, METH_VARARGS | METH_KEYWORDS, "" });
+		PYControlGrid_methods.append(PyMethodDef { "getColumnSpacing", (PyCFunction)ControlGrid_getColumnSpacing, METH_VARARGS | METH_KEYWORDS, "" });
+		PYControlGrid_methods.append(PyMethodDef { "setRowSpacing", (PyCFunction)ControlGrid_setRowSpacing, METH_VARARGS | METH_KEYWORDS, "" });
+		PYControlGrid_methods.append(PyMethodDef { "getRowSpacing", (PyCFunction)ControlGrid_getRowSpacing, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControlGrid_methods.append(PyMethodDef { "getControlsSize", (PyCFunction)ControlGrid_getControlsSize, METH_NOARGS, "" });
 		PYControlGrid_methods.append(PyMethodDef {});
 		PYControlGrid_getsets.reserve(PYControlGrid_getsets.size() + 4);
@@ -91813,7 +92152,7 @@ namespace Tellusim {
 		Py_INCREF(&PYControlGrid_Type);
 		
 		// Tellusim::ControlGroup
-		PYControlGroup_methods.reserve(PYControlGroup_methods.size() + 46);
+		PYControlGroup_methods.reserve(PYControlGroup_methods.size() + 50);
 		PYControlGroup_methods.append(PyMethodDef { "equalPtr", (PyCFunction)pyControlGroup_equalPtr, METH_VARARGS, "" });
 		PYControlGroup_methods.append(PyMethodDef { "clonePtr", (PyCFunction)pyControlGroup_clonePtr, METH_NOARGS, "" });
 		PYControlGroup_methods.append(PyMethodDef { "clearPtr", (PyCFunction)pyControlGroup_clearPtr, METH_NOARGS, "" });
@@ -91855,6 +92194,10 @@ namespace Tellusim {
 		PYControlGroup_methods.append(PyMethodDef { "getSpacing", (PyCFunction)ControlGroup_getSpacing, METH_NOARGS, "" });
 		PYControlGroup_methods.append(PyMethodDef { "setColumnRatio", (PyCFunction)ControlGroup_setColumnRatio, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControlGroup_methods.append(PyMethodDef { "getColumnRatio", (PyCFunction)ControlGroup_getColumnRatio, METH_VARARGS | METH_KEYWORDS, "" });
+		PYControlGroup_methods.append(PyMethodDef { "setColumnSpacing", (PyCFunction)ControlGroup_setColumnSpacing, METH_VARARGS | METH_KEYWORDS, "" });
+		PYControlGroup_methods.append(PyMethodDef { "getColumnSpacing", (PyCFunction)ControlGroup_getColumnSpacing, METH_VARARGS | METH_KEYWORDS, "" });
+		PYControlGroup_methods.append(PyMethodDef { "setRowSpacing", (PyCFunction)ControlGroup_setRowSpacing, METH_VARARGS | METH_KEYWORDS, "" });
+		PYControlGroup_methods.append(PyMethodDef { "getRowSpacing", (PyCFunction)ControlGroup_getRowSpacing, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControlGroup_methods.append(PyMethodDef { "getControlsSize", (PyCFunction)ControlGroup_getControlsSize, METH_NOARGS, "" });
 		PYControlGroup_methods.append(PyMethodDef { "setClickedCallback", (PyCFunction)ControlGroup_setClickedCallback, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControlGroup_methods.append(PyMethodDef { "isClicked", (PyCFunction)ControlGroup_isClicked, METH_NOARGS, "" });
@@ -91895,7 +92238,7 @@ namespace Tellusim {
 		Py_INCREF(&PYControlGroup_Type);
 		
 		// Tellusim::ControlPanel
-		PYControlPanel_methods.reserve(PYControlPanel_methods.size() + 20);
+		PYControlPanel_methods.reserve(PYControlPanel_methods.size() + 24);
 		PYControlPanel_methods.append(PyMethodDef { "equalPtr", (PyCFunction)pyControlPanel_equalPtr, METH_VARARGS, "" });
 		PYControlPanel_methods.append(PyMethodDef { "clonePtr", (PyCFunction)pyControlPanel_clonePtr, METH_NOARGS, "" });
 		PYControlPanel_methods.append(PyMethodDef { "clearPtr", (PyCFunction)pyControlPanel_clearPtr, METH_NOARGS, "" });
@@ -91914,6 +92257,10 @@ namespace Tellusim {
 		PYControlPanel_methods.append(PyMethodDef { "getSpacing", (PyCFunction)ControlPanel_getSpacing, METH_NOARGS, "" });
 		PYControlPanel_methods.append(PyMethodDef { "setColumnRatio", (PyCFunction)ControlPanel_setColumnRatio, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControlPanel_methods.append(PyMethodDef { "getColumnRatio", (PyCFunction)ControlPanel_getColumnRatio, METH_VARARGS | METH_KEYWORDS, "" });
+		PYControlPanel_methods.append(PyMethodDef { "setColumnSpacing", (PyCFunction)ControlPanel_setColumnSpacing, METH_VARARGS | METH_KEYWORDS, "" });
+		PYControlPanel_methods.append(PyMethodDef { "getColumnSpacing", (PyCFunction)ControlPanel_getColumnSpacing, METH_VARARGS | METH_KEYWORDS, "" });
+		PYControlPanel_methods.append(PyMethodDef { "setRowSpacing", (PyCFunction)ControlPanel_setRowSpacing, METH_VARARGS | METH_KEYWORDS, "" });
+		PYControlPanel_methods.append(PyMethodDef { "getRowSpacing", (PyCFunction)ControlPanel_getRowSpacing, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControlPanel_methods.append(PyMethodDef { "getControlsSize", (PyCFunction)ControlPanel_getControlsSize, METH_NOARGS, "" });
 		PYControlPanel_methods.append(PyMethodDef {});
 		PYControlPanel_getsets.reserve(PYControlPanel_getsets.size() + 4);
@@ -92434,7 +92781,7 @@ namespace Tellusim {
 		Py_INCREF(&PYControlSplit_Type);
 		
 		// Tellusim::ControlArea
-		PYControlArea_methods.reserve(PYControlArea_methods.size() + 64);
+		PYControlArea_methods.reserve(PYControlArea_methods.size() + 68);
 		PYControlArea_methods.append(PyMethodDef { "equalPtr", (PyCFunction)pyControlArea_equalPtr, METH_VARARGS, "" });
 		PYControlArea_methods.append(PyMethodDef { "clonePtr", (PyCFunction)pyControlArea_clonePtr, METH_NOARGS, "" });
 		PYControlArea_methods.append(PyMethodDef { "clearPtr", (PyCFunction)pyControlArea_clearPtr, METH_NOARGS, "" });
@@ -92495,6 +92842,10 @@ namespace Tellusim {
 		PYControlArea_methods.append(PyMethodDef { "getSpacing", (PyCFunction)ControlArea_getSpacing, METH_NOARGS, "" });
 		PYControlArea_methods.append(PyMethodDef { "setColumnRatio", (PyCFunction)ControlArea_setColumnRatio, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControlArea_methods.append(PyMethodDef { "getColumnRatio", (PyCFunction)ControlArea_getColumnRatio, METH_VARARGS | METH_KEYWORDS, "" });
+		PYControlArea_methods.append(PyMethodDef { "setColumnSpacing", (PyCFunction)ControlArea_setColumnSpacing, METH_VARARGS | METH_KEYWORDS, "" });
+		PYControlArea_methods.append(PyMethodDef { "getColumnSpacing", (PyCFunction)ControlArea_getColumnSpacing, METH_VARARGS | METH_KEYWORDS, "" });
+		PYControlArea_methods.append(PyMethodDef { "setRowSpacing", (PyCFunction)ControlArea_setRowSpacing, METH_VARARGS | METH_KEYWORDS, "" });
+		PYControlArea_methods.append(PyMethodDef { "getRowSpacing", (PyCFunction)ControlArea_getRowSpacing, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControlArea_methods.append(PyMethodDef { "getControlsSize", (PyCFunction)ControlArea_getControlsSize, METH_NOARGS, "" });
 		PYControlArea_methods.append(PyMethodDef { "getControlsOffset", (PyCFunction)ControlArea_getControlsOffset, METH_NOARGS, "" });
 		PYControlArea_methods.append(PyMethodDef { "getViewRect", (PyCFunction)ControlArea_getViewRect, METH_NOARGS, "" });

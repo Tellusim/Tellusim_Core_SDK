@@ -101,6 +101,9 @@ public class CubeFilter {
 	public boolean dispatch(Compute compute, Buffer buffer, int offset, Texture texture) { return dispatch_1(self, compute.self, buffer.self, offset, texture.self); }
 	public boolean dispatch(Compute compute, Texture texture, Slice slice, Buffer buffer, int offset) { return dispatch_2(self, compute.self, texture.self, slice.self, buffer.self, offset); }
 	public boolean dispatch(Compute compute, Texture texture, Buffer buffer, int offset) { return dispatch_3(self, compute.self, texture.self, buffer.self, offset); }
+	public boolean dispatch(Compute compute, Texture dest, Texture src, Slice dest_slice, Slice src_slice) { return dispatch_4(self, compute.self, dest.self, src.self, dest_slice.self, src_slice.self); }
+	public boolean dispatch(Compute compute, Texture dest, Texture src, Slice src_slice) { return dispatch_5(self, compute.self, dest.self, src.self, src_slice.self); }
+	public boolean dispatch(Compute compute, Texture dest, Texture src) { return dispatch_6(self, compute.self, dest.self, src.self); }
 	
 	private static native long new_();
 	private static native void delete_(long self);
@@ -127,6 +130,9 @@ public class CubeFilter {
 	private static native boolean dispatch_1(long self, long compute, long buffer, int offset, long texture);
 	private static native boolean dispatch_2(long self, long compute, long texture, long slice, long buffer, int offset);
 	private static native boolean dispatch_3(long self, long compute, long texture, long buffer, int offset);
+	private static native boolean dispatch_4(long self, long compute, long dest, long src, long dest_slice, long src_slice);
+	private static native boolean dispatch_5(long self, long compute, long dest, long src, long src_slice);
+	private static native boolean dispatch_6(long self, long compute, long dest, long src);
 	
 	protected CubeFilter(long self) {
 		init_(self);

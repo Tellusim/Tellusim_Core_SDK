@@ -87,9 +87,9 @@ int32_t main(int32_t argc, char **argv) {
 		TS_LOGF(Message, "%s <%u>\n", string.get(), string.size());
 	}
 	
-	if(0) {
+	if(1) {
 		TS_LOG(Message, "\n");
-		String string = String("ASCII STRING Здраво Свете ascii string");
+		String string = String("ASCII STRING \u0417\u0434\u0440\u0430\u0432\u043e \u0421\u0432\u0435\u0442\u0435 ascii string");
 		TS_LOGF(Message, "lower: %s\n", string.lower().get());
 		TS_LOGF(Message, "upper: %s\n", string.upper().get());
 	}
