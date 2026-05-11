@@ -257,6 +257,10 @@ namespace Tellusim {
 			void setTypeUpdateCallback(uint32_t index, const TypeUpdateCallback &func) { types[index].update_func = func; }
 			TS_INLINE const TypeUpdateCallback &getTypeUpdateCallback(uint32_t index) const { return types[index].update_func; }
 			
+			/// type pointer
+			void setTypePtr(uint32_t index, void *ptr) { types[index].ptr = ptr; }
+			TS_INLINE void *getTypePtr(uint32_t index) const { return types[index].ptr; }
+			
 			/// flow protos
 			void clearProtos();
 			void reserveProtos(uint32_t num_protos);
@@ -301,6 +305,11 @@ namespace Tellusim {
 			void setProtoValue(uint32_t index, const String &value) { protos[index].value = value; }
 			TS_INLINE const String &getProtoValue(uint32_t index) const { return protos[index].value; }
 			
+			/// proto state
+			void setProtoState(uint32_t index, const char *state) { protos[index].state = state; }
+			void setProtoState(uint32_t index, const String &state) { protos[index].state = state; }
+			TS_INLINE const String &getProtoState(uint32_t index) const { return protos[index].state; }
+			
 			/// proto color
 			void setProtoColor(uint32_t index, const Color &color) { protos[index].color = color; }
 			TS_INLINE const Color &getProtoColor(uint32_t index) const { return protos[index].color; }
@@ -316,17 +325,28 @@ namespace Tellusim {
 			/// proto create callback
 			/// \param grid Node grid
 			/// \param node Node index
-			/// \param proto Proto index
+			/// \param index Proto index
 			using ProtoCreateCallback = Function<void(ControlFlow *flow, ControlGrid grid, uint32_t node)>;
 			void setProtoCreateCallback(uint32_t index, const ProtoCreateCallback &func) { protos[index].create_func = func; }
 			TS_INLINE const ProtoCreateCallback &getProtoCreateCallback(uint32_t index) const { return protos[index].create_func; }
 			
 			/// proto update callback
 			/// \param node Node index
-			/// \param proto Proto index
+			/// \param index Proto index
 			using ProtoUpdateCallback = Function<void(ControlFlow *flow, uint32_t node, bool inverse)>;
 			void setProtoUpdateCallback(uint32_t index, const ProtoUpdateCallback &func) { protos[index].update_func = func; }
 			TS_INLINE const ProtoUpdateCallback &getProtoUpdateCallback(uint32_t index) const { return protos[index].update_func; }
+			
+			/// proto remove callback
+			/// \param node Node index
+			/// \param index Proto index
+			using ProtoRemoveCallback = Function<void(ControlFlow *flow, uint32_t node)>;
+			void setProtoRemoveCallback(uint32_t index, const ProtoRemoveCallback &func) { protos[index].remove_func = func; }
+			TS_INLINE const ProtoRemoveCallback &getProtoRemoveCallback(uint32_t index) const { return protos[index].remove_func; }
+			
+			/// proto pointer
+			void setProtoPtr(uint32_t index, void *ptr) { protos[index].ptr = ptr; }
+			TS_INLINE void *getProtoPtr(uint32_t index) const { return protos[index].ptr; }
 			
 			/// proto inputs
 			void clearProtoInputs(uint32_t proto);
@@ -386,6 +406,10 @@ namespace Tellusim {
 			void setProtoFinalInput(uint32_t proto, uint32_t index, bool is_final) { protos[proto].inputs[index].is_final = is_final; }
 			TS_INLINE bool isProtoFinalInput(uint32_t proto, uint32_t index) const { return protos[proto].inputs[index].is_final; }
 			
+			/// separator input flag
+			void setProtoSeparatorInput(uint32_t proto, uint32_t index, bool is_separator) { protos[proto].inputs[index].is_separator = is_separator; }
+			TS_INLINE bool isProtoSeparatorInput(uint32_t proto, uint32_t index) const { return protos[proto].inputs[index].is_separator; }
+			
 			/// input mask
 			void setProtoInputMask(uint32_t proto, uint32_t index, const TypeMask &mask) { protos[proto].inputs[index].mask = mask; }
 			TS_INLINE const TypeMask &getProtoInputMask(uint32_t proto, uint32_t index) const { return protos[proto].inputs[index].mask; }
@@ -415,6 +439,10 @@ namespace Tellusim {
 			using ProtoInputAttachCallback = Function<bool(ControlFlow *flow, uint32_t node, uint32_t input, uint32_t output_node, uint32_t output_index)>;
 			void setProtoInputAttachCallback(uint32_t proto, uint32_t index, const ProtoInputAttachCallback &func) { protos[proto].inputs[index].attach_func = func; }
 			TS_INLINE const ProtoInputAttachCallback &getProtoInputAttachCallback(uint32_t proto, uint32_t index) const { return protos[proto].inputs[index].attach_func; }
+			
+			/// input pointer
+			void setProtoInputPtr(uint32_t proto, uint32_t index, void *ptr) { protos[proto].inputs[index].ptr = ptr; }
+			TS_INLINE void *getProtoInputPtr(uint32_t proto, uint32_t index) const { return protos[proto].inputs[index].ptr; }
 			
 			/// proto outputs
 			void clearProtoOutputs(uint32_t proto);
@@ -474,6 +502,10 @@ namespace Tellusim {
 			void setProtoFinalOutput(uint32_t proto, uint32_t index, bool is_final) { protos[proto].outputs[index].is_final = is_final; }
 			TS_INLINE bool isProtoFinalOutput(uint32_t proto, uint32_t index) const { return protos[proto].outputs[index].is_final; }
 			
+			/// separator output flag
+			void setProtoSeparatorOutput(uint32_t proto, uint32_t index, bool is_separator) { protos[proto].outputs[index].is_separator = is_separator; }
+			TS_INLINE bool isProtoSeparatorOutput(uint32_t proto, uint32_t index) const { return protos[proto].outputs[index].is_separator; }
+			
 			/// output mask
 			void setProtoOutputMask(uint32_t proto, uint32_t index, const TypeMask &mask) { protos[proto].outputs[index].mask = mask; }
 			TS_INLINE const TypeMask &getProtoOutputMask(uint32_t proto, uint32_t index) const { return protos[proto].outputs[index].mask; }
@@ -506,11 +538,15 @@ namespace Tellusim {
 			void setProtoOutputAttachCallback(uint32_t proto, uint32_t index, const ProtoOutputAttachCallback &func) { protos[proto].outputs[index].attach_func = func; }
 			TS_INLINE const ProtoOutputAttachCallback &getProtoOutputAttachCallback(uint32_t proto, uint32_t index) const { return protos[proto].outputs[index].attach_func; }
 			
+			/// output pointer
+			void setProtoOutputPtr(uint32_t proto, uint32_t index, void *ptr) { protos[proto].outputs[index].ptr = ptr; }
+			TS_INLINE void *getProtoOutputPtr(uint32_t proto, uint32_t index) const { return protos[proto].outputs[index].ptr; }
+			
 			/// flow nodes
 			void clearNodes();
 			void reserveNodes(uint32_t num_nodes);
-			uint32_t addNode(uint32_t proto, const Vector2f &position = Vector2f::zero, const char *value = nullptr);
-			uint32_t addNode(uint32_t proto, const Vector2f &position, const String &value);
+			uint32_t addNode(uint32_t proto, const Vector2f &position = Vector2f::zero, const char *value = nullptr, const char *state = nullptr);
+			uint32_t addNode(uint32_t proto, const Vector2f &position, const String &value, const String &state = String::null);
 			uint32_t findNode(const char *name) const;
 			uint32_t findNode(const String &name) const;
 			Array<uint32_t> findNodes(const char *name) const;
@@ -575,33 +611,44 @@ namespace Tellusim {
 			void setNodePosition(uint32_t index, const Vector2f &position);
 			TS_INLINE const Vector2f &getNodePosition(uint32_t index) const { return nodes[index]->position; }
 			
-			/// node update callback
-			/// \param node Node index
-			/// \param proto Proto index
-			using NodeUpdateCallback = Function<void(ControlFlow *flow, uint32_t node, bool inverse)>;
-			void setNodeUpdateCallback(uint32_t index, const NodeUpdateCallback &func) { nodes[index]->update_func = func; }
-			TS_INLINE const NodeUpdateCallback &getNodeUpdateCallback(uint32_t index) const { return nodes[index]->update_func; }
-			
 			/// node create callback
 			/// \param node Node index
-			/// \param proto Proto index
+			/// \param index Node index
 			using NodeCreateCallback = Function<void(ControlFlow *flow, uint32_t node)>;
 			void setNodeCreateCallback(uint32_t index, const NodeCreateCallback &func) { nodes[index]->create_func = func; }
 			TS_INLINE const NodeCreateCallback &getNodeCreateCallback(uint32_t index) const { return nodes[index]->create_func; }
 			
+			/// node update callback
+			/// \param node Node index
+			/// \param index Node index
+			using NodeUpdateCallback = Function<void(ControlFlow *flow, uint32_t node, bool inverse)>;
+			void setNodeUpdateCallback(uint32_t index, const NodeUpdateCallback &func) { nodes[index]->update_func = func; }
+			TS_INLINE const NodeUpdateCallback &getNodeUpdateCallback(uint32_t index) const { return nodes[index]->update_func; }
+			
+			/// node remove callback
+			/// \param node Node index
+			/// \param index Node index
+			using NodeRemoveCallback = Function<void(ControlFlow *flow, uint32_t node)>;
+			void setNodeRemoveCallback(uint32_t index, const NodeRemoveCallback &func) { nodes[index]->remove_func = func; }
+			TS_INLINE const NodeRemoveCallback &getNodeRemoveCallback(uint32_t index) const { return nodes[index]->remove_func; }
+			
 			/// node load callback
 			/// \param node Node index
-			/// \param proto Proto index
+			/// \param index Node index
 			using NodeLoadCallback = Function<void(ControlFlow *flow, const Xml *xml, uint32_t node)>;
 			void setNodeLoadCallback(uint32_t index, const NodeLoadCallback &func) { nodes[index]->load_func = func; }
 			TS_INLINE const NodeLoadCallback &getNodeLoadCallback(uint32_t index) const { return nodes[index]->load_func; }
 			
 			/// node save callback
 			/// \param node Node index
-			/// \param proto Proto index
+			/// \param index Node index
 			using NodeSaveCallback = Function<void(const ControlFlow *flow, Xml *xml, uint32_t node)>;
 			void setNodeSaveCallback(uint32_t index, const NodeSaveCallback &func) { nodes[index]->save_func = func; }
 			TS_INLINE const NodeSaveCallback &getNodeSaveCallback(uint32_t index) const { return nodes[index]->save_func; }
+			
+			/// node pointer
+			void setNodePtr(uint32_t index, void *ptr) { nodes[index]->ptr = ptr; }
+			TS_INLINE void *getNodePtr(uint32_t index) const { return nodes[index]->ptr; }
 			
 			/// update node
 			void updateNode(uint32_t node, bool inverse = false);
@@ -650,6 +697,10 @@ namespace Tellusim {
 			TS_INLINE ControlText &getInputText(uint32_t node, uint32_t index) { return nodes[node]->inputs[index].text; }
 			TS_INLINE const ControlText &getInputText(uint32_t node, uint32_t index) const { return nodes[node]->inputs[index].text; }
 			
+			/// node input pointer
+			void setInputPtr(uint32_t node, uint32_t index, void *ptr) { nodes[node]->inputs[index].ptr = ptr; }
+			TS_INLINE void *getInputPtr(uint32_t node, uint32_t index) const { return nodes[node]->inputs[index].ptr; }
+			
 			/// finds node output
 			TS_INLINE uint32_t findOutput(uint32_t node, const char *name) const { return findProtoOutput(nodes[node]->proto, name); }
 			TS_INLINE uint32_t findOutput(uint32_t node, const String &name) const { return findProtoOutput(nodes[node]->proto, name); }
@@ -693,6 +744,10 @@ namespace Tellusim {
 			/// returns node output text
 			TS_INLINE ControlText &getOutputText(uint32_t node, uint32_t index) { return nodes[node]->outputs[index].text; }
 			TS_INLINE const ControlText &getOutputText(uint32_t node, uint32_t index) const { return nodes[node]->outputs[index].text; }
+			
+			/// node output pointer
+			void setOutputPtr(uint32_t node, uint32_t index, void *ptr) { nodes[node]->outputs[index].ptr = ptr; }
+			TS_INLINE void *getOutputPtr(uint32_t node, uint32_t index) const { return nodes[node]->outputs[index].ptr; }
 			
 			/// node connections
 			void clearConnections(uint32_t node);
@@ -797,8 +852,8 @@ namespace Tellusim {
 			/// remove node
 			void remove_node(Node &node);
 			
-			/// update input value
-			void update_input(uint32_t node, uint32_t index);
+			/// update input text
+			void update_input_text(uint32_t node, uint32_t index);
 			
 			/// mouse position
 			Vector2f get_mouse_position(const ControlRoot &root) const;
@@ -855,6 +910,10 @@ namespace Tellusim {
 			static void proto_dropped_callback(ControlTree tree, uint32_t item, ControlFlow *self);
 			static void input_returned_callback(ControlEdit edit, ControlFlow *self, uint32_t node, uint32_t index);
 			static void remove_clicked_callback(ControlButton button, ControlFlow *self);
+			
+			/// output proto
+			virtual uint32_t get_output_proto(uint32_t input_node, uint32_t input_index, uint32_t &output_index) const;
+			virtual void update_output_node(uint32_t input_node, uint32_t input_index, uint32_t output_node, uint32_t output_index);
 			
 			/// flow unredo
 			void add_position_action();
@@ -913,6 +972,7 @@ namespace Tellusim {
 				StrokeStyle connection_style;				// type connection style
 				TypeCreateCallback create_func;				// type create callback
 				TypeUpdateCallback update_func;				// type update callback
+				void *ptr = nullptr;						// type pointer data
 			};
 			Array<Type> types;								// flow types
 			Map<String, uint32_t> type_names;				// type names
@@ -927,9 +987,11 @@ namespace Tellusim {
 				uint32_t index = Maxu32;					// input index
 				bool is_multi = false;						// multi input flag
 				bool is_final = false;						// final input flag
+				bool is_separator = false;					// separator input flag
 				ProtoInputCreateCallback create_func;		// input create callback
 				ProtoInputUpdateCallback update_func;		// input update callback
 				ProtoInputAttachCallback attach_func;		// input attach callback
+				void *ptr = nullptr;						// input pointer data
 			};
 			
 			struct ProtoOutput {
@@ -942,9 +1004,11 @@ namespace Tellusim {
 				uint32_t index = Maxu32;					// output index
 				bool is_multi = false;						// multi output flag
 				bool is_final = false;						// final output flag
+				bool is_separator = false;					// separator output flag
 				ProtoOutputCreateCallback create_func;		// output create callback
 				ProtoOutputUpdateCallback update_func;		// output update callback
 				ProtoOutputAttachCallback attach_func;		// output attach callback
+				void *ptr = nullptr;						// output pointer data
 			};
 			
 			struct Proto {
@@ -953,6 +1017,7 @@ namespace Tellusim {
 				String info;								// proto info
 				String title;								// proto title
 				String value;								// proto value
+				String state;								// proto state
 				String match;								// proto match
 				uint32_t item = Maxu32;						// proto item
 				uint32_t index = Maxu32;					// proto index
@@ -963,6 +1028,8 @@ namespace Tellusim {
 				Array<ProtoOutput> outputs;					// proto outputs
 				ProtoCreateCallback create_func;			// proto create callback
 				ProtoUpdateCallback update_func;			// proto update callback
+				ProtoRemoveCallback remove_func;			// proto remove callback
+				void *ptr = nullptr;						// proto pointer data
 			};
 			Array<Proto> protos;							// flow protos
 			Map<String, uint32_t> proto_names;				// proto names
@@ -988,6 +1055,7 @@ namespace Tellusim {
 				Array<InputConnection> connections;			// input connections
 				AutoPtr<ControlElement> socket;				// input socket
 				ControlText text;							// input text
+				void *ptr = nullptr;						// input pointer data
 			};
 			
 			struct NodeOutput {
@@ -998,6 +1066,7 @@ namespace Tellusim {
 				Array<OutputConnection> connections;		// output connections
 				AutoPtr<ControlElement> socket;				// output socket
 				ControlText text;							// output text
+				void *ptr = nullptr;						// output pointer data
 			};
 			
 			struct NodeIndex {
@@ -1026,10 +1095,12 @@ namespace Tellusim {
 				Vector2i distance = Vector2i::zero;			// node distance
 				Vector2f position = Vector2f::zero;			// node position
 				StrokeStyle stroke_style;					// stroke style
-				NodeUpdateCallback update_func;				// node update callback
 				NodeCreateCallback create_func;				// node create callback
+				NodeUpdateCallback update_func;				// node update callback
+				NodeRemoveCallback remove_func;				// node remove callback
 				NodeLoadCallback load_func;					// node load callback
 				NodeSaveCallback save_func;					// node save callback
+				void *ptr = nullptr;						// node pointer data
 			};
 			using NodePtr = AutoPtr<Node>;
 			Array<NodePtr> nodes;							// flow nodes
@@ -1107,8 +1178,11 @@ namespace Tellusim {
 			
 			uint32_t input_node_index = Maxu32;				// input node index
 			
+			uint32_t mouse_node_index = Maxu32;				// mouse node index
+			uint32_t mouse_output_index = Maxu32;			// mouse output index
+			
 			Array<uint32_t> selected_nodes;					// selected nodes
-			Array<uint32_t> old_selected_nodes;				// old selected nodes
+			Array<uint32_t> prev_selected_nodes;			// previously selected nodes
 			
 			AutoPtr<ControlElement> mouse_strip;			// mouse strip
 			Vector2f mouse_position = Vector2f::zero;		// mouse position
@@ -1120,7 +1194,8 @@ namespace Tellusim {
 			
 			uint32_t frame = 0;								// update frame
 			Array<uint32_t> update_nodes;					// update nodes
-			Array<uint32_t> old_update_nodes;				// old update nodes
+			Array<uint32_t> prev_update_nodes;				// previously update nodes
+			Array<uint32_t> next_update_nodes;				// next update nodes
 			
 			Array<NodeIndex> spatial_indices;				// spatial indices
 			Array<Spatial::Node2f> spatial_nodes;			// spatial nodes

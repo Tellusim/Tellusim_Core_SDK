@@ -123,6 +123,10 @@ namespace Tellusim {
 			void setGlobalTransform(const Matrix4x3d &transform);
 			TS_INLINE const Matrix4x3d &getGlobalTransform() const { return global_transform; }
 			
+			/// basis transform
+			void setBasisTransform(const Matrix4x3d &transform);
+			TS_INLINE const Matrix4x3d &getBasisTransform() const { return basis_transform; }
+			
 			/// local transform
 			void setLocalTransform(const Matrix4x3d &transform);
 			TS_INLINE const Matrix4x3d &getLocalTransform() const { return local_transform; }
@@ -140,7 +144,13 @@ namespace Tellusim {
 			void setChangedCallback(const ChangedCallback &func);
 			TS_INLINE const ChangedCallback &getChangedCallback() const { return changed_func; }
 			
+			/// changed flag
+			TS_INLINE bool isChanged() const { return mouse_changed; }
+			
 		private:
+			
+			/// clear control
+			virtual void clear();
 			
 			/// create control
 			void create();
@@ -198,6 +208,7 @@ namespace Tellusim {
 			Matrix4x3d camera_itransform;				// camera itransform
 			
 			Matrix4x3d global_transform;				// global transform
+			Matrix4x3d basis_transform;					// basis transform
 			Matrix4x3d local_transform;					// local transform
 			
 			Matrix4x3d relative_transform;				// relative transform
