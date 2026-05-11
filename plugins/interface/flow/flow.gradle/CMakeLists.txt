@@ -21,6 +21,7 @@ set(SRCS
 	../source/TellusimControlFlow.cpp
 	../source/TellusimControlFlowCPP.cpp
 	../source/TellusimControlFlowGLSL.cpp
+	../source/TellusimControlFlowMath.cpp
 )
 
 project(tsInterfaceControlFlow)
