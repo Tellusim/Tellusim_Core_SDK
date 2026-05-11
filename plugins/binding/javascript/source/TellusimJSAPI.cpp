@@ -2736,7 +2736,10 @@ namespace Tellusim {
 	TS_JSAPI void tsMeshAttribute_addAttribute(MeshAttribute &self, const MeshAttribute &attribute) {
 		self.addAttribute(attribute);
 	}
-	TS_JSAPI bool tsMeshAttribute_setTransform(MeshAttribute &self, const Matrix4x3f &transform) {
+	TS_JSAPI bool tsMeshAttribute_setTransform(MeshAttribute &self, const Vector3f &scale) {
+		return self.setTransform(scale);
+	}
+	TS_JSAPI bool tsMeshAttribute_setTransform_1(MeshAttribute &self, const Matrix4x3f &transform) {
 		return self.setTransform(transform);
 	}
 	TS_JSAPI bool tsMeshAttribute_morphAttribute(MeshAttribute &self, const MeshAttribute &attribute, float32_t k) {
@@ -3441,6 +3444,9 @@ namespace Tellusim {
 	TS_JSAPI float32_t tsMeshGeometry_getVisibilityError(const MeshGeometry &self) {
 		return self.getVisibilityError();
 	}
+	TS_JSAPI void tsMeshGeometry_flipWinding(MeshGeometry &self) {
+		self.flipWinding();
+	}
 	TS_JSAPI bool tsMeshGeometry_createBounds(MeshGeometry &self, bool force, uint32_t position) {
 		return self.createBounds(force, position);
 	}
@@ -3471,11 +3477,17 @@ namespace Tellusim {
 	TS_JSAPI void tsMeshGeometry_optimizeMaterials(MeshGeometry &self) {
 		self.optimizeMaterials();
 	}
+	TS_JSAPI void tsMeshGeometry_optimizeOrder(MeshGeometry &self) {
+		self.optimizeOrder();
+	}
 	TS_JSAPI bool tsMeshGeometry_packAttributes(MeshGeometry &self, bool remove) {
 		return self.packAttributes(remove);
 	}
 	TS_JSAPI bool tsMeshGeometry_unpackAttributes(MeshGeometry &self, bool remove) {
 		return self.unpackAttributes(remove);
+	}
+	TS_JSAPI bool tsMeshGeometry_addGeometry(MeshGeometry &self, const MeshGeometry &geometry, const Matrix4x3f &transform) {
+		return self.addGeometry(geometry, transform);
 	}
 	TS_JSAPI int32_t tsMeshGeometry_compare(const MeshGeometry &self, const MeshGeometry &geometry, const Matrix4x3f &transform, float32_t threshold, bool spatial) {
 		return self.compare(geometry, transform, threshold, spatial);
@@ -13001,6 +13013,18 @@ namespace Tellusim {
 	TS_JSAPI float32_t tsControlGrid_getColumnRatio(const ControlGrid &self, uint32_t index) {
 		return self.getColumnRatio(index);
 	}
+	TS_JSAPI void tsControlGrid_setColumnSpacing(ControlGrid &self, uint32_t index, float32_t spacing) {
+		self.setColumnSpacing(index, spacing);
+	}
+	TS_JSAPI float32_t tsControlGrid_getColumnSpacing(const ControlGrid &self, uint32_t index) {
+		return self.getColumnSpacing(index);
+	}
+	TS_JSAPI void tsControlGrid_setRowSpacing(ControlGrid &self, uint32_t index, float32_t spacing) {
+		self.setRowSpacing(index, spacing);
+	}
+	TS_JSAPI float32_t tsControlGrid_getRowSpacing(const ControlGrid &self, uint32_t index) {
+		return self.getRowSpacing(index);
+	}
 	TS_JSAPI const Vector2f *tsControlGrid_getControlsSize(const ControlGrid &self) {
 		return new Vector2f(self.getControlsSize());
 	}
@@ -13146,6 +13170,18 @@ namespace Tellusim {
 	TS_JSAPI float32_t tsControlGroup_getColumnRatio(const ControlGroup &self, uint32_t index) {
 		return self.getColumnRatio(index);
 	}
+	TS_JSAPI void tsControlGroup_setColumnSpacing(ControlGroup &self, uint32_t index, float32_t spacing) {
+		self.setColumnSpacing(index, spacing);
+	}
+	TS_JSAPI float32_t tsControlGroup_getColumnSpacing(const ControlGroup &self, uint32_t index) {
+		return self.getColumnSpacing(index);
+	}
+	TS_JSAPI void tsControlGroup_setRowSpacing(ControlGroup &self, uint32_t index, float32_t spacing) {
+		self.setRowSpacing(index, spacing);
+	}
+	TS_JSAPI float32_t tsControlGroup_getRowSpacing(const ControlGroup &self, uint32_t index) {
+		return self.getRowSpacing(index);
+	}
 	TS_JSAPI const Vector2f *tsControlGroup_getControlsSize(const ControlGroup &self) {
 		return new Vector2f(self.getControlsSize());
 	}
@@ -13204,6 +13240,18 @@ namespace Tellusim {
 	}
 	TS_JSAPI float32_t tsControlPanel_getColumnRatio(const ControlPanel &self, uint32_t index) {
 		return self.getColumnRatio(index);
+	}
+	TS_JSAPI void tsControlPanel_setColumnSpacing(ControlPanel &self, uint32_t index, float32_t spacing) {
+		self.setColumnSpacing(index, spacing);
+	}
+	TS_JSAPI float32_t tsControlPanel_getColumnSpacing(const ControlPanel &self, uint32_t index) {
+		return self.getColumnSpacing(index);
+	}
+	TS_JSAPI void tsControlPanel_setRowSpacing(ControlPanel &self, uint32_t index, float32_t spacing) {
+		self.setRowSpacing(index, spacing);
+	}
+	TS_JSAPI float32_t tsControlPanel_getRowSpacing(const ControlPanel &self, uint32_t index) {
+		return self.getRowSpacing(index);
 	}
 	TS_JSAPI const Vector2f *tsControlPanel_getControlsSize(const ControlPanel &self) {
 		return new Vector2f(self.getControlsSize());
@@ -14234,6 +14282,18 @@ namespace Tellusim {
 	}
 	TS_JSAPI float32_t tsControlArea_getColumnRatio(const ControlArea &self, uint32_t index) {
 		return self.getColumnRatio(index);
+	}
+	TS_JSAPI void tsControlArea_setColumnSpacing(ControlArea &self, uint32_t index, float32_t spacing) {
+		self.setColumnSpacing(index, spacing);
+	}
+	TS_JSAPI float32_t tsControlArea_getColumnSpacing(const ControlArea &self, uint32_t index) {
+		return self.getColumnSpacing(index);
+	}
+	TS_JSAPI void tsControlArea_setRowSpacing(ControlArea &self, uint32_t index, float32_t spacing) {
+		self.setRowSpacing(index, spacing);
+	}
+	TS_JSAPI float32_t tsControlArea_getRowSpacing(const ControlArea &self, uint32_t index) {
+		return self.getRowSpacing(index);
 	}
 	TS_JSAPI const Vector2f *tsControlArea_getControlsSize(const ControlArea &self) {
 		return new Vector2f(self.getControlsSize());
@@ -15469,6 +15529,15 @@ namespace Tellusim {
 	}
 	TS_JSAPI bool tsCubeFilter_dispatch_3(const CubeFilter &self, Compute &compute, Texture &texture, Buffer &buffer, uint32_t offset) {
 		return self.dispatch(compute, texture, buffer, offset);
+	}
+	TS_JSAPI bool tsCubeFilter_dispatch_4(const CubeFilter &self, Compute &compute, Texture &dest, Texture &src, const Slice &dest_slice, const Slice &src_slice) {
+		return self.dispatch(compute, dest, src, dest_slice, src_slice);
+	}
+	TS_JSAPI bool tsCubeFilter_dispatch_5(const CubeFilter &self, Compute &compute, Texture &dest, Texture &src, const Slice &src_slice) {
+		return self.dispatch(compute, dest, src, src_slice);
+	}
+	TS_JSAPI bool tsCubeFilter_dispatch_6(const CubeFilter &self, Compute &compute, Texture &dest, Texture &src) {
+		return self.dispatch(compute, dest, src);
 	}
 	
 	// Tellusim::DecoderJPEG

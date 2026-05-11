@@ -3395,7 +3395,8 @@ tsMeshAttribute.prototype['addAttribute'] = tsMeshAttribute.prototype.addAttribu
 	throw 'invalid MeshAttribute.addAttribute() arguments';
 };
 tsMeshAttribute.prototype['setTransform'] = tsMeshAttribute.prototype.setTransform = function() {
-	if(arguments.length == 1 && arguments[0] instanceof tsMatrix4x3f) return _tsMeshAttribute_setTransform(this.self, arguments[0].self);
+	if(arguments.length == 1 && arguments[0] instanceof tsVector3f) return _tsMeshAttribute_setTransform(this.self, arguments[0].self);
+	if(arguments.length == 1 && arguments[0] instanceof tsMatrix4x3f) return _tsMeshAttribute_setTransform_1(this.self, arguments[0].self);
 	throw 'invalid MeshAttribute.setTransform() arguments';
 };
 tsMeshAttribute.prototype['morphAttribute'] = tsMeshAttribute.prototype.morphAttribute = function() {
@@ -4184,6 +4185,10 @@ tsMeshGeometry.prototype['getVisibilityError'] = tsMeshGeometry.prototype.getVis
 	throw 'invalid MeshGeometry.getVisibilityError() arguments';
 };
 Object.defineProperty(tsMeshGeometry.prototype, 'visibility_error', { get: tsMeshGeometry.prototype.getVisibilityError });
+tsMeshGeometry.prototype['flipWinding'] = tsMeshGeometry.prototype.flipWinding = function() {
+	if(arguments.length == 0) return _tsMeshGeometry_flipWinding(this.self);
+	throw 'invalid MeshGeometry.flipWinding() arguments';
+};
 tsMeshGeometry.prototype['createBounds'] = tsMeshGeometry.prototype.createBounds = function() {
 	if(arguments.length == 2 && typeof arguments[0] === 'boolean') return _tsMeshGeometry_createBounds(this.self, arguments[0], arguments[1]);
 	if(arguments.length == 1 && typeof arguments[0] === 'boolean') return _tsMeshGeometry_createBounds(this.self, arguments[0], tsBase.Maxu32);
@@ -4250,6 +4255,10 @@ tsMeshGeometry.prototype['optimizeMaterials'] = tsMeshGeometry.prototype.optimiz
 	if(arguments.length == 0) return _tsMeshGeometry_optimizeMaterials(this.self);
 	throw 'invalid MeshGeometry.optimizeMaterials() arguments';
 };
+tsMeshGeometry.prototype['optimizeOrder'] = tsMeshGeometry.prototype.optimizeOrder = function() {
+	if(arguments.length == 0) return _tsMeshGeometry_optimizeOrder(this.self);
+	throw 'invalid MeshGeometry.optimizeOrder() arguments';
+};
 tsMeshGeometry.prototype['packAttributes'] = tsMeshGeometry.prototype.packAttributes = function() {
 	if(arguments.length == 1 && typeof arguments[0] === 'boolean') return _tsMeshGeometry_packAttributes(this.self, arguments[0]);
 	if(arguments.length == 0) return _tsMeshGeometry_packAttributes(this.self, true);
@@ -4259,6 +4268,11 @@ tsMeshGeometry.prototype['unpackAttributes'] = tsMeshGeometry.prototype.unpackAt
 	if(arguments.length == 1 && typeof arguments[0] === 'boolean') return _tsMeshGeometry_unpackAttributes(this.self, arguments[0]);
 	if(arguments.length == 0) return _tsMeshGeometry_unpackAttributes(this.self, true);
 	throw 'invalid MeshGeometry.unpackAttributes() arguments';
+};
+tsMeshGeometry.prototype['addGeometry'] = tsMeshGeometry.prototype.addGeometry = function() {
+	if(arguments.length == 2 && arguments[0] instanceof tsMeshGeometry && arguments[1] instanceof tsMatrix4x3f) return _tsMeshGeometry_addGeometry(this.self, arguments[0].self, arguments[1].self);
+	if(arguments.length == 1 && arguments[0] instanceof tsMeshGeometry && tsMatrix4x3f.identity().self instanceof tsMatrix4x3f) return _tsMeshGeometry_addGeometry(this.self, arguments[0].self, tsMatrix4x3f.identity().self);
+	throw 'invalid MeshGeometry.addGeometry() arguments';
 };
 tsMeshGeometry.prototype['compare'] = tsMeshGeometry.prototype.compare = function() {
 	if(arguments.length == 4 && arguments[0] instanceof tsMeshGeometry && arguments[1] instanceof tsMatrix4x3f && typeof arguments[3] === 'boolean') return _tsMeshGeometry_compare(this.self, arguments[0].self, arguments[1].self, arguments[2], arguments[3]);
@@ -15610,6 +15624,22 @@ tsControlGrid.prototype['getColumnRatio'] = tsControlGrid.prototype.getColumnRat
 	if(arguments.length == 1) return _tsControlGrid_getColumnRatio(this.self, arguments[0]);
 	throw 'invalid ControlGrid.getColumnRatio() arguments';
 };
+tsControlGrid.prototype['setColumnSpacing'] = tsControlGrid.prototype.setColumnSpacing = function() {
+	if(arguments.length == 2) return _tsControlGrid_setColumnSpacing(this.self, arguments[0], arguments[1]);
+	throw 'invalid ControlGrid.setColumnSpacing() arguments';
+};
+tsControlGrid.prototype['getColumnSpacing'] = tsControlGrid.prototype.getColumnSpacing = function() {
+	if(arguments.length == 1) return _tsControlGrid_getColumnSpacing(this.self, arguments[0]);
+	throw 'invalid ControlGrid.getColumnSpacing() arguments';
+};
+tsControlGrid.prototype['setRowSpacing'] = tsControlGrid.prototype.setRowSpacing = function() {
+	if(arguments.length == 2) return _tsControlGrid_setRowSpacing(this.self, arguments[0], arguments[1]);
+	throw 'invalid ControlGrid.setRowSpacing() arguments';
+};
+tsControlGrid.prototype['getRowSpacing'] = tsControlGrid.prototype.getRowSpacing = function() {
+	if(arguments.length == 1) return _tsControlGrid_getRowSpacing(this.self, arguments[0]);
+	throw 'invalid ControlGrid.getRowSpacing() arguments';
+};
 tsControlGrid.prototype['getControlsSize'] = tsControlGrid.prototype.getControlsSize = function() {
 	if(arguments.length == 0) return ts_new(tsVector2f, _tsControlGrid_getControlsSize(this.self));
 	throw 'invalid ControlGrid.getControlsSize() arguments';
@@ -15778,6 +15808,22 @@ tsControlGroup.prototype['getColumnRatio'] = tsControlGroup.prototype.getColumnR
 	if(arguments.length == 1) return _tsControlGroup_getColumnRatio(this.self, arguments[0]);
 	throw 'invalid ControlGroup.getColumnRatio() arguments';
 };
+tsControlGroup.prototype['setColumnSpacing'] = tsControlGroup.prototype.setColumnSpacing = function() {
+	if(arguments.length == 2) return _tsControlGroup_setColumnSpacing(this.self, arguments[0], arguments[1]);
+	throw 'invalid ControlGroup.setColumnSpacing() arguments';
+};
+tsControlGroup.prototype['getColumnSpacing'] = tsControlGroup.prototype.getColumnSpacing = function() {
+	if(arguments.length == 1) return _tsControlGroup_getColumnSpacing(this.self, arguments[0]);
+	throw 'invalid ControlGroup.getColumnSpacing() arguments';
+};
+tsControlGroup.prototype['setRowSpacing'] = tsControlGroup.prototype.setRowSpacing = function() {
+	if(arguments.length == 2) return _tsControlGroup_setRowSpacing(this.self, arguments[0], arguments[1]);
+	throw 'invalid ControlGroup.setRowSpacing() arguments';
+};
+tsControlGroup.prototype['getRowSpacing'] = tsControlGroup.prototype.getRowSpacing = function() {
+	if(arguments.length == 1) return _tsControlGroup_getRowSpacing(this.self, arguments[0]);
+	throw 'invalid ControlGroup.getRowSpacing() arguments';
+};
 tsControlGroup.prototype['getControlsSize'] = tsControlGroup.prototype.getControlsSize = function() {
 	if(arguments.length == 0) return ts_new(tsVector2f, _tsControlGroup_getControlsSize(this.self));
 	throw 'invalid ControlGroup.getControlsSize() arguments';
@@ -15839,6 +15885,22 @@ tsControlPanel.prototype['setColumnRatio'] = tsControlPanel.prototype.setColumnR
 tsControlPanel.prototype['getColumnRatio'] = tsControlPanel.prototype.getColumnRatio = function() {
 	if(arguments.length == 1) return _tsControlPanel_getColumnRatio(this.self, arguments[0]);
 	throw 'invalid ControlPanel.getColumnRatio() arguments';
+};
+tsControlPanel.prototype['setColumnSpacing'] = tsControlPanel.prototype.setColumnSpacing = function() {
+	if(arguments.length == 2) return _tsControlPanel_setColumnSpacing(this.self, arguments[0], arguments[1]);
+	throw 'invalid ControlPanel.setColumnSpacing() arguments';
+};
+tsControlPanel.prototype['getColumnSpacing'] = tsControlPanel.prototype.getColumnSpacing = function() {
+	if(arguments.length == 1) return _tsControlPanel_getColumnSpacing(this.self, arguments[0]);
+	throw 'invalid ControlPanel.getColumnSpacing() arguments';
+};
+tsControlPanel.prototype['setRowSpacing'] = tsControlPanel.prototype.setRowSpacing = function() {
+	if(arguments.length == 2) return _tsControlPanel_setRowSpacing(this.self, arguments[0], arguments[1]);
+	throw 'invalid ControlPanel.setRowSpacing() arguments';
+};
+tsControlPanel.prototype['getRowSpacing'] = tsControlPanel.prototype.getRowSpacing = function() {
+	if(arguments.length == 1) return _tsControlPanel_getRowSpacing(this.self, arguments[0]);
+	throw 'invalid ControlPanel.getRowSpacing() arguments';
 };
 tsControlPanel.prototype['getControlsSize'] = tsControlPanel.prototype.getControlsSize = function() {
 	if(arguments.length == 0) return ts_new(tsVector2f, _tsControlPanel_getControlsSize(this.self));
@@ -17016,6 +17078,22 @@ tsControlArea.prototype['setColumnRatio'] = tsControlArea.prototype.setColumnRat
 tsControlArea.prototype['getColumnRatio'] = tsControlArea.prototype.getColumnRatio = function() {
 	if(arguments.length == 1) return _tsControlArea_getColumnRatio(this.self, arguments[0]);
 	throw 'invalid ControlArea.getColumnRatio() arguments';
+};
+tsControlArea.prototype['setColumnSpacing'] = tsControlArea.prototype.setColumnSpacing = function() {
+	if(arguments.length == 2) return _tsControlArea_setColumnSpacing(this.self, arguments[0], arguments[1]);
+	throw 'invalid ControlArea.setColumnSpacing() arguments';
+};
+tsControlArea.prototype['getColumnSpacing'] = tsControlArea.prototype.getColumnSpacing = function() {
+	if(arguments.length == 1) return _tsControlArea_getColumnSpacing(this.self, arguments[0]);
+	throw 'invalid ControlArea.getColumnSpacing() arguments';
+};
+tsControlArea.prototype['setRowSpacing'] = tsControlArea.prototype.setRowSpacing = function() {
+	if(arguments.length == 2) return _tsControlArea_setRowSpacing(this.self, arguments[0], arguments[1]);
+	throw 'invalid ControlArea.setRowSpacing() arguments';
+};
+tsControlArea.prototype['getRowSpacing'] = tsControlArea.prototype.getRowSpacing = function() {
+	if(arguments.length == 1) return _tsControlArea_getRowSpacing(this.self, arguments[0]);
+	throw 'invalid ControlArea.getRowSpacing() arguments';
 };
 tsControlArea.prototype['getControlsSize'] = tsControlArea.prototype.getControlsSize = function() {
 	if(arguments.length == 0) return ts_new(tsVector2f, _tsControlArea_getControlsSize(this.self));
@@ -18420,10 +18498,13 @@ tsCubeFilter.prototype['create'] = tsCubeFilter.prototype.create = function() {
 	throw 'invalid CubeFilter.create() arguments';
 };
 tsCubeFilter.prototype['dispatch'] = tsCubeFilter.prototype.dispatch = function() {
+	if(arguments.length == 5 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsTexture && arguments[2] instanceof tsTexture && arguments[3] instanceof tsSlice && arguments[4] instanceof tsSlice) return _tsCubeFilter_dispatch_4(this.self, arguments[0].self, arguments[1].self, arguments[2].self, arguments[3].self, arguments[4].self);
 	if(arguments.length == 5 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[3] instanceof tsTexture && arguments[4] instanceof tsSlice) return _tsCubeFilter_dispatch(this.self, arguments[0].self, arguments[1].self, arguments[2], arguments[3].self, arguments[4].self);
 	if(arguments.length == 5 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsTexture && arguments[2] instanceof tsSlice && arguments[3] instanceof tsBuffer) return _tsCubeFilter_dispatch_2(this.self, arguments[0].self, arguments[1].self, arguments[2].self, arguments[3].self, arguments[4]);
+	if(arguments.length == 4 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsTexture && arguments[2] instanceof tsTexture && arguments[3] instanceof tsSlice) return _tsCubeFilter_dispatch_5(this.self, arguments[0].self, arguments[1].self, arguments[2].self, arguments[3].self);
 	if(arguments.length == 4 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsBuffer && arguments[3] instanceof tsTexture) return _tsCubeFilter_dispatch_1(this.self, arguments[0].self, arguments[1].self, arguments[2], arguments[3].self);
 	if(arguments.length == 4 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsTexture && arguments[2] instanceof tsBuffer) return _tsCubeFilter_dispatch_3(this.self, arguments[0].self, arguments[1].self, arguments[2].self, arguments[3]);
+	if(arguments.length == 3 && arguments[0] instanceof tsCompute && arguments[1] instanceof tsTexture && arguments[2] instanceof tsTexture) return _tsCubeFilter_dispatch_6(this.self, arguments[0].self, arguments[1].self, arguments[2].self);
 	throw 'invalid CubeFilter.dispatch() arguments';
 };
 
