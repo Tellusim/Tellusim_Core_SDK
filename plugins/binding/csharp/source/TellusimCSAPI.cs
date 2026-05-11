@@ -2478,7 +2478,8 @@ namespace Tellusim {
 		public IntPtr getPtr(uint index) { return tsMeshAttribute_getPtr_cu(self, index); }
 		public int compare(MeshAttribute attribute, in Matrix4x3f transform, float threshold = 1e-6f, bool spatial = true) { return tsMeshAttribute_compare(self, attribute.getSelf(), in transform, threshold, spatial); }
 		public void addAttribute(MeshAttribute attribute) { tsMeshAttribute_addAttribute(self, attribute.getSelf()); }
-		public bool setTransform(in Matrix4x3f transform) { return tsMeshAttribute_setTransform(self, in transform); }
+		public bool setTransform(in Vector3f scale) { return tsMeshAttribute_setTransform_cV3(self, in scale); }
+		public bool setTransform(in Matrix4x3f transform) { return tsMeshAttribute_setTransform_cM43(self, in transform); }
 		public bool morphAttribute(MeshAttribute attribute, float k) { return tsMeshAttribute_morphAttribute(self, attribute.getSelf(), k); }
 		public bool packAttributes(MeshAttribute attribute_0, MeshAttribute attribute_1, Format format) { return tsMeshAttribute_packAttributes(self, attribute_0.getSelf(), attribute_1.getSelf(), format); }
 		public bool unpackAttributes(MeshAttribute attribute_0, MeshAttribute attribute_1) { return tsMeshAttribute_unpackAttributes(self, attribute_0.getSelf(), attribute_1.getSelf()); }
@@ -2558,7 +2559,8 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern IntPtr tsMeshAttribute_getPtr_cu(HandleRef self, uint index);
 		[DllImport(Base.Import)] private static extern int tsMeshAttribute_compare(HandleRef self, HandleRef attribute, in Matrix4x3f transform, float threshold, bool spatial);
 		[DllImport(Base.Import)] private static extern void tsMeshAttribute_addAttribute(HandleRef self, HandleRef attribute);
-		[DllImport(Base.Import)] private static extern bool tsMeshAttribute_setTransform(HandleRef self, in Matrix4x3f transform);
+		[DllImport(Base.Import)] private static extern bool tsMeshAttribute_setTransform_cV3(HandleRef self, in Vector3f scale);
+		[DllImport(Base.Import)] private static extern bool tsMeshAttribute_setTransform_cM43(HandleRef self, in Matrix4x3f transform);
 		[DllImport(Base.Import)] private static extern bool tsMeshAttribute_morphAttribute(HandleRef self, HandleRef attribute, float k);
 		[DllImport(Base.Import)] private static extern bool tsMeshAttribute_packAttributes(HandleRef self, HandleRef attribute_0, HandleRef attribute_1, Format format);
 		[DllImport(Base.Import)] private static extern bool tsMeshAttribute_unpackAttributes(HandleRef self, HandleRef attribute_0, HandleRef attribute_1);
@@ -2925,6 +2927,7 @@ namespace Tellusim {
 		public bool hasVisibilityRange() { return tsMeshGeometry_hasVisibilityRange(self); }
 		public void setVisibilityError(float error) { tsMeshGeometry_setVisibilityError(self, error); }
 		public float getVisibilityError() { return tsMeshGeometry_getVisibilityError(self); }
+		public void flipWinding() { tsMeshGeometry_flipWinding(self); }
 		public bool createBounds(bool force = false, uint position = Base.Maxu32) { return tsMeshGeometry_createBounds(self, force, position); }
 		public uint createBasis(bool force = false, uint position = Base.Maxu32, uint normal = Base.Maxu32, uint tangent = Base.Maxu32, bool append = false) { return tsMeshGeometry_createBasis_buuub(self, force, position, normal, tangent, append); }
 		public uint createBasis(float angle, bool force = false, uint position = Base.Maxu32, uint normal = Base.Maxu32, uint tangent = Base.Maxu32, bool append = false) { return tsMeshGeometry_createBasis_fbuuub(self, angle, force, position, normal, tangent, append); }
@@ -2935,8 +2938,10 @@ namespace Tellusim {
 		public bool optimizeIndices(uint cache = 32, bool transparent = false, uint index = Base.Maxu32, uint position = Base.Maxu32) { return tsMeshGeometry_optimizeIndices(self, cache, transparent, index, position); }
 		public bool optimizeAttributes(uint material = Base.Maxu32) { return tsMeshGeometry_optimizeAttributes(self, material); }
 		public void optimizeMaterials() { tsMeshGeometry_optimizeMaterials(self); }
+		public void optimizeOrder() { tsMeshGeometry_optimizeOrder(self); }
 		public bool packAttributes(bool remove = true) { return tsMeshGeometry_packAttributes(self, remove); }
 		public bool unpackAttributes(bool remove = true) { return tsMeshGeometry_unpackAttributes(self, remove); }
+		public bool addGeometry(MeshGeometry geometry, in Matrix4x3f transform) { return tsMeshGeometry_addGeometry(self, geometry.getSelf(), in transform); }
 		public int compare(MeshGeometry geometry, in Matrix4x3f transform, float threshold = 1e-6f, bool spatial = true) { return tsMeshGeometry_compare(self, geometry.getSelf(), in transform, threshold, spatial); }
 		public bool isOptimized() { return tsMeshGeometry_isOptimized(self); }
 		public bool validate() { return tsMeshGeometry_validate(self); }
@@ -3048,6 +3053,7 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern bool tsMeshGeometry_hasVisibilityRange(HandleRef self);
 		[DllImport(Base.Import)] private static extern void tsMeshGeometry_setVisibilityError(HandleRef self, float error);
 		[DllImport(Base.Import)] private static extern float tsMeshGeometry_getVisibilityError(HandleRef self);
+		[DllImport(Base.Import)] private static extern void tsMeshGeometry_flipWinding(HandleRef self);
 		[DllImport(Base.Import)] private static extern bool tsMeshGeometry_createBounds(HandleRef self, bool force, uint position);
 		[DllImport(Base.Import)] private static extern uint tsMeshGeometry_createBasis_buuub(HandleRef self, bool force, uint position, uint normal, uint tangent, bool append);
 		[DllImport(Base.Import)] private static extern uint tsMeshGeometry_createBasis_fbuuub(HandleRef self, float angle, bool force, uint position, uint normal, uint tangent, bool append);
@@ -3058,8 +3064,10 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern bool tsMeshGeometry_optimizeIndices(HandleRef self, uint cache, bool transparent, uint index, uint position);
 		[DllImport(Base.Import)] private static extern bool tsMeshGeometry_optimizeAttributes(HandleRef self, uint material);
 		[DllImport(Base.Import)] private static extern void tsMeshGeometry_optimizeMaterials(HandleRef self);
+		[DllImport(Base.Import)] private static extern void tsMeshGeometry_optimizeOrder(HandleRef self);
 		[DllImport(Base.Import)] private static extern bool tsMeshGeometry_packAttributes(HandleRef self, bool remove);
 		[DllImport(Base.Import)] private static extern bool tsMeshGeometry_unpackAttributes(HandleRef self, bool remove);
+		[DllImport(Base.Import)] private static extern bool tsMeshGeometry_addGeometry(HandleRef self, HandleRef geometry, in Matrix4x3f transform);
 		[DllImport(Base.Import)] private static extern int tsMeshGeometry_compare(HandleRef self, HandleRef geometry, in Matrix4x3f transform, float threshold, bool spatial);
 		[DllImport(Base.Import)] private static extern bool tsMeshGeometry_isOptimized(HandleRef self);
 		[DllImport(Base.Import)] private static extern bool tsMeshGeometry_validate(HandleRef self);
@@ -13899,6 +13907,10 @@ namespace Tellusim {
 		public Vector2f getSpacing() { return tsControlGrid_getSpacing(self); }
 		public void setColumnRatio(uint index, float ratio) { tsControlGrid_setColumnRatio(self, index, ratio); }
 		public float getColumnRatio(uint index) { return tsControlGrid_getColumnRatio(self, index); }
+		public void setColumnSpacing(uint index, float spacing) { tsControlGrid_setColumnSpacing(self, index, spacing); }
+		public float getColumnSpacing(uint index) { return tsControlGrid_getColumnSpacing(self, index); }
+		public void setRowSpacing(uint index, float spacing) { tsControlGrid_setRowSpacing(self, index, spacing); }
+		public float getRowSpacing(uint index) { return tsControlGrid_getRowSpacing(self, index); }
 		public Vector2f getControlsSize() { return tsControlGrid_getControlsSize(self); }
 		public override string ToString() { return "Tellusim.ControlGrid: Valid: " + tsControlGrid_isValidPtr(self) + "; Owner: " + tsControlGrid_isOwnerPtr(self) + "; Const: " + tsControlGrid_isConstPtr(self) + "; Count: " + tsControlGrid_getCountPtr(self) + "; Internal: 0x" + tsControlGrid_getInternalPtr(self).ToString("x8") + "; Self: 0x" + self.Handle.ToString("x8") + "; Owner: " + owner; }
 		public static implicit operator bool(ControlGrid ptr) { return (ptr != null && tsControlGrid_isValidPtr(ptr.getSelf())); }
@@ -13929,6 +13941,10 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern Vector2f tsControlGrid_getSpacing(HandleRef self);
 		[DllImport(Base.Import)] private static extern void tsControlGrid_setColumnRatio(HandleRef self, uint index, float ratio);
 		[DllImport(Base.Import)] private static extern float tsControlGrid_getColumnRatio(HandleRef self, uint index);
+		[DllImport(Base.Import)] private static extern void tsControlGrid_setColumnSpacing(HandleRef self, uint index, float spacing);
+		[DllImport(Base.Import)] private static extern float tsControlGrid_getColumnSpacing(HandleRef self, uint index);
+		[DllImport(Base.Import)] private static extern void tsControlGrid_setRowSpacing(HandleRef self, uint index, float spacing);
+		[DllImport(Base.Import)] private static extern float tsControlGrid_getRowSpacing(HandleRef self, uint index);
 		[DllImport(Base.Import)] private static extern Vector2f tsControlGrid_getControlsSize(HandleRef self);
 	}
 	
@@ -13994,16 +14010,20 @@ namespace Tellusim {
 		public Vector2f getSpacing() { return tsControlGroup_getSpacing(self); }
 		public void setColumnRatio(uint index, float ratio) { tsControlGroup_setColumnRatio(self, index, ratio); }
 		public float getColumnRatio(uint index) { return tsControlGroup_getColumnRatio(self, index); }
+		public void setColumnSpacing(uint index, float spacing) { tsControlGroup_setColumnSpacing(self, index, spacing); }
+		public float getColumnSpacing(uint index) { return tsControlGroup_getColumnSpacing(self, index); }
+		public void setRowSpacing(uint index, float spacing) { tsControlGroup_setRowSpacing(self, index, spacing); }
+		public float getRowSpacing(uint index) { return tsControlGroup_getRowSpacing(self, index); }
 		public Vector2f getControlsSize() { return tsControlGroup_getControlsSize(self); }
 		public void setClickedCallback(ClickedCallback func, IntPtr data = new IntPtr()) {
 			ControlGroup.ClickedCallback_ func_ = null;
 			if(func != null) func_ = (IntPtr a0_, IntPtr data_) => { func(new ControlGroup(a0_), data_); };
-			if(func_ != null) ClickedCallback_41 = GCHandle.Alloc(func_);
+			if(func_ != null) ClickedCallback_45 = GCHandle.Alloc(func_);
 			tsControlGroup_setClickedCallback(self, Base.getFunc(func_), data);
 		}
 		public bool isClicked() { return tsControlGroup_isClicked(self); }
 		public CanvasRect getCanvasRect() { return new CanvasRect(tsControlGroup_getCanvasRect(self)); }
-		private GCHandle ClickedCallback_41;
+		private GCHandle ClickedCallback_45;
 		public override string ToString() { return "Tellusim.ControlGroup: Valid: " + tsControlGroup_isValidPtr(self) + "; Owner: " + tsControlGroup_isOwnerPtr(self) + "; Const: " + tsControlGroup_isConstPtr(self) + "; Count: " + tsControlGroup_getCountPtr(self) + "; Internal: 0x" + tsControlGroup_getInternalPtr(self).ToString("x8") + "; Self: 0x" + self.Handle.ToString("x8") + "; Owner: " + owner; }
 		public static implicit operator bool(ControlGroup ptr) { return (ptr != null && tsControlGroup_isValidPtr(ptr.getSelf())); }
 		[DllImport(Base.Import)] private static extern IntPtr tsControlGroup_new();
@@ -14060,6 +14080,10 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern Vector2f tsControlGroup_getSpacing(HandleRef self);
 		[DllImport(Base.Import)] private static extern void tsControlGroup_setColumnRatio(HandleRef self, uint index, float ratio);
 		[DllImport(Base.Import)] private static extern float tsControlGroup_getColumnRatio(HandleRef self, uint index);
+		[DllImport(Base.Import)] private static extern void tsControlGroup_setColumnSpacing(HandleRef self, uint index, float spacing);
+		[DllImport(Base.Import)] private static extern float tsControlGroup_getColumnSpacing(HandleRef self, uint index);
+		[DllImport(Base.Import)] private static extern void tsControlGroup_setRowSpacing(HandleRef self, uint index, float spacing);
+		[DllImport(Base.Import)] private static extern float tsControlGroup_getRowSpacing(HandleRef self, uint index);
 		[DllImport(Base.Import)] private static extern Vector2f tsControlGroup_getControlsSize(HandleRef self);
 		[DllImport(Base.Import)] private static extern void tsControlGroup_setClickedCallback(HandleRef self, IntPtr func, IntPtr data_);
 		[DllImport(Base.Import)] private static extern bool tsControlGroup_isClicked(HandleRef self);
@@ -14093,6 +14117,10 @@ namespace Tellusim {
 		public Vector2f getSpacing() { return tsControlPanel_getSpacing(self); }
 		public void setColumnRatio(uint index, float ratio) { tsControlPanel_setColumnRatio(self, index, ratio); }
 		public float getColumnRatio(uint index) { return tsControlPanel_getColumnRatio(self, index); }
+		public void setColumnSpacing(uint index, float spacing) { tsControlPanel_setColumnSpacing(self, index, spacing); }
+		public float getColumnSpacing(uint index) { return tsControlPanel_getColumnSpacing(self, index); }
+		public void setRowSpacing(uint index, float spacing) { tsControlPanel_setRowSpacing(self, index, spacing); }
+		public float getRowSpacing(uint index) { return tsControlPanel_getRowSpacing(self, index); }
 		public Vector2f getControlsSize() { return tsControlPanel_getControlsSize(self); }
 		public override string ToString() { return "Tellusim.ControlPanel: Valid: " + tsControlPanel_isValidPtr(self) + "; Owner: " + tsControlPanel_isOwnerPtr(self) + "; Const: " + tsControlPanel_isConstPtr(self) + "; Count: " + tsControlPanel_getCountPtr(self) + "; Internal: 0x" + tsControlPanel_getInternalPtr(self).ToString("x8") + "; Self: 0x" + self.Handle.ToString("x8") + "; Owner: " + owner; }
 		public static implicit operator bool(ControlPanel ptr) { return (ptr != null && tsControlPanel_isValidPtr(ptr.getSelf())); }
@@ -14123,6 +14151,10 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern Vector2f tsControlPanel_getSpacing(HandleRef self);
 		[DllImport(Base.Import)] private static extern void tsControlPanel_setColumnRatio(HandleRef self, uint index, float ratio);
 		[DllImport(Base.Import)] private static extern float tsControlPanel_getColumnRatio(HandleRef self, uint index);
+		[DllImport(Base.Import)] private static extern void tsControlPanel_setColumnSpacing(HandleRef self, uint index, float spacing);
+		[DllImport(Base.Import)] private static extern float tsControlPanel_getColumnSpacing(HandleRef self, uint index);
+		[DllImport(Base.Import)] private static extern void tsControlPanel_setRowSpacing(HandleRef self, uint index, float spacing);
+		[DllImport(Base.Import)] private static extern float tsControlPanel_getRowSpacing(HandleRef self, uint index);
 		[DllImport(Base.Import)] private static extern Vector2f tsControlPanel_getControlsSize(HandleRef self);
 	}
 	
@@ -15040,6 +15072,10 @@ namespace Tellusim {
 		public Vector2f getSpacing() { return tsControlArea_getSpacing(self); }
 		public void setColumnRatio(uint index, float ratio) { tsControlArea_setColumnRatio(self, index, ratio); }
 		public float getColumnRatio(uint index) { return tsControlArea_getColumnRatio(self, index); }
+		public void setColumnSpacing(uint index, float spacing) { tsControlArea_setColumnSpacing(self, index, spacing); }
+		public float getColumnSpacing(uint index) { return tsControlArea_getColumnSpacing(self, index); }
+		public void setRowSpacing(uint index, float spacing) { tsControlArea_setRowSpacing(self, index, spacing); }
+		public float getRowSpacing(uint index) { return tsControlArea_getRowSpacing(self, index); }
 		public Vector2f getControlsSize() { return tsControlArea_getControlsSize(self); }
 		public Vector2f getControlsOffset() { return tsControlArea_getControlsOffset(self); }
 		public Rect getViewRect() { return tsControlArea_getViewRect(self); }
@@ -15115,6 +15151,10 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern Vector2f tsControlArea_getSpacing(HandleRef self);
 		[DllImport(Base.Import)] private static extern void tsControlArea_setColumnRatio(HandleRef self, uint index, float ratio);
 		[DllImport(Base.Import)] private static extern float tsControlArea_getColumnRatio(HandleRef self, uint index);
+		[DllImport(Base.Import)] private static extern void tsControlArea_setColumnSpacing(HandleRef self, uint index, float spacing);
+		[DllImport(Base.Import)] private static extern float tsControlArea_getColumnSpacing(HandleRef self, uint index);
+		[DllImport(Base.Import)] private static extern void tsControlArea_setRowSpacing(HandleRef self, uint index, float spacing);
+		[DllImport(Base.Import)] private static extern float tsControlArea_getRowSpacing(HandleRef self, uint index);
 		[DllImport(Base.Import)] private static extern Vector2f tsControlArea_getControlsSize(HandleRef self);
 		[DllImport(Base.Import)] private static extern Vector2f tsControlArea_getControlsOffset(HandleRef self);
 		[DllImport(Base.Import)] private static extern Rect tsControlArea_getViewRect(HandleRef self);
@@ -16224,6 +16264,9 @@ namespace Tellusim {
 		public bool dispatch(Compute compute, Buffer buffer, uint offset, Texture texture) { return tsCubeFilter_dispatch_cCBuT(self, compute.getSelf(), buffer.getSelf(), offset, texture.getSelf()); }
 		public bool dispatch(Compute compute, Texture texture, in Slice slice, Buffer buffer, uint offset) { return tsCubeFilter_dispatch_cCTcSBu(self, compute.getSelf(), texture.getSelf(), in slice, buffer.getSelf(), offset); }
 		public bool dispatch(Compute compute, Texture texture, Buffer buffer, uint offset) { return tsCubeFilter_dispatch_cCTBu(self, compute.getSelf(), texture.getSelf(), buffer.getSelf(), offset); }
+		public bool dispatch(Compute compute, Texture dest, Texture src, in Slice dest_slice, in Slice src_slice) { return tsCubeFilter_dispatch_cCTTcScS(self, compute.getSelf(), dest.getSelf(), src.getSelf(), in dest_slice, in src_slice); }
+		public bool dispatch(Compute compute, Texture dest, Texture src, in Slice src_slice) { return tsCubeFilter_dispatch_cCTTcS(self, compute.getSelf(), dest.getSelf(), src.getSelf(), in src_slice); }
+		public bool dispatch(Compute compute, Texture dest, Texture src) { return tsCubeFilter_dispatch_cCTT(self, compute.getSelf(), dest.getSelf(), src.getSelf()); }
 		public override string ToString() { return "Tellusim.CubeFilter: Valid: " + tsCubeFilter_isValidPtr(self) + "; Owner: " + tsCubeFilter_isOwnerPtr(self) + "; Const: " + tsCubeFilter_isConstPtr(self) + "; Count: " + tsCubeFilter_getCountPtr(self) + "; Internal: 0x" + tsCubeFilter_getInternalPtr(self).ToString("x8") + "; Self: 0x" + self.Handle.ToString("x8") + "; Owner: " + owner; }
 		public static implicit operator bool(CubeFilter ptr) { return (ptr != null && tsCubeFilter_isValidPtr(ptr.getSelf())); }
 		[DllImport(Base.Import)] private static extern IntPtr tsCubeFilter_new();
@@ -16252,6 +16295,9 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern bool tsCubeFilter_dispatch_cCBuT(HandleRef self, HandleRef compute, HandleRef buffer, uint offset, HandleRef texture);
 		[DllImport(Base.Import)] private static extern bool tsCubeFilter_dispatch_cCTcSBu(HandleRef self, HandleRef compute, HandleRef texture, in Slice slice, HandleRef buffer, uint offset);
 		[DllImport(Base.Import)] private static extern bool tsCubeFilter_dispatch_cCTBu(HandleRef self, HandleRef compute, HandleRef texture, HandleRef buffer, uint offset);
+		[DllImport(Base.Import)] private static extern bool tsCubeFilter_dispatch_cCTTcScS(HandleRef self, HandleRef compute, HandleRef dest, HandleRef src, in Slice dest_slice, in Slice src_slice);
+		[DllImport(Base.Import)] private static extern bool tsCubeFilter_dispatch_cCTTcS(HandleRef self, HandleRef compute, HandleRef dest, HandleRef src, in Slice src_slice);
+		[DllImport(Base.Import)] private static extern bool tsCubeFilter_dispatch_cCTT(HandleRef self, HandleRef compute, HandleRef dest, HandleRef src);
 		private HandleRef self;
 		private bool owner;
 	}

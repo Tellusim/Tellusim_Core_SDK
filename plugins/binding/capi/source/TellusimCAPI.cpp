@@ -6134,7 +6134,12 @@ namespace Tellusim {
 		TS_ASSERT(attribute);
 		((MeshAttribute*)self)->addAttribute(*(const MeshAttribute*)attribute);
 	}
-	TS_CAPI bool_t TS_CCALL tsMeshAttribute_setTransform(TSMeshAttribute self, const TSMatrix4x3f *transform) {
+	TS_CAPI bool_t TS_CCALL tsMeshAttribute_setTransform_cV3(TSMeshAttribute self, const TSVector3f *scale) {
+		TS_ASSERT(self);
+		TS_ASSERT(scale);
+		return ((MeshAttribute*)self)->setTransform(*(const Vector3f*)scale);
+	}
+	TS_CAPI bool_t TS_CCALL tsMeshAttribute_setTransform_cM43(TSMeshAttribute self, const TSMatrix4x3f *transform) {
 		TS_ASSERT(self);
 		TS_ASSERT(transform);
 		return ((MeshAttribute*)self)->setTransform(*(const Matrix4x3f*)transform);
@@ -7198,6 +7203,10 @@ namespace Tellusim {
 		TS_ASSERT(self);
 		return ((MeshGeometry*)self)->getVisibilityError();
 	}
+	TS_CAPI void TS_CCALL tsMeshGeometry_flipWinding(TSMeshGeometry self) {
+		TS_ASSERT(self);
+		((MeshGeometry*)self)->flipWinding();
+	}
 	TS_CAPI bool_t TS_CCALL tsMeshGeometry_createBounds(TSMeshGeometry self, bool_t force, uint32_t position) {
 		TS_ASSERT(self);
 		return ((MeshGeometry*)self)->createBounds((bool)force, position);
@@ -7238,6 +7247,10 @@ namespace Tellusim {
 		TS_ASSERT(self);
 		((MeshGeometry*)self)->optimizeMaterials();
 	}
+	TS_CAPI void TS_CCALL tsMeshGeometry_optimizeOrder(TSMeshGeometry self) {
+		TS_ASSERT(self);
+		((MeshGeometry*)self)->optimizeOrder();
+	}
 	TS_CAPI bool_t TS_CCALL tsMeshGeometry_packAttributes(TSMeshGeometry self, bool_t remove) {
 		TS_ASSERT(self);
 		return ((MeshGeometry*)self)->packAttributes((bool)remove);
@@ -7245,6 +7258,12 @@ namespace Tellusim {
 	TS_CAPI bool_t TS_CCALL tsMeshGeometry_unpackAttributes(TSMeshGeometry self, bool_t remove) {
 		TS_ASSERT(self);
 		return ((MeshGeometry*)self)->unpackAttributes((bool)remove);
+	}
+	TS_CAPI bool_t TS_CCALL tsMeshGeometry_addGeometry(TSMeshGeometry self, const TSMeshGeometry geometry, const TSMatrix4x3f *transform) {
+		TS_ASSERT(self);
+		TS_ASSERT(geometry);
+		TS_ASSERT(transform);
+		return ((MeshGeometry*)self)->addGeometry(*(const MeshGeometry*)geometry, *(const Matrix4x3f*)transform);
 	}
 	TS_CAPI int32_t TS_CCALL tsMeshGeometry_compare(TSMeshGeometry self, const TSMeshGeometry geometry, const TSMatrix4x3f *transform, float32_t threshold, bool_t spatial) {
 		TS_ASSERT(self);
@@ -26155,6 +26174,22 @@ namespace Tellusim {
 		TS_ASSERT(self);
 		return ((ControlGrid*)self)->getColumnRatio(index);
 	}
+	TS_CAPI void TS_CCALL tsControlGrid_setColumnSpacing(TSControlGrid self, uint32_t index, float32_t spacing) {
+		TS_ASSERT(self);
+		((ControlGrid*)self)->setColumnSpacing(index, spacing);
+	}
+	TS_CAPI float32_t TS_CCALL tsControlGrid_getColumnSpacing(TSControlGrid self, uint32_t index) {
+		TS_ASSERT(self);
+		return ((ControlGrid*)self)->getColumnSpacing(index);
+	}
+	TS_CAPI void TS_CCALL tsControlGrid_setRowSpacing(TSControlGrid self, uint32_t index, float32_t spacing) {
+		TS_ASSERT(self);
+		((ControlGrid*)self)->setRowSpacing(index, spacing);
+	}
+	TS_CAPI float32_t TS_CCALL tsControlGrid_getRowSpacing(TSControlGrid self, uint32_t index) {
+		TS_ASSERT(self);
+		return ((ControlGrid*)self)->getRowSpacing(index);
+	}
 	TS_CAPI TSVector2f TS_CCALL tsControlGrid_getControlsSize(TSControlGrid self) {
 		TS_ASSERT(self);
 		const Vector2f ret = ((ControlGrid*)self)->getControlsSize();
@@ -26402,6 +26437,22 @@ namespace Tellusim {
 		TS_ASSERT(self);
 		return ((ControlGroup*)self)->getColumnRatio(index);
 	}
+	TS_CAPI void TS_CCALL tsControlGroup_setColumnSpacing(TSControlGroup self, uint32_t index, float32_t spacing) {
+		TS_ASSERT(self);
+		((ControlGroup*)self)->setColumnSpacing(index, spacing);
+	}
+	TS_CAPI float32_t TS_CCALL tsControlGroup_getColumnSpacing(TSControlGroup self, uint32_t index) {
+		TS_ASSERT(self);
+		return ((ControlGroup*)self)->getColumnSpacing(index);
+	}
+	TS_CAPI void TS_CCALL tsControlGroup_setRowSpacing(TSControlGroup self, uint32_t index, float32_t spacing) {
+		TS_ASSERT(self);
+		((ControlGroup*)self)->setRowSpacing(index, spacing);
+	}
+	TS_CAPI float32_t TS_CCALL tsControlGroup_getRowSpacing(TSControlGroup self, uint32_t index) {
+		TS_ASSERT(self);
+		return ((ControlGroup*)self)->getRowSpacing(index);
+	}
 	TS_CAPI TSVector2f TS_CCALL tsControlGroup_getControlsSize(TSControlGroup self) {
 		TS_ASSERT(self);
 		const Vector2f ret = ((ControlGroup*)self)->getControlsSize();
@@ -26532,6 +26583,22 @@ namespace Tellusim {
 	TS_CAPI float32_t TS_CCALL tsControlPanel_getColumnRatio(TSControlPanel self, uint32_t index) {
 		TS_ASSERT(self);
 		return ((ControlPanel*)self)->getColumnRatio(index);
+	}
+	TS_CAPI void TS_CCALL tsControlPanel_setColumnSpacing(TSControlPanel self, uint32_t index, float32_t spacing) {
+		TS_ASSERT(self);
+		((ControlPanel*)self)->setColumnSpacing(index, spacing);
+	}
+	TS_CAPI float32_t TS_CCALL tsControlPanel_getColumnSpacing(TSControlPanel self, uint32_t index) {
+		TS_ASSERT(self);
+		return ((ControlPanel*)self)->getColumnSpacing(index);
+	}
+	TS_CAPI void TS_CCALL tsControlPanel_setRowSpacing(TSControlPanel self, uint32_t index, float32_t spacing) {
+		TS_ASSERT(self);
+		((ControlPanel*)self)->setRowSpacing(index, spacing);
+	}
+	TS_CAPI float32_t TS_CCALL tsControlPanel_getRowSpacing(TSControlPanel self, uint32_t index) {
+		TS_ASSERT(self);
+		return ((ControlPanel*)self)->getRowSpacing(index);
 	}
 	TS_CAPI TSVector2f TS_CCALL tsControlPanel_getControlsSize(TSControlPanel self) {
 		TS_ASSERT(self);
@@ -28256,6 +28323,22 @@ namespace Tellusim {
 		TS_ASSERT(self);
 		return ((ControlArea*)self)->getColumnRatio(index);
 	}
+	TS_CAPI void TS_CCALL tsControlArea_setColumnSpacing(TSControlArea self, uint32_t index, float32_t spacing) {
+		TS_ASSERT(self);
+		((ControlArea*)self)->setColumnSpacing(index, spacing);
+	}
+	TS_CAPI float32_t TS_CCALL tsControlArea_getColumnSpacing(TSControlArea self, uint32_t index) {
+		TS_ASSERT(self);
+		return ((ControlArea*)self)->getColumnSpacing(index);
+	}
+	TS_CAPI void TS_CCALL tsControlArea_setRowSpacing(TSControlArea self, uint32_t index, float32_t spacing) {
+		TS_ASSERT(self);
+		((ControlArea*)self)->setRowSpacing(index, spacing);
+	}
+	TS_CAPI float32_t TS_CCALL tsControlArea_getRowSpacing(TSControlArea self, uint32_t index) {
+		TS_ASSERT(self);
+		return ((ControlArea*)self)->getRowSpacing(index);
+	}
 	TS_CAPI TSVector2f TS_CCALL tsControlArea_getControlsSize(TSControlArea self) {
 		TS_ASSERT(self);
 		const Vector2f ret = ((ControlArea*)self)->getControlsSize();
@@ -29829,6 +29912,27 @@ namespace Tellusim {
 		TS_ASSERT(texture);
 		TS_ASSERT(buffer);
 		return ((CubeFilter*)self)->dispatch(*(Compute*)compute, *(Texture*)texture, *(Buffer*)buffer, offset);
+	}
+	TS_CAPI bool_t TS_CCALL tsCubeFilter_dispatch_cCTTcScS(TSCubeFilter self, TSCompute compute, TSTexture dest, TSTexture src, const TSSlice *dest_slice, const TSSlice *src_slice) {
+		TS_ASSERT(self);
+		TS_ASSERT(compute);
+		TS_ASSERT(dest);
+		TS_ASSERT(src);
+		return ((CubeFilter*)self)->dispatch(*(Compute*)compute, *(Texture*)dest, *(Texture*)src, (dest_slice) ? *(const Slice*)dest_slice : Slice(), (src_slice) ? *(const Slice*)src_slice : Slice());
+	}
+	TS_CAPI bool_t TS_CCALL tsCubeFilter_dispatch_cCTTcS(TSCubeFilter self, TSCompute compute, TSTexture dest, TSTexture src, const TSSlice *src_slice) {
+		TS_ASSERT(self);
+		TS_ASSERT(compute);
+		TS_ASSERT(dest);
+		TS_ASSERT(src);
+		return ((CubeFilter*)self)->dispatch(*(Compute*)compute, *(Texture*)dest, *(Texture*)src, (src_slice) ? *(const Slice*)src_slice : Slice());
+	}
+	TS_CAPI bool_t TS_CCALL tsCubeFilter_dispatch_cCTT(TSCubeFilter self, TSCompute compute, TSTexture dest, TSTexture src) {
+		TS_ASSERT(self);
+		TS_ASSERT(compute);
+		TS_ASSERT(dest);
+		TS_ASSERT(src);
+		return ((CubeFilter*)self)->dispatch(*(Compute*)compute, *(Texture*)dest, *(Texture*)src);
 	}
 	
 	// Tellusim::DecoderJPEG
