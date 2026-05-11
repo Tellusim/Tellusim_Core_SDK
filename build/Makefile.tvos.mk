@@ -127,12 +127,12 @@ all: $(TARGET)
 
 .cpp.o:
 	@echo `basename $<`
-	@$(CXX) $(CFLAGS) $(FLAGS) -c -o $@ $<
+	@$(CXX) $(FLAGS) $(CFLAGS) -c -o $@ $<
 
 $(DEPEND):
 	@rm -f $@
 	@$(ECHO) b "Depend `basename $(CURDIR)`"
-	@$(foreach SRC, $(DEPS), $(CXX) $(CFLAGS) $(FLAGS) -MM -MT $(SRC:.cpp=.o) $(SRC) >> $@;)
+	@$(foreach SRC, $(DEPS), $(CXX) $(FLAGS) $(CFLAGS) -MM -MT $(SRC:.cpp=.o) $(SRC) >> $@;)
 
 $(TARGET): $(DEPEND) $(OBJS)
 	@$(CXX) -o $@ $(LDFLAGS) $(OBJS) $(LIBS)

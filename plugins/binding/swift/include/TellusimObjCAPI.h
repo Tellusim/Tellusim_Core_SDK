@@ -4358,8 +4358,10 @@ TS_CAPI @interface TSMeshAttribute : NSObject {
 	-(int32_t)compare_3_: (const TSMeshAttribute* _Nonnull)attribute transform: (TSMatrix4x3f)transform threshold: (float32_t)threshold spatial: (BOOL)spatial NS_SWIFT_NAME(compare(attribute:transform:threshold:spatial:));
 	-(void)addAttribute: (const TSMeshAttribute* _Nonnull)attribute NS_SWIFT_NAME(addAttribute(_:));
 	-(void)addAttribute_: (const TSMeshAttribute* _Nonnull)attribute NS_SWIFT_NAME(addAttribute(attribute:));
-	-(BOOL)setTransform: (TSMatrix4x3f)transform NS_SWIFT_NAME(setTransform(_:));
-	-(BOOL)setTransform_: (TSMatrix4x3f)transform NS_SWIFT_NAME(setTransform(transform:));
+	-(BOOL)setTransform: (TSVector3f)scale NS_SWIFT_NAME(setTransform(_:));
+	-(BOOL)setTransform_: (TSVector3f)scale NS_SWIFT_NAME(setTransform(scale:));
+	-(BOOL)setTransform_1: (TSMatrix4x3f)transform NS_SWIFT_NAME(setTransform(_:));
+	-(BOOL)setTransform_1_: (TSMatrix4x3f)transform NS_SWIFT_NAME(setTransform(transform:));
 	-(BOOL)morphAttribute: (const TSMeshAttribute* _Nonnull)attribute k: (float32_t)k NS_SWIFT_NAME(morphAttribute(_:_:));
 	-(BOOL)morphAttribute_: (const TSMeshAttribute* _Nonnull)attribute k: (float32_t)k NS_SWIFT_NAME(morphAttribute(attribute:k:));
 	-(BOOL)packAttributes: (const TSMeshAttribute* _Nonnull)attribute_0 attribute_1: (const TSMeshAttribute* _Nonnull)attribute_1 format: (TS_Format)format NS_SWIFT_NAME(packAttributes(_:_:_:));
@@ -4952,6 +4954,7 @@ TS_CAPI @interface TSMeshGeometry : NSObject {
 	-(void)setVisibilityError: (float32_t)error NS_SWIFT_NAME(setVisibilityError(_:));
 	-(void)setVisibilityError_: (float32_t)error NS_SWIFT_NAME(setVisibilityError(error:));
 	-(float32_t)getVisibilityError NS_SWIFT_NAME(visibilityError());
+	-(void)flipWinding;
 	-(BOOL)createBounds NS_SWIFT_NAME(createBounds());
 	-(BOOL)createBounds_1: (BOOL)force NS_SWIFT_NAME(createBounds(_:));
 	-(BOOL)createBounds_1_: (BOOL)force NS_SWIFT_NAME(createBounds(force:));
@@ -5029,12 +5032,17 @@ TS_CAPI @interface TSMeshGeometry : NSObject {
 	-(BOOL)optimizeAttributes_1: (uint32_t)material NS_SWIFT_NAME(optimizeAttributes(_:));
 	-(BOOL)optimizeAttributes_1_: (uint32_t)material NS_SWIFT_NAME(optimizeAttributes(material:));
 	-(void)optimizeMaterials;
+	-(void)optimizeOrder;
 	-(BOOL)packAttributes NS_SWIFT_NAME(packAttributes());
 	-(BOOL)packAttributes_1: (BOOL)remove NS_SWIFT_NAME(packAttributes(_:));
 	-(BOOL)packAttributes_1_: (BOOL)remove NS_SWIFT_NAME(packAttributes(remove:));
 	-(BOOL)unpackAttributes NS_SWIFT_NAME(unpackAttributes());
 	-(BOOL)unpackAttributes_1: (BOOL)remove NS_SWIFT_NAME(unpackAttributes(_:));
 	-(BOOL)unpackAttributes_1_: (BOOL)remove NS_SWIFT_NAME(unpackAttributes(remove:));
+	-(BOOL)addGeometry: (const TSMeshGeometry* _Nonnull)geometry NS_SWIFT_NAME(addGeometry(_:));
+	-(BOOL)addGeometry_: (const TSMeshGeometry* _Nonnull)geometry NS_SWIFT_NAME(addGeometry(geometry:));
+	-(BOOL)addGeometry_1: (const TSMeshGeometry* _Nonnull)geometry transform: (TSMatrix4x3f)transform NS_SWIFT_NAME(addGeometry(_:_:));
+	-(BOOL)addGeometry_1_: (const TSMeshGeometry* _Nonnull)geometry transform: (TSMatrix4x3f)transform NS_SWIFT_NAME(addGeometry(geometry:transform:));
 	-(int32_t)compare: (const TSMeshGeometry* _Nonnull)geometry NS_SWIFT_NAME(compare(_:));
 	-(int32_t)compare_: (const TSMeshGeometry* _Nonnull)geometry NS_SWIFT_NAME(compare(geometry:));
 	-(int32_t)compare_1: (const TSMeshGeometry* _Nonnull)geometry transform: (TSMatrix4x3f)transform NS_SWIFT_NAME(compare(_:_:));
@@ -14029,6 +14037,14 @@ TS_CAPI @interface TSControlGrid : TSControl
 	-(void)setColumnRatio_: (uint32_t)index ratio: (float32_t)ratio NS_SWIFT_NAME(setColumnRatio(index:ratio:));
 	-(float32_t)getColumnRatio: (uint32_t)index NS_SWIFT_NAME(columnRatio(_:));
 	-(float32_t)getColumnRatio_: (uint32_t)index NS_SWIFT_NAME(columnRatio(index:));
+	-(void)setColumnSpacing: (uint32_t)index spacing: (float32_t)spacing NS_SWIFT_NAME(setColumnSpacing(_:_:));
+	-(void)setColumnSpacing_: (uint32_t)index spacing: (float32_t)spacing NS_SWIFT_NAME(setColumnSpacing(index:spacing:));
+	-(float32_t)getColumnSpacing: (uint32_t)index NS_SWIFT_NAME(columnSpacing(_:));
+	-(float32_t)getColumnSpacing_: (uint32_t)index NS_SWIFT_NAME(columnSpacing(index:));
+	-(void)setRowSpacing: (uint32_t)index spacing: (float32_t)spacing NS_SWIFT_NAME(setRowSpacing(_:_:));
+	-(void)setRowSpacing_: (uint32_t)index spacing: (float32_t)spacing NS_SWIFT_NAME(setRowSpacing(index:spacing:));
+	-(float32_t)getRowSpacing: (uint32_t)index NS_SWIFT_NAME(rowSpacing(_:));
+	-(float32_t)getRowSpacing_: (uint32_t)index NS_SWIFT_NAME(rowSpacing(index:));
 	-(TSVector2f)getControlsSize NS_SWIFT_NAME(controlsSize());
 @end
 
@@ -14137,6 +14153,14 @@ TS_CAPI @interface TSControlGroup : TSControlText
 	-(void)setColumnRatio_: (uint32_t)index ratio: (float32_t)ratio NS_SWIFT_NAME(setColumnRatio(index:ratio:));
 	-(float32_t)getColumnRatio: (uint32_t)index NS_SWIFT_NAME(columnRatio(_:));
 	-(float32_t)getColumnRatio_: (uint32_t)index NS_SWIFT_NAME(columnRatio(index:));
+	-(void)setColumnSpacing: (uint32_t)index spacing: (float32_t)spacing NS_SWIFT_NAME(setColumnSpacing(_:_:));
+	-(void)setColumnSpacing_: (uint32_t)index spacing: (float32_t)spacing NS_SWIFT_NAME(setColumnSpacing(index:spacing:));
+	-(float32_t)getColumnSpacing: (uint32_t)index NS_SWIFT_NAME(columnSpacing(_:));
+	-(float32_t)getColumnSpacing_: (uint32_t)index NS_SWIFT_NAME(columnSpacing(index:));
+	-(void)setRowSpacing: (uint32_t)index spacing: (float32_t)spacing NS_SWIFT_NAME(setRowSpacing(_:_:));
+	-(void)setRowSpacing_: (uint32_t)index spacing: (float32_t)spacing NS_SWIFT_NAME(setRowSpacing(index:spacing:));
+	-(float32_t)getRowSpacing: (uint32_t)index NS_SWIFT_NAME(rowSpacing(_:));
+	-(float32_t)getRowSpacing_: (uint32_t)index NS_SWIFT_NAME(rowSpacing(index:));
 	-(TSVector2f)getControlsSize NS_SWIFT_NAME(controlsSize());
 	-(void)setClickedCallback: (id<TSControlGroupClickedCallback> _Nullable)func NS_SWIFT_NAME(setClickedCallback(_:));
 	-(void)setClickedCallback_: (id<TSControlGroupClickedCallback> _Nullable)func NS_SWIFT_NAME(setClickedCallback(func:));
@@ -14190,6 +14214,14 @@ TS_CAPI @interface TSControlPanel : TSControlRect
 	-(void)setColumnRatio_: (uint32_t)index ratio: (float32_t)ratio NS_SWIFT_NAME(setColumnRatio(index:ratio:));
 	-(float32_t)getColumnRatio: (uint32_t)index NS_SWIFT_NAME(columnRatio(_:));
 	-(float32_t)getColumnRatio_: (uint32_t)index NS_SWIFT_NAME(columnRatio(index:));
+	-(void)setColumnSpacing: (uint32_t)index spacing: (float32_t)spacing NS_SWIFT_NAME(setColumnSpacing(_:_:));
+	-(void)setColumnSpacing_: (uint32_t)index spacing: (float32_t)spacing NS_SWIFT_NAME(setColumnSpacing(index:spacing:));
+	-(float32_t)getColumnSpacing: (uint32_t)index NS_SWIFT_NAME(columnSpacing(_:));
+	-(float32_t)getColumnSpacing_: (uint32_t)index NS_SWIFT_NAME(columnSpacing(index:));
+	-(void)setRowSpacing: (uint32_t)index spacing: (float32_t)spacing NS_SWIFT_NAME(setRowSpacing(_:_:));
+	-(void)setRowSpacing_: (uint32_t)index spacing: (float32_t)spacing NS_SWIFT_NAME(setRowSpacing(index:spacing:));
+	-(float32_t)getRowSpacing: (uint32_t)index NS_SWIFT_NAME(rowSpacing(_:));
+	-(float32_t)getRowSpacing_: (uint32_t)index NS_SWIFT_NAME(rowSpacing(index:));
 	-(TSVector2f)getControlsSize NS_SWIFT_NAME(controlsSize());
 @end
 
@@ -14992,6 +15024,14 @@ TS_CAPI @interface TSControlArea : TSControl
 	-(void)setColumnRatio_: (uint32_t)index ratio: (float32_t)ratio NS_SWIFT_NAME(setColumnRatio(index:ratio:));
 	-(float32_t)getColumnRatio: (uint32_t)index NS_SWIFT_NAME(columnRatio(_:));
 	-(float32_t)getColumnRatio_: (uint32_t)index NS_SWIFT_NAME(columnRatio(index:));
+	-(void)setColumnSpacing: (uint32_t)index spacing: (float32_t)spacing NS_SWIFT_NAME(setColumnSpacing(_:_:));
+	-(void)setColumnSpacing_: (uint32_t)index spacing: (float32_t)spacing NS_SWIFT_NAME(setColumnSpacing(index:spacing:));
+	-(float32_t)getColumnSpacing: (uint32_t)index NS_SWIFT_NAME(columnSpacing(_:));
+	-(float32_t)getColumnSpacing_: (uint32_t)index NS_SWIFT_NAME(columnSpacing(index:));
+	-(void)setRowSpacing: (uint32_t)index spacing: (float32_t)spacing NS_SWIFT_NAME(setRowSpacing(_:_:));
+	-(void)setRowSpacing_: (uint32_t)index spacing: (float32_t)spacing NS_SWIFT_NAME(setRowSpacing(index:spacing:));
+	-(float32_t)getRowSpacing: (uint32_t)index NS_SWIFT_NAME(rowSpacing(_:));
+	-(float32_t)getRowSpacing_: (uint32_t)index NS_SWIFT_NAME(rowSpacing(index:));
 	-(TSVector2f)getControlsSize NS_SWIFT_NAME(controlsSize());
 	-(TSVector2f)getControlsOffset NS_SWIFT_NAME(controlsOffset());
 	-(TSRect)getViewRect NS_SWIFT_NAME(viewRect());
@@ -15934,6 +15974,12 @@ TS_CAPI @interface TSCubeFilter : NSObject {
 	-(BOOL)dispatch_2_: (TSCompute* _Nonnull)compute texture: (TSTexture* _Nonnull)texture slice: (TSSlice)slice buffer: (TSBuffer* _Nonnull)buffer offset: (uint32_t)offset NS_SWIFT_NAME(dispatch(compute:texture:slice:buffer:offset:));
 	-(BOOL)dispatch_3: (TSCompute* _Nonnull)compute texture: (TSTexture* _Nonnull)texture buffer: (TSBuffer* _Nonnull)buffer offset: (uint32_t)offset NS_SWIFT_NAME(dispatch(_:_:_:_:));
 	-(BOOL)dispatch_3_: (TSCompute* _Nonnull)compute texture: (TSTexture* _Nonnull)texture buffer: (TSBuffer* _Nonnull)buffer offset: (uint32_t)offset NS_SWIFT_NAME(dispatch(compute:texture:buffer:offset:));
+	-(BOOL)dispatch_4: (TSCompute* _Nonnull)compute dest: (TSTexture* _Nonnull)dest src: (TSTexture* _Nonnull)src dest_slice: (TSSlice)dest_slice src_slice: (TSSlice)src_slice NS_SWIFT_NAME(dispatch(_:_:_:_:_:));
+	-(BOOL)dispatch_4_: (TSCompute* _Nonnull)compute dest: (TSTexture* _Nonnull)dest src: (TSTexture* _Nonnull)src dest_slice: (TSSlice)dest_slice src_slice: (TSSlice)src_slice NS_SWIFT_NAME(dispatch(compute:dest:src:dest_slice:src_slice:));
+	-(BOOL)dispatch_5: (TSCompute* _Nonnull)compute dest: (TSTexture* _Nonnull)dest src: (TSTexture* _Nonnull)src src_slice: (TSSlice)src_slice NS_SWIFT_NAME(dispatch(_:_:_:_:));
+	-(BOOL)dispatch_5_: (TSCompute* _Nonnull)compute dest: (TSTexture* _Nonnull)dest src: (TSTexture* _Nonnull)src src_slice: (TSSlice)src_slice NS_SWIFT_NAME(dispatch(compute:dest:src:src_slice:));
+	-(BOOL)dispatch_6: (TSCompute* _Nonnull)compute dest: (TSTexture* _Nonnull)dest src: (TSTexture* _Nonnull)src NS_SWIFT_NAME(dispatch(_:_:_:));
+	-(BOOL)dispatch_6_: (TSCompute* _Nonnull)compute dest: (TSTexture* _Nonnull)dest src: (TSTexture* _Nonnull)src NS_SWIFT_NAME(dispatch(compute:dest:src:));
 @end
 
 /// Tellusim::DecoderJPEG

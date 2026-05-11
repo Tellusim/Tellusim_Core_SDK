@@ -9300,10 +9300,16 @@ extern "C" {
 	-(void)addAttribute_: (const TSMeshAttribute*)attribute {
 		[self ref].addAttribute([attribute ref]);
 	}
-	-(BOOL)setTransform: (TSMatrix4x3f)transform {
+	-(BOOL)setTransform: (TSVector3f)scale {
+		return [self ref].setTransform(*(Tellusim::Vector3f*)&scale);
+	}
+	-(BOOL)setTransform_: (TSVector3f)scale {
+		return [self ref].setTransform(*(Tellusim::Vector3f*)&scale);
+	}
+	-(BOOL)setTransform_1: (TSMatrix4x3f)transform {
 		return [self ref].setTransform(*(Tellusim::Matrix4x3f*)&transform);
 	}
-	-(BOOL)setTransform_: (TSMatrix4x3f)transform {
+	-(BOOL)setTransform_1_: (TSMatrix4x3f)transform {
 		return [self ref].setTransform(*(Tellusim::Matrix4x3f*)&transform);
 	}
 	-(BOOL)morphAttribute: (const TSMeshAttribute*)attribute k: (float32_t)k {
@@ -10835,6 +10841,9 @@ TS_CAPI NSString *tsMeshMaterialTypeTexCoord = [NSString stringWithUTF8String:Te
 	-(float32_t)getVisibilityError {
 		return [self ref].getVisibilityError();
 	}
+	-(void)flipWinding {
+		[self ref].flipWinding();
+	}
 	-(BOOL)createBounds {
 		return [self ref].createBounds();
 	}
@@ -11066,6 +11075,9 @@ TS_CAPI NSString *tsMeshMaterialTypeTexCoord = [NSString stringWithUTF8String:Te
 	-(void)optimizeMaterials {
 		[self ref].optimizeMaterials();
 	}
+	-(void)optimizeOrder {
+		[self ref].optimizeOrder();
+	}
 	-(BOOL)packAttributes {
 		return [self ref].packAttributes();
 	}
@@ -11083,6 +11095,18 @@ TS_CAPI NSString *tsMeshMaterialTypeTexCoord = [NSString stringWithUTF8String:Te
 	}
 	-(BOOL)unpackAttributes_1_: (BOOL)remove {
 		return [self ref].unpackAttributes((bool)remove);
+	}
+	-(BOOL)addGeometry: (const TSMeshGeometry*)geometry {
+		return [self ref].addGeometry([geometry ref]);
+	}
+	-(BOOL)addGeometry_: (const TSMeshGeometry*)geometry {
+		return [self ref].addGeometry([geometry ref]);
+	}
+	-(BOOL)addGeometry_1: (const TSMeshGeometry*)geometry transform: (TSMatrix4x3f)transform {
+		return [self ref].addGeometry([geometry ref], *(Tellusim::Matrix4x3f*)&transform);
+	}
+	-(BOOL)addGeometry_1_: (const TSMeshGeometry*)geometry transform: (TSMatrix4x3f)transform {
+		return [self ref].addGeometry([geometry ref], *(Tellusim::Matrix4x3f*)&transform);
 	}
 	-(int32_t)compare: (const TSMeshGeometry*)geometry {
 		return [self ref].compare([geometry ref]);
@@ -37540,6 +37564,30 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(float32_t)getColumnRatio_: (uint32_t)index {
 		return [self ref].getColumnRatio(index);
 	}
+	-(void)setColumnSpacing: (uint32_t)index spacing: (float32_t)spacing {
+		[self ref].setColumnSpacing(index, spacing);
+	}
+	-(void)setColumnSpacing_: (uint32_t)index spacing: (float32_t)spacing {
+		[self ref].setColumnSpacing(index, spacing);
+	}
+	-(float32_t)getColumnSpacing: (uint32_t)index {
+		return [self ref].getColumnSpacing(index);
+	}
+	-(float32_t)getColumnSpacing_: (uint32_t)index {
+		return [self ref].getColumnSpacing(index);
+	}
+	-(void)setRowSpacing: (uint32_t)index spacing: (float32_t)spacing {
+		[self ref].setRowSpacing(index, spacing);
+	}
+	-(void)setRowSpacing_: (uint32_t)index spacing: (float32_t)spacing {
+		[self ref].setRowSpacing(index, spacing);
+	}
+	-(float32_t)getRowSpacing: (uint32_t)index {
+		return [self ref].getRowSpacing(index);
+	}
+	-(float32_t)getRowSpacing_: (uint32_t)index {
+		return [self ref].getRowSpacing(index);
+	}
 	-(TSVector2f)getControlsSize {
 		Tellusim::Vector2f ret = [self ref].getControlsSize();
 		return *(TSVector2f*)&ret;
@@ -37887,6 +37935,30 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(float32_t)getColumnRatio_: (uint32_t)index {
 		return [self ref].getColumnRatio(index);
 	}
+	-(void)setColumnSpacing: (uint32_t)index spacing: (float32_t)spacing {
+		[self ref].setColumnSpacing(index, spacing);
+	}
+	-(void)setColumnSpacing_: (uint32_t)index spacing: (float32_t)spacing {
+		[self ref].setColumnSpacing(index, spacing);
+	}
+	-(float32_t)getColumnSpacing: (uint32_t)index {
+		return [self ref].getColumnSpacing(index);
+	}
+	-(float32_t)getColumnSpacing_: (uint32_t)index {
+		return [self ref].getColumnSpacing(index);
+	}
+	-(void)setRowSpacing: (uint32_t)index spacing: (float32_t)spacing {
+		[self ref].setRowSpacing(index, spacing);
+	}
+	-(void)setRowSpacing_: (uint32_t)index spacing: (float32_t)spacing {
+		[self ref].setRowSpacing(index, spacing);
+	}
+	-(float32_t)getRowSpacing: (uint32_t)index {
+		return [self ref].getRowSpacing(index);
+	}
+	-(float32_t)getRowSpacing_: (uint32_t)index {
+		return [self ref].getRowSpacing(index);
+	}
 	-(TSVector2f)getControlsSize {
 		Tellusim::Vector2f ret = [self ref].getControlsSize();
 		return *(TSVector2f*)&ret;
@@ -38053,6 +38125,30 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	}
 	-(float32_t)getColumnRatio_: (uint32_t)index {
 		return [self ref].getColumnRatio(index);
+	}
+	-(void)setColumnSpacing: (uint32_t)index spacing: (float32_t)spacing {
+		[self ref].setColumnSpacing(index, spacing);
+	}
+	-(void)setColumnSpacing_: (uint32_t)index spacing: (float32_t)spacing {
+		[self ref].setColumnSpacing(index, spacing);
+	}
+	-(float32_t)getColumnSpacing: (uint32_t)index {
+		return [self ref].getColumnSpacing(index);
+	}
+	-(float32_t)getColumnSpacing_: (uint32_t)index {
+		return [self ref].getColumnSpacing(index);
+	}
+	-(void)setRowSpacing: (uint32_t)index spacing: (float32_t)spacing {
+		[self ref].setRowSpacing(index, spacing);
+	}
+	-(void)setRowSpacing_: (uint32_t)index spacing: (float32_t)spacing {
+		[self ref].setRowSpacing(index, spacing);
+	}
+	-(float32_t)getRowSpacing: (uint32_t)index {
+		return [self ref].getRowSpacing(index);
+	}
+	-(float32_t)getRowSpacing_: (uint32_t)index {
+		return [self ref].getRowSpacing(index);
 	}
 	-(TSVector2f)getControlsSize {
 		Tellusim::Vector2f ret = [self ref].getControlsSize();
@@ -40341,6 +40437,30 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	}
 	-(float32_t)getColumnRatio_: (uint32_t)index {
 		return [self ref].getColumnRatio(index);
+	}
+	-(void)setColumnSpacing: (uint32_t)index spacing: (float32_t)spacing {
+		[self ref].setColumnSpacing(index, spacing);
+	}
+	-(void)setColumnSpacing_: (uint32_t)index spacing: (float32_t)spacing {
+		[self ref].setColumnSpacing(index, spacing);
+	}
+	-(float32_t)getColumnSpacing: (uint32_t)index {
+		return [self ref].getColumnSpacing(index);
+	}
+	-(float32_t)getColumnSpacing_: (uint32_t)index {
+		return [self ref].getColumnSpacing(index);
+	}
+	-(void)setRowSpacing: (uint32_t)index spacing: (float32_t)spacing {
+		[self ref].setRowSpacing(index, spacing);
+	}
+	-(void)setRowSpacing_: (uint32_t)index spacing: (float32_t)spacing {
+		[self ref].setRowSpacing(index, spacing);
+	}
+	-(float32_t)getRowSpacing: (uint32_t)index {
+		return [self ref].getRowSpacing(index);
+	}
+	-(float32_t)getRowSpacing_: (uint32_t)index {
+		return [self ref].getRowSpacing(index);
 	}
 	-(TSVector2f)getControlsSize {
 		Tellusim::Vector2f ret = [self ref].getControlsSize();
@@ -42899,6 +43019,24 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	}
 	-(BOOL)dispatch_3_: (TSCompute*)compute texture: (TSTexture*)texture buffer: (TSBuffer*)buffer offset: (uint32_t)offset {
 		return [self ref].dispatch([compute ref], [texture ref], [buffer ref], offset);
+	}
+	-(BOOL)dispatch_4: (TSCompute*)compute dest: (TSTexture*)dest src: (TSTexture*)src dest_slice: (TSSlice)dest_slice src_slice: (TSSlice)src_slice {
+		return [self ref].dispatch([compute ref], [dest ref], [src ref], *(Tellusim::Slice*)&dest_slice, *(Tellusim::Slice*)&src_slice);
+	}
+	-(BOOL)dispatch_4_: (TSCompute*)compute dest: (TSTexture*)dest src: (TSTexture*)src dest_slice: (TSSlice)dest_slice src_slice: (TSSlice)src_slice {
+		return [self ref].dispatch([compute ref], [dest ref], [src ref], *(Tellusim::Slice*)&dest_slice, *(Tellusim::Slice*)&src_slice);
+	}
+	-(BOOL)dispatch_5: (TSCompute*)compute dest: (TSTexture*)dest src: (TSTexture*)src src_slice: (TSSlice)src_slice {
+		return [self ref].dispatch([compute ref], [dest ref], [src ref], *(Tellusim::Slice*)&src_slice);
+	}
+	-(BOOL)dispatch_5_: (TSCompute*)compute dest: (TSTexture*)dest src: (TSTexture*)src src_slice: (TSSlice)src_slice {
+		return [self ref].dispatch([compute ref], [dest ref], [src ref], *(Tellusim::Slice*)&src_slice);
+	}
+	-(BOOL)dispatch_6: (TSCompute*)compute dest: (TSTexture*)dest src: (TSTexture*)src {
+		return [self ref].dispatch([compute ref], [dest ref], [src ref]);
+	}
+	-(BOOL)dispatch_6_: (TSCompute*)compute dest: (TSTexture*)dest src: (TSTexture*)src {
+		return [self ref].dispatch([compute ref], [dest ref], [src ref]);
 	}
 @end
 
