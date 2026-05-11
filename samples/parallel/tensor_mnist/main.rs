@@ -29,7 +29,7 @@ fn main() {
 	window.set_keyboard_pressed_callback({
 		let mut window = window.copy_ptr();
 		move |key: u32, _code: u32| {
-			if key == WindowKey::Esc as u32 { window.stop() }
+			if key == WindowKey::Esc { window.stop() }
 		}
 	});
 	

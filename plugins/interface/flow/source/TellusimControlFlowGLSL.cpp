@@ -4,6 +4,7 @@
 #include <core/TellusimLog.h>
 #include <core/TellusimBlob.h>
 #include <core/TellusimSource.h>
+#include <math/TellusimExpression.h>
 
 #include "../include/TellusimControlFlowGLSL.h"
 
@@ -455,14 +456,20 @@ namespace Tellusim {
 			uint32_t proto = addProto("int", "Integer");
 			setProtoColor(proto, tool_color);
 			addProtoOutput(proto, "v", "", "0", int_type, true);
+			setProtoOutputAttachCallback(proto, 0, text_output_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				ControlSlider slider = create_slider_i32(&grid, nullptr);
 				slider.setChangedCallback(makeFunction([this](ControlSlider slider, uint32_t node) {
 					setOutputValue(node, "v", String::fromi32(slider.getValuei32()), !slider.isChanged(false));
+					setNodeState(node, String::format("%g %g", slider.getMinRange(), slider.getMaxRange()));
 					setChanged();
 				}, ControlSlider::null, node));
 				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlSlider slider) {
+					Vector2f range = Vector2f::one;
+					const String &state = getNodeState(node);
+					if(state && state.scanf("%g %g", &range.x, &range.y) == 2) slider.setRange(range.x, range.y);
 					slider.setValue(getOutputValue(node, "v").toi32());
+					setOutputValue(node, "v", String::fromi32(slider.getValuei32()));
 					expand_slider(slider);
 				}, nullptr, 0, slider));
 			});
@@ -474,14 +481,20 @@ namespace Tellusim {
 			uint32_t proto = addProto("float", "Float");
 			setProtoColor(proto, tool_color);
 			addProtoOutput(proto, "v", "", "0.0", float_type, true);
+			setProtoOutputAttachCallback(proto, 0, text_output_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				ControlSlider slider = create_slider_f64(&grid, nullptr, 3);
 				slider.setChangedCallback(makeFunction([this](ControlSlider slider, uint32_t node) {
 					setOutputValue(node, "v", String::fromf64(slider.getValue(), 6, true, true), !slider.isChanged(false));
+					setNodeState(node, String::format("%g %g", slider.getMinRange(), slider.getMaxRange()));
 					setChanged();
 				}, ControlSlider::null, node));
 				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlSlider slider) {
+					Vector2f range = Vector2f::one;
+					const String &state = getNodeState(node);
+					if(state && state.scanf("%g %g", &range.x, &range.y) == 2) slider.setRange(range.x, range.y);
 					slider.setValue(getOutputValue(node, "v").tof64());
+					setOutputValue(node, "v", String::fromf64(slider.getValue(), 6, true, true));
 					expand_slider(slider);
 				}, nullptr, 0, slider));
 			});
@@ -493,13 +506,14 @@ namespace Tellusim {
 			uint32_t proto = addProto("constant", "Constant");
 			setProtoColor(proto, tool_color);
 			addProtoOutput(proto, "v", "", "", float_type, true);
+			setProtoOutputAttachCallback(proto, 0, text_output_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				static const float64_t values[] = {
 					1.0, 2.0, 0.5, 0.0, Pid, Pi2d, Pi05d, Sqrt2d,
 				};
 				ControlCombo combo = create_combo(&grid, {
 					"One", "Two", "Half", "Zero", "Pi", "Pi2", "Pi05", "Sqrt2",
-				}, values );
+				}, values);
 				combo.setChangedCallback(makeFunction([this](ControlCombo combo, uint32_t node) {
 					setOutputValue(node, "v", String::fromf64(values[combo.getCurrentIndex()], 6, true, true) + "f");
 					setNodeState(node, combo.getCurrentText(), true);
@@ -561,6 +575,7 @@ namespace Tellusim {
 			uint32_t proto = addProto("vec2", "Vec2");
 			setProtoColor(proto, tool_color);
 			addProtoOutput(proto, "v2", "", "vec2(0.0)", vec2_type, true);
+			setProtoOutputAttachCallback(proto, 0, text_output_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				ControlSlider sliders[2];
 				const char *names[] = { "X", "Y" };
@@ -570,24 +585,25 @@ namespace Tellusim {
 				ControlSlider::ChangedCallback changed_func = makeFunction([this](ControlSlider slider, uint32_t node, ControlSlider x_slider, ControlSlider y_slider) {
 					String x = String::fromf64(x_slider.getValue(), 6, true, true);
 					String y = String::fromf64(y_slider.getValue(), 6, true, true);
-					setOutputValue(node, "v2", String::tformat("vec2({0}, {1})", x, y), !slider.isChanged(false));
+					setOutputValue(node, "v2", String::tformat("vec2({0}, {1})", x, y), slider ? !slider.isChanged(false) : false);
 					setChanged();
 				}, ControlSlider::null, node, sliders[0], sliders[1]);
 				for(uint32_t i = 0; i < 2; i++) {
 					sliders[i].setChangedCallback(changed_func);
 				}
-				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlSlider x_slider, ControlSlider y_slider) {
+				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlSlider x_slider, ControlSlider y_slider, ControlSlider::ChangedCallback changed_func) {
 					Vector2f value = Vector2f::zero;
 					const String &state = getOutputValue(node, "v2");
-					if(state.scanf("vec2(%g, %g)", &value.x, &value.y) != 2) {
-						if(state.scanf("vec2(%g)", &value.x) == 1) value.y = value.x;
+					if(state && state.scanf("vec2(%g, %g)", &value.x, &value.y) != 2) {
+						if(state.scanf("vec2(%g)", &value.x) == 1 || state.scanf("%g", &value.x) == 1) value.y = value.x;
 						else TS_LOGF(Error, "ControlFlowGLSL::vec2_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(value.x);
 					y_slider.setValue(value.y);
 					expand_slider(x_slider);
 					expand_slider(y_slider);
-				}, nullptr, 0, sliders[0], sliders[1]));
+					changed_func.run();
+				}, nullptr, 0, sliders[0], sliders[1], changed_func));
 			});
 			setProtoInfo(proto, "Vector value");
 		}
@@ -597,6 +613,7 @@ namespace Tellusim {
 			uint32_t proto = addProto("vec3", "Vec3");
 			setProtoColor(proto, tool_color);
 			addProtoOutput(proto, "v3", "", "vec3(0.0)", vec3_type, true);
+			setProtoOutputAttachCallback(proto, 0, text_output_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				ControlSlider sliders[3];
 				const char *names[] = { "X", "Y", "Z" };
@@ -607,17 +624,17 @@ namespace Tellusim {
 					String x = String::fromf64(x_slider.getValue(), 6, true, true);
 					String y = String::fromf64(y_slider.getValue(), 6, true, true);
 					String z = String::fromf64(z_slider.getValue(), 6, true, true);
-					setOutputValue(node, "v3", String::tformat("vec3({0}, {1}, {2})", x, y, z), !slider.isChanged(false));
+					setOutputValue(node, "v3", String::tformat("vec3({0}, {1}, {2})", x, y, z), slider ? !slider.isChanged(false) : false);
 					setChanged();
 				}, ControlSlider::null, node, sliders[0], sliders[1], sliders[2]);
 				for(uint32_t i = 0; i < 3; i++) {
 					sliders[i].setChangedCallback(changed_func);
 				}
-				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlSlider x_slider, ControlSlider y_slider, ControlSlider z_slider) {
+				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlSlider x_slider, ControlSlider y_slider, ControlSlider z_slider, ControlSlider::ChangedCallback changed_func) {
 					Vector3f value = Vector3f::zero;
 					const String &state = getOutputValue(node, "v3");
-					if(state.scanf("vec3(%g, %g, %g)", &value.x, &value.y, &value.z) != 3) {
-						if(state.scanf("vec3(%g)", &value.x) == 1) value = Vector3f(value.x);
+					if(state && state.scanf("vec3(%g, %g, %g)", &value.x, &value.y, &value.z) != 3) {
+						if(state.scanf("vec3(%g)", &value.x) == 1 || state.scanf("%g", &value.x) == 1) value = Vector3f(value.x);
 						else TS_LOGF(Error, "ControlFlowGLSL::vec3_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(value.x);
@@ -626,7 +643,8 @@ namespace Tellusim {
 					expand_slider(x_slider);
 					expand_slider(y_slider);
 					expand_slider(z_slider);
-				}, nullptr, 0, sliders[0], sliders[1], sliders[2]));
+					changed_func.run();
+				}, nullptr, 0, sliders[0], sliders[1], sliders[2], changed_func));
 			});
 			setProtoInfo(proto, "Vector value");
 		}
@@ -636,6 +654,7 @@ namespace Tellusim {
 			uint32_t proto = addProto("vec4", "Vec4");
 			setProtoColor(proto, tool_color);
 			addProtoOutput(proto, "v4", "", "vec4(0.0)", vec4_type, true);
+			setProtoOutputAttachCallback(proto, 0, text_output_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				ControlSlider sliders[4];
 				const char *names[] = { "X", "Y", "Z", "W" };
@@ -647,17 +666,17 @@ namespace Tellusim {
 					String y = String::fromf64(y_slider.getValue(), 6, true, true);
 					String z = String::fromf64(z_slider.getValue(), 6, true, true);
 					String w = String::fromf64(w_slider.getValue(), 6, true, true);
-					setOutputValue(node, "v4", String::tformat("vec4({0}, {1}, {2}, {3})", x, y, z, w), !slider.isChanged(false));
+					setOutputValue(node, "v4", String::tformat("vec4({0}, {1}, {2}, {3})", x, y, z, w), slider ? !slider.isChanged(false) : false);
 					setChanged();
 				}, ControlSlider::null, node, sliders[0], sliders[1], sliders[2], sliders[3]);
 				for(uint32_t i = 0; i < 4; i++) {
 					sliders[i].setChangedCallback(changed_func);
 				}
-				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlSlider x_slider, ControlSlider y_slider, ControlSlider z_slider, ControlSlider w_slider) {
+				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlSlider x_slider, ControlSlider y_slider, ControlSlider z_slider, ControlSlider w_slider, ControlSlider::ChangedCallback changed_func) {
 					Vector4f value = Vector4f::zero;
 					const String &state = getOutputValue(node, "v4");
-					if(state.scanf("vec4(%g, %g, %g, %g)", &value.x, &value.y, &value.z, &value.w) != 4) {
-						if(state.scanf("vec4(%g)", &value.x) == 1) value = Vector4f(value.x);
+					if(state && state.scanf("vec4(%g, %g, %g, %g)", &value.x, &value.y, &value.z, &value.w) != 4) {
+						if(state.scanf("vec4(%g)", &value.x) == 1 || state.scanf("%g", &value.x) == 1) value = Vector4f(value.x);
 						else TS_LOGF(Error, "ControlFlowGLSL::vec4_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(value.x);
@@ -668,7 +687,8 @@ namespace Tellusim {
 					expand_slider(y_slider);
 					expand_slider(z_slider);
 					expand_slider(w_slider);
-				}, nullptr, 0, sliders[0], sliders[1], sliders[2], sliders[3]));
+					changed_func.run();
+				}, nullptr, 0, sliders[0], sliders[1], sliders[2], sliders[3], changed_func));
 			});
 			setProtoInfo(proto, "Vector value");
 		}
@@ -732,6 +752,7 @@ namespace Tellusim {
 			uint32_t proto = addProto("ivec2", "IVec2");
 			setProtoColor(proto, tool_color);
 			addProtoOutput(proto, "v2", "", "ivec2(0)", ivec2_type, true);
+			setProtoOutputAttachCallback(proto, 0, text_output_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				ControlSlider sliders[2];
 				const char *names[] = { "X", "Y" };
@@ -741,24 +762,25 @@ namespace Tellusim {
 				ControlSlider::ChangedCallback changed_func = makeFunction([this](ControlSlider slider, uint32_t node, ControlSlider x_slider, ControlSlider y_slider) {
 					int32_t x = x_slider.getValuei32();
 					int32_t y = y_slider.getValuei32();
-					setOutputValue(node, "v2", String::tformat("ivec2({0}, {1})", x, y), !slider.isChanged(false));
+					setOutputValue(node, "v2", String::tformat("ivec2({0}, {1})", x, y), slider ? !slider.isChanged(false) : false);
 					setChanged();
 				}, ControlSlider::null, node, sliders[0], sliders[1]);
 				for(uint32_t i = 0; i < 2; i++) {
 					sliders[i].setChangedCallback(changed_func);
 				}
-				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlSlider x_slider, ControlSlider y_slider) {
+				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlSlider x_slider, ControlSlider y_slider, ControlSlider::ChangedCallback changed_func) {
 					Vector2i value = Vector2i::zero;
 					const String &state = getOutputValue(node, "v2");
-					if(state.scanf("ivec2(%d, %d)", &value.x, &value.y) != 2) {
-						if(state.scanf("ivec2(%d)", &value.x) == 1) value.y = value.x;
+					if(state && state.scanf("ivec2(%d, %d)", &value.x, &value.y) != 2) {
+						if(state.scanf("ivec2(%d)", &value.x) == 1 || state.scanf("%d", &value.x) == 1) value.y = value.x;
 						else TS_LOGF(Error, "ControlFlowGLSL::ivec2_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(value.x);
 					y_slider.setValue(value.y);
 					expand_slider(x_slider);
 					expand_slider(y_slider);
-				}, nullptr, 0, sliders[0], sliders[1]));
+					changed_func.run();
+				}, nullptr, 0, sliders[0], sliders[1], changed_func));
 			});
 			setProtoInfo(proto, "Vector value");
 		}
@@ -768,6 +790,7 @@ namespace Tellusim {
 			uint32_t proto = addProto("ivec3", "IVec3");
 			setProtoColor(proto, tool_color);
 			addProtoOutput(proto, "v3", "", "ivec3(0.0)", ivec3_type, true);
+			setProtoOutputAttachCallback(proto, 0, text_output_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				ControlSlider sliders[3];
 				const char *names[] = { "X", "Y", "Z" };
@@ -778,17 +801,17 @@ namespace Tellusim {
 					int32_t x = x_slider.getValuei32();
 					int32_t y = y_slider.getValuei32();
 					int32_t z = z_slider.getValuei32();
-					setOutputValue(node, "v3", String::tformat("ivec3({0}, {1}, {2})", x, y, z), !slider.isChanged(false));
+					setOutputValue(node, "v3", String::tformat("ivec3({0}, {1}, {2})", x, y, z), slider ? !slider.isChanged(false) : false);
 					setChanged();
 				}, ControlSlider::null, node, sliders[0], sliders[1], sliders[2]);
 				for(uint32_t i = 0; i < 3; i++) {
 					sliders[i].setChangedCallback(changed_func);
 				}
-				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlSlider x_slider, ControlSlider y_slider, ControlSlider z_slider) {
+				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlSlider x_slider, ControlSlider y_slider, ControlSlider z_slider, ControlSlider::ChangedCallback changed_func) {
 					Vector3i value = Vector3i::zero;
 					const String &state = getOutputValue(node, "v3");
-					if(state.scanf("ivec3(%d, %d, %d)", &value.x, &value.y, &value.z) != 3) {
-						if(state.scanf("ivec3(%d)", &value.x) == 1) value = Vector3i(value.x);
+					if(state && state.scanf("ivec3(%d, %d, %d)", &value.x, &value.y, &value.z) != 3) {
+						if(state.scanf("ivec3(%d)", &value.x) == 1 || state.scanf("%d", &value.x) == 1) value = Vector3i(value.x);
 						else TS_LOGF(Error, "ControlFlowGLSL::ivec3_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(value.x);
@@ -797,7 +820,8 @@ namespace Tellusim {
 					expand_slider(x_slider);
 					expand_slider(y_slider);
 					expand_slider(z_slider);
-				}, nullptr, 0, sliders[0], sliders[1], sliders[2]));
+					changed_func.run();
+				}, nullptr, 0, sliders[0], sliders[1], sliders[2], changed_func));
 			});
 			setProtoInfo(proto, "Vector value");
 		}
@@ -807,6 +831,7 @@ namespace Tellusim {
 			uint32_t proto = addProto("ivec4", "IVec4");
 			setProtoColor(proto, tool_color);
 			addProtoOutput(proto, "v4", "", "ivec4(0.0)", ivec4_type, true);
+			setProtoOutputAttachCallback(proto, 0, text_output_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				ControlSlider sliders[4];
 				const char *names[] = { "X", "Y", "Z", "W" };
@@ -818,17 +843,17 @@ namespace Tellusim {
 					int32_t y = y_slider.getValuei32();
 					int32_t z = z_slider.getValuei32();
 					int32_t w = w_slider.getValuei32();
-					setOutputValue(node, "v4", String::tformat("ivec4({0}, {1}, {2}, {3})", x, y, z, w), !slider.isChanged(false));
+					setOutputValue(node, "v4", String::tformat("ivec4({0}, {1}, {2}, {3})", x, y, z, w), slider ? !slider.isChanged(false) : false);
 					setChanged();
 				}, ControlSlider::null, node, sliders[0], sliders[1], sliders[2], sliders[3]);
 				for(uint32_t i = 0; i < 4; i++) {
 					sliders[i].setChangedCallback(changed_func);
 				}
-				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlSlider x_slider, ControlSlider y_slider, ControlSlider z_slider, ControlSlider w_slider) {
+				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlSlider x_slider, ControlSlider y_slider, ControlSlider z_slider, ControlSlider w_slider, ControlSlider::ChangedCallback changed_func) {
 					Vector4i value = Vector4i::zero;
 					const String &state = getOutputValue(node, "v4");
-					if(state.scanf("ivec4(%d, %d, %d, %d)", &value.x, &value.y, &value.z, &value.w) != 4) {
-						if(state.scanf("ivec4(%d)", &value.x) == 1) value = Vector4i(value.x);
+					if(state && state.scanf("ivec4(%d, %d, %d, %d)", &value.x, &value.y, &value.z, &value.w) != 4) {
+						if(state.scanf("ivec4(%d)", &value.x) == 1 || state.scanf("%d", &value.x) == 1) value = Vector4i(value.x);
 						else TS_LOGF(Error, "ControlFlowGLSL::ivec4_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(value.x);
@@ -839,7 +864,8 @@ namespace Tellusim {
 					expand_slider(y_slider);
 					expand_slider(z_slider);
 					expand_slider(w_slider);
-				}, nullptr, 0, sliders[0], sliders[1], sliders[2], sliders[3]));
+					changed_func.run();
+				}, nullptr, 0, sliders[0], sliders[1], sliders[2], sliders[3], changed_func));
 			});
 			setProtoInfo(proto, "Vector value");
 		}
@@ -903,45 +929,67 @@ namespace Tellusim {
 			uint32_t proto = addProto("mat2", "Mat2");
 			setProtoColor(proto, tool_color);
 			addProtoOutput(proto, "m2", "", "mat2(1.0, 0.0, 0.0, 1.0)", mat2_type, true);
+			setProtoOutputAttachCallback(proto, 0, text_output_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
+				struct Controls {
+					ControlSlider rotate_slider;
+					ControlSlider scale_sliders[2];
+					ControlCheck uniform_check;
+				};
+				Controls controls;
 				grid.setColumns(3);
 				grid.setSpacing(2.0f, 2.0f);
 				ControlText rotate_text(&grid, "R");
 				rotate_text.setAlign(AlignRight | AlignCenterY);
-				ControlSlider rotate_slider = create_slider_f64(&grid, "", 1, 0.0, -180.0, 180.0, matrix_width);
+				controls.rotate_slider = create_slider_f64(&grid, nullptr, 2, 0.0, -180.0, 180.0, matrix_width);
 				Control spacer(&grid);
 				ControlText scale_text(&grid, "S");
 				scale_text.setAlign(AlignRight | AlignCenterY);
-				ControlSlider scale_x_slider = create_slider_f64(&grid, "X", 2, 1.0, 0.0, 2.0, matrix_width);
-				ControlSlider scale_y_slider = create_slider_f64(&grid, "Y", 2, 1.0, 0.0, 2.0, matrix_width);
-				ControlSlider::ChangedCallback changed_func = makeFunction([this](ControlSlider slider, uint32_t node, ControlSlider rotate_slider, ControlSlider scale_x_slider, ControlSlider scale_y_slider) {
-					Matrix3x2f m = Matrix3x2f::rotate(rotate_slider.getValuef32()) *
-						Matrix3x2f::scale(scale_x_slider.getValuef32(), scale_y_slider.getValuef32());
+				controls.scale_sliders[0] = create_slider_f64(&grid, "X", 3, 1.0, 0.0, 2.0, matrix_width);
+				controls.scale_sliders[1] = create_slider_f64(&grid, "Y", 3, 1.0, 0.0, 2.0, matrix_width);
+				Control check_spacer(&grid);
+				controls.uniform_check = ControlCheck(&grid, "Uniform", true);
+				ControlSlider::ChangedCallback changed_func = makeFunction([this](ControlSlider slider, uint32_t node, Controls controls) {
+					if(controls.uniform_check.isChecked() && (slider == controls.scale_sliders[0] || slider == controls.scale_sliders[1])) {
+						float32_t scale = slider.getValuef32();
+						controls.scale_sliders[0].setValue(scale);
+						controls.scale_sliders[1].setValue(scale);
+					}
+					Matrix3x2f m = Matrix3x2f::rotate(controls.rotate_slider.getValuef32()) *
+						Matrix3x2f::scale(controls.scale_sliders[0].getValuef32(), controls.scale_sliders[1].getValuef32());
 					setOutputValue(node, "m2", String::format("mat2(%g, %g, %g, %g)",
 						m.m00, m.m01, m.m10, m.m11));
-					setNodeState(node, String::format("r %g s %g %g",
-						rotate_slider.getValuef32(),
-						scale_x_slider.getValuef32(), scale_y_slider.getValuef32()),
-						!slider.isChanged(false));
+					setNodeState(node, String::format("r %g s %g %g u %u",
+						controls.rotate_slider.getValuef32(),
+						controls.scale_sliders[0].getValuef32(), controls.scale_sliders[1].getValuef32(),
+						controls.uniform_check.isChecked()),
+						slider ? !slider.isChanged(false) : false);
 					setChanged();
-				}, ControlSlider::null, node, rotate_slider, scale_x_slider, scale_y_slider);
-				rotate_slider.setChangedCallback(changed_func);
-				scale_x_slider.setChangedCallback(changed_func);
-				scale_y_slider.setChangedCallback(changed_func);
-				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlSlider rotate_slider, ControlSlider scale_x_slider, ControlSlider scale_y_slider) {
+				}, ControlSlider::null, node, controls);
+				controls.rotate_slider.setChangedCallback(changed_func);
+				controls.scale_sliders[0].setChangedCallback(changed_func);
+				controls.scale_sliders[1].setChangedCallback(changed_func);
+				controls.uniform_check.setClickedCallback(makeFunction([](ControlCheck check, ControlSlider::ChangedCallback changed_func) {
+					changed_func(ControlSlider::null);
+				}, ControlCheck::null, changed_func));
+				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, Controls controls, ControlSlider::ChangedCallback changed_func) {
 					float32_t rotate = 0.0f;
+					uint32_t uniform = true;
 					Vector2f scale = Vector2f::one;
 					const String &state = getNodeState(node);
-					if(state && state.scanf("r %g s %g %g", &rotate, &scale.x, &scale.y) != 3) {
+					if(state && state.scanf("r %g s %g %g u %u", &rotate, &scale.x, &scale.y, &uniform) != 4 &&
+						state.scanf("r %g s %g %g", &rotate, &scale.x, &scale.y) != 3) {
 						TS_LOGF(Error, "ControlFlowGLSL::mat2_callback(): can't parse \"%s\"\n", state.get());
 					}
-					rotate_slider.setValue(rotate);
-					scale_x_slider.setValue(scale.x);
-					scale_y_slider.setValue(scale.y);
-					expand_slider(rotate_slider);
-					expand_slider(scale_x_slider);
-					expand_slider(scale_y_slider);
-				}, nullptr, 0, rotate_slider, scale_x_slider, scale_y_slider));
+					controls.rotate_slider.setValue(rotate);
+					controls.scale_sliders[0].setValue(scale.x);
+					controls.scale_sliders[1].setValue(scale.y);
+					controls.uniform_check.setChecked(uniform);
+					expand_slider(controls.rotate_slider);
+					expand_slider(controls.scale_sliders[0]);
+					expand_slider(controls.scale_sliders[1]);
+					changed_func.run();
+				}, nullptr, 0, controls, changed_func));
 			});
 			setProtoInfo(proto, "Matrix value");
 		}
@@ -951,58 +999,81 @@ namespace Tellusim {
 			uint32_t proto = addProto("mat32", "Mat32");
 			setProtoColor(proto, tool_color);
 			addProtoOutput(proto, "m32", "", "mat2x3(1.0, 0.0, 0.0, 0.0, 1.0, 0.0)", mat32_type, true);
+			setProtoOutputAttachCallback(proto, 0, text_output_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
+				struct Controls {
+					ControlSlider translate_sliders[2];
+					ControlSlider rotate_slider;
+					ControlSlider scale_sliders[2];
+					ControlCheck uniform_check;
+				};
+				Controls controls;
 				grid.setColumns(3);
 				grid.setSpacing(2.0f, 2.0f);
 				ControlText translate_text(&grid, "T");
 				translate_text.setAlign(AlignRight | AlignCenterY);
-				ControlSlider translate_x_slider = create_slider_f64(&grid, "X", 2, 0.0, -1.0, 1.0, matrix_width);
-				ControlSlider translate_y_slider = create_slider_f64(&grid, "Y", 2, 0.0, -1.0, 1.0, matrix_width);
+				controls.translate_sliders[0] = create_slider_f64(&grid, "X", 3, 0.0, -1.0, 1.0, matrix_width);
+				controls.translate_sliders[1] = create_slider_f64(&grid, "Y", 3, 0.0, -1.0, 1.0, matrix_width);
 				ControlText rotate_text(&grid, "R");
 				rotate_text.setAlign(AlignRight | AlignCenterY);
-				ControlSlider rotate_slider = create_slider_f64(&grid, "", 1, 0.0, -180.0, 180.0, matrix_width);
+				controls.rotate_slider = create_slider_f64(&grid, nullptr, 2, 0.0, -180.0, 180.0, matrix_width);
 				Control spacer(&grid);
 				ControlText scale_text(&grid, "S");
 				scale_text.setAlign(AlignRight | AlignCenterY);
-				ControlSlider scale_x_slider = create_slider_f64(&grid, "X", 2, 1.0, 0.0, 2.0, matrix_width);
-				ControlSlider scale_y_slider = create_slider_f64(&grid, "Y", 2, 1.0, 0.0, 2.0, matrix_width);
-				ControlSlider::ChangedCallback changed_func = makeFunction([this](ControlSlider slider, uint32_t node, ControlSlider translate_x_slider, ControlSlider translate_y_slider, ControlSlider rotate_slider, ControlSlider scale_x_slider, ControlSlider scale_y_slider) {
-					Matrix3x2f m = Matrix3x2f::translate(translate_x_slider.getValuef32(), translate_y_slider.getValuef32()) *
-						Matrix3x2f::rotate(rotate_slider.getValuef32()) *
-						Matrix3x2f::scale(scale_x_slider.getValuef32(), scale_y_slider.getValuef32());
+				controls.scale_sliders[0] = create_slider_f64(&grid, "X", 3, 1.0, 0.0, 2.0, matrix_width);
+				controls.scale_sliders[1] = create_slider_f64(&grid, "Y", 3, 1.0, 0.0, 2.0, matrix_width);
+				Control check_spacer(&grid);
+				controls.uniform_check = ControlCheck(&grid, "Uniform", true);
+				ControlSlider::ChangedCallback changed_func = makeFunction([this](ControlSlider slider, uint32_t node, Controls controls) {
+					if(controls.uniform_check.isChecked() && (slider == controls.scale_sliders[0] || slider == controls.scale_sliders[1])) {
+						float32_t scale = slider.getValuef32();
+						controls.scale_sliders[0].setValue(scale);
+						controls.scale_sliders[1].setValue(scale);
+					}
+					Matrix3x2f m = Matrix3x2f::translate(controls.translate_sliders[0].getValuef32(), controls.translate_sliders[1].getValuef32()) *
+						Matrix3x2f::rotate(controls.rotate_slider.getValuef32()) *
+						Matrix3x2f::scale(controls.scale_sliders[0].getValuef32(), controls.scale_sliders[1].getValuef32());
 					setOutputValue(node, "m32", String::format("mat2x3(%g, %g, %g, %g, %g, %g)",
 						m.m00, m.m01, m.m02, m.m10, m.m11, m.m12));
-					setNodeState(node, String::format("t %g %g r %g s %g %g",
-						translate_x_slider.getValuef32(), translate_y_slider.getValuef32(),
-						rotate_slider.getValuef32(),
-						scale_x_slider.getValuef32(), scale_y_slider.getValuef32()),
-						!slider.isChanged(false));
+					setNodeState(node, String::format("t %g %g r %g s %g %g u %u",
+						controls.translate_sliders[0].getValuef32(), controls.translate_sliders[1].getValuef32(),
+						controls.rotate_slider.getValuef32(),
+						controls.scale_sliders[0].getValuef32(), controls.scale_sliders[1].getValuef32(),
+						controls.uniform_check.isChecked()),
+						slider ? !slider.isChanged(false) : false);
 					setChanged();
-				}, ControlSlider::null, node, translate_x_slider, translate_y_slider, rotate_slider, scale_x_slider, scale_y_slider);
-				translate_x_slider.setChangedCallback(changed_func);
-				translate_y_slider.setChangedCallback(changed_func);
-				rotate_slider.setChangedCallback(changed_func);
-				scale_x_slider.setChangedCallback(changed_func);
-				scale_y_slider.setChangedCallback(changed_func);
-				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlSlider translate_x_slider, ControlSlider translate_y_slider, ControlSlider rotate_slider, ControlSlider scale_x_slider, ControlSlider scale_y_slider) {
+				}, ControlSlider::null, node, controls);
+				controls.translate_sliders[0].setChangedCallback(changed_func);
+				controls.translate_sliders[1].setChangedCallback(changed_func);
+				controls.rotate_slider.setChangedCallback(changed_func);
+				controls.scale_sliders[0].setChangedCallback(changed_func);
+				controls.scale_sliders[1].setChangedCallback(changed_func);
+				controls.uniform_check.setClickedCallback(makeFunction([](ControlCheck check, ControlSlider::ChangedCallback changed_func) {
+					changed_func(ControlSlider::null);
+				}, ControlCheck::null, changed_func));
+				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, Controls controls, ControlSlider::ChangedCallback changed_func) {
 					float32_t rotate = 0.0f;
 					Vector2f scale = Vector2f::one;
 					Vector2f translate = Vector2f::zero;
+					uint32_t uniform = true;
 					const String &state = getNodeState(node);
-					if(state && state.scanf("t %g %g r %g s %g %g", &translate.x, &translate.y, &rotate, &scale.x, &scale.y) != 5) {
+					if(state && state.scanf("t %g %g r %g s %g %g u %u", &translate.x, &translate.y, &rotate, &scale.x, &scale.y, &uniform) != 6 &&
+						state.scanf("t %g %g r %g s %g %g", &translate.x, &translate.y, &rotate, &scale.x, &scale.y) != 5) {
 						TS_LOGF(Error, "ControlFlowGLSL::mat32_callback(): can't parse \"%s\"\n", state.get());
 					}
-					rotate_slider.setValue(rotate);
-					scale_x_slider.setValue(scale.x);
-					scale_y_slider.setValue(scale.y);
-					translate_x_slider.setValue(translate.x);
-					translate_y_slider.setValue(translate.y);
-					expand_slider(translate_x_slider);
-					expand_slider(translate_y_slider);
-					expand_slider(rotate_slider);
-					expand_slider(scale_x_slider);
-					expand_slider(scale_y_slider);
-				}, nullptr, 0, translate_x_slider, translate_y_slider, rotate_slider, scale_x_slider, scale_y_slider));
+					controls.rotate_slider.setValue(rotate);
+					controls.scale_sliders[0].setValue(scale.x);
+					controls.scale_sliders[1].setValue(scale.y);
+					controls.translate_sliders[0].setValue(translate.x);
+					controls.translate_sliders[1].setValue(translate.y);
+					controls.uniform_check.setChecked(uniform);
+					expand_slider(controls.translate_sliders[0]);
+					expand_slider(controls.translate_sliders[1]);
+					expand_slider(controls.rotate_slider);
+					expand_slider(controls.scale_sliders[0]);
+					expand_slider(controls.scale_sliders[1]);
+					changed_func.run();
+				}, nullptr, 0, controls, changed_func));
 			});
 			setProtoInfo(proto, "Matrix value");
 		}
@@ -1012,57 +1083,80 @@ namespace Tellusim {
 			uint32_t proto = addProto("mat3", "Mat3");
 			setProtoColor(proto, tool_color);
 			addProtoOutput(proto, "m3", "", "mat3(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0)", mat3_type, true);
+			setProtoOutputAttachCallback(proto, 0, text_output_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
+				struct Controls {
+					ControlSlider rotate_sliders[3];
+					ControlSlider scale_sliders[3];
+					ControlCheck uniform_check;
+				};
+				Controls controls;
 				grid.setColumns(4);
 				grid.setSpacing(2.0f, 2.0f);
 				ControlText rotate_text(&grid, "R");
 				rotate_text.setAlign(AlignRight | AlignCenterY);
-				ControlSlider rotate_x_slider = create_slider_f64(&grid, "X", 1, 0.0, -180.0, 180.0, matrix_width);
-				ControlSlider rotate_y_slider = create_slider_f64(&grid, "Y", 1, 0.0, -180.0, 180.0, matrix_width);
-				ControlSlider rotate_z_slider = create_slider_f64(&grid, "Z", 1, 0.0, -180.0, 180.0, matrix_width);
+				controls.rotate_sliders[0] = create_slider_f64(&grid, "X", 2, 0.0, -180.0, 180.0, matrix_width);
+				controls.rotate_sliders[1] = create_slider_f64(&grid, "Y", 2, 0.0, -180.0, 180.0, matrix_width);
+				controls.rotate_sliders[2] = create_slider_f64(&grid, "Z", 2, 0.0, -180.0, 180.0, matrix_width);
 				ControlText scale_text(&grid, "S");
 				scale_text.setAlign(AlignRight | AlignCenterY);
-				ControlSlider scale_x_slider = create_slider_f64(&grid, "X", 2, 1.0, 0.0, 2.0, matrix_width);
-				ControlSlider scale_y_slider = create_slider_f64(&grid, "Y", 2, 1.0, 0.0, 2.0, matrix_width);
-				ControlSlider scale_z_slider = create_slider_f64(&grid, "Z", 2, 1.0, 0.0, 2.0, matrix_width);
-				ControlSlider::ChangedCallback changed_func = makeFunction([this](ControlSlider slider, uint32_t node, ControlSlider rotate_x_slider, ControlSlider rotate_y_slider, ControlSlider rotate_z_slider, ControlSlider scale_x_slider, ControlSlider scale_y_slider, ControlSlider scale_z_slider) {
+				controls.scale_sliders[0] = create_slider_f64(&grid, "X", 3, 1.0, 0.0, 2.0, matrix_width);
+				controls.scale_sliders[1] = create_slider_f64(&grid, "Y", 3, 1.0, 0.0, 2.0, matrix_width);
+				controls.scale_sliders[2] = create_slider_f64(&grid, "Z", 3, 1.0, 0.0, 2.0, matrix_width);
+				Control check_spacer(&grid);
+				controls.uniform_check = ControlCheck(&grid, "Uniform", true);
+				ControlSlider::ChangedCallback changed_func = makeFunction([this](ControlSlider slider, uint32_t node, Controls controls) {
+					if(controls.uniform_check.isChecked() && (slider == controls.scale_sliders[0] || slider == controls.scale_sliders[1] || slider == controls.scale_sliders[2])) {
+						float32_t scale = slider.getValuef32();
+						controls.scale_sliders[0].setValue(scale);
+						controls.scale_sliders[1].setValue(scale);
+						controls.scale_sliders[2].setValue(scale);
+					}
 					Matrix4x3f m = Matrix4x3f::compose(Vector3f::zero,
-						Quaternionf::rotateZYX(rotate_x_slider.getValuef32(), rotate_y_slider.getValuef32(), rotate_z_slider.getValuef32()),
-						Vector3f(scale_x_slider.getValuef32(), scale_y_slider.getValuef32(), scale_z_slider.getValuef32()));
+						Quaternionf::rotateZYX(controls.rotate_sliders[0].getValuef32(), controls.rotate_sliders[1].getValuef32(), controls.rotate_sliders[2].getValuef32()),
+						Vector3f(controls.scale_sliders[0].getValuef32(), controls.scale_sliders[1].getValuef32(), controls.scale_sliders[2].getValuef32()));
 					setOutputValue(node, "m3", String::format("mat3(%g, %g, %g, %g, %g, %g, %g, %g, %g)",
 						m.m00, m.m01, m.m02, m.m10, m.m11, m.m12, m.m20, m.m21, m.m22));
-					setNodeState(node, String::format("r %g %g %g s %g %g %g",
-						rotate_x_slider.getValuef32(), rotate_y_slider.getValuef32(), rotate_z_slider.getValuef32(),
-						scale_x_slider.getValuef32(), scale_y_slider.getValuef32(), scale_z_slider.getValuef32()),
-						!slider.isChanged(false));
+					setNodeState(node, String::format("r %g %g %g s %g %g %g u %u",
+						controls.rotate_sliders[0].getValuef32(), controls.rotate_sliders[1].getValuef32(), controls.rotate_sliders[2].getValuef32(),
+						controls.scale_sliders[0].getValuef32(), controls.scale_sliders[1].getValuef32(), controls.scale_sliders[2].getValuef32(),
+						controls.uniform_check.isChecked()),
+						slider ? !slider.isChanged(false) : false);
 					setChanged();
-				}, ControlSlider::null, node, rotate_x_slider, rotate_y_slider, rotate_z_slider, scale_x_slider, scale_y_slider, scale_z_slider);
-				rotate_x_slider.setChangedCallback(changed_func);
-				rotate_y_slider.setChangedCallback(changed_func);
-				rotate_z_slider.setChangedCallback(changed_func);
-				scale_x_slider.setChangedCallback(changed_func);
-				scale_y_slider.setChangedCallback(changed_func);
-				scale_z_slider.setChangedCallback(changed_func);
-				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlSlider rotate_x_slider, ControlSlider rotate_y_slider, ControlSlider rotate_z_slider, ControlSlider scale_x_slider, ControlSlider scale_y_slider, ControlSlider scale_z_slider) {
+				}, ControlSlider::null, node, controls);
+				controls.rotate_sliders[0].setChangedCallback(changed_func);
+				controls.rotate_sliders[1].setChangedCallback(changed_func);
+				controls.rotate_sliders[2].setChangedCallback(changed_func);
+				controls.scale_sliders[0].setChangedCallback(changed_func);
+				controls.scale_sliders[1].setChangedCallback(changed_func);
+				controls.scale_sliders[2].setChangedCallback(changed_func);
+				controls.uniform_check.setClickedCallback(makeFunction([](ControlCheck check, ControlSlider::ChangedCallback changed_func) {
+					changed_func(ControlSlider::null);
+				}, ControlCheck::null, changed_func));
+				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, Controls controls, ControlSlider::ChangedCallback changed_func) {
 					Vector3f rotate = Vector3f::zero;
 					Vector3f scale = Vector3f::one;
+					uint32_t uniform = true;
 					const String &state = getNodeState(node);
-					if(state && state.scanf("r %g %g %g s %g %g %g", &rotate.x, &rotate.y, &rotate.z, &scale.x, &scale.y, &scale.z) != 6) {
+					if(state && state.scanf("r %g %g %g s %g %g %g u %u", &rotate.x, &rotate.y, &rotate.z, &scale.x, &scale.y, &scale.z, &uniform) != 7 &&
+						state.scanf("r %g %g %g s %g %g %g", &rotate.x, &rotate.y, &rotate.z, &scale.x, &scale.y, &scale.z) != 6) {
 						TS_LOGF(Error, "ControlFlowGLSL::mat3_callback(): can't parse \"%s\"\n", state.get());
 					}
-					rotate_x_slider.setValue(rotate.x);
-					rotate_y_slider.setValue(rotate.y);
-					rotate_z_slider.setValue(rotate.z);
-					scale_x_slider.setValue(scale.x);
-					scale_y_slider.setValue(scale.y);
-					scale_z_slider.setValue(scale.z);
-					expand_slider(rotate_x_slider);
-					expand_slider(rotate_y_slider);
-					expand_slider(rotate_z_slider);
-					expand_slider(scale_x_slider);
-					expand_slider(scale_y_slider);
-					expand_slider(scale_z_slider);
-				}, nullptr, node, rotate_x_slider, rotate_y_slider, rotate_z_slider, scale_x_slider, scale_y_slider, scale_z_slider));
+					controls.rotate_sliders[0].setValue(rotate.x);
+					controls.rotate_sliders[1].setValue(rotate.y);
+					controls.rotate_sliders[2].setValue(rotate.z);
+					controls.scale_sliders[0].setValue(scale.x);
+					controls.scale_sliders[1].setValue(scale.y);
+					controls.scale_sliders[2].setValue(scale.z);
+					controls.uniform_check.setChecked(uniform);
+					expand_slider(controls.rotate_sliders[0]);
+					expand_slider(controls.rotate_sliders[1]);
+					expand_slider(controls.rotate_sliders[2]);
+					expand_slider(controls.scale_sliders[0]);
+					expand_slider(controls.scale_sliders[1]);
+					expand_slider(controls.scale_sliders[2]);
+					changed_func.run();
+				}, nullptr, node, controls, changed_func));
 			});
 			setProtoInfo(proto, "Matrix value");
 		}
@@ -1073,31 +1167,42 @@ namespace Tellusim {
 			setProtoColor(proto, tool_color);
 			addProtoOutput(proto, "m3", "", "mat3(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0)", mat3_type, true);
 			addProtoOutput(proto, "m4", "", "mat4(1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0)", mat4_type, true);
+			setProtoOutputAttachCallback(proto, 0, text_output_callback);
+			setProtoOutputAttachCallback(proto, 1, text_output_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				struct Controls {
 					ControlSlider translate_sliders[3];
 					ControlSlider rotate_sliders[3];
 					ControlSlider scale_sliders[3];
+					ControlCheck uniform_check;
 				};
 				Controls controls;
 				grid.setColumns(4);
 				grid.setSpacing(2.0f, 2.0f);
 				ControlText translate_text(&grid, "T");
 				translate_text.setAlign(AlignRight | AlignCenterY);
-				controls.translate_sliders[0] = create_slider_f64(&grid, "X", 2, 0.0, -1.0, 1.0, matrix_width);
-				controls.translate_sliders[1] = create_slider_f64(&grid, "Y", 2, 0.0, -1.0, 1.0, matrix_width);
-				controls.translate_sliders[2] = create_slider_f64(&grid, "Z", 2, 0.0, -1.0, 1.0, matrix_width);
+				controls.translate_sliders[0] = create_slider_f64(&grid, "X", 3, 0.0, -1.0, 1.0, matrix_width);
+				controls.translate_sliders[1] = create_slider_f64(&grid, "Y", 3, 0.0, -1.0, 1.0, matrix_width);
+				controls.translate_sliders[2] = create_slider_f64(&grid, "Z", 3, 0.0, -1.0, 1.0, matrix_width);
 				ControlText rotate_text(&grid, "R");
 				rotate_text.setAlign(AlignRight | AlignCenterY);
-				controls.rotate_sliders[0] = create_slider_f64(&grid, "X", 1, 0.0, -180.0, 180.0, matrix_width);
-				controls.rotate_sliders[1] = create_slider_f64(&grid, "Y", 1, 0.0, -180.0, 180.0, matrix_width);
-				controls.rotate_sliders[2] = create_slider_f64(&grid, "Z", 1, 0.0, -180.0, 180.0, matrix_width);
+				controls.rotate_sliders[0] = create_slider_f64(&grid, "X", 2, 0.0, -180.0, 180.0, matrix_width);
+				controls.rotate_sliders[1] = create_slider_f64(&grid, "Y", 2, 0.0, -180.0, 180.0, matrix_width);
+				controls.rotate_sliders[2] = create_slider_f64(&grid, "Z", 2, 0.0, -180.0, 180.0, matrix_width);
 				ControlText scale_text(&grid, "S");
 				scale_text.setAlign(AlignRight | AlignCenterY);
-				controls.scale_sliders[0] = create_slider_f64(&grid, "X", 2, 1.0, 0.0, 2.0, matrix_width);
-				controls.scale_sliders[1] = create_slider_f64(&grid, "Y", 2, 1.0, 0.0, 2.0, matrix_width);
-				controls.scale_sliders[2] = create_slider_f64(&grid, "Z", 2, 1.0, 0.0, 2.0, matrix_width);
+				controls.scale_sliders[0] = create_slider_f64(&grid, "X", 3, 1.0, 0.0, 2.0, matrix_width);
+				controls.scale_sliders[1] = create_slider_f64(&grid, "Y", 3, 1.0, 0.0, 2.0, matrix_width);
+				controls.scale_sliders[2] = create_slider_f64(&grid, "Z", 3, 1.0, 0.0, 2.0, matrix_width);
+				Control check_spacer(&grid);
+				controls.uniform_check = ControlCheck(&grid, "Uniform", true);
 				ControlSlider::ChangedCallback changed_func = makeFunction([this](ControlSlider slider, uint32_t node, Controls controls) {
+					if(controls.uniform_check.isChecked() && (slider == controls.scale_sliders[0] || slider == controls.scale_sliders[1] || slider == controls.scale_sliders[2])) {
+						float32_t scale = slider.getValuef32();
+						controls.scale_sliders[0].setValue(scale);
+						controls.scale_sliders[1].setValue(scale);
+						controls.scale_sliders[2].setValue(scale);
+					}
 					Matrix4x4f m = Matrix4x4f::compose(Vector3f(controls.translate_sliders[0].getValuef32(), controls.translate_sliders[1].getValuef32(), controls.translate_sliders[2].getValuef32()),
 						Quaternionf::rotateZYX(controls.rotate_sliders[0].getValuef32(), controls.rotate_sliders[1].getValuef32(), controls.rotate_sliders[2].getValuef32()),
 						Vector3f(controls.scale_sliders[0].getValuef32(), controls.scale_sliders[1].getValuef32(), controls.scale_sliders[2].getValuef32()));
@@ -1105,10 +1210,11 @@ namespace Tellusim {
 						m.m00, m.m01, m.m02, m.m10, m.m11, m.m12, m.m20, m.m21, m.m22));
 					setOutputValue(node, "m4", String::format("mat4(%g, %g, %g, %g, %g, %g, %g, %g, %g, %g, %g, %g, %g, %g, %g, %g)",
 						m.m00, m.m01, m.m02, m.m03, m.m10, m.m11, m.m12, m.m13, m.m20, m.m21, m.m22, m.m23, m.m30, m.m31, m.m32, m.m33));
-					setNodeState(node, String::format("t %g %g %g r %g %g %g s %g %g %g",
+					setNodeState(node, String::format("t %g %g %g r %g %g %g s %g %g %g u %u",
 						controls.translate_sliders[0].getValuef32(), controls.translate_sliders[1].getValuef32(), controls.translate_sliders[2].getValuef32(),
 						controls.rotate_sliders[0].getValuef32(), controls.rotate_sliders[1].getValuef32(), controls.rotate_sliders[2].getValuef32(),
-						controls.scale_sliders[0].getValuef32(), controls.scale_sliders[1].getValuef32(), controls.scale_sliders[2].getValuef32()),
+						controls.scale_sliders[0].getValuef32(), controls.scale_sliders[1].getValuef32(), controls.scale_sliders[2].getValuef32(),
+						controls.uniform_check.isChecked()),
 						slider ? !slider.isChanged(false) : false);
 					setChanged();
 				}, ControlSlider::null, node, controls);
@@ -1121,12 +1227,17 @@ namespace Tellusim {
 				controls.scale_sliders[0].setChangedCallback(changed_func);
 				controls.scale_sliders[1].setChangedCallback(changed_func);
 				controls.scale_sliders[2].setChangedCallback(changed_func);
+				controls.uniform_check.setClickedCallback(makeFunction([](ControlCheck check, ControlSlider::ChangedCallback changed_func) {
+					changed_func(ControlSlider::null);
+				}, ControlCheck::null, changed_func));
 				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, Controls controls, ControlSlider::ChangedCallback changed_func) {
 					Vector3f translate = Vector3f::zero;
 					Vector3f rotate = Vector3f::zero;
 					Vector3f scale = Vector3f::one;
+					uint32_t uniform = true;
 					const String &state = getNodeState(node);
-					if(state && state.scanf("t %g %g %g r %g %g %g s %g %g %g", &translate.x, &translate.y, &translate.z, &rotate.x, &rotate.y, &rotate.z, &scale.x, &scale.y, &scale.z) != 9) {
+					if(state && state.scanf("t %g %g %g r %g %g %g s %g %g %g u %u", &translate.x, &translate.y, &translate.z, &rotate.x, &rotate.y, &rotate.z, &scale.x, &scale.y, &scale.z, &uniform) != 10 &&
+						state.scanf("t %g %g %g r %g %g %g s %g %g %g", &translate.x, &translate.y, &translate.z, &rotate.x, &rotate.y, &rotate.z, &scale.x, &scale.y, &scale.z) != 9) {
 						TS_LOGF(Error, "ControlFlowGLSL::mat4_callback(): can't parse \"%s\"\n", state.get());
 					}
 					controls.translate_sliders[0].setValue(translate.x);
@@ -1138,6 +1249,7 @@ namespace Tellusim {
 					controls.scale_sliders[0].setValue(scale.x);
 					controls.scale_sliders[1].setValue(scale.y);
 					controls.scale_sliders[2].setValue(scale.z);
+					controls.uniform_check.setChecked(uniform);
 					expand_slider(controls.translate_sliders[0]);
 					expand_slider(controls.translate_sliders[1]);
 					expand_slider(controls.translate_sliders[2]);
@@ -1159,31 +1271,42 @@ namespace Tellusim {
 			setProtoColor(proto, tool_color);
 			addProtoOutput(proto, "m3", "", "mat3(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0)", mat3_type, true);
 			addProtoOutput(proto, "m43", "", "mat3x4(1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)", mat43_type, true);
+			setProtoOutputAttachCallback(proto, 0, text_output_callback);
+			setProtoOutputAttachCallback(proto, 1, text_output_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				struct Controls {
 					ControlSlider translate_sliders[3];
 					ControlSlider rotate_sliders[3];
 					ControlSlider scale_sliders[3];
+					ControlCheck uniform_check;
 				};
 				Controls controls;
 				grid.setColumns(4);
 				grid.setSpacing(2.0f, 2.0f);
 				ControlText translate_text(&grid, "T");
 				translate_text.setAlign(AlignRight | AlignCenterY);
-				controls.translate_sliders[0] = create_slider_f64(&grid, "X", 2, 0.0, -1.0, 1.0, matrix_width);
-				controls.translate_sliders[1] = create_slider_f64(&grid, "Y", 2, 0.0, -1.0, 1.0, matrix_width);
-				controls.translate_sliders[2] = create_slider_f64(&grid, "Z", 2, 0.0, -1.0, 1.0, matrix_width);
+				controls.translate_sliders[0] = create_slider_f64(&grid, "X", 3, 0.0, -1.0, 1.0, matrix_width);
+				controls.translate_sliders[1] = create_slider_f64(&grid, "Y", 3, 0.0, -1.0, 1.0, matrix_width);
+				controls.translate_sliders[2] = create_slider_f64(&grid, "Z", 3, 0.0, -1.0, 1.0, matrix_width);
 				ControlText rotate_text(&grid, "R");
 				rotate_text.setAlign(AlignRight | AlignCenterY);
-				controls.rotate_sliders[0] = create_slider_f64(&grid, "X", 1, 0.0, -180.0, 180.0, matrix_width);
-				controls.rotate_sliders[1] = create_slider_f64(&grid, "Y", 1, 0.0, -180.0, 180.0, matrix_width);
-				controls.rotate_sliders[2] = create_slider_f64(&grid, "Z", 1, 0.0, -180.0, 180.0, matrix_width);
+				controls.rotate_sliders[0] = create_slider_f64(&grid, "X", 2, 0.0, -180.0, 180.0, matrix_width);
+				controls.rotate_sliders[1] = create_slider_f64(&grid, "Y", 2, 0.0, -180.0, 180.0, matrix_width);
+				controls.rotate_sliders[2] = create_slider_f64(&grid, "Z", 2, 0.0, -180.0, 180.0, matrix_width);
 				ControlText scale_text(&grid, "S");
 				scale_text.setAlign(AlignRight | AlignCenterY);
-				controls.scale_sliders[0] = create_slider_f64(&grid, "X", 2, 1.0, 0.0, 2.0, matrix_width);
-				controls.scale_sliders[1] = create_slider_f64(&grid, "Y", 2, 1.0, 0.0, 2.0, matrix_width);
-				controls.scale_sliders[2] = create_slider_f64(&grid, "Z", 2, 1.0, 0.0, 2.0, matrix_width);
+				controls.scale_sliders[0] = create_slider_f64(&grid, "X", 3, 1.0, 0.0, 2.0, matrix_width);
+				controls.scale_sliders[1] = create_slider_f64(&grid, "Y", 3, 1.0, 0.0, 2.0, matrix_width);
+				controls.scale_sliders[2] = create_slider_f64(&grid, "Z", 3, 1.0, 0.0, 2.0, matrix_width);
+				Control check_spacer(&grid);
+				controls.uniform_check = ControlCheck(&grid, "Uniform", true);
 				ControlSlider::ChangedCallback changed_func = makeFunction([this](ControlSlider slider, uint32_t node, Controls controls) {
+					if(controls.uniform_check.isChecked() && (slider == controls.scale_sliders[0] || slider == controls.scale_sliders[1] || slider == controls.scale_sliders[2])) {
+						float32_t scale = slider.getValuef32();
+						controls.scale_sliders[0].setValue(scale);
+						controls.scale_sliders[1].setValue(scale);
+						controls.scale_sliders[2].setValue(scale);
+					}
 					Matrix4x3f m = Matrix4x3f::compose(Vector3f(controls.translate_sliders[0].getValuef32(), controls.translate_sliders[1].getValuef32(), controls.translate_sliders[2].getValuef32()),
 						Quaternionf::rotateZYX(controls.rotate_sliders[0].getValuef32(), controls.rotate_sliders[1].getValuef32(), controls.rotate_sliders[2].getValuef32()),
 						Vector3f(controls.scale_sliders[0].getValuef32(), controls.scale_sliders[1].getValuef32(), controls.scale_sliders[2].getValuef32()));
@@ -1191,10 +1314,11 @@ namespace Tellusim {
 						m.m00, m.m01, m.m02, m.m10, m.m11, m.m12, m.m20, m.m21, m.m22));
 					setOutputValue(node, "m43", String::format("mat3x4(%g, %g, %g, %g, %g, %g, %g, %g, %g, %g, %g, %g)",
 						m.m00, m.m01, m.m02, m.m03, m.m10, m.m11, m.m12, m.m13, m.m20, m.m21, m.m22, m.m23));
-					setNodeState(node, String::format("t %g %g %g r %g %g %g s %g %g %g",
+					setNodeState(node, String::format("t %g %g %g r %g %g %g s %g %g %g u %u",
 						controls.translate_sliders[0].getValuef32(), controls.translate_sliders[1].getValuef32(), controls.translate_sliders[2].getValuef32(),
 						controls.rotate_sliders[0].getValuef32(), controls.rotate_sliders[1].getValuef32(), controls.rotate_sliders[2].getValuef32(),
-						controls.scale_sliders[0].getValuef32(), controls.scale_sliders[1].getValuef32(), controls.scale_sliders[2].getValuef32()),
+						controls.scale_sliders[0].getValuef32(), controls.scale_sliders[1].getValuef32(), controls.scale_sliders[2].getValuef32(),
+						controls.uniform_check.isChecked()),
 						slider ? !slider.isChanged(false) : false);
 					setChanged();
 				}, ControlSlider::null, node, controls);
@@ -1207,12 +1331,17 @@ namespace Tellusim {
 				controls.scale_sliders[0].setChangedCallback(changed_func);
 				controls.scale_sliders[1].setChangedCallback(changed_func);
 				controls.scale_sliders[2].setChangedCallback(changed_func);
+				controls.uniform_check.setClickedCallback(makeFunction([](ControlCheck check, ControlSlider::ChangedCallback changed_func) {
+					changed_func(ControlSlider::null);
+				}, ControlCheck::null, changed_func));
 				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, Controls controls, ControlSlider::ChangedCallback changed_func) {
 					Vector3f translate = Vector3f::zero;
 					Vector3f rotate = Vector3f::zero;
 					Vector3f scale = Vector3f::one;
+					uint32_t uniform = true;
 					const String &state = getNodeState(node);
-					if(state && state.scanf("t %g %g %g r %g %g %g s %g %g %g", &translate.x, &translate.y, &translate.z, &rotate.x, &rotate.y, &rotate.z, &scale.x, &scale.y, &scale.z) != 9) {
+					if(state && state.scanf("t %g %g %g r %g %g %g s %g %g %g u %u", &translate.x, &translate.y, &translate.z, &rotate.x, &rotate.y, &rotate.z, &scale.x, &scale.y, &scale.z, &uniform) != 10 &&
+						state.scanf("t %g %g %g r %g %g %g s %g %g %g", &translate.x, &translate.y, &translate.z, &rotate.x, &rotate.y, &rotate.z, &scale.x, &scale.y, &scale.z) != 9) {
 						TS_LOGF(Error, "ControlFlowGLSL::mat43_callback(): can't parse \"%s\"\n", state.get());
 					}
 					controls.translate_sliders[0].setValue(translate.x);
@@ -1224,6 +1353,7 @@ namespace Tellusim {
 					controls.scale_sliders[0].setValue(scale.x);
 					controls.scale_sliders[1].setValue(scale.y);
 					controls.scale_sliders[2].setValue(scale.z);
+					controls.uniform_check.setChecked(uniform);
 					expand_slider(controls.translate_sliders[0]);
 					expand_slider(controls.translate_sliders[1]);
 					expand_slider(controls.translate_sliders[2]);
@@ -1676,10 +1806,10 @@ namespace Tellusim {
 			setProtoInputAttachCallback(proto, 0, any_input_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				ControlSlider from_min_slider = create_slider_f64(&grid, "From", 3, 0.0);
-				ControlSlider from_max_slider = create_slider_f64(&grid, "", 3, 1.0);
+				ControlSlider from_max_slider = create_slider_f64(&grid, nullptr, 3, 1.0);
 				ControlSlider power_slider = create_slider_f64(&grid, "Power", 3, 1.0, 0.0, 2.0);
 				ControlSlider to_min_slider = create_slider_f64(&grid, "To", 3, 0.0);
-				ControlSlider to_max_slider = create_slider_f64(&grid, "", 3, 1.0);
+				ControlSlider to_max_slider = create_slider_f64(&grid, nullptr, 3, 1.0);
 				static const char *values[][6] = { {
 					"(($a) - {0}f) * {6}f + {2}f",
 					"fract((($a) - {0}f) * {4}f) * {5}f + {2}f",
@@ -1810,8 +1940,12 @@ namespace Tellusim {
 			setProtoColor(proto, tool_color);
 			addProtoOutput(proto, "v4", "", "vec4(1.0)", vec4_type, true);
 			addProtoOutput(proto, "v3", "", "vec3(1.0)", vec3_type, true);
+			setProtoOutputAttachCallback(proto, 0, text_output_callback);
+			setProtoOutputAttachCallback(proto, 1, text_output_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				ControlRect rect(&grid, CanvasElement::ModeSolid);
+				grid.setAlign(AlignExpand);
+				rect.setAlign(AlignExpand);
 				rect.setSize(32.0f, 32.0f);
 				auto set_color = [this](uint32_t node, const Color &color) {
 					String r = String::fromf64(color.r, 4, true, true);
@@ -1823,7 +1957,7 @@ namespace Tellusim {
 				};
 				rect.setClickedCallback(makeFunction([this, set_color](ControlRect rect, uint32_t node) {
 					rect.setDisabled(true);
-					if(color_func) color_func(node, rect.getColor(), makeFunction([this, set_color](Color color, bool is_changed, ControlRect rect, uint32_t node) {
+					if(color_create_func) color_create_func(node, rect.getColor(), makeFunction([this, set_color](Color color, bool is_changed, ControlRect rect, uint32_t node) {
 						setNodeState(node, String::format("%g %g %g %g", color.r, color.g, color.b, color.a), !is_changed);
 						set_color(node, color);
 						rect.setColor(color);
@@ -2872,9 +3006,10 @@ namespace Tellusim {
 		// create edit
 		ControlEdit edit(root);
 		edit.setAlign(AlignExpandX);
+		edit.setMargin(0.0f, 1.0f);
 		edit.setSize(width, 0.0f);
 		edit.setEnabled(false);
-		edit.setEditMode(ControlEdit::EditModeSigned);
+		edit.setFrame(false);
 		
 		// slider double-clicked callback
 		// normalize slider range around the current value
@@ -2907,7 +3042,12 @@ namespace Tellusim {
 			edit.setEnabled(false);
 			slider.setEnabled(true);
 			if(edit.getText()) {
-				int32_t value = edit.getText().toi32();
+				int64_t value = 0;
+				try {
+					value = Expression::getScalari64(edit.getText().get());
+				} catch(...) {
+					value = edit.getText().toi64();
+				}
 				slider.setValue((float64_t)value, true);
 				expand_slider(slider);
 				if(slider.isChanged()) setChanged();
@@ -2928,8 +3068,10 @@ namespace Tellusim {
 		// create edit
 		ControlEdit edit(root);
 		edit.setAlign(AlignExpandX);
+		edit.setMargin(0.0f, 1.0f);
 		edit.setSize(width, 0.0f);
 		edit.setEnabled(false);
+		edit.setFrame(false);
 		
 		// slider double-clicked callback
 		// normalize slider range around the current value
@@ -2962,7 +3104,12 @@ namespace Tellusim {
 			edit.setEnabled(false);
 			slider.setEnabled(true);
 			if(edit.getText()) {
-				float64_t value = edit.getText().tof64();
+				float64_t value = 0.0;
+				try {
+					value = Expression::getScalarf64(edit.getText().get());
+				} catch(...) {
+					value = edit.getText().tof64();
+				}
 				slider.setValue(value, true);
 				expand_slider(slider);
 				if(slider.isChanged()) setChanged();
@@ -2978,7 +3125,7 @@ namespace Tellusim {
 	
 	/*
 	 */
-	template <class Value, uint32_t Size> ControlCombo ControlFlowGLSL::create_combo(Control *root, const char * const (&items)[Size], Value (&)[Size]) {
+	template <class VType, uint32_t Size> ControlCombo ControlFlowGLSL::create_combo(Control *root, const char * const (&items)[Size], VType (&values)[Size]) {
 		ControlCombo combo(root);
 		for(uint32_t i = 0; i < Size; i++) {
 			combo.addItem(items[i]);
@@ -3079,6 +3226,67 @@ namespace Tellusim {
 	
 	/*
 	 */
+	bool ControlFlowGLSL::text_output_callback(ControlFlow *flow, uint32_t node, uint32_t output, uint32_t input_node, uint32_t input_index) {
+		
+		ControlText &title_text = flow->getNodeText(node);
+		
+		// node input type
+		for(uint32_t i = 0; i < flow->getNumOutputs(node); i++) {
+			for(uint32_t j = 0; j < flow->getNumOutputConnections(node, i); j++) {
+				uint32_t input_node = flow->getOutputConnectionNode(node, i, j);
+				uint32_t input_index = flow->getOutputConnectionInput(node, i, j);
+				uint32_t proto_index = flow->getNodeProto(input_node);
+				String text = flow->getProtoInputText(proto_index, input_index);
+				if(text) {
+					if(text.size() < 2) text = flow->getProtoText(proto_index) + " " + text;
+					title_text.setText(text);
+					return true;
+				}
+			}
+		}
+		
+		// default text
+		title_text.setText(flow->getProtoText(flow->getNodeProto(node)));
+		
+		return true;
+	}
+	
+	/*
+	 */
+	uint32_t ControlFlowGLSL::get_output_proto(uint32_t input_node, uint32_t input_index, uint32_t &output_index) const {
+		uint32_t type = getInputType(input_node, input_index);
+		const String &name = getInputName(input_node, input_index);
+		if(type == any_type && getNumOutputs(input_node) == 1) {
+			if(getProtoOutputType(getNodeProto(input_node), 0u) == any_type && getOutputType(input_node, 0u) != any_type) {
+				type = getOutputType(input_node, 0u);
+			}
+		}
+		if(is_int_type(type) || is_float_type(type) || is_matrix_type(type)) {
+			if(type == int_type) return findProto("int");
+			if(type == float_type) return findProto("float");
+			if(type == vec2_type) return findProto("vec2");
+			if(type == vec3_type && name.contains("color")) return findProto("rgba");
+			if(type == vec3_type) return findProto("vec3");
+			if(type == vec4_type && name.contains("color")) return findProto("rgba");
+			if(type == vec4_type) return findProto("vec4");
+			if(type == ivec2_type) return findProto("ivec2");
+			if(type == ivec3_type) return findProto("ivec3");
+			if(type == ivec4_type) return findProto("ivec4");
+			if(type == mat2_type) return findProto("mat2");
+			if(type == mat3_type) return findProto("mat3");
+			if(type == mat32_type) return findProto("mat32");
+			if(type == mat4_type) return findProto("mat4");
+			if(type == mat43_type) return findProto("mat43");
+		}
+		return Maxu32;
+	}
+	
+	void ControlFlowGLSL::update_output_node(uint32_t input_node, uint32_t input_index, uint32_t output_node, uint32_t output_index) {
+		setOutputValue(output_node, output_index, getInputValue(input_node, input_index));
+	}
+	
+	/*
+	 */
 	bool ControlFlowGLSL::set_state(ControlCombo &combo, const String &name) {
 		bool ret = true;
 		uint32_t index = 0;
@@ -3097,6 +3305,48 @@ namespace Tellusim {
 		}
 		combo.setCurrentIndex(index, true);
 		return ret;
+	}
+	
+	/*
+	 */
+	uint32_t ControlFlowGLSL::get_matrix_t_type(uint32_t type) const {
+		if(type == mat4_type) return vec3_type;
+		if(type == mat32_type) return vec2_type;
+		if(type == mat43_type) return vec3_type;
+		return any_type;
+	}
+	
+	uint32_t ControlFlowGLSL::get_matrix_r_type(uint32_t type) const {
+		if(type == mat4_type) return mat3_type;
+		if(type == mat32_type) return mat2_type;
+		if(type == mat43_type) return mat3_type;
+		return type;
+	}
+	
+	uint32_t ControlFlowGLSL::get_matrix_row_type(uint32_t type) const {
+		if(type == mat2_type) return vec2_type;
+		if(type == mat3_type) return vec3_type;
+		if(type == mat4_type) return vec4_type;
+		if(type == mat32_type) return vec3_type;
+		if(type == mat43_type) return vec4_type;
+		return any_type;
+	}
+	
+	uint32_t ControlFlowGLSL::get_num_matrix_rows(uint32_t type) const {
+		if(type == mat2_type) return 2;
+		if(type == mat3_type) return 3;
+		if(type == mat4_type) return 4;
+		if(type == mat32_type) return 2;
+		if(type == mat43_type) return 3;
+		return 0;
+	}
+	
+	/*
+	 */
+	const char *ControlFlowGLSL::getGLSLTypeName(uint32_t type) const {
+		if(type == mat32_type) return "mat2x3";
+		if(type == mat43_type) return "mat3x4";
+		return getTypeName(type).get();
 	}
 	
 	/*****************************************************************************\
@@ -3350,47 +3600,5 @@ namespace Tellusim {
 		}
 		
 		return ret;
-	}
-	
-	/*
-	 */
-	uint32_t ControlFlowGLSL::get_matrix_t_type(uint32_t type) const {
-		if(type == mat4_type) return vec3_type;
-		if(type == mat32_type) return vec2_type;
-		if(type == mat43_type) return vec3_type;
-		return any_type;
-	}
-	
-	uint32_t ControlFlowGLSL::get_matrix_r_type(uint32_t type) const {
-		if(type == mat4_type) return mat3_type;
-		if(type == mat32_type) return mat2_type;
-		if(type == mat43_type) return mat3_type;
-		return type;
-	}
-	
-	uint32_t ControlFlowGLSL::get_matrix_row_type(uint32_t type) const {
-		if(type == mat2_type) return vec2_type;
-		if(type == mat3_type) return vec3_type;
-		if(type == mat4_type) return vec4_type;
-		if(type == mat32_type) return vec3_type;
-		if(type == mat43_type) return vec4_type;
-		return any_type;
-	}
-	
-	uint32_t ControlFlowGLSL::get_num_matrix_rows(uint32_t type) const {
-		if(type == mat2_type) return 2;
-		if(type == mat3_type) return 3;
-		if(type == mat4_type) return 4;
-		if(type == mat32_type) return 2;
-		if(type == mat43_type) return 3;
-		return 0;
-	}
-	
-	/*
-	 */
-	const char *ControlFlowGLSL::getGLSLTypeName(uint32_t type) const {
-		if(type == mat32_type) return "mat2x3";
-		if(type == mat43_type) return "mat3x4";
-		return getTypeName(type).get();
 	}
 }

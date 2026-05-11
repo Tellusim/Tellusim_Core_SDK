@@ -41,20 +41,21 @@ int32_t main(int32_t argc, char **argv) {
 		return 0;
 	}
 	
-	// create environment filter
-	CubeFilter environment_filter;
-	if(!environment_filter.create(device, CubeFilter::FlagsAll, 3, 1024, 256)) return 1;
+	// create cube filter
+	CubeFilter cube_filter;
+	if(!cube_filter.create(device, CubeFilter::FlagsAll, 3, 1024, 256)) return 1;
 	
-	// create environment textures
+	// create cube textures
 	Texture cube_texture = device.loadTexture("texture_cube.exr");
 	Texture panorama_texture = device.loadTexture("texture_panorama.hdr");
-	Texture environment_cube_texture = device.createTextureCube(FormatRGBAf16, 16, Texture::FlagSource | Texture::FlagSurface | Texture::FlagMipmaps);
-	Texture environment_panorama_texture = device.createTexture2D(FormatRGBAf16, 256, 128, Texture::FlagSource | Texture::FlagSurface | Texture::FlagMipmaps);
-	if(!cube_texture || !panorama_texture || !environment_cube_texture || !environment_panorama_texture) return 1;
+	Texture render_cube_texture = device.createTextureCube(FormatRGBAf16, 32, Texture::FlagSource | Texture::FlagSurface | Texture::FlagMipmaps);
+	Texture render_panorama_texture = device.createTexture2D(FormatRGBAf16, 256, 128, Texture::FlagSource | Texture::FlagSurface | Texture::FlagMipmaps);
+	Texture mipmaps_cube_texture = device.createTextureCube(FormatRGBAf16, 256, Texture::FlagSource | Texture::FlagSurface | Texture::FlagMipmaps);
+	if(!cube_texture || !panorama_texture || !render_cube_texture || !render_panorama_texture || !mipmaps_cube_texture) return 1;
 	
-	// create environment buffer
-	Buffer environment_buffer = device.createBuffer(Buffer::FlagStorage, sizeof(Vector4f) * 32);
-	if(!environment_buffer) return 1;
+	// create filter buffer
+	Buffer filter_buffer = device.createBuffer(Buffer::FlagStorage, sizeof(Vector4f) * 32);
+	if(!filter_buffer) return 1;
 	
 	// create pipeline
 	Pipeline pipeline = device.createPipeline();
@@ -82,12 +83,13 @@ int32_t main(int32_t argc, char **argv) {
 	if(!sphere_vertex_buffer || !sphere_index_buffer) return 1;
 	
 	// create queries
-	Query filter_query, render_cube_query, render_panorama_query;
+	Query filter_query, render_cube_query, render_panorama_query, mipmaps_query;
 	if(device.hasQuery(Query::TypeTime)) {
 		filter_query = device.createQuery(Query::TypeTime);
 		render_cube_query = device.createQuery(Query::TypeTime);
 		render_panorama_query = device.createQuery(Query::TypeTime);
-		if(!filter_query || !render_cube_query || !render_panorama_query) return 1;
+		mipmaps_query = device.createQuery(Query::TypeTime);
+		if(!filter_query || !render_cube_query || !render_panorama_query || !mipmaps_query) return 1;
 	}
 	
 	// create target
@@ -107,10 +109,11 @@ int32_t main(int32_t argc, char **argv) {
 			String filter_time = String::fromTime((filter_query && filter_query.isAvailable()) ? filter_query.getTime() : 0);
 			String render_cube_time = String::fromTime((render_cube_query && render_cube_query.isAvailable()) ? render_cube_query.getTime() : 0);
 			String render_panorama_time = String::fromTime((render_panorama_query && render_panorama_query.isAvailable()) ? render_panorama_query.getTime() : 0);
-			window.setTitle(String::format("%s FPS: %.1f %s/%s/%s", title.get(), fps, filter_time.get(), render_cube_time.get(), render_panorama_time.get()).get());
+			String mipmaps_time = String::fromTime((mipmaps_query && mipmaps_query.isAvailable()) ? mipmaps_query.getTime() : 0);
+			window.setTitle(String::format("%s FPS: %.1f %s/%s/%s/%s", title.get(), fps, filter_time.get(), render_cube_time.get(), render_panorama_time.get(), mipmaps_time.get()).get());
 		}
 		
-		// environment filter
+		// cube filter
 		{
 			Compute compute = device.createCompute();
 			
@@ -118,36 +121,41 @@ int32_t main(int32_t argc, char **argv) {
 			Texture *texture = &cube_texture;
 			if(window.getKeyboardKey('p')) texture = &panorama_texture;
 			
-			// filter environment
+			// filter source texture
 			if(filter_query) compute.beginQuery(filter_query);
-			environment_filter.dispatch(compute, environment_buffer, 0, *texture);
+			cube_filter.dispatch(compute, filter_buffer, 0, *texture);
 			if(filter_query) compute.endQuery(filter_query);
 			
 			// render cube texture
 			if(render_cube_query) compute.beginQuery(render_cube_query);
-			environment_filter.dispatch(compute, environment_cube_texture, environment_buffer, 0);
+			cube_filter.dispatch(compute, render_cube_texture, filter_buffer, 0);
 			if(render_cube_query) compute.endQuery(render_cube_query);
 			
 			// render panorama texture
 			if(render_panorama_query) compute.beginQuery(render_panorama_query);
-			environment_filter.dispatch(compute, environment_panorama_texture, environment_buffer, 0);
+			cube_filter.dispatch(compute, render_panorama_texture, filter_buffer, 0);
 			if(render_panorama_query) compute.endQuery(render_panorama_query);
+			
+			// create mipmaps texture
+			if(mipmaps_query) compute.beginQuery(mipmaps_query);
+			cube_filter.dispatch(compute, mipmaps_cube_texture, *texture);
+			if(mipmaps_query) compute.endQuery(mipmaps_query);
 		}
 		
-		// save environment textures
+		// save textures
 		if(window.getKeyboardKey('s', true)) {
 			
 			Image cube_image;
-			cube_image.createCube(FormatRGBAf16, environment_cube_texture.getWidth(), Image::FlagMipmaps);
-			if(device.getTexture(environment_cube_texture, cube_image)) cube_image.save("test_cube.exr");
+			cube_image.createCube(FormatRGBAf16, render_cube_texture.getWidth(), Image::FlagMipmaps);
+			if(device.getTexture(render_cube_texture, cube_image)) cube_image.save("test_cube.exr");
 			
 			Image panorama_image;
-			panorama_image.create2D(FormatRGBAf16, environment_panorama_texture.getWidth(), environment_panorama_texture.getHeight(), Image::FlagMipmaps);
-			if(device.getTexture(environment_panorama_texture, panorama_image)) panorama_image.save("test_panorama.exr");
+			panorama_image.create2D(FormatRGBAf16, render_panorama_texture.getWidth(), render_panorama_texture.getHeight(), Image::FlagMipmaps);
+			if(device.getTexture(render_panorama_texture, panorama_image)) panorama_image.save("test_panorama.exr");
 		}
 		
 		// flush texture
-		device.flushTexture(environment_cube_texture);
+		device.flushTexture(render_cube_texture);
 		
 		// window target
 		target.setClearColor(0.2f, 0.2f, 0.2f, 1.0f);
@@ -166,7 +174,8 @@ int32_t main(int32_t argc, char **argv) {
 			// set pipeline
 			command.setPipeline(pipeline);
 			command.setSampler(0, sampler);
-			command.setTexture(0, environment_cube_texture);
+			if(window.getKeyboardKey('m')) command.setTexture(0, mipmaps_cube_texture);
+			else command.setTexture(0, render_cube_texture);
 			command.setVertexBuffer(0, sphere_vertex_buffer);
 			command.setIndexBuffer(FormatRu32, sphere_index_buffer);
 			
