@@ -63,13 +63,15 @@ namespace Tellusim {
 			}
 			
 			/// compare functions
-			TS_INLINE bool operator==(const AutoPtr &p) { return (ptr == p.ptr); }
-			TS_INLINE bool operator!=(const AutoPtr &p) { return (ptr != p.ptr); }
-			TS_INLINE bool operator==(const Type *p) { return (ptr == p); }
-			TS_INLINE bool operator!=(const Type *p) { return (ptr != p); }
+			TS_INLINE bool operator==(const AutoPtr &p) const { return (ptr == p.ptr); }
+			TS_INLINE bool operator!=(const AutoPtr &p) const { return (ptr != p.ptr); }
+			TS_INLINE bool operator==(const Type *p) const { return (ptr == p); }
+			TS_INLINE bool operator!=(const Type *p) const { return (ptr != p); }
 			
-			TS_INLINE bool operator<(const AutoPtr &p) { return (ptr < p.ptr); }
-			TS_INLINE bool operator>(const AutoPtr &p) { return (ptr > p.ptr); }
+			TS_INLINE bool operator<(const AutoPtr &p) const { return (ptr < p.ptr); }
+			TS_INLINE bool operator>(const AutoPtr &p) const { return (ptr > p.ptr); }
+			TS_INLINE bool operator<(const Type *p) const { return (ptr < p); }
+			TS_INLINE bool operator>(const Type *p) const { return (ptr > p); }
 			
 			/// access operators
 			TS_INLINE Type &operator*() const {
@@ -143,11 +145,15 @@ namespace Tellusim {
 			}
 			
 			/// compare functions
-			TS_INLINE bool operator==(const SmartPtr &p) { return (ptr == p.ptr && counter == p.counter); }
-			TS_INLINE bool operator!=(const SmartPtr &p) { return (ptr != p.ptr || counter != p.counter); }
+			TS_INLINE bool operator==(const SmartPtr &p) const { return (ptr == p.ptr && counter == p.counter); }
+			TS_INLINE bool operator!=(const SmartPtr &p) const { return (ptr != p.ptr || counter != p.counter); }
+			TS_INLINE bool operator==(const Type *p) const { return (ptr == p); }
+			TS_INLINE bool operator!=(const Type *p) const { return (ptr != p); }
 			
-			TS_INLINE bool operator<(const SmartPtr &p) { return (ptr < p.ptr); }
-			TS_INLINE bool operator>(const SmartPtr &p) { return (ptr > p.ptr); }
+			TS_INLINE bool operator<(const SmartPtr &p) const { return (ptr < p.ptr); }
+			TS_INLINE bool operator>(const SmartPtr &p) const { return (ptr > p.ptr); }
+			TS_INLINE bool operator<(const Type *p) const { return (ptr < p); }
+			TS_INLINE bool operator>(const Type *p) const { return (ptr > p); }
 			
 			/// access operators
 			TS_INLINE Type &operator*() const {

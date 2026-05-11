@@ -416,6 +416,7 @@ namespace Tellusim {
 			void addAttribute(const MeshAttribute &attribute);
 			
 			/// apply transform
+			bool setTransform(const Vector3f &scale);
 			bool setTransform(const Matrix4x3f &transform);
 			
 			/// morph attribute
@@ -837,6 +838,9 @@ namespace Tellusim {
 			void setVisibilityError(float32_t error);
 			float32_t getVisibilityError() const;
 			
+			/// flip indices winding
+			void flipWinding();
+			
 			/// create bounds
 			/// \param force Force bounding creation.
 			/// \param position Position attribute index.
@@ -893,9 +897,15 @@ namespace Tellusim {
 			/// optimize materials remove duplicates
 			void optimizeMaterials();
 			
+			/// optimize attribute and indices order
+			void optimizeOrder();
+			
 			/// pack attributes (morph targets, texture coordinates and vertex colors)
 			bool packAttributes(bool remove = true);
 			bool unpackAttributes(bool remove = true);
+			
+			/// add geometry
+			bool addGeometry(const MeshGeometry &geometry, const Matrix4x3f &transform = Matrix4x3f::identity);
 			
 			/// compare geometries
 			int32_t compare(const MeshGeometry &geometry, const Matrix4x3f &transform = Matrix4x3f::identity, float32_t threshold = 1e-6f, bool spatial = true) const;

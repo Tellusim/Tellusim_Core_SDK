@@ -29,6 +29,7 @@ namespace Tellusim {
 		
 		global_transform = Matrix4x3d::identity;
 		local_transform = Matrix4x3d::identity;
+		basis_transform = Matrix4x3d::identity;
 		
 		relative_transform = Matrix4x3d::identity;
 		
@@ -38,7 +39,42 @@ namespace Tellusim {
 	}
 	
 	Manipulator::~Manipulator() {
-		
+		clear();
+	}
+	
+	/*
+	 */
+	void Manipulator::clear() {
+		Canvas canvas = getCanvas();
+		for(uint32_t i = 0; i < TS_COUNTOF(translator_meshes); i++) {
+			canvas.removeElement(translator_meshes[i]);
+			translator_meshes[i].clearPtr();
+		}
+		for(uint32_t i = 0; i < TS_COUNTOF(translator_strips); i++) {
+			canvas.removeElement(translator_strips[i]);
+			translator_strips[i].clearPtr();
+		}
+		for(uint32_t i = 0; i < TS_COUNTOF(rotator_strips); i++) {
+			canvas.removeElement(rotator_strips[i]);
+			rotator_strips[i].clearPtr();
+		}
+		canvas.removeElement(rotator_ellipse);
+		rotator_ellipse.clearPtr();
+		for(uint32_t i = 0; i < TS_COUNTOF(scaler_meshes); i++) {
+			canvas.removeElement(scaler_meshes[i]);
+			scaler_meshes[i].clearPtr();
+		}
+		for(uint32_t i = 0; i < TS_COUNTOF(scaler_strips); i++) {
+			canvas.removeElement(scaler_strips[i]);
+			scaler_strips[i].clearPtr();
+		}
+		canvas.removeElement(relative_strip);
+		canvas.removeElement(scissor_mesh);
+		canvas.removeElement(restore_mesh);
+		relative_strip.clearPtr();
+		scissor_mesh.clearPtr();
+		restore_mesh.clearPtr();
+		ControlBase::clear();
 	}
 	
 	/*
@@ -142,6 +178,10 @@ namespace Tellusim {
 	
 	void Manipulator::setGlobalTransform(const Matrix4x3d &transform) {
 		global_transform = transform;
+	}
+	
+	void Manipulator::setBasisTransform(const Matrix4x3d &transform) {
+		basis_transform = transform;
 	}
 	
 	void Manipulator::setLocalTransform(const Matrix4x3d &transform) {
@@ -385,7 +425,7 @@ namespace Tellusim {
 		// combination of modelview matrix and global transform
 		Quaterniond camera_rotate;
 		Vector3d camera_translate, camera_scale;
-		Matrix4x3d camera_transform = camera_modelview * getGlobalTransform();
+		Matrix4x3d camera_transform = camera_modelview * getGlobalTransform() * getBasisTransform();
 		camera_transform.getComponents(camera_translate, camera_rotate, camera_scale);
 		camera_itransform = inverse(camera_transform);
 		
@@ -393,7 +433,8 @@ namespace Tellusim {
 		// combination of all transforms including relative
 		Quaternionf manipulator_rotate;
 		Vector3f manipulator_translate, manipulator_scale;
-		Matrix4x4f manipulator_transform = Matrix4x4f(camera_transform * getLocalTransform() * getRelativeTransform());
+		Matrix4x3d local_transform = inverse(getBasisTransform()) * getLocalTransform();
+		Matrix4x4f manipulator_transform = Matrix4x4f(camera_transform * local_transform * getRelativeTransform());
 		manipulator_transform.getComponents(manipulator_translate, manipulator_rotate, manipulator_scale);
 		
 		// projection perspective scale
@@ -575,7 +616,7 @@ namespace Tellusim {
 									normal = normalize(get_direction(mouse));
 								}
 							}
-							mouse_position = getLocalTransform().getTranslate();
+							mouse_position = local_transform.getTranslate();
 							mouse_plane = Vector4d(normal, -dot(normal, mouse_position));
 							mouse_value = get_intersection(mouse, mouse_plane);
 							relative_transform = Matrix4x3d::identity;
@@ -599,7 +640,7 @@ namespace Tellusim {
 							if(mode_step > 0.0) translate = round_value(translate, mode_step);
 							if(getAxis() < NumAxes1) { value[getAxis()] = 1.0; translate *= value; }
 							else if(getAxis() < NumAxes2) translate[getAxis() - AxisYZ] = 0.0;
-							relative_transform = inverse(getLocalTransform()) * Matrix4x3d::translate(translate) * getLocalTransform();
+							relative_transform = inverse(local_transform) * Matrix4x3d::translate(translate) * local_transform;
 						}
 						// rotator
 						else if(isRotator()) {
@@ -779,16 +820,10 @@ namespace Tellusim {
 			// update elements
 			rotator_ellipse.setOrder(order++);
 			for(uint32_t i = 0; i < NumAxes1; i++) {
-				bool enabled = isEnabled();
-				if(mouse_changed) {
-					if(getAxis() < NumAxes1) {
-						enabled = (i == (uint32_t)getAxis());
-					}
-				}
 				rotator_strips[i].clearPositions();
 				rotator_strips[i].setOrder(order++);
 				rotator_strips[i].setColor(getAxisColor((Axis)i) * ((i == (uint32_t)getAxis()) ? getEnabledColor() : getDisabledColor()));
-				rotator_strips[i].setEnabled(enabled);
+				rotator_strips[i].setEnabled(isEnabled());
 			}
 			if(isAxisXYZ()) {
 				rotator_ellipse.setRadius(getAxisLength());
@@ -829,7 +864,7 @@ namespace Tellusim {
 			// relative strip
 			if(mouse_changed && getState() == StatePressed && !isAxisXYZ()) {
 				relative_strip.clearPositions();
-				Matrix4x3f local_rotate = Matrix4x3f(getLocalTransform()).getRotate();
+				Matrix4x3f local_rotate = Matrix4x3f(local_transform).getRotate();
 				Vector3f p0 = normalize(Vector3f(mouse_value - mouse_position)) * getAxisLength();
 				Vector3f p1 = inverse(local_rotate * Matrix4x3f(getRelativeTransform()) * inverse(local_rotate)) * p0;
 				relative_strip.addPosition((projection * Vector4f(p0, 1.0f)).cartesian());

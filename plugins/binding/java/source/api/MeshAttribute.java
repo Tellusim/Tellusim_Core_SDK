@@ -157,7 +157,8 @@ public class MeshAttribute extends BaseMeshAttribute {
 	public int compare(MeshAttribute attribute, Matrix4x3f transform, float threshold) { return compare_(self, attribute.self, transform.self, threshold, true); }
 	public int compare(MeshAttribute attribute, Matrix4x3f transform, float threshold, boolean spatial) { return compare_(self, attribute.self, transform.self, threshold, spatial); }
 	public void addAttribute(MeshAttribute attribute) { add_attribute(self, attribute.self); }
-	public boolean setTransform(Matrix4x3f transform) { return set_transform(self, transform.self); }
+	public boolean setTransform(Vector3f scale) { return set_transform(self, scale.self); }
+	public boolean setTransform(Matrix4x3f transform) { return set_transform_1(self, transform.self); }
 	public boolean morphAttribute(MeshAttribute attribute, float k) { return morph_attribute(self, attribute.self, k); }
 	public boolean packAttributes(MeshAttribute attribute_0, MeshAttribute attribute_1, Format format) { return pack_attributes(self, attribute_0.self, attribute_1.self, format.value); }
 	public boolean packAttributes(MeshAttribute attribute_0, MeshAttribute attribute_1, Format.Enum format) { return pack_attributes(self, attribute_0.self, attribute_1.self, format.value); }
@@ -240,7 +241,8 @@ public class MeshAttribute extends BaseMeshAttribute {
 	private static native long get_ptr_1(long self, int index);
 	private static native int compare_(long self, long attribute, long transform, float threshold, boolean spatial);
 	private static native void add_attribute(long self, long attribute);
-	private static native boolean set_transform(long self, long transform);
+	private static native boolean set_transform(long self, long scale);
+	private static native boolean set_transform_1(long self, long transform);
 	private static native boolean morph_attribute(long self, long attribute, float k);
 	private static native boolean pack_attributes(long self, long attribute_0, long attribute_1, int format);
 	private static native boolean unpack_attributes(long self, long attribute_0, long attribute_1);
