@@ -120,8 +120,8 @@ fn main() {
 	window.set_keyboard_pressed_callback({
 		let mut window = window.copy_ptr();
 		move |key: u32, _code: u32| {
-			if key == WindowKey::Esc as u32 { window.stop() }
-			if key == WindowKey::F12 as u32 {
+			if key == WindowKey::Esc { window.stop() }
+			if key == WindowKey::F12 {
 				let mut image = Image::new();
 				if window.grab(&mut image) && image.save("screenshot.png") {
 					ts_log!(Message, "Screenshot\n");
