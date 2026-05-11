@@ -1,0 +1,6 @@
+SRCS = main.cpp \
+	source/TellusimCL.cpp
+
+FLAGS = $(FLAGS) /I$(TSROOT)\plugins\platform\opencl\extern
+
+include ..\..\Makefile.win.mk

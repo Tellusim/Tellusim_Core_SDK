@@ -1,3 +1,5 @@
 SRCS = main.cpp
 
+FLAGS = $(FLAGS) /I..\d3d12_common
+
 include ..\..\Makefile.win.mk

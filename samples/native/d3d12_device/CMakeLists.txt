@@ -22,6 +22,7 @@ include_directories(
 	../../../include
 	../../../plugins
 	../../../samples
+	../d3d12_common
 )
 
 if(WIN32)

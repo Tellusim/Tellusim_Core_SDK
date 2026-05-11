@@ -94,7 +94,7 @@ all: $(TARGET) done
 	@$(RC) /nologo /fo$*.res $<
 
 .cpp.obj:
-	@$(CXX) $(CFLAGS) $(FLAGS) /c /Fo$*.obj $<
+	@$(CXX) $(FLAGS) $(CFLAGS) /c /Fo$*.obj $<
 
 $(DEPEND): $(MAKEDIR)
 	@del /f $@ 2>nul
