@@ -1,5 +1,6 @@
 PLUGINS = \
 	cuda \
+	opencl \
 	opengl \
 	opengles \
 	openxr \
