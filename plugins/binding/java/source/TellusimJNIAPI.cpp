@@ -4043,7 +4043,10 @@ namespace Tellusim {
 	static void mesh_attribute_add_attribute(TS_JNI_ARGS, jlong self, jlong attribute) {
 		toMeshAttribute(self).addAttribute(toMeshAttribute(attribute));
 	}
-	static jboolean mesh_attribute_set_transform(TS_JNI_ARGS, jlong self, jlong transform) {
+	static jboolean mesh_attribute_set_transform(TS_JNI_ARGS, jlong self, jlong scale) {
+		return toMeshAttribute(self).setTransform(toVector3f(scale));
+	}
+	static jboolean mesh_attribute_set_transform_1(TS_JNI_ARGS, jlong self, jlong transform) {
 		return toMeshAttribute(self).setTransform(toMatrix4x3f(transform));
 	}
 	static jboolean mesh_attribute_morph_attribute(TS_JNI_ARGS, jlong self, jlong attribute, jfloat k) {
@@ -4150,6 +4153,7 @@ namespace Tellusim {
 		{ (char*)"compare_", (char*)"(JJJFZ)I", (void*)mesh_attribute_compare },
 		{ (char*)"add_attribute", (char*)"(JJ)V", (void*)mesh_attribute_add_attribute },
 		{ (char*)"set_transform", (char*)"(JJ)Z", (void*)mesh_attribute_set_transform },
+		{ (char*)"set_transform_1", (char*)"(JJ)Z", (void*)mesh_attribute_set_transform_1 },
 		{ (char*)"morph_attribute", (char*)"(JJF)Z", (void*)mesh_attribute_morph_attribute },
 		{ (char*)"pack_attributes", (char*)"(JJJI)Z", (void*)mesh_attribute_pack_attributes },
 		{ (char*)"unpack_attributes", (char*)"(JJJ)Z", (void*)mesh_attribute_unpack_attributes },
@@ -5044,6 +5048,9 @@ namespace Tellusim {
 	static jfloat mesh_geometry_get_visibility_error(TS_JNI_ARGS, jlong self) {
 		return toMeshGeometry(self).getVisibilityError();
 	}
+	static void mesh_geometry_flip_winding(TS_JNI_ARGS, jlong self) {
+		toMeshGeometry(self).flipWinding();
+	}
 	static jboolean mesh_geometry_create_bounds(TS_JNI_ARGS, jlong self, jboolean force, jint position) {
 		return toMeshGeometry(self).createBounds((bool)force, (uint32_t)position);
 	}
@@ -5074,11 +5081,17 @@ namespace Tellusim {
 	static void mesh_geometry_optimize_materials(TS_JNI_ARGS, jlong self) {
 		toMeshGeometry(self).optimizeMaterials();
 	}
+	static void mesh_geometry_optimize_order(TS_JNI_ARGS, jlong self) {
+		toMeshGeometry(self).optimizeOrder();
+	}
 	static jboolean mesh_geometry_pack_attributes(TS_JNI_ARGS, jlong self, jboolean remove) {
 		return toMeshGeometry(self).packAttributes((bool)remove);
 	}
 	static jboolean mesh_geometry_unpack_attributes(TS_JNI_ARGS, jlong self, jboolean remove) {
 		return toMeshGeometry(self).unpackAttributes((bool)remove);
+	}
+	static jboolean mesh_geometry_add_geometry(TS_JNI_ARGS, jlong self, jlong geometry, jlong transform) {
+		return toMeshGeometry(self).addGeometry(toMeshGeometry(geometry), toMatrix4x3f(transform));
 	}
 	static jint mesh_geometry_compare(TS_JNI_ARGS, jlong self, jlong geometry, jlong transform, jfloat threshold, jboolean spatial) {
 		return toMeshGeometry(self).compare(toMeshGeometry(geometry), toMatrix4x3f(transform), threshold, (bool)spatial);
@@ -5207,6 +5220,7 @@ namespace Tellusim {
 		{ (char*)"has_visibility_range", (char*)"(J)Z", (void*)mesh_geometry_has_visibility_range },
 		{ (char*)"set_visibility_error", (char*)"(JF)V", (void*)mesh_geometry_set_visibility_error },
 		{ (char*)"get_visibility_error", (char*)"(J)F", (void*)mesh_geometry_get_visibility_error },
+		{ (char*)"flip_winding", (char*)"(J)V", (void*)mesh_geometry_flip_winding },
 		{ (char*)"create_bounds", (char*)"(JZI)Z", (void*)mesh_geometry_create_bounds },
 		{ (char*)"create_basis", (char*)"(JZIIIZ)I", (void*)mesh_geometry_create_basis },
 		{ (char*)"create_basis_1", (char*)"(JFZIIIZ)I", (void*)mesh_geometry_create_basis_1 },
@@ -5217,8 +5231,10 @@ namespace Tellusim {
 		{ (char*)"optimize_indices", (char*)"(JIZII)Z", (void*)mesh_geometry_optimize_indices },
 		{ (char*)"optimize_attributes", (char*)"(JI)Z", (void*)mesh_geometry_optimize_attributes },
 		{ (char*)"optimize_materials", (char*)"(J)V", (void*)mesh_geometry_optimize_materials },
+		{ (char*)"optimize_order", (char*)"(J)V", (void*)mesh_geometry_optimize_order },
 		{ (char*)"pack_attributes", (char*)"(JZ)Z", (void*)mesh_geometry_pack_attributes },
 		{ (char*)"unpack_attributes", (char*)"(JZ)Z", (void*)mesh_geometry_unpack_attributes },
+		{ (char*)"add_geometry", (char*)"(JJJ)Z", (void*)mesh_geometry_add_geometry },
 		{ (char*)"compare_", (char*)"(JJJFZ)I", (void*)mesh_geometry_compare },
 		{ (char*)"is_optimized", (char*)"(J)Z", (void*)mesh_geometry_is_optimized },
 		{ (char*)"validate_", (char*)"(J)Z", (void*)mesh_geometry_validate },
@@ -22875,6 +22891,18 @@ namespace Tellusim {
 	static jfloat control_grid_get_column_ratio(TS_JNI_ARGS, jlong self, jint index) {
 		return toControlGrid(self).getColumnRatio((uint32_t)index);
 	}
+	static void control_grid_set_column_spacing(TS_JNI_ARGS, jlong self, jint index, jfloat spacing) {
+		toControlGrid(self).setColumnSpacing((uint32_t)index, spacing);
+	}
+	static jfloat control_grid_get_column_spacing(TS_JNI_ARGS, jlong self, jint index) {
+		return toControlGrid(self).getColumnSpacing((uint32_t)index);
+	}
+	static void control_grid_set_row_spacing(TS_JNI_ARGS, jlong self, jint index, jfloat spacing) {
+		toControlGrid(self).setRowSpacing((uint32_t)index, spacing);
+	}
+	static jfloat control_grid_get_row_spacing(TS_JNI_ARGS, jlong self, jint index) {
+		return toControlGrid(self).getRowSpacing((uint32_t)index);
+	}
 	static jlong control_grid_get_controls_size(TS_JNI_ARGS, jlong self) {
 		return newVector2f(toControlGrid(self).getControlsSize());
 	}
@@ -22894,6 +22922,10 @@ namespace Tellusim {
 		{ (char*)"get_spacing", (char*)"(J)J", (void*)control_grid_get_spacing },
 		{ (char*)"set_column_ratio", (char*)"(JIF)V", (void*)control_grid_set_column_ratio },
 		{ (char*)"get_column_ratio", (char*)"(JI)F", (void*)control_grid_get_column_ratio },
+		{ (char*)"set_column_spacing", (char*)"(JIF)V", (void*)control_grid_set_column_spacing },
+		{ (char*)"get_column_spacing", (char*)"(JI)F", (void*)control_grid_get_column_spacing },
+		{ (char*)"set_row_spacing", (char*)"(JIF)V", (void*)control_grid_set_row_spacing },
+		{ (char*)"get_row_spacing", (char*)"(JI)F", (void*)control_grid_get_row_spacing },
 		{ (char*)"get_controls_size", (char*)"(J)J", (void*)control_grid_get_controls_size },
 	};
 	
@@ -23089,6 +23121,18 @@ namespace Tellusim {
 	static jfloat control_group_get_column_ratio(TS_JNI_ARGS, jlong self, jint index) {
 		return toControlGroup(self).getColumnRatio((uint32_t)index);
 	}
+	static void control_group_set_column_spacing(TS_JNI_ARGS, jlong self, jint index, jfloat spacing) {
+		toControlGroup(self).setColumnSpacing((uint32_t)index, spacing);
+	}
+	static jfloat control_group_get_column_spacing(TS_JNI_ARGS, jlong self, jint index) {
+		return toControlGroup(self).getColumnSpacing((uint32_t)index);
+	}
+	static void control_group_set_row_spacing(TS_JNI_ARGS, jlong self, jint index, jfloat spacing) {
+		toControlGroup(self).setRowSpacing((uint32_t)index, spacing);
+	}
+	static jfloat control_group_get_row_spacing(TS_JNI_ARGS, jlong self, jint index) {
+		return toControlGroup(self).getRowSpacing((uint32_t)index);
+	}
 	static jlong control_group_get_controls_size(TS_JNI_ARGS, jlong self) {
 		return newVector2f(toControlGroup(self).getControlsSize());
 	}
@@ -23146,6 +23190,10 @@ namespace Tellusim {
 		{ (char*)"get_spacing", (char*)"(J)J", (void*)control_group_get_spacing },
 		{ (char*)"set_column_ratio", (char*)"(JIF)V", (void*)control_group_set_column_ratio },
 		{ (char*)"get_column_ratio", (char*)"(JI)F", (void*)control_group_get_column_ratio },
+		{ (char*)"set_column_spacing", (char*)"(JIF)V", (void*)control_group_set_column_spacing },
+		{ (char*)"get_column_spacing", (char*)"(JI)F", (void*)control_group_get_column_spacing },
+		{ (char*)"set_row_spacing", (char*)"(JIF)V", (void*)control_group_set_row_spacing },
+		{ (char*)"get_row_spacing", (char*)"(JI)F", (void*)control_group_get_row_spacing },
 		{ (char*)"get_controls_size", (char*)"(J)J", (void*)control_group_get_controls_size },
 		{ (char*)"set_clicked_callback", (char*)"(JL" TS_JNI_PREFIX "ControlGroup$ClickedCallback;)V", (void*)control_group_set_clicked_callback },
 		{ (char*)"is_clicked", (char*)"(J)Z", (void*)control_group_is_clicked },
@@ -23213,6 +23261,18 @@ namespace Tellusim {
 	static jfloat control_panel_get_column_ratio(TS_JNI_ARGS, jlong self, jint index) {
 		return toControlPanel(self).getColumnRatio((uint32_t)index);
 	}
+	static void control_panel_set_column_spacing(TS_JNI_ARGS, jlong self, jint index, jfloat spacing) {
+		toControlPanel(self).setColumnSpacing((uint32_t)index, spacing);
+	}
+	static jfloat control_panel_get_column_spacing(TS_JNI_ARGS, jlong self, jint index) {
+		return toControlPanel(self).getColumnSpacing((uint32_t)index);
+	}
+	static void control_panel_set_row_spacing(TS_JNI_ARGS, jlong self, jint index, jfloat spacing) {
+		toControlPanel(self).setRowSpacing((uint32_t)index, spacing);
+	}
+	static jfloat control_panel_get_row_spacing(TS_JNI_ARGS, jlong self, jint index) {
+		return toControlPanel(self).getRowSpacing((uint32_t)index);
+	}
 	static jlong control_panel_get_controls_size(TS_JNI_ARGS, jlong self) {
 		return newVector2f(toControlPanel(self).getControlsSize());
 	}
@@ -23232,6 +23292,10 @@ namespace Tellusim {
 		{ (char*)"get_spacing", (char*)"(J)J", (void*)control_panel_get_spacing },
 		{ (char*)"set_column_ratio", (char*)"(JIF)V", (void*)control_panel_set_column_ratio },
 		{ (char*)"get_column_ratio", (char*)"(JI)F", (void*)control_panel_get_column_ratio },
+		{ (char*)"set_column_spacing", (char*)"(JIF)V", (void*)control_panel_set_column_spacing },
+		{ (char*)"get_column_spacing", (char*)"(JI)F", (void*)control_panel_get_column_spacing },
+		{ (char*)"set_row_spacing", (char*)"(JIF)V", (void*)control_panel_set_row_spacing },
+		{ (char*)"get_row_spacing", (char*)"(JI)F", (void*)control_panel_get_row_spacing },
 		{ (char*)"get_controls_size", (char*)"(J)J", (void*)control_panel_get_controls_size },
 	};
 	
@@ -24956,6 +25020,18 @@ namespace Tellusim {
 	static jfloat control_area_get_column_ratio(TS_JNI_ARGS, jlong self, jint index) {
 		return toControlArea(self).getColumnRatio((uint32_t)index);
 	}
+	static void control_area_set_column_spacing(TS_JNI_ARGS, jlong self, jint index, jfloat spacing) {
+		toControlArea(self).setColumnSpacing((uint32_t)index, spacing);
+	}
+	static jfloat control_area_get_column_spacing(TS_JNI_ARGS, jlong self, jint index) {
+		return toControlArea(self).getColumnSpacing((uint32_t)index);
+	}
+	static void control_area_set_row_spacing(TS_JNI_ARGS, jlong self, jint index, jfloat spacing) {
+		toControlArea(self).setRowSpacing((uint32_t)index, spacing);
+	}
+	static jfloat control_area_get_row_spacing(TS_JNI_ARGS, jlong self, jint index) {
+		return toControlArea(self).getRowSpacing((uint32_t)index);
+	}
 	static jlong control_area_get_controls_size(TS_JNI_ARGS, jlong self) {
 		return newVector2f(toControlArea(self).getControlsSize());
 	}
@@ -25027,6 +25103,10 @@ namespace Tellusim {
 		{ (char*)"get_spacing", (char*)"(J)J", (void*)control_area_get_spacing },
 		{ (char*)"set_column_ratio", (char*)"(JIF)V", (void*)control_area_set_column_ratio },
 		{ (char*)"get_column_ratio", (char*)"(JI)F", (void*)control_area_get_column_ratio },
+		{ (char*)"set_column_spacing", (char*)"(JIF)V", (void*)control_area_set_column_spacing },
+		{ (char*)"get_column_spacing", (char*)"(JI)F", (void*)control_area_get_column_spacing },
+		{ (char*)"set_row_spacing", (char*)"(JIF)V", (void*)control_area_set_row_spacing },
+		{ (char*)"get_row_spacing", (char*)"(JI)F", (void*)control_area_get_row_spacing },
 		{ (char*)"get_controls_size", (char*)"(J)J", (void*)control_area_get_controls_size },
 		{ (char*)"get_controls_offset", (char*)"(J)J", (void*)control_area_get_controls_offset },
 		{ (char*)"get_view_rect", (char*)"(J)J", (void*)control_area_get_view_rect },
@@ -27067,6 +27147,15 @@ namespace Tellusim {
 	static jboolean cube_filter_dispatch_3(TS_JNI_ARGS, jlong self, jlong compute, jlong texture, jlong buffer, jint offset) {
 		return toCubeFilter(self).dispatch(toCompute(compute), toTexture(texture), toBuffer(buffer), (uint32_t)offset);
 	}
+	static jboolean cube_filter_dispatch_4(TS_JNI_ARGS, jlong self, jlong compute, jlong dest, jlong src, jlong dest_slice, jlong src_slice) {
+		return toCubeFilter(self).dispatch(toCompute(compute), toTexture(dest), toTexture(src), toSlice(dest_slice), toSlice(src_slice));
+	}
+	static jboolean cube_filter_dispatch_5(TS_JNI_ARGS, jlong self, jlong compute, jlong dest, jlong src, jlong src_slice) {
+		return toCubeFilter(self).dispatch(toCompute(compute), toTexture(dest), toTexture(src), toSlice(src_slice));
+	}
+	static jboolean cube_filter_dispatch_6(TS_JNI_ARGS, jlong self, jlong compute, jlong dest, jlong src) {
+		return toCubeFilter(self).dispatch(toCompute(compute), toTexture(dest), toTexture(src));
+	}
 	static const JNINativeMethod cube_filter_methods[] = {
 		{ (char*)"new_", (char*)"()J", (void*)cube_filter_new },
 		{ (char*)"delete_", (char*)"(J)V", (void*)cube_filter_delete },
@@ -27093,6 +27182,9 @@ namespace Tellusim {
 		{ (char*)"dispatch_1", (char*)"(JJJIJ)Z", (void*)cube_filter_dispatch_1 },
 		{ (char*)"dispatch_2", (char*)"(JJJJJI)Z", (void*)cube_filter_dispatch_2 },
 		{ (char*)"dispatch_3", (char*)"(JJJJI)Z", (void*)cube_filter_dispatch_3 },
+		{ (char*)"dispatch_4", (char*)"(JJJJJJ)Z", (void*)cube_filter_dispatch_4 },
+		{ (char*)"dispatch_5", (char*)"(JJJJJ)Z", (void*)cube_filter_dispatch_5 },
+		{ (char*)"dispatch_6", (char*)"(JJJJ)Z", (void*)cube_filter_dispatch_6 },
 	};
 	
 	// Tellusim::DecoderJPEG

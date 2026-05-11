@@ -60,6 +60,9 @@ namespace Tellusim {
 			
 		private:
 			
+			/// clear control
+			virtual void clear();
+			
 			/// create control
 			void create();
 			bool create_pipeline();
