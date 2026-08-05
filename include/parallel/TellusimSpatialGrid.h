@@ -41,7 +41,8 @@ namespace Tellusim {
 			RadixSort getRadixSort() const;
 			
 			/// create spatial grid
-			bool create(const Device &device, RadixSort &sort, uint32_t groups = 256);
+			/// \param threads Spatial grid group size.
+			bool create(const Device &device, RadixSort &sort, uint32_t threads = 256);
 			
 			/// dispatch spatial grid generation
 			/// \param data Spatial grid of uint32_t elements.

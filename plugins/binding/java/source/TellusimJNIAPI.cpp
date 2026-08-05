@@ -3649,8 +3649,8 @@ namespace Tellusim {
 	static jlong mesh_indices_get_geometry_1(TS_JNI_ARGS, jlong self) {
 		return newMeshGeometry(toMeshIndices(self).getGeometry());
 	}
-	static void mesh_indices_set_size(TS_JNI_ARGS, jlong self, jint size, jboolean discard, jboolean clear) {
-		toMeshIndices(self).setSize((uint32_t)size, (bool)discard, (bool)clear);
+	static jboolean mesh_indices_set_size(TS_JNI_ARGS, jlong self, jint size, jboolean discard, jboolean clear) {
+		return toMeshIndices(self).setSize((uint32_t)size, (bool)discard, (bool)clear);
 	}
 	static jint mesh_indices_get_size(TS_JNI_ARGS, jlong self) {
 		return toMeshIndices(self).getSize();
@@ -3796,7 +3796,7 @@ namespace Tellusim {
 		{ (char*)"set_geometry", (char*)"(JJZ)V", (void*)mesh_indices_set_geometry },
 		{ (char*)"get_geometry", (char*)"(J)J", (void*)mesh_indices_get_geometry },
 		{ (char*)"get_geometry_1", (char*)"(J)J", (void*)mesh_indices_get_geometry_1 },
-		{ (char*)"set_size", (char*)"(JIZZ)V", (void*)mesh_indices_set_size },
+		{ (char*)"set_size", (char*)"(JIZZ)Z", (void*)mesh_indices_set_size },
 		{ (char*)"get_size", (char*)"(J)I", (void*)mesh_indices_get_size },
 		{ (char*)"get_stride", (char*)"(J)I", (void*)mesh_indices_get_stride },
 		{ (char*)"get_bytes", (char*)"(J)J", (void*)mesh_indices_get_bytes },
@@ -3986,8 +3986,8 @@ namespace Tellusim {
 	static jlong mesh_attribute_get_geometry_1(TS_JNI_ARGS, jlong self) {
 		return newMeshGeometry(toMeshAttribute(self).getGeometry());
 	}
-	static void mesh_attribute_set_size(TS_JNI_ARGS, jlong self, jint size, jboolean discard, jboolean clear) {
-		toMeshAttribute(self).setSize((uint32_t)size, (bool)discard, (bool)clear);
+	static jboolean mesh_attribute_set_size(TS_JNI_ARGS, jlong self, jint size, jboolean discard, jboolean clear) {
+		return toMeshAttribute(self).setSize((uint32_t)size, (bool)discard, (bool)clear);
 	}
 	static jint mesh_attribute_get_size(TS_JNI_ARGS, jlong self) {
 		return toMeshAttribute(self).getSize();
@@ -4058,8 +4058,8 @@ namespace Tellusim {
 	static jboolean mesh_attribute_unpack_attributes(TS_JNI_ARGS, jlong self, jlong attribute_0, jlong attribute_1) {
 		return toMeshAttribute(self).unpackAttributes(toMeshAttribute(attribute_0), toMeshAttribute(attribute_1));
 	}
-	static jlong mesh_attribute_optimize_attribute(TS_JNI_ARGS, jlong self, jlong indices) {
-		return newMeshAttribute(toMeshAttribute(self).optimizeAttribute(toMeshIndices(indices)));
+	static jlong mesh_attribute_optimize_attribute(TS_JNI_ARGS, jlong self, jlong indices, jfloat threshold) {
+		return newMeshAttribute(toMeshAttribute(self).optimizeAttribute(toMeshIndices(indices), threshold));
 	}
 	static jlong mesh_attribute_to_direct(TS_JNI_ARGS, jlong self, jlong indices) {
 		return newMeshAttribute(toMeshAttribute(self).toDirect(toMeshIndices(indices)));
@@ -4135,7 +4135,7 @@ namespace Tellusim {
 		{ (char*)"set_geometry", (char*)"(JJZ)V", (void*)mesh_attribute_set_geometry },
 		{ (char*)"get_geometry", (char*)"(J)J", (void*)mesh_attribute_get_geometry },
 		{ (char*)"get_geometry_1", (char*)"(J)J", (void*)mesh_attribute_get_geometry_1 },
-		{ (char*)"set_size", (char*)"(JIZZ)V", (void*)mesh_attribute_set_size },
+		{ (char*)"set_size", (char*)"(JIZZ)Z", (void*)mesh_attribute_set_size },
 		{ (char*)"get_size", (char*)"(J)I", (void*)mesh_attribute_get_size },
 		{ (char*)"get_stride", (char*)"(J)I", (void*)mesh_attribute_get_stride },
 		{ (char*)"get_bytes", (char*)"(J)J", (void*)mesh_attribute_get_bytes },
@@ -4157,7 +4157,7 @@ namespace Tellusim {
 		{ (char*)"morph_attribute", (char*)"(JJF)Z", (void*)mesh_attribute_morph_attribute },
 		{ (char*)"pack_attributes", (char*)"(JJJI)Z", (void*)mesh_attribute_pack_attributes },
 		{ (char*)"unpack_attributes", (char*)"(JJJ)Z", (void*)mesh_attribute_unpack_attributes },
-		{ (char*)"optimize_attribute", (char*)"(JJ)J", (void*)mesh_attribute_optimize_attribute },
+		{ (char*)"optimize_attribute", (char*)"(JJF)J", (void*)mesh_attribute_optimize_attribute },
 		{ (char*)"to_direct", (char*)"(JJ)J", (void*)mesh_attribute_to_direct },
 		{ (char*)"to_format", (char*)"(JI)J", (void*)mesh_attribute_to_format },
 		{ (char*)"to_type", (char*)"(JI)J", (void*)mesh_attribute_to_type },
@@ -14137,6 +14137,12 @@ namespace Tellusim {
 	static jint device_features_get_maxTextureSamples(TS_JNI_ARGS, jlong self) {
 		return toDeviceFeatures(self).maxTextureSamples;
 	}
+	static void device_features_set_maxGroupSize(TS_JNI_ARGS, jlong self, jint maxGroupSize) {
+		toDeviceFeatures(self).maxGroupSize = maxGroupSize;
+	}
+	static jint device_features_get_maxGroupSize(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).maxGroupSize;
+	}
 	static void device_features_set_maxGroupSizeX(TS_JNI_ARGS, jlong self, jint maxGroupSizeX) {
 		toDeviceFeatures(self).maxGroupSizeX = maxGroupSizeX;
 	}
@@ -14173,11 +14179,53 @@ namespace Tellusim {
 	static jint device_features_get_maxGroupCountZ(TS_JNI_ARGS, jlong self) {
 		return toDeviceFeatures(self).maxGroupCountZ;
 	}
+	static void device_features_set_maxTaskSize(TS_JNI_ARGS, jlong self, jint maxTaskSize) {
+		toDeviceFeatures(self).maxTaskSize = maxTaskSize;
+	}
+	static jint device_features_get_maxTaskSize(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).maxTaskSize;
+	}
+	static void device_features_set_maxTaskSizeX(TS_JNI_ARGS, jlong self, jint maxTaskSizeX) {
+		toDeviceFeatures(self).maxTaskSizeX = maxTaskSizeX;
+	}
+	static jint device_features_get_maxTaskSizeX(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).maxTaskSizeX;
+	}
+	static void device_features_set_maxTaskSizeY(TS_JNI_ARGS, jlong self, jint maxTaskSizeY) {
+		toDeviceFeatures(self).maxTaskSizeY = maxTaskSizeY;
+	}
+	static jint device_features_get_maxTaskSizeY(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).maxTaskSizeY;
+	}
+	static void device_features_set_maxTaskSizeZ(TS_JNI_ARGS, jlong self, jint maxTaskSizeZ) {
+		toDeviceFeatures(self).maxTaskSizeZ = maxTaskSizeZ;
+	}
+	static jint device_features_get_maxTaskSizeZ(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).maxTaskSizeZ;
+	}
 	static void device_features_set_maxTaskCount(TS_JNI_ARGS, jlong self, jint maxTaskCount) {
 		toDeviceFeatures(self).maxTaskCount = maxTaskCount;
 	}
 	static jint device_features_get_maxTaskCount(TS_JNI_ARGS, jlong self) {
 		return toDeviceFeatures(self).maxTaskCount;
+	}
+	static void device_features_set_maxTaskCountX(TS_JNI_ARGS, jlong self, jint maxTaskCountX) {
+		toDeviceFeatures(self).maxTaskCountX = maxTaskCountX;
+	}
+	static jint device_features_get_maxTaskCountX(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).maxTaskCountX;
+	}
+	static void device_features_set_maxTaskCountY(TS_JNI_ARGS, jlong self, jint maxTaskCountY) {
+		toDeviceFeatures(self).maxTaskCountY = maxTaskCountY;
+	}
+	static jint device_features_get_maxTaskCountY(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).maxTaskCountY;
+	}
+	static void device_features_set_maxTaskCountZ(TS_JNI_ARGS, jlong self, jint maxTaskCountZ) {
+		toDeviceFeatures(self).maxTaskCountZ = maxTaskCountZ;
+	}
+	static jint device_features_get_maxTaskCountZ(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).maxTaskCountZ;
 	}
 	static void device_features_set_maxTaskMemory(TS_JNI_ARGS, jlong self, jint maxTaskMemory) {
 		toDeviceFeatures(self).maxTaskMemory = maxTaskMemory;
@@ -14185,11 +14233,53 @@ namespace Tellusim {
 	static jint device_features_get_maxTaskMemory(TS_JNI_ARGS, jlong self) {
 		return toDeviceFeatures(self).maxTaskMemory;
 	}
-	static void device_features_set_maxTaskMeshes(TS_JNI_ARGS, jlong self, jint maxTaskMeshes) {
-		toDeviceFeatures(self).maxTaskMeshes = maxTaskMeshes;
+	static void device_features_set_maxMeshSize(TS_JNI_ARGS, jlong self, jint maxMeshSize) {
+		toDeviceFeatures(self).maxMeshSize = maxMeshSize;
 	}
-	static jint device_features_get_maxTaskMeshes(TS_JNI_ARGS, jlong self) {
-		return toDeviceFeatures(self).maxTaskMeshes;
+	static jint device_features_get_maxMeshSize(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).maxMeshSize;
+	}
+	static void device_features_set_maxMeshSizeX(TS_JNI_ARGS, jlong self, jint maxMeshSizeX) {
+		toDeviceFeatures(self).maxMeshSizeX = maxMeshSizeX;
+	}
+	static jint device_features_get_maxMeshSizeX(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).maxMeshSizeX;
+	}
+	static void device_features_set_maxMeshSizeY(TS_JNI_ARGS, jlong self, jint maxMeshSizeY) {
+		toDeviceFeatures(self).maxMeshSizeY = maxMeshSizeY;
+	}
+	static jint device_features_get_maxMeshSizeY(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).maxMeshSizeY;
+	}
+	static void device_features_set_maxMeshSizeZ(TS_JNI_ARGS, jlong self, jint maxMeshSizeZ) {
+		toDeviceFeatures(self).maxMeshSizeZ = maxMeshSizeZ;
+	}
+	static jint device_features_get_maxMeshSizeZ(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).maxMeshSizeZ;
+	}
+	static void device_features_set_maxMeshCount(TS_JNI_ARGS, jlong self, jint maxMeshCount) {
+		toDeviceFeatures(self).maxMeshCount = maxMeshCount;
+	}
+	static jint device_features_get_maxMeshCount(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).maxMeshCount;
+	}
+	static void device_features_set_maxMeshCountX(TS_JNI_ARGS, jlong self, jint maxMeshCountX) {
+		toDeviceFeatures(self).maxMeshCountX = maxMeshCountX;
+	}
+	static jint device_features_get_maxMeshCountX(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).maxMeshCountX;
+	}
+	static void device_features_set_maxMeshCountY(TS_JNI_ARGS, jlong self, jint maxMeshCountY) {
+		toDeviceFeatures(self).maxMeshCountY = maxMeshCountY;
+	}
+	static jint device_features_get_maxMeshCountY(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).maxMeshCountY;
+	}
+	static void device_features_set_maxMeshCountZ(TS_JNI_ARGS, jlong self, jint maxMeshCountZ) {
+		toDeviceFeatures(self).maxMeshCountZ = maxMeshCountZ;
+	}
+	static jint device_features_get_maxMeshCountZ(TS_JNI_ARGS, jlong self) {
+		return toDeviceFeatures(self).maxMeshCountZ;
 	}
 	static void device_features_set_maxMeshMemory(TS_JNI_ARGS, jlong self, jint maxMeshMemory) {
 		toDeviceFeatures(self).maxMeshMemory = maxMeshMemory;
@@ -14395,6 +14485,8 @@ namespace Tellusim {
 		{ (char*)"get_maxTextureLayers_", (char*)"(J)I", (void*)device_features_get_maxTextureLayers },
 		{ (char*)"set_maxTextureSamples_", (char*)"(JI)V", (void*)device_features_set_maxTextureSamples },
 		{ (char*)"get_maxTextureSamples_", (char*)"(J)I", (void*)device_features_get_maxTextureSamples },
+		{ (char*)"set_maxGroupSize_", (char*)"(JI)V", (void*)device_features_set_maxGroupSize },
+		{ (char*)"get_maxGroupSize_", (char*)"(J)I", (void*)device_features_get_maxGroupSize },
 		{ (char*)"set_maxGroupSizeX_", (char*)"(JI)V", (void*)device_features_set_maxGroupSizeX },
 		{ (char*)"get_maxGroupSizeX_", (char*)"(J)I", (void*)device_features_get_maxGroupSizeX },
 		{ (char*)"set_maxGroupSizeY_", (char*)"(JI)V", (void*)device_features_set_maxGroupSizeY },
@@ -14407,12 +14499,40 @@ namespace Tellusim {
 		{ (char*)"get_maxGroupCountY_", (char*)"(J)I", (void*)device_features_get_maxGroupCountY },
 		{ (char*)"set_maxGroupCountZ_", (char*)"(JI)V", (void*)device_features_set_maxGroupCountZ },
 		{ (char*)"get_maxGroupCountZ_", (char*)"(J)I", (void*)device_features_get_maxGroupCountZ },
+		{ (char*)"set_maxTaskSize_", (char*)"(JI)V", (void*)device_features_set_maxTaskSize },
+		{ (char*)"get_maxTaskSize_", (char*)"(J)I", (void*)device_features_get_maxTaskSize },
+		{ (char*)"set_maxTaskSizeX_", (char*)"(JI)V", (void*)device_features_set_maxTaskSizeX },
+		{ (char*)"get_maxTaskSizeX_", (char*)"(J)I", (void*)device_features_get_maxTaskSizeX },
+		{ (char*)"set_maxTaskSizeY_", (char*)"(JI)V", (void*)device_features_set_maxTaskSizeY },
+		{ (char*)"get_maxTaskSizeY_", (char*)"(J)I", (void*)device_features_get_maxTaskSizeY },
+		{ (char*)"set_maxTaskSizeZ_", (char*)"(JI)V", (void*)device_features_set_maxTaskSizeZ },
+		{ (char*)"get_maxTaskSizeZ_", (char*)"(J)I", (void*)device_features_get_maxTaskSizeZ },
 		{ (char*)"set_maxTaskCount_", (char*)"(JI)V", (void*)device_features_set_maxTaskCount },
 		{ (char*)"get_maxTaskCount_", (char*)"(J)I", (void*)device_features_get_maxTaskCount },
+		{ (char*)"set_maxTaskCountX_", (char*)"(JI)V", (void*)device_features_set_maxTaskCountX },
+		{ (char*)"get_maxTaskCountX_", (char*)"(J)I", (void*)device_features_get_maxTaskCountX },
+		{ (char*)"set_maxTaskCountY_", (char*)"(JI)V", (void*)device_features_set_maxTaskCountY },
+		{ (char*)"get_maxTaskCountY_", (char*)"(J)I", (void*)device_features_get_maxTaskCountY },
+		{ (char*)"set_maxTaskCountZ_", (char*)"(JI)V", (void*)device_features_set_maxTaskCountZ },
+		{ (char*)"get_maxTaskCountZ_", (char*)"(J)I", (void*)device_features_get_maxTaskCountZ },
 		{ (char*)"set_maxTaskMemory_", (char*)"(JI)V", (void*)device_features_set_maxTaskMemory },
 		{ (char*)"get_maxTaskMemory_", (char*)"(J)I", (void*)device_features_get_maxTaskMemory },
-		{ (char*)"set_maxTaskMeshes_", (char*)"(JI)V", (void*)device_features_set_maxTaskMeshes },
-		{ (char*)"get_maxTaskMeshes_", (char*)"(J)I", (void*)device_features_get_maxTaskMeshes },
+		{ (char*)"set_maxMeshSize_", (char*)"(JI)V", (void*)device_features_set_maxMeshSize },
+		{ (char*)"get_maxMeshSize_", (char*)"(J)I", (void*)device_features_get_maxMeshSize },
+		{ (char*)"set_maxMeshSizeX_", (char*)"(JI)V", (void*)device_features_set_maxMeshSizeX },
+		{ (char*)"get_maxMeshSizeX_", (char*)"(J)I", (void*)device_features_get_maxMeshSizeX },
+		{ (char*)"set_maxMeshSizeY_", (char*)"(JI)V", (void*)device_features_set_maxMeshSizeY },
+		{ (char*)"get_maxMeshSizeY_", (char*)"(J)I", (void*)device_features_get_maxMeshSizeY },
+		{ (char*)"set_maxMeshSizeZ_", (char*)"(JI)V", (void*)device_features_set_maxMeshSizeZ },
+		{ (char*)"get_maxMeshSizeZ_", (char*)"(J)I", (void*)device_features_get_maxMeshSizeZ },
+		{ (char*)"set_maxMeshCount_", (char*)"(JI)V", (void*)device_features_set_maxMeshCount },
+		{ (char*)"get_maxMeshCount_", (char*)"(J)I", (void*)device_features_get_maxMeshCount },
+		{ (char*)"set_maxMeshCountX_", (char*)"(JI)V", (void*)device_features_set_maxMeshCountX },
+		{ (char*)"get_maxMeshCountX_", (char*)"(J)I", (void*)device_features_get_maxMeshCountX },
+		{ (char*)"set_maxMeshCountY_", (char*)"(JI)V", (void*)device_features_set_maxMeshCountY },
+		{ (char*)"get_maxMeshCountY_", (char*)"(J)I", (void*)device_features_get_maxMeshCountY },
+		{ (char*)"set_maxMeshCountZ_", (char*)"(JI)V", (void*)device_features_set_maxMeshCountZ },
+		{ (char*)"get_maxMeshCountZ_", (char*)"(J)I", (void*)device_features_get_maxMeshCountZ },
 		{ (char*)"set_maxMeshMemory_", (char*)"(JI)V", (void*)device_features_set_maxMeshMemory },
 		{ (char*)"get_maxMeshMemory_", (char*)"(J)I", (void*)device_features_get_maxMeshMemory },
 		{ (char*)"set_maxMeshVertices_", (char*)"(JI)V", (void*)device_features_set_maxMeshVertices },
@@ -22303,6 +22423,15 @@ namespace Tellusim {
 	static jlong control_text_get_color(TS_JNI_ARGS, jlong self) {
 		return newColor(toControlText(self).getColor());
 	}
+	static void control_text_set_state_color(TS_JNI_ARGS, jlong self, jint state, jlong color) {
+		toControlText(self).setStateColor((Control::State)state, toColor(color));
+	}
+	static void control_text_set_state_color_1(TS_JNI_ARGS, jlong self, jint state, jfloat r, jfloat g, jfloat b, jfloat a) {
+		toControlText(self).setStateColor((Control::State)state, r, g, b, a);
+	}
+	static jint control_text_get_state_color(TS_JNI_ARGS, jlong self, jint state) {
+		return toControlText(self).getStateColor((Control::State)state);
+	}
 	static void control_text_set_filter(TS_JNI_ARGS, jlong self, jint filter) {
 		toControlText(self).setFilter((Sampler::Filter)filter);
 	}
@@ -22407,6 +22536,9 @@ namespace Tellusim {
 		{ (char*)"set_color", (char*)"(JJ)V", (void*)control_text_set_color },
 		{ (char*)"set_color_1", (char*)"(JFFFF)V", (void*)control_text_set_color_1 },
 		{ (char*)"get_color", (char*)"(J)J", (void*)control_text_get_color },
+		{ (char*)"set_state_color", (char*)"(JIJ)V", (void*)control_text_set_state_color },
+		{ (char*)"set_state_color_1", (char*)"(JIFFFF)V", (void*)control_text_set_state_color_1 },
+		{ (char*)"get_state_color", (char*)"(JI)I", (void*)control_text_get_state_color },
 		{ (char*)"set_filter", (char*)"(JI)V", (void*)control_text_set_filter },
 		{ (char*)"get_filter", (char*)"(J)I", (void*)control_text_get_filter },
 		{ (char*)"set_anisotropy", (char*)"(JI)V", (void*)control_text_set_anisotropy },
@@ -22622,6 +22754,15 @@ namespace Tellusim {
 	static jlong control_rect_get_color(TS_JNI_ARGS, jlong self) {
 		return newColor(toControlRect(self).getColor());
 	}
+	static void control_rect_set_state_color(TS_JNI_ARGS, jlong self, jint state, jlong color) {
+		toControlRect(self).setStateColor((Control::State)state, toColor(color));
+	}
+	static void control_rect_set_state_color_1(TS_JNI_ARGS, jlong self, jint state, jfloat r, jfloat g, jfloat b, jfloat a) {
+		toControlRect(self).setStateColor((Control::State)state, r, g, b, a);
+	}
+	static jint control_rect_get_state_color(TS_JNI_ARGS, jlong self, jint state) {
+		return toControlRect(self).getStateColor((Control::State)state);
+	}
 	static void control_rect_set_stroke_style(TS_JNI_ARGS, jlong self, jlong style) {
 		toControlRect(self).setStrokeStyle(toStrokeStyle(style));
 	}
@@ -22783,6 +22924,9 @@ namespace Tellusim {
 		{ (char*)"set_color", (char*)"(JJ)V", (void*)control_rect_set_color },
 		{ (char*)"set_color_1", (char*)"(JFFFF)V", (void*)control_rect_set_color_1 },
 		{ (char*)"get_color", (char*)"(J)J", (void*)control_rect_get_color },
+		{ (char*)"set_state_color", (char*)"(JIJ)V", (void*)control_rect_set_state_color },
+		{ (char*)"set_state_color_1", (char*)"(JIFFFF)V", (void*)control_rect_set_state_color_1 },
+		{ (char*)"get_state_color", (char*)"(JI)I", (void*)control_rect_get_state_color },
 		{ (char*)"set_stroke_style", (char*)"(JJ)V", (void*)control_rect_set_stroke_style },
 		{ (char*)"get_stroke_style_const", (char*)"(J)J", (void*)control_rect_get_stroke_style_const },
 		{ (char*)"get_stroke_style", (char*)"(J)J", (void*)control_rect_get_stroke_style },
@@ -27129,11 +27273,11 @@ namespace Tellusim {
 	static jint cube_filter_get_harmonics(TS_JNI_ARGS, jlong self) {
 		return toCubeFilter(self).getHarmonics();
 	}
-	static jboolean cube_filter_create(TS_JNI_ARGS, jlong self, jlong device, jint mode, jint order, jint size, jint groups) {
-		return toCubeFilter(self).create(toDevice(device), (CubeFilter::Mode)mode, (uint32_t)order, (uint32_t)size, (uint32_t)groups);
+	static jboolean cube_filter_create(TS_JNI_ARGS, jlong self, jlong device, jint mode, jint order, jint size, jint threads) {
+		return toCubeFilter(self).create(toDevice(device), (CubeFilter::Mode)mode, (uint32_t)order, (uint32_t)size, (uint32_t)threads);
 	}
-	static jboolean cube_filter_create_1(TS_JNI_ARGS, jlong self, jlong device, jint flags, jint order, jint size, jint groups) {
-		return toCubeFilter(self).create(toDevice(device), (CubeFilter::Flags)flags, (uint32_t)order, (uint32_t)size, (uint32_t)groups);
+	static jboolean cube_filter_create_1(TS_JNI_ARGS, jlong self, jlong device, jint flags, jint order, jint size, jint threads) {
+		return toCubeFilter(self).create(toDevice(device), (CubeFilter::Flags)flags, (uint32_t)order, (uint32_t)size, (uint32_t)threads);
 	}
 	static jboolean cube_filter_dispatch(TS_JNI_ARGS, jlong self, jlong compute, jlong buffer, jint offset, jlong texture, jlong slice) {
 		return toCubeFilter(self).dispatch(toCompute(compute), toBuffer(buffer), (uint32_t)offset, toTexture(texture), toSlice(slice));
@@ -28086,11 +28230,11 @@ namespace Tellusim {
 	static jint prefix_scan_get_max_regions(TS_JNI_ARGS, jlong self) {
 		return toPrefixScan(self).getMaxRegions();
 	}
-	static jboolean prefix_scan_create(TS_JNI_ARGS, jlong self, jlong device, jint mode, jint groups, jint regions, jlong async) {
-		return toPrefixScan(self).create(toDevice(device), (PrefixScan::Mode)mode, (uint32_t)groups, (uint32_t)regions, (Async*)async);
+	static jboolean prefix_scan_create(TS_JNI_ARGS, jlong self, jlong device, jint mode, jint threads, jint regions, jlong async) {
+		return toPrefixScan(self).create(toDevice(device), (PrefixScan::Mode)mode, (uint32_t)threads, (uint32_t)regions, (Async*)async);
 	}
-	static jboolean prefix_scan_create_1(TS_JNI_ARGS, jlong self, jlong device, jint flags, jint groups, jint regions, jlong async) {
-		return toPrefixScan(self).create(toDevice(device), (PrefixScan::Flags)flags, (uint32_t)groups, (uint32_t)regions, (Async*)async);
+	static jboolean prefix_scan_create_1(TS_JNI_ARGS, jlong self, jlong device, jint flags, jint threads, jint regions, jlong async) {
+		return toPrefixScan(self).create(toDevice(device), (PrefixScan::Flags)flags, (uint32_t)threads, (uint32_t)regions, (Async*)async);
 	}
 	static jboolean prefix_scan_dispatch(TS_JNI_ARGS, jlong self, jlong compute, jlong data, jint offset, jint size, jint stride) {
 		return toPrefixScan(self).dispatch(toCompute(compute), toBuffer(data), (uint32_t)offset, (uint32_t)size, (uint32_t)stride);
@@ -28245,11 +28389,11 @@ namespace Tellusim {
 	static jlong radix_sort_get_data_buffer(TS_JNI_ARGS, jlong self) {
 		return newBuffer(toRadixSort(self).getDataBuffer());
 	}
-	static jboolean radix_sort_create(TS_JNI_ARGS, jlong self, jlong device, jint mode, jlong scan, jint size, jint groups, jint regions, jlong async) {
-		return toRadixSort(self).create(toDevice(device), (RadixSort::Mode)mode, toPrefixScan(scan), (uint32_t)size, (uint32_t)groups, (uint32_t)regions, (Async*)async);
+	static jboolean radix_sort_create(TS_JNI_ARGS, jlong self, jlong device, jint mode, jlong scan, jint size, jint threads, jint regions, jlong async) {
+		return toRadixSort(self).create(toDevice(device), (RadixSort::Mode)mode, toPrefixScan(scan), (uint32_t)size, (uint32_t)threads, (uint32_t)regions, (Async*)async);
 	}
-	static jboolean radix_sort_create_1(TS_JNI_ARGS, jlong self, jlong device, jint flags, jlong scan, jint size, jint groups, jint regions, jlong async) {
-		return toRadixSort(self).create(toDevice(device), (RadixSort::Flags)flags, toPrefixScan(scan), (uint32_t)size, (uint32_t)groups, (uint32_t)regions, (Async*)async);
+	static jboolean radix_sort_create_1(TS_JNI_ARGS, jlong self, jlong device, jint flags, jlong scan, jint size, jint threads, jint regions, jlong async) {
+		return toRadixSort(self).create(toDevice(device), (RadixSort::Flags)flags, toPrefixScan(scan), (uint32_t)size, (uint32_t)threads, (uint32_t)regions, (Async*)async);
 	}
 	static jboolean radix_sort_dispatch(TS_JNI_ARGS, jlong self, jlong compute, jlong data, jint keys_offset, jint data_offset, jint size, jint flags, jint bits) {
 		return toRadixSort(self).dispatch(toCompute(compute), toBuffer(data), (uint32_t)keys_offset, (uint32_t)data_offset, (uint32_t)size, (RadixSort::Flags)flags, (uint32_t)bits);
@@ -28396,11 +28540,11 @@ namespace Tellusim {
 	static jint bitonic_sort_get_max_regions(TS_JNI_ARGS, jlong self) {
 		return toBitonicSort(self).getMaxRegions();
 	}
-	static jboolean bitonic_sort_create(TS_JNI_ARGS, jlong self, jlong device, jint mode, jint size, jint groups, jint regions, jlong async) {
-		return toBitonicSort(self).create(toDevice(device), (BitonicSort::Mode)mode, (uint32_t)size, (uint32_t)groups, (uint32_t)regions, (Async*)async);
+	static jboolean bitonic_sort_create(TS_JNI_ARGS, jlong self, jlong device, jint mode, jint size, jint threads, jint regions, jlong async) {
+		return toBitonicSort(self).create(toDevice(device), (BitonicSort::Mode)mode, (uint32_t)size, (uint32_t)threads, (uint32_t)regions, (Async*)async);
 	}
-	static jboolean bitonic_sort_create_1(TS_JNI_ARGS, jlong self, jlong device, jint flags, jint size, jint groups, jint regions, jlong async) {
-		return toBitonicSort(self).create(toDevice(device), (BitonicSort::Flags)flags, (uint32_t)size, (uint32_t)groups, (uint32_t)regions, (Async*)async);
+	static jboolean bitonic_sort_create_1(TS_JNI_ARGS, jlong self, jlong device, jint flags, jint size, jint threads, jint regions, jlong async) {
+		return toBitonicSort(self).create(toDevice(device), (BitonicSort::Flags)flags, (uint32_t)size, (uint32_t)threads, (uint32_t)regions, (Async*)async);
 	}
 	static jboolean bitonic_sort_dispatch(TS_JNI_ARGS, jlong self, jlong compute, jlong data, jint keys_offset, jint data_offset, jint size, jint flags) {
 		return toBitonicSort(self).dispatch(toCompute(compute), toBuffer(data), (uint32_t)keys_offset, (uint32_t)data_offset, (uint32_t)size, (BitonicSort::Flags)flags);
@@ -28529,8 +28673,8 @@ namespace Tellusim {
 	static jlong spatial_grid_get_radix_sort(TS_JNI_ARGS, jlong self) {
 		return newRadixSort(toSpatialGrid(self).getRadixSort());
 	}
-	static jboolean spatial_grid_create(TS_JNI_ARGS, jlong self, jlong device, jlong sort, jint groups) {
-		return toSpatialGrid(self).create(toDevice(device), toRadixSort(sort), (uint32_t)groups);
+	static jboolean spatial_grid_create(TS_JNI_ARGS, jlong self, jlong device, jlong sort, jint threads) {
+		return toSpatialGrid(self).create(toDevice(device), toRadixSort(sort), (uint32_t)threads);
 	}
 	static jboolean spatial_grid_dispatch(TS_JNI_ARGS, jlong self, jlong compute, jlong data, jint offset, jint size, jint bits) {
 		return toSpatialGrid(self).dispatch(toCompute(compute), toBuffer(data), (uint32_t)offset, (uint32_t)size, (uint32_t)bits);
@@ -28828,11 +28972,11 @@ namespace Tellusim {
 	static jlong spatial_tree_get_counter_buffer(TS_JNI_ARGS, jlong self) {
 		return newBuffer(toSpatialTree(self).getCounterBuffer());
 	}
-	static jboolean spatial_tree_create(TS_JNI_ARGS, jlong self, jlong device, jint mode, jlong sort, jint size, jint groups, jint regions, jlong async) {
-		return toSpatialTree(self).create(toDevice(device), (SpatialTree::Mode)mode, toRadixSort(sort), (uint32_t)size, (uint32_t)groups, (uint32_t)regions, (Async*)async);
+	static jboolean spatial_tree_create(TS_JNI_ARGS, jlong self, jlong device, jint mode, jlong sort, jint size, jint threads, jint regions, jlong async) {
+		return toSpatialTree(self).create(toDevice(device), (SpatialTree::Mode)mode, toRadixSort(sort), (uint32_t)size, (uint32_t)threads, (uint32_t)regions, (Async*)async);
 	}
-	static jboolean spatial_tree_create_1(TS_JNI_ARGS, jlong self, jlong device, jint flags, jlong sort, jint size, jint groups, jint regions, jlong async) {
-		return toSpatialTree(self).create(toDevice(device), (SpatialTree::Flags)flags, toRadixSort(sort), (uint32_t)size, (uint32_t)groups, (uint32_t)regions, (Async*)async);
+	static jboolean spatial_tree_create_1(TS_JNI_ARGS, jlong self, jlong device, jint flags, jlong sort, jint size, jint threads, jint regions, jlong async) {
+		return toSpatialTree(self).create(toDevice(device), (SpatialTree::Flags)flags, toRadixSort(sort), (uint32_t)size, (uint32_t)threads, (uint32_t)regions, (Async*)async);
 	}
 	static jboolean spatial_tree_dispatch(TS_JNI_ARGS, jlong self, jlong compute, jint hash, jlong nodes, jint offset, jint size, jint flags) {
 		return toSpatialTree(self).dispatch(toCompute(compute), (SpatialTree::Hash)hash, toBuffer(nodes), (uint32_t)offset, (uint32_t)size, (SpatialTree::Flags)flags);
@@ -30036,6 +30180,31 @@ namespace Tellusim {
 		{ (char*)"open_1", (char*)"(J)Z", (void*)sys_open_1 },
 	};
 	
+	// Tellusim::MeshBoolean
+	static jboolean mesh_boolean_intersect(TS_JNI_ARGS, jlong dest, jlong src_0, jlong src_1, jint op) {
+		return MeshBoolean::intersect(toMeshGeometry(dest), toMeshGeometry(src_0), toMeshGeometry(src_1), (MeshBoolean::Operation)op);
+	}
+	static jboolean mesh_boolean_intersect_1(TS_JNI_ARGS, jlong dest_0, jlong dest_1, jlong src_0, jlong src_1, jint op) {
+		return MeshBoolean::intersect(toMeshGeometry(dest_0), toMeshGeometry(dest_1), toMeshGeometry(src_0), toMeshGeometry(src_1), (MeshBoolean::Operation)op);
+	}
+	static const JNINativeMethod mesh_boolean_methods[] = {
+		{ (char*)"intersect_", (char*)"(JJJI)Z", (void*)mesh_boolean_intersect },
+		{ (char*)"intersect_1", (char*)"(JJJJI)Z", (void*)mesh_boolean_intersect_1 },
+	};
+	
+	// Tellusim::MeshFracture
+	static jboolean mesh_fracture_split(TS_JNI_ARGS, jlong dest, jlong src, jlongArray points, jint num_points, jlong texcoord, jfloat threshold, jfloat collapse, jfloat volume, jlong async) {
+		Array<Vector3f> points_((uint32_t)env->GetArrayLength(points));
+		jlong *points__ = env->GetLongArrayElements(points, nullptr);
+		for(uint32_t i = 0; i < points_.size(); i++) points_[i] = toVector3f(points__[i]);
+		bool ret_ = MeshFracture::split(toMesh(dest), toMesh(src), points_.get(), (uint32_t)num_points, toVector2f(texcoord), threshold, collapse, volume, (Async*)async);
+		if(points__) env->ReleaseLongArrayElements(points, points__, 0);
+		return ret_;
+	}
+	static const JNINativeMethod mesh_fracture_methods[] = {
+		{ (char*)"split_", (char*)"(JJ[JIJFFFJ)Z", (void*)mesh_fracture_split },
+	};
+	
 	// Tellusim::MeshGraph
 	static bool mesh_graph_progress_callback_func(uint32_t progress, JNIEnv *env, jobject func) {
 		static jclass clazz = nullptr;
@@ -30158,6 +30327,18 @@ namespace Tellusim {
 	static const JNINativeMethod mesh_solid_methods[] = {
 		{ (char*)"create_", (char*)"(JJFFL" TS_JNI_PREFIX "MeshSolid$ProgressCallback;)Z", (void*)mesh_solid_create },
 		{ (char*)"create_1", (char*)"(JJFFL" TS_JNI_PREFIX "MeshSolid$ProgressCallback;I)Z", (void*)mesh_solid_create_1 },
+	};
+	
+	// Tellusim::MeshSplit
+	static jboolean mesh_split_split(TS_JNI_ARGS, jlong front, jlong cross, jlong back, jlong src, jlong basis) {
+		return MeshSplit::split(toMesh(front), toMesh(cross), toMesh(back), toMesh(src), toMatrix4x3f(basis));
+	}
+	static jboolean mesh_split_split_1(TS_JNI_ARGS, jlong front, jlong cross, jlong back, jlong src, jlong basis, jint position) {
+		return MeshSplit::split(toMeshGeometry(front), toMeshGeometry(cross), toMeshGeometry(back), toMeshGeometry(src), toMatrix4x3f(basis), (uint32_t)position);
+	}
+	static const JNINativeMethod mesh_split_methods[] = {
+		{ (char*)"split_", (char*)"(JJJJJ)Z", (void*)mesh_split_split },
+		{ (char*)"split_1", (char*)"(JJJJJI)Z", (void*)mesh_split_split_1 },
 	};
 	
 	// Init Tellusim API
@@ -30371,10 +30552,13 @@ namespace Tellusim {
 		TS_JNI_REGISTER_CLASS(Log, log)
 		TS_JNI_REGISTER_CLASS(Time, time)
 		TS_JNI_REGISTER_CLASS(Sys, sys)
+		TS_JNI_REGISTER_CLASS(MeshBoolean, mesh_boolean)
+		TS_JNI_REGISTER_CLASS(MeshFracture, mesh_fracture)
 		TS_JNI_REGISTER_CLASS(MeshGraph, mesh_graph)
 		TS_JNI_REGISTER_CLASS(MeshReduce, mesh_reduce)
 		TS_JNI_REGISTER_CLASS(MeshRefine, mesh_refine)
 		TS_JNI_REGISTER_CLASS(MeshSolid, mesh_solid)
+		TS_JNI_REGISTER_CLASS(MeshSplit, mesh_split)
 		#undef TS_JNI_REGISTER_CLASS
 		return true;
 	}

@@ -1053,7 +1053,7 @@ namespace Tellusim {
 		Type x = v0.y * v1.z - v0.z * v1.y;
 		Type y = v0.z * v1.x - v0.x * v1.z;
 		Type z = v0.x * v1.y - v0.y * v1.x;
-		return Vector4<Type>(x, y, z, 0.0f);
+		return Vector4<Type>(x, y, z, Type(0.0f));
 	}
 	template <class Type> TS_INLINE Type cross2(const Vector4<Type> &v0, const Vector4<Type> &v1) {
 		return v0.y * v1.x - v0.x * v1.y;

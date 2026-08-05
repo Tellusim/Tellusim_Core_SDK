@@ -222,7 +222,7 @@ namespace Tellusim {
 			MeshGeometry getGeometry();
 			
 			/// indices size
-			void setSize(uint32_t size, bool discard = true, bool clear = false);
+			bool setSize(uint32_t size, bool discard = true, bool clear = false);
 			uint32_t getSize() const;
 			uint32_t getStride() const;
 			size_t getBytes() const;
@@ -366,7 +366,7 @@ namespace Tellusim {
 			MeshGeometry getGeometry();
 			
 			/// attribute size
-			void setSize(uint32_t size, bool discard = true, bool clear = false);
+			bool setSize(uint32_t size, bool discard = true, bool clear = false);
 			uint32_t getSize() const;
 			uint32_t getStride() const;
 			size_t getBytes() const;
@@ -427,7 +427,8 @@ namespace Tellusim {
 			bool unpackAttributes(MeshAttribute &attribute_0, MeshAttribute &attribute_1) const;
 			
 			/// optimize attribute by removing duplicates
-			MeshAttribute optimizeAttribute(MeshIndices &indices) const;
+			/// \param threshold Comparison threshold
+			MeshAttribute optimizeAttribute(MeshIndices &indices, float32_t threshold = 0.0f) const;
 			
 			/// convert attribute to direct
 			MeshAttribute toDirect(const MeshIndices &indices) const;

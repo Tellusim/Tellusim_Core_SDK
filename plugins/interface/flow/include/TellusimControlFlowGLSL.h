@@ -21,7 +21,7 @@ namespace Tellusim {
 			virtual ~ControlFlowGLSL();
 			
 			/// create flow
-			virtual bool create(Control *controls_root = nullptr, Control *tooltip_root = nullptr);
+			virtual bool create(Control *controls_root = nullptr, Control *base_root = nullptr);
 			
 			/// Source flags
 			enum Flags {
@@ -36,7 +36,8 @@ namespace Tellusim {
 			/// create source for the node
 			/// \param node Node index
 			/// \param flags Source flags
-			String getSource(uint32_t node, Flags flags);
+			/// \param index Output index
+			String getSource(uint32_t node, Flags flags, uint32_t index = Maxu32);
 			
 			/// type name
 			virtual const char *getGLSLTypeName(uint32_t type) const;
@@ -132,9 +133,9 @@ namespace Tellusim {
 			
 			String library_source;					// library source
 			
-			Color glsl_color = Color(1.0f, 1.0f, 1.0f, 0.75f);
-			Color tool_color = Color(0.3f, 0.6f, 1.0f, 0.75f);
-			Color field_color = Color(0.6f, 0.6f, 0.3f, 0.75f);
+			Color glsl_color = Color(0.9f, 0.9f, 0.9f, 0.75f);
+			Color tool_color = Color(0.4f, 0.5f, 0.9f, 0.75f);
+			Color field_color = Color(0.8f, 0.6f, 0.2f, 0.75f);
 	};
 	
 	/*

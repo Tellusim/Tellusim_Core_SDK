@@ -87,8 +87,8 @@ int32_t main(int32_t argc, char **argv) {
 		uint32_t battery_proto = flow.addProto("bat", {}, { vcc_type, gnd_type });
 		flow.setProtoText(battery_proto, "Battery");
 		flow.setProtoInfo(battery_proto, "Power Supply");
-		flow.setProtoMultiOutput(battery_proto, 0, true);
-		flow.setProtoMultiOutput(battery_proto, 1, true);
+		flow.setProtoMultiOutput(battery_proto, 0u, true);
+		flow.setProtoMultiOutput(battery_proto, 1u, true);
 		flow.setProtoOutputValue(battery_proto, "vcc", "+");
 		flow.setProtoOutputValue(battery_proto, "gnd", "-");
 		
@@ -114,9 +114,9 @@ int32_t main(int32_t argc, char **argv) {
 		});
 		flow.setProtoText(switch_proto, "Switch");
 		flow.setProtoInfo(switch_proto, "Switch");
-		flow.setProtoMultiOutput(switch_proto, 0, true);
-		flow.setProtoMultiOutput(switch_proto, 1, true);
-		flow.setProtoMultiOutput(switch_proto, 2, true);
+		flow.setProtoMultiOutput(switch_proto, 0u, true);
+		flow.setProtoMultiOutput(switch_proto, 1u, true);
+		flow.setProtoMultiOutput(switch_proto, 2u, true);
 		
 		// button proto
 		uint32_t button_proto = flow.addProto("but", { vcc_type, gnd_type }, { vcc_type, level_type, gnd_type });
@@ -145,9 +145,9 @@ int32_t main(int32_t argc, char **argv) {
 		});
 		flow.setProtoText(button_proto, "Button");
 		flow.setProtoInfo(button_proto, "Button");
-		flow.setProtoMultiOutput(button_proto, 0, true);
-		flow.setProtoMultiOutput(button_proto, 1, true);
-		flow.setProtoMultiOutput(button_proto, 2, true);
+		flow.setProtoMultiOutput(button_proto, 0u, true);
+		flow.setProtoMultiOutput(button_proto, 1u, true);
+		flow.setProtoMultiOutput(button_proto, 2u, true);
 		
 		// led proto
 		uint32_t led_proto = flow.addProto("led", { level_type, gnd_type });
@@ -195,9 +195,9 @@ int32_t main(int32_t argc, char **argv) {
 		flow.setProtoInfo(not_proto, "Logical Not");
 		flow.setProtoInputText(not_proto, 1, "A");
 		flow.setProtoOutputText(not_proto, 1, "!A");
-		flow.setProtoMultiOutput(not_proto, 0, true);
-		flow.setProtoMultiOutput(not_proto, 1, true);
-		flow.setProtoMultiOutput(not_proto, 2, true);
+		flow.setProtoMultiOutput(not_proto, 0u, true);
+		flow.setProtoMultiOutput(not_proto, 1u, true);
+		flow.setProtoMultiOutput(not_proto, 2u, true);
 		
 		// logical and
 		uint32_t and_proto = flow.addProto("and", { vcc_type, level_type, level_type, gnd_type }, { vcc_type, level_type, gnd_type });
@@ -216,9 +216,9 @@ int32_t main(int32_t argc, char **argv) {
 		flow.setProtoInputText(and_proto, 1, "A");
 		flow.setProtoInputText(and_proto, 2, "B");
 		flow.setProtoOutputText(and_proto, 1, "A&B");
-		flow.setProtoMultiOutput(and_proto, 0, true);
-		flow.setProtoMultiOutput(and_proto, 1, true);
-		flow.setProtoMultiOutput(and_proto, 2, true);
+		flow.setProtoMultiOutput(and_proto, 0u, true);
+		flow.setProtoMultiOutput(and_proto, 1u, true);
+		flow.setProtoMultiOutput(and_proto, 2u, true);
 		
 		// logical not and
 		uint32_t nand_proto = flow.addProto("nand", { vcc_type, level_type, level_type, gnd_type }, { vcc_type, level_type, gnd_type });
@@ -237,9 +237,9 @@ int32_t main(int32_t argc, char **argv) {
 		flow.setProtoInputText(nand_proto, 1, "A");
 		flow.setProtoInputText(nand_proto, 2, "B");
 		flow.setProtoOutputText(nand_proto, 1, "!A&B");
-		flow.setProtoMultiOutput(nand_proto, 0, true);
-		flow.setProtoMultiOutput(nand_proto, 1, true);
-		flow.setProtoMultiOutput(nand_proto, 2, true);
+		flow.setProtoMultiOutput(nand_proto, 0u, true);
+		flow.setProtoMultiOutput(nand_proto, 1u, true);
+		flow.setProtoMultiOutput(nand_proto, 2u, true);
 		
 		// logical xor
 		uint32_t xor_proto = flow.addProto("xor", { vcc_type, level_type, level_type, gnd_type }, { vcc_type, level_type, gnd_type });
@@ -258,9 +258,9 @@ int32_t main(int32_t argc, char **argv) {
 		flow.setProtoInputText(xor_proto, 1, "A");
 		flow.setProtoInputText(xor_proto, 2, "B");
 		flow.setProtoOutputText(xor_proto, 1, "A^B");
-		flow.setProtoMultiOutput(xor_proto, 0, true);
-		flow.setProtoMultiOutput(xor_proto, 1, true);
-		flow.setProtoMultiOutput(xor_proto, 2, true);
+		flow.setProtoMultiOutput(xor_proto, 0u, true);
+		flow.setProtoMultiOutput(xor_proto, 1u, true);
+		flow.setProtoMultiOutput(xor_proto, 2u, true);
 		
 		// logical or
 		uint32_t or_proto = flow.addProto("or", { vcc_type, level_type, level_type, gnd_type }, { vcc_type, level_type, gnd_type });
@@ -279,9 +279,9 @@ int32_t main(int32_t argc, char **argv) {
 		flow.setProtoInputText(or_proto, 1, "A");
 		flow.setProtoInputText(or_proto, 2, "B");
 		flow.setProtoOutputText(or_proto, 1, "A|B");
-		flow.setProtoMultiOutput(or_proto, 0, true);
-		flow.setProtoMultiOutput(or_proto, 1, true);
-		flow.setProtoMultiOutput(or_proto, 2, true);
+		flow.setProtoMultiOutput(or_proto, 0u, true);
+		flow.setProtoMultiOutput(or_proto, 1u, true);
+		flow.setProtoMultiOutput(or_proto, 2u, true);
 		
 		// load flow
 		#if _EMSCRIPTEN
