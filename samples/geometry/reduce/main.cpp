@@ -42,6 +42,9 @@ int32_t main(int32_t argc, char **argv) {
 	Device device(window);
 	if(!device) return 1;
 	
+	// create target
+	Target target = device.createTarget(window);
+	
 	// create pipeline
 	Pipeline pipeline = device.createPipeline();
 	pipeline.setUniformMask(0, Shader::MaskVertex);
@@ -50,6 +53,7 @@ int32_t main(int32_t argc, char **argv) {
 	pipeline.setColorFormat(window.getColorFormat());
 	pipeline.setDepthFormat(window.getDepthFormat());
 	pipeline.setDepthFunc(Pipeline::DepthFuncLessEqual);
+	pipeline.setCullMode(target.isFlipped() ? Pipeline::CullModeFront : Pipeline::CullModeBack);
 	if(!pipeline.loadShaderGLSL(Shader::TypeVertex, "main.shader", "VERTEX_SHADER=1")) return 1;
 	if(!pipeline.loadShaderGLSL(Shader::TypeFragment, "main.shader", "FRAGMENT_SHADER=1")) return 1;
 	if(!pipeline.create()) return 1;
@@ -73,9 +77,6 @@ int32_t main(int32_t argc, char **argv) {
 	// collapse model
 	MeshModel collapse_model;
 	
-	// create target
-	Target target = device.createTarget(window);
-	
 	// create canvas
 	Canvas canvas;
 	
@@ -93,6 +94,8 @@ int32_t main(int32_t argc, char **argv) {
 	threshold_slider.setSize(192.0f, 0.0f);
 	
 	ControlCheck wireframe_check(&panel, "Wireframe");
+	
+	ControlCheck animation_check(&panel, "Animation", true);
 	
 	ControlText info_text(&panel);
 	
@@ -123,6 +126,9 @@ int32_t main(int32_t argc, char **argv) {
 	// collapse model
 	changed_func.run();
 	
+	float32_t animation_time = 0.0f;
+	float32_t old_animation_time = 0.0f;
+	
 	// main loop
 	DECLARE_GLOBAL
 	window.run([&]() {
@@ -135,9 +141,17 @@ int32_t main(int32_t argc, char **argv) {
 		// window title
 		if(fps > 0.0f) window.setTitle(String::format("%s %.1f FPS", title.get(), fps));
 		
+		// update keyboard
+		if(window.getKeyboardKey('w', true)) wireframe_check.switchChecked();
+		if(window.getKeyboardKey(' ', true)) animation_check.switchChecked();
+		
 		// update controls
 		update_controls(window, root);
 		canvas.create(device, target);
+		
+		// animation time
+		if(animation_check.isChecked()) animation_time += time - old_animation_time;
+		old_animation_time = time;
 		
 		// window target
 		target.setClearColor(0.2f, 0.2f, 0.2f, 1.0f);
@@ -154,7 +168,7 @@ int32_t main(int32_t argc, char **argv) {
 			common_parameters.camera = Vector4f(2.0f, 2.0f, 1.0f, 0.0f);
 			common_parameters.projection = Matrix4x4f::perspective(60.0f, (float32_t)window.getWidth() / window.getHeight(), 0.1f, 1000.0f);
 			common_parameters.modelview = Matrix4x4f::lookAt(Vector3f(common_parameters.camera), Vector3f::zero, Vector3f::oneZ);
-			common_parameters.transform = Matrix4x4f::rotateX(time * 8.0f) * Matrix4x4f::rotateZ(time * 16.0f);
+			common_parameters.transform = Matrix4x4f::rotateX(animation_time * 8.0f) * Matrix4x4f::rotateZ(animation_time * 16.0f);
 			if(target.isFlipped()) common_parameters.projection = Matrix4x4f::scale(1.0f, -1.0f, 1.0f) * common_parameters.projection;
 			command.setUniform(0, common_parameters);
 			

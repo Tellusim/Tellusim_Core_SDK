@@ -128,7 +128,7 @@ int32_t main(int32_t argc, char **argv) {
 				command.setPipeline(mesh_pipeline);
 				command.setStorageBuffers(0, { mesh_model.getVertexBuffer(), mesh_model.getIndexBuffer() });
 				uint32_t num_meshes = grid_size * grid_size * grid_size;
-				uint32_t max_meshes = device.getFeatures().maxTaskMeshes;
+				uint32_t max_meshes = min(device.getFeatures().maxTaskCount, device.getFeatures().maxTaskCountX);
 				for(uint32_t i = 0; i < num_meshes; i += max_meshes) {
 					uint32_t num = min(num_meshes - i, max_meshes);
 					common_parameters.index = i;

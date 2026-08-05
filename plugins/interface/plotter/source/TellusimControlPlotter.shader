@@ -57,7 +57,7 @@
 	};
 	
 	layout(std140, binding = 4) uniform ValueParameters {
-		vec4 values[256];
+		vec4 values[MAX_VALUES / 4];
 	};
 	
 	layout(location = 0) out vec4 out_color;
@@ -74,12 +74,12 @@
 	 */
 	float get_value(int index) {
 		index = index % max_values;
-		vec4 value4 = values[index >> 2];
+		vec4 value_4 = values[index >> 2];
 		index &= 0x03;
-		float value = value4.x;
-		if(index == 1) value = value4.y;
-		else if(index == 2) value = value4.z;
-		else if(index == 3) value = value4.w;
+		float value = value_4.x;
+		if(index == 1) value = value_4.y;
+		else if(index == 2) value = value_4.z;
+		else if(index == 3) value = value_4.w;
 		return (value - range_y.x) / range_y.y;
 	}
 	

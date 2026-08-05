@@ -34,7 +34,9 @@ public class App {
 	public static final int Version_41 = 20250816;
 	public static final int Version_42 = 20251102;
 	public static final int Version_43 = 20251220;
-	public static final int Version = 20251220;
+	public static final int Version_44 = 20260625;
+	public static final int Version_45 = 20260702;
+	public static final int Version = 20260702;
 	
 	public App(String[] args) { init_(new_(Base.getArgs(args))); }
 	public App[] ref() { return new App[] { this }; }

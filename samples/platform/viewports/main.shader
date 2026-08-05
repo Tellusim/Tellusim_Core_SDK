@@ -150,6 +150,10 @@
 		
 		gl_Position = in_position;
 		
+		#if CLAY_VK
+			gl_Position.y = -gl_Position.y;
+		#endif
+		
 		s_texcoord = in_texcoord;
 	}
 	

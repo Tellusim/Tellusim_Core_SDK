@@ -67,9 +67,9 @@ namespace Tellusim {
 		TS_API float32_t getFast() const;
 		
 		/// conversion to numbers
-		TS_INLINE operator uint16_t() const { return bits; }
-		TS_INLINE operator float32_t() const { return get(); }
-		TS_INLINE operator float64_t() const { return get(); }
+		TS_INLINE explicit operator uint16_t() const { return bits; }
+		TS_INLINE explicit operator float32_t() const { return get(); }
+		TS_INLINE explicit operator float64_t() const { return get(); }
 		
 		/// conversion from numbers
 		TS_INLINE float16_t &operator=(uint16_t u) { bits = u; return *this; }
@@ -110,9 +110,9 @@ namespace Tellusim {
 		TS_API float32_t getFast() const;
 		
 		/// conversion to numbers
-		TS_INLINE operator uint32_t() const { return bits; }
-		TS_INLINE operator float32_t() const { return get(); }
-		TS_INLINE operator float64_t() const { return get(); }
+		TS_INLINE explicit operator uint32_t() const { return bits; }
+		TS_INLINE explicit operator float32_t() const { return get(); }
+		TS_INLINE explicit operator float64_t() const { return get(); }
 		
 		/// conversion from numbers
 		TS_INLINE float21_t &operator=(uint32_t u) { bits = u; return *this; }
@@ -153,9 +153,9 @@ namespace Tellusim {
 		TS_API float32_t getFast() const;
 		
 		/// conversion to numbers
-		TS_INLINE operator uint32_t() const { return bits; }
-		TS_INLINE operator float32_t() const { return get(); }
-		TS_INLINE operator float64_t() const { return get(); }
+		TS_INLINE explicit operator uint32_t() const { return bits; }
+		TS_INLINE explicit operator float32_t() const { return get(); }
+		TS_INLINE explicit operator float64_t() const { return get(); }
 		
 		/// conversion from numbers
 		TS_INLINE float24_t &operator=(uint32_t u) { bits = u; return *this; }

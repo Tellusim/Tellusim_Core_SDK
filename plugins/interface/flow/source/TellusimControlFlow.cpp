@@ -328,11 +328,11 @@ namespace Tellusim {
 											if(!name && type_it) name = getTypeName(type_it->data);
 											uint32_t input_index = findProtoInput(proto_index, name);
 											if(input_index == Maxu32) {
-												TS_LOGF(Warning, "ControlFlow::load(): unknown proto input \"%s\"\n", name.get());
+												TS_LOGF(Warning, "ControlFlow::load(): unknown proto \"%s\" input \"%s\"\n", getProtoName(proto_index).get(), name.get());
 												continue;
 											}
 											if(type_it && getProtoInputType(proto_index, input_index) != type_it->data) {
-												TS_LOGF(Warning, "ControlFlow::load(): invalid proto input type \"%s\"\n", name.get());
+												TS_LOGF(Warning, "ControlFlow::load(): invalid proto \"%s\" input type \"%s\"\n", getProtoName(proto_index).get(), name.get());
 											}
 											uint32_t src_index = inputs_xml.getAttribute("index", Maxu32);
 											proto_indices_it->data.input_indices.append(src_index, input_index);
@@ -360,11 +360,11 @@ namespace Tellusim {
 											if(!name && type_it) name = getTypeName(type_it->data);
 											uint32_t output_index = findProtoOutput(proto_index, name);
 											if(output_index == Maxu32) {
-												TS_LOGF(Warning, "ControlFlow::load(): unknown proto output \"%s\"\n", name.get());
+												TS_LOGF(Warning, "ControlFlow::load(): unknown proto \"%s\" output \"%s\"\n", getProtoName(proto_index).get(), name.get());
 												continue;
 											}
 											if(type_it && getProtoOutputType(proto_index, output_index) != type_it->data) {
-												TS_LOGF(Warning, "ControlFlow::load(): invalid proto output type \"%s\"\n", name.get());
+												TS_LOGF(Warning, "ControlFlow::load(): invalid proto \"%s\" output type \"%s\"\n", getProtoName(proto_index).get(), name.get());
 											}
 											uint32_t src_index = outputs_xml.getAttribute("index", Maxu32);
 											proto_indices_it->data.output_indices.append(src_index, output_index);
@@ -1124,11 +1124,11 @@ namespace Tellusim {
 	
 	/*
 	 */
-	uint32_t ControlFlow::addProtoInput(uint32_t proto, const char *name, uint32_t type, bool multi) {
+	uint32_t ControlFlow::addProtoInput(uint32_t proto, const char *name, uint32_t type, bool is_multi) {
 		ProtoInput input;
 		input.name = name;
 		input.type = type;
-		input.is_multi = multi;
+		input.is_multi = is_multi;
 		input.info = types[type].info;
 		input.value = types[type].value;
 		input.index = protos[proto].inputs.size();
@@ -1136,33 +1136,33 @@ namespace Tellusim {
 		return input.index;
 	}
 	
-	uint32_t ControlFlow::addProtoInput(uint32_t proto, const String &name, uint32_t type, bool multi) {
-		return addProtoInput(proto, name.get(), type, multi);
+	uint32_t ControlFlow::addProtoInput(uint32_t proto, const String &name, uint32_t type, bool is_multi) {
+		return addProtoInput(proto, name.get(), type, is_multi);
 	}
 	
 	/*
 	 */
-	uint32_t ControlFlow::addProtoInput(uint32_t proto, const char *name, const char *text, uint32_t type, bool multi) {
-		uint32_t index = addProtoInput(proto, name, type, multi);
+	uint32_t ControlFlow::addProtoInput(uint32_t proto, const char *name, const char *text, uint32_t type, bool is_multi) {
+		uint32_t index = addProtoInput(proto, name, type, is_multi);
 		setProtoInputText(proto, index, text);
 		return index;
 	}
 	
-	uint32_t ControlFlow::addProtoInput(uint32_t proto, const String &name, const String &text, uint32_t type, bool multi) {
-		return addProtoInput(proto, name.get(), text.get(), type, multi);
+	uint32_t ControlFlow::addProtoInput(uint32_t proto, const String &name, const String &text, uint32_t type, bool is_multi) {
+		return addProtoInput(proto, name.get(), text.get(), type, is_multi);
 	}
 	
 	/*
 	 */
-	uint32_t ControlFlow::addProtoInput(uint32_t proto, const char *name, const char *text, const char *value, uint32_t type, bool multi) {
-		uint32_t index = addProtoInput(proto, name, type, multi);
+	uint32_t ControlFlow::addProtoInput(uint32_t proto, const char *name, const char *text, const char *value, uint32_t type, bool is_multi) {
+		uint32_t index = addProtoInput(proto, name, type, is_multi);
 		setProtoInputText(proto, index, text);
 		setProtoInputValue(proto, index, value);
 		return index;
 	}
 	
-	uint32_t ControlFlow::addProtoInput(uint32_t proto, const String &name, const String &text, const String &value, uint32_t type, bool multi) {
-		return addProtoInput(proto, name.get(), text.get(), value.get(), type, multi);
+	uint32_t ControlFlow::addProtoInput(uint32_t proto, const String &name, const String &text, const String &value, uint32_t type, bool is_multi) {
+		return addProtoInput(proto, name.get(), text.get(), value.get(), type, is_multi);
 	}
 	
 	/*
@@ -1257,6 +1257,54 @@ namespace Tellusim {
 	
 	/*
 	 */
+	bool ControlFlow::setProtoInputType(uint32_t proto, const char *name, uint32_t type) {
+		uint32_t index = findProtoInput(proto, name);
+		if(index == Maxu32) {
+			TS_LOGF(Error, "ControlFlow::setProtoInputType(): can't find \"%s\" input\n", name);
+			return false;
+		}
+		setProtoInputType(proto, index, type);
+		return true;
+	}
+	
+	/*
+	 */
+	bool ControlFlow::setProtoMultiInput(uint32_t proto, const char *name, bool is_multi) {
+		uint32_t index = findProtoInput(proto, name);
+		if(index == Maxu32) {
+			TS_LOGF(Error, "ControlFlow::setProtoMultiInput(): can't find \"%s\" input\n", name);
+			return false;
+		}
+		setProtoMultiInput(proto, index, is_multi);
+		return true;
+	}
+	
+	/*
+	 */
+	bool ControlFlow::setProtoFinalInput(uint32_t proto, const char *name, bool is_final) {
+		uint32_t index = findProtoInput(proto, name);
+		if(index == Maxu32) {
+			TS_LOGF(Error, "ControlFlow::setProtoFinalInput(): can't find \"%s\" input\n", name);
+			return false;
+		}
+		setProtoFinalInput(proto, index, is_final);
+		return true;
+	}
+	
+	/*
+	 */
+	bool ControlFlow::setProtoSeparatorInput(uint32_t proto, const char *name, bool is_separator) {
+		uint32_t index = findProtoInput(proto, name);
+		if(index == Maxu32) {
+			TS_LOGF(Error, "ControlFlow::setProtoSeparatorInput(): can't find \"%s\" input\n", name);
+			return false;
+		}
+		setProtoSeparatorInput(proto, index, is_separator);
+		return true;
+	}
+	
+	/*
+	 */
 	void ControlFlow::clearProtoOutputs(uint32_t proto) {
 		protos[proto].outputs.clear();
 	}
@@ -1267,11 +1315,11 @@ namespace Tellusim {
 	
 	/*
 	 */
-	uint32_t ControlFlow::addProtoOutput(uint32_t proto, const char *name, uint32_t type, bool multi) {
+	uint32_t ControlFlow::addProtoOutput(uint32_t proto, const char *name, uint32_t type, bool is_multi) {
 		ProtoOutput output;
 		output.name = name;
 		output.type = type;
-		output.is_multi = multi;
+		output.is_multi = is_multi;
 		output.info = types[type].info;
 		output.value = types[type].value;
 		output.index = protos[proto].outputs.size();
@@ -1279,33 +1327,33 @@ namespace Tellusim {
 		return output.index;
 	}
 	
-	uint32_t ControlFlow::addProtoOutput(uint32_t proto, const String &name, uint32_t type, bool multi) {
-		return addProtoOutput(proto, name.get(), type, multi);
+	uint32_t ControlFlow::addProtoOutput(uint32_t proto, const String &name, uint32_t type, bool is_multi) {
+		return addProtoOutput(proto, name.get(), type, is_multi);
 	}
 	
 	/*
 	 */
-	uint32_t ControlFlow::addProtoOutput(uint32_t proto, const char *name, const char *text, uint32_t type, bool multi) {
-		uint32_t index = addProtoOutput(proto, name, type, multi);
+	uint32_t ControlFlow::addProtoOutput(uint32_t proto, const char *name, const char *text, uint32_t type, bool is_multi) {
+		uint32_t index = addProtoOutput(proto, name, type, is_multi);
 		setProtoOutputText(proto, index, text);
 		return index;
 	}
 	
-	uint32_t ControlFlow::addProtoOutput(uint32_t proto, const String &name, const String &text, uint32_t type, bool multi) {
-		return addProtoOutput(proto, name.get(), text.get(), type, multi);
+	uint32_t ControlFlow::addProtoOutput(uint32_t proto, const String &name, const String &text, uint32_t type, bool is_multi) {
+		return addProtoOutput(proto, name.get(), text.get(), type, is_multi);
 	}
 	
 	/*
 	 */
-	uint32_t ControlFlow::addProtoOutput(uint32_t proto, const char *name, const char *text, const char *value, uint32_t type, bool multi) {
-		uint32_t index = addProtoOutput(proto, name, type, multi);
+	uint32_t ControlFlow::addProtoOutput(uint32_t proto, const char *name, const char *text, const char *value, uint32_t type, bool is_multi) {
+		uint32_t index = addProtoOutput(proto, name, type, is_multi);
 		setProtoOutputText(proto, index, text);
 		setProtoOutputValue(proto, index, value);
 		return index;
 	}
 	
-	uint32_t ControlFlow::addProtoOutput(uint32_t proto, const String &name, const String &text, const String &value, uint32_t type, bool multi) {
-		return addProtoOutput(proto, name.get(), text.get(), value.get(), type, multi);
+	uint32_t ControlFlow::addProtoOutput(uint32_t proto, const String &name, const String &text, const String &value, uint32_t type, bool is_multi) {
+		return addProtoOutput(proto, name.get(), text.get(), value.get(), type, is_multi);
 	}
 	
 	/*
@@ -1398,6 +1446,54 @@ namespace Tellusim {
 		return getProtoOutputValue(proto, name.get());
 	}
 	
+	/*
+	 */
+	bool ControlFlow::setProtoOutputType(uint32_t proto, const char *name, uint32_t type) {
+		uint32_t index = findProtoOutput(proto, name);
+		if(index == Maxu32) {
+			TS_LOGF(Error, "ControlFlow::setProtoOutputType(): can't find \"%s\" input\n", name);
+			return false;
+		}
+		setProtoOutputType(proto, index, type);
+		return true;
+	}
+	
+	/*
+	 */
+	bool ControlFlow::setProtoMultiOutput(uint32_t proto, const char *name, bool is_multi) {
+		uint32_t index = findProtoOutput(proto, name);
+		if(index == Maxu32) {
+			TS_LOGF(Error, "ControlFlow::setProtoMultiOutput(): can't find \"%s\" input\n", name);
+			return false;
+		}
+		setProtoMultiOutput(proto, index, is_multi);
+		return true;
+	}
+	
+	/*
+	 */
+	bool ControlFlow::setProtoFinalOutput(uint32_t proto, const char *name, bool is_final) {
+		uint32_t index = findProtoOutput(proto, name);
+		if(index == Maxu32) {
+			TS_LOGF(Error, "ControlFlow::setProtoFinalOutput(): can't find \"%s\" input\n", name);
+			return false;
+		}
+		setProtoFinalOutput(proto, index, is_final);
+		return true;
+	}
+	
+	/*
+	 */
+	bool ControlFlow::setProtoSeparatorOutput(uint32_t proto, const char *name, bool is_separator) {
+		uint32_t index = findProtoOutput(proto, name);
+		if(index == Maxu32) {
+			TS_LOGF(Error, "ControlFlow::setProtoSeparatorOutput(): can't find \"%s\" input\n", name);
+			return false;
+		}
+		setProtoSeparatorOutput(proto, index, is_separator);
+		return true;
+	}
+	
 	/*****************************************************************************\
 	 *
 	 * ControlFlow Nodes
@@ -1482,7 +1578,10 @@ namespace Tellusim {
 			node->dialog.setAlign(AlignCenter | AlignOverlap);
 			node->dialog.setResizable(false);
 			node->dialog.setConstrained(false);
-			node->dialog.setColor(proto.color);
+			node->dialog.setColor(proto.color * (1.0f / 0.9f));
+			node->dialog.setStateColor(StateNormal, Color(0.9f));
+			node->dialog.setStateColor(StateFocused, Color(1.0f));
+			node->dialog.setStateColor(StatePressed, Color(1.0f));
 			node->dialog.setStrokeStyle(proto.stroke_style);
 			node->dialog.setGradientStyle(proto.gradient_style);
 			if(proto.gradient_style) node->dialog.setMode(CanvasElement::ModeGradient);
@@ -1541,6 +1640,7 @@ namespace Tellusim {
 				node_input.socket->setReleasedCallback(makeFunction(input_released_callback, nullptr, 0.0f, 0.0f, this, node->index, node_input.index));
 				node_input.socket->setClicked2Callback(makeFunction(input_clicked2_callback, nullptr, this, node->index, node_input.index));
 				if(proto_input.info) tooltip->addTooltip(node_input.socket.ref(), proto_input.info);
+				else tooltip->addTooltip(node_input.socket.ref(), types[proto_input.type].name);
 				
 				// input text
 				node_input.text = ControlText(&node->input_grid, proto_input.text);
@@ -1579,6 +1679,7 @@ namespace Tellusim {
 				node_output.socket->setReleasedCallback(makeFunction(output_released_callback, nullptr, 0.0f, 0.0f, this, node->index, node_output.index));
 				node_output.socket->setClicked2Callback(makeFunction(output_clicked2_callback, nullptr, this, node->index, node_output.index));
 				if(proto_output.info) tooltip->addTooltip(node_output.socket.ref(), proto_output.info);
+				else tooltip->addTooltip(node_output.socket.ref(), types[proto_output.type].name);
 			}
 			
 			// add output
@@ -1878,7 +1979,7 @@ namespace Tellusim {
 		NodeInput &input = node->inputs[index];
 		if(input.text) {
 			const ProtoInput &proto_input = protos[node->proto].inputs[index];
-			if(input.connections || !input.value || input.value == proto_input.value || input.value.size() >= 8) input.text.setText(proto_input.text);
+			if(input.connections || !input.value || input.value.begins("$") || input.value == proto_input.value || input.value.size() >= 8) input.text.setText(proto_input.text);
 			else input.text.setText(String::format("%s %s", proto_input.text.get(), input.value.get()));
 			next_update_nodes.append(node_index);
 		}
@@ -3174,6 +3275,16 @@ namespace Tellusim {
 			return;
 		}
 		
+		// disable callback for flow navigation mode
+		if(!self->is_flow_pressed) {
+			self->flow_position = Vector2f(x, y);
+			self->is_flow_pressed = true;
+		} else if(self->is_flow_navigation || abs(self->flow_position.x - x) > 1.0f || abs(self->flow_position.y - y) > 1.0f) {
+			root.clearCurrentControl();
+			self->is_flow_navigation = true;
+			return;
+		}
+		
 		// disable callback if nothing is selected
 		if(!self->selected_nodes) {
 			root.clearCurrentControl();
@@ -3229,7 +3340,7 @@ namespace Tellusim {
 		}
 		
 		// clone selected nodes
-		if(!self->is_clone && root.getKeyboardKey(KeyShift, true)) {
+		if(!self->is_node_clone && root.getKeyboardKey(KeyShift, true)) {
 			uint32_t index = self->selected_nodes.findIndex(node_index);
 			self->cloneNodes(self->selected_nodes);
 			node_index = self->selected_nodes[index];
@@ -3237,15 +3348,15 @@ namespace Tellusim {
 			self->current_node_index = node_index;
 			self->mode = ModeNodePressed;
 			self->add_create_action();
-			self->is_clone = true;
-			self->is_position = true;
+			self->is_node_clone = true;
+			self->is_node_position = true;
 			return;
 		}
 		
 		// position action
-		if(!self->is_position) {
+		if(!self->is_node_position) {
 			self->add_position_action();
-			self->is_position = true;
+			self->is_node_position = true;
 		}
 		
 		// node movement
@@ -3328,8 +3439,8 @@ namespace Tellusim {
 	}
 	
 	void ControlFlow::node_released_callback(ControlRect rect, float32_t x, float32_t y, ControlFlow *self, uint32_t node_index) {
-		self->is_clone = false;
-		self->is_position = false;
+		self->is_node_clone = false;
+		self->is_node_position = false;
 	}
 	
 	void ControlFlow::node_clicked2_callback(ControlRect rect, ControlFlow *self, uint32_t node_index) {
@@ -3729,7 +3840,7 @@ namespace Tellusim {
 	
 	/*
 	 */
-	bool ControlFlow::create(Control *controls_root, Control *tooltip_root) {
+	bool ControlFlow::create(Control *controls_root, Control *base_root) {
 		
 		TS_ASSERT(!isCreated() && "ControlFlow::create(): is already created");
 		
@@ -3814,8 +3925,8 @@ namespace Tellusim {
 		
 		// create tooltip
 		Control root = getRoot();
-		if(tooltip_root == nullptr) tooltip_root = &root;
-		tooltip = makeAutoPtr(new ControlTooltip(tooltip_root));
+		if(base_root == nullptr) base_root = &root;
+		tooltip = makeAutoPtr(new ControlTooltip(base_root));
 		tooltip->addTooltip(proto_edit, "Filter by name");
 		tooltip->addTooltip(remove_button, "Remove selected nodes");
 		
@@ -4256,6 +4367,12 @@ namespace Tellusim {
 					}
 				}
 			}
+		}
+		
+		// clear flow navigation mode
+		if((is_flow_pressed || is_flow_navigation) && !root.getMouseButtons()) {
+			is_flow_pressed = false;
+			is_flow_navigation = false;
 		}
 		
 		// updated flag

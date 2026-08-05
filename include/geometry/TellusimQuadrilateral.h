@@ -15,6 +15,23 @@ namespace Tellusim {
 	 */
 	namespace Quadrilateral {
 		
+		/// quadrilateral area
+		template <class Type>
+		static Type area(const Vector2<Type> &v0, const Vector2<Type> &v1, const Vector2<Type> &v2, const Vector2<Type> &v3) {
+			Vector2<Type> v10 = v1 - v0;
+			Vector2<Type> v20 = v2 - v0;
+			Vector2<Type> v30 = v3 - v0;
+			return (cross(v20, v10) + cross(v30, v20)) * 0.5f;
+		}
+		
+		template <class Type>
+		static Type area(const Vector3<Type> &v0, const Vector3<Type> &v1, const Vector3<Type> &v2, const Vector3<Type> &v3) {
+			Vector3<Type> v10 = v1 - v0;
+			Vector3<Type> v20 = v2 - v0;
+			Vector3<Type> v30 = v3 - v0;
+			return (length(cross(v20, v10)) + length(cross(v30, v20))) * 0.5f;
+		}
+		
 		/// quadrilateral barycentric interpolation
 		template <class Vector, class Vector2>
 		static Vector lerp(const Vector &v0, const Vector &v1, const Vector &v2, const Vector &v3, const Vector2 &texcoord) {

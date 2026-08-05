@@ -215,6 +215,8 @@ namespace Tellusim {
 	TS_STATIC_ASSERT(TS_AppVersion_41 == (uint32_t)App::Version_41);
 	TS_STATIC_ASSERT(TS_AppVersion_42 == (uint32_t)App::Version_42);
 	TS_STATIC_ASSERT(TS_AppVersion_43 == (uint32_t)App::Version_43);
+	TS_STATIC_ASSERT(TS_AppVersion_44 == (uint32_t)App::Version_44);
+	TS_STATIC_ASSERT(TS_AppVersion_45 == (uint32_t)App::Version_45);
 	TS_STATIC_ASSERT(TS_AppVersion == (uint32_t)App::Version);
 	
 	// Tellusim::Socket::Type
@@ -1417,6 +1419,11 @@ namespace Tellusim {
 	TS_STATIC_ASSERT(TS_TimeMSeconds == (uint32_t)Time::MSeconds);
 	TS_STATIC_ASSERT(TS_TimeUSeconds == (uint32_t)Time::USeconds);
 	
+	// Tellusim::MeshBoolean::Operation
+	TS_STATIC_ASSERT(TS_MeshBooleanOperationOpUnion == (uint32_t)MeshBoolean::OpUnion);
+	TS_STATIC_ASSERT(TS_MeshBooleanOperationOpDifference == (uint32_t)MeshBoolean::OpDifference);
+	TS_STATIC_ASSERT(TS_MeshBooleanOperationOpIntersection == (uint32_t)MeshBoolean::OpIntersection);
+	
 	// Tellusim::Command
 	TS_STATIC_ASSERT(sizeof(TSCommandDrawArraysIndirect) == sizeof(Command::DrawArraysIndirect));
 	TS_STATIC_ASSERT(offsetof(TSCommandDrawArraysIndirect, num_vertices) == offsetof(Command::DrawArraysIndirect, num_vertices));
@@ -1530,15 +1537,30 @@ namespace Tellusim {
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTexture3DSize) == offsetof(Device::Features, maxTexture3DSize));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTextureLayers) == offsetof(Device::Features, maxTextureLayers));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTextureSamples) == offsetof(Device::Features, maxTextureSamples));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxGroupSize) == offsetof(Device::Features, maxGroupSize));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxGroupSizeX) == offsetof(Device::Features, maxGroupSizeX));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxGroupSizeY) == offsetof(Device::Features, maxGroupSizeY));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxGroupSizeZ) == offsetof(Device::Features, maxGroupSizeZ));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxGroupCountX) == offsetof(Device::Features, maxGroupCountX));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxGroupCountY) == offsetof(Device::Features, maxGroupCountY));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxGroupCountZ) == offsetof(Device::Features, maxGroupCountZ));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTaskSize) == offsetof(Device::Features, maxTaskSize));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTaskSizeX) == offsetof(Device::Features, maxTaskSizeX));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTaskSizeY) == offsetof(Device::Features, maxTaskSizeY));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTaskSizeZ) == offsetof(Device::Features, maxTaskSizeZ));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTaskCount) == offsetof(Device::Features, maxTaskCount));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTaskCountX) == offsetof(Device::Features, maxTaskCountX));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTaskCountY) == offsetof(Device::Features, maxTaskCountY));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTaskCountZ) == offsetof(Device::Features, maxTaskCountZ));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTaskMemory) == offsetof(Device::Features, maxTaskMemory));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTaskMeshes) == offsetof(Device::Features, maxTaskMeshes));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxMeshSize) == offsetof(Device::Features, maxMeshSize));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxMeshSizeX) == offsetof(Device::Features, maxMeshSizeX));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxMeshSizeY) == offsetof(Device::Features, maxMeshSizeY));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxMeshSizeZ) == offsetof(Device::Features, maxMeshSizeZ));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxMeshCount) == offsetof(Device::Features, maxMeshCount));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxMeshCountX) == offsetof(Device::Features, maxMeshCountX));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxMeshCountY) == offsetof(Device::Features, maxMeshCountY));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxMeshCountZ) == offsetof(Device::Features, maxMeshCountZ));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxMeshMemory) == offsetof(Device::Features, maxMeshMemory));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxMeshVertices) == offsetof(Device::Features, maxMeshVertices));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxMeshPrimitives) == offsetof(Device::Features, maxMeshPrimitives));
@@ -5733,9 +5755,9 @@ namespace Tellusim {
 		TS_ASSERT(self);
 		return (TSMeshGeometry)(new MeshGeometry(((MeshIndices*)self)->getGeometry()));
 	}
-	TS_CAPI void TS_CCALL tsMeshIndices_setSize(TSMeshIndices self, uint32_t size, bool_t discard, bool_t clear) {
+	TS_CAPI bool_t TS_CCALL tsMeshIndices_setSize(TSMeshIndices self, uint32_t size, bool_t discard, bool_t clear) {
 		TS_ASSERT(self);
-		((MeshIndices*)self)->setSize(size, (bool)discard, (bool)clear);
+		return ((MeshIndices*)self)->setSize(size, (bool)discard, (bool)clear);
 	}
 	TS_CAPI uint32_t TS_CCALL tsMeshIndices_getSize(TSMeshIndices self) {
 		TS_ASSERT(self);
@@ -6060,9 +6082,9 @@ namespace Tellusim {
 		TS_ASSERT(self);
 		return (TSMeshGeometry)(new MeshGeometry(((MeshAttribute*)self)->getGeometry()));
 	}
-	TS_CAPI void TS_CCALL tsMeshAttribute_setSize(TSMeshAttribute self, uint32_t size, bool_t discard, bool_t clear) {
+	TS_CAPI bool_t TS_CCALL tsMeshAttribute_setSize(TSMeshAttribute self, uint32_t size, bool_t discard, bool_t clear) {
 		TS_ASSERT(self);
-		((MeshAttribute*)self)->setSize(size, (bool)discard, (bool)clear);
+		return ((MeshAttribute*)self)->setSize(size, (bool)discard, (bool)clear);
 	}
 	TS_CAPI uint32_t TS_CCALL tsMeshAttribute_getSize(TSMeshAttribute self) {
 		TS_ASSERT(self);
@@ -6161,10 +6183,10 @@ namespace Tellusim {
 		TS_ASSERT(attribute_1);
 		return ((MeshAttribute*)self)->unpackAttributes(*(MeshAttribute*)attribute_0, *(MeshAttribute*)attribute_1);
 	}
-	TS_CAPI TSMeshAttribute TS_CCALL tsMeshAttribute_optimizeAttribute(TSMeshAttribute self, TSMeshIndices indices) {
+	TS_CAPI TSMeshAttribute TS_CCALL tsMeshAttribute_optimizeAttribute(TSMeshAttribute self, TSMeshIndices indices, float32_t threshold) {
 		TS_ASSERT(self);
 		TS_ASSERT(indices);
-		return (TSMeshAttribute)(new MeshAttribute(((MeshAttribute*)self)->optimizeAttribute(*(MeshIndices*)indices)));
+		return (TSMeshAttribute)(new MeshAttribute(((MeshAttribute*)self)->optimizeAttribute(*(MeshIndices*)indices, threshold)));
 	}
 	TS_CAPI TSMeshAttribute TS_CCALL tsMeshAttribute_toDirect(TSMeshAttribute self, const TSMeshIndices indices) {
 		TS_ASSERT(self);
@@ -25623,6 +25645,19 @@ namespace Tellusim {
 		const Color ret = ((ControlText*)self)->getColor();
 		return *(TSColor*)&ret;
 	}
+	TS_CAPI void TS_CCALL tsControlText_setStateColor_CScC(TSControlText self, TS_ControlState state, const TSColor *color) {
+		TS_ASSERT(self);
+		TS_ASSERT(color);
+		((ControlText*)self)->setStateColor((Control::State)state, *(const Color*)color);
+	}
+	TS_CAPI void TS_CCALL tsControlText_setStateColor_CSffff(TSControlText self, TS_ControlState state, float32_t r, float32_t g, float32_t b, float32_t a) {
+		TS_ASSERT(self);
+		((ControlText*)self)->setStateColor((Control::State)state, r, g, b, a);
+	}
+	TS_CAPI uint32_t TS_CCALL tsControlText_getStateColor(TSControlText self, TS_ControlState state) {
+		TS_ASSERT(self);
+		return ((ControlText*)self)->getStateColor((Control::State)state);
+	}
 	TS_CAPI void TS_CCALL tsControlText_setFilter(TSControlText self, TS_SamplerFilter filter) {
 		TS_ASSERT(self);
 		((ControlText*)self)->setFilter((Sampler::Filter)filter);
@@ -25877,6 +25912,19 @@ namespace Tellusim {
 		TS_ASSERT(self);
 		const Color ret = ((ControlRect*)self)->getColor();
 		return *(TSColor*)&ret;
+	}
+	TS_CAPI void TS_CCALL tsControlRect_setStateColor_CScC(TSControlRect self, TS_ControlState state, const TSColor *color) {
+		TS_ASSERT(self);
+		TS_ASSERT(color);
+		((ControlRect*)self)->setStateColor((Control::State)state, *(const Color*)color);
+	}
+	TS_CAPI void TS_CCALL tsControlRect_setStateColor_CSffff(TSControlRect self, TS_ControlState state, float32_t r, float32_t g, float32_t b, float32_t a) {
+		TS_ASSERT(self);
+		((ControlRect*)self)->setStateColor((Control::State)state, r, g, b, a);
+	}
+	TS_CAPI uint32_t TS_CCALL tsControlRect_getStateColor(TSControlRect self, TS_ControlState state) {
+		TS_ASSERT(self);
+		return ((ControlRect*)self)->getStateColor((Control::State)state);
 	}
 	TS_CAPI void TS_CCALL tsControlRect_setStrokeStyle(TSControlRect self, const TSStrokeStyle *style) {
 		TS_ASSERT(self);
@@ -29875,15 +29923,15 @@ namespace Tellusim {
 		TS_ASSERT(self);
 		return ((CubeFilter*)self)->getHarmonics();
 	}
-	TS_CAPI bool_t TS_CCALL tsCubeFilter_create_cDCFMuuu(TSCubeFilter self, const TSDevice device, TS_CubeFilterMode mode, uint32_t order, uint32_t size, uint32_t groups) {
+	TS_CAPI bool_t TS_CCALL tsCubeFilter_create_cDCFMuuu(TSCubeFilter self, const TSDevice device, TS_CubeFilterMode mode, uint32_t order, uint32_t size, uint32_t threads) {
 		TS_ASSERT(self);
 		TS_ASSERT(device);
-		return ((CubeFilter*)self)->create(*(const Device*)device, (CubeFilter::Mode)mode, order, size, groups);
+		return ((CubeFilter*)self)->create(*(const Device*)device, (CubeFilter::Mode)mode, order, size, threads);
 	}
-	TS_CAPI bool_t TS_CCALL tsCubeFilter_create_cDCFFuuu(TSCubeFilter self, const TSDevice device, TS_CubeFilterFlags flags, uint32_t order, uint32_t size, uint32_t groups) {
+	TS_CAPI bool_t TS_CCALL tsCubeFilter_create_cDCFFuuu(TSCubeFilter self, const TSDevice device, TS_CubeFilterFlags flags, uint32_t order, uint32_t size, uint32_t threads) {
 		TS_ASSERT(self);
 		TS_ASSERT(device);
-		return ((CubeFilter*)self)->create(*(const Device*)device, (CubeFilter::Flags)flags, order, size, groups);
+		return ((CubeFilter*)self)->create(*(const Device*)device, (CubeFilter::Flags)flags, order, size, threads);
 	}
 	TS_CAPI bool_t TS_CCALL tsCubeFilter_dispatch_cCBuTcS(TSCubeFilter self, TSCompute compute, TSBuffer buffer, uint32_t offset, TSTexture texture, const TSSlice *slice) {
 		TS_ASSERT(self);
@@ -30771,15 +30819,15 @@ namespace Tellusim {
 		TS_ASSERT(self);
 		return ((PrefixScan*)self)->getMaxRegions();
 	}
-	TS_CAPI bool_t TS_CCALL tsPrefixScan_create_cDPSMuuA(TSPrefixScan self, const TSDevice device, TS_PrefixScanMode mode, uint32_t groups, uint32_t regions, TSAsync *async) {
+	TS_CAPI bool_t TS_CCALL tsPrefixScan_create_cDPSMuuA(TSPrefixScan self, const TSDevice device, TS_PrefixScanMode mode, uint32_t threads, uint32_t regions, TSAsync *async) {
 		TS_ASSERT(self);
 		TS_ASSERT(device);
-		return ((PrefixScan*)self)->create(*(const Device*)device, (PrefixScan::Mode)mode, groups, regions, (async) ? *(Async**)async : nullptr);
+		return ((PrefixScan*)self)->create(*(const Device*)device, (PrefixScan::Mode)mode, threads, regions, (async) ? *(Async**)async : nullptr);
 	}
-	TS_CAPI bool_t TS_CCALL tsPrefixScan_create_cDPSFuuA(TSPrefixScan self, const TSDevice device, TS_PrefixScanFlags flags, uint32_t groups, uint32_t regions, TSAsync *async) {
+	TS_CAPI bool_t TS_CCALL tsPrefixScan_create_cDPSFuuA(TSPrefixScan self, const TSDevice device, TS_PrefixScanFlags flags, uint32_t threads, uint32_t regions, TSAsync *async) {
 		TS_ASSERT(self);
 		TS_ASSERT(device);
-		return ((PrefixScan*)self)->create(*(const Device*)device, (PrefixScan::Flags)flags, groups, regions, (async) ? *(Async**)async : nullptr);
+		return ((PrefixScan*)self)->create(*(const Device*)device, (PrefixScan::Flags)flags, threads, regions, (async) ? *(Async**)async : nullptr);
 	}
 	TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatch_CBuuu(TSPrefixScan self, TSCompute compute, TSBuffer data, uint32_t offset, uint32_t size, uint32_t stride) {
 		TS_ASSERT(self);
@@ -30906,17 +30954,17 @@ namespace Tellusim {
 		TS_ASSERT(self);
 		return (TSBuffer)(new Buffer(((RadixSort*)self)->getDataBuffer()));
 	}
-	TS_CAPI bool_t TS_CCALL tsRadixSort_create_cDRSMPSuuuA(TSRadixSort self, const TSDevice device, TS_RadixSortMode mode, TSPrefixScan scan, uint32_t size, uint32_t groups, uint32_t regions, TSAsync *async) {
+	TS_CAPI bool_t TS_CCALL tsRadixSort_create_cDRSMPSuuuA(TSRadixSort self, const TSDevice device, TS_RadixSortMode mode, TSPrefixScan scan, uint32_t size, uint32_t threads, uint32_t regions, TSAsync *async) {
 		TS_ASSERT(self);
 		TS_ASSERT(device);
 		TS_ASSERT(scan);
-		return ((RadixSort*)self)->create(*(const Device*)device, (RadixSort::Mode)mode, *(PrefixScan*)scan, size, groups, regions, (async) ? *(Async**)async : nullptr);
+		return ((RadixSort*)self)->create(*(const Device*)device, (RadixSort::Mode)mode, *(PrefixScan*)scan, size, threads, regions, (async) ? *(Async**)async : nullptr);
 	}
-	TS_CAPI bool_t TS_CCALL tsRadixSort_create_cDRSFPSuuuA(TSRadixSort self, const TSDevice device, TS_RadixSortFlags flags, TSPrefixScan scan, uint32_t size, uint32_t groups, uint32_t regions, TSAsync *async) {
+	TS_CAPI bool_t TS_CCALL tsRadixSort_create_cDRSFPSuuuA(TSRadixSort self, const TSDevice device, TS_RadixSortFlags flags, TSPrefixScan scan, uint32_t size, uint32_t threads, uint32_t regions, TSAsync *async) {
 		TS_ASSERT(self);
 		TS_ASSERT(device);
 		TS_ASSERT(scan);
-		return ((RadixSort*)self)->create(*(const Device*)device, (RadixSort::Flags)flags, *(PrefixScan*)scan, size, groups, regions, (async) ? *(Async**)async : nullptr);
+		return ((RadixSort*)self)->create(*(const Device*)device, (RadixSort::Flags)flags, *(PrefixScan*)scan, size, threads, regions, (async) ? *(Async**)async : nullptr);
 	}
 	TS_CAPI bool_t TS_CCALL tsRadixSort_dispatch_CBuuuRSFu(TSRadixSort self, TSCompute compute, TSBuffer data, uint32_t keys_offset, uint32_t data_offset, uint32_t size, TS_RadixSortFlags flags, uint32_t bits) {
 		TS_ASSERT(self);
@@ -31027,15 +31075,15 @@ namespace Tellusim {
 		TS_ASSERT(self);
 		return ((BitonicSort*)self)->getMaxRegions();
 	}
-	TS_CAPI bool_t TS_CCALL tsBitonicSort_create_cDBSMuuuA(TSBitonicSort self, const TSDevice device, TS_BitonicSortMode mode, uint32_t size, uint32_t groups, uint32_t regions, TSAsync *async) {
+	TS_CAPI bool_t TS_CCALL tsBitonicSort_create_cDBSMuuuA(TSBitonicSort self, const TSDevice device, TS_BitonicSortMode mode, uint32_t size, uint32_t threads, uint32_t regions, TSAsync *async) {
 		TS_ASSERT(self);
 		TS_ASSERT(device);
-		return ((BitonicSort*)self)->create(*(const Device*)device, (BitonicSort::Mode)mode, size, groups, regions, (async) ? *(Async**)async : nullptr);
+		return ((BitonicSort*)self)->create(*(const Device*)device, (BitonicSort::Mode)mode, size, threads, regions, (async) ? *(Async**)async : nullptr);
 	}
-	TS_CAPI bool_t TS_CCALL tsBitonicSort_create_cDBSFuuuA(TSBitonicSort self, const TSDevice device, TS_BitonicSortFlags flags, uint32_t size, uint32_t groups, uint32_t regions, TSAsync *async) {
+	TS_CAPI bool_t TS_CCALL tsBitonicSort_create_cDBSFuuuA(TSBitonicSort self, const TSDevice device, TS_BitonicSortFlags flags, uint32_t size, uint32_t threads, uint32_t regions, TSAsync *async) {
 		TS_ASSERT(self);
 		TS_ASSERT(device);
-		return ((BitonicSort*)self)->create(*(const Device*)device, (BitonicSort::Flags)flags, size, groups, regions, (async) ? *(Async**)async : nullptr);
+		return ((BitonicSort*)self)->create(*(const Device*)device, (BitonicSort::Flags)flags, size, threads, regions, (async) ? *(Async**)async : nullptr);
 	}
 	TS_CAPI bool_t TS_CCALL tsBitonicSort_dispatch_CBuuuBSF(TSBitonicSort self, TSCompute compute, TSBuffer data, uint32_t keys_offset, uint32_t data_offset, uint32_t size, TS_BitonicSortFlags flags) {
 		TS_ASSERT(self);
@@ -31138,11 +31186,11 @@ namespace Tellusim {
 		TS_ASSERT(self);
 		return (TSRadixSort)(new RadixSort(((SpatialGrid*)self)->getRadixSort()));
 	}
-	TS_CAPI bool_t TS_CCALL tsSpatialGrid_create(TSSpatialGrid self, const TSDevice device, TSRadixSort sort, uint32_t groups) {
+	TS_CAPI bool_t TS_CCALL tsSpatialGrid_create(TSSpatialGrid self, const TSDevice device, TSRadixSort sort, uint32_t threads) {
 		TS_ASSERT(self);
 		TS_ASSERT(device);
 		TS_ASSERT(sort);
-		return ((SpatialGrid*)self)->create(*(const Device*)device, *(RadixSort*)sort, groups);
+		return ((SpatialGrid*)self)->create(*(const Device*)device, *(RadixSort*)sort, threads);
 	}
 	TS_CAPI bool_t TS_CCALL tsSpatialGrid_dispatch(TSSpatialGrid self, TSCompute compute, TSBuffer data, uint32_t offset, uint32_t size, uint32_t bits) {
 		TS_ASSERT(self);
@@ -31248,17 +31296,17 @@ namespace Tellusim {
 		TS_ASSERT(self);
 		return (TSBuffer)(new Buffer(((SpatialTree*)self)->getCounterBuffer()));
 	}
-	TS_CAPI bool_t TS_CCALL tsSpatialTree_create_cDSTMRSuuuA(TSSpatialTree self, const TSDevice device, TS_SpatialTreeMode mode, TSRadixSort sort, uint32_t size, uint32_t groups, uint32_t regions, TSAsync *async) {
+	TS_CAPI bool_t TS_CCALL tsSpatialTree_create_cDSTMRSuuuA(TSSpatialTree self, const TSDevice device, TS_SpatialTreeMode mode, TSRadixSort sort, uint32_t size, uint32_t threads, uint32_t regions, TSAsync *async) {
 		TS_ASSERT(self);
 		TS_ASSERT(device);
 		TS_ASSERT(sort);
-		return ((SpatialTree*)self)->create(*(const Device*)device, (SpatialTree::Mode)mode, *(RadixSort*)sort, size, groups, regions, (async) ? *(Async**)async : nullptr);
+		return ((SpatialTree*)self)->create(*(const Device*)device, (SpatialTree::Mode)mode, *(RadixSort*)sort, size, threads, regions, (async) ? *(Async**)async : nullptr);
 	}
-	TS_CAPI bool_t TS_CCALL tsSpatialTree_create_cDSTFRSuuuA(TSSpatialTree self, const TSDevice device, TS_SpatialTreeFlags flags, TSRadixSort sort, uint32_t size, uint32_t groups, uint32_t regions, TSAsync *async) {
+	TS_CAPI bool_t TS_CCALL tsSpatialTree_create_cDSTFRSuuuA(TSSpatialTree self, const TSDevice device, TS_SpatialTreeFlags flags, TSRadixSort sort, uint32_t size, uint32_t threads, uint32_t regions, TSAsync *async) {
 		TS_ASSERT(self);
 		TS_ASSERT(device);
 		TS_ASSERT(sort);
-		return ((SpatialTree*)self)->create(*(const Device*)device, (SpatialTree::Flags)flags, *(RadixSort*)sort, size, groups, regions, (async) ? *(Async**)async : nullptr);
+		return ((SpatialTree*)self)->create(*(const Device*)device, (SpatialTree::Flags)flags, *(RadixSort*)sort, size, threads, regions, (async) ? *(Async**)async : nullptr);
 	}
 	TS_CAPI bool_t TS_CCALL tsSpatialTree_dispatch_CSTHBuuSTF(TSSpatialTree self, TSCompute compute, TS_SpatialTreeHash hash, TSBuffer nodes, uint32_t offset, uint32_t size, TS_SpatialTreeFlags flags) {
 		TS_ASSERT(self);
@@ -32207,6 +32255,25 @@ namespace Tellusim {
 	TS_CAPI bool_t TS_CCALL tsSystem_open_cS(const TSString command) {
 		return System::open((command) ? *(const String*)command : String::null);
 	}
+	TS_CAPI bool_t TS_CCALL tsMeshBoolean_intersect_MGcMGcMGMBO(TSMeshGeometry dest, const TSMeshGeometry src_0, const TSMeshGeometry src_1, TS_MeshBooleanOperation op) {
+		TS_ASSERT(dest);
+		TS_ASSERT(src_0);
+		TS_ASSERT(src_1);
+		return MeshBoolean::intersect(*(MeshGeometry*)dest, *(const MeshGeometry*)src_0, *(const MeshGeometry*)src_1, (MeshBoolean::Operation)op);
+	}
+	TS_CAPI bool_t TS_CCALL tsMeshBoolean_intersect_MGMGcMGcMGMBO(TSMeshGeometry dest_0, TSMeshGeometry dest_1, const TSMeshGeometry src_0, const TSMeshGeometry src_1, TS_MeshBooleanOperation op) {
+		TS_ASSERT(dest_0);
+		TS_ASSERT(dest_1);
+		TS_ASSERT(src_0);
+		TS_ASSERT(src_1);
+		return MeshBoolean::intersect(*(MeshGeometry*)dest_0, *(MeshGeometry*)dest_1, *(const MeshGeometry*)src_0, *(const MeshGeometry*)src_1, (MeshBoolean::Operation)op);
+	}
+	TS_CAPI bool_t TS_CCALL tsMeshFracture_split_McMcV3ucV2fffA(TSMesh dest, const TSMesh src, const TSVector3f *points, uint32_t num_points, const TSVector2f *texcoord, float32_t threshold, float32_t collapse, float32_t volume, TSAsync *async) {
+		TS_ASSERT(dest);
+		TS_ASSERT(src);
+		TS_ASSERT(texcoord);
+		return MeshFracture::split(*(Mesh*)dest, *(const Mesh*)src, *(const Vector3f**)&points, num_points, *(const Vector2f*)texcoord, threshold, collapse, volume, (async) ? *(Async**)async : nullptr);
+	}
 	TS_CAPI bool_t TS_CCALL tsMeshGraph_create_MMuucMGPCA(TSMesh dest, TSMesh src, uint32_t max_attributes, uint32_t max_primitives, const TSMeshGraphProgressCallback func, TSAsync *async, void *data_) {
 		TS_ASSERT(dest);
 		TS_ASSERT(src);
@@ -32246,6 +32313,22 @@ namespace Tellusim {
 		TS_ASSERT(src);
 		auto func_ts = makeTSMeshSolidProgressCallback((func) ? *func : nullptr, data_);
 		return MeshSolid::create(*(MeshGeometry*)dest, *(const MeshGeometry*)src, ratio, threshold, (func) ? &func_ts : nullptr, position);
+	}
+	TS_CAPI bool_t TS_CCALL tsMeshSplit_split_MMMcMcM43(TSMesh front, TSMesh cross, TSMesh back, const TSMesh src, const TSMatrix4x3f *basis) {
+		TS_ASSERT(front);
+		TS_ASSERT(cross);
+		TS_ASSERT(back);
+		TS_ASSERT(src);
+		TS_ASSERT(basis);
+		return MeshSplit::split(*(Mesh*)front, *(Mesh*)cross, *(Mesh*)back, *(const Mesh*)src, *(const Matrix4x3f*)basis);
+	}
+	TS_CAPI bool_t TS_CCALL tsMeshSplit_split_MGMGMGcMGcM43u(TSMeshGeometry front, TSMeshGeometry cross, TSMeshGeometry back, const TSMeshGeometry src, const TSMatrix4x3f *basis, uint32_t position) {
+		TS_ASSERT(front);
+		TS_ASSERT(cross);
+		TS_ASSERT(back);
+		TS_ASSERT(src);
+		TS_ASSERT(basis);
+		return MeshSplit::split(*(MeshGeometry*)front, *(MeshGeometry*)cross, *(MeshGeometry*)back, *(const MeshGeometry*)src, *(const Matrix4x3f*)basis, position);
 	}
 	
 	} /* extern "C" */

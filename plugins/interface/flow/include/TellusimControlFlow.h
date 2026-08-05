@@ -127,7 +127,7 @@ namespace Tellusim {
 			TS_INLINE bool isUpdated() const { return is_updated; }
 			
 			/// create flow
-			virtual bool create(Control *controls_root = nullptr, Control *tooltip_root = nullptr);
+			virtual bool create(Control *controls_root = nullptr, Control *base_root = nullptr);
 			
 			/// clear flow
 			void clearFlow();
@@ -351,12 +351,12 @@ namespace Tellusim {
 			/// proto inputs
 			void clearProtoInputs(uint32_t proto);
 			void reserveProtoInputs(uint32_t proto, uint32_t num_inputs);
-			uint32_t addProtoInput(uint32_t proto, const char *name, uint32_t type, bool multi = false);
-			uint32_t addProtoInput(uint32_t proto, const String &name, uint32_t type, bool multi = false);
-			uint32_t addProtoInput(uint32_t proto, const char *name, const char *text, uint32_t type, bool multi = false);
-			uint32_t addProtoInput(uint32_t proto, const String &name, const String &text, uint32_t type, bool multi = false);
-			uint32_t addProtoInput(uint32_t proto, const char *name, const char *text, const char *value, uint32_t type, bool multi = false);
-			uint32_t addProtoInput(uint32_t proto, const String &name, const String &text, const String &value, uint32_t type, bool multi = false);
+			uint32_t addProtoInput(uint32_t proto, const char *name, uint32_t type, bool is_multi = false);
+			uint32_t addProtoInput(uint32_t proto, const String &name, uint32_t type, bool is_multi = false);
+			uint32_t addProtoInput(uint32_t proto, const char *name, const char *text, uint32_t type, bool is_multi = false);
+			uint32_t addProtoInput(uint32_t proto, const String &name, const String &text, uint32_t type, bool is_multi = false);
+			uint32_t addProtoInput(uint32_t proto, const char *name, const char *text, const char *value, uint32_t type, bool is_multi = false);
+			uint32_t addProtoInput(uint32_t proto, const String &name, const String &text, const String &value, uint32_t type, bool is_multi = false);
 			uint32_t findProtoInput(uint32_t proto, const char *name) const;
 			uint32_t findProtoInput(uint32_t proto, const String &name) const;
 			Array<uint32_t> findProtoInputs(uint32_t proto, const char *name) const;
@@ -398,17 +398,25 @@ namespace Tellusim {
 			void setProtoInputType(uint32_t proto, uint32_t index, uint32_t type) { protos[proto].inputs[index].type = type; }
 			TS_INLINE uint32_t getProtoInputType(uint32_t proto, uint32_t index) const { return protos[proto].inputs[index].type; }
 			
+			bool setProtoInputType(uint32_t proto, const char *name, uint32_t type);
+			
 			/// multi input flag
 			void setProtoMultiInput(uint32_t proto, uint32_t index, bool is_multi) { protos[proto].inputs[index].is_multi = is_multi; }
 			TS_INLINE bool isProtoMultiInput(uint32_t proto, uint32_t index) const { return protos[proto].inputs[index].is_multi; }
+			
+			bool setProtoMultiInput(uint32_t proto, const char *name, bool is_multi);
 			
 			/// final input flag
 			void setProtoFinalInput(uint32_t proto, uint32_t index, bool is_final) { protos[proto].inputs[index].is_final = is_final; }
 			TS_INLINE bool isProtoFinalInput(uint32_t proto, uint32_t index) const { return protos[proto].inputs[index].is_final; }
 			
+			bool setProtoFinalInput(uint32_t proto, const char *name, bool is_final);
+			
 			/// separator input flag
 			void setProtoSeparatorInput(uint32_t proto, uint32_t index, bool is_separator) { protos[proto].inputs[index].is_separator = is_separator; }
 			TS_INLINE bool isProtoSeparatorInput(uint32_t proto, uint32_t index) const { return protos[proto].inputs[index].is_separator; }
+			
+			bool setProtoSeparatorInput(uint32_t proto, const char *name, bool is_separator);
 			
 			/// input mask
 			void setProtoInputMask(uint32_t proto, uint32_t index, const TypeMask &mask) { protos[proto].inputs[index].mask = mask; }
@@ -447,12 +455,12 @@ namespace Tellusim {
 			/// proto outputs
 			void clearProtoOutputs(uint32_t proto);
 			void reserveProtoOutputs(uint32_t proto, uint32_t num_outputs);
-			uint32_t addProtoOutput(uint32_t proto, const char *name, uint32_t type, bool multi = false);
-			uint32_t addProtoOutput(uint32_t proto, const String &name, uint32_t type, bool multi = false);
-			uint32_t addProtoOutput(uint32_t proto, const char *name, const char *text, uint32_t type, bool multi = false);
-			uint32_t addProtoOutput(uint32_t proto, const String &name, const String &text, uint32_t type, bool multi = false);
-			uint32_t addProtoOutput(uint32_t proto, const char *name, const char *text, const char *value, uint32_t type, bool multi = false);
-			uint32_t addProtoOutput(uint32_t proto, const String &name, const String &text, const String &value, uint32_t type, bool multi = false);
+			uint32_t addProtoOutput(uint32_t proto, const char *name, uint32_t type, bool is_multi = false);
+			uint32_t addProtoOutput(uint32_t proto, const String &name, uint32_t type, bool is_multi = false);
+			uint32_t addProtoOutput(uint32_t proto, const char *name, const char *text, uint32_t type, bool is_multi = false);
+			uint32_t addProtoOutput(uint32_t proto, const String &name, const String &text, uint32_t type, bool is_multi = false);
+			uint32_t addProtoOutput(uint32_t proto, const char *name, const char *text, const char *value, uint32_t type, bool is_multi = false);
+			uint32_t addProtoOutput(uint32_t proto, const String &name, const String &text, const String &value, uint32_t type, bool is_multi = false);
 			uint32_t findProtoOutput(uint32_t proto, const char *name) const;
 			uint32_t findProtoOutput(uint32_t proto, const String &name) const;
 			Array<uint32_t> findProtoOutputs(uint32_t proto, const char *name) const;
@@ -494,17 +502,25 @@ namespace Tellusim {
 			void setProtoOutputType(uint32_t proto, uint32_t index, uint32_t type) { protos[proto].outputs[index].type = type; }
 			TS_INLINE uint32_t getProtoOutputType(uint32_t proto, uint32_t index) const { return protos[proto].outputs[index].type; }
 			
+			bool setProtoOutputType(uint32_t proto, const char *name, uint32_t type);
+			
 			/// multi output flag
-			void setProtoMultiOutput(uint32_t proto, uint32_t index, bool multi) { protos[proto].outputs[index].is_multi = multi; }
+			void setProtoMultiOutput(uint32_t proto, uint32_t index, bool is_multi) { protos[proto].outputs[index].is_multi = is_multi; }
 			TS_INLINE bool isProtoMultiOutput(uint32_t proto, uint32_t index) const { return protos[proto].outputs[index].is_multi; }
+			
+			bool setProtoMultiOutput(uint32_t proto, const char *name, bool is_multi);
 			
 			/// final output flag
 			void setProtoFinalOutput(uint32_t proto, uint32_t index, bool is_final) { protos[proto].outputs[index].is_final = is_final; }
 			TS_INLINE bool isProtoFinalOutput(uint32_t proto, uint32_t index) const { return protos[proto].outputs[index].is_final; }
 			
+			bool setProtoFinalOutput(uint32_t proto, const char *name, bool is_final);
+			
 			/// separator output flag
 			void setProtoSeparatorOutput(uint32_t proto, uint32_t index, bool is_separator) { protos[proto].outputs[index].is_separator = is_separator; }
 			TS_INLINE bool isProtoSeparatorOutput(uint32_t proto, uint32_t index) const { return protos[proto].outputs[index].is_separator; }
+			
+			bool setProtoSeparatorOutput(uint32_t proto, const char *name, bool is_separator);
 			
 			/// output mask
 			void setProtoOutputMask(uint32_t proto, uint32_t index, const TypeMask &mask) { protos[proto].outputs[index].mask = mask; }
@@ -1163,8 +1179,8 @@ namespace Tellusim {
 			Mode mode = ModeNone;							// current mode
 			Mode old_mode = NumModes;						// old flow mode
 			
-			bool is_clone = false;							// node clone flag
-			bool is_position = false;						// node position flag
+			bool is_node_clone = false;						// node clone flag
+			bool is_node_position = false;					// node position flag
 			
 			float32_t old_scale = 1.0f;						// old flow scale
 			Vector2f old_size = Vector2f::zero;				// old flow size
@@ -1190,6 +1206,9 @@ namespace Tellusim {
 			ControlRect region_rect;						// region rect
 			Vector2f region_position = Vector2f::zero;		// region position
 			
+			bool is_flow_pressed = false;					// flow pressed flag
+			bool is_flow_navigation = false;				// flow navigation flag
+			Vector2f flow_position = Vector2f::zero;		// flow position
 			Vector2f flow_resize = Vector2f::zero;			// flow resize
 			
 			uint32_t frame = 0;								// update frame

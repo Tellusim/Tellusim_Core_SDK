@@ -139,20 +139,20 @@ public class RadixSort {
 	public Buffer getDataBuffer() { return new Buffer(get_data_buffer(self)); }
 	public boolean create(Device device, Mode mode, PrefixScan scan, int size) { return create_(self, device.self, mode.value, scan.self, size, 256, 1, 0); }
 	public boolean create(Device device, Mode.Enum mode, PrefixScan scan, int size) { return create_(self, device.self, mode.value, scan.self, size, 256, 1, 0); }
-	public boolean create(Device device, Mode mode, PrefixScan scan, int size, int groups) { return create_(self, device.self, mode.value, scan.self, size, groups, 1, 0); }
-	public boolean create(Device device, Mode.Enum mode, PrefixScan scan, int size, int groups) { return create_(self, device.self, mode.value, scan.self, size, groups, 1, 0); }
-	public boolean create(Device device, Mode mode, PrefixScan scan, int size, int groups, int regions) { return create_(self, device.self, mode.value, scan.self, size, groups, regions, 0); }
-	public boolean create(Device device, Mode.Enum mode, PrefixScan scan, int size, int groups, int regions) { return create_(self, device.self, mode.value, scan.self, size, groups, regions, 0); }
-	public boolean create(Device device, Mode mode, PrefixScan scan, int size, int groups, int regions, Async async) { return create_(self, device.self, mode.value, scan.self, size, groups, regions, async.self); }
-	public boolean create(Device device, Mode.Enum mode, PrefixScan scan, int size, int groups, int regions, Async async) { return create_(self, device.self, mode.value, scan.self, size, groups, regions, async.self); }
+	public boolean create(Device device, Mode mode, PrefixScan scan, int size, int threads) { return create_(self, device.self, mode.value, scan.self, size, threads, 1, 0); }
+	public boolean create(Device device, Mode.Enum mode, PrefixScan scan, int size, int threads) { return create_(self, device.self, mode.value, scan.self, size, threads, 1, 0); }
+	public boolean create(Device device, Mode mode, PrefixScan scan, int size, int threads, int regions) { return create_(self, device.self, mode.value, scan.self, size, threads, regions, 0); }
+	public boolean create(Device device, Mode.Enum mode, PrefixScan scan, int size, int threads, int regions) { return create_(self, device.self, mode.value, scan.self, size, threads, regions, 0); }
+	public boolean create(Device device, Mode mode, PrefixScan scan, int size, int threads, int regions, Async async) { return create_(self, device.self, mode.value, scan.self, size, threads, regions, async.self); }
+	public boolean create(Device device, Mode.Enum mode, PrefixScan scan, int size, int threads, int regions, Async async) { return create_(self, device.self, mode.value, scan.self, size, threads, regions, async.self); }
 	public boolean create(Device device, Flags flags, PrefixScan scan, int size) { return create_1(self, device.self, flags.value, scan.self, size, 256, 1, 0); }
 	public boolean create(Device device, Flags.Enum flags, PrefixScan scan, int size) { return create_1(self, device.self, flags.value, scan.self, size, 256, 1, 0); }
-	public boolean create(Device device, Flags flags, PrefixScan scan, int size, int groups) { return create_1(self, device.self, flags.value, scan.self, size, groups, 1, 0); }
-	public boolean create(Device device, Flags.Enum flags, PrefixScan scan, int size, int groups) { return create_1(self, device.self, flags.value, scan.self, size, groups, 1, 0); }
-	public boolean create(Device device, Flags flags, PrefixScan scan, int size, int groups, int regions) { return create_1(self, device.self, flags.value, scan.self, size, groups, regions, 0); }
-	public boolean create(Device device, Flags.Enum flags, PrefixScan scan, int size, int groups, int regions) { return create_1(self, device.self, flags.value, scan.self, size, groups, regions, 0); }
-	public boolean create(Device device, Flags flags, PrefixScan scan, int size, int groups, int regions, Async async) { return create_1(self, device.self, flags.value, scan.self, size, groups, regions, async.self); }
-	public boolean create(Device device, Flags.Enum flags, PrefixScan scan, int size, int groups, int regions, Async async) { return create_1(self, device.self, flags.value, scan.self, size, groups, regions, async.self); }
+	public boolean create(Device device, Flags flags, PrefixScan scan, int size, int threads) { return create_1(self, device.self, flags.value, scan.self, size, threads, 1, 0); }
+	public boolean create(Device device, Flags.Enum flags, PrefixScan scan, int size, int threads) { return create_1(self, device.self, flags.value, scan.self, size, threads, 1, 0); }
+	public boolean create(Device device, Flags flags, PrefixScan scan, int size, int threads, int regions) { return create_1(self, device.self, flags.value, scan.self, size, threads, regions, 0); }
+	public boolean create(Device device, Flags.Enum flags, PrefixScan scan, int size, int threads, int regions) { return create_1(self, device.self, flags.value, scan.self, size, threads, regions, 0); }
+	public boolean create(Device device, Flags flags, PrefixScan scan, int size, int threads, int regions, Async async) { return create_1(self, device.self, flags.value, scan.self, size, threads, regions, async.self); }
+	public boolean create(Device device, Flags.Enum flags, PrefixScan scan, int size, int threads, int regions, Async async) { return create_1(self, device.self, flags.value, scan.self, size, threads, regions, async.self); }
 	public boolean dispatch(Compute compute, Buffer data, int keys_offset, int data_offset, int size) { return dispatch_(self, compute.self, data.self, keys_offset, data_offset, size, Flags.None.value, 32); }
 	public boolean dispatch(Compute compute, Buffer data, int keys_offset, int data_offset, int size, Flags flags) { return dispatch_(self, compute.self, data.self, keys_offset, data_offset, size, flags.value, 32); }
 	public boolean dispatch(Compute compute, Buffer data, int keys_offset, int data_offset, int size, Flags.Enum flags) { return dispatch_(self, compute.self, data.self, keys_offset, data_offset, size, flags.value, 32); }
@@ -208,8 +208,8 @@ public class RadixSort {
 	private static native int get_max_regions(long self);
 	private static native long get_prefix_scan(long self);
 	private static native long get_data_buffer(long self);
-	private static native boolean create_(long self, long device, int mode, long scan, int size, int groups, int regions, long async);
-	private static native boolean create_1(long self, long device, int flags, long scan, int size, int groups, int regions, long async);
+	private static native boolean create_(long self, long device, int mode, long scan, int size, int threads, int regions, long async);
+	private static native boolean create_1(long self, long device, int flags, long scan, int size, int threads, int regions, long async);
 	private static native boolean dispatch_(long self, long compute, long data, int keys_offset, int data_offset, int size, int flags, int bits);
 	private static native boolean dispatch_1(long self, long compute, long data, int count, int[] keys_offsets, int[] data_offsets, int[] sizes, int flags, int bits);
 	private static native boolean dispatch_indirect(long self, long compute, long data, long dispatch, int offset, int flags, int bits, int max_size);

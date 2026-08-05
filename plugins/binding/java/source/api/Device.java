@@ -128,6 +128,8 @@ public class Device {
 		public int getMaxTextureLayers() { return get_maxTextureLayers_(self); }
 		public void setMaxTextureSamples(int maxTextureSamples) { set_maxTextureSamples_(self, maxTextureSamples); }
 		public int getMaxTextureSamples() { return get_maxTextureSamples_(self); }
+		public void setMaxGroupSize(int maxGroupSize) { set_maxGroupSize_(self, maxGroupSize); }
+		public int getMaxGroupSize() { return get_maxGroupSize_(self); }
 		public void setMaxGroupSizeX(int maxGroupSizeX) { set_maxGroupSizeX_(self, maxGroupSizeX); }
 		public int getMaxGroupSizeX() { return get_maxGroupSizeX_(self); }
 		public void setMaxGroupSizeY(int maxGroupSizeY) { set_maxGroupSizeY_(self, maxGroupSizeY); }
@@ -140,12 +142,40 @@ public class Device {
 		public int getMaxGroupCountY() { return get_maxGroupCountY_(self); }
 		public void setMaxGroupCountZ(int maxGroupCountZ) { set_maxGroupCountZ_(self, maxGroupCountZ); }
 		public int getMaxGroupCountZ() { return get_maxGroupCountZ_(self); }
+		public void setMaxTaskSize(int maxTaskSize) { set_maxTaskSize_(self, maxTaskSize); }
+		public int getMaxTaskSize() { return get_maxTaskSize_(self); }
+		public void setMaxTaskSizeX(int maxTaskSizeX) { set_maxTaskSizeX_(self, maxTaskSizeX); }
+		public int getMaxTaskSizeX() { return get_maxTaskSizeX_(self); }
+		public void setMaxTaskSizeY(int maxTaskSizeY) { set_maxTaskSizeY_(self, maxTaskSizeY); }
+		public int getMaxTaskSizeY() { return get_maxTaskSizeY_(self); }
+		public void setMaxTaskSizeZ(int maxTaskSizeZ) { set_maxTaskSizeZ_(self, maxTaskSizeZ); }
+		public int getMaxTaskSizeZ() { return get_maxTaskSizeZ_(self); }
 		public void setMaxTaskCount(int maxTaskCount) { set_maxTaskCount_(self, maxTaskCount); }
 		public int getMaxTaskCount() { return get_maxTaskCount_(self); }
+		public void setMaxTaskCountX(int maxTaskCountX) { set_maxTaskCountX_(self, maxTaskCountX); }
+		public int getMaxTaskCountX() { return get_maxTaskCountX_(self); }
+		public void setMaxTaskCountY(int maxTaskCountY) { set_maxTaskCountY_(self, maxTaskCountY); }
+		public int getMaxTaskCountY() { return get_maxTaskCountY_(self); }
+		public void setMaxTaskCountZ(int maxTaskCountZ) { set_maxTaskCountZ_(self, maxTaskCountZ); }
+		public int getMaxTaskCountZ() { return get_maxTaskCountZ_(self); }
 		public void setMaxTaskMemory(int maxTaskMemory) { set_maxTaskMemory_(self, maxTaskMemory); }
 		public int getMaxTaskMemory() { return get_maxTaskMemory_(self); }
-		public void setMaxTaskMeshes(int maxTaskMeshes) { set_maxTaskMeshes_(self, maxTaskMeshes); }
-		public int getMaxTaskMeshes() { return get_maxTaskMeshes_(self); }
+		public void setMaxMeshSize(int maxMeshSize) { set_maxMeshSize_(self, maxMeshSize); }
+		public int getMaxMeshSize() { return get_maxMeshSize_(self); }
+		public void setMaxMeshSizeX(int maxMeshSizeX) { set_maxMeshSizeX_(self, maxMeshSizeX); }
+		public int getMaxMeshSizeX() { return get_maxMeshSizeX_(self); }
+		public void setMaxMeshSizeY(int maxMeshSizeY) { set_maxMeshSizeY_(self, maxMeshSizeY); }
+		public int getMaxMeshSizeY() { return get_maxMeshSizeY_(self); }
+		public void setMaxMeshSizeZ(int maxMeshSizeZ) { set_maxMeshSizeZ_(self, maxMeshSizeZ); }
+		public int getMaxMeshSizeZ() { return get_maxMeshSizeZ_(self); }
+		public void setMaxMeshCount(int maxMeshCount) { set_maxMeshCount_(self, maxMeshCount); }
+		public int getMaxMeshCount() { return get_maxMeshCount_(self); }
+		public void setMaxMeshCountX(int maxMeshCountX) { set_maxMeshCountX_(self, maxMeshCountX); }
+		public int getMaxMeshCountX() { return get_maxMeshCountX_(self); }
+		public void setMaxMeshCountY(int maxMeshCountY) { set_maxMeshCountY_(self, maxMeshCountY); }
+		public int getMaxMeshCountY() { return get_maxMeshCountY_(self); }
+		public void setMaxMeshCountZ(int maxMeshCountZ) { set_maxMeshCountZ_(self, maxMeshCountZ); }
+		public int getMaxMeshCountZ() { return get_maxMeshCountZ_(self); }
 		public void setMaxMeshMemory(int maxMeshMemory) { set_maxMeshMemory_(self, maxMeshMemory); }
 		public int getMaxMeshMemory() { return get_maxMeshMemory_(self); }
 		public void setMaxMeshVertices(int maxMeshVertices) { set_maxMeshVertices_(self, maxMeshVertices); }
@@ -233,15 +263,30 @@ public class Device {
 			ret += "\nmaxTexture3DSize: " + getMaxTexture3DSize();
 			ret += "\nmaxTextureLayers: " + getMaxTextureLayers();
 			ret += "\nmaxTextureSamples: " + getMaxTextureSamples();
+			ret += "\nmaxGroupSize: " + getMaxGroupSize();
 			ret += "\nmaxGroupSizeX: " + getMaxGroupSizeX();
 			ret += "\nmaxGroupSizeY: " + getMaxGroupSizeY();
 			ret += "\nmaxGroupSizeZ: " + getMaxGroupSizeZ();
 			ret += "\nmaxGroupCountX: " + getMaxGroupCountX();
 			ret += "\nmaxGroupCountY: " + getMaxGroupCountY();
 			ret += "\nmaxGroupCountZ: " + getMaxGroupCountZ();
+			ret += "\nmaxTaskSize: " + getMaxTaskSize();
+			ret += "\nmaxTaskSizeX: " + getMaxTaskSizeX();
+			ret += "\nmaxTaskSizeY: " + getMaxTaskSizeY();
+			ret += "\nmaxTaskSizeZ: " + getMaxTaskSizeZ();
 			ret += "\nmaxTaskCount: " + getMaxTaskCount();
+			ret += "\nmaxTaskCountX: " + getMaxTaskCountX();
+			ret += "\nmaxTaskCountY: " + getMaxTaskCountY();
+			ret += "\nmaxTaskCountZ: " + getMaxTaskCountZ();
 			ret += "\nmaxTaskMemory: " + getMaxTaskMemory();
-			ret += "\nmaxTaskMeshes: " + getMaxTaskMeshes();
+			ret += "\nmaxMeshSize: " + getMaxMeshSize();
+			ret += "\nmaxMeshSizeX: " + getMaxMeshSizeX();
+			ret += "\nmaxMeshSizeY: " + getMaxMeshSizeY();
+			ret += "\nmaxMeshSizeZ: " + getMaxMeshSizeZ();
+			ret += "\nmaxMeshCount: " + getMaxMeshCount();
+			ret += "\nmaxMeshCountX: " + getMaxMeshCountX();
+			ret += "\nmaxMeshCountY: " + getMaxMeshCountY();
+			ret += "\nmaxMeshCountZ: " + getMaxMeshCountZ();
 			ret += "\nmaxMeshMemory: " + getMaxMeshMemory();
 			ret += "\nmaxMeshVertices: " + getMaxMeshVertices();
 			ret += "\nmaxMeshPrimitives: " + getMaxMeshPrimitives();
@@ -377,6 +422,8 @@ public class Device {
 		private static native int get_maxTextureLayers_(long self);
 		private static native void set_maxTextureSamples_(long self, int maxTextureSamples);
 		private static native int get_maxTextureSamples_(long self);
+		private static native void set_maxGroupSize_(long self, int maxGroupSize);
+		private static native int get_maxGroupSize_(long self);
 		private static native void set_maxGroupSizeX_(long self, int maxGroupSizeX);
 		private static native int get_maxGroupSizeX_(long self);
 		private static native void set_maxGroupSizeY_(long self, int maxGroupSizeY);
@@ -389,12 +436,40 @@ public class Device {
 		private static native int get_maxGroupCountY_(long self);
 		private static native void set_maxGroupCountZ_(long self, int maxGroupCountZ);
 		private static native int get_maxGroupCountZ_(long self);
+		private static native void set_maxTaskSize_(long self, int maxTaskSize);
+		private static native int get_maxTaskSize_(long self);
+		private static native void set_maxTaskSizeX_(long self, int maxTaskSizeX);
+		private static native int get_maxTaskSizeX_(long self);
+		private static native void set_maxTaskSizeY_(long self, int maxTaskSizeY);
+		private static native int get_maxTaskSizeY_(long self);
+		private static native void set_maxTaskSizeZ_(long self, int maxTaskSizeZ);
+		private static native int get_maxTaskSizeZ_(long self);
 		private static native void set_maxTaskCount_(long self, int maxTaskCount);
 		private static native int get_maxTaskCount_(long self);
+		private static native void set_maxTaskCountX_(long self, int maxTaskCountX);
+		private static native int get_maxTaskCountX_(long self);
+		private static native void set_maxTaskCountY_(long self, int maxTaskCountY);
+		private static native int get_maxTaskCountY_(long self);
+		private static native void set_maxTaskCountZ_(long self, int maxTaskCountZ);
+		private static native int get_maxTaskCountZ_(long self);
 		private static native void set_maxTaskMemory_(long self, int maxTaskMemory);
 		private static native int get_maxTaskMemory_(long self);
-		private static native void set_maxTaskMeshes_(long self, int maxTaskMeshes);
-		private static native int get_maxTaskMeshes_(long self);
+		private static native void set_maxMeshSize_(long self, int maxMeshSize);
+		private static native int get_maxMeshSize_(long self);
+		private static native void set_maxMeshSizeX_(long self, int maxMeshSizeX);
+		private static native int get_maxMeshSizeX_(long self);
+		private static native void set_maxMeshSizeY_(long self, int maxMeshSizeY);
+		private static native int get_maxMeshSizeY_(long self);
+		private static native void set_maxMeshSizeZ_(long self, int maxMeshSizeZ);
+		private static native int get_maxMeshSizeZ_(long self);
+		private static native void set_maxMeshCount_(long self, int maxMeshCount);
+		private static native int get_maxMeshCount_(long self);
+		private static native void set_maxMeshCountX_(long self, int maxMeshCountX);
+		private static native int get_maxMeshCountX_(long self);
+		private static native void set_maxMeshCountY_(long self, int maxMeshCountY);
+		private static native int get_maxMeshCountY_(long self);
+		private static native void set_maxMeshCountZ_(long self, int maxMeshCountZ);
+		private static native int get_maxMeshCountZ_(long self);
 		private static native void set_maxMeshMemory_(long self, int maxMeshMemory);
 		private static native int get_maxMeshMemory_(long self);
 		private static native void set_maxMeshVertices_(long self, int maxMeshVertices);

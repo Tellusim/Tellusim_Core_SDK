@@ -3,26 +3,35 @@
 
 /*
  */
+#if HASH_SHADER
+	#define HASH_X 0.10310f
+	#define HASH_Y 0.11369f
+	#define HASH_Z 0.13787f
+	#define HASH_W 0.14991f
+#endif
+
+/*
+ */
 #if HASH_1_1_SHADER
-	float p = fract((IN) * 0.1031f);
+	float p = fract((IN) * HASH_X);
 	p *= p + 33.33f;
 	OUT = fract((p + p) * p);
 #endif
 
 #if HASH_1_2_SHADER
-	vec3 p3 = fract((IN).xyx * 0.1031f);
+	vec3 p3 = fract((IN).xyx * HASH_X);
 	p3 += dot(p3, p3.yzx + 33.33f);
 	OUT = fract((p3.x + p3.y) * p3.z);
 #endif
 
 #if HASH_1_3_SHADER
-	vec3 p3 = fract((IN) * 0.1031f);
+	vec3 p3 = fract((IN) * HASH_X);
 	p3 += dot(p3, p3.zyx + 33.33f);
 	OUT = fract((p3.x + p3.y) * p3.z);
 #endif
 
 #if HASH_1_4_SHADER
-	vec4 p4 = fract((IN) * vec4(0.1031f, 0.1030f, 0.0973f, 0.1099f));
+	vec4 p4 = fract((IN) * vec4(HASH_X, HASH_Y, HASH_Z, HASH_W));
 	p4 += dot(p4, p4.wzxy + 33.33f);
 	OUT = fract((p4.x + p4.y) * (p4.z + p4.w));
 #endif
@@ -30,19 +39,19 @@
 /*
  */
 #if HASH_2_1_SHADER
-	vec3 p3 = fract((IN) * vec3(0.1031f, 0.1030f, 0.0973f));
+	vec3 p3 = fract((IN) * vec3(HASH_X, HASH_Y, HASH_Z));
 	p3 += dot(p3, p3.yzx + 33.33f);
 	OUT = fract((p3.xx + p3.yz) * p3.zy);
 #endif
 
 #if HASH_2_2_SHADER
-	vec3 p3 = fract((IN).xyx * vec3(0.1031f, 0.1030f, 0.0973f));
+	vec3 p3 = fract((IN).xyx * vec3(HASH_X, HASH_Y, HASH_Z));
 	p3 += dot(p3, p3.yzx + 33.33f);
-	OUT = fract((p3.xx+p3.yz) * p3.zy);
+	OUT = fract((p3.xx + p3.yz) * p3.zy);
 #endif
 
 #if HASH_2_3_SHADER
-	vec3 p3 = fract((IN) * vec3(0.1031f, 0.1030f, 0.0973f));
+	vec3 p3 = fract((IN) * vec3(HASH_X, HASH_Y, HASH_Z));
 	p3 += dot(p3, p3.yzx + 33.33f);
 	OUT = fract((p3.xx + p3.yz) * p3.zy);
 #endif
@@ -50,45 +59,45 @@
 /*
  */
 #if HASH_3_1_SHADER
-	vec3 p3 = fract((IN) * vec3(0.1031f, 0.1030f, 0.0973f));
+	vec3 p3 = fract((IN) * vec3(HASH_X, HASH_Y, HASH_Z));
 	p3 += dot(p3, p3.yzx + 33.33f);
 	OUT = fract((p3.xxy + p3.yzz) * p3.zyx);
 #endif
 
 #if HASH_3_2_SHADER
-	vec3 p3 = fract((IN).xyx * vec3(0.1031f, 0.1030f, 0.0973f));
+	vec3 p3 = fract((IN).xyx * vec3(HASH_X, HASH_Y, HASH_Z));
 	p3 += dot(p3, p3.yxz + 33.33f);
 	OUT = fract((p3.xxy + p3.yzz) * p3.zyx);
 #endif
 
 #if HASH_3_3_SHADER
-	vec3 p3 = fract((IN) * vec3(0.1031f, 0.1030f, 0.0973f));
+	vec3 p3 = fract((IN) * vec3(HASH_X, HASH_Y, HASH_Z));
 	p3 += dot(p3, p3.yxz + 33.33f);
-	OUT = fract((p3.xxy + p3.yxx)*p3.zyx);
+	OUT = fract((p3.xxy + p3.yxx) * p3.zyx);
 #endif
 
 /*
  */
 #if HASH_4_1_SHADER
-	vec4 p4 = fract((IN) * vec4(0.1031f, 0.1030f, 0.0973f, 0.1099f));
+	vec4 p4 = fract((IN) * vec4(HASH_X, HASH_Y, HASH_Z, HASH_W));
 	p4 += dot(p4, p4.wzxy + 33.33f);
 	OUT = fract((p4.xxyz + p4.yzzw) * p4.zywx);
 #endif
 
 #if HASH_4_2_SHADER
-	vec4 p4 = fract((IN).xyxy * vec4(0.1031f, 0.1030f, 0.0973f, 0.1099f);
+	vec4 p4 = fract((IN).xyxy * vec4(HASH_X, HASH_Y, HASH_Z, HASH_W);
 	p4 += dot(p4, p4.wzxy + 33.33f);
 	OUT = fract((p4.xxyz + p4.yzzw) * p4.zywx);
 #endif
 
 #if HASH_4_3_SHADER
-	vec4 p4 = fract((IN).xyzx * vec4(0.1031f, 0.1030f, 0.0973f, 0.1099f));
+	vec4 p4 = fract((IN).xyzx * vec4(HASH_X, HASH_Y, HASH_Z, HASH_W));
 	p4 += dot(p4, p4.wzxy + 33.33f);
 	OUT = fract((p4.xxyz + p4.yzzw) * p4.zywx);
 #endif
 
 #if HASH_4_4_SHADER
-	vec4 p4 = fract((IN) * vec4(0.1031f, 0.1030f, 0.0973f, 0.1099f));
+	vec4 p4 = fract((IN) * vec4(HASH_X, HASH_Y, HASH_Z, HASH_W));
 	p4 += dot(p4, p4.wzxy + 33.33f);
 	OUT = fract((p4.xxyz + p4.yzzw) * p4.zywx);
 #endif
