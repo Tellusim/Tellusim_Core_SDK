@@ -480,6 +480,11 @@ namespace Tellusim {
 			void setColor(float32_t r, float32_t g, float32_t b, float32_t a);
 			const Color &getColor() const;
 			
+			/// control state color
+			void setStateColor(State state, const Color &color);
+			void setStateColor(State state, float32_t r, float32_t g, float32_t b, float32_t a);
+			uint32_t getStateColor(State state) const;
+			
 			/// filter mode
 			void setFilter(Sampler::Filter filter);
 			Sampler::Filter getFilter() const;
@@ -571,6 +576,11 @@ namespace Tellusim {
 			void setColor(const Color &color);
 			void setColor(float32_t r, float32_t g, float32_t b, float32_t a);
 			const Color &getColor() const;
+			
+			/// control state color
+			void setStateColor(State state, const Color &color);
+			void setStateColor(State state, float32_t r, float32_t g, float32_t b, float32_t a);
+			uint32_t getStateColor(State state) const;
 			
 			/// stroke style
 			void setStrokeStyle(const StrokeStyle &style);

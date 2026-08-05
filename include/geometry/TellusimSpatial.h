@@ -60,7 +60,7 @@ namespace Tellusim {
 		template <class Type, class Node>
 		static uint32_t create_nodes(Node *nodes, uint32_t num_nodes, uint32_t *indices, uint32_t &counter, uint32_t index, uint32_t left, uint32_t right, uint32_t iterations) {
 			
-			TS_STATIC_ASSERT(Node::Axes <= Node::Bound::Vector::Size);
+			TS_STATIC_ASSERT((uint32_t)Node::Axes <= Node::Bound::Vector::Size);
 			TS_STATIC_ASSERT(Node::Axes >= 2 && Node::Axes <= 3);
 			
 			using Bound = typename Node::Bound;
@@ -116,9 +116,9 @@ namespace Tellusim {
 			Type split_weight = Maxf32;
 			Type split_distance = 0.0f;
 			uint32_t split_axis = Maxu32;
-			uint32_t split_counter[MaxIterations * Node::Axes] = {};
-			Bound left_bounds[MaxIterations * Node::Axes];
-			Bound right_bounds[MaxIterations * Node::Axes];
+			uint32_t split_counter[(uint32_t)MaxIterations * Node::Axes] = {};
+			Bound left_bounds[(uint32_t)MaxIterations * Node::Axes];
+			Bound right_bounds[(uint32_t)MaxIterations * Node::Axes];
 			for(uint32_t i = left; i <= right; i++) {
 				const Bound &bound = nodes[indices[i]].bound;
 				Vector center = bound.min + bound.max;

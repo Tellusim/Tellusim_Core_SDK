@@ -1,0 +1,33 @@
+<rml>
+<head>
+<style>
+body {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	font-size: 20vh;
+	text-align: center;
+	font-family: Open Sans;
+	decorator: linear-gradient(40deg, #000 10%, #555 90%) border-box;
+	animation: body-animation 2s cubic-in-out infinite alternate;
+}
+.text {
+	margin: auto;
+	color: #bbb;
+	font-effect: outline(4dp #fff);
+	filter: drop-shadow(#000 16dp 16dp 8dp);
+}
+.text:hover {
+	color: #fff;
+	text-decoration: underline;
+}
+@keyframes body-animation {
+	from { filter: blur(0dp); }
+	to   { filter: blur(16dp); }
+}
+</style>
+</head>
+<body>
+	<div class="text">Hello RmlUi</div>
+</body>
+</rml>

@@ -164,7 +164,7 @@ int32_t main(int32_t argc, char **argv) {
 			common_parameters.camera = Vector4f(cos(time / 4.0f) * 4.0f, sin(time / 4.0f) * 4.0f, 3.0f, 0.0f);
 			common_parameters.projection = Matrix4x4f::perspective(60.0f, (float32_t)window.getWidth() / window.getHeight(), 0.1f, 1000.0f);
 			common_parameters.modelview = Matrix4x4f::lookAt(Vector3f(common_parameters.camera), Vector3f::zero, Vector3f::oneZ);
-			if(render_target.isFlipped() || window_target.isFlipped()) common_parameters.projection = Matrix4x4f::scale(1.0f, -1.0f, 1.0f) * common_parameters.projection;
+			if(render_target.isFlipped()) common_parameters.projection = Matrix4x4f::scale(1.0f, -1.0f, 1.0f) * common_parameters.projection;
 			command.setUniform(0, common_parameters);
 			command.setUniform(1, color_data);
 			
