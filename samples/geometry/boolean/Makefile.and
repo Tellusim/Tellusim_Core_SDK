@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsGeometryBoolean
+
+ASSETS = main.shader model.mesh
+
+include ../../Makefile.and.mk

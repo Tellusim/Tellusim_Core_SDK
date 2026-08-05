@@ -3,6 +3,7 @@ TESTS = \
 	gles_runtime \
 	vk_device \
 	vk_pipeline \
-	vk_runtime
+	vk_runtime \
+	vk_spirv
 
 include ../Makefile.and

@@ -1,0 +1,7 @@
+SRCS = main.cpp
+
+APK = tsVKSpriv
+
+ASSETS = main_shader_v.spv main_shader_f.spv
+
+include ../../Makefile.and.mk

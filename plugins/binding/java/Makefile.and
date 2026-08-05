@@ -19,7 +19,7 @@ ASSETS = main.shader
 #
 # Java configuration
 #
-#JVFLAGS = --release 17
+JVFLAGS = --release 17
 
 #
 # Sources

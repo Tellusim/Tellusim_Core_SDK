@@ -1,0 +1,10 @@
+SRCS = main.cpp \
+	source/TellusimRmlUi.cpp
+
+APK = tsInterfaceRmlUi
+
+LIBS += -Lextern/lib/android/$(ARCH) -lrmlui -lfreetype
+
+include ../../Makefile.and.mk
+
+CFLAGS += -std=c++17
