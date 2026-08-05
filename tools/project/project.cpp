@@ -73,8 +73,8 @@ static void create_args(int32_t argc, char **argv, uint32_t index, Arguments &ar
 	
 	// Visual Studio version
 	String version = System::getEnvironment("VSVERSION");
-	if(!version) version = "170";
-	args.append(String("version"), "vs" + version);
+	if(version) args.append(String("version"), version);
+	else args.append(String("version"), String("170"));
 	
 	// Android SDK version
 	args.append(String("minsdk"), String("33"));
@@ -1757,7 +1757,7 @@ static void create_cmake_vars(Variables &vars, const Arguments &args, const Stri
 	
 	// local path
 	String include_path = String::tformat("\n\t{0}include\n\t{0}plugins\n\t{0}samples", root);
-	String library_path_windows = String::tformat("\n\t\t{0}lib/windows/{2}{1}", root, arch, version);
+	String library_path_windows = String::tformat("\n\t\t{0}lib/windows/vs{2}{1}", root, arch, version);
 	String library_path_linux = String::tformat("\n\t\t{0}lib/linux/{1}", root, arch);
 	String library_path_macos = String::tformat("\n\t\t{0}lib/macos/{1}", root, arch);
 	
@@ -2171,7 +2171,7 @@ static void create_vcxproj_vars(Variables &vars, const Arguments &args, const St
 	
 	// local path
 	String include_path = String::tformat("{0}include;{0}plugins;{0}samples;", root);
-	String library_path = String::tformat("{0}lib/{1}/{3}{2};", root, prefix, arch, version);
+	String library_path = String::tformat("{0}lib/{1}/vs{3}{2};", root, prefix, arch, version);
 	
 	// extern path
 	String path = get_dirname(name);
@@ -3349,7 +3349,7 @@ int32_t main(int32_t argc, char **argv) {
 		Log::print("  -assets <name>    Resource names\n");
 		Log::print("  -std <version>    C++ STD version (11)\n");
 		Log::print("  -toolset <ver>    Visual Studio toolset (v143)\n");
-		Log::print("  -version <ver>    Visual Studio version (vs170)\n");
+		Log::print("  -version <ver>    Visual Studio version (170)\n");
 		Log::print("  -minsdk <ver>     Android SDK version (33)\n");
 		Log::print("  -check <argument> Exit if the argument is not defined\n");
 		Log::print("  -cmake (name)     Create CMake C++ project\n");

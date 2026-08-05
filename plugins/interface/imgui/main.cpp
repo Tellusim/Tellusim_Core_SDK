@@ -29,11 +29,12 @@ int32_t main(int32_t argc, char **argv) {
 	Target target = device.createTarget(window);
 	target.setClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 	
-	// initialize ImGui
-	TS_ImGui imgui(window);
+	// create ImGui
+	TSImGui imgui;
+	if(!imgui.init(window)) return 1;
 	
 	// ImGui style
-	ImGui::StyleColorsDark();
+	::ImGui::StyleColorsDark();
 	
 	// current state
 	bool show_demo_window = true;
@@ -43,17 +44,18 @@ int32_t main(int32_t argc, char **argv) {
 	window.run([&]() {
 		DECLARE_COMMON
 		
-		using Tellusim::cos;
-		
 		Window::update();
 		
 		if(!window.render()) return false;
 		
+		// window title
+		if(fps > 0.0f) window.setTitle(String::format("%s %.1f FPS", title.get(), fps));
+		
 		// ImGui frame
-		imgui.frame(device, target);
+		if(!imgui.frame(device, target)) return false;
 		
 		// ImGui demo window
-		if(show_demo_window) ImGui::ShowDemoWindow(&show_demo_window);
+		if(show_demo_window) ::ImGui::ShowDemoWindow(&show_demo_window);
 		
 		// window target
 		target.begin();

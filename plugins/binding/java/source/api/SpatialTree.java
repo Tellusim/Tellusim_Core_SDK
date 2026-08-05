@@ -315,20 +315,20 @@ public class SpatialTree {
 	public Buffer getCounterBuffer() { return new Buffer(get_counter_buffer(self)); }
 	public boolean create(Device device, Mode mode, RadixSort sort, int size) { return create_(self, device.self, mode.value, sort.self, size, 256, 1, 0); }
 	public boolean create(Device device, Mode.Enum mode, RadixSort sort, int size) { return create_(self, device.self, mode.value, sort.self, size, 256, 1, 0); }
-	public boolean create(Device device, Mode mode, RadixSort sort, int size, int groups) { return create_(self, device.self, mode.value, sort.self, size, groups, 1, 0); }
-	public boolean create(Device device, Mode.Enum mode, RadixSort sort, int size, int groups) { return create_(self, device.self, mode.value, sort.self, size, groups, 1, 0); }
-	public boolean create(Device device, Mode mode, RadixSort sort, int size, int groups, int regions) { return create_(self, device.self, mode.value, sort.self, size, groups, regions, 0); }
-	public boolean create(Device device, Mode.Enum mode, RadixSort sort, int size, int groups, int regions) { return create_(self, device.self, mode.value, sort.self, size, groups, regions, 0); }
-	public boolean create(Device device, Mode mode, RadixSort sort, int size, int groups, int regions, Async async) { return create_(self, device.self, mode.value, sort.self, size, groups, regions, async.self); }
-	public boolean create(Device device, Mode.Enum mode, RadixSort sort, int size, int groups, int regions, Async async) { return create_(self, device.self, mode.value, sort.self, size, groups, regions, async.self); }
+	public boolean create(Device device, Mode mode, RadixSort sort, int size, int threads) { return create_(self, device.self, mode.value, sort.self, size, threads, 1, 0); }
+	public boolean create(Device device, Mode.Enum mode, RadixSort sort, int size, int threads) { return create_(self, device.self, mode.value, sort.self, size, threads, 1, 0); }
+	public boolean create(Device device, Mode mode, RadixSort sort, int size, int threads, int regions) { return create_(self, device.self, mode.value, sort.self, size, threads, regions, 0); }
+	public boolean create(Device device, Mode.Enum mode, RadixSort sort, int size, int threads, int regions) { return create_(self, device.self, mode.value, sort.self, size, threads, regions, 0); }
+	public boolean create(Device device, Mode mode, RadixSort sort, int size, int threads, int regions, Async async) { return create_(self, device.self, mode.value, sort.self, size, threads, regions, async.self); }
+	public boolean create(Device device, Mode.Enum mode, RadixSort sort, int size, int threads, int regions, Async async) { return create_(self, device.self, mode.value, sort.self, size, threads, regions, async.self); }
 	public boolean create(Device device, Flags flags, RadixSort sort, int size) { return create_1(self, device.self, flags.value, sort.self, size, 256, 1, 0); }
 	public boolean create(Device device, Flags.Enum flags, RadixSort sort, int size) { return create_1(self, device.self, flags.value, sort.self, size, 256, 1, 0); }
-	public boolean create(Device device, Flags flags, RadixSort sort, int size, int groups) { return create_1(self, device.self, flags.value, sort.self, size, groups, 1, 0); }
-	public boolean create(Device device, Flags.Enum flags, RadixSort sort, int size, int groups) { return create_1(self, device.self, flags.value, sort.self, size, groups, 1, 0); }
-	public boolean create(Device device, Flags flags, RadixSort sort, int size, int groups, int regions) { return create_1(self, device.self, flags.value, sort.self, size, groups, regions, 0); }
-	public boolean create(Device device, Flags.Enum flags, RadixSort sort, int size, int groups, int regions) { return create_1(self, device.self, flags.value, sort.self, size, groups, regions, 0); }
-	public boolean create(Device device, Flags flags, RadixSort sort, int size, int groups, int regions, Async async) { return create_1(self, device.self, flags.value, sort.self, size, groups, regions, async.self); }
-	public boolean create(Device device, Flags.Enum flags, RadixSort sort, int size, int groups, int regions, Async async) { return create_1(self, device.self, flags.value, sort.self, size, groups, regions, async.self); }
+	public boolean create(Device device, Flags flags, RadixSort sort, int size, int threads) { return create_1(self, device.self, flags.value, sort.self, size, threads, 1, 0); }
+	public boolean create(Device device, Flags.Enum flags, RadixSort sort, int size, int threads) { return create_1(self, device.self, flags.value, sort.self, size, threads, 1, 0); }
+	public boolean create(Device device, Flags flags, RadixSort sort, int size, int threads, int regions) { return create_1(self, device.self, flags.value, sort.self, size, threads, regions, 0); }
+	public boolean create(Device device, Flags.Enum flags, RadixSort sort, int size, int threads, int regions) { return create_1(self, device.self, flags.value, sort.self, size, threads, regions, 0); }
+	public boolean create(Device device, Flags flags, RadixSort sort, int size, int threads, int regions, Async async) { return create_1(self, device.self, flags.value, sort.self, size, threads, regions, async.self); }
+	public boolean create(Device device, Flags.Enum flags, RadixSort sort, int size, int threads, int regions, Async async) { return create_1(self, device.self, flags.value, sort.self, size, threads, regions, async.self); }
 	public boolean dispatch(Compute compute, Hash hash, Buffer nodes, int offset, int size) { return dispatch_(self, compute.self, hash.value, nodes.self, offset, size, Flags.None.value); }
 	public boolean dispatch(Compute compute, Hash.Enum hash, Buffer nodes, int offset, int size) { return dispatch_(self, compute.self, hash.value, nodes.self, offset, size, Flags.None.value); }
 	public boolean dispatch(Compute compute, Hash hash, Buffer nodes, int offset, int size, Flags flags) { return dispatch_(self, compute.self, hash.value, nodes.self, offset, size, flags.value); }
@@ -381,8 +381,8 @@ public class SpatialTree {
 	private static native long get_hash_buffer(long self);
 	private static native long get_parents_buffer(long self);
 	private static native long get_counter_buffer(long self);
-	private static native boolean create_(long self, long device, int mode, long sort, int size, int groups, int regions, long async);
-	private static native boolean create_1(long self, long device, int flags, long sort, int size, int groups, int regions, long async);
+	private static native boolean create_(long self, long device, int mode, long sort, int size, int threads, int regions, long async);
+	private static native boolean create_1(long self, long device, int flags, long sort, int size, int threads, int regions, long async);
 	private static native boolean dispatch_(long self, long compute, int hash, long nodes, int offset, int size, int flags);
 	private static native boolean dispatch_1(long self, long compute, int hash, long nodes, int count, int[] offsets, int[] sizes, int flags);
 	private static native boolean dispatch_indirect(long self, long compute, int hash, long nodes, long dispatch, int offset, int max_size, int flags);

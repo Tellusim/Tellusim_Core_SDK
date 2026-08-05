@@ -86,6 +86,7 @@ int32_t main(int32_t argc, char **argv) {
 	mask_pipeline.addAttribute(Pipeline::AttributeTexCoord, FormatRGf32, 0, sizeof(float32_t) * 6, sizeof(float32_t) * 8);
 	mask_pipeline.setColorFormat(color_texture.getFormat());
 	mask_pipeline.setMultisample(MULTISAMPLE);
+	mask_pipeline.setScissorTest(true);
 	if(!mask_pipeline.loadShaderGLSL(Shader::TypeVertex, "main.shader", "RENDER_TARGET=1; VERTEX_SHADER=1")) return 1;
 	if(!mask_pipeline.loadShaderGLSL(Shader::TypeFragment, "main.shader", "RENDER_TARGET=1; FRAGMENT_SHADER=1")) return 1;
 	if(!mask_pipeline.create()) return 1;
@@ -148,11 +149,15 @@ int32_t main(int32_t argc, char **argv) {
 			
 			// set common parameters
 			CommonParameters common_parameters;
-			common_parameters.projection = Matrix4x4f::perspective(60.0f, (float32_t)window.getWidth() / window.getHeight(), 0.1f, 1000.0f);
+			common_parameters.projection = Matrix4x4f::perspective(60.0f, (float32_t)width / height, 0.1f, 1000.0f);
 			common_parameters.modelview = Matrix4x4f::lookAt(Vector3f(1.5f, 1.5f, 0.0f), Vector3f::zero, Vector3f::oneZ);
-			if(render_target.isFlipped() || window_target.isFlipped()) common_parameters.projection = Matrix4x4f::scale(1.0f, -1.0f, 1.0f) * common_parameters.projection;
+			if(render_target.isFlipped()) common_parameters.projection = Matrix4x4f::scale(1.0f, -1.0f, 1.0f) * common_parameters.projection;
 			common_parameters.transform = Matrix4x4f::rotateZ(sin(time * 0.5f) * 16.0f - 45.0f) * Matrix4x4f::rotateX(90.0f) * Matrix4x4f::scale(1.0f + sin(time * 0.3f) * 0.5f);
 			command.setUniform(0, common_parameters);
+			
+			// viewport parameters
+			if(window.getKeyboardKey('v')) command.setViewport(0, Viewport(width / 3.0f, height / 3.0f, width / 2.0f, height / 2.0f));
+			if(window.getKeyboardKey('s')) command.setScissor(0, Scissor(width / 3, height / 3, width / 2, height / 2));
 			
 			// draw geometry
 			command.setSampler(0, sampler);

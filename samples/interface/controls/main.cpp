@@ -100,6 +100,8 @@ int32_t main(int32_t argc, char **argv) {
 	left_rect.setMode(CanvasElement::ModeTexture);
 	left_area.setFrameAlign(Control::AlignCenter);
 	left_rect.setTexture(rect_texture);
+	left_rect.setMargin(16.0f, 16.0f);
+	left_rect.setRadius(16.0f);
 	
 	// create right area
 	ControlArea right_area(&root, false, true);
