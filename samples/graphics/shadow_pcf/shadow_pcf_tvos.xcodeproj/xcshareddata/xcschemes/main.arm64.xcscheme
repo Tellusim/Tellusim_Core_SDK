@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6E95DB7EFBEDD117AE6000FA"
+				BlueprintIdentifier = "62FCB826BA966C7AD3D000FA"
 				BuildableName = "tsGraphicsShadowPCF"
 				BlueprintName = "tsGraphicsShadowPCF"
 				ReferencedContainer = "container:shadow_pcf_tvos.xcodeproj"/>

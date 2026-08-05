@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6C17911CC71C074A6E7000BA"
+				BlueprintIdentifier = "6D83DC602DFD7DBBD9D000BA"
 				BuildableName = "tsPlatformMatrix"
 				BlueprintName = "tsPlatformMatrix"
 				ReferencedContainer = "container:matrix_tvos.xcodeproj"/>

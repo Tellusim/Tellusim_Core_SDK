@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "64C802AB3AE7243E275000FA"
+				BlueprintIdentifier = "6ED1CEFF7C4DE1883C4000FA"
 				BuildableName = "tsGraphicsTangent"
 				BlueprintName = "tsGraphicsTangent"
 				ReferencedContainer = "container:tangent_tvos.xcodeproj"/>

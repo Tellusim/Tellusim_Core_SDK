@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "66A174AC187168D3CE9000FA"
+				BlueprintIdentifier = "616DB68DA4345311B13000FA"
 				BuildableName = "tsManualHelloCompute"
 				BlueprintName = "tsManualHelloCompute"
 				ReferencedContainer = "container:02_hello_compute_tvos.xcodeproj"/>

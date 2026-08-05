@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6D386502BDCB20B32A2000DA"
+				BlueprintIdentifier = "67DA7028295ABC50D37000DA"
 				BuildableName = "tsParallelONNX"
 				BlueprintName = "tsParallelONNX"
 				ReferencedContainer = "container:onnx_tvos.xcodeproj"/>

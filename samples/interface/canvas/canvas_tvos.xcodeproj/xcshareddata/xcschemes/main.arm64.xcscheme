@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6777A270A22D149CC91000BA"
+				BlueprintIdentifier = "6DF96526F634CF5DD49000BA"
 				BuildableName = "tsInterfaceCanvas"
 				BlueprintName = "tsInterfaceCanvas"
 				ReferencedContainer = "container:canvas_tvos.xcodeproj"/>

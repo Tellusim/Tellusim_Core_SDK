@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "66049DD8AFFDAEC10CC000BA"
+				BlueprintIdentifier = "6D1721B981C94721855000BA"
 				BuildableName = "tsPlatformBarycentric"
 				BlueprintName = "tsPlatformBarycentric"
 				ReferencedContainer = "container:barycentric_tvos.xcodeproj"/>

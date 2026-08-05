@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "660DAC7C72E58DE7B1D000DA"
+				BlueprintIdentifier = "6CC9822C5AD989C1192000DA"
 				BuildableName = "tsManualHelloBindless"
 				BlueprintName = "tsManualHelloBindless"
 				ReferencedContainer = "container:11_hello_bindless_tvos.xcodeproj"/>

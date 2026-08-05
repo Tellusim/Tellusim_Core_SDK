@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "671B5ED86B218856DA9000DA"
+				BlueprintIdentifier = "6DD67870B6422C920B2000DA"
 				BuildableName = "tsGraphicsSeparableFilter"
 				BlueprintName = "tsGraphicsSeparableFilter"
 				ReferencedContainer = "container:separable_filter_tvos.xcodeproj"/>

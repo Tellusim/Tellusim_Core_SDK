@@ -3,75 +3,75 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		62A2255BFD3D400C4350000A = { isa = PBXBuildFile; fileRef = 62A2255BFD3D400C4350001A; };
-		62A2255BFD3D400C4350001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		62A2255BFD3D400C4350002A = { isa = PBXBuildFile; fileRef = 62A2255BFD3D400C4350003A; };
-		62A2255BFD3D400C4350003A = { isa = PBXFileReference; path = source/TellusimControlButton.cpp; sourceTree = "<group>"; };
-		62A2255BFD3D400C435000AA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsInterfaceControlButton.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		62A2255BFD3D400C4350008A = {
+		632933A78CF9335CBCF0000A = { isa = PBXBuildFile; fileRef = 632933A78CF9335CBCF0001A; };
+		632933A78CF9335CBCF0001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		632933A78CF9335CBCF0002A = { isa = PBXBuildFile; fileRef = 632933A78CF9335CBCF0003A; };
+		632933A78CF9335CBCF0003A = { isa = PBXFileReference; path = source/TellusimControlButton.cpp; sourceTree = "<group>"; };
+		632933A78CF9335CBCF000AA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsInterfaceControlButton.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		632933A78CF9335CBCF0008A = {
 			isa = PBXGroup;
 			children = (
-				62A2255BFD3D400C4350001A,
-				62A2255BFD3D400C4350003A,
-				62A2255BFD3D400C4350009A,
+				632933A78CF9335CBCF0001A,
+				632933A78CF9335CBCF0003A,
+				632933A78CF9335CBCF0009A,
 			);
 			sourceTree = "<group>";
 		};
-		62A2255BFD3D400C4350009A = {
+		632933A78CF9335CBCF0009A = {
 			isa = PBXGroup;
 			children = (
-				62A2255BFD3D400C435000AA,
+				632933A78CF9335CBCF000AA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		62A2255BFD3D400C435000BA = {
+		632933A78CF9335CBCF000BA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 62A2255BFD3D400C435000CA;
+			buildConfigurationList = 632933A78CF9335CBCF000CA;
 			buildPhases = (
-				62A2255BFD3D400C435000FA,
-				62A2255BFD3D400C4350010A,
+				632933A78CF9335CBCF000FA,
+				632933A78CF9335CBCF0010A,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "tsInterfaceControlButton";
 			productName = "tsInterfaceControlButton";
-			productReference = 62A2255BFD3D400C435000AA;
+			productReference = 632933A78CF9335CBCF000AA;
 			productType = "com.apple.product-type.application";
 		};
-		62A2255BFD3D400C4350004A = {
+		632933A78CF9335CBCF0004A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 62A2255BFD3D400C4350005A;
+			buildConfigurationList = 632933A78CF9335CBCF0005A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 62A2255BFD3D400C4350008A;
-			productRefGroup = 62A2255BFD3D400C4350009A;
+			mainGroup = 632933A78CF9335CBCF0008A;
+			productRefGroup = 632933A78CF9335CBCF0009A;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				62A2255BFD3D400C435000BA,
+				632933A78CF9335CBCF000BA,
 			);
 		};
-		62A2255BFD3D400C435000FA = {
+		632933A78CF9335CBCF000FA = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				62A2255BFD3D400C4350000A,
-				62A2255BFD3D400C4350002A,
+				632933A78CF9335CBCF0000A,
+				632933A78CF9335CBCF0002A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		62A2255BFD3D400C4350010A = {
+		632933A78CF9335CBCF0010A = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		62A2255BFD3D400C4350006A = {
+		632933A78CF9335CBCF0006A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -136,7 +136,7 @@
 			};
 			name = Debug;
 		};
-		62A2255BFD3D400C4350007A = {
+		632933A78CF9335CBCF0007A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -198,7 +198,7 @@
 			};
 			name = Release;
 		};
-		62A2255BFD3D400C435000DA = {
+		632933A78CF9335CBCF000DA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsInterfaceControlButton";
@@ -235,7 +235,7 @@
 			};
 			name = Debug;
 		};
-		62A2255BFD3D400C435000EA = {
+		632933A78CF9335CBCF000EA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsInterfaceControlButton";
@@ -272,24 +272,24 @@
 			};
 			name = Release;
 		};
-		62A2255BFD3D400C4350005A = {
+		632933A78CF9335CBCF0005A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				62A2255BFD3D400C4350006A,
-				62A2255BFD3D400C4350007A,
+				632933A78CF9335CBCF0006A,
+				632933A78CF9335CBCF0007A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		62A2255BFD3D400C435000CA = {
+		632933A78CF9335CBCF000CA = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				62A2255BFD3D400C435000DA,
-				62A2255BFD3D400C435000EA,
+				632933A78CF9335CBCF000DA,
+				632933A78CF9335CBCF000EA,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 62A2255BFD3D400C4350004A;
+	rootObject = 632933A78CF9335CBCF0004A;
 }

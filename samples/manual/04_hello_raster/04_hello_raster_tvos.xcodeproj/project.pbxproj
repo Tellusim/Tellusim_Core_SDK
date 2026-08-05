@@ -3,83 +3,83 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		6C3B87343498AF171600000A = { isa = PBXBuildFile; fileRef = 6C3B87343498AF171600001A; };
-		6C3B87343498AF171600001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		6C3B87343498AF171600002A = { isa = PBXBuildFile; fileRef = 6C3B87343498AF171600003A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6C3B87343498AF171600003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
-		6C3B87343498AF171600004A = { isa = PBXBuildFile; fileRef = 6C3B87343498AF171600005A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6C3B87343498AF171600005A = { isa = PBXFileReference; path = main.h; sourceTree = "<group>"; };
-		6C3B87343498AF171600006A = { isa = PBXBuildFile; fileRef = 6C3B87343498AF171600007A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6C3B87343498AF171600007A = { isa = PBXFileReference; path = model.fbx; sourceTree = "<group>"; };
-		6C3B87343498AF17160000EA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsManualHelloRaster.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6C3B87343498AF17160000CA = {
+		609307768D26B7E8E960000A = { isa = PBXBuildFile; fileRef = 609307768D26B7E8E960001A; };
+		609307768D26B7E8E960001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		609307768D26B7E8E960002A = { isa = PBXBuildFile; fileRef = 609307768D26B7E8E960003A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		609307768D26B7E8E960003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
+		609307768D26B7E8E960004A = { isa = PBXBuildFile; fileRef = 609307768D26B7E8E960005A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		609307768D26B7E8E960005A = { isa = PBXFileReference; path = main.h; sourceTree = "<group>"; };
+		609307768D26B7E8E960006A = { isa = PBXBuildFile; fileRef = 609307768D26B7E8E960007A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		609307768D26B7E8E960007A = { isa = PBXFileReference; path = model.fbx; sourceTree = "<group>"; };
+		609307768D26B7E8E96000EA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsManualHelloRaster.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		609307768D26B7E8E96000CA = {
 			isa = PBXGroup;
 			children = (
-				6C3B87343498AF171600001A,
-				6C3B87343498AF171600003A,
-				6C3B87343498AF171600005A,
-				6C3B87343498AF171600007A,
-				6C3B87343498AF17160000DA,
+				609307768D26B7E8E960001A,
+				609307768D26B7E8E960003A,
+				609307768D26B7E8E960005A,
+				609307768D26B7E8E960007A,
+				609307768D26B7E8E96000DA,
 			);
 			sourceTree = "<group>";
 		};
-		6C3B87343498AF17160000DA = {
+		609307768D26B7E8E96000DA = {
 			isa = PBXGroup;
 			children = (
-				6C3B87343498AF17160000EA,
+				609307768D26B7E8E96000EA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6C3B87343498AF17160000FA = {
+		609307768D26B7E8E96000FA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6C3B87343498AF171600010A;
+			buildConfigurationList = 609307768D26B7E8E960010A;
 			buildPhases = (
-				6C3B87343498AF171600013A,
-				6C3B87343498AF171600014A,
+				609307768D26B7E8E960013A,
+				609307768D26B7E8E960014A,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "tsManualHelloRaster";
 			productName = "tsManualHelloRaster";
-			productReference = 6C3B87343498AF17160000EA;
+			productReference = 609307768D26B7E8E96000EA;
 			productType = "com.apple.product-type.application";
 		};
-		6C3B87343498AF171600008A = {
+		609307768D26B7E8E960008A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 6C3B87343498AF171600009A;
+			buildConfigurationList = 609307768D26B7E8E960009A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 6C3B87343498AF17160000CA;
-			productRefGroup = 6C3B87343498AF17160000DA;
+			mainGroup = 609307768D26B7E8E96000CA;
+			productRefGroup = 609307768D26B7E8E96000DA;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6C3B87343498AF17160000FA,
+				609307768D26B7E8E96000FA,
 			);
 		};
-		6C3B87343498AF171600013A = {
+		609307768D26B7E8E960013A = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6C3B87343498AF171600000A,
+				609307768D26B7E8E960000A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6C3B87343498AF171600014A = {
+		609307768D26B7E8E960014A = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6C3B87343498AF171600002A,
-				6C3B87343498AF171600004A,
-				6C3B87343498AF171600006A,
+				609307768D26B7E8E960002A,
+				609307768D26B7E8E960004A,
+				609307768D26B7E8E960006A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6C3B87343498AF17160000AA = {
+		609307768D26B7E8E96000AA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -144,7 +144,7 @@
 			};
 			name = Debug;
 		};
-		6C3B87343498AF17160000BA = {
+		609307768D26B7E8E96000BA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -206,7 +206,7 @@
 			};
 			name = Release;
 		};
-		6C3B87343498AF171600011A = {
+		609307768D26B7E8E960011A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsManualHelloRaster";
@@ -243,7 +243,7 @@
 			};
 			name = Debug;
 		};
-		6C3B87343498AF171600012A = {
+		609307768D26B7E8E960012A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsManualHelloRaster";
@@ -280,24 +280,24 @@
 			};
 			name = Release;
 		};
-		6C3B87343498AF171600009A = {
+		609307768D26B7E8E960009A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6C3B87343498AF17160000AA,
-				6C3B87343498AF17160000BA,
+				609307768D26B7E8E96000AA,
+				609307768D26B7E8E96000BA,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6C3B87343498AF171600010A = {
+		609307768D26B7E8E960010A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6C3B87343498AF171600011A,
-				6C3B87343498AF171600012A,
+				609307768D26B7E8E960011A,
+				609307768D26B7E8E960012A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 6C3B87343498AF171600008A;
+	rootObject = 609307768D26B7E8E960008A;
 }

@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6FEA1D2D1A5BB622FCA000FA"
+				BlueprintIdentifier = "62F886AAF58D7B1D407000FA"
 				BuildableName = "tsGraphicsShadowTracing"
 				BlueprintName = "tsGraphicsShadowTracing"
 				ReferencedContainer = "container:shadow_tracing_tvos.xcodeproj"/>

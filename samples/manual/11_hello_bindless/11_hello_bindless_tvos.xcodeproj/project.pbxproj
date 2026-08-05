@@ -3,79 +3,79 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		660DAC7C72E58DE7B1D0000A = { isa = PBXBuildFile; fileRef = 660DAC7C72E58DE7B1D0001A; };
-		660DAC7C72E58DE7B1D0001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		660DAC7C72E58DE7B1D0002A = { isa = PBXBuildFile; fileRef = 660DAC7C72E58DE7B1D0003A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		660DAC7C72E58DE7B1D0003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
-		660DAC7C72E58DE7B1D0004A = { isa = PBXBuildFile; fileRef = 660DAC7C72E58DE7B1D0005A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		660DAC7C72E58DE7B1D0005A = { isa = PBXFileReference; path = model.glb; sourceTree = "<group>"; };
-		660DAC7C72E58DE7B1D000CA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsManualHelloBindless.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		660DAC7C72E58DE7B1D000AA = {
+		6CC9822C5AD989C11920000A = { isa = PBXBuildFile; fileRef = 6CC9822C5AD989C11920001A; };
+		6CC9822C5AD989C11920001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		6CC9822C5AD989C11920002A = { isa = PBXBuildFile; fileRef = 6CC9822C5AD989C11920003A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		6CC9822C5AD989C11920003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
+		6CC9822C5AD989C11920004A = { isa = PBXBuildFile; fileRef = 6CC9822C5AD989C11920005A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		6CC9822C5AD989C11920005A = { isa = PBXFileReference; path = model.glb; sourceTree = "<group>"; };
+		6CC9822C5AD989C1192000CA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsManualHelloBindless.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6CC9822C5AD989C1192000AA = {
 			isa = PBXGroup;
 			children = (
-				660DAC7C72E58DE7B1D0001A,
-				660DAC7C72E58DE7B1D0003A,
-				660DAC7C72E58DE7B1D0005A,
-				660DAC7C72E58DE7B1D000BA,
+				6CC9822C5AD989C11920001A,
+				6CC9822C5AD989C11920003A,
+				6CC9822C5AD989C11920005A,
+				6CC9822C5AD989C1192000BA,
 			);
 			sourceTree = "<group>";
 		};
-		660DAC7C72E58DE7B1D000BA = {
+		6CC9822C5AD989C1192000BA = {
 			isa = PBXGroup;
 			children = (
-				660DAC7C72E58DE7B1D000CA,
+				6CC9822C5AD989C1192000CA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		660DAC7C72E58DE7B1D000DA = {
+		6CC9822C5AD989C1192000DA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 660DAC7C72E58DE7B1D000EA;
+			buildConfigurationList = 6CC9822C5AD989C1192000EA;
 			buildPhases = (
-				660DAC7C72E58DE7B1D0011A,
-				660DAC7C72E58DE7B1D0012A,
+				6CC9822C5AD989C11920011A,
+				6CC9822C5AD989C11920012A,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "tsManualHelloBindless";
 			productName = "tsManualHelloBindless";
-			productReference = 660DAC7C72E58DE7B1D000CA;
+			productReference = 6CC9822C5AD989C1192000CA;
 			productType = "com.apple.product-type.application";
 		};
-		660DAC7C72E58DE7B1D0006A = {
+		6CC9822C5AD989C11920006A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 660DAC7C72E58DE7B1D0007A;
+			buildConfigurationList = 6CC9822C5AD989C11920007A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 660DAC7C72E58DE7B1D000AA;
-			productRefGroup = 660DAC7C72E58DE7B1D000BA;
+			mainGroup = 6CC9822C5AD989C1192000AA;
+			productRefGroup = 6CC9822C5AD989C1192000BA;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				660DAC7C72E58DE7B1D000DA,
+				6CC9822C5AD989C1192000DA,
 			);
 		};
-		660DAC7C72E58DE7B1D0011A = {
+		6CC9822C5AD989C11920011A = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				660DAC7C72E58DE7B1D0000A,
+				6CC9822C5AD989C11920000A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		660DAC7C72E58DE7B1D0012A = {
+		6CC9822C5AD989C11920012A = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				660DAC7C72E58DE7B1D0002A,
-				660DAC7C72E58DE7B1D0004A,
+				6CC9822C5AD989C11920002A,
+				6CC9822C5AD989C11920004A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		660DAC7C72E58DE7B1D0008A = {
+		6CC9822C5AD989C11920008A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -140,7 +140,7 @@
 			};
 			name = Debug;
 		};
-		660DAC7C72E58DE7B1D0009A = {
+		6CC9822C5AD989C11920009A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -202,7 +202,7 @@
 			};
 			name = Release;
 		};
-		660DAC7C72E58DE7B1D000FA = {
+		6CC9822C5AD989C1192000FA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsManualHelloBindless";
@@ -239,7 +239,7 @@
 			};
 			name = Debug;
 		};
-		660DAC7C72E58DE7B1D0010A = {
+		6CC9822C5AD989C11920010A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsManualHelloBindless";
@@ -276,24 +276,24 @@
 			};
 			name = Release;
 		};
-		660DAC7C72E58DE7B1D0007A = {
+		6CC9822C5AD989C11920007A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				660DAC7C72E58DE7B1D0008A,
-				660DAC7C72E58DE7B1D0009A,
+				6CC9822C5AD989C11920008A,
+				6CC9822C5AD989C11920009A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		660DAC7C72E58DE7B1D000EA = {
+		6CC9822C5AD989C1192000EA = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				660DAC7C72E58DE7B1D000FA,
-				660DAC7C72E58DE7B1D0010A,
+				6CC9822C5AD989C1192000FA,
+				6CC9822C5AD989C11920010A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 660DAC7C72E58DE7B1D0006A;
+	rootObject = 6CC9822C5AD989C11920006A;
 }

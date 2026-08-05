@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6D45A0E1B1B7F3A46F40011A"
+				BlueprintIdentifier = "6C81935E91EBF1507120011A"
 				BuildableName = "tsGraphicsSkinnedTree"
 				BlueprintName = "tsGraphicsSkinnedTree"
 				ReferencedContainer = "container:skinned_tree_tvos.xcodeproj"/>

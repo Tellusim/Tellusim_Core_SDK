@@ -1,0 +1,10 @@
+SRCS = main.cpp \
+	source/TellusimRmlUi.cpp
+
+IPA = tsInterfaceRmlUi
+
+LIBS += -Lextern/lib/tvos/$(ARCH) -lrmlui
+
+include ../../Makefile.tvos.mk
+
+CFLAGS += -std=c++17

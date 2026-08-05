@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "69003786FE2E0213180000BA"
+				BlueprintIdentifier = "6B1C4C04718F998A527000BA"
 				BuildableName = "tsInterfaceLayer"
 				BlueprintName = "tsInterfaceLayer"
 				ReferencedContainer = "container:layer_tvos.xcodeproj"/>

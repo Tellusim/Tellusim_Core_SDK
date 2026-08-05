@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6B1075AE788206669CB000FA"
+				BlueprintIdentifier = "6197F568C23491532CC000FA"
 				BuildableName = "tsGraphicsCubeFilter"
 				BlueprintName = "tsGraphicsCubeFilter"
 				ReferencedContainer = "container:cube_filter_tvos.xcodeproj"/>

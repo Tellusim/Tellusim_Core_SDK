@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "679E064F7F28964CE2A000DA"
+				BlueprintIdentifier = "6A3C38766FD19E9B667000DA"
 				BuildableName = "tsGraphicsTessellation"
 				BlueprintName = "tsGraphicsTessellation"
 				ReferencedContainer = "container:tessellation_tvos.xcodeproj"/>

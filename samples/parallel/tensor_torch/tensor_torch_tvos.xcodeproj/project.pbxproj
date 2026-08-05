@@ -3,83 +3,83 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		657A9C5D3643D8FF35C0000A = { isa = PBXBuildFile; fileRef = 657A9C5D3643D8FF35C0001A; };
-		657A9C5D3643D8FF35C0001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		657A9C5D3643D8FF35C0002A = { isa = PBXBuildFile; fileRef = 657A9C5D3643D8FF35C0003A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		657A9C5D3643D8FF35C0003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
-		657A9C5D3643D8FF35C0004A = { isa = PBXBuildFile; fileRef = 657A9C5D3643D8FF35C0005A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		657A9C5D3643D8FF35C0005A = { isa = PBXFileReference; path = model.bin; sourceTree = "<group>"; };
-		657A9C5D3643D8FF35C0006A = { isa = PBXBuildFile; fileRef = 657A9C5D3643D8FF35C0007A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		657A9C5D3643D8FF35C0007A = { isa = PBXFileReference; path = texture.jpg; sourceTree = "<group>"; };
-		657A9C5D3643D8FF35C000EA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsParallelTensorTorch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		657A9C5D3643D8FF35C000CA = {
+		69EAA80AAEF54B413DB0000A = { isa = PBXBuildFile; fileRef = 69EAA80AAEF54B413DB0001A; };
+		69EAA80AAEF54B413DB0001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		69EAA80AAEF54B413DB0002A = { isa = PBXBuildFile; fileRef = 69EAA80AAEF54B413DB0003A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		69EAA80AAEF54B413DB0003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
+		69EAA80AAEF54B413DB0004A = { isa = PBXBuildFile; fileRef = 69EAA80AAEF54B413DB0005A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		69EAA80AAEF54B413DB0005A = { isa = PBXFileReference; path = model.bin; sourceTree = "<group>"; };
+		69EAA80AAEF54B413DB0006A = { isa = PBXBuildFile; fileRef = 69EAA80AAEF54B413DB0007A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		69EAA80AAEF54B413DB0007A = { isa = PBXFileReference; path = texture.jpg; sourceTree = "<group>"; };
+		69EAA80AAEF54B413DB000EA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsParallelTensorTorch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		69EAA80AAEF54B413DB000CA = {
 			isa = PBXGroup;
 			children = (
-				657A9C5D3643D8FF35C0001A,
-				657A9C5D3643D8FF35C0003A,
-				657A9C5D3643D8FF35C0005A,
-				657A9C5D3643D8FF35C0007A,
-				657A9C5D3643D8FF35C000DA,
+				69EAA80AAEF54B413DB0001A,
+				69EAA80AAEF54B413DB0003A,
+				69EAA80AAEF54B413DB0005A,
+				69EAA80AAEF54B413DB0007A,
+				69EAA80AAEF54B413DB000DA,
 			);
 			sourceTree = "<group>";
 		};
-		657A9C5D3643D8FF35C000DA = {
+		69EAA80AAEF54B413DB000DA = {
 			isa = PBXGroup;
 			children = (
-				657A9C5D3643D8FF35C000EA,
+				69EAA80AAEF54B413DB000EA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		657A9C5D3643D8FF35C000FA = {
+		69EAA80AAEF54B413DB000FA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 657A9C5D3643D8FF35C0010A;
+			buildConfigurationList = 69EAA80AAEF54B413DB0010A;
 			buildPhases = (
-				657A9C5D3643D8FF35C0013A,
-				657A9C5D3643D8FF35C0014A,
+				69EAA80AAEF54B413DB0013A,
+				69EAA80AAEF54B413DB0014A,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "tsParallelTensorTorch";
 			productName = "tsParallelTensorTorch";
-			productReference = 657A9C5D3643D8FF35C000EA;
+			productReference = 69EAA80AAEF54B413DB000EA;
 			productType = "com.apple.product-type.application";
 		};
-		657A9C5D3643D8FF35C0008A = {
+		69EAA80AAEF54B413DB0008A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 657A9C5D3643D8FF35C0009A;
+			buildConfigurationList = 69EAA80AAEF54B413DB0009A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 657A9C5D3643D8FF35C000CA;
-			productRefGroup = 657A9C5D3643D8FF35C000DA;
+			mainGroup = 69EAA80AAEF54B413DB000CA;
+			productRefGroup = 69EAA80AAEF54B413DB000DA;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				657A9C5D3643D8FF35C000FA,
+				69EAA80AAEF54B413DB000FA,
 			);
 		};
-		657A9C5D3643D8FF35C0013A = {
+		69EAA80AAEF54B413DB0013A = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				657A9C5D3643D8FF35C0000A,
+				69EAA80AAEF54B413DB0000A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		657A9C5D3643D8FF35C0014A = {
+		69EAA80AAEF54B413DB0014A = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				657A9C5D3643D8FF35C0002A,
-				657A9C5D3643D8FF35C0004A,
-				657A9C5D3643D8FF35C0006A,
+				69EAA80AAEF54B413DB0002A,
+				69EAA80AAEF54B413DB0004A,
+				69EAA80AAEF54B413DB0006A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		657A9C5D3643D8FF35C000AA = {
+		69EAA80AAEF54B413DB000AA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -144,7 +144,7 @@
 			};
 			name = Debug;
 		};
-		657A9C5D3643D8FF35C000BA = {
+		69EAA80AAEF54B413DB000BA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -206,7 +206,7 @@
 			};
 			name = Release;
 		};
-		657A9C5D3643D8FF35C0011A = {
+		69EAA80AAEF54B413DB0011A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsParallelTensorTorch";
@@ -243,7 +243,7 @@
 			};
 			name = Debug;
 		};
-		657A9C5D3643D8FF35C0012A = {
+		69EAA80AAEF54B413DB0012A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsParallelTensorTorch";
@@ -280,24 +280,24 @@
 			};
 			name = Release;
 		};
-		657A9C5D3643D8FF35C0009A = {
+		69EAA80AAEF54B413DB0009A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				657A9C5D3643D8FF35C000AA,
-				657A9C5D3643D8FF35C000BA,
+				69EAA80AAEF54B413DB000AA,
+				69EAA80AAEF54B413DB000BA,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		657A9C5D3643D8FF35C0010A = {
+		69EAA80AAEF54B413DB0010A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				657A9C5D3643D8FF35C0011A,
-				657A9C5D3643D8FF35C0012A,
+				69EAA80AAEF54B413DB0011A,
+				69EAA80AAEF54B413DB0012A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 657A9C5D3643D8FF35C0008A;
+	rootObject = 69EAA80AAEF54B413DB0008A;
 }

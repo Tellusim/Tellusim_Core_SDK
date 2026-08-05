@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6C3B87343498AF17160000FA"
+				BlueprintIdentifier = "609307768D26B7E8E96000FA"
 				BuildableName = "tsManualHelloRaster"
 				BlueprintName = "tsManualHelloRaster"
 				ReferencedContainer = "container:04_hello_raster_tvos.xcodeproj"/>

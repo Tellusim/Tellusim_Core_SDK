@@ -3,75 +3,75 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		63C60C5B1C84972F4D10000A = { isa = PBXBuildFile; fileRef = 63C60C5B1C84972F4D10001A; };
-		63C60C5B1C84972F4D10001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		63C60C5B1C84972F4D10002A = { isa = PBXBuildFile; fileRef = 63C60C5B1C84972F4D10003A; };
-		63C60C5B1C84972F4D10003A = { isa = PBXFileReference; path = source/TellusimControlTooltip.cpp; sourceTree = "<group>"; };
-		63C60C5B1C84972F4D1000AA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsInterfaceControlTooltip.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		63C60C5B1C84972F4D10008A = {
+		6A73A6DD249129A54560000A = { isa = PBXBuildFile; fileRef = 6A73A6DD249129A54560001A; };
+		6A73A6DD249129A54560001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		6A73A6DD249129A54560002A = { isa = PBXBuildFile; fileRef = 6A73A6DD249129A54560003A; };
+		6A73A6DD249129A54560003A = { isa = PBXFileReference; path = source/TellusimControlTooltip.cpp; sourceTree = "<group>"; };
+		6A73A6DD249129A5456000AA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsInterfaceControlTooltip.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A73A6DD249129A54560008A = {
 			isa = PBXGroup;
 			children = (
-				63C60C5B1C84972F4D10001A,
-				63C60C5B1C84972F4D10003A,
-				63C60C5B1C84972F4D10009A,
+				6A73A6DD249129A54560001A,
+				6A73A6DD249129A54560003A,
+				6A73A6DD249129A54560009A,
 			);
 			sourceTree = "<group>";
 		};
-		63C60C5B1C84972F4D10009A = {
+		6A73A6DD249129A54560009A = {
 			isa = PBXGroup;
 			children = (
-				63C60C5B1C84972F4D1000AA,
+				6A73A6DD249129A5456000AA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		63C60C5B1C84972F4D1000BA = {
+		6A73A6DD249129A5456000BA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 63C60C5B1C84972F4D1000CA;
+			buildConfigurationList = 6A73A6DD249129A5456000CA;
 			buildPhases = (
-				63C60C5B1C84972F4D1000FA,
-				63C60C5B1C84972F4D10010A,
+				6A73A6DD249129A5456000FA,
+				6A73A6DD249129A54560010A,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "tsInterfaceControlTooltip";
 			productName = "tsInterfaceControlTooltip";
-			productReference = 63C60C5B1C84972F4D1000AA;
+			productReference = 6A73A6DD249129A5456000AA;
 			productType = "com.apple.product-type.application";
 		};
-		63C60C5B1C84972F4D10004A = {
+		6A73A6DD249129A54560004A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 63C60C5B1C84972F4D10005A;
+			buildConfigurationList = 6A73A6DD249129A54560005A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 63C60C5B1C84972F4D10008A;
-			productRefGroup = 63C60C5B1C84972F4D10009A;
+			mainGroup = 6A73A6DD249129A54560008A;
+			productRefGroup = 6A73A6DD249129A54560009A;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				63C60C5B1C84972F4D1000BA,
+				6A73A6DD249129A5456000BA,
 			);
 		};
-		63C60C5B1C84972F4D1000FA = {
+		6A73A6DD249129A5456000FA = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63C60C5B1C84972F4D10000A,
-				63C60C5B1C84972F4D10002A,
+				6A73A6DD249129A54560000A,
+				6A73A6DD249129A54560002A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		63C60C5B1C84972F4D10010A = {
+		6A73A6DD249129A54560010A = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		63C60C5B1C84972F4D10006A = {
+		6A73A6DD249129A54560006A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -136,7 +136,7 @@
 			};
 			name = Debug;
 		};
-		63C60C5B1C84972F4D10007A = {
+		6A73A6DD249129A54560007A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -198,7 +198,7 @@
 			};
 			name = Release;
 		};
-		63C60C5B1C84972F4D1000DA = {
+		6A73A6DD249129A5456000DA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsInterfaceControlTooltip";
@@ -235,7 +235,7 @@
 			};
 			name = Debug;
 		};
-		63C60C5B1C84972F4D1000EA = {
+		6A73A6DD249129A5456000EA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsInterfaceControlTooltip";
@@ -272,24 +272,24 @@
 			};
 			name = Release;
 		};
-		63C60C5B1C84972F4D10005A = {
+		6A73A6DD249129A54560005A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				63C60C5B1C84972F4D10006A,
-				63C60C5B1C84972F4D10007A,
+				6A73A6DD249129A54560006A,
+				6A73A6DD249129A54560007A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		63C60C5B1C84972F4D1000CA = {
+		6A73A6DD249129A5456000CA = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				63C60C5B1C84972F4D1000DA,
-				63C60C5B1C84972F4D1000EA,
+				6A73A6DD249129A5456000DA,
+				6A73A6DD249129A5456000EA,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 63C60C5B1C84972F4D10004A;
+	rootObject = 6A73A6DD249129A54560004A;
 }

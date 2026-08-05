@@ -3,79 +3,79 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		61B198797BB9051E8660000A = { isa = PBXBuildFile; fileRef = 61B198797BB9051E8660001A; };
-		61B198797BB9051E8660001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		61B198797BB9051E8660002A = { isa = PBXBuildFile; fileRef = 61B198797BB9051E8660003A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		61B198797BB9051E8660003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
-		61B198797BB9051E8660004A = { isa = PBXBuildFile; fileRef = 61B198797BB9051E8660005A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		61B198797BB9051E8660005A = { isa = PBXFileReference; path = model.glb; sourceTree = "<group>"; };
-		61B198797BB9051E866000CA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsManualHelloController.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		61B198797BB9051E866000AA = {
+		6C84CE22A12BF53A0070000A = { isa = PBXBuildFile; fileRef = 6C84CE22A12BF53A0070001A; };
+		6C84CE22A12BF53A0070001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		6C84CE22A12BF53A0070002A = { isa = PBXBuildFile; fileRef = 6C84CE22A12BF53A0070003A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		6C84CE22A12BF53A0070003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
+		6C84CE22A12BF53A0070004A = { isa = PBXBuildFile; fileRef = 6C84CE22A12BF53A0070005A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		6C84CE22A12BF53A0070005A = { isa = PBXFileReference; path = model.glb; sourceTree = "<group>"; };
+		6C84CE22A12BF53A007000CA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsManualHelloController.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6C84CE22A12BF53A007000AA = {
 			isa = PBXGroup;
 			children = (
-				61B198797BB9051E8660001A,
-				61B198797BB9051E8660003A,
-				61B198797BB9051E8660005A,
-				61B198797BB9051E866000BA,
+				6C84CE22A12BF53A0070001A,
+				6C84CE22A12BF53A0070003A,
+				6C84CE22A12BF53A0070005A,
+				6C84CE22A12BF53A007000BA,
 			);
 			sourceTree = "<group>";
 		};
-		61B198797BB9051E866000BA = {
+		6C84CE22A12BF53A007000BA = {
 			isa = PBXGroup;
 			children = (
-				61B198797BB9051E866000CA,
+				6C84CE22A12BF53A007000CA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		61B198797BB9051E866000DA = {
+		6C84CE22A12BF53A007000DA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 61B198797BB9051E866000EA;
+			buildConfigurationList = 6C84CE22A12BF53A007000EA;
 			buildPhases = (
-				61B198797BB9051E8660011A,
-				61B198797BB9051E8660012A,
+				6C84CE22A12BF53A0070011A,
+				6C84CE22A12BF53A0070012A,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "tsManualHelloController";
 			productName = "tsManualHelloController";
-			productReference = 61B198797BB9051E866000CA;
+			productReference = 6C84CE22A12BF53A007000CA;
 			productType = "com.apple.product-type.application";
 		};
-		61B198797BB9051E8660006A = {
+		6C84CE22A12BF53A0070006A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 61B198797BB9051E8660007A;
+			buildConfigurationList = 6C84CE22A12BF53A0070007A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 61B198797BB9051E866000AA;
-			productRefGroup = 61B198797BB9051E866000BA;
+			mainGroup = 6C84CE22A12BF53A007000AA;
+			productRefGroup = 6C84CE22A12BF53A007000BA;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				61B198797BB9051E866000DA,
+				6C84CE22A12BF53A007000DA,
 			);
 		};
-		61B198797BB9051E8660011A = {
+		6C84CE22A12BF53A0070011A = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				61B198797BB9051E8660000A,
+				6C84CE22A12BF53A0070000A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		61B198797BB9051E8660012A = {
+		6C84CE22A12BF53A0070012A = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				61B198797BB9051E8660002A,
-				61B198797BB9051E8660004A,
+				6C84CE22A12BF53A0070002A,
+				6C84CE22A12BF53A0070004A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		61B198797BB9051E8660008A = {
+		6C84CE22A12BF53A0070008A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -140,7 +140,7 @@
 			};
 			name = Debug;
 		};
-		61B198797BB9051E8660009A = {
+		6C84CE22A12BF53A0070009A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -202,7 +202,7 @@
 			};
 			name = Release;
 		};
-		61B198797BB9051E866000FA = {
+		6C84CE22A12BF53A007000FA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsManualHelloController";
@@ -239,7 +239,7 @@
 			};
 			name = Debug;
 		};
-		61B198797BB9051E8660010A = {
+		6C84CE22A12BF53A0070010A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsManualHelloController";
@@ -276,24 +276,24 @@
 			};
 			name = Release;
 		};
-		61B198797BB9051E8660007A = {
+		6C84CE22A12BF53A0070007A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				61B198797BB9051E8660008A,
-				61B198797BB9051E8660009A,
+				6C84CE22A12BF53A0070008A,
+				6C84CE22A12BF53A0070009A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		61B198797BB9051E866000EA = {
+		6C84CE22A12BF53A007000EA = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				61B198797BB9051E866000FA,
-				61B198797BB9051E8660010A,
+				6C84CE22A12BF53A007000FA,
+				6C84CE22A12BF53A0070010A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 61B198797BB9051E8660006A;
+	rootObject = 6C84CE22A12BF53A0070006A;
 }

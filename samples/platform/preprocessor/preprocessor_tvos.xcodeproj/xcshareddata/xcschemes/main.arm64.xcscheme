@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6137A1A5DC18903B9E0000DA"
+				BlueprintIdentifier = "6498E1DB1A2F45F742E000DA"
 				BuildableName = "tsPlatformPreprocessor"
 				BlueprintName = "tsPlatformPreprocessor"
 				ReferencedContainer = "container:preprocessor_tvos.xcodeproj"/>

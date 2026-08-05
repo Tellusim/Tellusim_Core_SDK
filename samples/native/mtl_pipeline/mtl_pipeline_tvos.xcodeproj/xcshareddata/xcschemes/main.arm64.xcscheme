@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "62DAE0700DF8C89788A000BA"
+				BlueprintIdentifier = "699B112BA2732303F7C000BA"
 				BuildableName = "tsMTLPipeline"
 				BlueprintName = "tsMTLPipeline"
 				ReferencedContainer = "container:mtl_pipeline_tvos.xcodeproj"/>

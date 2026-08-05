@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme version = "1.3">
+	<LaunchAction
+		useCustomWorkingDirectory = "YES"
+		customWorkingDirectory = "$(PROJECT_DIR)"
+		enableGPUValidationMode = "1">
+		<BuildableProductRunnable>
+			<BuildableReference
+				BuildableIdentifier = "primary"
+				BlueprintIdentifier = "6D98E876BD8D094E1E5000BA"
+				BuildableName = "tsInterfaceRmlUi"
+				BlueprintName = "tsInterfaceRmlUi"
+				ReferencedContainer = "container:rmlui_tvos.xcodeproj"/>
+		</BuildableProductRunnable>
+	</LaunchAction>
+</Scheme>

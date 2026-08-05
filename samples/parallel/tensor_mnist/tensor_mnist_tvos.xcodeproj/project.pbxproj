@@ -3,87 +3,87 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		6F7F7A4EC025111E82D0000A = { isa = PBXBuildFile; fileRef = 6F7F7A4EC025111E82D0001A; };
-		6F7F7A4EC025111E82D0001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		6F7F7A4EC025111E82D0002A = { isa = PBXBuildFile; fileRef = 6F7F7A4EC025111E82D0003A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6F7F7A4EC025111E82D0003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
-		6F7F7A4EC025111E82D0004A = { isa = PBXBuildFile; fileRef = 6F7F7A4EC025111E82D0005A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6F7F7A4EC025111E82D0005A = { isa = PBXFileReference; path = model.bin; sourceTree = "<group>"; };
-		6F7F7A4EC025111E82D0006A = { isa = PBXBuildFile; fileRef = 6F7F7A4EC025111E82D0007A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6F7F7A4EC025111E82D0007A = { isa = PBXFileReference; path = texture.png; sourceTree = "<group>"; };
-		6F7F7A4EC025111E82D0008A = { isa = PBXBuildFile; fileRef = 6F7F7A4EC025111E82D0009A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6F7F7A4EC025111E82D0009A = { isa = PBXFileReference; path = numbers.png; sourceTree = "<group>"; };
-		6F7F7A4EC025111E82D0010A = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsParallelTensorMnist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6F7F7A4EC025111E82D000EA = {
+		618005CA174ECE53C690000A = { isa = PBXBuildFile; fileRef = 618005CA174ECE53C690001A; };
+		618005CA174ECE53C690001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		618005CA174ECE53C690002A = { isa = PBXBuildFile; fileRef = 618005CA174ECE53C690003A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		618005CA174ECE53C690003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
+		618005CA174ECE53C690004A = { isa = PBXBuildFile; fileRef = 618005CA174ECE53C690005A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		618005CA174ECE53C690005A = { isa = PBXFileReference; path = model.bin; sourceTree = "<group>"; };
+		618005CA174ECE53C690006A = { isa = PBXBuildFile; fileRef = 618005CA174ECE53C690007A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		618005CA174ECE53C690007A = { isa = PBXFileReference; path = texture.png; sourceTree = "<group>"; };
+		618005CA174ECE53C690008A = { isa = PBXBuildFile; fileRef = 618005CA174ECE53C690009A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		618005CA174ECE53C690009A = { isa = PBXFileReference; path = numbers.png; sourceTree = "<group>"; };
+		618005CA174ECE53C690010A = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsParallelTensorMnist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		618005CA174ECE53C69000EA = {
 			isa = PBXGroup;
 			children = (
-				6F7F7A4EC025111E82D0001A,
-				6F7F7A4EC025111E82D0003A,
-				6F7F7A4EC025111E82D0005A,
-				6F7F7A4EC025111E82D0007A,
-				6F7F7A4EC025111E82D0009A,
-				6F7F7A4EC025111E82D000FA,
+				618005CA174ECE53C690001A,
+				618005CA174ECE53C690003A,
+				618005CA174ECE53C690005A,
+				618005CA174ECE53C690007A,
+				618005CA174ECE53C690009A,
+				618005CA174ECE53C69000FA,
 			);
 			sourceTree = "<group>";
 		};
-		6F7F7A4EC025111E82D000FA = {
+		618005CA174ECE53C69000FA = {
 			isa = PBXGroup;
 			children = (
-				6F7F7A4EC025111E82D0010A,
+				618005CA174ECE53C690010A,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6F7F7A4EC025111E82D0011A = {
+		618005CA174ECE53C690011A = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6F7F7A4EC025111E82D0012A;
+			buildConfigurationList = 618005CA174ECE53C690012A;
 			buildPhases = (
-				6F7F7A4EC025111E82D0015A,
-				6F7F7A4EC025111E82D0016A,
+				618005CA174ECE53C690015A,
+				618005CA174ECE53C690016A,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "tsParallelTensorMnist";
 			productName = "tsParallelTensorMnist";
-			productReference = 6F7F7A4EC025111E82D0010A;
+			productReference = 618005CA174ECE53C690010A;
 			productType = "com.apple.product-type.application";
 		};
-		6F7F7A4EC025111E82D000AA = {
+		618005CA174ECE53C69000AA = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 6F7F7A4EC025111E82D000BA;
+			buildConfigurationList = 618005CA174ECE53C69000BA;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 6F7F7A4EC025111E82D000EA;
-			productRefGroup = 6F7F7A4EC025111E82D000FA;
+			mainGroup = 618005CA174ECE53C69000EA;
+			productRefGroup = 618005CA174ECE53C69000FA;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6F7F7A4EC025111E82D0011A,
+				618005CA174ECE53C690011A,
 			);
 		};
-		6F7F7A4EC025111E82D0015A = {
+		618005CA174ECE53C690015A = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F7F7A4EC025111E82D0000A,
+				618005CA174ECE53C690000A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6F7F7A4EC025111E82D0016A = {
+		618005CA174ECE53C690016A = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F7F7A4EC025111E82D0002A,
-				6F7F7A4EC025111E82D0004A,
-				6F7F7A4EC025111E82D0006A,
-				6F7F7A4EC025111E82D0008A,
+				618005CA174ECE53C690002A,
+				618005CA174ECE53C690004A,
+				618005CA174ECE53C690006A,
+				618005CA174ECE53C690008A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6F7F7A4EC025111E82D000CA = {
+		618005CA174ECE53C69000CA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -148,7 +148,7 @@
 			};
 			name = Debug;
 		};
-		6F7F7A4EC025111E82D000DA = {
+		618005CA174ECE53C69000DA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -210,7 +210,7 @@
 			};
 			name = Release;
 		};
-		6F7F7A4EC025111E82D0013A = {
+		618005CA174ECE53C690013A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsParallelTensorMnist";
@@ -247,7 +247,7 @@
 			};
 			name = Debug;
 		};
-		6F7F7A4EC025111E82D0014A = {
+		618005CA174ECE53C690014A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsParallelTensorMnist";
@@ -284,24 +284,24 @@
 			};
 			name = Release;
 		};
-		6F7F7A4EC025111E82D000BA = {
+		618005CA174ECE53C69000BA = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6F7F7A4EC025111E82D000CA,
-				6F7F7A4EC025111E82D000DA,
+				618005CA174ECE53C69000CA,
+				618005CA174ECE53C69000DA,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6F7F7A4EC025111E82D0012A = {
+		618005CA174ECE53C690012A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6F7F7A4EC025111E82D0013A,
-				6F7F7A4EC025111E82D0014A,
+				618005CA174ECE53C690013A,
+				618005CA174ECE53C690014A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 6F7F7A4EC025111E82D000AA;
+	rootObject = 618005CA174ECE53C69000AA;
 }

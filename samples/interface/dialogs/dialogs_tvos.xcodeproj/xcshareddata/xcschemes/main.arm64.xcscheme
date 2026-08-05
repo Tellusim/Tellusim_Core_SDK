@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6D700485692E58E6A790009A"
+				BlueprintIdentifier = "697598592E61E6937610009A"
 				BuildableName = "tsInterfaceDialogs"
 				BlueprintName = "tsInterfaceDialogs"
 				ReferencedContainer = "container:dialogs_tvos.xcodeproj"/>

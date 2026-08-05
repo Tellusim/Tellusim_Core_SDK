@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6261DE929FAD0CF3EC3000DA"
+				BlueprintIdentifier = "6E5A921711213E9B1F0000DA"
 				BuildableName = "tsGeometryRefine"
 				BlueprintName = "tsGeometryRefine"
 				ReferencedContainer = "container:refine_tvos.xcodeproj"/>

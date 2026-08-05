@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6FB66E0DD9AE7D351D30015A"
+				BlueprintIdentifier = "6C6F142A17CF3C847180015A"
 				BuildableName = "tsInterfaceControlFlow"
 				BlueprintName = "tsInterfaceControlFlow"
 				ReferencedContainer = "container:flow_tvos.xcodeproj"/>

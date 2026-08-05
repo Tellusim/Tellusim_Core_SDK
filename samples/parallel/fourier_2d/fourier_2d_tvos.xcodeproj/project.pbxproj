@@ -3,83 +3,83 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		6547FEE199F8993E1110000A = { isa = PBXBuildFile; fileRef = 6547FEE199F8993E1110001A; };
-		6547FEE199F8993E1110001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		6547FEE199F8993E1110002A = { isa = PBXBuildFile; fileRef = 6547FEE199F8993E1110003A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6547FEE199F8993E1110003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
-		6547FEE199F8993E1110004A = { isa = PBXBuildFile; fileRef = 6547FEE199F8993E1110005A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6547FEE199F8993E1110005A = { isa = PBXFileReference; path = image.hdr; sourceTree = "<group>"; };
-		6547FEE199F8993E1110006A = { isa = PBXBuildFile; fileRef = 6547FEE199F8993E1110007A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6547FEE199F8993E1110007A = { isa = PBXFileReference; path = kernel.png; sourceTree = "<group>"; };
-		6547FEE199F8993E111000EA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsParallelFourier2D.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6547FEE199F8993E111000CA = {
+		619515EA27D528497460000A = { isa = PBXBuildFile; fileRef = 619515EA27D528497460001A; };
+		619515EA27D528497460001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		619515EA27D528497460002A = { isa = PBXBuildFile; fileRef = 619515EA27D528497460003A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		619515EA27D528497460003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
+		619515EA27D528497460004A = { isa = PBXBuildFile; fileRef = 619515EA27D528497460005A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		619515EA27D528497460005A = { isa = PBXFileReference; path = image.hdr; sourceTree = "<group>"; };
+		619515EA27D528497460006A = { isa = PBXBuildFile; fileRef = 619515EA27D528497460007A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		619515EA27D528497460007A = { isa = PBXFileReference; path = kernel.png; sourceTree = "<group>"; };
+		619515EA27D52849746000EA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsParallelFourier2D.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		619515EA27D52849746000CA = {
 			isa = PBXGroup;
 			children = (
-				6547FEE199F8993E1110001A,
-				6547FEE199F8993E1110003A,
-				6547FEE199F8993E1110005A,
-				6547FEE199F8993E1110007A,
-				6547FEE199F8993E111000DA,
+				619515EA27D528497460001A,
+				619515EA27D528497460003A,
+				619515EA27D528497460005A,
+				619515EA27D528497460007A,
+				619515EA27D52849746000DA,
 			);
 			sourceTree = "<group>";
 		};
-		6547FEE199F8993E111000DA = {
+		619515EA27D52849746000DA = {
 			isa = PBXGroup;
 			children = (
-				6547FEE199F8993E111000EA,
+				619515EA27D52849746000EA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6547FEE199F8993E111000FA = {
+		619515EA27D52849746000FA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6547FEE199F8993E1110010A;
+			buildConfigurationList = 619515EA27D528497460010A;
 			buildPhases = (
-				6547FEE199F8993E1110013A,
-				6547FEE199F8993E1110014A,
+				619515EA27D528497460013A,
+				619515EA27D528497460014A,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "tsParallelFourier2D";
 			productName = "tsParallelFourier2D";
-			productReference = 6547FEE199F8993E111000EA;
+			productReference = 619515EA27D52849746000EA;
 			productType = "com.apple.product-type.application";
 		};
-		6547FEE199F8993E1110008A = {
+		619515EA27D528497460008A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 6547FEE199F8993E1110009A;
+			buildConfigurationList = 619515EA27D528497460009A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 6547FEE199F8993E111000CA;
-			productRefGroup = 6547FEE199F8993E111000DA;
+			mainGroup = 619515EA27D52849746000CA;
+			productRefGroup = 619515EA27D52849746000DA;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6547FEE199F8993E111000FA,
+				619515EA27D52849746000FA,
 			);
 		};
-		6547FEE199F8993E1110013A = {
+		619515EA27D528497460013A = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6547FEE199F8993E1110000A,
+				619515EA27D528497460000A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6547FEE199F8993E1110014A = {
+		619515EA27D528497460014A = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6547FEE199F8993E1110002A,
-				6547FEE199F8993E1110004A,
-				6547FEE199F8993E1110006A,
+				619515EA27D528497460002A,
+				619515EA27D528497460004A,
+				619515EA27D528497460006A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6547FEE199F8993E111000AA = {
+		619515EA27D52849746000AA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -144,7 +144,7 @@
 			};
 			name = Debug;
 		};
-		6547FEE199F8993E111000BA = {
+		619515EA27D52849746000BA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -206,7 +206,7 @@
 			};
 			name = Release;
 		};
-		6547FEE199F8993E1110011A = {
+		619515EA27D528497460011A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsParallelFourier2D";
@@ -243,7 +243,7 @@
 			};
 			name = Debug;
 		};
-		6547FEE199F8993E1110012A = {
+		619515EA27D528497460012A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsParallelFourier2D";
@@ -280,24 +280,24 @@
 			};
 			name = Release;
 		};
-		6547FEE199F8993E1110009A = {
+		619515EA27D528497460009A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6547FEE199F8993E111000AA,
-				6547FEE199F8993E111000BA,
+				619515EA27D52849746000AA,
+				619515EA27D52849746000BA,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6547FEE199F8993E1110010A = {
+		619515EA27D528497460010A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6547FEE199F8993E1110011A,
-				6547FEE199F8993E1110012A,
+				619515EA27D528497460011A,
+				619515EA27D528497460012A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 6547FEE199F8993E1110008A;
+	rootObject = 619515EA27D528497460008A;
 }

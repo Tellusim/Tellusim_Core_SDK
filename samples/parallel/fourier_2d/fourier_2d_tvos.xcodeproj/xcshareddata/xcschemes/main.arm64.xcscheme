@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6547FEE199F8993E111000FA"
+				BlueprintIdentifier = "619515EA27D52849746000FA"
 				BuildableName = "tsParallelFourier2D"
 				BlueprintName = "tsParallelFourier2D"
 				ReferencedContainer = "container:fourier_2d_tvos.xcodeproj"/>

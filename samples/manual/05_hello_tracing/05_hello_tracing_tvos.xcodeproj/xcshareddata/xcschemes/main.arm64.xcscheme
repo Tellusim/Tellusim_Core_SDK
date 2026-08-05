@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "64F5E1659DD92F152B0000DA"
+				BlueprintIdentifier = "6A92F2E224B969CC164000DA"
 				BuildableName = "tsManualHelloTracing"
 				BlueprintName = "tsManualHelloTracing"
 				ReferencedContainer = "container:05_hello_tracing_tvos.xcodeproj"/>

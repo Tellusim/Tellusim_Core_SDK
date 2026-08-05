@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6B118D246100C9CC7D8000BA"
+				BlueprintIdentifier = "610BD8E45DC200CED0B000BA"
 				BuildableName = "tsPlatformBuffers"
 				BlueprintName = "tsPlatformBuffers"
 				ReferencedContainer = "container:buffers_tvos.xcodeproj"/>

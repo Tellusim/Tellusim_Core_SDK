@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "69434922DA594D0E2EF000BA"
+				BlueprintIdentifier = "6DFAC6FC3551E580987000BA"
 				BuildableName = "tsInterfaceControlProgress"
 				BlueprintName = "tsInterfaceControlProgress"
 				ReferencedContainer = "container:progress_tvos.xcodeproj"/>

@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6DC6F5782AA157DB1B8000BA"
+				BlueprintIdentifier = "674D137F69FACAD8C9F000BA"
 				BuildableName = "tsInterfaceControlPlotter"
 				BlueprintName = "tsInterfaceControlPlotter"
 				ReferencedContainer = "container:plotter_tvos.xcodeproj"/>

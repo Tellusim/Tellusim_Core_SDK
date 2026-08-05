@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "648558F438CA29FAF65000BA"
+				BlueprintIdentifier = "697508655415E747869000BA"
 				BuildableName = "tsPlatformIndirect"
 				BlueprintName = "tsPlatformIndirect"
 				ReferencedContainer = "container:indirect_tvos.xcodeproj"/>

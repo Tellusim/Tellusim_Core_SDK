@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6E6D54074DE0E197D44000BA"
+				BlueprintIdentifier = "6A0346C7B9E7954D7AA000BA"
 				BuildableName = "tsGraphicsTransparency"
 				BlueprintName = "tsGraphicsTransparency"
 				ReferencedContainer = "container:transparency_tvos.xcodeproj"/>

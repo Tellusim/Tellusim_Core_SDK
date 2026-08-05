@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "677405454C0415AAC7E000DA"
+				BlueprintIdentifier = "61066D04B23FADB7657000DA"
 				BuildableName = "tsInterfaceControlSVG"
 				BlueprintName = "tsInterfaceControlSVG"
 				ReferencedContainer = "container:svg_tvos.xcodeproj"/>

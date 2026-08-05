@@ -3,79 +3,79 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		64F5E1659DD92F152B00000A = { isa = PBXBuildFile; fileRef = 64F5E1659DD92F152B00001A; };
-		64F5E1659DD92F152B00001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		64F5E1659DD92F152B00002A = { isa = PBXBuildFile; fileRef = 64F5E1659DD92F152B00003A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		64F5E1659DD92F152B00003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
-		64F5E1659DD92F152B00004A = { isa = PBXBuildFile; fileRef = 64F5E1659DD92F152B00005A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		64F5E1659DD92F152B00005A = { isa = PBXFileReference; path = model.fbx; sourceTree = "<group>"; };
-		64F5E1659DD92F152B0000CA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsManualHelloTracing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		64F5E1659DD92F152B0000AA = {
+		6A92F2E224B969CC1640000A = { isa = PBXBuildFile; fileRef = 6A92F2E224B969CC1640001A; };
+		6A92F2E224B969CC1640001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		6A92F2E224B969CC1640002A = { isa = PBXBuildFile; fileRef = 6A92F2E224B969CC1640003A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		6A92F2E224B969CC1640003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
+		6A92F2E224B969CC1640004A = { isa = PBXBuildFile; fileRef = 6A92F2E224B969CC1640005A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		6A92F2E224B969CC1640005A = { isa = PBXFileReference; path = model.fbx; sourceTree = "<group>"; };
+		6A92F2E224B969CC164000CA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsManualHelloTracing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A92F2E224B969CC164000AA = {
 			isa = PBXGroup;
 			children = (
-				64F5E1659DD92F152B00001A,
-				64F5E1659DD92F152B00003A,
-				64F5E1659DD92F152B00005A,
-				64F5E1659DD92F152B0000BA,
+				6A92F2E224B969CC1640001A,
+				6A92F2E224B969CC1640003A,
+				6A92F2E224B969CC1640005A,
+				6A92F2E224B969CC164000BA,
 			);
 			sourceTree = "<group>";
 		};
-		64F5E1659DD92F152B0000BA = {
+		6A92F2E224B969CC164000BA = {
 			isa = PBXGroup;
 			children = (
-				64F5E1659DD92F152B0000CA,
+				6A92F2E224B969CC164000CA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		64F5E1659DD92F152B0000DA = {
+		6A92F2E224B969CC164000DA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 64F5E1659DD92F152B0000EA;
+			buildConfigurationList = 6A92F2E224B969CC164000EA;
 			buildPhases = (
-				64F5E1659DD92F152B00011A,
-				64F5E1659DD92F152B00012A,
+				6A92F2E224B969CC1640011A,
+				6A92F2E224B969CC1640012A,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "tsManualHelloTracing";
 			productName = "tsManualHelloTracing";
-			productReference = 64F5E1659DD92F152B0000CA;
+			productReference = 6A92F2E224B969CC164000CA;
 			productType = "com.apple.product-type.application";
 		};
-		64F5E1659DD92F152B00006A = {
+		6A92F2E224B969CC1640006A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 64F5E1659DD92F152B00007A;
+			buildConfigurationList = 6A92F2E224B969CC1640007A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 64F5E1659DD92F152B0000AA;
-			productRefGroup = 64F5E1659DD92F152B0000BA;
+			mainGroup = 6A92F2E224B969CC164000AA;
+			productRefGroup = 6A92F2E224B969CC164000BA;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				64F5E1659DD92F152B0000DA,
+				6A92F2E224B969CC164000DA,
 			);
 		};
-		64F5E1659DD92F152B00011A = {
+		6A92F2E224B969CC1640011A = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64F5E1659DD92F152B00000A,
+				6A92F2E224B969CC1640000A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		64F5E1659DD92F152B00012A = {
+		6A92F2E224B969CC1640012A = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64F5E1659DD92F152B00002A,
-				64F5E1659DD92F152B00004A,
+				6A92F2E224B969CC1640002A,
+				6A92F2E224B969CC1640004A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		64F5E1659DD92F152B00008A = {
+		6A92F2E224B969CC1640008A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -140,7 +140,7 @@
 			};
 			name = Debug;
 		};
-		64F5E1659DD92F152B00009A = {
+		6A92F2E224B969CC1640009A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -202,7 +202,7 @@
 			};
 			name = Release;
 		};
-		64F5E1659DD92F152B0000FA = {
+		6A92F2E224B969CC164000FA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsManualHelloTracing";
@@ -239,7 +239,7 @@
 			};
 			name = Debug;
 		};
-		64F5E1659DD92F152B00010A = {
+		6A92F2E224B969CC1640010A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsManualHelloTracing";
@@ -276,24 +276,24 @@
 			};
 			name = Release;
 		};
-		64F5E1659DD92F152B00007A = {
+		6A92F2E224B969CC1640007A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				64F5E1659DD92F152B00008A,
-				64F5E1659DD92F152B00009A,
+				6A92F2E224B969CC1640008A,
+				6A92F2E224B969CC1640009A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		64F5E1659DD92F152B0000EA = {
+		6A92F2E224B969CC164000EA = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				64F5E1659DD92F152B0000FA,
-				64F5E1659DD92F152B00010A,
+				6A92F2E224B969CC164000FA,
+				6A92F2E224B969CC1640010A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 64F5E1659DD92F152B00006A;
+	rootObject = 6A92F2E224B969CC1640006A;
 }

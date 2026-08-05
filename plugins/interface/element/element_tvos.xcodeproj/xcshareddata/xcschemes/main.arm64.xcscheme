@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "62D64A92D8483B13E09000BA"
+				BlueprintIdentifier = "64927BE6B800D02F444000BA"
 				BuildableName = "tsInterfaceControlElement"
 				BlueprintName = "tsInterfaceControlElement"
 				ReferencedContainer = "container:element_tvos.xcodeproj"/>

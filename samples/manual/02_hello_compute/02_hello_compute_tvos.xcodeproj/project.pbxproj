@@ -3,83 +3,83 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		66A174AC187168D3CE90000A = { isa = PBXBuildFile; fileRef = 66A174AC187168D3CE90001A; };
-		66A174AC187168D3CE90001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		66A174AC187168D3CE90002A = { isa = PBXBuildFile; fileRef = 66A174AC187168D3CE90003A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		66A174AC187168D3CE90003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
-		66A174AC187168D3CE90004A = { isa = PBXBuildFile; fileRef = 66A174AC187168D3CE90005A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		66A174AC187168D3CE90005A = { isa = PBXFileReference; path = main.h; sourceTree = "<group>"; };
-		66A174AC187168D3CE90006A = { isa = PBXBuildFile; fileRef = 66A174AC187168D3CE90007A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		66A174AC187168D3CE90007A = { isa = PBXFileReference; path = particle.png; sourceTree = "<group>"; };
-		66A174AC187168D3CE9000EA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsManualHelloCompute.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		66A174AC187168D3CE9000CA = {
+		616DB68DA4345311B130000A = { isa = PBXBuildFile; fileRef = 616DB68DA4345311B130001A; };
+		616DB68DA4345311B130001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		616DB68DA4345311B130002A = { isa = PBXBuildFile; fileRef = 616DB68DA4345311B130003A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		616DB68DA4345311B130003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
+		616DB68DA4345311B130004A = { isa = PBXBuildFile; fileRef = 616DB68DA4345311B130005A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		616DB68DA4345311B130005A = { isa = PBXFileReference; path = main.h; sourceTree = "<group>"; };
+		616DB68DA4345311B130006A = { isa = PBXBuildFile; fileRef = 616DB68DA4345311B130007A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		616DB68DA4345311B130007A = { isa = PBXFileReference; path = particle.png; sourceTree = "<group>"; };
+		616DB68DA4345311B13000EA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsManualHelloCompute.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		616DB68DA4345311B13000CA = {
 			isa = PBXGroup;
 			children = (
-				66A174AC187168D3CE90001A,
-				66A174AC187168D3CE90003A,
-				66A174AC187168D3CE90005A,
-				66A174AC187168D3CE90007A,
-				66A174AC187168D3CE9000DA,
+				616DB68DA4345311B130001A,
+				616DB68DA4345311B130003A,
+				616DB68DA4345311B130005A,
+				616DB68DA4345311B130007A,
+				616DB68DA4345311B13000DA,
 			);
 			sourceTree = "<group>";
 		};
-		66A174AC187168D3CE9000DA = {
+		616DB68DA4345311B13000DA = {
 			isa = PBXGroup;
 			children = (
-				66A174AC187168D3CE9000EA,
+				616DB68DA4345311B13000EA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		66A174AC187168D3CE9000FA = {
+		616DB68DA4345311B13000FA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 66A174AC187168D3CE90010A;
+			buildConfigurationList = 616DB68DA4345311B130010A;
 			buildPhases = (
-				66A174AC187168D3CE90013A,
-				66A174AC187168D3CE90014A,
+				616DB68DA4345311B130013A,
+				616DB68DA4345311B130014A,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "tsManualHelloCompute";
 			productName = "tsManualHelloCompute";
-			productReference = 66A174AC187168D3CE9000EA;
+			productReference = 616DB68DA4345311B13000EA;
 			productType = "com.apple.product-type.application";
 		};
-		66A174AC187168D3CE90008A = {
+		616DB68DA4345311B130008A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 66A174AC187168D3CE90009A;
+			buildConfigurationList = 616DB68DA4345311B130009A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 66A174AC187168D3CE9000CA;
-			productRefGroup = 66A174AC187168D3CE9000DA;
+			mainGroup = 616DB68DA4345311B13000CA;
+			productRefGroup = 616DB68DA4345311B13000DA;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				66A174AC187168D3CE9000FA,
+				616DB68DA4345311B13000FA,
 			);
 		};
-		66A174AC187168D3CE90013A = {
+		616DB68DA4345311B130013A = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66A174AC187168D3CE90000A,
+				616DB68DA4345311B130000A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		66A174AC187168D3CE90014A = {
+		616DB68DA4345311B130014A = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66A174AC187168D3CE90002A,
-				66A174AC187168D3CE90004A,
-				66A174AC187168D3CE90006A,
+				616DB68DA4345311B130002A,
+				616DB68DA4345311B130004A,
+				616DB68DA4345311B130006A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		66A174AC187168D3CE9000AA = {
+		616DB68DA4345311B13000AA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -144,7 +144,7 @@
 			};
 			name = Debug;
 		};
-		66A174AC187168D3CE9000BA = {
+		616DB68DA4345311B13000BA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -206,7 +206,7 @@
 			};
 			name = Release;
 		};
-		66A174AC187168D3CE90011A = {
+		616DB68DA4345311B130011A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsManualHelloCompute";
@@ -243,7 +243,7 @@
 			};
 			name = Debug;
 		};
-		66A174AC187168D3CE90012A = {
+		616DB68DA4345311B130012A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsManualHelloCompute";
@@ -280,24 +280,24 @@
 			};
 			name = Release;
 		};
-		66A174AC187168D3CE90009A = {
+		616DB68DA4345311B130009A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				66A174AC187168D3CE9000AA,
-				66A174AC187168D3CE9000BA,
+				616DB68DA4345311B13000AA,
+				616DB68DA4345311B13000BA,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		66A174AC187168D3CE90010A = {
+		616DB68DA4345311B130010A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				66A174AC187168D3CE90011A,
-				66A174AC187168D3CE90012A,
+				616DB68DA4345311B130011A,
+				616DB68DA4345311B130012A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 66A174AC187168D3CE90008A;
+	rootObject = 616DB68DA4345311B130008A;
 }

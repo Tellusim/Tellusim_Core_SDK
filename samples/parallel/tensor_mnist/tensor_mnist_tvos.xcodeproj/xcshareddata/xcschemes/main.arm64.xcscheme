@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6F7F7A4EC025111E82D0011A"
+				BlueprintIdentifier = "618005CA174ECE53C690011A"
 				BuildableName = "tsParallelTensorMnist"
 				BlueprintName = "tsParallelTensorMnist"
 				ReferencedContainer = "container:tensor_mnist_tvos.xcodeproj"/>

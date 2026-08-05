@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6290FDA08DD5776B2CE000BA"
+				BlueprintIdentifier = "6AA12D0E103BA18728C000BA"
 				BuildableName = "tsInterfaceControlModal"
 				BlueprintName = "tsInterfaceControlModal"
 				ReferencedContainer = "container:modal_tvos.xcodeproj"/>

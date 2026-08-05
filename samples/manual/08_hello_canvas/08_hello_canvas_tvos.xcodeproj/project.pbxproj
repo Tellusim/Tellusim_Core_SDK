@@ -3,75 +3,75 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		6E112459BFE267F84350000A = { isa = PBXBuildFile; fileRef = 6E112459BFE267F84350001A; };
-		6E112459BFE267F84350001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		6E112459BFE267F84350002A = { isa = PBXBuildFile; fileRef = 6E112459BFE267F84350003A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6E112459BFE267F84350003A = { isa = PBXFileReference; path = font.ttf; sourceTree = "<group>"; };
-		6E112459BFE267F8435000AA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsManualHelloCanvas.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E112459BFE267F84350008A = {
+		68139D3347D9093407C0000A = { isa = PBXBuildFile; fileRef = 68139D3347D9093407C0001A; };
+		68139D3347D9093407C0001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		68139D3347D9093407C0002A = { isa = PBXBuildFile; fileRef = 68139D3347D9093407C0003A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		68139D3347D9093407C0003A = { isa = PBXFileReference; path = font.ttf; sourceTree = "<group>"; };
+		68139D3347D9093407C000AA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsManualHelloCanvas.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		68139D3347D9093407C0008A = {
 			isa = PBXGroup;
 			children = (
-				6E112459BFE267F84350001A,
-				6E112459BFE267F84350003A,
-				6E112459BFE267F84350009A,
+				68139D3347D9093407C0001A,
+				68139D3347D9093407C0003A,
+				68139D3347D9093407C0009A,
 			);
 			sourceTree = "<group>";
 		};
-		6E112459BFE267F84350009A = {
+		68139D3347D9093407C0009A = {
 			isa = PBXGroup;
 			children = (
-				6E112459BFE267F8435000AA,
+				68139D3347D9093407C000AA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6E112459BFE267F8435000BA = {
+		68139D3347D9093407C000BA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6E112459BFE267F8435000CA;
+			buildConfigurationList = 68139D3347D9093407C000CA;
 			buildPhases = (
-				6E112459BFE267F8435000FA,
-				6E112459BFE267F84350010A,
+				68139D3347D9093407C000FA,
+				68139D3347D9093407C0010A,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "tsManualHelloCanvas";
 			productName = "tsManualHelloCanvas";
-			productReference = 6E112459BFE267F8435000AA;
+			productReference = 68139D3347D9093407C000AA;
 			productType = "com.apple.product-type.application";
 		};
-		6E112459BFE267F84350004A = {
+		68139D3347D9093407C0004A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 6E112459BFE267F84350005A;
+			buildConfigurationList = 68139D3347D9093407C0005A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 6E112459BFE267F84350008A;
-			productRefGroup = 6E112459BFE267F84350009A;
+			mainGroup = 68139D3347D9093407C0008A;
+			productRefGroup = 68139D3347D9093407C0009A;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6E112459BFE267F8435000BA,
+				68139D3347D9093407C000BA,
 			);
 		};
-		6E112459BFE267F8435000FA = {
+		68139D3347D9093407C000FA = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E112459BFE267F84350000A,
+				68139D3347D9093407C0000A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6E112459BFE267F84350010A = {
+		68139D3347D9093407C0010A = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E112459BFE267F84350002A,
+				68139D3347D9093407C0002A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6E112459BFE267F84350006A = {
+		68139D3347D9093407C0006A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -136,7 +136,7 @@
 			};
 			name = Debug;
 		};
-		6E112459BFE267F84350007A = {
+		68139D3347D9093407C0007A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -198,7 +198,7 @@
 			};
 			name = Release;
 		};
-		6E112459BFE267F8435000DA = {
+		68139D3347D9093407C000DA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsManualHelloCanvas";
@@ -235,7 +235,7 @@
 			};
 			name = Debug;
 		};
-		6E112459BFE267F8435000EA = {
+		68139D3347D9093407C000EA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsManualHelloCanvas";
@@ -272,24 +272,24 @@
 			};
 			name = Release;
 		};
-		6E112459BFE267F84350005A = {
+		68139D3347D9093407C0005A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6E112459BFE267F84350006A,
-				6E112459BFE267F84350007A,
+				68139D3347D9093407C0006A,
+				68139D3347D9093407C0007A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E112459BFE267F8435000CA = {
+		68139D3347D9093407C000CA = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6E112459BFE267F8435000DA,
-				6E112459BFE267F8435000EA,
+				68139D3347D9093407C000DA,
+				68139D3347D9093407C000EA,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 6E112459BFE267F84350004A;
+	rootObject = 68139D3347D9093407C0004A;
 }
