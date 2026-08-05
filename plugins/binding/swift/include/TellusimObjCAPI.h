@@ -391,7 +391,9 @@ typedef NS_ENUM(NSInteger, TS_App) {
 	TS_AppVersion_41 NS_SWIFT_NAME(Version_41) = 20250816,
 	TS_AppVersion_42 NS_SWIFT_NAME(Version_42) = 20251102,
 	TS_AppVersion_43 NS_SWIFT_NAME(Version_43) = 20251220,
-	TS_AppVersion NS_SWIFT_NAME(Version) = 20251220,
+	TS_AppVersion_44 NS_SWIFT_NAME(Version_44) = 20260625,
+	TS_AppVersion_45 NS_SWIFT_NAME(Version_45) = 20260702,
+	TS_AppVersion NS_SWIFT_NAME(Version) = 20260702,
 } NS_SWIFT_NAME(App.Values);
 
 /// Tellusim::Socket::Type
@@ -1814,6 +1816,13 @@ typedef NS_ENUM(NSInteger, TS_Time) {
 	TS_TimeUSeconds NS_SWIFT_NAME(USeconds) = 1u,
 } NS_SWIFT_NAME(Time.Values);
 
+/// Tellusim::MeshBoolean::Operation
+typedef NS_ENUM(NSInteger, TS_MeshBooleanOperation) {
+	TS_MeshBooleanOperationOpUnion NS_SWIFT_NAME(OpUnion),
+	TS_MeshBooleanOperationOpDifference NS_SWIFT_NAME(OpDifference),
+	TS_MeshBooleanOperationOpIntersection NS_SWIFT_NAME(OpIntersection),
+} NS_SWIFT_NAME(MeshBoolean.Operation);
+
 /// Tellusim::Command
 typedef struct TSCommandDrawArraysIndirect {
 	uint32_t num_vertices;
@@ -1951,15 +1960,30 @@ typedef struct TSDeviceFeatures {
 	uint32_t maxTexture3DSize;
 	uint32_t maxTextureLayers;
 	uint32_t maxTextureSamples;
+	uint32_t maxGroupSize;
 	uint32_t maxGroupSizeX;
 	uint32_t maxGroupSizeY;
 	uint32_t maxGroupSizeZ;
 	uint32_t maxGroupCountX;
 	uint32_t maxGroupCountY;
 	uint32_t maxGroupCountZ;
+	uint32_t maxTaskSize;
+	uint32_t maxTaskSizeX;
+	uint32_t maxTaskSizeY;
+	uint32_t maxTaskSizeZ;
 	uint32_t maxTaskCount;
+	uint32_t maxTaskCountX;
+	uint32_t maxTaskCountY;
+	uint32_t maxTaskCountZ;
 	uint32_t maxTaskMemory;
-	uint32_t maxTaskMeshes;
+	uint32_t maxMeshSize;
+	uint32_t maxMeshSizeX;
+	uint32_t maxMeshSizeY;
+	uint32_t maxMeshSizeZ;
+	uint32_t maxMeshCount;
+	uint32_t maxMeshCountX;
+	uint32_t maxMeshCountY;
+	uint32_t maxMeshCountZ;
 	uint32_t maxMeshMemory;
 	uint32_t maxMeshVertices;
 	uint32_t maxMeshPrimitives;
@@ -4148,12 +4172,12 @@ TS_CAPI @interface TSMeshIndices : NSObject {
 	-(void)setGeometry_1: (TSMeshGeometry* _Nonnull)geometry check: (BOOL)check NS_SWIFT_NAME(setGeometry(_:_:));
 	-(void)setGeometry_1_: (TSMeshGeometry* _Nonnull)geometry check: (BOOL)check NS_SWIFT_NAME(setGeometry(geometry:check:));
 	-(const TSMeshGeometry* _Nonnull)getGeometry NS_SWIFT_NAME(geometry());
-	-(void)setSize: (uint32_t)size NS_SWIFT_NAME(setSize(_:));
-	-(void)setSize_: (uint32_t)size NS_SWIFT_NAME(setSize(size:));
-	-(void)setSize_1: (uint32_t)size discard: (BOOL)discard NS_SWIFT_NAME(setSize(_:_:));
-	-(void)setSize_1_: (uint32_t)size discard: (BOOL)discard NS_SWIFT_NAME(setSize(size:discard:));
-	-(void)setSize_2: (uint32_t)size discard: (BOOL)discard clear: (BOOL)clear NS_SWIFT_NAME(setSize(_:_:_:));
-	-(void)setSize_2_: (uint32_t)size discard: (BOOL)discard clear: (BOOL)clear NS_SWIFT_NAME(setSize(size:discard:clear:));
+	-(BOOL)setSize: (uint32_t)size NS_SWIFT_NAME(setSize(_:));
+	-(BOOL)setSize_: (uint32_t)size NS_SWIFT_NAME(setSize(size:));
+	-(BOOL)setSize_1: (uint32_t)size discard: (BOOL)discard NS_SWIFT_NAME(setSize(_:_:));
+	-(BOOL)setSize_1_: (uint32_t)size discard: (BOOL)discard NS_SWIFT_NAME(setSize(size:discard:));
+	-(BOOL)setSize_2: (uint32_t)size discard: (BOOL)discard clear: (BOOL)clear NS_SWIFT_NAME(setSize(_:_:_:));
+	-(BOOL)setSize_2_: (uint32_t)size discard: (BOOL)discard clear: (BOOL)clear NS_SWIFT_NAME(setSize(size:discard:clear:));
 	-(uint32_t)getSize NS_SWIFT_NAME(size());
 	-(uint32_t)getStride NS_SWIFT_NAME(stride());
 	-(size_t)getBytes NS_SWIFT_NAME(bytes());
@@ -4305,12 +4329,12 @@ TS_CAPI @interface TSMeshAttribute : NSObject {
 	-(void)setGeometry_1: (TSMeshGeometry* _Nonnull)geometry check: (BOOL)check NS_SWIFT_NAME(setGeometry(_:_:));
 	-(void)setGeometry_1_: (TSMeshGeometry* _Nonnull)geometry check: (BOOL)check NS_SWIFT_NAME(setGeometry(geometry:check:));
 	-(const TSMeshGeometry* _Nonnull)getGeometry NS_SWIFT_NAME(geometry());
-	-(void)setSize: (uint32_t)size NS_SWIFT_NAME(setSize(_:));
-	-(void)setSize_: (uint32_t)size NS_SWIFT_NAME(setSize(size:));
-	-(void)setSize_1: (uint32_t)size discard: (BOOL)discard NS_SWIFT_NAME(setSize(_:_:));
-	-(void)setSize_1_: (uint32_t)size discard: (BOOL)discard NS_SWIFT_NAME(setSize(size:discard:));
-	-(void)setSize_2: (uint32_t)size discard: (BOOL)discard clear: (BOOL)clear NS_SWIFT_NAME(setSize(_:_:_:));
-	-(void)setSize_2_: (uint32_t)size discard: (BOOL)discard clear: (BOOL)clear NS_SWIFT_NAME(setSize(size:discard:clear:));
+	-(BOOL)setSize: (uint32_t)size NS_SWIFT_NAME(setSize(_:));
+	-(BOOL)setSize_: (uint32_t)size NS_SWIFT_NAME(setSize(size:));
+	-(BOOL)setSize_1: (uint32_t)size discard: (BOOL)discard NS_SWIFT_NAME(setSize(_:_:));
+	-(BOOL)setSize_1_: (uint32_t)size discard: (BOOL)discard NS_SWIFT_NAME(setSize(size:discard:));
+	-(BOOL)setSize_2: (uint32_t)size discard: (BOOL)discard clear: (BOOL)clear NS_SWIFT_NAME(setSize(_:_:_:));
+	-(BOOL)setSize_2_: (uint32_t)size discard: (BOOL)discard clear: (BOOL)clear NS_SWIFT_NAME(setSize(size:discard:clear:));
 	-(uint32_t)getSize NS_SWIFT_NAME(size());
 	-(uint32_t)getStride NS_SWIFT_NAME(stride());
 	-(size_t)getBytes NS_SWIFT_NAME(bytes());
@@ -4370,6 +4394,8 @@ TS_CAPI @interface TSMeshAttribute : NSObject {
 	-(BOOL)unpackAttributes_: (TSMeshAttribute* _Nonnull)attribute_0 attribute_1: (TSMeshAttribute* _Nonnull)attribute_1 NS_SWIFT_NAME(unpackAttributes(attribute_0:attribute_1:));
 	-(TSMeshAttribute* _Nonnull)optimizeAttribute: (TSMeshIndices* _Nonnull)indices NS_SWIFT_NAME(optimizeAttribute(_:));
 	-(TSMeshAttribute* _Nonnull)optimizeAttribute_: (TSMeshIndices* _Nonnull)indices NS_SWIFT_NAME(optimizeAttribute(indices:));
+	-(TSMeshAttribute* _Nonnull)optimizeAttribute_1: (TSMeshIndices* _Nonnull)indices threshold: (float32_t)threshold NS_SWIFT_NAME(optimizeAttribute(_:_:));
+	-(TSMeshAttribute* _Nonnull)optimizeAttribute_1_: (TSMeshIndices* _Nonnull)indices threshold: (float32_t)threshold NS_SWIFT_NAME(optimizeAttribute(indices:threshold:));
 	-(TSMeshAttribute* _Nonnull)toDirect: (const TSMeshIndices* _Nonnull)indices NS_SWIFT_NAME(toDirect(_:));
 	-(TSMeshAttribute* _Nonnull)toDirect_: (const TSMeshIndices* _Nonnull)indices NS_SWIFT_NAME(toDirect(indices:));
 	-(TSMeshAttribute* _Nonnull)toFormat: (TS_Format)format NS_SWIFT_NAME(toFormat(_:));
@@ -13802,6 +13828,12 @@ TS_CAPI @interface TSControlText : TSControl
 	-(void)setColor_1: (float32_t)r g: (float32_t)g b: (float32_t)b a: (float32_t)a NS_SWIFT_NAME(setColor(_:_:_:_:));
 	-(void)setColor_1_: (float32_t)r g: (float32_t)g b: (float32_t)b a: (float32_t)a NS_SWIFT_NAME(setColor(r:g:b:a:));
 	-(TSColor)getColor NS_SWIFT_NAME(color());
+	-(void)setStateColor: (TS_ControlState)state color: (TSColor)color NS_SWIFT_NAME(setStateColor(_:_:));
+	-(void)setStateColor_: (TS_ControlState)state color: (TSColor)color NS_SWIFT_NAME(setStateColor(state:color:));
+	-(void)setStateColor_1: (TS_ControlState)state r: (float32_t)r g: (float32_t)g b: (float32_t)b a: (float32_t)a NS_SWIFT_NAME(setStateColor(_:_:_:_:_:));
+	-(void)setStateColor_1_: (TS_ControlState)state r: (float32_t)r g: (float32_t)g b: (float32_t)b a: (float32_t)a NS_SWIFT_NAME(setStateColor(state:r:g:b:a:));
+	-(uint32_t)getStateColor: (TS_ControlState)state NS_SWIFT_NAME(stateColor(_:));
+	-(uint32_t)getStateColor_: (TS_ControlState)state NS_SWIFT_NAME(stateColor(state:));
 	-(void)setFilter: (TS_SamplerFilter)filter NS_SWIFT_NAME(setFilter(_:));
 	-(void)setFilter_: (TS_SamplerFilter)filter NS_SWIFT_NAME(setFilter(filter:));
 	-(TS_SamplerFilter)getFilter NS_SWIFT_NAME(filter());
@@ -13923,6 +13955,12 @@ TS_CAPI @interface TSControlRect : TSControl
 	-(void)setColor_1: (float32_t)r g: (float32_t)g b: (float32_t)b a: (float32_t)a NS_SWIFT_NAME(setColor(_:_:_:_:));
 	-(void)setColor_1_: (float32_t)r g: (float32_t)g b: (float32_t)b a: (float32_t)a NS_SWIFT_NAME(setColor(r:g:b:a:));
 	-(TSColor)getColor NS_SWIFT_NAME(color());
+	-(void)setStateColor: (TS_ControlState)state color: (TSColor)color NS_SWIFT_NAME(setStateColor(_:_:));
+	-(void)setStateColor_: (TS_ControlState)state color: (TSColor)color NS_SWIFT_NAME(setStateColor(state:color:));
+	-(void)setStateColor_1: (TS_ControlState)state r: (float32_t)r g: (float32_t)g b: (float32_t)b a: (float32_t)a NS_SWIFT_NAME(setStateColor(_:_:_:_:_:));
+	-(void)setStateColor_1_: (TS_ControlState)state r: (float32_t)r g: (float32_t)g b: (float32_t)b a: (float32_t)a NS_SWIFT_NAME(setStateColor(state:r:g:b:a:));
+	-(uint32_t)getStateColor: (TS_ControlState)state NS_SWIFT_NAME(stateColor(_:));
+	-(uint32_t)getStateColor_: (TS_ControlState)state NS_SWIFT_NAME(stateColor(state:));
 	-(void)setStrokeStyle: (TSStrokeStyle)style NS_SWIFT_NAME(setStrokeStyle(_:));
 	-(void)setStrokeStyle_: (TSStrokeStyle)style NS_SWIFT_NAME(setStrokeStyle(style:));
 	-(TSStrokeStyle)getStrokeStyleConst NS_SWIFT_NAME(strokeStyleConst());
@@ -15956,16 +15994,16 @@ TS_CAPI @interface TSCubeFilter : NSObject {
 	-(BOOL)create_1_: (const TSDevice* _Nonnull)device mode: (TS_CubeFilterMode)mode order: (uint32_t)order NS_SWIFT_NAME(create(device:mode:order:));
 	-(BOOL)create_2: (const TSDevice* _Nonnull)device mode: (TS_CubeFilterMode)mode order: (uint32_t)order size: (uint32_t)size NS_SWIFT_NAME(create(_:_:_:_:));
 	-(BOOL)create_2_: (const TSDevice* _Nonnull)device mode: (TS_CubeFilterMode)mode order: (uint32_t)order size: (uint32_t)size NS_SWIFT_NAME(create(device:mode:order:size:));
-	-(BOOL)create_3: (const TSDevice* _Nonnull)device mode: (TS_CubeFilterMode)mode order: (uint32_t)order size: (uint32_t)size groups: (uint32_t)groups NS_SWIFT_NAME(create(_:_:_:_:_:));
-	-(BOOL)create_3_: (const TSDevice* _Nonnull)device mode: (TS_CubeFilterMode)mode order: (uint32_t)order size: (uint32_t)size groups: (uint32_t)groups NS_SWIFT_NAME(create(device:mode:order:size:groups:));
+	-(BOOL)create_3: (const TSDevice* _Nonnull)device mode: (TS_CubeFilterMode)mode order: (uint32_t)order size: (uint32_t)size threads: (uint32_t)threads NS_SWIFT_NAME(create(_:_:_:_:_:));
+	-(BOOL)create_3_: (const TSDevice* _Nonnull)device mode: (TS_CubeFilterMode)mode order: (uint32_t)order size: (uint32_t)size threads: (uint32_t)threads NS_SWIFT_NAME(create(device:mode:order:size:threads:));
 	-(BOOL)create_4: (const TSDevice* _Nonnull)device flags: (TS_CubeFilterFlags)flags NS_SWIFT_NAME(create(_:_:));
 	-(BOOL)create_4_: (const TSDevice* _Nonnull)device flags: (TS_CubeFilterFlags)flags NS_SWIFT_NAME(create(device:flags:));
 	-(BOOL)create_5: (const TSDevice* _Nonnull)device flags: (TS_CubeFilterFlags)flags order: (uint32_t)order NS_SWIFT_NAME(create(_:_:_:));
 	-(BOOL)create_5_: (const TSDevice* _Nonnull)device flags: (TS_CubeFilterFlags)flags order: (uint32_t)order NS_SWIFT_NAME(create(device:flags:order:));
 	-(BOOL)create_6: (const TSDevice* _Nonnull)device flags: (TS_CubeFilterFlags)flags order: (uint32_t)order size: (uint32_t)size NS_SWIFT_NAME(create(_:_:_:_:));
 	-(BOOL)create_6_: (const TSDevice* _Nonnull)device flags: (TS_CubeFilterFlags)flags order: (uint32_t)order size: (uint32_t)size NS_SWIFT_NAME(create(device:flags:order:size:));
-	-(BOOL)create_7: (const TSDevice* _Nonnull)device flags: (TS_CubeFilterFlags)flags order: (uint32_t)order size: (uint32_t)size groups: (uint32_t)groups NS_SWIFT_NAME(create(_:_:_:_:_:));
-	-(BOOL)create_7_: (const TSDevice* _Nonnull)device flags: (TS_CubeFilterFlags)flags order: (uint32_t)order size: (uint32_t)size groups: (uint32_t)groups NS_SWIFT_NAME(create(device:flags:order:size:groups:));
+	-(BOOL)create_7: (const TSDevice* _Nonnull)device flags: (TS_CubeFilterFlags)flags order: (uint32_t)order size: (uint32_t)size threads: (uint32_t)threads NS_SWIFT_NAME(create(_:_:_:_:_:));
+	-(BOOL)create_7_: (const TSDevice* _Nonnull)device flags: (TS_CubeFilterFlags)flags order: (uint32_t)order size: (uint32_t)size threads: (uint32_t)threads NS_SWIFT_NAME(create(device:flags:order:size:threads:));
 	-(BOOL)dispatch: (TSCompute* _Nonnull)compute buffer: (TSBuffer* _Nonnull)buffer offset: (uint32_t)offset texture: (TSTexture* _Nonnull)texture slice: (TSSlice)slice NS_SWIFT_NAME(dispatch(_:_:_:_:_:));
 	-(BOOL)dispatch_: (TSCompute* _Nonnull)compute buffer: (TSBuffer* _Nonnull)buffer offset: (uint32_t)offset texture: (TSTexture* _Nonnull)texture slice: (TSSlice)slice NS_SWIFT_NAME(dispatch(compute:buffer:offset:texture:slice:));
 	-(BOOL)dispatch_1: (TSCompute* _Nonnull)compute buffer: (TSBuffer* _Nonnull)buffer offset: (uint32_t)offset texture: (TSTexture* _Nonnull)texture NS_SWIFT_NAME(dispatch(_:_:_:_:));
@@ -16408,20 +16446,20 @@ TS_CAPI @interface TSPrefixScan : NSObject {
 	-(uint32_t)getMaxRegions NS_SWIFT_NAME(maxRegions());
 	-(BOOL)create: (const TSDevice* _Nonnull)device mode: (TS_PrefixScanMode)mode NS_SWIFT_NAME(create(_:_:));
 	-(BOOL)create_: (const TSDevice* _Nonnull)device mode: (TS_PrefixScanMode)mode NS_SWIFT_NAME(create(device:mode:));
-	-(BOOL)create_1: (const TSDevice* _Nonnull)device mode: (TS_PrefixScanMode)mode groups: (uint32_t)groups NS_SWIFT_NAME(create(_:_:_:));
-	-(BOOL)create_1_: (const TSDevice* _Nonnull)device mode: (TS_PrefixScanMode)mode groups: (uint32_t)groups NS_SWIFT_NAME(create(device:mode:groups:));
-	-(BOOL)create_2: (const TSDevice* _Nonnull)device mode: (TS_PrefixScanMode)mode groups: (uint32_t)groups regions: (uint32_t)regions NS_SWIFT_NAME(create(_:_:_:_:));
-	-(BOOL)create_2_: (const TSDevice* _Nonnull)device mode: (TS_PrefixScanMode)mode groups: (uint32_t)groups regions: (uint32_t)regions NS_SWIFT_NAME(create(device:mode:groups:regions:));
-	-(BOOL)create_3: (const TSDevice* _Nonnull)device mode: (TS_PrefixScanMode)mode groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(_:_:_:_:_:));
-	-(BOOL)create_3_: (const TSDevice* _Nonnull)device mode: (TS_PrefixScanMode)mode groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(device:mode:groups:regions:async:));
+	-(BOOL)create_1: (const TSDevice* _Nonnull)device mode: (TS_PrefixScanMode)mode threads: (uint32_t)threads NS_SWIFT_NAME(create(_:_:_:));
+	-(BOOL)create_1_: (const TSDevice* _Nonnull)device mode: (TS_PrefixScanMode)mode threads: (uint32_t)threads NS_SWIFT_NAME(create(device:mode:threads:));
+	-(BOOL)create_2: (const TSDevice* _Nonnull)device mode: (TS_PrefixScanMode)mode threads: (uint32_t)threads regions: (uint32_t)regions NS_SWIFT_NAME(create(_:_:_:_:));
+	-(BOOL)create_2_: (const TSDevice* _Nonnull)device mode: (TS_PrefixScanMode)mode threads: (uint32_t)threads regions: (uint32_t)regions NS_SWIFT_NAME(create(device:mode:threads:regions:));
+	-(BOOL)create_3: (const TSDevice* _Nonnull)device mode: (TS_PrefixScanMode)mode threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(_:_:_:_:_:));
+	-(BOOL)create_3_: (const TSDevice* _Nonnull)device mode: (TS_PrefixScanMode)mode threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(device:mode:threads:regions:async:));
 	-(BOOL)create_4: (const TSDevice* _Nonnull)device flags: (TS_PrefixScanFlags)flags NS_SWIFT_NAME(create(_:_:));
 	-(BOOL)create_4_: (const TSDevice* _Nonnull)device flags: (TS_PrefixScanFlags)flags NS_SWIFT_NAME(create(device:flags:));
-	-(BOOL)create_5: (const TSDevice* _Nonnull)device flags: (TS_PrefixScanFlags)flags groups: (uint32_t)groups NS_SWIFT_NAME(create(_:_:_:));
-	-(BOOL)create_5_: (const TSDevice* _Nonnull)device flags: (TS_PrefixScanFlags)flags groups: (uint32_t)groups NS_SWIFT_NAME(create(device:flags:groups:));
-	-(BOOL)create_6: (const TSDevice* _Nonnull)device flags: (TS_PrefixScanFlags)flags groups: (uint32_t)groups regions: (uint32_t)regions NS_SWIFT_NAME(create(_:_:_:_:));
-	-(BOOL)create_6_: (const TSDevice* _Nonnull)device flags: (TS_PrefixScanFlags)flags groups: (uint32_t)groups regions: (uint32_t)regions NS_SWIFT_NAME(create(device:flags:groups:regions:));
-	-(BOOL)create_7: (const TSDevice* _Nonnull)device flags: (TS_PrefixScanFlags)flags groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(_:_:_:_:_:));
-	-(BOOL)create_7_: (const TSDevice* _Nonnull)device flags: (TS_PrefixScanFlags)flags groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(device:flags:groups:regions:async:));
+	-(BOOL)create_5: (const TSDevice* _Nonnull)device flags: (TS_PrefixScanFlags)flags threads: (uint32_t)threads NS_SWIFT_NAME(create(_:_:_:));
+	-(BOOL)create_5_: (const TSDevice* _Nonnull)device flags: (TS_PrefixScanFlags)flags threads: (uint32_t)threads NS_SWIFT_NAME(create(device:flags:threads:));
+	-(BOOL)create_6: (const TSDevice* _Nonnull)device flags: (TS_PrefixScanFlags)flags threads: (uint32_t)threads regions: (uint32_t)regions NS_SWIFT_NAME(create(_:_:_:_:));
+	-(BOOL)create_6_: (const TSDevice* _Nonnull)device flags: (TS_PrefixScanFlags)flags threads: (uint32_t)threads regions: (uint32_t)regions NS_SWIFT_NAME(create(device:flags:threads:regions:));
+	-(BOOL)create_7: (const TSDevice* _Nonnull)device flags: (TS_PrefixScanFlags)flags threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(_:_:_:_:_:));
+	-(BOOL)create_7_: (const TSDevice* _Nonnull)device flags: (TS_PrefixScanFlags)flags threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(device:flags:threads:regions:async:));
 	-(BOOL)dispatch: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data offset: (uint32_t)offset size: (uint32_t)size NS_SWIFT_NAME(dispatch(_:_:_:_:));
 	-(BOOL)dispatch_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data offset: (uint32_t)offset size: (uint32_t)size NS_SWIFT_NAME(dispatch(compute:data:offset:size:));
 	-(BOOL)dispatch_1: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data offset: (uint32_t)offset size: (uint32_t)size stride: (uint32_t)stride NS_SWIFT_NAME(dispatch(_:_:_:_:_:));
@@ -16497,20 +16535,20 @@ TS_CAPI @interface TSRadixSort : NSObject {
 	-(TSBuffer* _Nonnull)getDataBuffer NS_SWIFT_NAME(dataBuffer());
 	-(BOOL)create: (const TSDevice* _Nonnull)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size NS_SWIFT_NAME(create(_:_:_:_:));
 	-(BOOL)create_: (const TSDevice* _Nonnull)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size NS_SWIFT_NAME(create(device:mode:scan:size:));
-	-(BOOL)create_1: (const TSDevice* _Nonnull)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size groups: (uint32_t)groups NS_SWIFT_NAME(create(_:_:_:_:_:));
-	-(BOOL)create_1_: (const TSDevice* _Nonnull)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size groups: (uint32_t)groups NS_SWIFT_NAME(create(device:mode:scan:size:groups:));
-	-(BOOL)create_2: (const TSDevice* _Nonnull)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions NS_SWIFT_NAME(create(_:_:_:_:_:_:));
-	-(BOOL)create_2_: (const TSDevice* _Nonnull)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions NS_SWIFT_NAME(create(device:mode:scan:size:groups:regions:));
-	-(BOOL)create_3: (const TSDevice* _Nonnull)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(_:_:_:_:_:_:_:));
-	-(BOOL)create_3_: (const TSDevice* _Nonnull)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(device:mode:scan:size:groups:regions:async:));
+	-(BOOL)create_1: (const TSDevice* _Nonnull)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size threads: (uint32_t)threads NS_SWIFT_NAME(create(_:_:_:_:_:));
+	-(BOOL)create_1_: (const TSDevice* _Nonnull)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size threads: (uint32_t)threads NS_SWIFT_NAME(create(device:mode:scan:size:threads:));
+	-(BOOL)create_2: (const TSDevice* _Nonnull)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions NS_SWIFT_NAME(create(_:_:_:_:_:_:));
+	-(BOOL)create_2_: (const TSDevice* _Nonnull)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions NS_SWIFT_NAME(create(device:mode:scan:size:threads:regions:));
+	-(BOOL)create_3: (const TSDevice* _Nonnull)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(_:_:_:_:_:_:_:));
+	-(BOOL)create_3_: (const TSDevice* _Nonnull)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(device:mode:scan:size:threads:regions:async:));
 	-(BOOL)create_4: (const TSDevice* _Nonnull)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size NS_SWIFT_NAME(create(_:_:_:_:));
 	-(BOOL)create_4_: (const TSDevice* _Nonnull)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size NS_SWIFT_NAME(create(device:flags:scan:size:));
-	-(BOOL)create_5: (const TSDevice* _Nonnull)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size groups: (uint32_t)groups NS_SWIFT_NAME(create(_:_:_:_:_:));
-	-(BOOL)create_5_: (const TSDevice* _Nonnull)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size groups: (uint32_t)groups NS_SWIFT_NAME(create(device:flags:scan:size:groups:));
-	-(BOOL)create_6: (const TSDevice* _Nonnull)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions NS_SWIFT_NAME(create(_:_:_:_:_:_:));
-	-(BOOL)create_6_: (const TSDevice* _Nonnull)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions NS_SWIFT_NAME(create(device:flags:scan:size:groups:regions:));
-	-(BOOL)create_7: (const TSDevice* _Nonnull)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(_:_:_:_:_:_:_:));
-	-(BOOL)create_7_: (const TSDevice* _Nonnull)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(device:flags:scan:size:groups:regions:async:));
+	-(BOOL)create_5: (const TSDevice* _Nonnull)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size threads: (uint32_t)threads NS_SWIFT_NAME(create(_:_:_:_:_:));
+	-(BOOL)create_5_: (const TSDevice* _Nonnull)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size threads: (uint32_t)threads NS_SWIFT_NAME(create(device:flags:scan:size:threads:));
+	-(BOOL)create_6: (const TSDevice* _Nonnull)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions NS_SWIFT_NAME(create(_:_:_:_:_:_:));
+	-(BOOL)create_6_: (const TSDevice* _Nonnull)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions NS_SWIFT_NAME(create(device:flags:scan:size:threads:regions:));
+	-(BOOL)create_7: (const TSDevice* _Nonnull)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(_:_:_:_:_:_:_:));
+	-(BOOL)create_7_: (const TSDevice* _Nonnull)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan* _Nonnull)scan size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(device:flags:scan:size:threads:regions:async:));
 	-(BOOL)dispatch: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data keys_offset: (uint32_t)keys_offset data_offset: (uint32_t)data_offset size: (uint32_t)size NS_SWIFT_NAME(dispatch(_:_:_:_:_:));
 	-(BOOL)dispatch_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data keys_offset: (uint32_t)keys_offset data_offset: (uint32_t)data_offset size: (uint32_t)size NS_SWIFT_NAME(dispatch(compute:data:keys_offset:data_offset:size:));
 	-(BOOL)dispatch_1: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data keys_offset: (uint32_t)keys_offset data_offset: (uint32_t)data_offset size: (uint32_t)size flags: (TS_RadixSortFlags)flags NS_SWIFT_NAME(dispatch(_:_:_:_:_:_:));
@@ -16584,20 +16622,20 @@ TS_CAPI @interface TSBitonicSort : NSObject {
 	-(uint32_t)getMaxRegions NS_SWIFT_NAME(maxRegions());
 	-(BOOL)create: (const TSDevice* _Nonnull)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size NS_SWIFT_NAME(create(_:_:_:));
 	-(BOOL)create_: (const TSDevice* _Nonnull)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size NS_SWIFT_NAME(create(device:mode:size:));
-	-(BOOL)create_1: (const TSDevice* _Nonnull)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size groups: (uint32_t)groups NS_SWIFT_NAME(create(_:_:_:_:));
-	-(BOOL)create_1_: (const TSDevice* _Nonnull)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size groups: (uint32_t)groups NS_SWIFT_NAME(create(device:mode:size:groups:));
-	-(BOOL)create_2: (const TSDevice* _Nonnull)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions NS_SWIFT_NAME(create(_:_:_:_:_:));
-	-(BOOL)create_2_: (const TSDevice* _Nonnull)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions NS_SWIFT_NAME(create(device:mode:size:groups:regions:));
-	-(BOOL)create_3: (const TSDevice* _Nonnull)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(_:_:_:_:_:_:));
-	-(BOOL)create_3_: (const TSDevice* _Nonnull)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(device:mode:size:groups:regions:async:));
+	-(BOOL)create_1: (const TSDevice* _Nonnull)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size threads: (uint32_t)threads NS_SWIFT_NAME(create(_:_:_:_:));
+	-(BOOL)create_1_: (const TSDevice* _Nonnull)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size threads: (uint32_t)threads NS_SWIFT_NAME(create(device:mode:size:threads:));
+	-(BOOL)create_2: (const TSDevice* _Nonnull)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions NS_SWIFT_NAME(create(_:_:_:_:_:));
+	-(BOOL)create_2_: (const TSDevice* _Nonnull)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions NS_SWIFT_NAME(create(device:mode:size:threads:regions:));
+	-(BOOL)create_3: (const TSDevice* _Nonnull)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(_:_:_:_:_:_:));
+	-(BOOL)create_3_: (const TSDevice* _Nonnull)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(device:mode:size:threads:regions:async:));
 	-(BOOL)create_4: (const TSDevice* _Nonnull)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size NS_SWIFT_NAME(create(_:_:_:));
 	-(BOOL)create_4_: (const TSDevice* _Nonnull)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size NS_SWIFT_NAME(create(device:flags:size:));
-	-(BOOL)create_5: (const TSDevice* _Nonnull)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size groups: (uint32_t)groups NS_SWIFT_NAME(create(_:_:_:_:));
-	-(BOOL)create_5_: (const TSDevice* _Nonnull)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size groups: (uint32_t)groups NS_SWIFT_NAME(create(device:flags:size:groups:));
-	-(BOOL)create_6: (const TSDevice* _Nonnull)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions NS_SWIFT_NAME(create(_:_:_:_:_:));
-	-(BOOL)create_6_: (const TSDevice* _Nonnull)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions NS_SWIFT_NAME(create(device:flags:size:groups:regions:));
-	-(BOOL)create_7: (const TSDevice* _Nonnull)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(_:_:_:_:_:_:));
-	-(BOOL)create_7_: (const TSDevice* _Nonnull)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(device:flags:size:groups:regions:async:));
+	-(BOOL)create_5: (const TSDevice* _Nonnull)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size threads: (uint32_t)threads NS_SWIFT_NAME(create(_:_:_:_:));
+	-(BOOL)create_5_: (const TSDevice* _Nonnull)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size threads: (uint32_t)threads NS_SWIFT_NAME(create(device:flags:size:threads:));
+	-(BOOL)create_6: (const TSDevice* _Nonnull)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions NS_SWIFT_NAME(create(_:_:_:_:_:));
+	-(BOOL)create_6_: (const TSDevice* _Nonnull)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions NS_SWIFT_NAME(create(device:flags:size:threads:regions:));
+	-(BOOL)create_7: (const TSDevice* _Nonnull)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(_:_:_:_:_:_:));
+	-(BOOL)create_7_: (const TSDevice* _Nonnull)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(device:flags:size:threads:regions:async:));
 	-(BOOL)dispatch: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data keys_offset: (uint32_t)keys_offset data_offset: (uint32_t)data_offset size: (uint32_t)size NS_SWIFT_NAME(dispatch(_:_:_:_:_:));
 	-(BOOL)dispatch_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data keys_offset: (uint32_t)keys_offset data_offset: (uint32_t)data_offset size: (uint32_t)size NS_SWIFT_NAME(dispatch(compute:data:keys_offset:data_offset:size:));
 	-(BOOL)dispatch_1: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data keys_offset: (uint32_t)keys_offset data_offset: (uint32_t)data_offset size: (uint32_t)size flags: (TS_BitonicSortFlags)flags NS_SWIFT_NAME(dispatch(_:_:_:_:_:_:));
@@ -16652,8 +16690,8 @@ TS_CAPI @interface TSSpatialGrid : NSObject {
 	-(TSRadixSort* _Nonnull)getRadixSort NS_SWIFT_NAME(radixSort());
 	-(BOOL)create: (const TSDevice* _Nonnull)device sort: (TSRadixSort* _Nonnull)sort NS_SWIFT_NAME(create(_:_:));
 	-(BOOL)create_: (const TSDevice* _Nonnull)device sort: (TSRadixSort* _Nonnull)sort NS_SWIFT_NAME(create(device:sort:));
-	-(BOOL)create_1: (const TSDevice* _Nonnull)device sort: (TSRadixSort* _Nonnull)sort groups: (uint32_t)groups NS_SWIFT_NAME(create(_:_:_:));
-	-(BOOL)create_1_: (const TSDevice* _Nonnull)device sort: (TSRadixSort* _Nonnull)sort groups: (uint32_t)groups NS_SWIFT_NAME(create(device:sort:groups:));
+	-(BOOL)create_1: (const TSDevice* _Nonnull)device sort: (TSRadixSort* _Nonnull)sort threads: (uint32_t)threads NS_SWIFT_NAME(create(_:_:_:));
+	-(BOOL)create_1_: (const TSDevice* _Nonnull)device sort: (TSRadixSort* _Nonnull)sort threads: (uint32_t)threads NS_SWIFT_NAME(create(device:sort:threads:));
 	-(BOOL)dispatch: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data offset: (uint32_t)offset size: (uint32_t)size NS_SWIFT_NAME(dispatch(_:_:_:_:));
 	-(BOOL)dispatch_: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data offset: (uint32_t)offset size: (uint32_t)size NS_SWIFT_NAME(dispatch(compute:data:offset:size:));
 	-(BOOL)dispatch_1: (TSCompute* _Nonnull)compute data: (TSBuffer* _Nonnull)data offset: (uint32_t)offset size: (uint32_t)size bits: (uint32_t)bits NS_SWIFT_NAME(dispatch(_:_:_:_:_:));
@@ -16703,20 +16741,20 @@ TS_CAPI @interface TSSpatialTree : NSObject {
 	-(TSBuffer* _Nonnull)getCounterBuffer NS_SWIFT_NAME(counterBuffer());
 	-(BOOL)create: (const TSDevice* _Nonnull)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size NS_SWIFT_NAME(create(_:_:_:_:));
 	-(BOOL)create_: (const TSDevice* _Nonnull)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size NS_SWIFT_NAME(create(device:mode:sort:size:));
-	-(BOOL)create_1: (const TSDevice* _Nonnull)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size groups: (uint32_t)groups NS_SWIFT_NAME(create(_:_:_:_:_:));
-	-(BOOL)create_1_: (const TSDevice* _Nonnull)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size groups: (uint32_t)groups NS_SWIFT_NAME(create(device:mode:sort:size:groups:));
-	-(BOOL)create_2: (const TSDevice* _Nonnull)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions NS_SWIFT_NAME(create(_:_:_:_:_:_:));
-	-(BOOL)create_2_: (const TSDevice* _Nonnull)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions NS_SWIFT_NAME(create(device:mode:sort:size:groups:regions:));
-	-(BOOL)create_3: (const TSDevice* _Nonnull)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(_:_:_:_:_:_:_:));
-	-(BOOL)create_3_: (const TSDevice* _Nonnull)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(device:mode:sort:size:groups:regions:async:));
+	-(BOOL)create_1: (const TSDevice* _Nonnull)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size threads: (uint32_t)threads NS_SWIFT_NAME(create(_:_:_:_:_:));
+	-(BOOL)create_1_: (const TSDevice* _Nonnull)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size threads: (uint32_t)threads NS_SWIFT_NAME(create(device:mode:sort:size:threads:));
+	-(BOOL)create_2: (const TSDevice* _Nonnull)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions NS_SWIFT_NAME(create(_:_:_:_:_:_:));
+	-(BOOL)create_2_: (const TSDevice* _Nonnull)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions NS_SWIFT_NAME(create(device:mode:sort:size:threads:regions:));
+	-(BOOL)create_3: (const TSDevice* _Nonnull)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(_:_:_:_:_:_:_:));
+	-(BOOL)create_3_: (const TSDevice* _Nonnull)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(device:mode:sort:size:threads:regions:async:));
 	-(BOOL)create_4: (const TSDevice* _Nonnull)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size NS_SWIFT_NAME(create(_:_:_:_:));
 	-(BOOL)create_4_: (const TSDevice* _Nonnull)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size NS_SWIFT_NAME(create(device:flags:sort:size:));
-	-(BOOL)create_5: (const TSDevice* _Nonnull)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size groups: (uint32_t)groups NS_SWIFT_NAME(create(_:_:_:_:_:));
-	-(BOOL)create_5_: (const TSDevice* _Nonnull)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size groups: (uint32_t)groups NS_SWIFT_NAME(create(device:flags:sort:size:groups:));
-	-(BOOL)create_6: (const TSDevice* _Nonnull)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions NS_SWIFT_NAME(create(_:_:_:_:_:_:));
-	-(BOOL)create_6_: (const TSDevice* _Nonnull)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions NS_SWIFT_NAME(create(device:flags:sort:size:groups:regions:));
-	-(BOOL)create_7: (const TSDevice* _Nonnull)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(_:_:_:_:_:_:_:));
-	-(BOOL)create_7_: (const TSDevice* _Nonnull)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(device:flags:sort:size:groups:regions:async:));
+	-(BOOL)create_5: (const TSDevice* _Nonnull)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size threads: (uint32_t)threads NS_SWIFT_NAME(create(_:_:_:_:_:));
+	-(BOOL)create_5_: (const TSDevice* _Nonnull)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size threads: (uint32_t)threads NS_SWIFT_NAME(create(device:flags:sort:size:threads:));
+	-(BOOL)create_6: (const TSDevice* _Nonnull)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions NS_SWIFT_NAME(create(_:_:_:_:_:_:));
+	-(BOOL)create_6_: (const TSDevice* _Nonnull)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions NS_SWIFT_NAME(create(device:flags:sort:size:threads:regions:));
+	-(BOOL)create_7: (const TSDevice* _Nonnull)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(_:_:_:_:_:_:_:));
+	-(BOOL)create_7_: (const TSDevice* _Nonnull)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort* _Nonnull)sort size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(create(device:flags:sort:size:threads:regions:async:));
 	-(BOOL)dispatch: (TSCompute* _Nonnull)compute hash: (TS_SpatialTreeHash)hash nodes: (TSBuffer* _Nonnull)nodes offset: (uint32_t)offset size: (uint32_t)size NS_SWIFT_NAME(dispatch(_:_:_:_:_:));
 	-(BOOL)dispatch_: (TSCompute* _Nonnull)compute hash: (TS_SpatialTreeHash)hash nodes: (TSBuffer* _Nonnull)nodes offset: (uint32_t)offset size: (uint32_t)size NS_SWIFT_NAME(dispatch(compute:hash:nodes:offset:size:));
 	-(BOOL)dispatch_1: (TSCompute* _Nonnull)compute hash: (TS_SpatialTreeHash)hash nodes: (TSBuffer* _Nonnull)nodes offset: (uint32_t)offset size: (uint32_t)size flags: (TS_SpatialTreeFlags)flags NS_SWIFT_NAME(dispatch(_:_:_:_:_:_:));
@@ -17298,6 +17336,32 @@ TS_CAPI @interface TSSystem : NSObject
 	+(BOOL)open_1_: (const TSString* _Nonnull)command NS_SWIFT_NAME(open(command:));
 @end
 
+/// Tellusim::MeshBoolean
+NS_SWIFT_NAME(MeshBoolean)
+TS_CAPI @interface TSMeshBoolean : NSObject
+	+(BOOL)intersect: (TSMeshGeometry* _Nonnull)dest src_0: (const TSMeshGeometry* _Nonnull)src_0 src_1: (const TSMeshGeometry* _Nonnull)src_1 op: (TS_MeshBooleanOperation)op NS_SWIFT_NAME(intersect(_:_:_:_:));
+	+(BOOL)intersect_: (TSMeshGeometry* _Nonnull)dest src_0: (const TSMeshGeometry* _Nonnull)src_0 src_1: (const TSMeshGeometry* _Nonnull)src_1 op: (TS_MeshBooleanOperation)op NS_SWIFT_NAME(intersect(dest:src_0:src_1:op:));
+	+(BOOL)intersect_1: (TSMeshGeometry* _Nonnull)dest_0 dest_1: (TSMeshGeometry* _Nonnull)dest_1 src_0: (const TSMeshGeometry* _Nonnull)src_0 src_1: (const TSMeshGeometry* _Nonnull)src_1 op: (TS_MeshBooleanOperation)op NS_SWIFT_NAME(intersect(_:_:_:_:_:));
+	+(BOOL)intersect_1_: (TSMeshGeometry* _Nonnull)dest_0 dest_1: (TSMeshGeometry* _Nonnull)dest_1 src_0: (const TSMeshGeometry* _Nonnull)src_0 src_1: (const TSMeshGeometry* _Nonnull)src_1 op: (TS_MeshBooleanOperation)op NS_SWIFT_NAME(intersect(dest_0:dest_1:src_0:src_1:op:));
+@end
+
+/// Tellusim::MeshFracture
+NS_SWIFT_NAME(MeshFracture)
+TS_CAPI @interface TSMeshFracture : NSObject
+	+(BOOL)split: (TSMesh* _Nonnull)dest src: (const TSMesh* _Nonnull)src points: (const TSVector3f* _Nonnull)points num_points: (uint32_t)num_points NS_SWIFT_NAME(split(_:_:_:_:));
+	+(BOOL)split_: (TSMesh* _Nonnull)dest src: (const TSMesh* _Nonnull)src points: (const TSVector3f* _Nonnull)points num_points: (uint32_t)num_points NS_SWIFT_NAME(split(dest:src:points:num_points:));
+	+(BOOL)split_1: (TSMesh* _Nonnull)dest src: (const TSMesh* _Nonnull)src points: (const TSVector3f* _Nonnull)points num_points: (uint32_t)num_points texcoord: (TSVector2f)texcoord NS_SWIFT_NAME(split(_:_:_:_:_:));
+	+(BOOL)split_1_: (TSMesh* _Nonnull)dest src: (const TSMesh* _Nonnull)src points: (const TSVector3f* _Nonnull)points num_points: (uint32_t)num_points texcoord: (TSVector2f)texcoord NS_SWIFT_NAME(split(dest:src:points:num_points:texcoord:));
+	+(BOOL)split_2: (TSMesh* _Nonnull)dest src: (const TSMesh* _Nonnull)src points: (const TSVector3f* _Nonnull)points num_points: (uint32_t)num_points texcoord: (TSVector2f)texcoord threshold: (float32_t)threshold NS_SWIFT_NAME(split(_:_:_:_:_:_:));
+	+(BOOL)split_2_: (TSMesh* _Nonnull)dest src: (const TSMesh* _Nonnull)src points: (const TSVector3f* _Nonnull)points num_points: (uint32_t)num_points texcoord: (TSVector2f)texcoord threshold: (float32_t)threshold NS_SWIFT_NAME(split(dest:src:points:num_points:texcoord:threshold:));
+	+(BOOL)split_3: (TSMesh* _Nonnull)dest src: (const TSMesh* _Nonnull)src points: (const TSVector3f* _Nonnull)points num_points: (uint32_t)num_points texcoord: (TSVector2f)texcoord threshold: (float32_t)threshold collapse: (float32_t)collapse NS_SWIFT_NAME(split(_:_:_:_:_:_:_:));
+	+(BOOL)split_3_: (TSMesh* _Nonnull)dest src: (const TSMesh* _Nonnull)src points: (const TSVector3f* _Nonnull)points num_points: (uint32_t)num_points texcoord: (TSVector2f)texcoord threshold: (float32_t)threshold collapse: (float32_t)collapse NS_SWIFT_NAME(split(dest:src:points:num_points:texcoord:threshold:collapse:));
+	+(BOOL)split_4: (TSMesh* _Nonnull)dest src: (const TSMesh* _Nonnull)src points: (const TSVector3f* _Nonnull)points num_points: (uint32_t)num_points texcoord: (TSVector2f)texcoord threshold: (float32_t)threshold collapse: (float32_t)collapse volume: (float32_t)volume NS_SWIFT_NAME(split(_:_:_:_:_:_:_:_:));
+	+(BOOL)split_4_: (TSMesh* _Nonnull)dest src: (const TSMesh* _Nonnull)src points: (const TSVector3f* _Nonnull)points num_points: (uint32_t)num_points texcoord: (TSVector2f)texcoord threshold: (float32_t)threshold collapse: (float32_t)collapse volume: (float32_t)volume NS_SWIFT_NAME(split(dest:src:points:num_points:texcoord:threshold:collapse:volume:));
+	+(BOOL)split_5: (TSMesh* _Nonnull)dest src: (const TSMesh* _Nonnull)src points: (const TSVector3f* _Nonnull)points num_points: (uint32_t)num_points texcoord: (TSVector2f)texcoord threshold: (float32_t)threshold collapse: (float32_t)collapse volume: (float32_t)volume async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(split(_:_:_:_:_:_:_:_:_:));
+	+(BOOL)split_5_: (TSMesh* _Nonnull)dest src: (const TSMesh* _Nonnull)src points: (const TSVector3f* _Nonnull)points num_points: (uint32_t)num_points texcoord: (TSVector2f)texcoord threshold: (float32_t)threshold collapse: (float32_t)collapse volume: (float32_t)volume async: (TSAsync* _Nonnull * _Nullable)async NS_SWIFT_NAME(split(dest:src:points:num_points:texcoord:threshold:collapse:volume:async:));
+@end
+
 /// Tellusim::MeshGraph::ProgressCallback
 NS_SWIFT_NAME(MeshGraph.ProgressCallback)
 @protocol TSMeshGraphProgressCallback <NSObject>
@@ -17382,6 +17446,17 @@ TS_CAPI @interface TSMeshSolid : NSObject
 	+(BOOL)create_7_: (TSMeshGeometry* _Nonnull)dest src: (const TSMeshGeometry* _Nonnull)src ratio: (float32_t)ratio threshold: (float32_t)threshold func: (id<TSMeshSolidProgressCallback> _Nullable)func NS_SWIFT_NAME(create(dest:src:ratio:threshold:func:));
 	+(BOOL)create_8: (TSMeshGeometry* _Nonnull)dest src: (const TSMeshGeometry* _Nonnull)src ratio: (float32_t)ratio threshold: (float32_t)threshold func: (id<TSMeshSolidProgressCallback> _Nullable)func position: (uint32_t)position NS_SWIFT_NAME(create(_:_:_:_:_:_:));
 	+(BOOL)create_8_: (TSMeshGeometry* _Nonnull)dest src: (const TSMeshGeometry* _Nonnull)src ratio: (float32_t)ratio threshold: (float32_t)threshold func: (id<TSMeshSolidProgressCallback> _Nullable)func position: (uint32_t)position NS_SWIFT_NAME(create(dest:src:ratio:threshold:func:position:));
+@end
+
+/// Tellusim::MeshSplit
+NS_SWIFT_NAME(MeshSplit)
+TS_CAPI @interface TSMeshSplit : NSObject
+	+(BOOL)split: (TSMesh* _Nonnull)front cross: (TSMesh* _Nonnull)cross back: (TSMesh* _Nonnull)back src: (const TSMesh* _Nonnull)src basis: (TSMatrix4x3f)basis NS_SWIFT_NAME(split(_:_:_:_:_:));
+	+(BOOL)split_: (TSMesh* _Nonnull)front cross: (TSMesh* _Nonnull)cross back: (TSMesh* _Nonnull)back src: (const TSMesh* _Nonnull)src basis: (TSMatrix4x3f)basis NS_SWIFT_NAME(split(front:cross:back:src:basis:));
+	+(BOOL)split_1: (TSMeshGeometry* _Nonnull)front cross: (TSMeshGeometry* _Nonnull)cross back: (TSMeshGeometry* _Nonnull)back src: (const TSMeshGeometry* _Nonnull)src basis: (TSMatrix4x3f)basis NS_SWIFT_NAME(split(_:_:_:_:_:));
+	+(BOOL)split_1_: (TSMeshGeometry* _Nonnull)front cross: (TSMeshGeometry* _Nonnull)cross back: (TSMeshGeometry* _Nonnull)back src: (const TSMeshGeometry* _Nonnull)src basis: (TSMatrix4x3f)basis NS_SWIFT_NAME(split(front:cross:back:src:basis:));
+	+(BOOL)split_2: (TSMeshGeometry* _Nonnull)front cross: (TSMeshGeometry* _Nonnull)cross back: (TSMeshGeometry* _Nonnull)back src: (const TSMeshGeometry* _Nonnull)src basis: (TSMatrix4x3f)basis position: (uint32_t)position NS_SWIFT_NAME(split(_:_:_:_:_:_:));
+	+(BOOL)split_2_: (TSMeshGeometry* _Nonnull)front cross: (TSMeshGeometry* _Nonnull)cross back: (TSMeshGeometry* _Nonnull)back src: (const TSMeshGeometry* _Nonnull)src basis: (TSMatrix4x3f)basis position: (uint32_t)position NS_SWIFT_NAME(split(front:cross:back:src:basis:position:));
 @end
 
 #ifdef __cplusplus

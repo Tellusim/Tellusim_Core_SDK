@@ -6,7 +6,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "609DD91FE3A12510A1E0009A"
+				BlueprintIdentifier = "6E458E5438CC2F00C920009A"
 				BuildableName = "shader.arm64"
 				BlueprintName = "shader.arm64"
 				ReferencedContainer = "container:shader.xcodeproj"/>

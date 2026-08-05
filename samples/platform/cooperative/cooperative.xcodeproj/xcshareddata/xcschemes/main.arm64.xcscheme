@@ -6,7 +6,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "68969B5C4F0AD5D501C0009A"
+				BlueprintIdentifier = "67111A775419694DB7A0009A"
 				BuildableName = "main.arm64"
 				BlueprintName = "main.arm64"
 				ReferencedContainer = "container:cooperative.xcodeproj"/>
