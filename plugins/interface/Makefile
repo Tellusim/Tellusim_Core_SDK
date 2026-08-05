@@ -10,6 +10,7 @@ PLUGINS = \
 	plotter \
 	popup \
 	progress \
+	rmlui \
 	slider \
 	svg \
 	tooltip
