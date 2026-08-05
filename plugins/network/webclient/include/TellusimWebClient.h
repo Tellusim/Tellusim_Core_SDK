@@ -108,7 +108,7 @@ namespace Tellusim {
 				CodeNotImplemented		= 501,
 				CodeBadGateway			= 502,
 				CodeServiceUnavailable	= 503,
-				CodeGetewayTimeout		= 504,
+				CodeGatewayTimeout		= 504,
 			};
 			
 		protected:

@@ -239,7 +239,7 @@ pub struct AppVersion(pub u32);
 
 #[allow(non_upper_case_globals)]
 impl AppVersion {
-	pub const Version: AppVersion = AppVersion(20251220);
+	pub const Version: AppVersion = AppVersion(20260702);
 }
 
 impl AppVersion {
@@ -3996,6 +3996,22 @@ impl Time {
 }
 
 impl Time {
+	pub fn value(self) -> u32 { self.0 }
+}
+
+// Tellusim::MeshBoolean::Operation
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct MeshBooleanOperation(pub u32);
+
+#[allow(non_upper_case_globals)]
+impl MeshBooleanOperation {
+	pub const OpUnion: MeshBooleanOperation = MeshBooleanOperation(0);
+	pub const OpDifference: MeshBooleanOperation = MeshBooleanOperation(1);
+	pub const OpIntersection: MeshBooleanOperation = MeshBooleanOperation(2);
+}
+
+impl MeshBooleanOperation {
 	pub fn value(self) -> u32 { self.0 }
 }
 
@@ -7919,9 +7935,9 @@ impl MeshIndices {
 	pub fn set_geometry_with_check(&mut self, geometry: &mut MeshGeometry, check: bool) { unsafe { tsMeshIndices_setGeometry(self.this, geometry.this, if check {1} else {0}) } }
 	pub fn geometry(&self) -> MeshGeometry { unsafe { MeshGeometry::new_ptr(tsMeshIndices_getGeometry_c(self.this)) } }
 	pub fn geometry_mut(&mut self) -> MeshGeometry { unsafe { MeshGeometry::new_ptr(tsMeshIndices_getGeometry(self.this)) } }
-	pub fn set_size(&mut self, size: u32) { unsafe { tsMeshIndices_setSize(self.this, size, 1, 0) } }
-	pub fn set_size_with_discard(&mut self, size: u32, discard: bool) { unsafe { tsMeshIndices_setSize(self.this, size, if discard {1} else {0}, 0) } }
-	pub fn set_size_with_discard_clear(&mut self, size: u32, discard: bool, clear: bool) { unsafe { tsMeshIndices_setSize(self.this, size, if discard {1} else {0}, if clear {1} else {0}) } }
+	pub fn set_size(&mut self, size: u32) -> bool { unsafe { tsMeshIndices_setSize(self.this, size, 1, 0) != 0 } }
+	pub fn set_size_with_discard(&mut self, size: u32, discard: bool) -> bool { unsafe { tsMeshIndices_setSize(self.this, size, if discard {1} else {0}, 0) != 0 } }
+	pub fn set_size_with_discard_clear(&mut self, size: u32, discard: bool, clear: bool) -> bool { unsafe { tsMeshIndices_setSize(self.this, size, if discard {1} else {0}, if clear {1} else {0}) != 0 } }
 	pub fn size(&self) -> u32 { unsafe { tsMeshIndices_getSize(self.this) } }
 	pub fn stride(&self) -> u32 { unsafe { tsMeshIndices_getStride(self.this) } }
 	pub fn bytes(&self) -> usize { unsafe { tsMeshIndices_getBytes(self.this) } }
@@ -8025,7 +8041,7 @@ extern "C" {
 	fn tsMeshIndices_setGeometry(this: *mut c_void, geometry: *mut c_void, check: i32);
 	fn tsMeshIndices_getGeometry_c(this: *const c_void) -> *mut c_void;
 	fn tsMeshIndices_getGeometry(this: *mut c_void) -> *mut c_void;
-	fn tsMeshIndices_setSize(this: *mut c_void, size: u32, discard: i32, clear: i32);
+	fn tsMeshIndices_setSize(this: *mut c_void, size: u32, discard: i32, clear: i32) -> i32;
 	fn tsMeshIndices_getSize(this: *const c_void) -> u32;
 	fn tsMeshIndices_getStride(this: *const c_void) -> u32;
 	fn tsMeshIndices_getBytes(this: *const c_void) -> usize;
@@ -8140,9 +8156,9 @@ impl MeshAttribute {
 	pub fn set_geometry_with_check(&mut self, geometry: &mut MeshGeometry, check: bool) { unsafe { tsMeshAttribute_setGeometry(self.this, geometry.this, if check {1} else {0}) } }
 	pub fn geometry(&self) -> MeshGeometry { unsafe { MeshGeometry::new_ptr(tsMeshAttribute_getGeometry_c(self.this)) } }
 	pub fn geometry_mut(&mut self) -> MeshGeometry { unsafe { MeshGeometry::new_ptr(tsMeshAttribute_getGeometry(self.this)) } }
-	pub fn set_size(&mut self, size: u32) { unsafe { tsMeshAttribute_setSize(self.this, size, 1, 0) } }
-	pub fn set_size_with_discard(&mut self, size: u32, discard: bool) { unsafe { tsMeshAttribute_setSize(self.this, size, if discard {1} else {0}, 0) } }
-	pub fn set_size_with_discard_clear(&mut self, size: u32, discard: bool, clear: bool) { unsafe { tsMeshAttribute_setSize(self.this, size, if discard {1} else {0}, if clear {1} else {0}) } }
+	pub fn set_size(&mut self, size: u32) -> bool { unsafe { tsMeshAttribute_setSize(self.this, size, 1, 0) != 0 } }
+	pub fn set_size_with_discard(&mut self, size: u32, discard: bool) -> bool { unsafe { tsMeshAttribute_setSize(self.this, size, if discard {1} else {0}, 0) != 0 } }
+	pub fn set_size_with_discard_clear(&mut self, size: u32, discard: bool, clear: bool) -> bool { unsafe { tsMeshAttribute_setSize(self.this, size, if discard {1} else {0}, if clear {1} else {0}) != 0 } }
 	pub fn size(&self) -> u32 { unsafe { tsMeshAttribute_getSize(self.this) } }
 	pub fn stride(&self) -> u32 { unsafe { tsMeshAttribute_getStride(self.this) } }
 	pub fn bytes(&self) -> usize { unsafe { tsMeshAttribute_getBytes(self.this) } }
@@ -8174,7 +8190,8 @@ impl MeshAttribute {
 	pub fn morph_attribute(&mut self, attribute: &MeshAttribute, k: f32) -> bool { unsafe { tsMeshAttribute_morphAttribute(self.this, attribute.this, k) != 0 } }
 	pub fn pack_attributes(&mut self, attribute_0: &MeshAttribute, attribute_1: &MeshAttribute, format: Format) -> bool { unsafe { tsMeshAttribute_packAttributes(self.this, attribute_0.this, attribute_1.this, format) != 0 } }
 	pub fn unpack_attributes(&self, attribute_0: &mut MeshAttribute, attribute_1: &mut MeshAttribute) -> bool { unsafe { tsMeshAttribute_unpackAttributes(self.this, attribute_0.this, attribute_1.this) != 0 } }
-	pub fn optimize_attribute(&self, indices: &mut MeshIndices) -> MeshAttribute { unsafe { MeshAttribute::new_ptr(tsMeshAttribute_optimizeAttribute(self.this, indices.this)) } }
+	pub fn optimize_attribute(&self, indices: &mut MeshIndices) -> MeshAttribute { unsafe { MeshAttribute::new_ptr(tsMeshAttribute_optimizeAttribute(self.this, indices.this, 0.0)) } }
+	pub fn optimize_attribute_with_threshold(&self, indices: &mut MeshIndices, threshold: f32) -> MeshAttribute { unsafe { MeshAttribute::new_ptr(tsMeshAttribute_optimizeAttribute(self.this, indices.this, threshold)) } }
 	pub fn to_direct(&self, indices: &MeshIndices) -> MeshAttribute { unsafe { MeshAttribute::new_ptr(tsMeshAttribute_toDirect(self.this, indices.this)) } }
 	pub fn to_format(&self, format: Format) -> MeshAttribute { unsafe { MeshAttribute::new_ptr(tsMeshAttribute_toFormat(self.this, format)) } }
 	pub fn to_type(&self, type_: MeshAttributeType) -> MeshAttribute { unsafe { MeshAttribute::new_ptr(tsMeshAttribute_toType(self.this, type_)) } }
@@ -8259,7 +8276,7 @@ extern "C" {
 	fn tsMeshAttribute_setGeometry(this: *mut c_void, geometry: *mut c_void, check: i32);
 	fn tsMeshAttribute_getGeometry_c(this: *const c_void) -> *mut c_void;
 	fn tsMeshAttribute_getGeometry(this: *mut c_void) -> *mut c_void;
-	fn tsMeshAttribute_setSize(this: *mut c_void, size: u32, discard: i32, clear: i32);
+	fn tsMeshAttribute_setSize(this: *mut c_void, size: u32, discard: i32, clear: i32) -> i32;
 	fn tsMeshAttribute_getSize(this: *const c_void) -> u32;
 	fn tsMeshAttribute_getStride(this: *const c_void) -> u32;
 	fn tsMeshAttribute_getBytes(this: *const c_void) -> usize;
@@ -8281,7 +8298,7 @@ extern "C" {
 	fn tsMeshAttribute_morphAttribute(this: *mut c_void, attribute: *mut c_void, k: f32) -> i32;
 	fn tsMeshAttribute_packAttributes(this: *mut c_void, attribute_0: *mut c_void, attribute_1: *mut c_void, format: Format) -> i32;
 	fn tsMeshAttribute_unpackAttributes(this: *const c_void, attribute_0: *mut c_void, attribute_1: *mut c_void) -> i32;
-	fn tsMeshAttribute_optimizeAttribute(this: *const c_void, indices: *mut c_void) -> *mut c_void;
+	fn tsMeshAttribute_optimizeAttribute(this: *const c_void, indices: *mut c_void, threshold: f32) -> *mut c_void;
 	fn tsMeshAttribute_toDirect(this: *const c_void, indices: *mut c_void) -> *mut c_void;
 	fn tsMeshAttribute_toFormat(this: *const c_void, format: Format) -> *mut c_void;
 	fn tsMeshAttribute_toType(this: *const c_void, type_: MeshAttributeType) -> *mut c_void;
@@ -25261,15 +25278,30 @@ pub struct DeviceFeatures {
 	pub max_texture3d_size: u32,
 	pub max_texture_layers: u32,
 	pub max_texture_samples: u32,
+	pub max_group_size: u32,
 	pub max_group_size_x: u32,
 	pub max_group_size_y: u32,
 	pub max_group_size_z: u32,
 	pub max_group_count_x: u32,
 	pub max_group_count_y: u32,
 	pub max_group_count_z: u32,
+	pub max_task_size: u32,
+	pub max_task_size_x: u32,
+	pub max_task_size_y: u32,
+	pub max_task_size_z: u32,
 	pub max_task_count: u32,
+	pub max_task_count_x: u32,
+	pub max_task_count_y: u32,
+	pub max_task_count_z: u32,
 	pub max_task_memory: u32,
-	pub max_task_meshes: u32,
+	pub max_mesh_size: u32,
+	pub max_mesh_size_x: u32,
+	pub max_mesh_size_y: u32,
+	pub max_mesh_size_z: u32,
+	pub max_mesh_count: u32,
+	pub max_mesh_count_x: u32,
+	pub max_mesh_count_y: u32,
+	pub max_mesh_count_z: u32,
 	pub max_mesh_memory: u32,
 	pub max_mesh_vertices: u32,
 	pub max_mesh_primitives: u32,
@@ -25346,15 +25378,30 @@ impl fmt::Display for DeviceFeatures {
 		ret += &format!("max_texture3d_size: {0}\n", self.max_texture3d_size);
 		ret += &format!("max_texture_layers: {0}\n", self.max_texture_layers);
 		ret += &format!("max_texture_samples: {0}\n", self.max_texture_samples);
+		ret += &format!("max_group_size: {0}\n", self.max_group_size);
 		ret += &format!("max_group_size_x: {0}\n", self.max_group_size_x);
 		ret += &format!("max_group_size_y: {0}\n", self.max_group_size_y);
 		ret += &format!("max_group_size_z: {0}\n", self.max_group_size_z);
 		ret += &format!("max_group_count_x: {0}\n", self.max_group_count_x);
 		ret += &format!("max_group_count_y: {0}\n", self.max_group_count_y);
 		ret += &format!("max_group_count_z: {0}\n", self.max_group_count_z);
+		ret += &format!("max_task_size: {0}\n", self.max_task_size);
+		ret += &format!("max_task_size_x: {0}\n", self.max_task_size_x);
+		ret += &format!("max_task_size_y: {0}\n", self.max_task_size_y);
+		ret += &format!("max_task_size_z: {0}\n", self.max_task_size_z);
 		ret += &format!("max_task_count: {0}\n", self.max_task_count);
+		ret += &format!("max_task_count_x: {0}\n", self.max_task_count_x);
+		ret += &format!("max_task_count_y: {0}\n", self.max_task_count_y);
+		ret += &format!("max_task_count_z: {0}\n", self.max_task_count_z);
 		ret += &format!("max_task_memory: {0}\n", self.max_task_memory);
-		ret += &format!("max_task_meshes: {0}\n", self.max_task_meshes);
+		ret += &format!("max_mesh_size: {0}\n", self.max_mesh_size);
+		ret += &format!("max_mesh_size_x: {0}\n", self.max_mesh_size_x);
+		ret += &format!("max_mesh_size_y: {0}\n", self.max_mesh_size_y);
+		ret += &format!("max_mesh_size_z: {0}\n", self.max_mesh_size_z);
+		ret += &format!("max_mesh_count: {0}\n", self.max_mesh_count);
+		ret += &format!("max_mesh_count_x: {0}\n", self.max_mesh_count_x);
+		ret += &format!("max_mesh_count_y: {0}\n", self.max_mesh_count_y);
+		ret += &format!("max_mesh_count_z: {0}\n", self.max_mesh_count_z);
 		ret += &format!("max_mesh_memory: {0}\n", self.max_mesh_memory);
 		ret += &format!("max_mesh_vertices: {0}\n", self.max_mesh_vertices);
 		ret += &format!("max_mesh_primitives: {0}\n", self.max_mesh_primitives);
@@ -36238,6 +36285,9 @@ pub trait ControlTextTrait {
 	fn set_color(&mut self, color: &Color);
 	fn set_color_with_rgba(&mut self, r: f32, g: f32, b: f32, a: f32);
 	fn color(&self) -> Color;
+	fn set_state_color(&mut self, state: ControlState, color: &Color);
+	fn set_state_color_with_r(&mut self, state: ControlState, r: f32, g: f32, b: f32, a: f32);
+	fn state_color(&self, state: ControlState) -> u32;
 	fn set_filter(&mut self, filter: SamplerFilter);
 	fn filter(&self) -> SamplerFilter;
 	fn set_anisotropy(&mut self, anisotropy: u32);
@@ -36281,6 +36331,9 @@ impl ControlTextTrait for ControlText {
 	fn set_color(&mut self, color: &Color) { unsafe { tsControlText_setColor_cC(self.this, color) } }
 	fn set_color_with_rgba(&mut self, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlText_setColor_ffff(self.this, r, g, b, a) } }
 	fn color(&self) -> Color { unsafe { tsControlText_getColor(self.this) } }
+	fn set_state_color(&mut self, state: ControlState, color: &Color) { unsafe { tsControlText_setStateColor_CScC(self.this, state, color) } }
+	fn set_state_color_with_r(&mut self, state: ControlState, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlText_setStateColor_CSffff(self.this, state, r, g, b, a) } }
+	fn state_color(&self, state: ControlState) -> u32 { unsafe { tsControlText_getStateColor(self.this, state) } }
 	fn set_filter(&mut self, filter: SamplerFilter) { unsafe { tsControlText_setFilter(self.this, filter) } }
 	fn filter(&self) -> SamplerFilter { unsafe { tsControlText_getFilter(self.this) } }
 	fn set_anisotropy(&mut self, anisotropy: u32) { unsafe { tsControlText_setAnisotropy(self.this, anisotropy) } }
@@ -36456,6 +36509,9 @@ extern "C" {
 	fn tsControlText_setColor_cC(this: *mut c_void, color: *const Color);
 	fn tsControlText_setColor_ffff(this: *mut c_void, r: f32, g: f32, b: f32, a: f32);
 	fn tsControlText_getColor(this: *const c_void) -> Color;
+	fn tsControlText_setStateColor_CScC(this: *mut c_void, state: ControlState, color: *const Color);
+	fn tsControlText_setStateColor_CSffff(this: *mut c_void, state: ControlState, r: f32, g: f32, b: f32, a: f32);
+	fn tsControlText_getStateColor(this: *const c_void, state: ControlState) -> u32;
 	fn tsControlText_setFilter(this: *mut c_void, filter: SamplerFilter);
 	fn tsControlText_getFilter(this: *const c_void) -> SamplerFilter;
 	fn tsControlText_setAnisotropy(this: *mut c_void, anisotropy: u32);
@@ -36556,6 +36612,9 @@ pub trait ControlRectTrait {
 	fn set_color(&mut self, color: &Color);
 	fn set_color_with_rgba(&mut self, r: f32, g: f32, b: f32, a: f32);
 	fn color(&self) -> Color;
+	fn set_state_color(&mut self, state: ControlState, color: &Color);
+	fn set_state_color_with_r(&mut self, state: ControlState, r: f32, g: f32, b: f32, a: f32);
+	fn state_color(&self, state: ControlState) -> u32;
 	fn set_stroke_style(&mut self, style: &StrokeStyle);
 	fn stroke_style_const(&self) -> StrokeStyle;
 	fn stroke_style(&self) -> StrokeStyle;
@@ -36622,6 +36681,9 @@ impl ControlRectTrait for ControlRect {
 	fn set_color(&mut self, color: &Color) { unsafe { tsControlRect_setColor_cC(self.this, color) } }
 	fn set_color_with_rgba(&mut self, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlRect_setColor_ffff(self.this, r, g, b, a) } }
 	fn color(&self) -> Color { unsafe { tsControlRect_getColor(self.this) } }
+	fn set_state_color(&mut self, state: ControlState, color: &Color) { unsafe { tsControlRect_setStateColor_CScC(self.this, state, color) } }
+	fn set_state_color_with_r(&mut self, state: ControlState, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlRect_setStateColor_CSffff(self.this, state, r, g, b, a) } }
+	fn state_color(&self, state: ControlState) -> u32 { unsafe { tsControlRect_getStateColor(self.this, state) } }
 	fn set_stroke_style(&mut self, style: &StrokeStyle) { unsafe { tsControlRect_setStrokeStyle(self.this, style) } }
 	fn stroke_style_const(&self) -> StrokeStyle { unsafe { tsControlRect_getStrokeStyleConst(self.this) } }
 	fn stroke_style(&self) -> StrokeStyle { unsafe { tsControlRect_getStrokeStyle_c(self.this) } }
@@ -36842,6 +36904,9 @@ extern "C" {
 	fn tsControlRect_setColor_cC(this: *mut c_void, color: *const Color);
 	fn tsControlRect_setColor_ffff(this: *mut c_void, r: f32, g: f32, b: f32, a: f32);
 	fn tsControlRect_getColor(this: *const c_void) -> Color;
+	fn tsControlRect_setStateColor_CScC(this: *mut c_void, state: ControlState, color: *const Color);
+	fn tsControlRect_setStateColor_CSffff(this: *mut c_void, state: ControlState, r: f32, g: f32, b: f32, a: f32);
+	fn tsControlRect_getStateColor(this: *const c_void, state: ControlState) -> u32;
 	fn tsControlRect_setStrokeStyle(this: *mut c_void, style: *const StrokeStyle);
 	fn tsControlRect_getStrokeStyleConst(this: *const c_void) -> StrokeStyle;
 	fn tsControlRect_getStrokeStyle_c(this: *const c_void) -> StrokeStyle;
@@ -37199,6 +37264,9 @@ impl ControlTextTrait for ControlGroup {
 	fn set_color(&mut self, color: &Color) { unsafe { tsControlText_setColor_cC(self.this, color) } }
 	fn set_color_with_rgba(&mut self, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlText_setColor_ffff(self.this, r, g, b, a) } }
 	fn color(&self) -> Color { unsafe { tsControlText_getColor(self.this) } }
+	fn set_state_color(&mut self, state: ControlState, color: &Color) { unsafe { tsControlText_setStateColor_CScC(self.this, state, color) } }
+	fn set_state_color_with_r(&mut self, state: ControlState, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlText_setStateColor_CSffff(self.this, state, r, g, b, a) } }
+	fn state_color(&self, state: ControlState) -> u32 { unsafe { tsControlText_getStateColor(self.this, state) } }
 	fn set_filter(&mut self, filter: SamplerFilter) { unsafe { tsControlText_setFilter(self.this, filter) } }
 	fn filter(&self) -> SamplerFilter { unsafe { tsControlText_getFilter(self.this) } }
 	fn set_anisotropy(&mut self, anisotropy: u32) { unsafe { tsControlText_setAnisotropy(self.this, anisotropy) } }
@@ -37487,6 +37555,9 @@ impl ControlRectTrait for ControlPanel {
 	fn set_color(&mut self, color: &Color) { unsafe { tsControlRect_setColor_cC(self.this, color) } }
 	fn set_color_with_rgba(&mut self, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlRect_setColor_ffff(self.this, r, g, b, a) } }
 	fn color(&self) -> Color { unsafe { tsControlRect_getColor(self.this) } }
+	fn set_state_color(&mut self, state: ControlState, color: &Color) { unsafe { tsControlRect_setStateColor_CScC(self.this, state, color) } }
+	fn set_state_color_with_r(&mut self, state: ControlState, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlRect_setStateColor_CSffff(self.this, state, r, g, b, a) } }
+	fn state_color(&self, state: ControlState) -> u32 { unsafe { tsControlRect_getStateColor(self.this, state) } }
 	fn set_stroke_style(&mut self, style: &StrokeStyle) { unsafe { tsControlRect_setStrokeStyle(self.this, style) } }
 	fn stroke_style_const(&self) -> StrokeStyle { unsafe { tsControlRect_getStrokeStyleConst(self.this) } }
 	fn stroke_style(&self) -> StrokeStyle { unsafe { tsControlRect_getStrokeStyle_c(self.this) } }
@@ -37815,6 +37886,9 @@ impl ControlRectTrait for ControlDialog {
 	fn set_color(&mut self, color: &Color) { unsafe { tsControlRect_setColor_cC(self.this, color) } }
 	fn set_color_with_rgba(&mut self, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlRect_setColor_ffff(self.this, r, g, b, a) } }
 	fn color(&self) -> Color { unsafe { tsControlRect_getColor(self.this) } }
+	fn set_state_color(&mut self, state: ControlState, color: &Color) { unsafe { tsControlRect_setStateColor_CScC(self.this, state, color) } }
+	fn set_state_color_with_r(&mut self, state: ControlState, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlRect_setStateColor_CSffff(self.this, state, r, g, b, a) } }
+	fn state_color(&self, state: ControlState) -> u32 { unsafe { tsControlRect_getStateColor(self.this, state) } }
 	fn set_stroke_style(&mut self, style: &StrokeStyle) { unsafe { tsControlRect_setStrokeStyle(self.this, style) } }
 	fn stroke_style_const(&self) -> StrokeStyle { unsafe { tsControlRect_getStrokeStyleConst(self.this) } }
 	fn stroke_style(&self) -> StrokeStyle { unsafe { tsControlRect_getStrokeStyle_c(self.this) } }
@@ -38127,6 +38201,9 @@ impl ControlRectTrait for ControlWindow {
 	fn set_color(&mut self, color: &Color) { unsafe { tsControlRect_setColor_cC(self.this, color) } }
 	fn set_color_with_rgba(&mut self, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlRect_setColor_ffff(self.this, r, g, b, a) } }
 	fn color(&self) -> Color { unsafe { tsControlRect_getColor(self.this) } }
+	fn set_state_color(&mut self, state: ControlState, color: &Color) { unsafe { tsControlRect_setStateColor_CScC(self.this, state, color) } }
+	fn set_state_color_with_r(&mut self, state: ControlState, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlRect_setStateColor_CSffff(self.this, state, r, g, b, a) } }
+	fn state_color(&self, state: ControlState) -> u32 { unsafe { tsControlRect_getStateColor(self.this, state) } }
 	fn set_stroke_style(&mut self, style: &StrokeStyle) { unsafe { tsControlRect_setStrokeStyle(self.this, style) } }
 	fn stroke_style_const(&self) -> StrokeStyle { unsafe { tsControlRect_getStrokeStyleConst(self.this) } }
 	fn stroke_style(&self) -> StrokeStyle { unsafe { tsControlRect_getStrokeStyle_c(self.this) } }
@@ -38417,6 +38494,9 @@ impl ControlTextTrait for ControlCheck {
 	fn set_color(&mut self, color: &Color) { unsafe { tsControlText_setColor_cC(self.this, color) } }
 	fn set_color_with_rgba(&mut self, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlText_setColor_ffff(self.this, r, g, b, a) } }
 	fn color(&self) -> Color { unsafe { tsControlText_getColor(self.this) } }
+	fn set_state_color(&mut self, state: ControlState, color: &Color) { unsafe { tsControlText_setStateColor_CScC(self.this, state, color) } }
+	fn set_state_color_with_r(&mut self, state: ControlState, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlText_setStateColor_CSffff(self.this, state, r, g, b, a) } }
+	fn state_color(&self, state: ControlState) -> u32 { unsafe { tsControlText_getStateColor(self.this, state) } }
 	fn set_filter(&mut self, filter: SamplerFilter) { unsafe { tsControlText_setFilter(self.this, filter) } }
 	fn filter(&self) -> SamplerFilter { unsafe { tsControlText_getFilter(self.this) } }
 	fn set_anisotropy(&mut self, anisotropy: u32) { unsafe { tsControlText_setAnisotropy(self.this, anisotropy) } }
@@ -38724,6 +38804,9 @@ impl ControlTextTrait for ControlCombo {
 	fn set_color(&mut self, color: &Color) { unsafe { tsControlText_setColor_cC(self.this, color) } }
 	fn set_color_with_rgba(&mut self, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlText_setColor_ffff(self.this, r, g, b, a) } }
 	fn color(&self) -> Color { unsafe { tsControlText_getColor(self.this) } }
+	fn set_state_color(&mut self, state: ControlState, color: &Color) { unsafe { tsControlText_setStateColor_CScC(self.this, state, color) } }
+	fn set_state_color_with_r(&mut self, state: ControlState, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlText_setStateColor_CSffff(self.this, state, r, g, b, a) } }
+	fn state_color(&self, state: ControlState) -> u32 { unsafe { tsControlText_getStateColor(self.this, state) } }
 	fn set_filter(&mut self, filter: SamplerFilter) { unsafe { tsControlText_setFilter(self.this, filter) } }
 	fn filter(&self) -> SamplerFilter { unsafe { tsControlText_getFilter(self.this) } }
 	fn set_anisotropy(&mut self, anisotropy: u32) { unsafe { tsControlText_setAnisotropy(self.this, anisotropy) } }
@@ -39029,6 +39112,9 @@ impl ControlTextTrait for ControlButton {
 	fn set_color(&mut self, color: &Color) { unsafe { tsControlText_setColor_cC(self.this, color) } }
 	fn set_color_with_rgba(&mut self, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlText_setColor_ffff(self.this, r, g, b, a) } }
 	fn color(&self) -> Color { unsafe { tsControlText_getColor(self.this) } }
+	fn set_state_color(&mut self, state: ControlState, color: &Color) { unsafe { tsControlText_setStateColor_CScC(self.this, state, color) } }
+	fn set_state_color_with_r(&mut self, state: ControlState, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlText_setStateColor_CSffff(self.this, state, r, g, b, a) } }
+	fn state_color(&self, state: ControlState) -> u32 { unsafe { tsControlText_getStateColor(self.this, state) } }
 	fn set_filter(&mut self, filter: SamplerFilter) { unsafe { tsControlText_setFilter(self.this, filter) } }
 	fn filter(&self) -> SamplerFilter { unsafe { tsControlText_getFilter(self.this) } }
 	fn set_anisotropy(&mut self, anisotropy: u32) { unsafe { tsControlText_setAnisotropy(self.this, anisotropy) } }
@@ -39401,6 +39487,9 @@ impl ControlTextTrait for ControlSlider {
 	fn set_color(&mut self, color: &Color) { unsafe { tsControlText_setColor_cC(self.this, color) } }
 	fn set_color_with_rgba(&mut self, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlText_setColor_ffff(self.this, r, g, b, a) } }
 	fn color(&self) -> Color { unsafe { tsControlText_getColor(self.this) } }
+	fn set_state_color(&mut self, state: ControlState, color: &Color) { unsafe { tsControlText_setStateColor_CScC(self.this, state, color) } }
+	fn set_state_color_with_r(&mut self, state: ControlState, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlText_setStateColor_CSffff(self.this, state, r, g, b, a) } }
+	fn state_color(&self, state: ControlState) -> u32 { unsafe { tsControlText_getStateColor(self.this, state) } }
 	fn set_filter(&mut self, filter: SamplerFilter) { unsafe { tsControlText_setFilter(self.this, filter) } }
 	fn filter(&self) -> SamplerFilter { unsafe { tsControlText_getFilter(self.this) } }
 	fn set_anisotropy(&mut self, anisotropy: u32) { unsafe { tsControlText_setAnisotropy(self.this, anisotropy) } }
@@ -39719,6 +39808,9 @@ impl ControlTextTrait for ControlScroll {
 	fn set_color(&mut self, color: &Color) { unsafe { tsControlText_setColor_cC(self.this, color) } }
 	fn set_color_with_rgba(&mut self, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlText_setColor_ffff(self.this, r, g, b, a) } }
 	fn color(&self) -> Color { unsafe { tsControlText_getColor(self.this) } }
+	fn set_state_color(&mut self, state: ControlState, color: &Color) { unsafe { tsControlText_setStateColor_CScC(self.this, state, color) } }
+	fn set_state_color_with_r(&mut self, state: ControlState, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlText_setStateColor_CSffff(self.this, state, r, g, b, a) } }
+	fn state_color(&self, state: ControlState) -> u32 { unsafe { tsControlText_getStateColor(self.this, state) } }
 	fn set_filter(&mut self, filter: SamplerFilter) { unsafe { tsControlText_setFilter(self.this, filter) } }
 	fn filter(&self) -> SamplerFilter { unsafe { tsControlText_getFilter(self.this) } }
 	fn set_anisotropy(&mut self, anisotropy: u32) { unsafe { tsControlText_setAnisotropy(self.this, anisotropy) } }
@@ -40617,6 +40709,9 @@ impl ControlTextTrait for ControlTree {
 	fn set_color(&mut self, color: &Color) { unsafe { tsControlText_setColor_cC(self.this, color) } }
 	fn set_color_with_rgba(&mut self, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlText_setColor_ffff(self.this, r, g, b, a) } }
 	fn color(&self) -> Color { unsafe { tsControlText_getColor(self.this) } }
+	fn set_state_color(&mut self, state: ControlState, color: &Color) { unsafe { tsControlText_setStateColor_CScC(self.this, state, color) } }
+	fn set_state_color_with_r(&mut self, state: ControlState, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlText_setStateColor_CSffff(self.this, state, r, g, b, a) } }
+	fn state_color(&self, state: ControlState) -> u32 { unsafe { tsControlText_getStateColor(self.this, state) } }
 	fn set_filter(&mut self, filter: SamplerFilter) { unsafe { tsControlText_setFilter(self.this, filter) } }
 	fn filter(&self) -> SamplerFilter { unsafe { tsControlText_getFilter(self.this) } }
 	fn set_anisotropy(&mut self, anisotropy: u32) { unsafe { tsControlText_setAnisotropy(self.this, anisotropy) } }
@@ -40963,6 +41058,9 @@ impl ControlTextTrait for ControlEdit {
 	fn set_color(&mut self, color: &Color) { unsafe { tsControlText_setColor_cC(self.this, color) } }
 	fn set_color_with_rgba(&mut self, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlText_setColor_ffff(self.this, r, g, b, a) } }
 	fn color(&self) -> Color { unsafe { tsControlText_getColor(self.this) } }
+	fn set_state_color(&mut self, state: ControlState, color: &Color) { unsafe { tsControlText_setStateColor_CScC(self.this, state, color) } }
+	fn set_state_color_with_r(&mut self, state: ControlState, r: f32, g: f32, b: f32, a: f32) { unsafe { tsControlText_setStateColor_CSffff(self.this, state, r, g, b, a) } }
+	fn state_color(&self, state: ControlState) -> u32 { unsafe { tsControlText_getStateColor(self.this, state) } }
 	fn set_filter(&mut self, filter: SamplerFilter) { unsafe { tsControlText_setFilter(self.this, filter) } }
 	fn filter(&self) -> SamplerFilter { unsafe { tsControlText_getFilter(self.this) } }
 	fn set_anisotropy(&mut self, anisotropy: u32) { unsafe { tsControlText_setAnisotropy(self.this, anisotropy) } }
@@ -42160,11 +42258,11 @@ impl CubeFilter {
 	pub fn create(&mut self, device: &Device, mode: CubeFilterMode) -> bool { unsafe { tsCubeFilter_create_cDCFMuuu(self.this, device.this, mode, 3, 1024, 256) != 0 } }
 	pub fn create_with_order(&mut self, device: &Device, mode: CubeFilterMode, order: u32) -> bool { unsafe { tsCubeFilter_create_cDCFMuuu(self.this, device.this, mode, order, 1024, 256) != 0 } }
 	pub fn create_with_order_size(&mut self, device: &Device, mode: CubeFilterMode, order: u32, size: u32) -> bool { unsafe { tsCubeFilter_create_cDCFMuuu(self.this, device.this, mode, order, size, 256) != 0 } }
-	pub fn create_with_order_size_groups(&mut self, device: &Device, mode: CubeFilterMode, order: u32, size: u32, groups: u32) -> bool { unsafe { tsCubeFilter_create_cDCFMuuu(self.this, device.this, mode, order, size, groups) != 0 } }
+	pub fn create_with_order_size_threads(&mut self, device: &Device, mode: CubeFilterMode, order: u32, size: u32, threads: u32) -> bool { unsafe { tsCubeFilter_create_cDCFMuuu(self.this, device.this, mode, order, size, threads) != 0 } }
 	pub fn create_with_flags(&mut self, device: &Device, flags: CubeFilterFlags) -> bool { unsafe { tsCubeFilter_create_cDCFFuuu(self.this, device.this, flags, 3, 1024, 256) != 0 } }
 	pub fn create_with_flags_order(&mut self, device: &Device, flags: CubeFilterFlags, order: u32) -> bool { unsafe { tsCubeFilter_create_cDCFFuuu(self.this, device.this, flags, order, 1024, 256) != 0 } }
 	pub fn create_with_flags_order_size(&mut self, device: &Device, flags: CubeFilterFlags, order: u32, size: u32) -> bool { unsafe { tsCubeFilter_create_cDCFFuuu(self.this, device.this, flags, order, size, 256) != 0 } }
-	pub fn create_with_flags_order_size_groups(&mut self, device: &Device, flags: CubeFilterFlags, order: u32, size: u32, groups: u32) -> bool { unsafe { tsCubeFilter_create_cDCFFuuu(self.this, device.this, flags, order, size, groups) != 0 } }
+	pub fn create_with_flags_order_size_threads(&mut self, device: &Device, flags: CubeFilterFlags, order: u32, size: u32, threads: u32) -> bool { unsafe { tsCubeFilter_create_cDCFFuuu(self.this, device.this, flags, order, size, threads) != 0 } }
 	pub fn dispatch_with_buffer_slice(&self, compute: &mut Compute, buffer: &mut Buffer, offset: u32, texture: &mut Texture, slice: Option<&Slice>) -> bool {
 		let slice_ = Slice::default();
 		unsafe { tsCubeFilter_dispatch_cCBuTcS(self.this, compute.this, buffer.this, offset, texture.this, match slice { Some(slice) => slice, None => &slice_ }) != 0 }
@@ -42229,8 +42327,8 @@ extern "C" {
 	fn tsCubeFilter_getMaxOrder(this: *const c_void) -> u32;
 	fn tsCubeFilter_getMaxSize(this: *const c_void) -> u32;
 	fn tsCubeFilter_getHarmonics(this: *const c_void) -> u32;
-	fn tsCubeFilter_create_cDCFMuuu(this: *mut c_void, device: *mut c_void, mode: CubeFilterMode, order: u32, size: u32, groups: u32) -> i32;
-	fn tsCubeFilter_create_cDCFFuuu(this: *mut c_void, device: *mut c_void, flags: CubeFilterFlags, order: u32, size: u32, groups: u32) -> i32;
+	fn tsCubeFilter_create_cDCFMuuu(this: *mut c_void, device: *mut c_void, mode: CubeFilterMode, order: u32, size: u32, threads: u32) -> i32;
+	fn tsCubeFilter_create_cDCFFuuu(this: *mut c_void, device: *mut c_void, flags: CubeFilterFlags, order: u32, size: u32, threads: u32) -> i32;
 	fn tsCubeFilter_dispatch_cCBuTcS(this: *const c_void, compute: *mut c_void, buffer: *mut c_void, offset: u32, texture: *mut c_void, slice: *const Slice) -> i32;
 	fn tsCubeFilter_dispatch_cCBuT(this: *const c_void, compute: *mut c_void, buffer: *mut c_void, offset: u32, texture: *mut c_void) -> i32;
 	fn tsCubeFilter_dispatch_cCTcSBu(this: *const c_void, compute: *mut c_void, texture: *mut c_void, slice: *const Slice, buffer: *mut c_void, offset: u32) -> i32;
@@ -42974,13 +43072,13 @@ impl PrefixScan {
 	pub fn max_elements(&self) -> u32 { unsafe { tsPrefixScan_getMaxElements(self.this) } }
 	pub fn max_regions(&self) -> u32 { unsafe { tsPrefixScan_getMaxRegions(self.this) } }
 	pub fn create(&mut self, device: &Device, mode: PrefixScanMode) -> bool { unsafe { tsPrefixScan_create_cDPSMuuA(self.this, device.this, mode, 256, 1, ptr::null_mut()) != 0 } }
-	pub fn create_with_groups(&mut self, device: &Device, mode: PrefixScanMode, groups: u32) -> bool { unsafe { tsPrefixScan_create_cDPSMuuA(self.this, device.this, mode, groups, 1, ptr::null_mut()) != 0 } }
-	pub fn create_with_groups_regions(&mut self, device: &Device, mode: PrefixScanMode, groups: u32, regions: u32) -> bool { unsafe { tsPrefixScan_create_cDPSMuuA(self.this, device.this, mode, groups, regions, ptr::null_mut()) != 0 } }
-	pub fn create_with_groups_regions_async(&mut self, device: &Device, mode: PrefixScanMode, groups: u32, regions: u32, async_: Option<&Async>) -> bool { unsafe { tsPrefixScan_create_cDPSMuuA(self.this, device.this, mode, groups, regions, match async_ { Some(async_) => &async_.this, None => ptr::null() }) != 0 } }
+	pub fn create_with_threads(&mut self, device: &Device, mode: PrefixScanMode, threads: u32) -> bool { unsafe { tsPrefixScan_create_cDPSMuuA(self.this, device.this, mode, threads, 1, ptr::null_mut()) != 0 } }
+	pub fn create_with_threads_regions(&mut self, device: &Device, mode: PrefixScanMode, threads: u32, regions: u32) -> bool { unsafe { tsPrefixScan_create_cDPSMuuA(self.this, device.this, mode, threads, regions, ptr::null_mut()) != 0 } }
+	pub fn create_with_threads_regions_async(&mut self, device: &Device, mode: PrefixScanMode, threads: u32, regions: u32, async_: Option<&Async>) -> bool { unsafe { tsPrefixScan_create_cDPSMuuA(self.this, device.this, mode, threads, regions, match async_ { Some(async_) => &async_.this, None => ptr::null() }) != 0 } }
 	pub fn create_with_flags(&mut self, device: &Device, flags: PrefixScanFlags) -> bool { unsafe { tsPrefixScan_create_cDPSFuuA(self.this, device.this, flags, 256, 1, ptr::null_mut()) != 0 } }
-	pub fn create_with_flags_groups(&mut self, device: &Device, flags: PrefixScanFlags, groups: u32) -> bool { unsafe { tsPrefixScan_create_cDPSFuuA(self.this, device.this, flags, groups, 1, ptr::null_mut()) != 0 } }
-	pub fn create_with_flags_groups_regions(&mut self, device: &Device, flags: PrefixScanFlags, groups: u32, regions: u32) -> bool { unsafe { tsPrefixScan_create_cDPSFuuA(self.this, device.this, flags, groups, regions, ptr::null_mut()) != 0 } }
-	pub fn create_with_flags_groups_regions_async(&mut self, device: &Device, flags: PrefixScanFlags, groups: u32, regions: u32, async_: Option<&Async>) -> bool { unsafe { tsPrefixScan_create_cDPSFuuA(self.this, device.this, flags, groups, regions, match async_ { Some(async_) => &async_.this, None => ptr::null() }) != 0 } }
+	pub fn create_with_flags_threads(&mut self, device: &Device, flags: PrefixScanFlags, threads: u32) -> bool { unsafe { tsPrefixScan_create_cDPSFuuA(self.this, device.this, flags, threads, 1, ptr::null_mut()) != 0 } }
+	pub fn create_with_flags_threads_regions(&mut self, device: &Device, flags: PrefixScanFlags, threads: u32, regions: u32) -> bool { unsafe { tsPrefixScan_create_cDPSFuuA(self.this, device.this, flags, threads, regions, ptr::null_mut()) != 0 } }
+	pub fn create_with_flags_threads_regions_async(&mut self, device: &Device, flags: PrefixScanFlags, threads: u32, regions: u32, async_: Option<&Async>) -> bool { unsafe { tsPrefixScan_create_cDPSFuuA(self.this, device.this, flags, threads, regions, match async_ { Some(async_) => &async_.this, None => ptr::null() }) != 0 } }
 	pub fn dispatch(&mut self, compute: &mut Compute, data: &mut Buffer, offset: u32, size: u32) -> bool { unsafe { tsPrefixScan_dispatch_CBuuu(self.this, compute.this, data.this, offset, size, 1) != 0 } }
 	pub fn dispatch_with_stride(&mut self, compute: &mut Compute, data: &mut Buffer, offset: u32, size: u32, stride: u32) -> bool { unsafe { tsPrefixScan_dispatch_CBuuu(self.this, compute.this, data.this, offset, size, stride) != 0 } }
 	pub fn dispatch_with_count(&mut self, compute: &mut Compute, data: &mut Buffer, count: u32, offsets: *const u32, sizes: *const u32) -> bool { unsafe { tsPrefixScan_dispatch_CBuupupPSFu(self.this, compute.this, data.this, count, offsets, sizes, PrefixScanFlags::None, 1) != 0 } }
@@ -43042,8 +43140,8 @@ extern "C" {
 	fn tsPrefixScan_getScanElements(this: *const c_void) -> u32;
 	fn tsPrefixScan_getMaxElements(this: *const c_void) -> u32;
 	fn tsPrefixScan_getMaxRegions(this: *const c_void) -> u32;
-	fn tsPrefixScan_create_cDPSMuuA(this: *mut c_void, device: *mut c_void, mode: PrefixScanMode, groups: u32, regions: u32, async_: *const *mut c_void) -> i32;
-	fn tsPrefixScan_create_cDPSFuuA(this: *mut c_void, device: *mut c_void, flags: PrefixScanFlags, groups: u32, regions: u32, async_: *const *mut c_void) -> i32;
+	fn tsPrefixScan_create_cDPSMuuA(this: *mut c_void, device: *mut c_void, mode: PrefixScanMode, threads: u32, regions: u32, async_: *const *mut c_void) -> i32;
+	fn tsPrefixScan_create_cDPSFuuA(this: *mut c_void, device: *mut c_void, flags: PrefixScanFlags, threads: u32, regions: u32, async_: *const *mut c_void) -> i32;
 	fn tsPrefixScan_dispatch_CBuuu(this: *mut c_void, compute: *mut c_void, data: *mut c_void, offset: u32, size: u32, stride: u32) -> i32;
 	fn tsPrefixScan_dispatch_CBuupupPSFu(this: *mut c_void, compute: *mut c_void, data: *mut c_void, count: u32, offsets: *const u32, sizes: *const u32, flags: PrefixScanFlags, stride: u32) -> i32;
 	fn tsPrefixScan_dispatchIndirect_CBBuPSFuu(this: *mut c_void, compute: *mut c_void, data: *mut c_void, dispatch: *mut c_void, offset: u32, flags: PrefixScanFlags, max_size: u32, stride: u32) -> i32;
@@ -43100,13 +43198,13 @@ impl RadixSort {
 	pub fn prefix_scan(&self) -> PrefixScan { unsafe { PrefixScan::new_ptr(tsRadixSort_getPrefixScan(self.this)) } }
 	pub fn data_buffer(&self) -> Buffer { unsafe { Buffer::new_ptr(tsRadixSort_getDataBuffer(self.this)) } }
 	pub fn create(&mut self, device: &Device, mode: RadixSortMode, scan: &mut PrefixScan, size: u32) -> bool { unsafe { tsRadixSort_create_cDRSMPSuuuA(self.this, device.this, mode, scan.this, size, 256, 1, ptr::null_mut()) != 0 } }
-	pub fn create_with_groups(&mut self, device: &Device, mode: RadixSortMode, scan: &mut PrefixScan, size: u32, groups: u32) -> bool { unsafe { tsRadixSort_create_cDRSMPSuuuA(self.this, device.this, mode, scan.this, size, groups, 1, ptr::null_mut()) != 0 } }
-	pub fn create_with_groups_regions(&mut self, device: &Device, mode: RadixSortMode, scan: &mut PrefixScan, size: u32, groups: u32, regions: u32) -> bool { unsafe { tsRadixSort_create_cDRSMPSuuuA(self.this, device.this, mode, scan.this, size, groups, regions, ptr::null_mut()) != 0 } }
-	pub fn create_with_groups_regions_async(&mut self, device: &Device, mode: RadixSortMode, scan: &mut PrefixScan, size: u32, groups: u32, regions: u32, async_: Option<&Async>) -> bool { unsafe { tsRadixSort_create_cDRSMPSuuuA(self.this, device.this, mode, scan.this, size, groups, regions, match async_ { Some(async_) => &async_.this, None => ptr::null() }) != 0 } }
+	pub fn create_with_threads(&mut self, device: &Device, mode: RadixSortMode, scan: &mut PrefixScan, size: u32, threads: u32) -> bool { unsafe { tsRadixSort_create_cDRSMPSuuuA(self.this, device.this, mode, scan.this, size, threads, 1, ptr::null_mut()) != 0 } }
+	pub fn create_with_threads_regions(&mut self, device: &Device, mode: RadixSortMode, scan: &mut PrefixScan, size: u32, threads: u32, regions: u32) -> bool { unsafe { tsRadixSort_create_cDRSMPSuuuA(self.this, device.this, mode, scan.this, size, threads, regions, ptr::null_mut()) != 0 } }
+	pub fn create_with_threads_regions_async(&mut self, device: &Device, mode: RadixSortMode, scan: &mut PrefixScan, size: u32, threads: u32, regions: u32, async_: Option<&Async>) -> bool { unsafe { tsRadixSort_create_cDRSMPSuuuA(self.this, device.this, mode, scan.this, size, threads, regions, match async_ { Some(async_) => &async_.this, None => ptr::null() }) != 0 } }
 	pub fn create_with_flags(&mut self, device: &Device, flags: RadixSortFlags, scan: &mut PrefixScan, size: u32) -> bool { unsafe { tsRadixSort_create_cDRSFPSuuuA(self.this, device.this, flags, scan.this, size, 256, 1, ptr::null_mut()) != 0 } }
-	pub fn create_with_flags_groups(&mut self, device: &Device, flags: RadixSortFlags, scan: &mut PrefixScan, size: u32, groups: u32) -> bool { unsafe { tsRadixSort_create_cDRSFPSuuuA(self.this, device.this, flags, scan.this, size, groups, 1, ptr::null_mut()) != 0 } }
-	pub fn create_with_flags_groups_regions(&mut self, device: &Device, flags: RadixSortFlags, scan: &mut PrefixScan, size: u32, groups: u32, regions: u32) -> bool { unsafe { tsRadixSort_create_cDRSFPSuuuA(self.this, device.this, flags, scan.this, size, groups, regions, ptr::null_mut()) != 0 } }
-	pub fn create_with_flags_groups_regions_async(&mut self, device: &Device, flags: RadixSortFlags, scan: &mut PrefixScan, size: u32, groups: u32, regions: u32, async_: Option<&Async>) -> bool { unsafe { tsRadixSort_create_cDRSFPSuuuA(self.this, device.this, flags, scan.this, size, groups, regions, match async_ { Some(async_) => &async_.this, None => ptr::null() }) != 0 } }
+	pub fn create_with_flags_threads(&mut self, device: &Device, flags: RadixSortFlags, scan: &mut PrefixScan, size: u32, threads: u32) -> bool { unsafe { tsRadixSort_create_cDRSFPSuuuA(self.this, device.this, flags, scan.this, size, threads, 1, ptr::null_mut()) != 0 } }
+	pub fn create_with_flags_threads_regions(&mut self, device: &Device, flags: RadixSortFlags, scan: &mut PrefixScan, size: u32, threads: u32, regions: u32) -> bool { unsafe { tsRadixSort_create_cDRSFPSuuuA(self.this, device.this, flags, scan.this, size, threads, regions, ptr::null_mut()) != 0 } }
+	pub fn create_with_flags_threads_regions_async(&mut self, device: &Device, flags: RadixSortFlags, scan: &mut PrefixScan, size: u32, threads: u32, regions: u32, async_: Option<&Async>) -> bool { unsafe { tsRadixSort_create_cDRSFPSuuuA(self.this, device.this, flags, scan.this, size, threads, regions, match async_ { Some(async_) => &async_.this, None => ptr::null() }) != 0 } }
 	pub fn dispatch(&mut self, compute: &mut Compute, data: &mut Buffer, keys_offset: u32, data_offset: u32, size: u32) -> bool { unsafe { tsRadixSort_dispatch_CBuuuRSFu(self.this, compute.this, data.this, keys_offset, data_offset, size, RadixSortFlags::None, 32) != 0 } }
 	pub fn dispatch_with_flags(&mut self, compute: &mut Compute, data: &mut Buffer, keys_offset: u32, data_offset: u32, size: u32, flags: RadixSortFlags) -> bool { unsafe { tsRadixSort_dispatch_CBuuuRSFu(self.this, compute.this, data.this, keys_offset, data_offset, size, flags, 32) != 0 } }
 	pub fn dispatch_with_flags_bits(&mut self, compute: &mut Compute, data: &mut Buffer, keys_offset: u32, data_offset: u32, size: u32, flags: RadixSortFlags, bits: u32) -> bool { unsafe { tsRadixSort_dispatch_CBuuuRSFu(self.this, compute.this, data.this, keys_offset, data_offset, size, flags, bits) != 0 } }
@@ -43173,8 +43271,8 @@ extern "C" {
 	fn tsRadixSort_getMaxRegions(this: *const c_void) -> u32;
 	fn tsRadixSort_getPrefixScan(this: *const c_void) -> *mut c_void;
 	fn tsRadixSort_getDataBuffer(this: *const c_void) -> *mut c_void;
-	fn tsRadixSort_create_cDRSMPSuuuA(this: *mut c_void, device: *mut c_void, mode: RadixSortMode, scan: *mut c_void, size: u32, groups: u32, regions: u32, async_: *const *mut c_void) -> i32;
-	fn tsRadixSort_create_cDRSFPSuuuA(this: *mut c_void, device: *mut c_void, flags: RadixSortFlags, scan: *mut c_void, size: u32, groups: u32, regions: u32, async_: *const *mut c_void) -> i32;
+	fn tsRadixSort_create_cDRSMPSuuuA(this: *mut c_void, device: *mut c_void, mode: RadixSortMode, scan: *mut c_void, size: u32, threads: u32, regions: u32, async_: *const *mut c_void) -> i32;
+	fn tsRadixSort_create_cDRSFPSuuuA(this: *mut c_void, device: *mut c_void, flags: RadixSortFlags, scan: *mut c_void, size: u32, threads: u32, regions: u32, async_: *const *mut c_void) -> i32;
 	fn tsRadixSort_dispatch_CBuuuRSFu(this: *mut c_void, compute: *mut c_void, data: *mut c_void, keys_offset: u32, data_offset: u32, size: u32, flags: RadixSortFlags, bits: u32) -> i32;
 	fn tsRadixSort_dispatch_CBuupupupRSFu(this: *mut c_void, compute: *mut c_void, data: *mut c_void, count: u32, keys_offsets: *const u32, data_offsets: *const u32, sizes: *const u32, flags: RadixSortFlags, bits: u32) -> i32;
 	fn tsRadixSort_dispatchIndirect_CBBuRSFuu(this: *mut c_void, compute: *mut c_void, data: *mut c_void, dispatch: *mut c_void, offset: u32, flags: RadixSortFlags, bits: u32, max_size: u32) -> i32;
@@ -43228,13 +43326,13 @@ impl BitonicSort {
 	pub fn sort_elements(&self) -> u32 { unsafe { tsBitonicSort_getSortElements(self.this) } }
 	pub fn max_regions(&self) -> u32 { unsafe { tsBitonicSort_getMaxRegions(self.this) } }
 	pub fn create(&mut self, device: &Device, mode: BitonicSortMode, size: u32) -> bool { unsafe { tsBitonicSort_create_cDBSMuuuA(self.this, device.this, mode, size, 256, 1, ptr::null_mut()) != 0 } }
-	pub fn create_with_groups(&mut self, device: &Device, mode: BitonicSortMode, size: u32, groups: u32) -> bool { unsafe { tsBitonicSort_create_cDBSMuuuA(self.this, device.this, mode, size, groups, 1, ptr::null_mut()) != 0 } }
-	pub fn create_with_groups_regions(&mut self, device: &Device, mode: BitonicSortMode, size: u32, groups: u32, regions: u32) -> bool { unsafe { tsBitonicSort_create_cDBSMuuuA(self.this, device.this, mode, size, groups, regions, ptr::null_mut()) != 0 } }
-	pub fn create_with_groups_regions_async(&mut self, device: &Device, mode: BitonicSortMode, size: u32, groups: u32, regions: u32, async_: Option<&Async>) -> bool { unsafe { tsBitonicSort_create_cDBSMuuuA(self.this, device.this, mode, size, groups, regions, match async_ { Some(async_) => &async_.this, None => ptr::null() }) != 0 } }
+	pub fn create_with_threads(&mut self, device: &Device, mode: BitonicSortMode, size: u32, threads: u32) -> bool { unsafe { tsBitonicSort_create_cDBSMuuuA(self.this, device.this, mode, size, threads, 1, ptr::null_mut()) != 0 } }
+	pub fn create_with_threads_regions(&mut self, device: &Device, mode: BitonicSortMode, size: u32, threads: u32, regions: u32) -> bool { unsafe { tsBitonicSort_create_cDBSMuuuA(self.this, device.this, mode, size, threads, regions, ptr::null_mut()) != 0 } }
+	pub fn create_with_threads_regions_async(&mut self, device: &Device, mode: BitonicSortMode, size: u32, threads: u32, regions: u32, async_: Option<&Async>) -> bool { unsafe { tsBitonicSort_create_cDBSMuuuA(self.this, device.this, mode, size, threads, regions, match async_ { Some(async_) => &async_.this, None => ptr::null() }) != 0 } }
 	pub fn create_with_flags(&mut self, device: &Device, flags: BitonicSortFlags, size: u32) -> bool { unsafe { tsBitonicSort_create_cDBSFuuuA(self.this, device.this, flags, size, 256, 1, ptr::null_mut()) != 0 } }
-	pub fn create_with_flags_groups(&mut self, device: &Device, flags: BitonicSortFlags, size: u32, groups: u32) -> bool { unsafe { tsBitonicSort_create_cDBSFuuuA(self.this, device.this, flags, size, groups, 1, ptr::null_mut()) != 0 } }
-	pub fn create_with_flags_groups_regions(&mut self, device: &Device, flags: BitonicSortFlags, size: u32, groups: u32, regions: u32) -> bool { unsafe { tsBitonicSort_create_cDBSFuuuA(self.this, device.this, flags, size, groups, regions, ptr::null_mut()) != 0 } }
-	pub fn create_with_flags_groups_regions_async(&mut self, device: &Device, flags: BitonicSortFlags, size: u32, groups: u32, regions: u32, async_: Option<&Async>) -> bool { unsafe { tsBitonicSort_create_cDBSFuuuA(self.this, device.this, flags, size, groups, regions, match async_ { Some(async_) => &async_.this, None => ptr::null() }) != 0 } }
+	pub fn create_with_flags_threads(&mut self, device: &Device, flags: BitonicSortFlags, size: u32, threads: u32) -> bool { unsafe { tsBitonicSort_create_cDBSFuuuA(self.this, device.this, flags, size, threads, 1, ptr::null_mut()) != 0 } }
+	pub fn create_with_flags_threads_regions(&mut self, device: &Device, flags: BitonicSortFlags, size: u32, threads: u32, regions: u32) -> bool { unsafe { tsBitonicSort_create_cDBSFuuuA(self.this, device.this, flags, size, threads, regions, ptr::null_mut()) != 0 } }
+	pub fn create_with_flags_threads_regions_async(&mut self, device: &Device, flags: BitonicSortFlags, size: u32, threads: u32, regions: u32, async_: Option<&Async>) -> bool { unsafe { tsBitonicSort_create_cDBSFuuuA(self.this, device.this, flags, size, threads, regions, match async_ { Some(async_) => &async_.this, None => ptr::null() }) != 0 } }
 	pub fn dispatch(&mut self, compute: &mut Compute, data: &mut Buffer, keys_offset: u32, data_offset: u32, size: u32) -> bool { unsafe { tsBitonicSort_dispatch_CBuuuBSF(self.this, compute.this, data.this, keys_offset, data_offset, size, BitonicSortFlags::None) != 0 } }
 	pub fn dispatch_with_flags(&mut self, compute: &mut Compute, data: &mut Buffer, keys_offset: u32, data_offset: u32, size: u32, flags: BitonicSortFlags) -> bool { unsafe { tsBitonicSort_dispatch_CBuuuBSF(self.this, compute.this, data.this, keys_offset, data_offset, size, flags) != 0 } }
 	pub fn dispatch_with_count(&mut self, compute: &mut Compute, data: &mut Buffer, count: u32, keys_offsets: *const u32, data_offsets: *const u32, sizes: *const u32) -> bool { unsafe { tsBitonicSort_dispatch_CBuupupupBSF(self.this, compute.this, data.this, count, keys_offsets, data_offsets, sizes, BitonicSortFlags::None) != 0 } }
@@ -43289,8 +43387,8 @@ extern "C" {
 	fn tsBitonicSort_getGroupSize(this: *const c_void) -> u32;
 	fn tsBitonicSort_getSortElements(this: *const c_void) -> u32;
 	fn tsBitonicSort_getMaxRegions(this: *const c_void) -> u32;
-	fn tsBitonicSort_create_cDBSMuuuA(this: *mut c_void, device: *mut c_void, mode: BitonicSortMode, size: u32, groups: u32, regions: u32, async_: *const *mut c_void) -> i32;
-	fn tsBitonicSort_create_cDBSFuuuA(this: *mut c_void, device: *mut c_void, flags: BitonicSortFlags, size: u32, groups: u32, regions: u32, async_: *const *mut c_void) -> i32;
+	fn tsBitonicSort_create_cDBSMuuuA(this: *mut c_void, device: *mut c_void, mode: BitonicSortMode, size: u32, threads: u32, regions: u32, async_: *const *mut c_void) -> i32;
+	fn tsBitonicSort_create_cDBSFuuuA(this: *mut c_void, device: *mut c_void, flags: BitonicSortFlags, size: u32, threads: u32, regions: u32, async_: *const *mut c_void) -> i32;
 	fn tsBitonicSort_dispatch_CBuuuBSF(this: *mut c_void, compute: *mut c_void, data: *mut c_void, keys_offset: u32, data_offset: u32, size: u32, flags: BitonicSortFlags) -> i32;
 	fn tsBitonicSort_dispatch_CBuupupupBSF(this: *mut c_void, compute: *mut c_void, data: *mut c_void, count: u32, keys_offsets: *const u32, data_offsets: *const u32, sizes: *const u32, flags: BitonicSortFlags) -> i32;
 	fn tsBitonicSort_dispatchIndirect_CBBuBSF(this: *mut c_void, compute: *mut c_void, data: *mut c_void, dispatch: *mut c_void, offset: u32, flags: BitonicSortFlags) -> i32;
@@ -43342,7 +43440,7 @@ impl SpatialGrid {
 	pub fn group_size(&self) -> u32 { unsafe { tsSpatialGrid_getGroupSize(self.this) } }
 	pub fn radix_sort(&self) -> RadixSort { unsafe { RadixSort::new_ptr(tsSpatialGrid_getRadixSort(self.this)) } }
 	pub fn create(&mut self, device: &Device, sort: &mut RadixSort) -> bool { unsafe { tsSpatialGrid_create(self.this, device.this, sort.this, 256) != 0 } }
-	pub fn create_with_groups(&mut self, device: &Device, sort: &mut RadixSort, groups: u32) -> bool { unsafe { tsSpatialGrid_create(self.this, device.this, sort.this, groups) != 0 } }
+	pub fn create_with_threads(&mut self, device: &Device, sort: &mut RadixSort, threads: u32) -> bool { unsafe { tsSpatialGrid_create(self.this, device.this, sort.this, threads) != 0 } }
 	pub fn dispatch(&mut self, compute: &mut Compute, data: &mut Buffer, offset: u32, size: u32) -> bool { unsafe { tsSpatialGrid_dispatch(self.this, compute.this, data.this, offset, size, 32) != 0 } }
 	pub fn dispatch_with_bits(&mut self, compute: &mut Compute, data: &mut Buffer, offset: u32, size: u32, bits: u32) -> bool { unsafe { tsSpatialGrid_dispatch(self.this, compute.this, data.this, offset, size, bits) != 0 } }
 	pub fn dispatch_indirect(&mut self, compute: &mut Compute, data: &mut Buffer, dispatch: &mut Buffer, offset: u32) -> bool { unsafe { tsSpatialGrid_dispatchIndirect(self.this, compute.this, data.this, dispatch.this, offset, MAXU32) != 0 } }
@@ -43389,7 +43487,7 @@ extern "C" {
 	fn tsSpatialGrid_isCreated(this: *const c_void) -> i32;
 	fn tsSpatialGrid_getGroupSize(this: *const c_void) -> u32;
 	fn tsSpatialGrid_getRadixSort(this: *const c_void) -> *mut c_void;
-	fn tsSpatialGrid_create(this: *mut c_void, device: *mut c_void, sort: *mut c_void, groups: u32) -> i32;
+	fn tsSpatialGrid_create(this: *mut c_void, device: *mut c_void, sort: *mut c_void, threads: u32) -> i32;
 	fn tsSpatialGrid_dispatch(this: *mut c_void, compute: *mut c_void, data: *mut c_void, offset: u32, size: u32, bits: u32) -> i32;
 	fn tsSpatialGrid_dispatchIndirect(this: *mut c_void, compute: *mut c_void, data: *mut c_void, dispatch: *mut c_void, offset: u32, max_size: u32) -> i32;
 }
@@ -43443,13 +43541,13 @@ impl SpatialTree {
 	pub fn parents_buffer(&self) -> Buffer { unsafe { Buffer::new_ptr(tsSpatialTree_getParentsBuffer(self.this)) } }
 	pub fn counter_buffer(&self) -> Buffer { unsafe { Buffer::new_ptr(tsSpatialTree_getCounterBuffer(self.this)) } }
 	pub fn create(&mut self, device: &Device, mode: SpatialTreeMode, sort: &mut RadixSort, size: u32) -> bool { unsafe { tsSpatialTree_create_cDSTMRSuuuA(self.this, device.this, mode, sort.this, size, 256, 1, ptr::null_mut()) != 0 } }
-	pub fn create_with_groups(&mut self, device: &Device, mode: SpatialTreeMode, sort: &mut RadixSort, size: u32, groups: u32) -> bool { unsafe { tsSpatialTree_create_cDSTMRSuuuA(self.this, device.this, mode, sort.this, size, groups, 1, ptr::null_mut()) != 0 } }
-	pub fn create_with_groups_regions(&mut self, device: &Device, mode: SpatialTreeMode, sort: &mut RadixSort, size: u32, groups: u32, regions: u32) -> bool { unsafe { tsSpatialTree_create_cDSTMRSuuuA(self.this, device.this, mode, sort.this, size, groups, regions, ptr::null_mut()) != 0 } }
-	pub fn create_with_groups_regions_async(&mut self, device: &Device, mode: SpatialTreeMode, sort: &mut RadixSort, size: u32, groups: u32, regions: u32, async_: Option<&Async>) -> bool { unsafe { tsSpatialTree_create_cDSTMRSuuuA(self.this, device.this, mode, sort.this, size, groups, regions, match async_ { Some(async_) => &async_.this, None => ptr::null() }) != 0 } }
+	pub fn create_with_threads(&mut self, device: &Device, mode: SpatialTreeMode, sort: &mut RadixSort, size: u32, threads: u32) -> bool { unsafe { tsSpatialTree_create_cDSTMRSuuuA(self.this, device.this, mode, sort.this, size, threads, 1, ptr::null_mut()) != 0 } }
+	pub fn create_with_threads_regions(&mut self, device: &Device, mode: SpatialTreeMode, sort: &mut RadixSort, size: u32, threads: u32, regions: u32) -> bool { unsafe { tsSpatialTree_create_cDSTMRSuuuA(self.this, device.this, mode, sort.this, size, threads, regions, ptr::null_mut()) != 0 } }
+	pub fn create_with_threads_regions_async(&mut self, device: &Device, mode: SpatialTreeMode, sort: &mut RadixSort, size: u32, threads: u32, regions: u32, async_: Option<&Async>) -> bool { unsafe { tsSpatialTree_create_cDSTMRSuuuA(self.this, device.this, mode, sort.this, size, threads, regions, match async_ { Some(async_) => &async_.this, None => ptr::null() }) != 0 } }
 	pub fn create_with_flags(&mut self, device: &Device, flags: SpatialTreeFlags, sort: &mut RadixSort, size: u32) -> bool { unsafe { tsSpatialTree_create_cDSTFRSuuuA(self.this, device.this, flags, sort.this, size, 256, 1, ptr::null_mut()) != 0 } }
-	pub fn create_with_flags_groups(&mut self, device: &Device, flags: SpatialTreeFlags, sort: &mut RadixSort, size: u32, groups: u32) -> bool { unsafe { tsSpatialTree_create_cDSTFRSuuuA(self.this, device.this, flags, sort.this, size, groups, 1, ptr::null_mut()) != 0 } }
-	pub fn create_with_flags_groups_regions(&mut self, device: &Device, flags: SpatialTreeFlags, sort: &mut RadixSort, size: u32, groups: u32, regions: u32) -> bool { unsafe { tsSpatialTree_create_cDSTFRSuuuA(self.this, device.this, flags, sort.this, size, groups, regions, ptr::null_mut()) != 0 } }
-	pub fn create_with_flags_groups_regions_async(&mut self, device: &Device, flags: SpatialTreeFlags, sort: &mut RadixSort, size: u32, groups: u32, regions: u32, async_: Option<&Async>) -> bool { unsafe { tsSpatialTree_create_cDSTFRSuuuA(self.this, device.this, flags, sort.this, size, groups, regions, match async_ { Some(async_) => &async_.this, None => ptr::null() }) != 0 } }
+	pub fn create_with_flags_threads(&mut self, device: &Device, flags: SpatialTreeFlags, sort: &mut RadixSort, size: u32, threads: u32) -> bool { unsafe { tsSpatialTree_create_cDSTFRSuuuA(self.this, device.this, flags, sort.this, size, threads, 1, ptr::null_mut()) != 0 } }
+	pub fn create_with_flags_threads_regions(&mut self, device: &Device, flags: SpatialTreeFlags, sort: &mut RadixSort, size: u32, threads: u32, regions: u32) -> bool { unsafe { tsSpatialTree_create_cDSTFRSuuuA(self.this, device.this, flags, sort.this, size, threads, regions, ptr::null_mut()) != 0 } }
+	pub fn create_with_flags_threads_regions_async(&mut self, device: &Device, flags: SpatialTreeFlags, sort: &mut RadixSort, size: u32, threads: u32, regions: u32, async_: Option<&Async>) -> bool { unsafe { tsSpatialTree_create_cDSTFRSuuuA(self.this, device.this, flags, sort.this, size, threads, regions, match async_ { Some(async_) => &async_.this, None => ptr::null() }) != 0 } }
 	pub fn dispatch(&mut self, compute: &mut Compute, hash: SpatialTreeHash, nodes: &mut Buffer, offset: u32, size: u32) -> bool { unsafe { tsSpatialTree_dispatch_CSTHBuuSTF(self.this, compute.this, hash, nodes.this, offset, size, SpatialTreeFlags::None) != 0 } }
 	pub fn dispatch_with_flags(&mut self, compute: &mut Compute, hash: SpatialTreeHash, nodes: &mut Buffer, offset: u32, size: u32, flags: SpatialTreeFlags) -> bool { unsafe { tsSpatialTree_dispatch_CSTHBuuSTF(self.this, compute.this, hash, nodes.this, offset, size, flags) != 0 } }
 	pub fn dispatch_with_count(&mut self, compute: &mut Compute, hash: SpatialTreeHash, nodes: &mut Buffer, count: u32, offsets: *const u32, sizes: *const u32) -> bool { unsafe { tsSpatialTree_dispatch_CSTHBuupupSTF(self.this, compute.this, hash, nodes.this, count, offsets, sizes, SpatialTreeFlags::None) != 0 } }
@@ -43508,8 +43606,8 @@ extern "C" {
 	fn tsSpatialTree_getHashBuffer(this: *const c_void) -> *mut c_void;
 	fn tsSpatialTree_getParentsBuffer(this: *const c_void) -> *mut c_void;
 	fn tsSpatialTree_getCounterBuffer(this: *const c_void) -> *mut c_void;
-	fn tsSpatialTree_create_cDSTMRSuuuA(this: *mut c_void, device: *mut c_void, mode: SpatialTreeMode, sort: *mut c_void, size: u32, groups: u32, regions: u32, async_: *const *mut c_void) -> i32;
-	fn tsSpatialTree_create_cDSTFRSuuuA(this: *mut c_void, device: *mut c_void, flags: SpatialTreeFlags, sort: *mut c_void, size: u32, groups: u32, regions: u32, async_: *const *mut c_void) -> i32;
+	fn tsSpatialTree_create_cDSTMRSuuuA(this: *mut c_void, device: *mut c_void, mode: SpatialTreeMode, sort: *mut c_void, size: u32, threads: u32, regions: u32, async_: *const *mut c_void) -> i32;
+	fn tsSpatialTree_create_cDSTFRSuuuA(this: *mut c_void, device: *mut c_void, flags: SpatialTreeFlags, sort: *mut c_void, size: u32, threads: u32, regions: u32, async_: *const *mut c_void) -> i32;
 	fn tsSpatialTree_dispatch_CSTHBuuSTF(this: *mut c_void, compute: *mut c_void, hash: SpatialTreeHash, nodes: *mut c_void, offset: u32, size: u32, flags: SpatialTreeFlags) -> i32;
 	fn tsSpatialTree_dispatch_CSTHBuupupSTF(this: *mut c_void, compute: *mut c_void, hash: SpatialTreeHash, nodes: *mut c_void, count: u32, offsets: *const u32, sizes: *const u32, flags: SpatialTreeFlags) -> i32;
 	fn tsSpatialTree_dispatchIndirect_CSTHBBuuSTF(this: *mut c_void, compute: *mut c_void, hash: SpatialTreeHash, nodes: *mut c_void, dispatch: *mut c_void, offset: u32, max_size: u32, flags: SpatialTreeFlags) -> i32;
@@ -44377,6 +44475,31 @@ pub mod system {
 	}
 }
 
+// Tellusim::MeshBoolean
+pub mod mesh_boolean {
+	#![allow(unused_imports)] use super::*;
+	pub fn intersect(dest: &mut MeshGeometry, src_0: &MeshGeometry, src_1: &MeshGeometry, op: MeshBooleanOperation) -> bool { unsafe { tsMeshBoolean_intersect_MGcMGcMGMBO(dest.this, src_0.this, src_1.this, op) != 0 } }
+	pub fn intersect_with_dest0(dest_0: &mut MeshGeometry, dest_1: &mut MeshGeometry, src_0: &MeshGeometry, src_1: &MeshGeometry, op: MeshBooleanOperation) -> bool { unsafe { tsMeshBoolean_intersect_MGMGcMGcMGMBO(dest_0.this, dest_1.this, src_0.this, src_1.this, op) != 0 } }
+	extern "C" {
+		fn tsMeshBoolean_intersect_MGcMGcMGMBO(dest: *mut c_void, src_0: *mut c_void, src_1: *mut c_void, op: MeshBooleanOperation) -> i32;
+		fn tsMeshBoolean_intersect_MGMGcMGcMGMBO(dest_0: *mut c_void, dest_1: *mut c_void, src_0: *mut c_void, src_1: *mut c_void, op: MeshBooleanOperation) -> i32;
+	}
+}
+
+// Tellusim::MeshFracture
+pub mod mesh_fracture {
+	#![allow(unused_imports)] use super::*;
+	pub fn split(dest: &mut Mesh, src: &Mesh, points: &[Vector3f]) -> bool { unsafe { tsMeshFracture_split_McMcV3ucV2fffA(dest.this, src.this, points.as_ptr(), points.len() as u32, &Vector2f::one(), 1e-3, 1e-3, 1e-3, ptr::null_mut()) != 0 } }
+	pub fn split_with_texcoord(dest: &mut Mesh, src: &Mesh, points: &[Vector3f], texcoord: &Vector2f) -> bool { unsafe { tsMeshFracture_split_McMcV3ucV2fffA(dest.this, src.this, points.as_ptr(), points.len() as u32, texcoord, 1e-3, 1e-3, 1e-3, ptr::null_mut()) != 0 } }
+	pub fn split_with_texcoord_threshold(dest: &mut Mesh, src: &Mesh, points: &[Vector3f], texcoord: &Vector2f, threshold: f32) -> bool { unsafe { tsMeshFracture_split_McMcV3ucV2fffA(dest.this, src.this, points.as_ptr(), points.len() as u32, texcoord, threshold, 1e-3, 1e-3, ptr::null_mut()) != 0 } }
+	pub fn split_with_texcoord_threshold_collapse(dest: &mut Mesh, src: &Mesh, points: &[Vector3f], texcoord: &Vector2f, threshold: f32, collapse: f32) -> bool { unsafe { tsMeshFracture_split_McMcV3ucV2fffA(dest.this, src.this, points.as_ptr(), points.len() as u32, texcoord, threshold, collapse, 1e-3, ptr::null_mut()) != 0 } }
+	pub fn split_with_texcoord_threshold_collapse_volume(dest: &mut Mesh, src: &Mesh, points: &[Vector3f], texcoord: &Vector2f, threshold: f32, collapse: f32, volume: f32) -> bool { unsafe { tsMeshFracture_split_McMcV3ucV2fffA(dest.this, src.this, points.as_ptr(), points.len() as u32, texcoord, threshold, collapse, volume, ptr::null_mut()) != 0 } }
+	pub fn split_with_texcoord_threshold_collapse_volume_async(dest: &mut Mesh, src: &Mesh, points: &[Vector3f], texcoord: &Vector2f, threshold: f32, collapse: f32, volume: f32, async_: Option<&Async>) -> bool { unsafe { tsMeshFracture_split_McMcV3ucV2fffA(dest.this, src.this, points.as_ptr(), points.len() as u32, texcoord, threshold, collapse, volume, match async_ { Some(async_) => &async_.this, None => ptr::null() }) != 0 } }
+	extern "C" {
+		fn tsMeshFracture_split_McMcV3ucV2fffA(dest: *mut c_void, src: *mut c_void, points: *const Vector3f, num_points: u32, texcoord: *const Vector2f, threshold: f32, collapse: f32, volume: f32, async_: *const *mut c_void) -> i32;
+	}
+}
+
 // Tellusim::MeshGraph
 pub mod mesh_graph {
 	#![allow(unused_imports)] use super::*;
@@ -44491,5 +44614,17 @@ pub mod mesh_solid {
 	extern "C" {
 		fn tsMeshSolid_create_McMffcMSPC(dest: *mut c_void, src: *mut c_void, ratio: f32, threshold: f32, func: MeshSolidProgressCallback, data_: *mut c_void) -> i32;
 		fn tsMeshSolid_create_MGcMGffcMSPCu(dest: *mut c_void, src: *mut c_void, ratio: f32, threshold: f32, func: MeshSolidProgressCallback, position: u32, data_: *mut c_void) -> i32;
+	}
+}
+
+// Tellusim::MeshSplit
+pub mod mesh_split {
+	#![allow(unused_imports)] use super::*;
+	pub fn split(front: &mut Mesh, cross: &mut Mesh, back: &mut Mesh, src: &Mesh, basis: &Matrix4x3f) -> bool { unsafe { tsMeshSplit_split_MMMcMcM43(front.this, cross.this, back.this, src.this, basis) != 0 } }
+	pub fn split_with_front(front: &mut MeshGeometry, cross: &mut MeshGeometry, back: &mut MeshGeometry, src: &MeshGeometry, basis: &Matrix4x3f) -> bool { unsafe { tsMeshSplit_split_MGMGMGcMGcM43u(front.this, cross.this, back.this, src.this, basis, MAXU32) != 0 } }
+	pub fn split_with_front_position(front: &mut MeshGeometry, cross: &mut MeshGeometry, back: &mut MeshGeometry, src: &MeshGeometry, basis: &Matrix4x3f, position: u32) -> bool { unsafe { tsMeshSplit_split_MGMGMGcMGcM43u(front.this, cross.this, back.this, src.this, basis, position) != 0 } }
+	extern "C" {
+		fn tsMeshSplit_split_MMMcMcM43(front: *mut c_void, cross: *mut c_void, back: *mut c_void, src: *mut c_void, basis: *const Matrix4x3f) -> i32;
+		fn tsMeshSplit_split_MGMGMGcMGcM43u(front: *mut c_void, cross: *mut c_void, back: *mut c_void, src: *mut c_void, basis: *const Matrix4x3f, position: u32) -> i32;
 	}
 }

@@ -396,7 +396,9 @@ typedef enum TS_App {
 	TS_AppVersion_41 = 20250816,
 	TS_AppVersion_42 = 20251102,
 	TS_AppVersion_43 = 20251220,
-	TS_AppVersion = 20251220,
+	TS_AppVersion_44 = 20260625,
+	TS_AppVersion_45 = 20260702,
+	TS_AppVersion = 20260702,
 	TS_App_Maxi32 = 0x7fffffff,
 } TS_App;
 
@@ -1930,6 +1932,14 @@ typedef enum TS_Time {
 	TS_Time_Maxi32 = 0x7fffffff,
 } TS_Time;
 
+/// Tellusim::MeshBoolean::Operation
+typedef enum TS_MeshBooleanOperation {
+	TS_MeshBooleanOperationOpUnion,
+	TS_MeshBooleanOperationOpDifference,
+	TS_MeshBooleanOperationOpIntersection,
+	TS_MeshBooleanOperation_Maxi32 = 0x7fffffff,
+} TS_MeshBooleanOperation;
+
 /// Tellusim::Command
 typedef struct TSCommandDrawArraysIndirect {
 	uint32_t num_vertices;
@@ -2053,15 +2063,30 @@ typedef struct TSDeviceFeatures {
 	uint32_t maxTexture3DSize;
 	uint32_t maxTextureLayers;
 	uint32_t maxTextureSamples;
+	uint32_t maxGroupSize;
 	uint32_t maxGroupSizeX;
 	uint32_t maxGroupSizeY;
 	uint32_t maxGroupSizeZ;
 	uint32_t maxGroupCountX;
 	uint32_t maxGroupCountY;
 	uint32_t maxGroupCountZ;
+	uint32_t maxTaskSize;
+	uint32_t maxTaskSizeX;
+	uint32_t maxTaskSizeY;
+	uint32_t maxTaskSizeZ;
 	uint32_t maxTaskCount;
+	uint32_t maxTaskCountX;
+	uint32_t maxTaskCountY;
+	uint32_t maxTaskCountZ;
 	uint32_t maxTaskMemory;
-	uint32_t maxTaskMeshes;
+	uint32_t maxMeshSize;
+	uint32_t maxMeshSizeX;
+	uint32_t maxMeshSizeY;
+	uint32_t maxMeshSizeZ;
+	uint32_t maxMeshCount;
+	uint32_t maxMeshCountX;
+	uint32_t maxMeshCountY;
+	uint32_t maxMeshCountZ;
 	uint32_t maxMeshMemory;
 	uint32_t maxMeshVertices;
 	uint32_t maxMeshPrimitives;
@@ -3060,7 +3085,7 @@ TS_CAPI const char* TS_CCALL tsMeshIndices_getFormatName(TSMeshIndices self);
 TS_CAPI void TS_CCALL tsMeshIndices_setGeometry(TSMeshIndices self, TSMeshGeometry geometry, bool_t check);
 TS_CAPI TSMeshGeometry TS_CCALL tsMeshIndices_getGeometry_c(TSMeshIndices self);
 TS_CAPI TSMeshGeometry TS_CCALL tsMeshIndices_getGeometry(TSMeshIndices self);
-TS_CAPI void TS_CCALL tsMeshIndices_setSize(TSMeshIndices self, uint32_t size, bool_t discard, bool_t clear);
+TS_CAPI bool_t TS_CCALL tsMeshIndices_setSize(TSMeshIndices self, uint32_t size, bool_t discard, bool_t clear);
 TS_CAPI uint32_t TS_CCALL tsMeshIndices_getSize(TSMeshIndices self);
 TS_CAPI uint32_t TS_CCALL tsMeshIndices_getStride(TSMeshIndices self);
 TS_CAPI size_t TS_CCALL tsMeshIndices_getBytes(TSMeshIndices self);
@@ -3141,7 +3166,7 @@ TS_CAPI TSMeshIndices TS_CCALL tsMeshAttribute_getIndices(TSMeshAttribute self);
 TS_CAPI void TS_CCALL tsMeshAttribute_setGeometry(TSMeshAttribute self, TSMeshGeometry geometry, bool_t check);
 TS_CAPI TSMeshGeometry TS_CCALL tsMeshAttribute_getGeometry_c(TSMeshAttribute self);
 TS_CAPI TSMeshGeometry TS_CCALL tsMeshAttribute_getGeometry(TSMeshAttribute self);
-TS_CAPI void TS_CCALL tsMeshAttribute_setSize(TSMeshAttribute self, uint32_t size, bool_t discard, bool_t clear);
+TS_CAPI bool_t TS_CCALL tsMeshAttribute_setSize(TSMeshAttribute self, uint32_t size, bool_t discard, bool_t clear);
 TS_CAPI uint32_t TS_CCALL tsMeshAttribute_getSize(TSMeshAttribute self);
 TS_CAPI uint32_t TS_CCALL tsMeshAttribute_getStride(TSMeshAttribute self);
 TS_CAPI size_t TS_CCALL tsMeshAttribute_getBytes(TSMeshAttribute self);
@@ -3163,7 +3188,7 @@ TS_CAPI bool_t TS_CCALL tsMeshAttribute_setTransform_cM43(TSMeshAttribute self, 
 TS_CAPI bool_t TS_CCALL tsMeshAttribute_morphAttribute(TSMeshAttribute self, const TSMeshAttribute attribute, float32_t k);
 TS_CAPI bool_t TS_CCALL tsMeshAttribute_packAttributes(TSMeshAttribute self, const TSMeshAttribute attribute_0, const TSMeshAttribute attribute_1, TS_Format format);
 TS_CAPI bool_t TS_CCALL tsMeshAttribute_unpackAttributes(TSMeshAttribute self, TSMeshAttribute attribute_0, TSMeshAttribute attribute_1);
-TS_CAPI TSMeshAttribute TS_CCALL tsMeshAttribute_optimizeAttribute(TSMeshAttribute self, TSMeshIndices indices);
+TS_CAPI TSMeshAttribute TS_CCALL tsMeshAttribute_optimizeAttribute(TSMeshAttribute self, TSMeshIndices indices, float32_t threshold);
 TS_CAPI TSMeshAttribute TS_CCALL tsMeshAttribute_toDirect(TSMeshAttribute self, const TSMeshIndices indices);
 TS_CAPI TSMeshAttribute TS_CCALL tsMeshAttribute_toFormat(TSMeshAttribute self, TS_Format format);
 TS_CAPI TSMeshAttribute TS_CCALL tsMeshAttribute_toType(TSMeshAttribute self, TS_MeshAttributeType type);
@@ -8335,6 +8360,9 @@ TS_CAPI TSPipeline TS_CCALL tsControlText_getPipeline(TSControlText self);
 TS_CAPI void TS_CCALL tsControlText_setColor_cC(TSControlText self, const TSColor *color);
 TS_CAPI void TS_CCALL tsControlText_setColor_ffff(TSControlText self, float32_t r, float32_t g, float32_t b, float32_t a);
 TS_CAPI TSColor TS_CCALL tsControlText_getColor(TSControlText self);
+TS_CAPI void TS_CCALL tsControlText_setStateColor_CScC(TSControlText self, TS_ControlState state, const TSColor *color);
+TS_CAPI void TS_CCALL tsControlText_setStateColor_CSffff(TSControlText self, TS_ControlState state, float32_t r, float32_t g, float32_t b, float32_t a);
+TS_CAPI uint32_t TS_CCALL tsControlText_getStateColor(TSControlText self, TS_ControlState state);
 TS_CAPI void TS_CCALL tsControlText_setFilter(TSControlText self, TS_SamplerFilter filter);
 TS_CAPI TS_SamplerFilter TS_CCALL tsControlText_getFilter(TSControlText self);
 TS_CAPI void TS_CCALL tsControlText_setAnisotropy(TSControlText self, uint32_t anisotropy);
@@ -8403,6 +8431,9 @@ TS_CAPI float32_t TS_CCALL tsControlRect_getRadius(TSControlRect self);
 TS_CAPI void TS_CCALL tsControlRect_setColor_cC(TSControlRect self, const TSColor *color);
 TS_CAPI void TS_CCALL tsControlRect_setColor_ffff(TSControlRect self, float32_t r, float32_t g, float32_t b, float32_t a);
 TS_CAPI TSColor TS_CCALL tsControlRect_getColor(TSControlRect self);
+TS_CAPI void TS_CCALL tsControlRect_setStateColor_CScC(TSControlRect self, TS_ControlState state, const TSColor *color);
+TS_CAPI void TS_CCALL tsControlRect_setStateColor_CSffff(TSControlRect self, TS_ControlState state, float32_t r, float32_t g, float32_t b, float32_t a);
+TS_CAPI uint32_t TS_CCALL tsControlRect_getStateColor(TSControlRect self, TS_ControlState state);
 TS_CAPI void TS_CCALL tsControlRect_setStrokeStyle(TSControlRect self, const TSStrokeStyle *style);
 TS_CAPI TSStrokeStyle TS_CCALL tsControlRect_getStrokeStyleConst(TSControlRect self);
 TS_CAPI TSStrokeStyle TS_CCALL tsControlRect_getStrokeStyle_c(TSControlRect self);
@@ -9489,8 +9520,8 @@ TS_CAPI uint32_t TS_CCALL tsCubeFilter_getGroupSize(TSCubeFilter self);
 TS_CAPI uint32_t TS_CCALL tsCubeFilter_getMaxOrder(TSCubeFilter self);
 TS_CAPI uint32_t TS_CCALL tsCubeFilter_getMaxSize(TSCubeFilter self);
 TS_CAPI uint32_t TS_CCALL tsCubeFilter_getHarmonics(TSCubeFilter self);
-TS_CAPI bool_t TS_CCALL tsCubeFilter_create_cDCFMuuu(TSCubeFilter self, const TSDevice device, TS_CubeFilterMode mode, uint32_t order, uint32_t size, uint32_t groups);
-TS_CAPI bool_t TS_CCALL tsCubeFilter_create_cDCFFuuu(TSCubeFilter self, const TSDevice device, TS_CubeFilterFlags flags, uint32_t order, uint32_t size, uint32_t groups);
+TS_CAPI bool_t TS_CCALL tsCubeFilter_create_cDCFMuuu(TSCubeFilter self, const TSDevice device, TS_CubeFilterMode mode, uint32_t order, uint32_t size, uint32_t threads);
+TS_CAPI bool_t TS_CCALL tsCubeFilter_create_cDCFFuuu(TSCubeFilter self, const TSDevice device, TS_CubeFilterFlags flags, uint32_t order, uint32_t size, uint32_t threads);
 TS_CAPI bool_t TS_CCALL tsCubeFilter_dispatch_cCBuTcS(TSCubeFilter self, TSCompute compute, TSBuffer buffer, uint32_t offset, TSTexture texture, const TSSlice *slice);
 TS_CAPI bool_t TS_CCALL tsCubeFilter_dispatch_cCBuT(TSCubeFilter self, TSCompute compute, TSBuffer buffer, uint32_t offset, TSTexture texture);
 TS_CAPI bool_t TS_CCALL tsCubeFilter_dispatch_cCTcSBu(TSCubeFilter self, TSCompute compute, TSTexture texture, const TSSlice *slice, TSBuffer buffer, uint32_t offset);
@@ -9705,8 +9736,8 @@ TS_CAPI uint32_t TS_CCALL tsPrefixScan_getGroupSize(TSPrefixScan self);
 TS_CAPI uint32_t TS_CCALL tsPrefixScan_getScanElements(TSPrefixScan self);
 TS_CAPI uint32_t TS_CCALL tsPrefixScan_getMaxElements(TSPrefixScan self);
 TS_CAPI uint32_t TS_CCALL tsPrefixScan_getMaxRegions(TSPrefixScan self);
-TS_CAPI bool_t TS_CCALL tsPrefixScan_create_cDPSMuuA(TSPrefixScan self, const TSDevice device, TS_PrefixScanMode mode, uint32_t groups, uint32_t regions, TSAsync *async);
-TS_CAPI bool_t TS_CCALL tsPrefixScan_create_cDPSFuuA(TSPrefixScan self, const TSDevice device, TS_PrefixScanFlags flags, uint32_t groups, uint32_t regions, TSAsync *async);
+TS_CAPI bool_t TS_CCALL tsPrefixScan_create_cDPSMuuA(TSPrefixScan self, const TSDevice device, TS_PrefixScanMode mode, uint32_t threads, uint32_t regions, TSAsync *async);
+TS_CAPI bool_t TS_CCALL tsPrefixScan_create_cDPSFuuA(TSPrefixScan self, const TSDevice device, TS_PrefixScanFlags flags, uint32_t threads, uint32_t regions, TSAsync *async);
 TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatch_CBuuu(TSPrefixScan self, TSCompute compute, TSBuffer data, uint32_t offset, uint32_t size, uint32_t stride);
 TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatch_CBuupupPSFu(TSPrefixScan self, TSCompute compute, TSBuffer data, uint32_t count, const uint32_t *offsets, const uint32_t *sizes, TS_PrefixScanFlags flags, uint32_t stride);
 TS_CAPI bool_t TS_CCALL tsPrefixScan_dispatchIndirect_CBBuPSFuu(TSPrefixScan self, TSCompute compute, TSBuffer data, TSBuffer dispatch, uint32_t offset, TS_PrefixScanFlags flags, uint32_t max_size, uint32_t stride);
@@ -9738,8 +9769,8 @@ TS_CAPI uint32_t TS_CCALL tsRadixSort_getMaxElements(TSRadixSort self);
 TS_CAPI uint32_t TS_CCALL tsRadixSort_getMaxRegions(TSRadixSort self);
 TS_CAPI TSPrefixScan TS_CCALL tsRadixSort_getPrefixScan(TSRadixSort self);
 TS_CAPI TSBuffer TS_CCALL tsRadixSort_getDataBuffer(TSRadixSort self);
-TS_CAPI bool_t TS_CCALL tsRadixSort_create_cDRSMPSuuuA(TSRadixSort self, const TSDevice device, TS_RadixSortMode mode, TSPrefixScan scan, uint32_t size, uint32_t groups, uint32_t regions, TSAsync *async);
-TS_CAPI bool_t TS_CCALL tsRadixSort_create_cDRSFPSuuuA(TSRadixSort self, const TSDevice device, TS_RadixSortFlags flags, TSPrefixScan scan, uint32_t size, uint32_t groups, uint32_t regions, TSAsync *async);
+TS_CAPI bool_t TS_CCALL tsRadixSort_create_cDRSMPSuuuA(TSRadixSort self, const TSDevice device, TS_RadixSortMode mode, TSPrefixScan scan, uint32_t size, uint32_t threads, uint32_t regions, TSAsync *async);
+TS_CAPI bool_t TS_CCALL tsRadixSort_create_cDRSFPSuuuA(TSRadixSort self, const TSDevice device, TS_RadixSortFlags flags, TSPrefixScan scan, uint32_t size, uint32_t threads, uint32_t regions, TSAsync *async);
 TS_CAPI bool_t TS_CCALL tsRadixSort_dispatch_CBuuuRSFu(TSRadixSort self, TSCompute compute, TSBuffer data, uint32_t keys_offset, uint32_t data_offset, uint32_t size, TS_RadixSortFlags flags, uint32_t bits);
 TS_CAPI bool_t TS_CCALL tsRadixSort_dispatch_CBuupupupRSFu(TSRadixSort self, TSCompute compute, TSBuffer data, uint32_t count, const uint32_t *keys_offsets, const uint32_t *data_offsets, const uint32_t *sizes, TS_RadixSortFlags flags, uint32_t bits);
 TS_CAPI bool_t TS_CCALL tsRadixSort_dispatchIndirect_CBBuRSFuu(TSRadixSort self, TSCompute compute, TSBuffer data, TSBuffer dispatch, uint32_t offset, TS_RadixSortFlags flags, uint32_t bits, uint32_t max_size);
@@ -9767,8 +9798,8 @@ TS_CAPI uint32_t TS_CCALL tsBitonicSort_getDataSize(TSBitonicSort self);
 TS_CAPI uint32_t TS_CCALL tsBitonicSort_getGroupSize(TSBitonicSort self);
 TS_CAPI uint32_t TS_CCALL tsBitonicSort_getSortElements(TSBitonicSort self);
 TS_CAPI uint32_t TS_CCALL tsBitonicSort_getMaxRegions(TSBitonicSort self);
-TS_CAPI bool_t TS_CCALL tsBitonicSort_create_cDBSMuuuA(TSBitonicSort self, const TSDevice device, TS_BitonicSortMode mode, uint32_t size, uint32_t groups, uint32_t regions, TSAsync *async);
-TS_CAPI bool_t TS_CCALL tsBitonicSort_create_cDBSFuuuA(TSBitonicSort self, const TSDevice device, TS_BitonicSortFlags flags, uint32_t size, uint32_t groups, uint32_t regions, TSAsync *async);
+TS_CAPI bool_t TS_CCALL tsBitonicSort_create_cDBSMuuuA(TSBitonicSort self, const TSDevice device, TS_BitonicSortMode mode, uint32_t size, uint32_t threads, uint32_t regions, TSAsync *async);
+TS_CAPI bool_t TS_CCALL tsBitonicSort_create_cDBSFuuuA(TSBitonicSort self, const TSDevice device, TS_BitonicSortFlags flags, uint32_t size, uint32_t threads, uint32_t regions, TSAsync *async);
 TS_CAPI bool_t TS_CCALL tsBitonicSort_dispatch_CBuuuBSF(TSBitonicSort self, TSCompute compute, TSBuffer data, uint32_t keys_offset, uint32_t data_offset, uint32_t size, TS_BitonicSortFlags flags);
 TS_CAPI bool_t TS_CCALL tsBitonicSort_dispatch_CBuupupupBSF(TSBitonicSort self, TSCompute compute, TSBuffer data, uint32_t count, const uint32_t *keys_offsets, const uint32_t *data_offsets, const uint32_t *sizes, TS_BitonicSortFlags flags);
 TS_CAPI bool_t TS_CCALL tsBitonicSort_dispatchIndirect_CBBuBSF(TSBitonicSort self, TSCompute compute, TSBuffer data, TSBuffer dispatch, uint32_t offset, TS_BitonicSortFlags flags);
@@ -9794,7 +9825,7 @@ TS_CAPI void TS_CCALL tsSpatialGrid_clear(TSSpatialGrid self);
 TS_CAPI bool_t TS_CCALL tsSpatialGrid_isCreated(TSSpatialGrid self);
 TS_CAPI uint32_t TS_CCALL tsSpatialGrid_getGroupSize(TSSpatialGrid self);
 TS_CAPI TSRadixSort TS_CCALL tsSpatialGrid_getRadixSort(TSSpatialGrid self);
-TS_CAPI bool_t TS_CCALL tsSpatialGrid_create(TSSpatialGrid self, const TSDevice device, TSRadixSort sort, uint32_t groups);
+TS_CAPI bool_t TS_CCALL tsSpatialGrid_create(TSSpatialGrid self, const TSDevice device, TSRadixSort sort, uint32_t threads);
 TS_CAPI bool_t TS_CCALL tsSpatialGrid_dispatch(TSSpatialGrid self, TSCompute compute, TSBuffer data, uint32_t offset, uint32_t size, uint32_t bits);
 TS_CAPI bool_t TS_CCALL tsSpatialGrid_dispatchIndirect(TSSpatialGrid self, TSCompute compute, TSBuffer data, TSBuffer dispatch, uint32_t offset, uint32_t max_size);
 
@@ -9823,8 +9854,8 @@ TS_CAPI TSRadixSort TS_CCALL tsSpatialTree_getRadixSort(TSSpatialTree self);
 TS_CAPI TSBuffer TS_CCALL tsSpatialTree_getHashBuffer(TSSpatialTree self);
 TS_CAPI TSBuffer TS_CCALL tsSpatialTree_getParentsBuffer(TSSpatialTree self);
 TS_CAPI TSBuffer TS_CCALL tsSpatialTree_getCounterBuffer(TSSpatialTree self);
-TS_CAPI bool_t TS_CCALL tsSpatialTree_create_cDSTMRSuuuA(TSSpatialTree self, const TSDevice device, TS_SpatialTreeMode mode, TSRadixSort sort, uint32_t size, uint32_t groups, uint32_t regions, TSAsync *async);
-TS_CAPI bool_t TS_CCALL tsSpatialTree_create_cDSTFRSuuuA(TSSpatialTree self, const TSDevice device, TS_SpatialTreeFlags flags, TSRadixSort sort, uint32_t size, uint32_t groups, uint32_t regions, TSAsync *async);
+TS_CAPI bool_t TS_CCALL tsSpatialTree_create_cDSTMRSuuuA(TSSpatialTree self, const TSDevice device, TS_SpatialTreeMode mode, TSRadixSort sort, uint32_t size, uint32_t threads, uint32_t regions, TSAsync *async);
+TS_CAPI bool_t TS_CCALL tsSpatialTree_create_cDSTFRSuuuA(TSSpatialTree self, const TSDevice device, TS_SpatialTreeFlags flags, TSRadixSort sort, uint32_t size, uint32_t threads, uint32_t regions, TSAsync *async);
 TS_CAPI bool_t TS_CCALL tsSpatialTree_dispatch_CSTHBuuSTF(TSSpatialTree self, TSCompute compute, TS_SpatialTreeHash hash, TSBuffer nodes, uint32_t offset, uint32_t size, TS_SpatialTreeFlags flags);
 TS_CAPI bool_t TS_CCALL tsSpatialTree_dispatch_CSTHBuupupSTF(TSSpatialTree self, TSCompute compute, TS_SpatialTreeHash hash, TSBuffer nodes, uint32_t count, const uint32_t *offsets, const uint32_t *sizes, TS_SpatialTreeFlags flags);
 TS_CAPI bool_t TS_CCALL tsSpatialTree_dispatchIndirect_CSTHBBuuSTF(TSSpatialTree self, TSCompute compute, TS_SpatialTreeHash hash, TSBuffer nodes, TSBuffer dispatch, uint32_t offset, uint32_t max_size, TS_SpatialTreeFlags flags);
@@ -10103,6 +10134,13 @@ TS_CAPI int32_t TS_CCALL tsSystem_exec_cSbb(const TSString command, bool_t wait,
 TS_CAPI bool_t TS_CCALL tsSystem_open_s(const char *command);
 TS_CAPI bool_t TS_CCALL tsSystem_open_cS(const TSString command);
 
+/// Tellusim::MeshBoolean
+TS_CAPI bool_t TS_CCALL tsMeshBoolean_intersect_MGcMGcMGMBO(TSMeshGeometry dest, const TSMeshGeometry src_0, const TSMeshGeometry src_1, TS_MeshBooleanOperation op);
+TS_CAPI bool_t TS_CCALL tsMeshBoolean_intersect_MGMGcMGcMGMBO(TSMeshGeometry dest_0, TSMeshGeometry dest_1, const TSMeshGeometry src_0, const TSMeshGeometry src_1, TS_MeshBooleanOperation op);
+
+/// Tellusim::MeshFracture
+TS_CAPI bool_t TS_CCALL tsMeshFracture_split_McMcV3ucV2fffA(TSMesh dest, const TSMesh src, const TSVector3f *points, uint32_t num_points, const TSVector2f *texcoord, float32_t threshold, float32_t collapse, float32_t volume, TSAsync *async);
+
 /// Tellusim::MeshGraph
 typedef bool_t (*TSMeshGraphProgressCallback)(uint32_t progress, void *data_);
 TS_CAPI bool_t TS_CCALL tsMeshGraph_create_MMuucMGPCA(TSMesh dest, TSMesh src, uint32_t max_attributes, uint32_t max_primitives, const TSMeshGraphProgressCallback func, TSAsync *async, void *data_);
@@ -10120,6 +10158,10 @@ TS_CAPI bool_t TS_CCALL tsMeshRefine_subdiv_MGcMGufu(TSMeshGeometry dest, const 
 typedef bool_t (*TSMeshSolidProgressCallback)(uint32_t progress, void *data_);
 TS_CAPI bool_t TS_CCALL tsMeshSolid_create_McMffcMSPC(TSMesh dest, const TSMesh src, float32_t ratio, float32_t threshold, const TSMeshSolidProgressCallback func, void *data_);
 TS_CAPI bool_t TS_CCALL tsMeshSolid_create_MGcMGffcMSPCu(TSMeshGeometry dest, const TSMeshGeometry src, float32_t ratio, float32_t threshold, const TSMeshSolidProgressCallback func, uint32_t position, void *data_);
+
+/// Tellusim::MeshSplit
+TS_CAPI bool_t TS_CCALL tsMeshSplit_split_MMMcMcM43(TSMesh front, TSMesh cross, TSMesh back, const TSMesh src, const TSMatrix4x3f *basis);
+TS_CAPI bool_t TS_CCALL tsMeshSplit_split_MGMGMGcMGcM43u(TSMeshGeometry front, TSMeshGeometry cross, TSMeshGeometry back, const TSMeshGeometry src, const TSMatrix4x3f *basis, uint32_t position);
 
 #ifdef __cplusplus
 }

@@ -111,13 +111,20 @@ int32_t main(int32_t argc, char **argv) {
 	DECLARE_PRINT_UINT(maxTextureLayers);
 	DECLARE_PRINT_UINT(maxTextureSamples);
 	
+	DECLARE_PRINT_UINT(maxGroupSize);
 	DECLARE_PRINT_UXYZ(maxGroupSize);
 	DECLARE_PRINT_UXYZ(maxGroupCount);
 	
+	DECLARE_PRINT_UINT(maxTaskSize);
+	DECLARE_PRINT_UXYZ(maxTaskSize);
 	DECLARE_PRINT_UINT(maxTaskCount);
+	DECLARE_PRINT_UXYZ(maxTaskCount);
 	DECLARE_PRINT_SIZE(maxTaskMemory);
-	DECLARE_PRINT_UINT(maxTaskMeshes);
 	
+	DECLARE_PRINT_UINT(maxMeshSize);
+	DECLARE_PRINT_UXYZ(maxMeshSize);
+	DECLARE_PRINT_UINT(maxMeshCount);
+	DECLARE_PRINT_UXYZ(maxMeshCount);
 	DECLARE_PRINT_SIZE(maxMeshMemory);
 	DECLARE_PRINT_UINT(maxMeshVertices);
 	DECLARE_PRINT_UINT(maxMeshPrimitives);

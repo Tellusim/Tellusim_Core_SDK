@@ -21,7 +21,7 @@ namespace Tellusim {
 			virtual ~ControlFlowMath();
 			
 			/// create flow
-			virtual bool create(Control *controls_root = nullptr, Control *tooltip_root = nullptr);
+			virtual bool create(Control *controls_root = nullptr, Control *base_root = nullptr);
 			
 			/// flow colors
 			TS_INLINE const Color &getToolColor() const { return tool_color; }
@@ -51,6 +51,7 @@ namespace Tellusim {
 			TS_INLINE uint32_t getMatrix4x3fType() const { return matrix4x3f_type; }
 			TS_INLINE uint32_t getQuaternionfType() const { return quaternionf_type; }
 			TS_INLINE uint32_t getColorType() const { return color_type; }
+			TS_INLINE uint32_t getStringType() const { return string_type; }
 			
 			/// flow value
 			class Value;
@@ -110,18 +111,23 @@ namespace Tellusim {
 					explicit Value(const Matrix4x3f &value);
 					explicit Value(const Quaternionf &value);
 					explicit Value(const Color &value);
+					explicit Value(const String &value);
 					template <class Type> explicit Value(Type *value) : ptr(value) {
 						type = Type::getClassNamePtr();
 						hash = String::hashu32(Type::getClassNamePtr());
 						constructor = [](void *ptr) -> void* { return new Type(*(Type*)ptr); };
 						destructor = [](void *ptr) { delete (Type*)ptr; };
+						make_array_constructor<Type>();
 					}
 					template <class Type> explicit Value(const Type &value) : Value(new Type(value)) { }
-					template <class Type> explicit Value(Array<Type> *values) : is_array(true), ptr(values) {
+					template <class Type> explicit Value(Array<Type> *values) : ptr(values) {
 						type = Type::getClassNamePtr();
 						hash = String::hashu32(Type::getClassNamePtr());
 						constructor = [](void *ptr) -> void* { return new Array<Type>(*(Array<Type>*)ptr); };
 						destructor = [](void *ptr) { delete (Array<Type>*)ptr; };
+						array_element = [](void *ptr, uint32_t index) { return new Value(((Array<Type>*)ptr)->get(index)); };
+						array_size = [](void *ptr) { return ((Array<Type>*)ptr)->size(); };
+						make_array_constructor<Type>();
 					}
 					template <class Type> explicit Value(Array<Type> &value) : Value(new Array<Type>(value)) { }
 					Value(const Value &value);
@@ -140,7 +146,7 @@ namespace Tellusim {
 					TS_INLINE uint32_t getHash() const { return hash; }
 					
 					TS_INLINE bool isPointer() const { return (constructor != nullptr); }
-					TS_INLINE bool isArray() const { return is_array; }
+					TS_INLINE bool isArray() const { return (array_size != nullptr); }
 					
 					TS_INLINE uint32_t getSizei() const { return sizei; }
 					TS_INLINE uint32_t getSizef() const { return sizef; }
@@ -162,8 +168,9 @@ namespace Tellusim {
 					Matrix4x3f getMatrix4x3f() const;
 					Quaternionf getQuaternionf() const;
 					Color getColor() const;
+					String getString() const;
 					
-					// pointer
+					/// pointer
 					template <class Type> Type &ref() {
 						TS_ASSERT(Type::getClassNamePtr() == type && isPointer() && !isArray() && "ControlFlowMath::Value::ref(): invalid type");
 						TS_ASSERT(ptr != nullptr && "ControlFlowMath::Value::ref(): pointer is null");
@@ -174,7 +181,7 @@ namespace Tellusim {
 						return (Type*)ptr;
 					}
 					
-					// array of pointers
+					/// array of pointers
 					template <class Type> Array<Type> &refArray() {
 						TS_ASSERT(Type::getClassNamePtr() == type && isPointer() && isArray() && "ControlFlowMath::Value::refArray(): invalid type");
 						TS_ASSERT(ptr != nullptr && "ControlFlowMath::Value::ref(): pointer is null");
@@ -184,38 +191,66 @@ namespace Tellusim {
 						TS_ASSERT(Type::getClassNamePtr() == type && isPointer() && isArray() && "ControlFlowMath::Value::getArray(): invalid type");
 						return (Array<Type>*)ptr;
 					}
+					Value *getArrayElement(uint32_t index) const {
+						TS_ASSERT(isPointer() && isArray() && array_element && "ControlFlowMath::Value::getArrayElement(): invalid type");
+						return array_element(ptr, index);
+					}
+					uint32_t getArraySize() const {
+						TS_ASSERT(isPointer() && isArray() && array_size && "ControlFlowMath::Value::getArraySize(): invalid type");
+						return array_size(ptr);
+					}
 					
 					static Value *mul(const Value &v0, const Value &v1);
 					
-					static constexpr uint32_t booleanHash = String::hashu32("bool");
-					static constexpr uint32_t scalariHash = String::hashu32("int32_t");
-					static constexpr uint32_t scalarfHash = String::hashu32("float32_t");
-					static constexpr uint32_t vector2iHash = String::hashu32("Vector2i");
-					static constexpr uint32_t vector2fHash = String::hashu32("Vector2f");
-					static constexpr uint32_t vector3iHash = String::hashu32("Vector3i");
-					static constexpr uint32_t vector3fHash = String::hashu32("Vector3f");
-					static constexpr uint32_t vector4iHash = String::hashu32("Vector4i");
-					static constexpr uint32_t vector4fHash = String::hashu32("Vector4f");
-					static constexpr uint32_t matrix3x2fHash = String::hashu32("Matrix3x2f");
-					static constexpr uint32_t matrix4x3fHash = String::hashu32("Matrix4x3f");
-					static constexpr uint32_t quaternionfHash = String::hashu32("Quaternionf");
-					static constexpr uint32_t colorHash = String::hashu32("Color");
+					static constexpr uint32_t HashBoolean = String::hashu32("bool");
+					static constexpr uint32_t HashScalari = String::hashu32("int32_t");
+					static constexpr uint32_t HashScalarf = String::hashu32("float32_t");
+					static constexpr uint32_t HashVector2i = String::hashu32("Vector2i");
+					static constexpr uint32_t HashVector2f = String::hashu32("Vector2f");
+					static constexpr uint32_t HashVector3i = String::hashu32("Vector3i");
+					static constexpr uint32_t HashVector3f = String::hashu32("Vector3f");
+					static constexpr uint32_t HashVector4i = String::hashu32("Vector4i");
+					static constexpr uint32_t HashVector4f = String::hashu32("Vector4f");
+					static constexpr uint32_t HashMatrix3x2f = String::hashu32("Matrix3x2f");
+					static constexpr uint32_t HashMatrix4x3f = String::hashu32("Matrix4x3f");
+					static constexpr uint32_t HashQuaternionf = String::hashu32("Quaternionf");
+					static constexpr uint32_t HashColor = String::hashu32("Color");
+					static constexpr uint32_t HashString = String::hashu32("String");
 					
 				private:
 					
-					const char *type = nullptr;					// type name
-					uint32_t hash = Maxu32;						// type hash
+					template <class Type> void make_array_constructor() {
+						array_constructor = [](Array<Value*> &v) {
+							Array<Type> *values = new Array<Type>(v.size());
+							for(uint32_t i = 0; i < v.size(); i++) {
+								values->get(i) = v[i]->ref<Type>();
+							}
+							return new Value(values);
+						};
+					}
 					
-					using Constructor = void*(void*);			// pointer copy constructor
+					friend class ControlFlowMath;
+					
+					const char *type = nullptr;							// type name
+					uint32_t hash = Maxu32;								// type hash
+					
+					using Constructor = void*(void*);					// pointer copy constructor
 					Constructor *constructor = nullptr;
 					
-					using Destructor = void(void*);				// pointer destructor
+					using Destructor = void(void*);						// pointer destructor
 					Destructor *destructor = nullptr;
 					
-					bool is_array = false;						// array type flag
+					using ArrayConstructor = Value*(Array<Value*>&);	// pointer array constructor
+					ArrayConstructor *array_constructor = nullptr;
 					
-					uint8_t sizei = 0;							// size of integer array
-					uint8_t sizef = 0;							// size of floating-point array
+					using ArrayElement = Value*(void*, uint32_t);		// returns array element
+					ArrayElement *array_element = nullptr;
+					
+					using ArraySize = uint32_t(void*);					// returns array size
+					ArraySize *array_size = nullptr;
+					
+					uint8_t sizei = 0;									// size of integer array
+					uint8_t sizef = 0;									// size of floating-point array
 					
 					union {
 						bool boolean;
@@ -320,13 +355,15 @@ namespace Tellusim {
 			
 			uint32_t color_type = Maxu32;				// color type
 			
+			uint32_t string_type = Maxu32;				// string type
+			
 			ColorCreateCallback color_create_func;		// color create callback
 			HandleCreateCallback handle_create_func;	// handle create callback
 			HandleUpdateCallback handle_update_func;	// handle update callback
 			HandleRemoveCallback handle_remove_func;	// handle remove callback
 			
-			Color math_color = Color(1.0f, 1.0f, 1.0f, 0.75f);
-			Color tool_color = Color(0.3f, 0.6f, 1.0f, 0.75f);
+			Color math_color = Color(0.9f, 0.9f, 0.9f, 0.75f);
+			Color tool_color = Color(0.4f, 0.5f, 0.9f, 0.75f);
 	};
 }
 

@@ -53,6 +53,12 @@ public class ControlRect extends Control {
 	public void setColor(Color color) { set_color(self, color.self); }
 	public void setColor(float r, float g, float b, float a) { set_color_1(self, r, g, b, a); }
 	public Color getColor() { return new Color(get_color(self)); }
+	public void setStateColor(State state, Color color) { set_state_color(self, state.value, color.self); }
+	public void setStateColor(State.Enum state, Color color) { set_state_color(self, state.value, color.self); }
+	public void setStateColor(State state, float r, float g, float b, float a) { set_state_color_1(self, state.value, r, g, b, a); }
+	public void setStateColor(State.Enum state, float r, float g, float b, float a) { set_state_color_1(self, state.value, r, g, b, a); }
+	public int getStateColor(State state) { return get_state_color(self, state.value); }
+	public int getStateColor(State.Enum state) { return get_state_color(self, state.value); }
 	public void setStrokeStyle(StrokeStyle style) { set_stroke_style(self, style.self); }
 	public StrokeStyle getStrokeStyleConst() { return new StrokeStyle(get_stroke_style_const(self)); }
 	public StrokeStyle getStrokeStyle() { return new StrokeStyle(get_stroke_style(self)); }
@@ -129,6 +135,9 @@ public class ControlRect extends Control {
 	private static native void set_color(long self, long color);
 	private static native void set_color_1(long self, float r, float g, float b, float a);
 	private static native long get_color(long self);
+	private static native void set_state_color(long self, int state, long color);
+	private static native void set_state_color_1(long self, int state, float r, float g, float b, float a);
+	private static native int get_state_color(long self, int state);
 	private static native void set_stroke_style(long self, long style);
 	private static native long get_stroke_style_const(long self);
 	private static native long get_stroke_style(long self);

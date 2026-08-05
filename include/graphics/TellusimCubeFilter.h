@@ -58,9 +58,9 @@ namespace Tellusim {
 			/// create filter
 			/// \param order Maximum filter order (2, 3, 5).
 			/// \param size Maximum filter size.
-			/// \param groups Reduction group size.
-			bool create(const Device &device, Mode mode, uint32_t order = 3, uint32_t size = 1024, uint32_t groups = 256);
-			bool create(const Device &device, Flags flags, uint32_t order = 3, uint32_t size = 1024, uint32_t groups = 256);
+			/// \param threads Reduction group size.
+			bool create(const Device &device, Mode mode, uint32_t order = 3, uint32_t size = 1024, uint32_t threads = 256);
+			bool create(const Device &device, Flags flags, uint32_t order = 3, uint32_t size = 1024, uint32_t threads = 256);
 			
 			/// dispatch cube filter
 			/// \param buffer Destination coefficients buffer.
