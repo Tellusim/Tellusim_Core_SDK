@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{e6ee1655-0304-0358-0031-86814774f87f}</ProjectGuid>
+		<ProjectGuid>{e9b8ff54-0022-75e8-4695-71a272428887}</ProjectGuid>
 		<ProjectName>socket</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

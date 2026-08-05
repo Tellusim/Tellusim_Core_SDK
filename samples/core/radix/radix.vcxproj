@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{8d373236-27a8-4dcf-9f3e-5216fa00e045}</ProjectGuid>
+		<ProjectGuid>{31dbc578-311a-94e8-21c8-553cf95943db}</ProjectGuid>
 		<ProjectName>radix</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

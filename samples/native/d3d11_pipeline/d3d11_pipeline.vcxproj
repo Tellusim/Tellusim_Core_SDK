@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{8a4ff6f3-5844-2684-2feb-e09312d9b8f6}</ProjectGuid>
+		<ProjectGuid>{71ba8aec-8dcd-bd11-15a4-d0d843469565}</ProjectGuid>
 		<ProjectName>d3d11_pipeline</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

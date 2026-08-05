@@ -19,13 +19,18 @@ POSTFIX = $(POSTFIX)d
 CFLAGS = $(CFLAGS) -I$(TSROOT)\include
 CFLAGS = $(CFLAGS) -I$(TSROOT)\samples
 LDFLAGS = $(LDFLAGS) -L$(TSROOT)\source
-LDFLAGS = $(LDFLAGS) -L$(TSROOT)\lib\windows\$(VSVERSION)$(ARCH)
+LDFLAGS = $(LDFLAGS) -L$(TSROOT)\lib\windows\vs$(VSVERSION)$(ARCH)
 LDFLAGS = $(LDFLAGS) $(TSROOT)\source\Tellusim_$(ARCH)$(POSTFIX).lib
 
 #
 # HIP configuration
 #
 CFLAGS = $(CFLAGS) -Wno-ignored-attributes -Wno-undefined-var-template
+
+#
+# HIP targets (gfx1030,gfx1100,gfx1101,gfx1102,gfx1200)
+#
+CFLAGS = $(CFLAGS) --offload-arch=native
 
 #
 # Main target

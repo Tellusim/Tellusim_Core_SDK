@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{1bf17a6e-ada1-1c07-7b2e-f23d32d17dd5}</ProjectGuid>
+		<ProjectGuid>{e4613aab-2152-eb88-9466-248c0ac9828d}</ProjectGuid>
 		<ProjectName>vk_swap_chain</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

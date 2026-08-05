@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{fb283c27-e821-d731-902c-5a2aca616b3f}</ProjectGuid>
+		<ProjectGuid>{571c8965-b033-8191-88be-e6bb8cbb6910}</ProjectGuid>
 		<ProjectName>citygml</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

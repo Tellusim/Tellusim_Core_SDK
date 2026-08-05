@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{6be9d8dd-5cb5-e62a-a36c-7e996f213e58}</ProjectGuid>
+		<ProjectGuid>{d9e99af7-8608-f102-abd7-26a16c80df4f}</ProjectGuid>
 		<ProjectName>sparse</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

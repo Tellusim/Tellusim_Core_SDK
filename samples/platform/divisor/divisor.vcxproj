@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{631e92b4-4981-a8bf-59d8-9f509e93184f}</ProjectGuid>
+		<ProjectGuid>{4914e87f-8849-c356-0030-78f90a21b65c}</ProjectGuid>
 		<ProjectName>divisor</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

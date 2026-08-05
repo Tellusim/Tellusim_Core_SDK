@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{4b97e205-1c9b-7de1-32f1-ee86dcc2f6d1}</ProjectGuid>
+		<ProjectGuid>{eea25823-425a-4aa5-2b18-94358d8a7900}</ProjectGuid>
 		<ProjectName>tessellation</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{d074a32a-f181-f9fa-44d0-0fb189923894}</ProjectGuid>
+		<ProjectGuid>{aa652b12-1bd8-466b-f6cb-336fc9e817a9}</ProjectGuid>
 		<ProjectName>tensor_mnist</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

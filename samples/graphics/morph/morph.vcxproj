@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{7668e7d8-81c5-8a9e-45c3-08777e1fabf7}</ProjectGuid>
+		<ProjectGuid>{20ee2b2f-769b-74b3-f9f7-5ad25570ad9b}</ProjectGuid>
 		<ProjectName>morph</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

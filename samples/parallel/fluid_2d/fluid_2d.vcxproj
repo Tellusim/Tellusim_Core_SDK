@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{d703952a-f3ad-b5a3-ab86-7fd8e55ea551}</ProjectGuid>
+		<ProjectGuid>{a2d328b7-cae4-e90b-3a87-cb1984102d3a}</ProjectGuid>
 		<ProjectName>fluid_2d</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

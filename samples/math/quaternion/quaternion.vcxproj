@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{5595afdd-28eb-16b1-cd5f-3a99f185da51}</ProjectGuid>
+		<ProjectGuid>{a251845f-6ffb-0aec-51d8-1d920b5c9db2}</ProjectGuid>
 		<ProjectName>quaternion</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

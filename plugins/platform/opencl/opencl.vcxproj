@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{0595c25c-5ddc-f447-f6ba-4d70d36c78bf}</ProjectGuid>
+		<ProjectGuid>{f61d0124-ce96-3db7-2cce-06df8b6522ff}</ProjectGuid>
 		<ProjectName>opencl</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

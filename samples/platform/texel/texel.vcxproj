@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{7285af3a-5197-e987-b33f-3ffd9b422c48}</ProjectGuid>
+		<ProjectGuid>{6205fb16-ad96-be04-43e9-65b2cc0f7c1b}</ProjectGuid>
 		<ProjectName>texel</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

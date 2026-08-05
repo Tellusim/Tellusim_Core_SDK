@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{d8926e73-26c5-6811-ab36-e57eba8ec07c}</ProjectGuid>
+		<ProjectGuid>{5245276a-34a1-ce48-cc72-44a983c10347}</ProjectGuid>
 		<ProjectName>flow</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

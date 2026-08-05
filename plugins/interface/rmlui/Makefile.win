@@ -1,0 +1,13 @@
+#FLAGS = -DRMLUI_PATH="./"
+
+SRCS = main.cpp \
+	source/TellusimRmlUi.cpp
+
+CFLAGS = $(CFLAGS) /std:c++17
+
+LIB = $(LIB);extern\lib\windows\$(ARCH)
+
+include ..\..\Makefile.win.mk
+
+blob:
+	@ts_blob -src source/TellusimRmlUi.shader

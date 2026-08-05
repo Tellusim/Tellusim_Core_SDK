@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{2eb41bfb-7c81-e7ce-573d-2710e9e6a842}</ProjectGuid>
+		<ProjectGuid>{41c2edfb-67c2-11fa-d16b-d0a3bc62f72c}</ProjectGuid>
 		<ProjectName>vulkan</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

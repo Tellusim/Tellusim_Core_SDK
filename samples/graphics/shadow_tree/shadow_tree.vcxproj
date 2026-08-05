@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{d05a33f3-e853-8b0a-0e1b-e65a3443f554}</ProjectGuid>
+		<ProjectGuid>{322becd9-0323-06e8-6621-ef8657a8ef00}</ProjectGuid>
 		<ProjectName>shadow_tree</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

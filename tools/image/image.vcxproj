@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{290fbc7d-698c-1a1e-776c-343fda690be7}</ProjectGuid>
+		<ProjectGuid>{4b6b59e0-758f-909d-169f-d71a218b343a}</ProjectGuid>
 		<ProjectName>image</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

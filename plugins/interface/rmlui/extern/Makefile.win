@@ -1,0 +1,17 @@
+TARGET = rmlui.lib
+
+PREFIX = RmlUi.git
+
+SRC = $(PREFIX)\Source\Core
+
+SRCS = \
+	$(SRC)\*.cpp \
+	$(SRC)\Elements\*.cpp \
+	$(SRC)\FontEngineDefault\*.cpp \
+	$(SRC)\Layout\*.cpp
+
+CFLAGS = /std:c++17 /I$(PREFIX) /DRMLUI_STATIC_LIB=1 /DRMLUI_NO_THIRDPARTY_CONTAINERS=1 /DRMLUI_MATRIX_ROW_MAJOR=1 /DRMLUI_FONT_ENGINE_FREETYPE=1
+
+CFLAGS = $(CFLAGS) /I$(CLAYROOT)\extern\include
+
+include ..\..\..\build\Makefile.win.mk

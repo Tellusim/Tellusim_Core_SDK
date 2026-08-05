@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{76bb9610-2cd9-4f2a-2dfb-c9dd7a6f3b0c}</ProjectGuid>
+		<ProjectGuid>{b16f5a0c-ca49-c77e-ed1b-8299d9ea59e5}</ProjectGuid>
 		<ProjectName>vk_glfw_window</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

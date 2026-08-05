@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{5b102a07-ba5e-c482-d6ae-df94e3a78504}</ProjectGuid>
+		<ProjectGuid>{4045b2a3-e330-fceb-dc42-794052075ff3}</ProjectGuid>
 		<ProjectName>preprocessor</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

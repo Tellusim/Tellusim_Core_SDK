@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{21f916b3-09db-8368-e880-6144a950b4c1}</ProjectGuid>
+		<ProjectGuid>{d3f935b7-1435-a8da-d253-6ae8987fde52}</ProjectGuid>
 		<ProjectName>texture</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

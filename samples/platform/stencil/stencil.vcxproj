@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{b6436ab1-a162-d8dd-8265-ae7b5f155c28}</ProjectGuid>
+		<ProjectGuid>{f732a1d7-c857-59ed-fade-70722d993c76}</ProjectGuid>
 		<ProjectName>stencil</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

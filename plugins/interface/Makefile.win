@@ -14,4 +14,8 @@ PLUGINS = \
 	svg \
 	tooltip
 
+!if "$(VSVERSION)" == "170"
+PLUGINS = $(PLUGINS) rmlui
+!endif
+
 include ..\Makefile.win

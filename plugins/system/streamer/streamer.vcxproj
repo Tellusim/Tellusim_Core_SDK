@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{7d208fbb-0210-2e0c-60e8-e95ddf0d74c4}</ProjectGuid>
+		<ProjectGuid>{ae88325d-313c-6b9e-f46d-d9e403f6d539}</ProjectGuid>
 		<ProjectName>streamer</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

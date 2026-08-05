@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{c8253650-022a-7b4f-6283-c35dadf471c7}</ProjectGuid>
+		<ProjectGuid>{542bec3d-a023-fc63-448c-450a68dd6fda}</ProjectGuid>
 		<ProjectName>draco</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

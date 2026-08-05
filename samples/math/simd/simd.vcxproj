@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{20a91524-c121-0a3d-1504-581ffa859aaa}</ProjectGuid>
+		<ProjectGuid>{a0332a88-b715-c126-3f85-8953bfde7f83}</ProjectGuid>
 		<ProjectName>simd</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

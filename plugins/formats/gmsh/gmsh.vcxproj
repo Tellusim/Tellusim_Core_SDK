@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{56f2e495-621a-2336-6691-ce96edd11238}</ProjectGuid>
+		<ProjectGuid>{cb06d5c0-f047-f31b-dff6-94bb34e8a01c}</ProjectGuid>
 		<ProjectName>gmsh</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{b4a8847e-0ef2-d588-c5d5-1b856d0965d7}</ProjectGuid>
+		<ProjectGuid>{7dbd9e04-0c0a-2809-8893-400235d6945f}</ProjectGuid>
 		<ProjectName>bindless</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

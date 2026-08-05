@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{df7bccd5-f070-52d3-32a6-aada3f3824da}</ProjectGuid>
+		<ProjectGuid>{ff304f67-6069-3c81-3041-d44574608472}</ProjectGuid>
 		<ProjectName>precision</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{262efb2c-c95b-f5f5-41a8-27c9c9640ddd}</ProjectGuid>
+		<ProjectGuid>{b511cb42-7e55-2865-b3ab-de2211e889a4}</ProjectGuid>
 		<ProjectName>async</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

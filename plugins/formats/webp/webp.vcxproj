@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{fb0161dd-12a2-8991-0a2b-845b36898b9a}</ProjectGuid>
+		<ProjectGuid>{78e9edf9-f7e6-be43-17b5-cfbaaa966ae3}</ProjectGuid>
 		<ProjectName>webp</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

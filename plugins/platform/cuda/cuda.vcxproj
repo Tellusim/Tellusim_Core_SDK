@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{f57e6399-b1ca-8a17-8bf5-ad238d9618c5}</ProjectGuid>
+		<ProjectGuid>{1938539d-31c4-3a21-096a-048a6527ca20}</ProjectGuid>
 		<ProjectName>cuda</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

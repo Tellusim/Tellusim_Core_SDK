@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{037f9b13-8362-bfe9-cb59-3fd8d15b82cf}</ProjectGuid>
+		<ProjectGuid>{f114442f-4e16-d462-540b-65e967209cb9}</ProjectGuid>
 		<ProjectName>tangent</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{83930b8f-5629-1afe-d820-95e9986d50ba}</ProjectGuid>
+		<ProjectGuid>{888260e6-1d9d-21df-8ab1-f9542d228473}</ProjectGuid>
 		<ProjectName>vk_sdl_window</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

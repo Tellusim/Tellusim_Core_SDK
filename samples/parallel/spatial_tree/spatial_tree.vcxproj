@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{57043381-5214-49cf-c055-f28ee45acc6e}</ProjectGuid>
+		<ProjectGuid>{a35d89b2-d306-0a91-59e9-9c6e47ed7cfc}</ProjectGuid>
 		<ProjectName>spatial_tree</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

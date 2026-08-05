@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{3f472e6e-96ff-3caa-ca4d-3f9f39241fda}</ProjectGuid>
+		<ProjectGuid>{7a3ec675-7bb4-b3e3-0bfd-9545ab1b0c4e}</ProjectGuid>
 		<ProjectName>slider</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

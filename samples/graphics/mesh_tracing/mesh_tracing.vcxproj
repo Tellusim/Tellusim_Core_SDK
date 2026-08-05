@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{5304c517-761f-714b-f560-db45d11588f8}</ProjectGuid>
+		<ProjectGuid>{d49e7177-f6e5-811a-51bc-f592cc07bd2b}</ProjectGuid>
 		<ProjectName>mesh_tracing</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

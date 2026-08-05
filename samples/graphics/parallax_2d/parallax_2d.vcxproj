@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{848ce264-15e2-af1a-6094-849aef77f177}</ProjectGuid>
+		<ProjectGuid>{74f1e9b6-83b7-8512-7ce9-df7089227dcd}</ProjectGuid>
 		<ProjectName>parallax_2d</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
