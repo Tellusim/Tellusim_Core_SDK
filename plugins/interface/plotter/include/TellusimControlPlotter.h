@@ -72,6 +72,10 @@ namespace Tellusim {
 			virtual void update_rectangle(ControlRoot &root, int32_t &order, uint32_t scale);
 			virtual bool update(ControlRoot &root, const Rect &region, const Rect &view, uint32_t scale);
 			
+			enum {
+				MaxValues = 1024,
+			};
+			
 			const Device &device;					// device
 			
 			Color plotter_color = Color::black;		// plotter color

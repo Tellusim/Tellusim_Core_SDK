@@ -607,7 +607,7 @@ int32_t main(int32_t argc, char **argv) {
 				command.setUniform(0, common_parameters);
 				command.setStorageData(0, transforms.get(), transforms.bytes());
 				command.setStorageBuffers(1, { mesh_vertex_buffer, mesh_meshlet_buffer });
-				uint32_t max_meshlets = device.getFeatures().maxTaskMeshes;
+				uint32_t max_meshlets = min(device.getFeatures().maxTaskCount, device.getFeatures().maxTaskCountX);
 				for(uint32_t i = 0; i < num_meshlets; i += max_meshlets) {
 					uint32_t size = min(num_meshlets - i, max_meshlets);
 					command.setUniform(1, Vector2u(size, i));

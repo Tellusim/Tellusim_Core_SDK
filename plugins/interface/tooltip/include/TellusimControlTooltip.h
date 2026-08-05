@@ -59,6 +59,7 @@ namespace Tellusim {
 			
 			/// update control
 			virtual void update_enabled(bool enabled);
+			virtual void update_style(const FontStyle &style);
 			virtual bool update(ControlRoot &root, const Rect &region, const Rect &view, uint32_t scale);
 			
 			float32_t offset = 32.0f;					// tooltip offset

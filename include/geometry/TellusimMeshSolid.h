@@ -4,7 +4,6 @@
 #ifndef __TELLUSIM_GEOMETRY_MESH_SOLID_H__
 #define __TELLUSIM_GEOMETRY_MESH_SOLID_H__
 
-#include <core/TellusimArray.h>
 #include <core/TellusimFunction.h>
 
 /*

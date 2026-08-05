@@ -24,6 +24,8 @@ namespace Tellusim {
 	 */
 	void ControlTooltip::create() {
 		
+		ControlRoot root = getRoot();
+		
 		// create canvas mesh
 		Canvas canvas = getCanvas();
 		canvas_rect = CanvasRect(canvas);
@@ -41,8 +43,10 @@ namespace Tellusim {
 		canvas_mesh.addIndices(2, 3, 0);
 		
 		// default parameters
-		setRadius(12.0f);
+		update_style(root.getFontStyle());
 		setColor(Color(0.2f, 0.3f, 0.4f, 0.9f));
+		
+		// lower control
 		getParent().lowerChild(*this);
 		
 		ControlBase::create();
@@ -105,6 +109,11 @@ namespace Tellusim {
 		canvas_text.setEnabled(enabled);
 		canvas_mesh.setEnabled(enabled);
 		ControlBase::update_enabled(enabled);
+	}
+	
+	void ControlTooltip::update_style(const FontStyle &style) {
+		uint32_t font_size = style.size + 4;
+		setRadius(floor(font_size * 0.5f));
 	}
 	
 	bool ControlTooltip::update(ControlRoot &root, const Rect &region, const Rect &view, uint32_t scale) {

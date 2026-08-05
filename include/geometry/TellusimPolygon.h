@@ -16,6 +16,36 @@ namespace Tellusim {
 	 */
 	template <uint32_t Capacity = 256> struct Polygon final {
 		
+		/// point inside polygon
+		template <class Type>
+		static bool inside(const Vector2<Type> *vertices, uint32_t num_vertices, const Vector2<Type> &p) {
+			
+			TS_ASSERT(num_vertices >= 3 && "Polygon::inside(): invalid vertices");
+			
+			bool inside = false;
+			for(uint32_t i = 0, j = num_vertices - 1; i < num_vertices; j = i++) {
+				const Vector2<Type> &p0 = vertices[j];
+				const Vector2<Type> &p1 = vertices[i];
+				if((p.y > p0.y) != (p.y > p1.y) && (cross(p - p0, p1 - p0) < 0.0f) == (p0.y < p1.y)) inside = !inside;
+			}
+			return inside;
+		}
+		
+		/// point inside indexed polygon
+		template <class Type, class Index>
+		static bool inside(const Vector2<Type> *vertices, const Index *indices, uint32_t num_vertices, const Vector2<Type> &p) {
+			
+			TS_ASSERT(num_vertices >= 3 && "Polygon::inside(): invalid vertices");
+			
+			bool inside = false;
+			for(uint32_t i = 0, j = num_vertices - 1; i < num_vertices; j = i++) {
+				const Vector2<Type> &p0 = vertices[indices[j]];
+				const Vector2<Type> &p1 = vertices[indices[i]];
+				if((p.y > p0.y) != (p.y > p1.y) && (cross(p - p0, p1 - p0) < 0.0f) == (p0.y < p1.y)) inside = !inside;
+			}
+			return inside;
+		}
+		
 		/// 3D polygon normal
 		template <class Type>
 		static Vector3<Type> normal(const Vector3<Type> *vertices, uint32_t num_vertices) {
@@ -204,19 +234,21 @@ namespace Tellusim {
 				angles[next[i]] = Triangle::angle(v0, v2, vertices[next[next[i]]]);
 				
 				/// next triangle
-				if(area < 0.0f) {
-					indices[0] = (Index)next[i];
-					indices[1] = (Index)i;
-					indices[2] = (Index)prev[i];
-				} else {
-					indices[0] = (Index)prev[i];
-					indices[1] = (Index)i;
-					indices[2] = (Index)next[i];
+				if(next[i] != i && prev[i] != i && next[i] != prev[i]) {
+					if(area < 0.0f) {
+						indices[0] = (Index)next[i];
+						indices[1] = (Index)i;
+						indices[2] = (Index)prev[i];
+					} else {
+						indices[0] = (Index)prev[i];
+						indices[1] = (Index)i;
+						indices[2] = (Index)next[i];
+					}
+					num_indices += 3;
+					indices += 3;
 				}
 				next[prev[i]] = next[i];
 				prev[next[i]] = prev[i];
-				num_indices += 3;
-				indices += 3;
 			}
 			
 			return num_indices;

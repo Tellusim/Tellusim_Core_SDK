@@ -24,6 +24,7 @@
 #include <platform/TellusimPipeline.h>
 #include <platform/TellusimSampler.h>
 #include <platform/TellusimTexture.h>
+
 #include "../extern/imgui/imgui.h"
 
 /*
@@ -37,15 +38,19 @@ namespace Tellusim {
 	
 	/*
 	 */
-	class TS_ImGui {
+	class TSImGui {
 			
 		public:
 			
-			explicit TS_ImGui(Window &window);
-			~TS_ImGui();
+			TSImGui();
+			explicit TSImGui(Window &window);
+			virtual ~TSImGui();
 			
 			/// clear ImGui
 			void clear();
+			
+			/// ImGui status
+			TS_INLINE bool isInitialized() const { return initialized; }
 			
 			/// initialize ImGui
 			bool init(Window &window);
@@ -55,6 +60,10 @@ namespace Tellusim {
 			
 			/// render frame
 			void render(Command &command);
+			
+			/// ImGui callbacks
+			void setEnabled(bool enable);
+			TS_INLINE bool isEnabled() const { return is_enabled; }
 			
 		private:
 			
@@ -73,9 +82,11 @@ namespace Tellusim {
 			Sampler sampler;
 			Texture texture;
 			
-			bool flipped = false;
 			float64_t time = 0.0;
 			float32_t scale = 1.0f;
+			bool is_flipped = false;
+			
+			bool is_enabled = true;
 			
 			Window::MousePressedCallback mouse_pressed;
 			Window::MouseReleasedCallback mouse_released;
