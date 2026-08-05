@@ -64,7 +64,7 @@ public class SpatialGrid {
 	public int getGroupSize() { return get_group_size(self); }
 	public RadixSort getRadixSort() { return new RadixSort(get_radix_sort(self)); }
 	public boolean create(Device device, RadixSort sort) { return create_(self, device.self, sort.self, 256); }
-	public boolean create(Device device, RadixSort sort, int groups) { return create_(self, device.self, sort.self, groups); }
+	public boolean create(Device device, RadixSort sort, int threads) { return create_(self, device.self, sort.self, threads); }
 	public boolean dispatch(Compute compute, Buffer data, int offset, int size) { return dispatch_(self, compute.self, data.self, offset, size, 32); }
 	public boolean dispatch(Compute compute, Buffer data, int offset, int size, int bits) { return dispatch_(self, compute.self, data.self, offset, size, bits); }
 	public boolean dispatchIndirect(Compute compute, Buffer data, Buffer dispatch, int offset) { return dispatch_indirect(self, compute.self, data.self, dispatch.self, offset, Base.Maxu32); }
@@ -87,7 +87,7 @@ public class SpatialGrid {
 	private static native boolean is_created(long self);
 	private static native int get_group_size(long self);
 	private static native long get_radix_sort(long self);
-	private static native boolean create_(long self, long device, long sort, int groups);
+	private static native boolean create_(long self, long device, long sort, int threads);
 	private static native boolean dispatch_(long self, long compute, long data, int offset, int size, int bits);
 	private static native boolean dispatch_indirect(long self, long compute, long data, long dispatch, int offset, int max_size);
 	

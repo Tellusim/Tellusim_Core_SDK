@@ -19,14 +19,13 @@ namespace Tellusim {
 	}
 	
 	ControlPlotter::~ControlPlotter() {
-		
+		clear();
 	}
 	
 	/*
 	 */
 	void ControlPlotter::clear() {
 		Canvas canvas = getCanvas();
-		canvas_rect = CanvasRect(canvas);
 		canvas.removeElement(canvas_rect);
 		canvas_rect.clearPtr();
 		ControlBase::clear();
@@ -67,7 +66,7 @@ namespace Tellusim {
 		pipeline.addAttribute(Pipeline::AttributeTexCoord, FormatRGBAf32, 0, offsetof(CanvasShapeVertex, parameters), sizeof(CanvasShapeVertex));
 		pipeline.addAttribute(Pipeline::AttributeTexCoord, FormatRGf32, 0, offsetof(CanvasShapeVertex, texcoord), sizeof(CanvasShapeVertex));
 		if(!pipeline.createShaderGLSL(Shader::TypeVertex, src.get(), "VERTEX_SHADER=1")) return false;
-		if(!pipeline.createShaderGLSL(Shader::TypeFragment, src.get(), "FRAGMENT_SHADER=1")) return false;
+		if(!pipeline.createShaderGLSL(Shader::TypeFragment, src.get(), "FRAGMENT_SHADER=1; MAX_VALUES=%uu", MaxValues)) return false;
 		if(!pipeline.create()) {
 			TS_LOG(Error, "ControlPlotter::create_pipeline(): can't create plotter pipeline\n");
 			return false;
@@ -99,6 +98,8 @@ namespace Tellusim {
 	/*
 	 */
 	void ControlPlotter::setMaxValues(uint32_t num) {
+		num = min(num, (uint32_t)MaxValues);
+		values.reserve(MaxValues);
 		values.resize(num, 0.0f);
 		num_values = 0;
 	}
@@ -184,7 +185,7 @@ namespace Tellusim {
 				parameters.max_values = getMaxValues();
 				parameters.num_values = getNumValues();
 				command.setUniform(3, parameters);
-				command.setUniformData(4, values.get(), values.bytes());
+				command.setUniformData(4, values.get(), sizeof(float32_t) * MaxValues);
 				return true;
 			});
 		}

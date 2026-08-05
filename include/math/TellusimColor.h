@@ -39,6 +39,7 @@ namespace Tellusim {
 		Color(float32_t l, float32_t a) : r(l), g(l), b(l), a(a) { }
 		Color(const Color &c, float32_t a) : r(c.r), g(c.g), b(c.b), a(a) { }
 		explicit Color(const float32_t *c, uint32_t size = Size) { set(c, size); }
+		Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255) { setRGBAu8(r, g, b, a); }
 		Color(uint32_t r, uint32_t g, uint32_t b, uint32_t a = 255) { setRGBAu8(r, g, b, a); }
 		Color(float32_t r, float32_t g, float32_t b, float32_t a = 1.0f) : r(r), g(g), b(b), a(a) { }
 		

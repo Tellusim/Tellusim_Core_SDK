@@ -23,10 +23,10 @@ namespace Tellusim {
 	
 	/*
 	 */
-	bool ControlFlowMath::create(Control *controls_root, Control *tooltip_root) {
+	bool ControlFlowMath::create(Control *controls_root, Control *base_root) {
 		
 		// create flow
-		if(getParent() && !ControlFlow::create(controls_root, tooltip_root)) {
+		if(getParent() && !ControlFlow::create(controls_root, base_root)) {
 			TS_LOG(Error, "ControlFlowMath::create(): can't create ControlFlow\n");
 			return false;
 		}
@@ -81,17 +81,19 @@ namespace Tellusim {
 	void ControlFlowMath::create_types() {
 		
 		float32_t bool_width = 1.5f;
-		float32_t bool_color = 0.8f;
+		float32_t bool_color = 0.7f;
 		float32_t scalar_width = 2.0f;
-		float32_t scalar_color = 0.8f;
+		float32_t scalar_color = 0.7f;
 		float32_t vector_width = 2.0f;
-		float32_t vector_color = 0.8f;
+		float32_t vector_color = 0.7f;
 		float32_t matrix_width = 3.0f;
-		float32_t matrix_color = 0.8f;
+		float32_t matrix_color = 0.7f;
 		float32_t quaternion_width = 3.0f;
-		float32_t quaternion_color = 0.8f;
+		float32_t quaternion_color = 0.7f;
 		float32_t color_width = 2.0f;
 		float32_t color_color = 1.0f;
+		float32_t string_width = 2.0f;
+		float32_t string_color = 1.0f;
 		
 		// any types
 		any_int_type = addType("int", Color(scalar_color, 1.0f), ShapePentagon);
@@ -144,6 +146,10 @@ namespace Tellusim {
 		color_type = addType("Color", Color(color_color, color_color, 0.0f, 1.0f), ShapeSquare);
 		setTypeConnectionWidth(color_type, color_width);
 		
+		// string type
+		string_type = addType("String", Color(string_color, 0.0f, 0.0f, 1.0f), ShapeArrow);
+		setTypeConnectionWidth(string_type, string_width);
+		
 		// any type masks
 		TypeMask any_scalar_mask = TypeMask(bool_type) | TypeMask(int32_type) | TypeMask(float32_type);
 		TypeMask any_vector2_mask = TypeMask(vector2i_type) | TypeMask(vector2f_type);
@@ -179,15 +185,15 @@ namespace Tellusim {
 	/*
 	 */
 	static ControlFlowMath::Value *control_flow_math_neg(const ControlFlowMath::Value &v) {
-		if(v.getHash() == ControlFlowMath::Value::scalariHash) return new ControlFlowMath::Value(-v.getScalari32());
-		if(v.getHash() == ControlFlowMath::Value::scalarfHash) return new ControlFlowMath::Value(-v.getScalarf32());
-		if(v.getHash() == ControlFlowMath::Value::vector2iHash) return new ControlFlowMath::Value(-v.getVector2i());
-		if(v.getHash() == ControlFlowMath::Value::vector2fHash) return new ControlFlowMath::Value(-v.getVector2f());
-		if(v.getHash() == ControlFlowMath::Value::vector3iHash) return new ControlFlowMath::Value(-v.getVector3i());
-		if(v.getHash() == ControlFlowMath::Value::vector3fHash) return new ControlFlowMath::Value(-v.getVector3f());
-		if(v.getHash() == ControlFlowMath::Value::vector4iHash) return new ControlFlowMath::Value(-v.getVector4i());
-		if(v.getHash() == ControlFlowMath::Value::vector4fHash) return new ControlFlowMath::Value(-v.getVector4f());
-		if(v.getHash() == ControlFlowMath::Value::quaternionfHash) return new ControlFlowMath::Value(-v.getQuaternionf());
+		if(v.getHash() == ControlFlowMath::Value::HashScalari) return new ControlFlowMath::Value(-v.getScalari32());
+		if(v.getHash() == ControlFlowMath::Value::HashScalarf) return new ControlFlowMath::Value(-v.getScalarf32());
+		if(v.getHash() == ControlFlowMath::Value::HashVector2i) return new ControlFlowMath::Value(-v.getVector2i());
+		if(v.getHash() == ControlFlowMath::Value::HashVector2f) return new ControlFlowMath::Value(-v.getVector2f());
+		if(v.getHash() == ControlFlowMath::Value::HashVector3i) return new ControlFlowMath::Value(-v.getVector3i());
+		if(v.getHash() == ControlFlowMath::Value::HashVector3f) return new ControlFlowMath::Value(-v.getVector3f());
+		if(v.getHash() == ControlFlowMath::Value::HashVector4i) return new ControlFlowMath::Value(-v.getVector4i());
+		if(v.getHash() == ControlFlowMath::Value::HashVector4f) return new ControlFlowMath::Value(-v.getVector4f());
+		if(v.getHash() == ControlFlowMath::Value::HashQuaternionf) return new ControlFlowMath::Value(-v.getQuaternionf());
 		Parser::error("control_flow_math_neg(): invalid type \"%s\"\n", v.getType());
 		return nullptr;
 	}
@@ -243,9 +249,9 @@ namespace Tellusim {
 	/*
 	 */
 	static ControlFlowMath::Value *control_flow_math_normalize(const ControlFlowMath::Value &v) {
-		if(v.getHash() == ControlFlowMath::Value::vector2fHash) return new ControlFlowMath::Value(normalize(v.getVector2f()));
-		if(v.getHash() == ControlFlowMath::Value::vector3fHash) return new ControlFlowMath::Value(normalize(v.getVector3f()));
-		if(v.getHash() == ControlFlowMath::Value::vector4fHash) return new ControlFlowMath::Value(normalize(v.getVector4f()));
+		if(v.getHash() == ControlFlowMath::Value::HashVector2f) return new ControlFlowMath::Value(normalize(v.getVector2f()));
+		if(v.getHash() == ControlFlowMath::Value::HashVector3f) return new ControlFlowMath::Value(normalize(v.getVector3f()));
+		if(v.getHash() == ControlFlowMath::Value::HashVector4f) return new ControlFlowMath::Value(normalize(v.getVector4f()));
 		Parser::error("control_flow_math_normalize(): invalid type \"%s\"\n", v.getType());
 		return nullptr;
 	}
@@ -253,16 +259,16 @@ namespace Tellusim {
 	/*
 	 */
 	static ControlFlowMath::Value *control_flow_math_inverse(const ControlFlowMath::Value &v) {
-		if(v.getHash() == ControlFlowMath::Value::matrix3x2fHash) return new ControlFlowMath::Value(inverse(v.getMatrix3x2f()));
-		if(v.getHash() == ControlFlowMath::Value::matrix4x3fHash) return new ControlFlowMath::Value(inverse(v.getMatrix4x3f()));
-		if(v.getHash() == ControlFlowMath::Value::quaternionfHash) return new ControlFlowMath::Value(inverse(v.getQuaternionf()));
+		if(v.getHash() == ControlFlowMath::Value::HashMatrix3x2f) return new ControlFlowMath::Value(inverse(v.getMatrix3x2f()));
+		if(v.getHash() == ControlFlowMath::Value::HashMatrix4x3f) return new ControlFlowMath::Value(inverse(v.getMatrix4x3f()));
+		if(v.getHash() == ControlFlowMath::Value::HashQuaternionf) return new ControlFlowMath::Value(inverse(v.getQuaternionf()));
 		Parser::error("control_flow_math_inverse(): invalid type \"%s\"\n", v.getType());
 		return nullptr;
 	}
 	
 	static ControlFlowMath::Value *control_flow_math_transpose(const ControlFlowMath::Value &v) {
-		if(v.getHash() == ControlFlowMath::Value::matrix3x2fHash) return new ControlFlowMath::Value(transpose(v.getMatrix3x2f()));
-		if(v.getHash() == ControlFlowMath::Value::matrix4x3fHash) return new ControlFlowMath::Value(transpose(v.getMatrix4x3f()));
+		if(v.getHash() == ControlFlowMath::Value::HashMatrix3x2f) return new ControlFlowMath::Value(transpose(v.getMatrix3x2f()));
+		if(v.getHash() == ControlFlowMath::Value::HashMatrix4x3f) return new ControlFlowMath::Value(transpose(v.getMatrix4x3f()));
 		Parser::error("control_flow_math_transpose(): invalid type \"%s\"\n", v.getType());
 		return nullptr;
 	}
@@ -278,8 +284,8 @@ namespace Tellusim {
 			if(size == 1) return new ControlFlowMath::Value(v0.getScalarf32() OP v1.getScalarf32()); \
 			if(size == 2) return new ControlFlowMath::Value(v0.getVector2f() OP v1.getVector2f()); \
 			if(size == 3) return new ControlFlowMath::Value(v0.getVector3f() OP v1.getVector3f()); \
-			if(size == 4 && (v0.getHash() == ControlFlowMath::Value::colorHash || v1.getHash() == ControlFlowMath::Value::colorHash)) return new ControlFlowMath::Value(v0.getColor() OP v1.getColor()); \
-			if(size == 4 && (v0.getHash() == ControlFlowMath::Value::vector4fHash || v1.getHash() == ControlFlowMath::Value::vector4fHash)) return new ControlFlowMath::Value(v0.getVector4f() OP v1.getVector4f()); \
+			if(size == 4 && (v0.getHash() == ControlFlowMath::Value::HashColor || v1.getHash() == ControlFlowMath::Value::HashColor)) return new ControlFlowMath::Value(v0.getColor() OP v1.getColor()); \
+			if(size == 4 && (v0.getHash() == ControlFlowMath::Value::HashVector4f || v1.getHash() == ControlFlowMath::Value::HashVector4f)) return new ControlFlowMath::Value(v0.getVector4f() OP v1.getVector4f()); \
 		} \
 		if(sizei) { \
 			if(size == 1) return new ControlFlowMath::Value(v0.getScalari32() OP v1.getScalari32()); \
@@ -306,8 +312,8 @@ namespace Tellusim {
 			if(size == 1) return new ControlFlowMath::Value(NAME(v0.getScalarf32(), v1.getScalarf32())); \
 			if(size == 2) return new ControlFlowMath::Value(NAME(v0.getVector2f(), v1.getVector2f())); \
 			if(size == 3) return new ControlFlowMath::Value(NAME(v0.getVector3f(), v1.getVector3f())); \
-			if(size == 4 && (v0.getHash() == ControlFlowMath::Value::colorHash || v1.getHash() == ControlFlowMath::Value::colorHash)) return new ControlFlowMath::Value(NAME(v0.getColor(), v1.getColor())); \
-			if(size == 4 && (v0.getHash() == ControlFlowMath::Value::vector4fHash || v1.getHash() == ControlFlowMath::Value::vector4fHash)) return new ControlFlowMath::Value(NAME(v0.getVector4f(), v1.getVector4f())); \
+			if(size == 4 && (v0.getHash() == ControlFlowMath::Value::HashColor || v1.getHash() == ControlFlowMath::Value::HashColor)) return new ControlFlowMath::Value(NAME(v0.getColor(), v1.getColor())); \
+			if(size == 4 && (v0.getHash() == ControlFlowMath::Value::HashVector4f || v1.getHash() == ControlFlowMath::Value::HashVector4f)) return new ControlFlowMath::Value(NAME(v0.getVector4f(), v1.getVector4f())); \
 		} \
 		if(sizei) { \
 			if(size == 1) return new ControlFlowMath::Value(NAME(v0.getScalari32(), v1.getScalari32())); \
@@ -349,8 +355,8 @@ namespace Tellusim {
 			if(size == 1) return new ControlFlowMath::Value(NAME(v0.getScalarf32(), v1.getScalarf32(), v2.getScalarf32())); \
 			if(size == 2) return new ControlFlowMath::Value(NAME(v0.getVector2f(), v1.getVector2f(), v2.getVector2f())); \
 			if(size == 3) return new ControlFlowMath::Value(NAME(v0.getVector3f(), v1.getVector3f(), v2.getVector3f())); \
-			if(size == 4 && (v0.getHash() == ControlFlowMath::Value::colorHash || v1.getHash() == ControlFlowMath::Value::colorHash || v2.getHash() == ControlFlowMath::Value::colorHash)) return new ControlFlowMath::Value(NAME(v0.getColor(), v1.getColor(), v2.getColor())); \
-			if(size == 4 && (v0.getHash() == ControlFlowMath::Value::vector4fHash || v1.getHash() == ControlFlowMath::Value::vector4fHash || v2.getHash() == ControlFlowMath::Value::vector4fHash)) return new ControlFlowMath::Value(NAME(v0.getVector4f(), v1.getVector4f(), v2.getVector4f())); \
+			if(size == 4 && (v0.getHash() == ControlFlowMath::Value::HashColor || v1.getHash() == ControlFlowMath::Value::HashColor || v2.getHash() == ControlFlowMath::Value::HashColor)) return new ControlFlowMath::Value(NAME(v0.getColor(), v1.getColor(), v2.getColor())); \
+			if(size == 4 && (v0.getHash() == ControlFlowMath::Value::HashVector4f || v1.getHash() == ControlFlowMath::Value::HashVector4f || v2.getHash() == ControlFlowMath::Value::HashVector4f)) return new ControlFlowMath::Value(NAME(v0.getVector4f(), v1.getVector4f(), v2.getVector4f())); \
 		} \
 		Parser::error("control_flow_math_" #NAME "(): invalid types \"%s\" \"%s\" \"%s\"\n", v0.getType(), v1.getType(), v2.getType()); \
 		return nullptr; \
@@ -597,8 +603,8 @@ namespace Tellusim {
 		Matrix4x3f ret = Matrix4x3f::identity;
 		if(args[0]) ret = args[0]->getMatrix4x3f();
 		if(args[1]) ret = ret * Matrix4x3f::translate(args[1]->getVector3f());
-		if(args[2] && args[2]->getHash() == ControlFlowMath::Value::quaternionfHash) ret = ret * Matrix4x3f(args[2]->getQuaternionf());
-		else if(args[2] && args[2]->getHash() == ControlFlowMath::Value::vector3fHash) ret = ret * Matrix4x3f(Quaternionf::rotateZYX(args[2]->getVector3f()));
+		if(args[2] && args[2]->getHash() == ControlFlowMath::Value::HashQuaternionf) ret = ret * Matrix4x3f(args[2]->getQuaternionf());
+		else if(args[2] && args[2]->getHash() == ControlFlowMath::Value::HashVector3f) ret = ret * Matrix4x3f(Quaternionf::rotateZYX(args[2]->getVector3f()));
 		if(args[3]) ret = ret * Matrix4x3f::scale(args[3]->getVector3f());
 		if(args[4]) ret.row_0 = args[4]->getVector4f();
 		if(args[5]) ret.row_1 = args[5]->getVector4f();
@@ -766,7 +772,7 @@ namespace Tellusim {
 					const String &state = getOutputValue(node, "v2");
 					if(state && state.scanf("Vector2f(%g, %g)", &value.x, &value.y) != 2) {
 						if(state.scanf("Vector2f(%g)", &value.x) == 1 || state.scanf("%g", &value.x) == 1) value.y = value.x;
-						else TS_LOGF(Error, "ControlFlowMath::vector2f_callback(): can't parse \"%s\"\n", state.get());
+						else TS_LOGF(Warning, "ControlFlowMath::vector2f_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(value.x);
 					y_slider.setValue(value.y);
@@ -805,7 +811,7 @@ namespace Tellusim {
 					const String &state = getOutputValue(node, "v3");
 					if(state && state.scanf("Vector3f(%g, %g, %g)", &value.x, &value.y, &value.z) != 3) {
 						if(state.scanf("Vector3f(%g)", &value.x) == 1 || state.scanf("%g", &value.x) == 1) value = Vector3f(value.x);
-						else TS_LOGF(Error, "ControlFlowMath::vector3f_callback(): can't parse \"%s\"\n", state.get());
+						else TS_LOGF(Warning, "ControlFlowMath::vector3f_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(value.x);
 					y_slider.setValue(value.y);
@@ -847,7 +853,7 @@ namespace Tellusim {
 					const String &state = getOutputValue(node, "v4");
 					if(state && state.scanf("Vector4f(%g, %g, %g, %g)", &value.x, &value.y, &value.z, &value.w) != 4) {
 						if(state.scanf("Vector4f(%g)", &value.x) == 1 || state.scanf("%g", &value.x) == 1) value = Vector4f(value.x);
-						else TS_LOGF(Error, "ControlFlowMath::vector4f_callback(): can't parse \"%s\"\n", state.get());
+						else TS_LOGF(Warning, "ControlFlowMath::vector4f_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(value.x);
 					y_slider.setValue(value.y);
@@ -889,7 +895,7 @@ namespace Tellusim {
 					const String &state = getOutputValue(node, "v2");
 					if(state && state.scanf("Vector2i(%d, %d)", &value.x, &value.y) != 2) {
 						if(state.scanf("Vector2i(%d)", &value.x) == 1 || state.scanf("%d", &value.x) == 1) value.y = value.x;
-						else TS_LOGF(Error, "ControlFlowMath::vector2i_callback(): can't parse \"%s\"\n", state.get());
+						else TS_LOGF(Warning, "ControlFlowMath::vector2i_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(value.x);
 					y_slider.setValue(value.y);
@@ -928,7 +934,7 @@ namespace Tellusim {
 					const String &state = getOutputValue(node, "v3");
 					if(state && state.scanf("Vector3i(%d, %d, %d)", &value.x, &value.y, &value.z) != 3) {
 						if(state.scanf("Vector3i(%d)", &value.x) == 1 || state.scanf("%d", &value.x) == 1) value = Vector3i(value.x);
-						else TS_LOGF(Error, "ControlFlowMath::vector3i_callback(): can't parse \"%s\"\n", state.get());
+						else TS_LOGF(Warning, "ControlFlowMath::vector3i_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(value.x);
 					y_slider.setValue(value.y);
@@ -970,7 +976,7 @@ namespace Tellusim {
 					const String &state = getOutputValue(node, "v4");
 					if(state && state.scanf("Vector4i(%d, %d, %d, %d)", &value.x, &value.y, &value.z, &value.w) != 4) {
 						if(state.scanf("Vector4i(%d)", &value.x) == 1 || state.scanf("%d", &value.x) == 1) value = Vector4i(value.x);
-						else TS_LOGF(Error, "ControlFlowMath::vector4i_callback(): can't parse \"%s\"\n", state.get());
+						else TS_LOGF(Warning, "ControlFlowMath::vector4i_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(value.x);
 					y_slider.setValue(value.y);
@@ -1160,7 +1166,7 @@ namespace Tellusim {
 					const String &state = getNodeState(node);
 					if(state && state.scanf("t %g %g r %g s %g %g u %u", &translate.x, &translate.y, &rotate, &scale.x, &scale.y, &uniform) != 6 &&
 						state.scanf("t %g %g r %g s %g %g", &translate.x, &translate.y, &rotate, &scale.x, &scale.y) != 5) {
-						TS_LOGF(Error, "ControlFlowMath::matrix3x2f_callback(): can't parse \"%s\"\n", state.get());
+						TS_LOGF(Warning, "ControlFlowMath::matrix3x2f_callback(): can't parse \"%s\"\n", state.get());
 					}
 					controls.rotate_slider.setValue(rotate);
 					controls.scale_sliders[0].setValue(scale.x);
@@ -1183,14 +1189,34 @@ namespace Tellusim {
 		{
 			uint32_t proto = addProto("matrix4x3f", "Matrix4x3f");
 			setProtoColor(proto, tool_color);
+			addProtoOutput(proto, "m43", "", "Matrix4x3f::identity", matrix4x3f_type, true);
 			addProtoOutput(proto, "t", "", "Vector3f::zero", vector3f_type, true);
 			addProtoOutput(proto, "r", "", "Quaternionf::identity", quaternionf_type, true);
-			addProtoOutput(proto, "m43", "", "Matrix4x3f::identity", matrix4x3f_type, true);
 			setProtoOutputAttachCallback(proto, 0, text_output_callback);
 			setProtoOutputAttachCallback(proto, 1, text_output_callback);
 			setProtoOutputAttachCallback(proto, 2, text_output_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
 				struct Controls {
+					void set(const Vector3f &translate, const Vector3f &rotate, const Vector3f &scale) {
+						translate_sliders[0].setValue(translate.x);
+						translate_sliders[1].setValue(translate.y);
+						translate_sliders[2].setValue(translate.z);
+						rotate_sliders[0].setValue(rotate.x);
+						rotate_sliders[1].setValue(rotate.y);
+						rotate_sliders[2].setValue(rotate.z);
+						scale_sliders[0].setValue(scale.x);
+						scale_sliders[1].setValue(scale.y);
+						scale_sliders[2].setValue(scale.z);
+						expand_slider(translate_sliders[0]);
+						expand_slider(translate_sliders[1]);
+						expand_slider(translate_sliders[2]);
+						expand_slider(rotate_sliders[0]);
+						expand_slider(rotate_sliders[1]);
+						expand_slider(rotate_sliders[2]);
+						expand_slider(scale_sliders[0]);
+						expand_slider(scale_sliders[1]);
+						expand_slider(scale_sliders[2]);
+					}
 					ControlSlider translate_sliders[3];
 					ControlSlider rotate_sliders[3];
 					ControlSlider scale_sliders[3];
@@ -1229,10 +1255,10 @@ namespace Tellusim {
 					Quaternionf rotate = Quaternionf::rotateZYX(controls.rotate_sliders[0].getValuef32(), controls.rotate_sliders[1].getValuef32(), controls.rotate_sliders[2].getValuef32());
 					Vector3f scale = Vector3f(controls.scale_sliders[0].getValuef32(), controls.scale_sliders[1].getValuef32(), controls.scale_sliders[2].getValuef32());
 					Matrix4x3f m = Matrix4x3f::compose(translate, rotate, scale);
-					setOutputValue(node, "t", String::format("Vector3f(%g, %g, %g)", translate.x, translate.y, translate.z));
-					setOutputValue(node, "r", String::format("Quaternionf(%g, %g, %g, %g)", rotate.x, rotate.y, rotate.z, rotate.w));
 					setOutputValue(node, "m43", String::format("Matrix4x3f(%g, %g, %g, %g, %g, %g, %g, %g, %g, %g, %g, %g)",
 						m.m00, m.m01, m.m02, m.m03, m.m10, m.m11, m.m12, m.m13, m.m20, m.m21, m.m22, m.m23));
+					setOutputValue(node, "t", String::format("Vector3f(%g, %g, %g)", translate.x, translate.y, translate.z));
+					setOutputValue(node, "r", String::format("Quaternionf(%g, %g, %g, %g)", rotate.x, rotate.y, rotate.z, rotate.w));
 					setNodeState(node, String::format("t %g %g %g r %g %g %g s %g %g %g u %u h %u",
 						controls.translate_sliders[0].getValuef32(), controls.translate_sliders[1].getValuef32(), controls.translate_sliders[2].getValuef32(),
 						controls.rotate_sliders[0].getValuef32(), controls.rotate_sliders[1].getValuef32(), controls.rotate_sliders[2].getValuef32(),
@@ -1250,19 +1276,11 @@ namespace Tellusim {
 									Vector3d scale;
 									m.getComponents(translate, rotate, scale);
 									Vector3d rotate_zyx = rotate.getRotateZYX();
-									controls.translate_sliders[0].setValue(translate.x);
-									controls.translate_sliders[1].setValue(translate.y);
-									controls.translate_sliders[2].setValue(translate.z);
-									controls.rotate_sliders[0].setValue(rotate_zyx.x);
-									controls.rotate_sliders[1].setValue(rotate_zyx.y);
-									controls.rotate_sliders[2].setValue(rotate_zyx.z);
-									controls.scale_sliders[0].setValue(scale.x);
-									controls.scale_sliders[1].setValue(scale.y);
-									controls.scale_sliders[2].setValue(scale.z);
-									setOutputValue(node, "t", String::format("Vector3f(%g, %g, %g)", translate.x, translate.y, translate.z));
-									setOutputValue(node, "r", String::format("Quaternionf(%g, %g, %g, %g)", rotate.x, rotate.y, rotate.z, rotate.w));
+									controls.set(Vector3f(translate), Vector3f(rotate_zyx), Vector3f(scale));
 									setOutputValue(node, "m43", String::format("Matrix4x3f(%g, %g, %g, %g, %g, %g, %g, %g, %g, %g, %g, %g)",
 										m.m00, m.m01, m.m02, m.m03, m.m10, m.m11, m.m12, m.m13, m.m20, m.m21, m.m22, m.m23));
+									setOutputValue(node, "t", String::format("Vector3f(%g, %g, %g)", translate.x, translate.y, translate.z));
+									setOutputValue(node, "r", String::format("Quaternionf(%g, %g, %g, %g)", rotate.x, rotate.y, rotate.z, rotate.w));
 									setNodeState(node, String::format("t %g %g %g r %g %g %g s %g %g %g u %u h %u",
 										translate.x, translate.y, translate.z,
 										rotate_zyx.x, rotate_zyx.y, rotate_zyx.z,
@@ -1307,28 +1325,11 @@ namespace Tellusim {
 					const String &state = getNodeState(node);
 					if(state && state.scanf("t %g %g %g r %g %g %g s %g %g %g u %u h %u", &translate.x, &translate.y, &translate.z, &rotate.x, &rotate.y, &rotate.z, &scale.x, &scale.y, &scale.z, &uniform, &handle) != 11 &&
 						state.scanf("t %g %g %g r %g %g %g s %g %g %g", &translate.x, &translate.y, &translate.z, &rotate.x, &rotate.y, &rotate.z, &scale.x, &scale.y, &scale.z) != 9) {
-						TS_LOGF(Error, "ControlFlowMath::matrix4x3f_callback(): can't parse \"%s\"\n", state.get());
+						TS_LOGF(Warning, "ControlFlowMath::matrix4x3f_callback(): can't parse \"%s\"\n", state.get());
 					}
-					controls.translate_sliders[0].setValue(translate.x);
-					controls.translate_sliders[1].setValue(translate.y);
-					controls.translate_sliders[2].setValue(translate.z);
-					controls.rotate_sliders[0].setValue(rotate.x);
-					controls.rotate_sliders[1].setValue(rotate.y);
-					controls.rotate_sliders[2].setValue(rotate.z);
-					controls.scale_sliders[0].setValue(scale.x);
-					controls.scale_sliders[1].setValue(scale.y);
-					controls.scale_sliders[2].setValue(scale.z);
+					controls.set(translate, rotate, scale);
 					controls.uniform_check.setChecked(uniform);
 					controls.handle_check.setChecked(handle);
-					expand_slider(controls.translate_sliders[0]);
-					expand_slider(controls.translate_sliders[1]);
-					expand_slider(controls.translate_sliders[2]);
-					expand_slider(controls.rotate_sliders[0]);
-					expand_slider(controls.rotate_sliders[1]);
-					expand_slider(controls.rotate_sliders[2]);
-					expand_slider(controls.scale_sliders[0]);
-					expand_slider(controls.scale_sliders[1]);
-					expand_slider(controls.scale_sliders[2]);
 					changed_func.run();
 				}, nullptr, node, controls, changed_func));
 				setNodeRemoveCallback(node, [this](ControlFlow *flow, uint32_t node) {
@@ -1482,7 +1483,7 @@ namespace Tellusim {
 					Vector3f rotate = Vector3f::zero;
 					const String &state = getNodeState(node);
 					if(state && state.scanf("%g %g %g", &rotate.x, &rotate.y, &rotate.z) != 3) {
-						TS_LOGF(Error, "ControlFlowMath::quaternionf_callback(): can't parse \"%s\"\n", state.get());
+						TS_LOGF(Warning, "ControlFlowMath::quaternionf_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(rotate.x);
 					y_slider.setValue(rotate.y);
@@ -1531,7 +1532,7 @@ namespace Tellusim {
 					Color color = Color::white;
 					const String &state = getNodeState(node);
 					if(state && state.scanf("%g %g %g %g", &color.r, &color.g, &color.b, &color.a) != 4) {
-						TS_LOGF(Error, "ControlFlowMath::rgba_callback(): can't parse \"%s\"\n", state.get());
+						TS_LOGF(Warning, "ControlFlowMath::rgba_callback(): can't parse \"%s\"\n", state.get());
 					}
 					rect.setColor(color);
 					set_color(node, color);
@@ -1617,7 +1618,7 @@ namespace Tellusim {
 					float32_t power = 1.0f;
 					const String &state = flow->getNodeState(node);
 					if(state && state.scanf("%s f %g %g t %g %g p %g", mode, &from_min, &from_max, &to_min, &to_max, &power) != 6) {
-						Parser::error("ControlFlowMath::map_callback(): can't parse \"%s\"\n", state.get());
+						TS_LOGF(Warning, "ControlFlowMath::map_callback(): can't parse \"%s\"\n", state.get());
 					}
 					uint32_t hash = String::hashu32(mode);
 					if(hash == String::hashu32("Expand")) hash = 0;
@@ -1627,15 +1628,40 @@ namespace Tellusim {
 					else if(hash == String::hashu32("Clamp")) hash = 4;
 					else if(hash == String::hashu32("Smooth")) hash = 5;
 					else Parser::error("ControlFlowMath::map_callback(): unknown mode \"%s\"\n", mode);
-					if(args[0]->getHash() == ControlFlowMath::Value::scalarfHash) return new Value(control_flow_math_map(args[0]->getScalarf32(), hash, from_min, from_max, to_min, to_max, power));
-					if(args[0]->getHash() == ControlFlowMath::Value::vector2fHash) return new Value(control_flow_math_map(args[0]->getVector2f(), hash, from_min, from_max, to_min, to_max, power));
-					if(args[0]->getHash() == ControlFlowMath::Value::vector3fHash) return new Value(control_flow_math_map(args[0]->getVector3f(), hash, from_min, from_max, to_min, to_max, power));
-					if(args[0]->getHash() == ControlFlowMath::Value::vector4fHash) return new Value(control_flow_math_map(args[0]->getVector4f(), hash, from_min, from_max, to_min, to_max, power));
+					if(args[0]->getHash() == ControlFlowMath::Value::HashScalarf) return new Value(control_flow_math_map(args[0]->getScalarf32(), hash, from_min, from_max, to_min, to_max, power));
+					if(args[0]->getHash() == ControlFlowMath::Value::HashVector2f) return new Value(control_flow_math_map(args[0]->getVector2f(), hash, from_min, from_max, to_min, to_max, power));
+					if(args[0]->getHash() == ControlFlowMath::Value::HashVector3f) return new Value(control_flow_math_map(args[0]->getVector3f(), hash, from_min, from_max, to_min, to_max, power));
+					if(args[0]->getHash() == ControlFlowMath::Value::HashVector4f) return new Value(control_flow_math_map(args[0]->getVector4f(), hash, from_min, from_max, to_min, to_max, power));
 				}
 				return nullptr;
 			});
 			setProtoInfo(proto, "Map one range to another");
 		}
+		
+		// string value proto
+		{
+			uint32_t proto = addProto("string", "String");
+			setProtoColor(proto, tool_color);
+			addProtoOutput(proto, "v", "", "", string_type, true);
+			setProtoOutputAttachCallback(proto, 0, text_output_callback);
+			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
+				ControlEdit edit(&grid);
+				edit.setSize(128.0f, 0.0f);
+				edit.setReturnedCallback(makeFunction([this](ControlEdit edit, uint32_t node) {
+					setNodeState(node, edit.getText(), true);
+					setChanged();
+				}, ControlEdit::null, node));
+				setNodeCreateCallback(node, makeFunction([this](ControlFlow *flow, uint32_t node, ControlEdit edit) {
+					edit.setText(getNodeState(node));
+					setNodeDynamic(node, true);
+				}, nullptr, 0, edit));
+			});
+			setProtoOutputValueCallback(proto, 0u, [](ControlFlow *flow, uint32_t node, const Array<Value*> &args) -> Value* {
+				return new Value(flow->getNodeState(node));
+			});
+			setProtoInfo(proto, "String value");
+		}
+		
 	}
 	
 	/*****************************************************************************\
@@ -1745,10 +1771,10 @@ namespace Tellusim {
 		}, ControlSlider::null, edit));
 		
 		// slider released callback
-		// expand slider value and save action
-		slider.setReleasedCallback(makeFunction([this](ControlSlider slider) {
-			if(slider.isChanged()) setChanged();
+		// expand slider value and reset state
+		slider.setReleasedCallback(makeFunction([](ControlSlider slider) {
 			expand_slider(slider);
+			slider.isChanged();
 		}, ControlSlider::null));
 		
 		// edit returned callback
@@ -1905,8 +1931,9 @@ namespace Tellusim {
 			if(type == matrix3x2f_type) return findProto("matrix3x2f");
 			if(type == matrix4x3f_type) return findProto("matrix4x3f");
 			if(type == quaternionf_type) return findProto("quaternionf");
-			if(type == color_type) return findProto("rgba");
 		}
+		if(type == color_type) return findProto("rgba");
+		if(type == string_type) return findProto("string");
 		return Maxu32;
 	}
 	
@@ -2077,22 +2104,29 @@ namespace Tellusim {
 	
 	/*
 	 */
-	#define TS_DECLARE_VALUE_CONSTRUCTOR(TYPE, NAME, VALUE, SIZEI, SIZEF) \
-	ControlFlowMath::Value::Value(TYPE value) : type(#NAME), hash(VALUE ## Hash), sizei(SIZEI), sizef(SIZEF), VALUE(value) { }
-	TS_DECLARE_VALUE_CONSTRUCTOR(bool, bool, boolean, 0, 0)
-	TS_DECLARE_VALUE_CONSTRUCTOR(int32_t, int32_t, scalari, 1, 0)
-	TS_DECLARE_VALUE_CONSTRUCTOR(float32_t, float32_t, scalarf, 0, 1)
-	TS_DECLARE_VALUE_CONSTRUCTOR(const Vector2i&, Vector2i, vector2i, 2, 0)
-	TS_DECLARE_VALUE_CONSTRUCTOR(const Vector2f&, Vector2f, vector2f, 0, 2)
-	TS_DECLARE_VALUE_CONSTRUCTOR(const Vector3i&, Vector3i, vector3i, 3, 0)
-	TS_DECLARE_VALUE_CONSTRUCTOR(const Vector3f&, Vector3f, vector3f, 0, 3)
-	TS_DECLARE_VALUE_CONSTRUCTOR(const Vector4i&, Vector4i, vector4i, 4, 0)
-	TS_DECLARE_VALUE_CONSTRUCTOR(const Vector4f&, Vector4f, vector4f, 0, 4)
-	TS_DECLARE_VALUE_CONSTRUCTOR(const Matrix3x2f&, Matrix3x2f, matrix3x2f, 0, 6)
-	TS_DECLARE_VALUE_CONSTRUCTOR(const Matrix4x3f&, Matrix4x3f, matrix4x3f, 0, 12)
-	TS_DECLARE_VALUE_CONSTRUCTOR(const Quaternionf&, Quaternionf, quaternionf, 0, 4)
-	TS_DECLARE_VALUE_CONSTRUCTOR(const Color&, Color, color, 0, 4)
+	#define TS_DECLARE_VALUE_CONSTRUCTOR(TYPE, NAME, VALUE, HASH, SIZEI, SIZEF) \
+	ControlFlowMath::Value::Value(TYPE value) : type(#NAME), hash(Hash ## HASH), sizei(SIZEI), sizef(SIZEF), VALUE(value) { }
+	TS_DECLARE_VALUE_CONSTRUCTOR(bool, bool, boolean, Boolean, 0, 0)
+	TS_DECLARE_VALUE_CONSTRUCTOR(int32_t, int32_t, scalari, Scalari, 1, 0)
+	TS_DECLARE_VALUE_CONSTRUCTOR(float32_t, float32_t, scalarf, Scalarf, 0, 1)
+	TS_DECLARE_VALUE_CONSTRUCTOR(const Vector2i&, Vector2i, vector2i, Vector2i, 2, 0)
+	TS_DECLARE_VALUE_CONSTRUCTOR(const Vector2f&, Vector2f, vector2f, Vector2f, 0, 2)
+	TS_DECLARE_VALUE_CONSTRUCTOR(const Vector3i&, Vector3i, vector3i, Vector3i, 3, 0)
+	TS_DECLARE_VALUE_CONSTRUCTOR(const Vector3f&, Vector3f, vector3f, Vector3f, 0, 3)
+	TS_DECLARE_VALUE_CONSTRUCTOR(const Vector4i&, Vector4i, vector4i, Vector4i, 4, 0)
+	TS_DECLARE_VALUE_CONSTRUCTOR(const Vector4f&, Vector4f, vector4f, Vector4f, 0, 4)
+	TS_DECLARE_VALUE_CONSTRUCTOR(const Matrix3x2f&, Matrix3x2f, matrix3x2f, Matrix3x2f, 0, 6)
+	TS_DECLARE_VALUE_CONSTRUCTOR(const Matrix4x3f&, Matrix4x3f, matrix4x3f, Matrix4x3f, 0, 12)
+	TS_DECLARE_VALUE_CONSTRUCTOR(const Quaternionf&, Quaternionf, quaternionf, Quaternionf, 0, 4)
+	TS_DECLARE_VALUE_CONSTRUCTOR(const Color&, Color, color, Color, 0, 4)
 	#undef TS_DECLARE_VALUE_CONSTRUCTOR
+	
+	ControlFlowMath::Value::Value(const String &value) : ptr(new String(value)) {
+		type = "String";
+		hash = HashString;
+		constructor = [](void *ptr) -> void* { return new String(*(String*)ptr); };
+		destructor = [](void *ptr) { delete (String*)ptr; };
+	}
 	
 	ControlFlowMath::Value::Value(const Value &value) {
 		copy(value);
@@ -2113,7 +2147,9 @@ namespace Tellusim {
 			destructor(ptr);
 			constructor = nullptr;
 			destructor = nullptr;
-			is_array = false;
+			array_constructor = nullptr;
+			array_element = nullptr;
+			array_size = nullptr;
 			ptr = nullptr;
 		}
 	}
@@ -2129,7 +2165,9 @@ namespace Tellusim {
 		if(value.constructor) {
 			constructor = value.constructor;
 			destructor = value.destructor;
-			is_array = value.is_array;
+			array_constructor = value.array_constructor;
+			array_element = value.array_element;
+			array_size = value.array_size;
 			ptr = constructor(value.ptr);
 		} else if(max(sizei, sizef) <= 4) {
 			vector4f = value.vector4f;
@@ -2147,11 +2185,15 @@ namespace Tellusim {
 		if(value.constructor) {
 			constructor = value.constructor;
 			destructor = value.destructor;
-			is_array = value.is_array;
+			array_constructor = value.array_constructor;
+			array_element = value.array_element;
+			array_size = value.array_size;
 			ptr = value.ptr;
-			value.is_array = false;
 			value.constructor = nullptr;
 			value.destructor = nullptr;
+			value.array_constructor = nullptr;
+			value.array_element = nullptr;
+			value.array_size = nullptr;
 			value.ptr = nullptr;
 		} else if(max(sizei, sizef) <= 4) {
 			vector4f = value.vector4f;
@@ -2175,29 +2217,29 @@ namespace Tellusim {
 	/*
 	 */
 	bool ControlFlowMath::Value::getBoolean() const {
-		if(hash == booleanHash) return boolean;
-		if(hash == scalariHash) return (scalari != 0);
+		if(hash == HashBoolean) return boolean;
+		if(hash == HashScalari) return (scalari != 0);
 		Parser::error("ControlFlowMath::Value::getBoolean(): invalid type \"%s\"\n", type);
 		return 0;
 	}
 	
 	int32_t ControlFlowMath::Value::getScalari32() const {
-		if(hash == scalariHash) return scalari;
-		if(hash == scalarfHash) return (int32_t)scalarf;
+		if(hash == HashScalari) return scalari;
+		if(hash == HashScalarf) return (int32_t)scalarf;
 		Parser::error("ControlFlowMath::Value::getScalari32(): invalid type \"%s\"\n", type);
 		return 0;
 	}
 	
 	uint32_t ControlFlowMath::Value::getScalaru32() const {
-		if(hash == scalariHash) return (uint32_t)max(scalari, 0);
-		if(hash == scalarfHash) return (uint32_t)max(scalarf, 0.0f);
+		if(hash == HashScalari) return (uint32_t)max(scalari, 0);
+		if(hash == HashScalarf) return (uint32_t)max(scalarf, 0.0f);
 		Parser::error("ControlFlowMath::Value::getScalaru32(): invalid type \"%s\"\n", type);
 		return 0;
 	}
 	
 	float32_t ControlFlowMath::Value::getScalarf32() const {
-		if(hash == scalarfHash) return scalarf;
-		if(hash == scalariHash) return (float32_t)scalari;
+		if(hash == HashScalarf) return scalarf;
+		if(hash == HashScalari) return (float32_t)scalari;
 		Parser::error("ControlFlowMath::Value::getScalarf32(): invalid type \"%s\"\n", type);
 		return 0;
 	}
@@ -2206,26 +2248,26 @@ namespace Tellusim {
 	 */
 	#define TS_DECLARE_VECTOR_GET(NAME, VALUE) \
 	NAME ## u ControlFlowMath::Value::get ## NAME ## u() const { \
-		if(hash == VALUE ## iHash) return NAME ## u(max(VALUE ## i, NAME ## i::zero)); \
-		if(hash == VALUE ## fHash) return NAME ## u(max(VALUE ## f, NAME ## f::zero)); \
-		if(hash == scalariHash) return NAME ## u((uint32_t)max(scalari, 0)); \
-		if(hash == scalarfHash) return NAME ## u((uint32_t)max(scalarf, 0.0f)); \
+		if(hash == Hash ## NAME ## i) return NAME ## u(max(VALUE ## i, NAME ## i::zero)); \
+		if(hash == Hash ## NAME ## f) return NAME ## u(max(VALUE ## f, NAME ## f::zero)); \
+		if(hash == HashScalari) return NAME ## u((uint32_t)max(scalari, 0)); \
+		if(hash == HashScalarf) return NAME ## u((uint32_t)max(scalarf, 0.0f)); \
 		Parser::error("ControlFlowMath::Value::get" #NAME "u(): invalid type \"%s\"\n", type); \
 		return NAME ## u::zero; \
 	} \
 	NAME ## i ControlFlowMath::Value::get ## NAME ## i() const { \
-		if(hash == VALUE ## iHash) return VALUE ## i; \
-		if(hash == VALUE ## fHash) return NAME ## i(VALUE ## f); \
-		if(hash == scalariHash) return NAME ## i(scalari); \
-		if(hash == scalarfHash) return NAME ## i((int32_t)scalarf); \
+		if(hash == Hash ## NAME ## i) return VALUE ## i; \
+		if(hash == Hash ## NAME ## f) return NAME ## i(VALUE ## f); \
+		if(hash == HashScalari) return NAME ## i(scalari); \
+		if(hash == HashScalarf) return NAME ## i((int32_t)scalarf); \
 		Parser::error("ControlFlowMath::Value::get" #NAME "i(): invalid type \"%s\"\n", type); \
 		return NAME ## i::zero; \
 	} \
 	NAME ## f ControlFlowMath::Value::get ## NAME ## f() const { \
-		if(hash == VALUE ## fHash) return VALUE ## f; \
-		if(hash == VALUE ## iHash) return NAME ## f(VALUE ## i); \
-		if(hash == scalarfHash) return NAME ## f(scalarf); \
-		if(hash == scalariHash) return NAME ## f((float32_t)scalari); \
+		if(hash == Hash ## NAME ## f) return VALUE ## f; \
+		if(hash == Hash ## NAME ## i) return NAME ## f(VALUE ## i); \
+		if(hash == HashScalarf) return NAME ## f(scalarf); \
+		if(hash == HashScalari) return NAME ## f((float32_t)scalari); \
 		Parser::error("ControlFlowMath::Value::get" #NAME "f(): invalid type \"%s\"\n", type); \
 		return NAME ## f::zero; \
 	}
@@ -2237,32 +2279,38 @@ namespace Tellusim {
 	/*
 	 */
 	Matrix3x2f ControlFlowMath::Value::getMatrix3x2f() const {
-		if(hash == matrix3x2fHash) return matrix3x2f;
+		if(hash == HashMatrix3x2f) return matrix3x2f;
 		Parser::error("ControlFlowMath::Value::getMatrix3x2f(): invalid type \"%s\"\n", type);
 		return Matrix3x2f::identity;
 	}
 	
 	Matrix4x3f ControlFlowMath::Value::getMatrix4x3f() const {
-		if(hash == matrix4x3fHash) return matrix4x3f;
-		if(hash == quaternionfHash) return Matrix4x3f(quaternionf);
+		if(hash == HashMatrix4x3f) return matrix4x3f;
+		if(hash == HashQuaternionf) return Matrix4x3f(quaternionf);
 		Parser::error("ControlFlowMath::Value::getMatrix4x3f(): invalid type \"%s\"\n", type);
 		return Matrix4x3f::identity;
 	}
 	
 	Quaternionf ControlFlowMath::Value::getQuaternionf() const {
-		if(hash == quaternionfHash) return quaternionf;
-		if(hash == matrix4x3fHash) return Quaternionf(matrix4x3f);
+		if(hash == HashQuaternionf) return quaternionf;
+		if(hash == HashMatrix4x3f) return Quaternionf(matrix4x3f);
 		Parser::error("ControlFlowMath::Value::getQuaternionf(): invalid type \"%s\"\n", type);
 		return Quaternionf::identity;
 	}
 	
 	Color ControlFlowMath::Value::getColor() const {
-		if(hash == colorHash) return color;
-		if(hash == vector3fHash) return Color(vector3f.x, vector3f.y, vector3f.z);
-		if(hash == vector4fHash) return Color(vector4f.x, vector4f.y, vector4f.z, vector4f.w);
-		if(hash == scalarfHash) return Color(scalarf, scalarf, scalarf, 1.0f);
+		if(hash == HashColor) return color;
+		if(hash == HashVector3f) return Color(vector3f.x, vector3f.y, vector3f.z);
+		if(hash == HashVector4f) return Color(vector4f.x, vector4f.y, vector4f.z, vector4f.w);
+		if(hash == HashScalarf) return Color(scalarf, scalarf, scalarf, 1.0f);
 		Parser::error("ControlFlowMath::Value::getColor(): invalid type \"%s\"\n", type);
 		return Color::white;
+	}
+	
+	String ControlFlowMath::Value::getString() const {
+		if(hash == HashString) return *(String*)ptr;
+		Parser::error("ControlFlowMath::Value::getString(): invalid type \"%s\"\n", type);
+		return String::null;
 	}
 	
 	/*
@@ -2275,39 +2323,39 @@ namespace Tellusim {
 			if(size == 1) return new Value(v0.getScalarf32() * v1.getScalarf32());
 			if(size == 2) return new Value(v0.getVector2f() * v1.getVector2f());
 			if(size == 3) return new Value(v0.getVector3f() * v1.getVector3f());
-			if(size == 4 && (v0.hash == quaternionfHash || v1.hash == quaternionfHash)) {
-				if(v1.hash == quaternionfHash) return new Value(v0.getQuaternionf() * v1.getQuaternionf());
-				if(v1.hash == vector3fHash) return new Value(v0.getQuaternionf() * v1.getVector3f());
-				if(v1.hash == vector4fHash) return new Value(v0.getQuaternionf() * v1.getVector4f());
-				if(v1.hash == scalarfHash) return new Value(v0.getQuaternionf() * v1.getScalarf32());
-				if(v0.hash == vector3fHash) return new Value(v0.getVector3f() * v1.getQuaternionf());
-				if(v0.hash == vector4fHash) return new Value(v0.getVector4f() * v1.getQuaternionf());
+			if(size == 4 && (v0.hash == HashQuaternionf || v1.hash == HashQuaternionf)) {
+				if(v1.hash == HashQuaternionf) return new Value(v0.getQuaternionf() * v1.getQuaternionf());
+				if(v1.hash == HashVector3f) return new Value(v0.getQuaternionf() * v1.getVector3f());
+				if(v1.hash == HashVector4f) return new Value(v0.getQuaternionf() * v1.getVector4f());
+				if(v1.hash == HashScalarf) return new Value(v0.getQuaternionf() * v1.getScalarf32());
+				if(v0.hash == HashVector3f) return new Value(v0.getVector3f() * v1.getQuaternionf());
+				if(v0.hash == HashVector4f) return new Value(v0.getVector4f() * v1.getQuaternionf());
 			}
-			if(size == 4 && (v0.hash == colorHash || v1.hash == colorHash)) {
+			if(size == 4 && (v0.hash == HashColor || v1.hash == HashColor)) {
 				return new Value(v0.getColor() * v1.getColor());
 			}
-			if(size == 4 && (v0.hash == vector4fHash || v1.hash == vector4fHash)) {
+			if(size == 4 && (v0.hash == HashVector4f || v1.hash == HashVector4f)) {
 				return new Value(v0.getVector4f() * v1.getVector4f());
 			}
 			if(size == 6) {
-				if(v0.hash == matrix3x2fHash && v1.hash == matrix3x2fHash) return new Value(v0.getMatrix3x2f() * v1.getMatrix3x2f());
-				if(v0.hash == matrix3x2fHash && v1.hash == vector2fHash) return new Value(v0.getMatrix3x2f() * v1.getVector2f());
-				if(v0.hash == matrix3x2fHash && v1.hash == scalarfHash) return new Value(v0.getMatrix3x2f() * v1.getScalarf32());
-				if(v0.hash == vector2fHash && v1.hash == matrix3x2fHash) return new Value(v0.getVector2f() * v1.getMatrix3x2f());
-				if(v0.hash == scalarfHash && v1.hash == matrix3x2fHash) return new Value(v0.getMatrix3x2f() * v1.getScalarf32());
+				if(v0.hash == HashMatrix3x2f && v1.hash == HashMatrix3x2f) return new Value(v0.getMatrix3x2f() * v1.getMatrix3x2f());
+				if(v0.hash == HashMatrix3x2f && v1.hash == HashVector2f) return new Value(v0.getMatrix3x2f() * v1.getVector2f());
+				if(v0.hash == HashMatrix3x2f && v1.hash == HashScalarf) return new Value(v0.getMatrix3x2f() * v1.getScalarf32());
+				if(v0.hash == HashVector2f && v1.hash == HashMatrix3x2f) return new Value(v0.getVector2f() * v1.getMatrix3x2f());
+				if(v0.hash == HashScalarf && v1.hash == HashMatrix3x2f) return new Value(v0.getMatrix3x2f() * v1.getScalarf32());
 			}
 			if(size == 12) {
-				if(v0.hash == matrix4x3fHash && v1.hash == matrix4x3fHash) return new Value(v0.getMatrix4x3f() * v1.getMatrix4x3f());
-				if(v0.hash == quaternionfHash && v1.hash == matrix4x3fHash) return new Value(Matrix4x3f(v0.getQuaternionf()) * v1.getMatrix4x3f());
-				if(v0.hash == matrix4x3fHash && v1.hash == quaternionfHash) return new Value(v0.getMatrix4x3f() * Matrix4x3f(v1.getQuaternionf()));
-				if(v0.hash == matrix4x3fHash && v1.hash == vector4fHash) return new Value(v0.getMatrix4x3f() * v1.getVector4f());
-				if(v0.hash == matrix4x3fHash && v1.hash == vector3fHash) return new Value(v0.getMatrix4x3f() * v1.getVector3f());
-				if(v0.hash == matrix4x3fHash && v1.hash == vector2fHash) return new Value(v0.getMatrix4x3f() * v1.getVector2f());
-				if(v0.hash == matrix4x3fHash && v1.hash == scalarfHash) return new Value(v0.getMatrix4x3f() * v1.getScalarf32());
-				if(v0.hash == vector4fHash && v1.hash == matrix4x3fHash) return new Value(v0.getVector4f() * v1.getMatrix4x3f());
-				if(v0.hash == vector3fHash && v1.hash == matrix4x3fHash) return new Value(v0.getVector3f() * v1.getMatrix4x3f());
-				if(v0.hash == vector2fHash && v1.hash == matrix4x3fHash) return new Value(v0.getVector2f() * v1.getMatrix4x3f());
-				if(v0.hash == scalarfHash && v1.hash == matrix4x3fHash) return new Value(v0.getMatrix4x3f() * v1.getScalarf32());
+				if(v0.hash == HashMatrix4x3f && v1.hash == HashMatrix4x3f) return new Value(v0.getMatrix4x3f() * v1.getMatrix4x3f());
+				if(v0.hash == HashQuaternionf && v1.hash == HashMatrix4x3f) return new Value(Matrix4x3f(v0.getQuaternionf()) * v1.getMatrix4x3f());
+				if(v0.hash == HashMatrix4x3f && v1.hash == HashQuaternionf) return new Value(v0.getMatrix4x3f() * Matrix4x3f(v1.getQuaternionf()));
+				if(v0.hash == HashMatrix4x3f && v1.hash == HashVector4f) return new Value(v0.getMatrix4x3f() * v1.getVector4f());
+				if(v0.hash == HashMatrix4x3f && v1.hash == HashVector3f) return new Value(v0.getMatrix4x3f() * v1.getVector3f());
+				if(v0.hash == HashMatrix4x3f && v1.hash == HashVector2f) return new Value(v0.getMatrix4x3f() * v1.getVector2f());
+				if(v0.hash == HashMatrix4x3f && v1.hash == HashScalarf) return new Value(v0.getMatrix4x3f() * v1.getScalarf32());
+				if(v0.hash == HashVector4f && v1.hash == HashMatrix4x3f) return new Value(v0.getVector4f() * v1.getMatrix4x3f());
+				if(v0.hash == HashVector3f && v1.hash == HashMatrix4x3f) return new Value(v0.getVector3f() * v1.getMatrix4x3f());
+				if(v0.hash == HashVector2f && v1.hash == HashMatrix4x3f) return new Value(v0.getVector2f() * v1.getMatrix4x3f());
+				if(v0.hash == HashScalarf && v1.hash == HashMatrix4x3f) return new Value(v0.getMatrix4x3f() * v1.getScalarf32());
 			}
 		}
 		if(sizei) {
@@ -2378,7 +2426,7 @@ namespace Tellusim {
 		
 		Value ret;
 		
-		ArrayStack<AutoPtr<Value>, 1024> values;
+		ArrayStack<AutoPtr<Value>, 1024> traversal_values;
 		
 		try {
 			
@@ -2387,6 +2435,8 @@ namespace Tellusim {
 				uint32_t proto = getNodeProto(node);
 				
 				// node input values
+				uint32_t min_size = Maxu32;
+				uint32_t max_size = 0;
 				ArrayStack<Value*, 32> arguments;
 				for(uint32_t input = 0; input < getNumProtoInputs(proto); input++) {
 					Value *value = nullptr;
@@ -2398,7 +2448,11 @@ namespace Tellusim {
 					if(value == nullptr) {
 						const String &src = getInputValue(node, input);
 						if(src) value = get_value(getProtoInputType(proto, input), getInputValue(node, input));
-						if(value) values.append(makeAutoPtr(value));
+						if(value) traversal_values.append(makeAutoPtr(value));
+					}
+					if(value && value->isArray()) {
+						min_size = min(min_size, value->getArraySize());
+						max_size = max(max_size, value->getArraySize());
 					}
 					arguments.append(value);
 				}
@@ -2408,9 +2462,39 @@ namespace Tellusim {
 					Value *value = nullptr;
 					if(getNumOutputConnections(node, output)) {
 						ProtoValueCallback *func = getProtoOutputValueCallback(proto, output);
-						if(func) value = func(this, node, arguments);
-						else value = get_value(getProtoOutputType(proto, output), getOutputValue(node, output));
-						if(value) values.append(makeAutoPtr(value));
+						if(func) {
+							if(min_size && min_size == max_size) {
+								ArrayStack<Value*, 1024> values;
+								ArrayStack<Value*, 32> array_arguments = arguments;
+								for(uint32_t i = 0; i < min_size; i++) {
+									for(uint32_t j = 0; j < arguments.size(); j++) {
+										if(arguments[j]->isArray()) {
+											array_arguments[j] = arguments[j]->getArrayElement(i);
+											if(array_arguments[j]) traversal_values.append(makeAutoPtr(array_arguments[j]));
+										}
+									}
+									Value *value = func(this, node, array_arguments);
+									if(value) {
+										traversal_values.append(makeAutoPtr(value));
+										values.append(value);
+									}
+								}
+								if(values) {
+									uint32_t hash = values[0]->getHash();
+									for(uint32_t i = 0; i < arguments.size(); i++) {
+										if(arguments[i]->getHash() == hash && arguments[i]->array_constructor) {
+											value = arguments[i]->array_constructor(values);
+											break;
+										}
+									}
+								}
+							} else {
+								value = func(this, node, arguments);
+							}
+						} else {
+							value = get_value(getProtoOutputType(proto, output), getOutputValue(node, output));
+						}
+						if(value) traversal_values.append(makeAutoPtr(value));
 					}
 					setOutputValuePtr(node, output, value);
 				}

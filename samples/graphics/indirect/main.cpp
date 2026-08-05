@@ -310,7 +310,7 @@ int32_t main(int32_t argc, char **argv) {
 				command.setPipeline(mesh_pipeline);
 				command.setUniform(0, common_parameters);
 				command.setStorageBuffers(0, { indirect_buffer, vertex_buffer, index_buffer });
-				uint32_t max_tasks = device.getFeatures().maxTaskCount;
+				uint32_t max_tasks = min(device.getFeatures().maxTaskCount, device.getFeatures().maxTaskCountX);
 				for(uint32_t i = 0; i < count; i += max_tasks) {
 					command.setUniform(1, i);
 					command.drawMesh(min(count - i, max_tasks));

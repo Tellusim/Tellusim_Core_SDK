@@ -55,7 +55,7 @@ int32_t main(int32_t argc, char **argv) {
 	popup.setColor(Color(0.2f, 0.0f, 0.5f, 0.8f));
 	
 	// create control popups
-	popup.addPopup(button_0, [&](Control control, ControlPanel panel) {
+	popup.addPopup(button_0, [&](ControlPanel panel) {
 		
 		// popup title
 		ControlText text(&panel, "Button 0 Popup");
@@ -69,7 +69,7 @@ int32_t main(int32_t argc, char **argv) {
 		left_text.setAlign(Control::AlignLeft);
 		left_text.setCallback(true);
 		left_text.setFontSize(24);
-		popup.addPopup(left_text, [&](Control control, ControlPanel panel) {
+		popup.addPopup(left_text, [&](ControlPanel panel) {
 			
 			// panel color
 			panel.setColor(Color(0.5f, 0.0f, 0.2f, 0.8f));
@@ -82,7 +82,7 @@ int32_t main(int32_t argc, char **argv) {
 			bottom_text.setAlign(Control::AlignCenterX);
 			bottom_text.setCallback(true);
 			bottom_text.setFontSize(24);
-			popup.addPopup(bottom_text, [&](Control control, ControlPanel panel) {
+			popup.addPopup(bottom_text, [&](ControlPanel panel) {
 				panel.setColor(Color(0.0f, 0.2f, 0.5f, 0.8f));
 				ControlText text(&panel, "Bottom Popup");
 				ControlCheck check(&panel, "Check");
@@ -97,7 +97,7 @@ int32_t main(int32_t argc, char **argv) {
 		right_text.setAlign(Control::AlignRight);
 		right_text.setCallback(true);
 		right_text.setFontSize(24);
-		popup.addPopup(right_text, [&](Control control, ControlPanel panel) {
+		popup.addPopup(right_text, [&](ControlPanel panel) {
 			
 			// panel color
 			panel.setColor(Color(0.2f, 0.5f, 0.0f, 0.8f));
@@ -110,7 +110,7 @@ int32_t main(int32_t argc, char **argv) {
 			bottom_text.setAlign(Control::AlignCenterX);
 			bottom_text.setCallback(true);
 			bottom_text.setFontSize(24);
-			popup.addPopup(bottom_text, [&](Control control, ControlPanel panel) {
+			popup.addPopup(bottom_text, [&](ControlPanel panel) {
 				panel.setColor(Color(0.0f, 0.2f, 0.5f, 0.8f));
 				ControlText text(&panel, "Bottom Popup");
 				ControlCheck check(&panel, "Check");
@@ -122,7 +122,7 @@ int32_t main(int32_t argc, char **argv) {
 		
 		return Control::AlignCenterX | Control::AlignTop;
 	});
-	popup.addPopup(button_1, [](Control control, ControlPanel panel) {
+	popup.addPopup(button_1, [](ControlPanel panel) {
 		
 		// popup title
 		ControlText text(&panel, "Button 1 Popup");
@@ -148,12 +148,7 @@ int32_t main(int32_t argc, char **argv) {
 	// create menu popup
 	window.setMouseReleasedCallback([&](Window::Button button) {
 		if(button == Window::ButtonRight) {
-			uint32_t height = 720;
-			uint32_t width = (height * window.getWidth()) / window.getHeight();
-			int32_t mouse_x = ((int32_t)width * window.getMouseX()) / (int32_t)window.getWidth();
-			int32_t mouse_y = ((int32_t)height * window.getMouseY()) / (int32_t)window.getHeight();
-			Vector2f position = Vector2f(Vector2i(mouse_x, mouse_y));
-			popup.addPopup(position, [&](Control control, ControlPanel panel) {
+			popup.addPopup(root.getMouse(), [&](ControlPanel panel) {
 				
 				// panel color
 				panel.setColor(Color(0.1f, 0.8f));
@@ -174,7 +169,7 @@ int32_t main(int32_t argc, char **argv) {
 					text.setCallback(true);
 					
 					// create menu popup
-					popup.addPopup(text, makeFunction([&](Control control, ControlPanel panel, uint32_t index) {
+					popup.addPopup(text, makeFunction([&](ControlPanel panel, uint32_t index) {
 						
 						// panel color
 						panel.setColor(Color(0.1f, 0.2f, 0.2f, 0.8f));
@@ -193,7 +188,7 @@ int32_t main(int32_t argc, char **argv) {
 							text.setCallback(true);
 							
 							// create menu popup
-							popup.addPopup(text, makeFunction([&](Control control, ControlPanel panel, uint32_t index) {
+							popup.addPopup(text, makeFunction([&](ControlPanel panel, uint32_t index) {
 								panel.setColor(Color(0.2f, 0.1f, 0.2f, 0.8f));
 								ControlButton button(&panel, String::format("Menu Popup %u", index));
 								button.setBackground(false);
@@ -202,13 +197,25 @@ int32_t main(int32_t argc, char **argv) {
 									popup.closePopups();
 								});
 								return Control::Align::AlignRight | Control::AlignCenterY;
-							}, Control::null, ControlPanel::null, index * 4 + i));
+							}, ControlPanel::null, index * 4 + i));
 						}
 						
 						return Control::Align::AlignRight | Control::AlignBottom;
 						
-					}, Control::null, ControlPanel::null, i));
+					}, ControlPanel::null, i));
 				}
+				
+				// create checkbox item
+				ControlCheck check(&panel, "Menu Check");
+				check.setFontAlign(Control::AlignRight);
+				check.setMargin(0.0f, 4.0f);
+				
+				// create rect
+				ControlRect rect(&panel);
+				rect.setSize(1.0f, 1.0f);
+				rect.setColor(Color::white);
+				rect.setAlign(Control::AlignExpandX);
+				rect.setMargin(0.0f, 4.0f);
 				
 				// create menu item
 				ControlButton button(&panel, "Menu Exit");
@@ -240,7 +247,7 @@ int32_t main(int32_t argc, char **argv) {
 		if(!window.render()) return false;
 		
 		// window title
-		if(fps > 0.0f) window.setTitle(String::format("%s %u", title.get(), Control::getNumControls()));
+		if(fps > 0.0f) window.setTitle(String::format("%s Controls %u", title.get(), Control::getNumControls()));
 		
 		// update controls
 		update_controls(window, root, 720);

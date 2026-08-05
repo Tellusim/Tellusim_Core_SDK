@@ -4,9 +4,12 @@
 #ifndef __TELLUSIM_GEOMETRY_H__
 #define __TELLUSIM_GEOMETRY_H__
 
+#include <geometry/TellusimMeshBoolean.h>
+#include <geometry/TellusimMeshFracture.h>
 #include <geometry/TellusimMeshGraph.h>
 #include <geometry/TellusimMeshReduce.h>
 #include <geometry/TellusimMeshRefine.h>
 #include <geometry/TellusimMeshSolid.h>
+#include <geometry/TellusimMeshSplit.h>
 
 #endif /* __TELLUSIM_GEOMETRY_H__ */

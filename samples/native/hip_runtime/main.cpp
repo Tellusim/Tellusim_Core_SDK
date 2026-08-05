@@ -65,7 +65,7 @@ int32_t main(int32_t argc, char **argv) {
 	if(!device) return 1;
 	
 	// create Hip context for our device
-	HIPContext hip_context = HIPContext(Context(PlatformHIP));//, device.getFeatures().pciBusID));
+	HIPContext hip_context = HIPContext(Context(PlatformHIP, device.getFeatures().pciBusID));
 	if(!hip_context || !hip_context.create()) {
 		TS_LOG(Error, "main(): can't create Hip context\n");
 		return 1;

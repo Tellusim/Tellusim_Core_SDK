@@ -88,10 +88,10 @@ namespace Tellusim {
 			/// create spatial tree
 			/// \param sort Radix sort.
 			/// \param size Spatial tree data size.
-			/// \param groups Spatial tree group size.
+			/// \param threads Spatial tree group size.
 			/// \param regions Maximum number of multiple regions.
-			bool create(const Device &device, Mode mode, RadixSort &sort, uint32_t size, uint32_t groups = 256, uint32_t regions = 1, Async *async = nullptr);
-			bool create(const Device &device, Flags flags, RadixSort &sort, uint32_t size, uint32_t groups = 256, uint32_t regions = 1, Async *async = nullptr);
+			bool create(const Device &device, Mode mode, RadixSort &sort, uint32_t size, uint32_t threads = 256, uint32_t regions = 1, Async *async = nullptr);
+			bool create(const Device &device, Flags flags, RadixSort &sort, uint32_t size, uint32_t threads = 256, uint32_t regions = 1, Async *async = nullptr);
 			
 			/// dispatch single in-place spatial tree generation
 			/// \param hash Spatial tree hash mode.
@@ -141,7 +141,7 @@ namespace Tellusim {
 				uint32_t data;				// leaf-node user data
 				uint16_t size[3];			// bound size (max - min, float16_t format)
 				uint16_t is_enabled;		// enabled flag at bit 15 (lower bits can be used for user data)
-				uint32_t data_1;			// loaf-node user data
+				uint32_t data_1;			// leaf-node user data
 				uint32_t data_2;			// leaf-node user data
 				uint32_t left;				// left child node index bigger than spatial node index in case of leaf node (not updated for leaf nodes)
 				uint32_t right;				// right child node index bigger than spatial node index in case of leaf node (not updated for leaf nodes)

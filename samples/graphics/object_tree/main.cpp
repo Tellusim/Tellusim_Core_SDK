@@ -180,7 +180,7 @@ int32_t main(int32_t argc, char **argv) {
 	Buffer transforms_buffer = device.createBuffer(Buffer::FlagStorage, transforms.get(), transforms.bytes());
 	Buffer nodes_buffer = device.createBuffer(Buffer::FlagSource | Buffer::FlagStorage, nodes.get(), nodes.bytes());
 	TS_LOGF(Message, "Upload Nodes: %s %s %s/s\n", String::fromBytes(transforms.bytes() + nodes.bytes()).get(), String::fromTime(Time::current() - begin).get(),
-		String::fromBytes((size_t)((float64_t)(transforms.bytes() + nodes.bytes()) * Time::Seconds / (Time::current() - begin))).get());
+		String::fromBytes((size_t)((float64_t)(transforms.bytes() + nodes.bytes()) * (float64_t)Time::Seconds / (Time::current() - begin))).get());
 	
 	// create spatial tree
 	if(1) {
@@ -195,7 +195,7 @@ int32_t main(int32_t argc, char **argv) {
 		begin = Time::current();
 		device.getBuffer(nodes_buffer, nodes.get());
 		TS_LOGF(Message, "Download Tree: %s %s %s/s\n", String::fromBytes(nodes.bytes()).get(), String::fromTime(Time::current() - begin).get(),
-			String::fromBytes((size_t)((float64_t)nodes.bytes() * Time::Seconds / (Time::current() - begin))).get());
+			String::fromBytes((size_t)((float64_t)nodes.bytes() * (float64_t)Time::Seconds / (Time::current() - begin))).get());
 	}
 	
 	// create intersection buffers

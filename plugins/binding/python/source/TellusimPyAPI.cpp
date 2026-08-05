@@ -1222,6 +1222,18 @@ namespace Tellusim {
 	};
 	TS_PYAPI Array<PyMethodDef> PYSystem_methods;
 	
+	// Tellusim::MeshBoolean
+	TS_PYAPI PyTypeObject PYMeshBoolean_Type = {
+		PyVarObject_HEAD_INIT(nullptr, 0)
+	};
+	TS_PYAPI Array<PyMethodDef> PYMeshBoolean_methods;
+	
+	// Tellusim::MeshFracture
+	TS_PYAPI PyTypeObject PYMeshFracture_Type = {
+		PyVarObject_HEAD_INIT(nullptr, 0)
+	};
+	TS_PYAPI Array<PyMethodDef> PYMeshFracture_methods;
+	
 	// Tellusim::MeshGraph
 	TS_PYAPI PyTypeObject PYMeshGraph_Type = {
 		PyVarObject_HEAD_INIT(nullptr, 0)
@@ -1245,6 +1257,12 @@ namespace Tellusim {
 		PyVarObject_HEAD_INIT(nullptr, 0)
 	};
 	TS_PYAPI Array<PyMethodDef> PYMeshSolid_methods;
+	
+	// Tellusim::MeshSplit
+	TS_PYAPI PyTypeObject PYMeshSplit_Type = {
+		PyVarObject_HEAD_INIT(nullptr, 0)
+	};
+	TS_PYAPI Array<PyMethodDef> PYMeshSplit_methods;
 	
 	// Tellusim::String
 	TS_PYAPI bool isPYString(PyObject *object) {
@@ -11118,11 +11136,10 @@ namespace Tellusim {
 		int32_t clear = false;
 		static const char *kwlist[] = { "size", "discard", "clear", nullptr };
 		while(PyArg_ParseTupleAndKeywords(args, kwargs, "I|ii", (char**)kwlist, &size, &discard, &clear)) {
-			self->ptr.setSize(size, (discard != 0), (clear != 0));
-			Py_RETURN_NONE;
+			return PyLong_FromLong(self->ptr.setSize(size, (discard != 0), (clear != 0)));
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "MeshIndices::setSize(): unknown arguments:\n(uint32_t size, bool discard, bool clear) -> void\n");
+			PyErr_SetString(PyExc_TypeError, "MeshIndices::setSize(): unknown arguments:\n(uint32_t size, bool discard, bool clear) -> bool\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -11937,11 +11954,10 @@ namespace Tellusim {
 		int32_t clear = false;
 		static const char *kwlist[] = { "size", "discard", "clear", nullptr };
 		while(PyArg_ParseTupleAndKeywords(args, kwargs, "I|ii", (char**)kwlist, &size, &discard, &clear)) {
-			self->ptr.setSize(size, (discard != 0), (clear != 0));
-			Py_RETURN_NONE;
+			return PyLong_FromLong(self->ptr.setSize(size, (discard != 0), (clear != 0)));
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "MeshAttribute::setSize(): unknown arguments:\n(uint32_t size, bool discard, bool clear) -> void\n");
+			PyErr_SetString(PyExc_TypeError, "MeshAttribute::setSize(): unknown arguments:\n(uint32_t size, bool discard, bool clear) -> bool\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -12151,14 +12167,15 @@ namespace Tellusim {
 	}
 	static PyObject *MeshAttribute_optimizeAttribute(PYMeshAttribute *self, PyObject *args, PyObject *kwargs) {
 		PyObject *indices_ = nullptr;
-		static const char *kwlist[] = { "indices", nullptr };
-		while(PyArg_ParseTupleAndKeywords(args, kwargs, "O", (char**)kwlist, &indices_)) {
+		float32_t threshold = 0.0f;
+		static const char *kwlist[] = { "indices", "threshold", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "O|f", (char**)kwlist, &indices_, &threshold)) {
 			if(!isPYMeshIndices(indices_)) break;
 			MeshIndices &indices = pyMeshIndices_get(indices_);
-			return pyMeshAttribute_new(self->ptr.optimizeAttribute(indices));
+			return pyMeshAttribute_new(self->ptr.optimizeAttribute(indices, threshold));
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "MeshAttribute::optimizeAttribute(): unknown arguments:\n(MeshIndices indices) -> MeshAttribute\n");
+			PyErr_SetString(PyExc_TypeError, "MeshAttribute::optimizeAttribute(): unknown arguments:\n(MeshIndices indices, float32_t threshold) -> MeshAttribute\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -42088,15 +42105,30 @@ namespace Tellusim {
 		ret += String::format("maxTexture3DSize: %u\n", self->ptr.maxTexture3DSize);
 		ret += String::format("maxTextureLayers: %u\n", self->ptr.maxTextureLayers);
 		ret += String::format("maxTextureSamples: %u\n", self->ptr.maxTextureSamples);
+		ret += String::format("maxGroupSize: %u\n", self->ptr.maxGroupSize);
 		ret += String::format("maxGroupSizeX: %u\n", self->ptr.maxGroupSizeX);
 		ret += String::format("maxGroupSizeY: %u\n", self->ptr.maxGroupSizeY);
 		ret += String::format("maxGroupSizeZ: %u\n", self->ptr.maxGroupSizeZ);
 		ret += String::format("maxGroupCountX: %u\n", self->ptr.maxGroupCountX);
 		ret += String::format("maxGroupCountY: %u\n", self->ptr.maxGroupCountY);
 		ret += String::format("maxGroupCountZ: %u\n", self->ptr.maxGroupCountZ);
+		ret += String::format("maxTaskSize: %u\n", self->ptr.maxTaskSize);
+		ret += String::format("maxTaskSizeX: %u\n", self->ptr.maxTaskSizeX);
+		ret += String::format("maxTaskSizeY: %u\n", self->ptr.maxTaskSizeY);
+		ret += String::format("maxTaskSizeZ: %u\n", self->ptr.maxTaskSizeZ);
 		ret += String::format("maxTaskCount: %u\n", self->ptr.maxTaskCount);
+		ret += String::format("maxTaskCountX: %u\n", self->ptr.maxTaskCountX);
+		ret += String::format("maxTaskCountY: %u\n", self->ptr.maxTaskCountY);
+		ret += String::format("maxTaskCountZ: %u\n", self->ptr.maxTaskCountZ);
 		ret += String::format("maxTaskMemory: %u\n", self->ptr.maxTaskMemory);
-		ret += String::format("maxTaskMeshes: %u\n", self->ptr.maxTaskMeshes);
+		ret += String::format("maxMeshSize: %u\n", self->ptr.maxMeshSize);
+		ret += String::format("maxMeshSizeX: %u\n", self->ptr.maxMeshSizeX);
+		ret += String::format("maxMeshSizeY: %u\n", self->ptr.maxMeshSizeY);
+		ret += String::format("maxMeshSizeZ: %u\n", self->ptr.maxMeshSizeZ);
+		ret += String::format("maxMeshCount: %u\n", self->ptr.maxMeshCount);
+		ret += String::format("maxMeshCountX: %u\n", self->ptr.maxMeshCountX);
+		ret += String::format("maxMeshCountY: %u\n", self->ptr.maxMeshCountY);
+		ret += String::format("maxMeshCountZ: %u\n", self->ptr.maxMeshCountZ);
 		ret += String::format("maxMeshMemory: %u\n", self->ptr.maxMeshMemory);
 		ret += String::format("maxMeshVertices: %u\n", self->ptr.maxMeshVertices);
 		ret += String::format("maxMeshPrimitives: %u\n", self->ptr.maxMeshPrimitives);
@@ -63094,6 +63126,49 @@ namespace Tellusim {
 		#endif
 		return nullptr;
 	}
+	static PyObject *ControlText_setStateColor(PYControlText *self, PyObject *args, PyObject *kwargs) {
+		uint32_t state = 0;
+		float32_t r = {};
+		float32_t g = {};
+		float32_t b = {};
+		float32_t a = {};
+		static const char *kwlist[] = { "state", "r", "g", "b", "a", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "Iffff", (char**)kwlist, &state, &r, &g, &b, &a)) {
+			self->ptr.setStateColor((Control::State)state, r, g, b, a);
+			Py_RETURN_NONE;
+		}
+		PyErr_Clear();
+		{
+			uint32_t state = 0;
+			PyObject *color_ = nullptr;
+			static const char *kwlist[] = { "state", "color", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "IO", (char**)kwlist, &state, &color_)) {
+				if(!isPYColor(color_)) break;
+				const Color &color = pyColor_get(color_);
+				self->ptr.setStateColor((Control::State)state, color);
+				Py_RETURN_NONE;
+			}
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlText::setStateColor(): unknown arguments:\n(Control.State state, float32_t r, float32_t g, float32_t b, float32_t a) -> void\n(Control.State state, const Color color) -> void\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *ControlText_getStateColor(PYControlText *self, PyObject *args, PyObject *kwargs) {
+		uint32_t state = 0;
+		static const char *kwlist[] = { "state", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "I", (char**)kwlist, &state)) {
+			return PyLong_FromUnsignedLong(self->ptr.getStateColor((Control::State)state));
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlText::getStateColor(): unknown arguments:\n(Control.State state) -> uint32_t\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
 	static PyObject *ControlText_setFilter(PYControlText *self, PyObject *args, PyObject *kwargs) {
 		uint32_t filter = 0;
 		static const char *kwlist[] = { "filter", nullptr };
@@ -63863,6 +63938,49 @@ namespace Tellusim {
 		}
 		#if TS_DEBUG
 			PyErr_SetString(PyExc_TypeError, "ControlRect::getColor(): unknown arguments:\n(void) -> const Color\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *ControlRect_setStateColor(PYControlRect *self, PyObject *args, PyObject *kwargs) {
+		uint32_t state = 0;
+		float32_t r = {};
+		float32_t g = {};
+		float32_t b = {};
+		float32_t a = {};
+		static const char *kwlist[] = { "state", "r", "g", "b", "a", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "Iffff", (char**)kwlist, &state, &r, &g, &b, &a)) {
+			self->ptr.setStateColor((Control::State)state, r, g, b, a);
+			Py_RETURN_NONE;
+		}
+		PyErr_Clear();
+		{
+			uint32_t state = 0;
+			PyObject *color_ = nullptr;
+			static const char *kwlist[] = { "state", "color", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "IO", (char**)kwlist, &state, &color_)) {
+				if(!isPYColor(color_)) break;
+				const Color &color = pyColor_get(color_);
+				self->ptr.setStateColor((Control::State)state, color);
+				Py_RETURN_NONE;
+			}
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlRect::setStateColor(): unknown arguments:\n(Control.State state, float32_t r, float32_t g, float32_t b, float32_t a) -> void\n(Control.State state, const Color color) -> void\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	static PyObject *ControlRect_getStateColor(PYControlRect *self, PyObject *args, PyObject *kwargs) {
+		uint32_t state = 0;
+		static const char *kwlist[] = { "state", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "I", (char**)kwlist, &state)) {
+			return PyLong_FromUnsignedLong(self->ptr.getStateColor((Control::State)state));
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "ControlRect::getStateColor(): unknown arguments:\n(Control.State state) -> uint32_t\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -75112,12 +75230,12 @@ namespace Tellusim {
 		uint32_t mode = 0;
 		uint32_t order = 3;
 		uint32_t size = 1024;
-		uint32_t groups = 256;
-		static const char *kwlist[] = { "device", "mode", "order", "size", "groups", nullptr };
-		while(PyArg_ParseTupleAndKeywords(args, kwargs, "OI|III", (char**)kwlist, &device_, &mode, &order, &size, &groups)) {
+		uint32_t threads = 256;
+		static const char *kwlist[] = { "device", "mode", "order", "size", "threads", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "OI|III", (char**)kwlist, &device_, &mode, &order, &size, &threads)) {
 			if(!isPYDevice(device_)) break;
 			const Device &device = pyDevice_get(device_);
-			return PyLong_FromLong(self->ptr.create(device, (CubeFilter::Mode)mode, order, size, groups));
+			return PyLong_FromLong(self->ptr.create(device, (CubeFilter::Mode)mode, order, size, threads));
 		}
 		PyErr_Clear();
 		{
@@ -75125,16 +75243,16 @@ namespace Tellusim {
 			uint32_t flags = 0;
 			uint32_t order = 3;
 			uint32_t size = 1024;
-			uint32_t groups = 256;
-			static const char *kwlist[] = { "device", "flags", "order", "size", "groups", nullptr };
-			while(PyArg_ParseTupleAndKeywords(args, kwargs, "OI|III", (char**)kwlist, &device_, &flags, &order, &size, &groups)) {
+			uint32_t threads = 256;
+			static const char *kwlist[] = { "device", "flags", "order", "size", "threads", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "OI|III", (char**)kwlist, &device_, &flags, &order, &size, &threads)) {
 				if(!isPYDevice(device_)) break;
 				const Device &device = pyDevice_get(device_);
-				return PyLong_FromLong(self->ptr.create(device, (CubeFilter::Flags)flags, order, size, groups));
+				return PyLong_FromLong(self->ptr.create(device, (CubeFilter::Flags)flags, order, size, threads));
 			}
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "CubeFilter::create(): unknown arguments:\n(const Device device, CubeFilter.Mode mode, uint32_t order, uint32_t size, uint32_t groups) -> bool\n(const Device device, CubeFilter.Flags flags, uint32_t order, uint32_t size, uint32_t groups) -> bool\n");
+			PyErr_SetString(PyExc_TypeError, "CubeFilter::create(): unknown arguments:\n(const Device device, CubeFilter.Mode mode, uint32_t order, uint32_t size, uint32_t threads) -> bool\n(const Device device, CubeFilter.Flags flags, uint32_t order, uint32_t size, uint32_t threads) -> bool\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -77517,33 +77635,33 @@ namespace Tellusim {
 	static PyObject *PrefixScan_create(PYPrefixScan *self, PyObject *args, PyObject *kwargs) {
 		PyObject *device_ = nullptr;
 		uint32_t mode = 0;
-		uint32_t groups = 256;
+		uint32_t threads = 256;
 		uint32_t regions = 1;
 		PyObject *async_ = nullptr;
-		static const char *kwlist[] = { "device", "mode", "groups", "regions", "tasks", nullptr };
-		while(PyArg_ParseTupleAndKeywords(args, kwargs, "OI|IIO", (char**)kwlist, &device_, &mode, &groups, &regions, &async_)) {
+		static const char *kwlist[] = { "device", "mode", "threads", "regions", "tasks", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "OI|IIO", (char**)kwlist, &device_, &mode, &threads, &regions, &async_)) {
 			if(!isPYDevice(device_)) break;
 			const Device &device = pyDevice_get(device_);
 			Async *async = (async_) ? &pyAsync_get(async_) : nullptr;
-			return PyLong_FromLong(self->ptr.create(device, (PrefixScan::Mode)mode, groups, regions, async));
+			return PyLong_FromLong(self->ptr.create(device, (PrefixScan::Mode)mode, threads, regions, async));
 		}
 		PyErr_Clear();
 		{
 			PyObject *device_ = nullptr;
 			uint32_t flags = 0;
-			uint32_t groups = 256;
+			uint32_t threads = 256;
 			uint32_t regions = 1;
 			PyObject *async_ = nullptr;
-			static const char *kwlist[] = { "device", "flags", "groups", "regions", "tasks", nullptr };
-			while(PyArg_ParseTupleAndKeywords(args, kwargs, "OI|IIO", (char**)kwlist, &device_, &flags, &groups, &regions, &async_)) {
+			static const char *kwlist[] = { "device", "flags", "threads", "regions", "tasks", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "OI|IIO", (char**)kwlist, &device_, &flags, &threads, &regions, &async_)) {
 				if(!isPYDevice(device_)) break;
 				const Device &device = pyDevice_get(device_);
 				Async *async = (async_) ? &pyAsync_get(async_) : nullptr;
-				return PyLong_FromLong(self->ptr.create(device, (PrefixScan::Flags)flags, groups, regions, async));
+				return PyLong_FromLong(self->ptr.create(device, (PrefixScan::Flags)flags, threads, regions, async));
 			}
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "PrefixScan::create(): unknown arguments:\n(const Device device, PrefixScan.Mode mode, uint32_t groups, uint32_t regions, Async* async) -> bool\n(const Device device, PrefixScan.Flags flags, uint32_t groups, uint32_t regions, Async* async) -> bool\n");
+			PyErr_SetString(PyExc_TypeError, "PrefixScan::create(): unknown arguments:\n(const Device device, PrefixScan.Mode mode, uint32_t threads, uint32_t regions, Async* async) -> bool\n(const Device device, PrefixScan.Flags flags, uint32_t threads, uint32_t regions, Async* async) -> bool\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -77903,17 +78021,17 @@ namespace Tellusim {
 		uint32_t mode = 0;
 		PyObject *scan_ = nullptr;
 		uint32_t size = {};
-		uint32_t groups = 256;
+		uint32_t threads = 256;
 		uint32_t regions = 1;
 		PyObject *async_ = nullptr;
-		static const char *kwlist[] = { "device", "mode", "scan", "size", "groups", "regions", "tasks", nullptr };
-		while(PyArg_ParseTupleAndKeywords(args, kwargs, "OIOI|IIO", (char**)kwlist, &device_, &mode, &scan_, &size, &groups, &regions, &async_)) {
+		static const char *kwlist[] = { "device", "mode", "scan", "size", "threads", "regions", "tasks", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "OIOI|IIO", (char**)kwlist, &device_, &mode, &scan_, &size, &threads, &regions, &async_)) {
 			if(!isPYDevice(device_)) break;
 			const Device &device = pyDevice_get(device_);
 			if(!isPYPrefixScan(scan_)) break;
 			PrefixScan &scan = pyPrefixScan_get(scan_);
 			Async *async = (async_) ? &pyAsync_get(async_) : nullptr;
-			return PyLong_FromLong(self->ptr.create(device, (RadixSort::Mode)mode, scan, size, groups, regions, async));
+			return PyLong_FromLong(self->ptr.create(device, (RadixSort::Mode)mode, scan, size, threads, regions, async));
 		}
 		PyErr_Clear();
 		{
@@ -77921,21 +78039,21 @@ namespace Tellusim {
 			uint32_t flags = 0;
 			PyObject *scan_ = nullptr;
 			uint32_t size = {};
-			uint32_t groups = 256;
+			uint32_t threads = 256;
 			uint32_t regions = 1;
 			PyObject *async_ = nullptr;
-			static const char *kwlist[] = { "device", "flags", "scan", "size", "groups", "regions", "tasks", nullptr };
-			while(PyArg_ParseTupleAndKeywords(args, kwargs, "OIOI|IIO", (char**)kwlist, &device_, &flags, &scan_, &size, &groups, &regions, &async_)) {
+			static const char *kwlist[] = { "device", "flags", "scan", "size", "threads", "regions", "tasks", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "OIOI|IIO", (char**)kwlist, &device_, &flags, &scan_, &size, &threads, &regions, &async_)) {
 				if(!isPYDevice(device_)) break;
 				const Device &device = pyDevice_get(device_);
 				if(!isPYPrefixScan(scan_)) break;
 				PrefixScan &scan = pyPrefixScan_get(scan_);
 				Async *async = (async_) ? &pyAsync_get(async_) : nullptr;
-				return PyLong_FromLong(self->ptr.create(device, (RadixSort::Flags)flags, scan, size, groups, regions, async));
+				return PyLong_FromLong(self->ptr.create(device, (RadixSort::Flags)flags, scan, size, threads, regions, async));
 			}
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "RadixSort::create(): unknown arguments:\n(const Device device, RadixSort.Mode mode, PrefixScan scan, uint32_t size, uint32_t groups, uint32_t regions, Async* async) -> bool\n(const Device device, RadixSort.Flags flags, PrefixScan scan, uint32_t size, uint32_t groups, uint32_t regions, Async* async) -> bool\n");
+			PyErr_SetString(PyExc_TypeError, "RadixSort::create(): unknown arguments:\n(const Device device, RadixSort.Mode mode, PrefixScan scan, uint32_t size, uint32_t threads, uint32_t regions, Async* async) -> bool\n(const Device device, RadixSort.Flags flags, PrefixScan scan, uint32_t size, uint32_t threads, uint32_t regions, Async* async) -> bool\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -78265,34 +78383,34 @@ namespace Tellusim {
 		PyObject *device_ = nullptr;
 		uint32_t mode = 0;
 		uint32_t size = {};
-		uint32_t groups = 256;
+		uint32_t threads = 256;
 		uint32_t regions = 1;
 		PyObject *async_ = nullptr;
-		static const char *kwlist[] = { "device", "mode", "size", "groups", "regions", "tasks", nullptr };
-		while(PyArg_ParseTupleAndKeywords(args, kwargs, "OII|IIO", (char**)kwlist, &device_, &mode, &size, &groups, &regions, &async_)) {
+		static const char *kwlist[] = { "device", "mode", "size", "threads", "regions", "tasks", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "OII|IIO", (char**)kwlist, &device_, &mode, &size, &threads, &regions, &async_)) {
 			if(!isPYDevice(device_)) break;
 			const Device &device = pyDevice_get(device_);
 			Async *async = (async_) ? &pyAsync_get(async_) : nullptr;
-			return PyLong_FromLong(self->ptr.create(device, (BitonicSort::Mode)mode, size, groups, regions, async));
+			return PyLong_FromLong(self->ptr.create(device, (BitonicSort::Mode)mode, size, threads, regions, async));
 		}
 		PyErr_Clear();
 		{
 			PyObject *device_ = nullptr;
 			uint32_t flags = 0;
 			uint32_t size = {};
-			uint32_t groups = 256;
+			uint32_t threads = 256;
 			uint32_t regions = 1;
 			PyObject *async_ = nullptr;
-			static const char *kwlist[] = { "device", "flags", "size", "groups", "regions", "tasks", nullptr };
-			while(PyArg_ParseTupleAndKeywords(args, kwargs, "OII|IIO", (char**)kwlist, &device_, &flags, &size, &groups, &regions, &async_)) {
+			static const char *kwlist[] = { "device", "flags", "size", "threads", "regions", "tasks", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "OII|IIO", (char**)kwlist, &device_, &flags, &size, &threads, &regions, &async_)) {
 				if(!isPYDevice(device_)) break;
 				const Device &device = pyDevice_get(device_);
 				Async *async = (async_) ? &pyAsync_get(async_) : nullptr;
-				return PyLong_FromLong(self->ptr.create(device, (BitonicSort::Flags)flags, size, groups, regions, async));
+				return PyLong_FromLong(self->ptr.create(device, (BitonicSort::Flags)flags, size, threads, regions, async));
 			}
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "BitonicSort::create(): unknown arguments:\n(const Device device, BitonicSort.Mode mode, uint32_t size, uint32_t groups, uint32_t regions, Async* async) -> bool\n(const Device device, BitonicSort.Flags flags, uint32_t size, uint32_t groups, uint32_t regions, Async* async) -> bool\n");
+			PyErr_SetString(PyExc_TypeError, "BitonicSort::create(): unknown arguments:\n(const Device device, BitonicSort.Mode mode, uint32_t size, uint32_t threads, uint32_t regions, Async* async) -> bool\n(const Device device, BitonicSort.Flags flags, uint32_t size, uint32_t threads, uint32_t regions, Async* async) -> bool\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -78577,17 +78695,17 @@ namespace Tellusim {
 	static PyObject *SpatialGrid_create(PYSpatialGrid *self, PyObject *args, PyObject *kwargs) {
 		PyObject *device_ = nullptr;
 		PyObject *sort_ = nullptr;
-		uint32_t groups = 256;
-		static const char *kwlist[] = { "device", "sort", "groups", nullptr };
-		while(PyArg_ParseTupleAndKeywords(args, kwargs, "OO|I", (char**)kwlist, &device_, &sort_, &groups)) {
+		uint32_t threads = 256;
+		static const char *kwlist[] = { "device", "sort", "threads", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "OO|I", (char**)kwlist, &device_, &sort_, &threads)) {
 			if(!isPYDevice(device_)) break;
 			const Device &device = pyDevice_get(device_);
 			if(!isPYRadixSort(sort_)) break;
 			RadixSort &sort = pyRadixSort_get(sort_);
-			return PyLong_FromLong(self->ptr.create(device, sort, groups));
+			return PyLong_FromLong(self->ptr.create(device, sort, threads));
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "SpatialGrid::create(): unknown arguments:\n(const Device device, RadixSort sort, uint32_t groups) -> bool\n");
+			PyErr_SetString(PyExc_TypeError, "SpatialGrid::create(): unknown arguments:\n(const Device device, RadixSort sort, uint32_t threads) -> bool\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -78876,17 +78994,17 @@ namespace Tellusim {
 		uint32_t mode = 0;
 		PyObject *sort_ = nullptr;
 		uint32_t size = {};
-		uint32_t groups = 256;
+		uint32_t threads = 256;
 		uint32_t regions = 1;
 		PyObject *async_ = nullptr;
-		static const char *kwlist[] = { "device", "mode", "sort", "size", "groups", "regions", "tasks", nullptr };
-		while(PyArg_ParseTupleAndKeywords(args, kwargs, "OIOI|IIO", (char**)kwlist, &device_, &mode, &sort_, &size, &groups, &regions, &async_)) {
+		static const char *kwlist[] = { "device", "mode", "sort", "size", "threads", "regions", "tasks", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "OIOI|IIO", (char**)kwlist, &device_, &mode, &sort_, &size, &threads, &regions, &async_)) {
 			if(!isPYDevice(device_)) break;
 			const Device &device = pyDevice_get(device_);
 			if(!isPYRadixSort(sort_)) break;
 			RadixSort &sort = pyRadixSort_get(sort_);
 			Async *async = (async_) ? &pyAsync_get(async_) : nullptr;
-			return PyLong_FromLong(self->ptr.create(device, (SpatialTree::Mode)mode, sort, size, groups, regions, async));
+			return PyLong_FromLong(self->ptr.create(device, (SpatialTree::Mode)mode, sort, size, threads, regions, async));
 		}
 		PyErr_Clear();
 		{
@@ -78894,21 +79012,21 @@ namespace Tellusim {
 			uint32_t flags = 0;
 			PyObject *sort_ = nullptr;
 			uint32_t size = {};
-			uint32_t groups = 256;
+			uint32_t threads = 256;
 			uint32_t regions = 1;
 			PyObject *async_ = nullptr;
-			static const char *kwlist[] = { "device", "flags", "sort", "size", "groups", "regions", "tasks", nullptr };
-			while(PyArg_ParseTupleAndKeywords(args, kwargs, "OIOI|IIO", (char**)kwlist, &device_, &flags, &sort_, &size, &groups, &regions, &async_)) {
+			static const char *kwlist[] = { "device", "flags", "sort", "size", "threads", "regions", "tasks", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "OIOI|IIO", (char**)kwlist, &device_, &flags, &sort_, &size, &threads, &regions, &async_)) {
 				if(!isPYDevice(device_)) break;
 				const Device &device = pyDevice_get(device_);
 				if(!isPYRadixSort(sort_)) break;
 				RadixSort &sort = pyRadixSort_get(sort_);
 				Async *async = (async_) ? &pyAsync_get(async_) : nullptr;
-				return PyLong_FromLong(self->ptr.create(device, (SpatialTree::Flags)flags, sort, size, groups, regions, async));
+				return PyLong_FromLong(self->ptr.create(device, (SpatialTree::Flags)flags, sort, size, threads, regions, async));
 			}
 		}
 		#if TS_DEBUG
-			PyErr_SetString(PyExc_TypeError, "SpatialTree::create(): unknown arguments:\n(const Device device, SpatialTree.Mode mode, RadixSort sort, uint32_t size, uint32_t groups, uint32_t regions, Async* async) -> bool\n(const Device device, SpatialTree.Flags flags, RadixSort sort, uint32_t size, uint32_t groups, uint32_t regions, Async* async) -> bool\n");
+			PyErr_SetString(PyExc_TypeError, "SpatialTree::create(): unknown arguments:\n(const Device device, SpatialTree.Mode mode, RadixSort sort, uint32_t size, uint32_t threads, uint32_t regions, Async* async) -> bool\n(const Device device, SpatialTree.Flags flags, RadixSort sort, uint32_t size, uint32_t threads, uint32_t regions, Async* async) -> bool\n");
 		#else
 			pyBadArguments();
 		#endif
@@ -81980,6 +82098,82 @@ namespace Tellusim {
 		return nullptr;
 	}
 	
+	// Tellusim::MeshBoolean
+	static PyObject *MeshBoolean_intersect(PyObject *self, PyObject *args, PyObject *kwargs) {
+		PyObject *dest_0_ = nullptr;
+		PyObject *dest_1_ = nullptr;
+		PyObject *src_0_ = nullptr;
+		PyObject *src_1_ = nullptr;
+		uint32_t op = 0;
+		static const char *kwlist[] = { "dest_0", "dest_1", "src_0", "src_1", "op", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "OOOOI", (char**)kwlist, &dest_0_, &dest_1_, &src_0_, &src_1_, &op)) {
+			if(!isPYMeshGeometry(dest_0_)) break;
+			MeshGeometry &dest_0 = pyMeshGeometry_get(dest_0_);
+			if(!isPYMeshGeometry(dest_1_)) break;
+			MeshGeometry &dest_1 = pyMeshGeometry_get(dest_1_);
+			if(!isPYMeshGeometry(src_0_)) break;
+			const MeshGeometry &src_0 = pyMeshGeometry_get(src_0_);
+			if(!isPYMeshGeometry(src_1_)) break;
+			const MeshGeometry &src_1 = pyMeshGeometry_get(src_1_);
+			return PyLong_FromLong(MeshBoolean::intersect(dest_0, dest_1, src_0, src_1, (MeshBoolean::Operation)op));
+		}
+		PyErr_Clear();
+		{
+			PyObject *dest_ = nullptr;
+			PyObject *src_0_ = nullptr;
+			PyObject *src_1_ = nullptr;
+			uint32_t op = 0;
+			static const char *kwlist[] = { "dest", "src_0", "src_1", "op", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "OOOI", (char**)kwlist, &dest_, &src_0_, &src_1_, &op)) {
+				if(!isPYMeshGeometry(dest_)) break;
+				MeshGeometry &dest = pyMeshGeometry_get(dest_);
+				if(!isPYMeshGeometry(src_0_)) break;
+				const MeshGeometry &src_0 = pyMeshGeometry_get(src_0_);
+				if(!isPYMeshGeometry(src_1_)) break;
+				const MeshGeometry &src_1 = pyMeshGeometry_get(src_1_);
+				return PyLong_FromLong(MeshBoolean::intersect(dest, src_0, src_1, (MeshBoolean::Operation)op));
+			}
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "MeshBoolean::intersect(): unknown arguments:\n(MeshGeometry dest_0, MeshGeometry dest_1, const MeshGeometry src_0, const MeshGeometry src_1, MeshBoolean.Operation op) -> bool\n(MeshGeometry dest, const MeshGeometry src_0, const MeshGeometry src_1, MeshBoolean.Operation op) -> bool\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	
+	// Tellusim::MeshFracture
+	static PyObject *MeshFracture_split(PyObject *self, PyObject *args, PyObject *kwargs) {
+		PyObject *dest_ = nullptr;
+		PyObject *src_ = nullptr;
+		PyObject *points_ = nullptr;
+		uint32_t num_points = {};
+		PyObject *texcoord_ = nullptr;
+		float32_t threshold = 1e-3f;
+		float32_t collapse = 1e-3f;
+		float32_t volume = 1e-3f;
+		PyObject *async_ = nullptr;
+		static const char *kwlist[] = { "dest", "src", "points", "texcoord", "threshold", "collapse", "volume", "tasks", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "OOO|OfffO", (char**)kwlist, &dest_, &src_, &points_, &texcoord_, &threshold, &collapse, &volume, &async_)) {
+			if(!isPYMesh(dest_)) break;
+			Mesh &dest = pyMesh_get(dest_);
+			if(!isPYMesh(src_)) break;
+			const Mesh &src = pyMesh_get(src_);
+			if(!isPYArray(points_)) break;
+			Array<Vector3f> points(pyArray_size(points_));
+			for(uint32_t i = 0; i < points.size(); i++) points[i] = pyVector3f_get(pyArray_get(points_, i));
+			const Vector2f &texcoord = pyVector2f_get(texcoord_);
+			Async *async = (async_) ? &pyAsync_get(async_) : nullptr;
+			return PyLong_FromLong(MeshFracture::split(dest, src, points.get(), num_points = points.size(), texcoord, threshold, collapse, volume, async));
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "MeshFracture::split(): unknown arguments:\n(Mesh dest, const Mesh src, const Vector3f points[], const Vector2f texcoord, float32_t threshold, float32_t collapse, float32_t volume, Async* async) -> bool\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	
 	// Tellusim::MeshGraph
 	static bool pyMeshGraph_ProgressCallback(uint32_t progress, PyObject *func) {
 		bool ret = {};
@@ -82211,6 +82405,58 @@ namespace Tellusim {
 		return nullptr;
 	}
 	
+	// Tellusim::MeshSplit
+	static PyObject *MeshSplit_split(PyObject *self, PyObject *args, PyObject *kwargs) {
+		PyObject *front_ = nullptr;
+		PyObject *cross_ = nullptr;
+		PyObject *back_ = nullptr;
+		PyObject *src_ = nullptr;
+		PyObject *basis_ = nullptr;
+		uint32_t position = Maxu32;
+		static const char *kwlist[] = { "front", "cross", "back", "src", "basis", "position", nullptr };
+		while(PyArg_ParseTupleAndKeywords(args, kwargs, "OOOOO|I", (char**)kwlist, &front_, &cross_, &back_, &src_, &basis_, &position)) {
+			if(!isPYMeshGeometry(front_)) break;
+			MeshGeometry &front = pyMeshGeometry_get(front_);
+			if(!isPYMeshGeometry(cross_)) break;
+			MeshGeometry &cross = pyMeshGeometry_get(cross_);
+			if(!isPYMeshGeometry(back_)) break;
+			MeshGeometry &back = pyMeshGeometry_get(back_);
+			if(!isPYMeshGeometry(src_)) break;
+			const MeshGeometry &src = pyMeshGeometry_get(src_);
+			if(!isPYMatrix4x3f(basis_)) break;
+			const Matrix4x3f &basis = pyMatrix4x3f_get(basis_);
+			return PyLong_FromLong(MeshSplit::split(front, cross, back, src, basis, position));
+		}
+		PyErr_Clear();
+		{
+			PyObject *front_ = nullptr;
+			PyObject *cross_ = nullptr;
+			PyObject *back_ = nullptr;
+			PyObject *src_ = nullptr;
+			PyObject *basis_ = nullptr;
+			static const char *kwlist[] = { "front", "cross", "back", "src", "basis", nullptr };
+			while(PyArg_ParseTupleAndKeywords(args, kwargs, "OOOOO", (char**)kwlist, &front_, &cross_, &back_, &src_, &basis_)) {
+				if(!isPYMesh(front_)) break;
+				Mesh &front = pyMesh_get(front_);
+				if(!isPYMesh(cross_)) break;
+				Mesh &cross = pyMesh_get(cross_);
+				if(!isPYMesh(back_)) break;
+				Mesh &back = pyMesh_get(back_);
+				if(!isPYMesh(src_)) break;
+				const Mesh &src = pyMesh_get(src_);
+				if(!isPYMatrix4x3f(basis_)) break;
+				const Matrix4x3f &basis = pyMatrix4x3f_get(basis_);
+				return PyLong_FromLong(MeshSplit::split(front, cross, back, src, basis));
+			}
+		}
+		#if TS_DEBUG
+			PyErr_SetString(PyExc_TypeError, "MeshSplit::split(): unknown arguments:\n(MeshGeometry front, MeshGeometry cross, MeshGeometry back, const MeshGeometry src, const Matrix4x3f basis, uint32_t position) -> bool\n(Mesh front, Mesh cross, Mesh back, const Mesh src, const Matrix4x3f basis) -> bool\n");
+		#else
+			pyBadArguments();
+		#endif
+		return nullptr;
+	}
+	
 	// Init Tellusim API
 	bool pyInitAPI(Array<PyMethodDef> &methods) {
 		
@@ -82379,7 +82625,9 @@ namespace Tellusim {
 		PyDict_SetItemString(PYApp_Type.tp_dict, "Version_41", PyLong_FromLong(20250816));
 		PyDict_SetItemString(PYApp_Type.tp_dict, "Version_42", PyLong_FromLong(20251102));
 		PyDict_SetItemString(PYApp_Type.tp_dict, "Version_43", PyLong_FromLong(20251220));
-		PyDict_SetItemString(PYApp_Type.tp_dict, "Version", PyLong_FromLong(20251220));
+		PyDict_SetItemString(PYApp_Type.tp_dict, "Version_44", PyLong_FromLong(20260625));
+		PyDict_SetItemString(PYApp_Type.tp_dict, "Version_45", PyLong_FromLong(20260702));
+		PyDict_SetItemString(PYApp_Type.tp_dict, "Version", PyLong_FromLong(20260702));
 		PyType_Modified(&PYApp_Type);
 		Py_INCREF(&PYApp_Type);
 		
@@ -88706,7 +88954,7 @@ namespace Tellusim {
 		
 		// Tellusim::Device::Features
 		PYDeviceFeatures_methods.append(PyMethodDef {});
-		PYDeviceFeatures_members.reserve(PYDeviceFeatures_members.size() + 82);
+		PYDeviceFeatures_members.reserve(PYDeviceFeatures_members.size() + 97);
 		PYDeviceFeatures_getsets.reserve(PYDeviceFeatures_getsets.size() + 1);
 		PYDeviceFeatures_members.append(PyMemberDef { "threadAccess", T_BOOL, offsetof(PYDeviceFeatures, ptr.threadAccess), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "bufferTable", T_BOOL, offsetof(PYDeviceFeatures, ptr.bufferTable), 0, "" });
@@ -88766,15 +89014,30 @@ namespace Tellusim {
 		PYDeviceFeatures_members.append(PyMemberDef { "maxTexture3DSize", T_UINT, offsetof(PYDeviceFeatures, ptr.maxTexture3DSize), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "maxTextureLayers", T_UINT, offsetof(PYDeviceFeatures, ptr.maxTextureLayers), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "maxTextureSamples", T_UINT, offsetof(PYDeviceFeatures, ptr.maxTextureSamples), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "maxGroupSize", T_UINT, offsetof(PYDeviceFeatures, ptr.maxGroupSize), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "maxGroupSizeX", T_UINT, offsetof(PYDeviceFeatures, ptr.maxGroupSizeX), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "maxGroupSizeY", T_UINT, offsetof(PYDeviceFeatures, ptr.maxGroupSizeY), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "maxGroupSizeZ", T_UINT, offsetof(PYDeviceFeatures, ptr.maxGroupSizeZ), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "maxGroupCountX", T_UINT, offsetof(PYDeviceFeatures, ptr.maxGroupCountX), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "maxGroupCountY", T_UINT, offsetof(PYDeviceFeatures, ptr.maxGroupCountY), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "maxGroupCountZ", T_UINT, offsetof(PYDeviceFeatures, ptr.maxGroupCountZ), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "maxTaskSize", T_UINT, offsetof(PYDeviceFeatures, ptr.maxTaskSize), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "maxTaskSizeX", T_UINT, offsetof(PYDeviceFeatures, ptr.maxTaskSizeX), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "maxTaskSizeY", T_UINT, offsetof(PYDeviceFeatures, ptr.maxTaskSizeY), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "maxTaskSizeZ", T_UINT, offsetof(PYDeviceFeatures, ptr.maxTaskSizeZ), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "maxTaskCount", T_UINT, offsetof(PYDeviceFeatures, ptr.maxTaskCount), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "maxTaskCountX", T_UINT, offsetof(PYDeviceFeatures, ptr.maxTaskCountX), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "maxTaskCountY", T_UINT, offsetof(PYDeviceFeatures, ptr.maxTaskCountY), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "maxTaskCountZ", T_UINT, offsetof(PYDeviceFeatures, ptr.maxTaskCountZ), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "maxTaskMemory", T_UINT, offsetof(PYDeviceFeatures, ptr.maxTaskMemory), 0, "" });
-		PYDeviceFeatures_members.append(PyMemberDef { "maxTaskMeshes", T_UINT, offsetof(PYDeviceFeatures, ptr.maxTaskMeshes), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "maxMeshSize", T_UINT, offsetof(PYDeviceFeatures, ptr.maxMeshSize), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "maxMeshSizeX", T_UINT, offsetof(PYDeviceFeatures, ptr.maxMeshSizeX), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "maxMeshSizeY", T_UINT, offsetof(PYDeviceFeatures, ptr.maxMeshSizeY), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "maxMeshSizeZ", T_UINT, offsetof(PYDeviceFeatures, ptr.maxMeshSizeZ), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "maxMeshCount", T_UINT, offsetof(PYDeviceFeatures, ptr.maxMeshCount), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "maxMeshCountX", T_UINT, offsetof(PYDeviceFeatures, ptr.maxMeshCountX), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "maxMeshCountY", T_UINT, offsetof(PYDeviceFeatures, ptr.maxMeshCountY), 0, "" });
+		PYDeviceFeatures_members.append(PyMemberDef { "maxMeshCountZ", T_UINT, offsetof(PYDeviceFeatures, ptr.maxMeshCountZ), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "maxMeshMemory", T_UINT, offsetof(PYDeviceFeatures, ptr.maxMeshMemory), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "maxMeshVertices", T_UINT, offsetof(PYDeviceFeatures, ptr.maxMeshVertices), 0, "" });
 		PYDeviceFeatures_members.append(PyMemberDef { "maxMeshPrimitives", T_UINT, offsetof(PYDeviceFeatures, ptr.maxMeshPrimitives), 0, "" });
@@ -91901,7 +92164,7 @@ namespace Tellusim {
 		Py_INCREF(&PYControlRoot_Type);
 		
 		// Tellusim::ControlText
-		PYControlText_methods.reserve(PYControlText_methods.size() + 45);
+		PYControlText_methods.reserve(PYControlText_methods.size() + 47);
 		PYControlText_methods.append(PyMethodDef { "equalPtr", (PyCFunction)pyControlText_equalPtr, METH_VARARGS, "" });
 		PYControlText_methods.append(PyMethodDef { "clonePtr", (PyCFunction)pyControlText_clonePtr, METH_NOARGS, "" });
 		PYControlText_methods.append(PyMethodDef { "clearPtr", (PyCFunction)pyControlText_clearPtr, METH_NOARGS, "" });
@@ -91922,6 +92185,8 @@ namespace Tellusim {
 		PYControlText_methods.append(PyMethodDef { "getPipeline", (PyCFunction)ControlText_getPipeline, METH_NOARGS, "" });
 		PYControlText_methods.append(PyMethodDef { "setColor", (PyCFunction)ControlText_setColor, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControlText_methods.append(PyMethodDef { "getColor", (PyCFunction)ControlText_getColor, METH_NOARGS, "" });
+		PYControlText_methods.append(PyMethodDef { "setStateColor", (PyCFunction)ControlText_setStateColor, METH_VARARGS | METH_KEYWORDS, "" });
+		PYControlText_methods.append(PyMethodDef { "getStateColor", (PyCFunction)ControlText_getStateColor, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControlText_methods.append(PyMethodDef { "setFilter", (PyCFunction)ControlText_setFilter, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControlText_methods.append(PyMethodDef { "getFilter", (PyCFunction)ControlText_getFilter, METH_NOARGS, "" });
 		PYControlText_methods.append(PyMethodDef { "setAnisotropy", (PyCFunction)ControlText_setAnisotropy, METH_VARARGS | METH_KEYWORDS, "" });
@@ -91986,7 +92251,7 @@ namespace Tellusim {
 		Py_INCREF(&PYControlText_Type);
 		
 		// Tellusim::ControlRect
-		PYControlRect_methods.reserve(PYControlRect_methods.size() + 66);
+		PYControlRect_methods.reserve(PYControlRect_methods.size() + 68);
 		PYControlRect_methods.append(PyMethodDef { "equalPtr", (PyCFunction)pyControlRect_equalPtr, METH_VARARGS, "" });
 		PYControlRect_methods.append(PyMethodDef { "clonePtr", (PyCFunction)pyControlRect_clonePtr, METH_NOARGS, "" });
 		PYControlRect_methods.append(PyMethodDef { "clearPtr", (PyCFunction)pyControlRect_clearPtr, METH_NOARGS, "" });
@@ -92011,6 +92276,8 @@ namespace Tellusim {
 		PYControlRect_methods.append(PyMethodDef { "getRadius", (PyCFunction)ControlRect_getRadius, METH_NOARGS, "" });
 		PYControlRect_methods.append(PyMethodDef { "setColor", (PyCFunction)ControlRect_setColor, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControlRect_methods.append(PyMethodDef { "getColor", (PyCFunction)ControlRect_getColor, METH_NOARGS, "" });
+		PYControlRect_methods.append(PyMethodDef { "setStateColor", (PyCFunction)ControlRect_setStateColor, METH_VARARGS | METH_KEYWORDS, "" });
+		PYControlRect_methods.append(PyMethodDef { "getStateColor", (PyCFunction)ControlRect_getStateColor, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControlRect_methods.append(PyMethodDef { "setStrokeStyle", (PyCFunction)ControlRect_setStrokeStyle, METH_VARARGS | METH_KEYWORDS, "" });
 		PYControlRect_methods.append(PyMethodDef { "getStrokeStyleConst", (PyCFunction)ControlRect_getStrokeStyleConst, METH_NOARGS, "" });
 		PYControlRect_methods.append(PyMethodDef { "getStrokeStyle", (PyCFunction)ControlRect_getStrokeStyle, METH_NOARGS, "" });
@@ -94972,6 +95239,42 @@ namespace Tellusim {
 		}
 		Py_INCREF(&PYSystem_Type);
 		
+		// Tellusim::MeshBoolean
+		PYMeshBoolean_methods.reserve(PYMeshBoolean_methods.size() + 2);
+		PYMeshBoolean_methods.append(PyMethodDef { "intersect", (PyCFunction)MeshBoolean_intersect, METH_VARARGS | METH_KEYWORDS | METH_STATIC, "" });
+		PYMeshBoolean_methods.append(PyMethodDef {});
+		PYMeshBoolean_Type.tp_name = "tellusim.MeshBoolean";
+		PYMeshBoolean_Type.tp_basicsize = sizeof(PYMeshBoolean);
+		PYMeshBoolean_Type.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_DISALLOW_INSTANTIATION | Py_TPFLAGS_IMMUTABLETYPE;
+		PYMeshBoolean_Type.tp_doc = "";
+		PYMeshBoolean_Type.tp_methods = PYMeshBoolean_methods.discard();
+		PYMeshBoolean_Type.tp_new = PyType_GenericNew;
+		if(PyType_Ready(&PYMeshBoolean_Type) < 0) {
+			TS_LOGF(Error, "pyInitAPI(): can't init %s type\n", "MeshBoolean");
+			return false;
+		}
+		PyDict_SetItemString(PYMeshBoolean_Type.tp_dict, "OpUnion", PyLong_FromLong(0));
+		PyDict_SetItemString(PYMeshBoolean_Type.tp_dict, "OpDifference", PyLong_FromLong(1));
+		PyDict_SetItemString(PYMeshBoolean_Type.tp_dict, "OpIntersection", PyLong_FromLong(2));
+		PyType_Modified(&PYMeshBoolean_Type);
+		Py_INCREF(&PYMeshBoolean_Type);
+		
+		// Tellusim::MeshFracture
+		PYMeshFracture_methods.reserve(PYMeshFracture_methods.size() + 2);
+		PYMeshFracture_methods.append(PyMethodDef { "split", (PyCFunction)MeshFracture_split, METH_VARARGS | METH_KEYWORDS | METH_STATIC, "" });
+		PYMeshFracture_methods.append(PyMethodDef {});
+		PYMeshFracture_Type.tp_name = "tellusim.MeshFracture";
+		PYMeshFracture_Type.tp_basicsize = sizeof(PYMeshFracture);
+		PYMeshFracture_Type.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_DISALLOW_INSTANTIATION | Py_TPFLAGS_IMMUTABLETYPE;
+		PYMeshFracture_Type.tp_doc = "";
+		PYMeshFracture_Type.tp_methods = PYMeshFracture_methods.discard();
+		PYMeshFracture_Type.tp_new = PyType_GenericNew;
+		if(PyType_Ready(&PYMeshFracture_Type) < 0) {
+			TS_LOGF(Error, "pyInitAPI(): can't init %s type\n", "MeshFracture");
+			return false;
+		}
+		Py_INCREF(&PYMeshFracture_Type);
+		
 		// Tellusim::MeshGraph
 		PYMeshGraph_methods.reserve(PYMeshGraph_methods.size() + 2);
 		PYMeshGraph_methods.append(PyMethodDef { "create", (PyCFunction)MeshGraph_create, METH_VARARGS | METH_KEYWORDS | METH_STATIC, "" });
@@ -95035,6 +95338,22 @@ namespace Tellusim {
 			return false;
 		}
 		Py_INCREF(&PYMeshSolid_Type);
+		
+		// Tellusim::MeshSplit
+		PYMeshSplit_methods.reserve(PYMeshSplit_methods.size() + 2);
+		PYMeshSplit_methods.append(PyMethodDef { "split", (PyCFunction)MeshSplit_split, METH_VARARGS | METH_KEYWORDS | METH_STATIC, "" });
+		PYMeshSplit_methods.append(PyMethodDef {});
+		PYMeshSplit_Type.tp_name = "tellusim.MeshSplit";
+		PYMeshSplit_Type.tp_basicsize = sizeof(PYMeshSplit);
+		PYMeshSplit_Type.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_DISALLOW_INSTANTIATION | Py_TPFLAGS_IMMUTABLETYPE;
+		PYMeshSplit_Type.tp_doc = "";
+		PYMeshSplit_Type.tp_methods = PYMeshSplit_methods.discard();
+		PYMeshSplit_Type.tp_new = PyType_GenericNew;
+		if(PyType_Ready(&PYMeshSplit_Type) < 0) {
+			TS_LOGF(Error, "pyInitAPI(): can't init %s type\n", "MeshSplit");
+			return false;
+		}
+		Py_INCREF(&PYMeshSplit_Type);
 		
 		return true;
 	}
@@ -95392,10 +95711,13 @@ namespace Tellusim {
 		if(PyModule_AddObject(module, "Log", (PyObject*)&PYLog_Type) < 0) return false;
 		if(PyModule_AddObject(module, "Time", (PyObject*)&PYTime_Type) < 0) return false;
 		if(PyModule_AddObject(module, "System", (PyObject*)&PYSystem_Type) < 0) return false;
+		if(PyModule_AddObject(module, "MeshBoolean", (PyObject*)&PYMeshBoolean_Type) < 0) return false;
+		if(PyModule_AddObject(module, "MeshFracture", (PyObject*)&PYMeshFracture_Type) < 0) return false;
 		if(PyModule_AddObject(module, "MeshGraph", (PyObject*)&PYMeshGraph_Type) < 0) return false;
 		if(PyModule_AddObject(module, "MeshReduce", (PyObject*)&PYMeshReduce_Type) < 0) return false;
 		if(PyModule_AddObject(module, "MeshRefine", (PyObject*)&PYMeshRefine_Type) < 0) return false;
 		if(PyModule_AddObject(module, "MeshSolid", (PyObject*)&PYMeshSolid_Type) < 0) return false;
+		if(PyModule_AddObject(module, "MeshSplit", (PyObject*)&PYMeshSplit_Type) < 0) return false;
 		return true;
 	}
 }
