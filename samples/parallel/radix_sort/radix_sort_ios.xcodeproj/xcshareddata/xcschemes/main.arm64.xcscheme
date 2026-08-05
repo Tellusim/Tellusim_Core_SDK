@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "66F27CAECC455B151EE000BA"
+				BlueprintIdentifier = "643EAC4BE80C1428C41000BA"
 				BuildableName = "tsParallelRadixSort"
 				BlueprintName = "tsParallelRadixSort"
 				ReferencedContainer = "container:radix_sort_ios.xcodeproj"/>

@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "68F6142FE13120CF739000BA"
+				BlueprintIdentifier = "6228596AA8069D32839000BA"
 				BuildableName = "tsPlatformStorage"
 				BlueprintName = "tsPlatformStorage"
 				ReferencedContainer = "container:storage_ios.xcodeproj"/>

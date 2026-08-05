@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "63B2097CEF952A82C8F000BA"
+				BlueprintIdentifier = "6E3C79302CA893EEA16000BA"
 				BuildableName = "tsPlatformBuffers"
 				BlueprintName = "tsPlatformBuffers"
 				ReferencedContainer = "container:buffers_ios.xcodeproj"/>

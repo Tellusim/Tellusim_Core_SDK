@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6913F5AF670E4AB8F40000BA"
+				BlueprintIdentifier = "64AC0037905C6BFF4B0000BA"
 				BuildableName = "tsPlatformDivisor"
 				BlueprintName = "tsPlatformDivisor"
 				ReferencedContainer = "container:divisor_ios.xcodeproj"/>

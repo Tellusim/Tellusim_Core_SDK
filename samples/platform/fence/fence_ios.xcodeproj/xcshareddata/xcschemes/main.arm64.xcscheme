@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "64C5D94B8B2AB7F5606000BA"
+				BlueprintIdentifier = "6FB649FF86980C1C0BD000BA"
 				BuildableName = "tsPlatformFence"
 				BlueprintName = "tsPlatformFence"
 				ReferencedContainer = "container:fence_ios.xcodeproj"/>

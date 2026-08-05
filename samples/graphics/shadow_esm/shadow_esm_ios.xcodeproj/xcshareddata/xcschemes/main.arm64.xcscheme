@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "63B073BF0F07C892E06000DA"
+				BlueprintIdentifier = "6E211EA3C1C6BC946F3000DA"
 				BuildableName = "tsGraphicsShadowESM"
 				BlueprintName = "tsGraphicsShadowESM"
 				ReferencedContainer = "container:shadow_esm_ios.xcodeproj"/>

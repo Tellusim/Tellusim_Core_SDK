@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "64DAF59F0C7847BD6BC0013A"
+				BlueprintIdentifier = "6AF2944EE90FC5CB4FA0013A"
 				BuildableName = "tsGraphicsDecoderJPEG"
 				BlueprintName = "tsGraphicsDecoderJPEG"
 				ReferencedContainer = "container:decoder_jpeg_ios.xcodeproj"/>

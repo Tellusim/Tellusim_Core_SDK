@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6F3BE9C6F6246257BBC0011A"
+				BlueprintIdentifier = "65E9D669246D7B9320C0011A"
 				BuildableName = "tsGraphicsSkinnedTracing"
 				BlueprintName = "tsGraphicsSkinnedTracing"
 				ReferencedContainer = "container:skinned_tracing_ios.xcodeproj"/>

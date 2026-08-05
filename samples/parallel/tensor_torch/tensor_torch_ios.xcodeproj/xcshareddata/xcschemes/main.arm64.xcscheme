@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6B559C9268271E202E0000FA"
+				BlueprintIdentifier = "689C4314E6FF9D6A653000FA"
 				BuildableName = "tsParallelTensorTorch"
 				BlueprintName = "tsParallelTensorTorch"
 				ReferencedContainer = "container:tensor_torch_ios.xcodeproj"/>

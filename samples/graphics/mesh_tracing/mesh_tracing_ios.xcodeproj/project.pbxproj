@@ -3,79 +3,79 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		64AFC8E4EA0586388B10000A = { isa = PBXBuildFile; fileRef = 64AFC8E4EA0586388B10001A; };
-		64AFC8E4EA0586388B10001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		64AFC8E4EA0586388B10002A = { isa = PBXBuildFile; fileRef = 64AFC8E4EA0586388B10003A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		64AFC8E4EA0586388B10003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
-		64AFC8E4EA0586388B10004A = { isa = PBXBuildFile; fileRef = 64AFC8E4EA0586388B10005A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		64AFC8E4EA0586388B10005A = { isa = PBXFileReference; path = model.glb; sourceTree = "<group>"; };
-		64AFC8E4EA0586388B1000CA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsGraphicsMeshTracing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		64AFC8E4EA0586388B1000AA = {
+		63B210C40DF856252630000A = { isa = PBXBuildFile; fileRef = 63B210C40DF856252630001A; };
+		63B210C40DF856252630001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		63B210C40DF856252630002A = { isa = PBXBuildFile; fileRef = 63B210C40DF856252630003A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		63B210C40DF856252630003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
+		63B210C40DF856252630004A = { isa = PBXBuildFile; fileRef = 63B210C40DF856252630005A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		63B210C40DF856252630005A = { isa = PBXFileReference; path = model.glb; sourceTree = "<group>"; };
+		63B210C40DF85625263000CA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsGraphicsMeshTracing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		63B210C40DF85625263000AA = {
 			isa = PBXGroup;
 			children = (
-				64AFC8E4EA0586388B10001A,
-				64AFC8E4EA0586388B10003A,
-				64AFC8E4EA0586388B10005A,
-				64AFC8E4EA0586388B1000BA,
+				63B210C40DF856252630001A,
+				63B210C40DF856252630003A,
+				63B210C40DF856252630005A,
+				63B210C40DF85625263000BA,
 			);
 			sourceTree = "<group>";
 		};
-		64AFC8E4EA0586388B1000BA = {
+		63B210C40DF85625263000BA = {
 			isa = PBXGroup;
 			children = (
-				64AFC8E4EA0586388B1000CA,
+				63B210C40DF85625263000CA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		64AFC8E4EA0586388B1000DA = {
+		63B210C40DF85625263000DA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 64AFC8E4EA0586388B1000EA;
+			buildConfigurationList = 63B210C40DF85625263000EA;
 			buildPhases = (
-				64AFC8E4EA0586388B10011A,
-				64AFC8E4EA0586388B10012A,
+				63B210C40DF856252630011A,
+				63B210C40DF856252630012A,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "tsGraphicsMeshTracing";
 			productName = "tsGraphicsMeshTracing";
-			productReference = 64AFC8E4EA0586388B1000CA;
+			productReference = 63B210C40DF85625263000CA;
 			productType = "com.apple.product-type.application";
 		};
-		64AFC8E4EA0586388B10006A = {
+		63B210C40DF856252630006A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 64AFC8E4EA0586388B10007A;
+			buildConfigurationList = 63B210C40DF856252630007A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 64AFC8E4EA0586388B1000AA;
-			productRefGroup = 64AFC8E4EA0586388B1000BA;
+			mainGroup = 63B210C40DF85625263000AA;
+			productRefGroup = 63B210C40DF85625263000BA;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				64AFC8E4EA0586388B1000DA,
+				63B210C40DF85625263000DA,
 			);
 		};
-		64AFC8E4EA0586388B10011A = {
+		63B210C40DF856252630011A = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64AFC8E4EA0586388B10000A,
+				63B210C40DF856252630000A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		64AFC8E4EA0586388B10012A = {
+		63B210C40DF856252630012A = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64AFC8E4EA0586388B10002A,
-				64AFC8E4EA0586388B10004A,
+				63B210C40DF856252630002A,
+				63B210C40DF856252630004A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		64AFC8E4EA0586388B10008A = {
+		63B210C40DF856252630008A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -140,7 +140,7 @@
 			};
 			name = Debug;
 		};
-		64AFC8E4EA0586388B10009A = {
+		63B210C40DF856252630009A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -202,7 +202,7 @@
 			};
 			name = Release;
 		};
-		64AFC8E4EA0586388B1000FA = {
+		63B210C40DF85625263000FA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsGraphicsMeshTracing";
@@ -244,7 +244,7 @@
 			};
 			name = Debug;
 		};
-		64AFC8E4EA0586388B10010A = {
+		63B210C40DF856252630010A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsGraphicsMeshTracing";
@@ -286,24 +286,24 @@
 			};
 			name = Release;
 		};
-		64AFC8E4EA0586388B10007A = {
+		63B210C40DF856252630007A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				64AFC8E4EA0586388B10008A,
-				64AFC8E4EA0586388B10009A,
+				63B210C40DF856252630008A,
+				63B210C40DF856252630009A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		64AFC8E4EA0586388B1000EA = {
+		63B210C40DF85625263000EA = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				64AFC8E4EA0586388B1000FA,
-				64AFC8E4EA0586388B10010A,
+				63B210C40DF85625263000FA,
+				63B210C40DF856252630010A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 64AFC8E4EA0586388B10006A;
+	rootObject = 63B210C40DF856252630006A;
 }

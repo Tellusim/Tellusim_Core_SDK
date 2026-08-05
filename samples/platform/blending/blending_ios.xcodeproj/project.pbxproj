@@ -3,75 +3,75 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		6AA60E3F6A0C8E6176B0000A = { isa = PBXBuildFile; fileRef = 6AA60E3F6A0C8E6176B0001A; };
-		6AA60E3F6A0C8E6176B0001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		6AA60E3F6A0C8E6176B0002A = { isa = PBXBuildFile; fileRef = 6AA60E3F6A0C8E6176B0003A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6AA60E3F6A0C8E6176B0003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
-		6AA60E3F6A0C8E6176B000AA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsPlatformBlending.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6AA60E3F6A0C8E6176B0008A = {
+		685D57707BF5C1A21170000A = { isa = PBXBuildFile; fileRef = 685D57707BF5C1A21170001A; };
+		685D57707BF5C1A21170001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		685D57707BF5C1A21170002A = { isa = PBXBuildFile; fileRef = 685D57707BF5C1A21170003A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		685D57707BF5C1A21170003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
+		685D57707BF5C1A2117000AA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsPlatformBlending.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		685D57707BF5C1A21170008A = {
 			isa = PBXGroup;
 			children = (
-				6AA60E3F6A0C8E6176B0001A,
-				6AA60E3F6A0C8E6176B0003A,
-				6AA60E3F6A0C8E6176B0009A,
+				685D57707BF5C1A21170001A,
+				685D57707BF5C1A21170003A,
+				685D57707BF5C1A21170009A,
 			);
 			sourceTree = "<group>";
 		};
-		6AA60E3F6A0C8E6176B0009A = {
+		685D57707BF5C1A21170009A = {
 			isa = PBXGroup;
 			children = (
-				6AA60E3F6A0C8E6176B000AA,
+				685D57707BF5C1A2117000AA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6AA60E3F6A0C8E6176B000BA = {
+		685D57707BF5C1A2117000BA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6AA60E3F6A0C8E6176B000CA;
+			buildConfigurationList = 685D57707BF5C1A2117000CA;
 			buildPhases = (
-				6AA60E3F6A0C8E6176B000FA,
-				6AA60E3F6A0C8E6176B0010A,
+				685D57707BF5C1A2117000FA,
+				685D57707BF5C1A21170010A,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "tsPlatformBlending";
 			productName = "tsPlatformBlending";
-			productReference = 6AA60E3F6A0C8E6176B000AA;
+			productReference = 685D57707BF5C1A2117000AA;
 			productType = "com.apple.product-type.application";
 		};
-		6AA60E3F6A0C8E6176B0004A = {
+		685D57707BF5C1A21170004A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 6AA60E3F6A0C8E6176B0005A;
+			buildConfigurationList = 685D57707BF5C1A21170005A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 6AA60E3F6A0C8E6176B0008A;
-			productRefGroup = 6AA60E3F6A0C8E6176B0009A;
+			mainGroup = 685D57707BF5C1A21170008A;
+			productRefGroup = 685D57707BF5C1A21170009A;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6AA60E3F6A0C8E6176B000BA,
+				685D57707BF5C1A2117000BA,
 			);
 		};
-		6AA60E3F6A0C8E6176B000FA = {
+		685D57707BF5C1A2117000FA = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6AA60E3F6A0C8E6176B0000A,
+				685D57707BF5C1A21170000A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6AA60E3F6A0C8E6176B0010A = {
+		685D57707BF5C1A21170010A = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6AA60E3F6A0C8E6176B0002A,
+				685D57707BF5C1A21170002A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6AA60E3F6A0C8E6176B0006A = {
+		685D57707BF5C1A21170006A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -136,7 +136,7 @@
 			};
 			name = Debug;
 		};
-		6AA60E3F6A0C8E6176B0007A = {
+		685D57707BF5C1A21170007A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -198,7 +198,7 @@
 			};
 			name = Release;
 		};
-		6AA60E3F6A0C8E6176B000DA = {
+		685D57707BF5C1A2117000DA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsPlatformBlending";
@@ -240,7 +240,7 @@
 			};
 			name = Debug;
 		};
-		6AA60E3F6A0C8E6176B000EA = {
+		685D57707BF5C1A2117000EA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsPlatformBlending";
@@ -282,24 +282,24 @@
 			};
 			name = Release;
 		};
-		6AA60E3F6A0C8E6176B0005A = {
+		685D57707BF5C1A21170005A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6AA60E3F6A0C8E6176B0006A,
-				6AA60E3F6A0C8E6176B0007A,
+				685D57707BF5C1A21170006A,
+				685D57707BF5C1A21170007A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6AA60E3F6A0C8E6176B000CA = {
+		685D57707BF5C1A2117000CA = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6AA60E3F6A0C8E6176B000DA,
-				6AA60E3F6A0C8E6176B000EA,
+				685D57707BF5C1A2117000DA,
+				685D57707BF5C1A2117000EA,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 6AA60E3F6A0C8E6176B0004A;
+	rootObject = 685D57707BF5C1A21170004A;
 }

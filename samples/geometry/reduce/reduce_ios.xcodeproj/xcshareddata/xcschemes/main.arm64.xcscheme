@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "63D602FBFDB101DF2AE000DA"
+				BlueprintIdentifier = "67017176C6FC6CA6F4B000DA"
 				BuildableName = "tsGeometryReduce"
 				BlueprintName = "tsGeometryReduce"
 				ReferencedContainer = "container:reduce_ios.xcodeproj"/>

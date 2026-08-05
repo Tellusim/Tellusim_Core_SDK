@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6A15A6DEAC2674FFD69000FA"
+				BlueprintIdentifier = "640D6086F490D1EB379000FA"
 				BuildableName = "tsGraphicsShadowTree"
 				BlueprintName = "tsGraphicsShadowTree"
 				ReferencedContainer = "container:shadow_tree_ios.xcodeproj"/>

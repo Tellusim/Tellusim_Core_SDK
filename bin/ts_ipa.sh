@@ -29,6 +29,10 @@ if [ "$1" == "-run" ]; then
 	RUN=1
 	shift 1
 fi
+if [ "$1" == "-cert" ]; then
+	CERT=1
+	shift 1
+fi
 if [ "$1" == "-list" ]; then
 	LIST=1
 	shift 1
@@ -42,6 +46,12 @@ TARGET=$NAME.app
 PACKAGE=$NAME.ipa
 BINROOT=`dirname "$0"`
 ECHO=$BINROOT/ts_echo.sh
+
+# List certificates
+if [ -n "$CERT" ]; then
+	security find-identity -v -p codesigning
+	exit 0
+fi
 
 # List devices
 if [ -n "$LIST" ]; then

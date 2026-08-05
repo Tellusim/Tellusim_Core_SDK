@@ -3,79 +3,79 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		6960BF548FBFD2908160000A = { isa = PBXBuildFile; fileRef = 6960BF548FBFD2908160001A; };
-		6960BF548FBFD2908160001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		6960BF548FBFD2908160002A = { isa = PBXBuildFile; fileRef = 6960BF548FBFD2908160003A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6960BF548FBFD2908160003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
-		6960BF548FBFD2908160004A = { isa = PBXBuildFile; fileRef = 6960BF548FBFD2908160005A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6960BF548FBFD2908160005A = { isa = PBXFileReference; path = texture.png; sourceTree = "<group>"; };
-		6960BF548FBFD290816000CA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsPlatformTexel.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6960BF548FBFD290816000AA = {
+		6EF2CBBDF0D735EC4AA0000A = { isa = PBXBuildFile; fileRef = 6EF2CBBDF0D735EC4AA0001A; };
+		6EF2CBBDF0D735EC4AA0001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		6EF2CBBDF0D735EC4AA0002A = { isa = PBXBuildFile; fileRef = 6EF2CBBDF0D735EC4AA0003A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		6EF2CBBDF0D735EC4AA0003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
+		6EF2CBBDF0D735EC4AA0004A = { isa = PBXBuildFile; fileRef = 6EF2CBBDF0D735EC4AA0005A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		6EF2CBBDF0D735EC4AA0005A = { isa = PBXFileReference; path = texture.png; sourceTree = "<group>"; };
+		6EF2CBBDF0D735EC4AA000CA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsPlatformTexel.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6EF2CBBDF0D735EC4AA000AA = {
 			isa = PBXGroup;
 			children = (
-				6960BF548FBFD2908160001A,
-				6960BF548FBFD2908160003A,
-				6960BF548FBFD2908160005A,
-				6960BF548FBFD290816000BA,
+				6EF2CBBDF0D735EC4AA0001A,
+				6EF2CBBDF0D735EC4AA0003A,
+				6EF2CBBDF0D735EC4AA0005A,
+				6EF2CBBDF0D735EC4AA000BA,
 			);
 			sourceTree = "<group>";
 		};
-		6960BF548FBFD290816000BA = {
+		6EF2CBBDF0D735EC4AA000BA = {
 			isa = PBXGroup;
 			children = (
-				6960BF548FBFD290816000CA,
+				6EF2CBBDF0D735EC4AA000CA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6960BF548FBFD290816000DA = {
+		6EF2CBBDF0D735EC4AA000DA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6960BF548FBFD290816000EA;
+			buildConfigurationList = 6EF2CBBDF0D735EC4AA000EA;
 			buildPhases = (
-				6960BF548FBFD2908160011A,
-				6960BF548FBFD2908160012A,
+				6EF2CBBDF0D735EC4AA0011A,
+				6EF2CBBDF0D735EC4AA0012A,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "tsPlatformTexel";
 			productName = "tsPlatformTexel";
-			productReference = 6960BF548FBFD290816000CA;
+			productReference = 6EF2CBBDF0D735EC4AA000CA;
 			productType = "com.apple.product-type.application";
 		};
-		6960BF548FBFD2908160006A = {
+		6EF2CBBDF0D735EC4AA0006A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 6960BF548FBFD2908160007A;
+			buildConfigurationList = 6EF2CBBDF0D735EC4AA0007A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 6960BF548FBFD290816000AA;
-			productRefGroup = 6960BF548FBFD290816000BA;
+			mainGroup = 6EF2CBBDF0D735EC4AA000AA;
+			productRefGroup = 6EF2CBBDF0D735EC4AA000BA;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6960BF548FBFD290816000DA,
+				6EF2CBBDF0D735EC4AA000DA,
 			);
 		};
-		6960BF548FBFD2908160011A = {
+		6EF2CBBDF0D735EC4AA0011A = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6960BF548FBFD2908160000A,
+				6EF2CBBDF0D735EC4AA0000A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6960BF548FBFD2908160012A = {
+		6EF2CBBDF0D735EC4AA0012A = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6960BF548FBFD2908160002A,
-				6960BF548FBFD2908160004A,
+				6EF2CBBDF0D735EC4AA0002A,
+				6EF2CBBDF0D735EC4AA0004A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6960BF548FBFD2908160008A = {
+		6EF2CBBDF0D735EC4AA0008A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -140,7 +140,7 @@
 			};
 			name = Debug;
 		};
-		6960BF548FBFD2908160009A = {
+		6EF2CBBDF0D735EC4AA0009A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -202,7 +202,7 @@
 			};
 			name = Release;
 		};
-		6960BF548FBFD290816000FA = {
+		6EF2CBBDF0D735EC4AA000FA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsPlatformTexel";
@@ -244,7 +244,7 @@
 			};
 			name = Debug;
 		};
-		6960BF548FBFD2908160010A = {
+		6EF2CBBDF0D735EC4AA0010A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsPlatformTexel";
@@ -286,24 +286,24 @@
 			};
 			name = Release;
 		};
-		6960BF548FBFD2908160007A = {
+		6EF2CBBDF0D735EC4AA0007A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6960BF548FBFD2908160008A,
-				6960BF548FBFD2908160009A,
+				6EF2CBBDF0D735EC4AA0008A,
+				6EF2CBBDF0D735EC4AA0009A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6960BF548FBFD290816000EA = {
+		6EF2CBBDF0D735EC4AA000EA = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6960BF548FBFD290816000FA,
-				6960BF548FBFD2908160010A,
+				6EF2CBBDF0D735EC4AA000FA,
+				6EF2CBBDF0D735EC4AA0010A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 6960BF548FBFD2908160006A;
+	rootObject = 6EF2CBBDF0D735EC4AA0006A;
 }

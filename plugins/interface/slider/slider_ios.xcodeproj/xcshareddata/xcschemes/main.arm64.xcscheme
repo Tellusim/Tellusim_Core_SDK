@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6A15C291B3890324A1D000BA"
+				BlueprintIdentifier = "6D4FF4DAC71E1E644C4000BA"
 				BuildableName = "tsInterfaceControlSlider"
 				BlueprintName = "tsInterfaceControlSlider"
 				ReferencedContainer = "container:slider_ios.xcodeproj"/>

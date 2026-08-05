@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "674C332782B29357216000BA"
+				BlueprintIdentifier = "6117C96B0C2D7FE8844000BA"
 				BuildableName = "tsPlatformTexture"
 				BlueprintName = "tsPlatformTexture"
 				ReferencedContainer = "container:texture_ios.xcodeproj"/>

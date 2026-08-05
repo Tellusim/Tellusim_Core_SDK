@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "66E110CE32C9BFCB6E4000DA"
+				BlueprintIdentifier = "6B47DA0B68BE40D85B1000DA"
 				BuildableName = "tsGraphicsParallaxCube"
 				BlueprintName = "tsGraphicsParallaxCube"
 				ReferencedContainer = "container:parallax_cube_ios.xcodeproj"/>

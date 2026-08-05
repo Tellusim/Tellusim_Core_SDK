@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6334F74A40F73EE300C000BA"
+				BlueprintIdentifier = "664B5926560BB23FB7B000BA"
 				BuildableName = "tsGraphicsEncoderASTC"
 				BlueprintName = "tsGraphicsEncoderASTC"
 				ReferencedContainer = "container:encoder_astc_ios.xcodeproj"/>

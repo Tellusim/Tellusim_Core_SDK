@@ -3,79 +3,79 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		6A2580B41C232F8DD760000A = { isa = PBXBuildFile; fileRef = 6A2580B41C232F8DD760001A; };
-		6A2580B41C232F8DD760001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		6A2580B41C232F8DD760002A = { isa = PBXBuildFile; fileRef = 6A2580B41C232F8DD760003A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6A2580B41C232F8DD760003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
-		6A2580B41C232F8DD760004A = { isa = PBXBuildFile; fileRef = 6A2580B41C232F8DD760005A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6A2580B41C232F8DD760005A = { isa = PBXFileReference; path = model.glb; sourceTree = "<group>"; };
-		6A2580B41C232F8DD76000CA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsGraphicsMeshTree.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6A2580B41C232F8DD76000AA = {
+		65E2F673285286C4A1C0000A = { isa = PBXBuildFile; fileRef = 65E2F673285286C4A1C0001A; };
+		65E2F673285286C4A1C0001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		65E2F673285286C4A1C0002A = { isa = PBXBuildFile; fileRef = 65E2F673285286C4A1C0003A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		65E2F673285286C4A1C0003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
+		65E2F673285286C4A1C0004A = { isa = PBXBuildFile; fileRef = 65E2F673285286C4A1C0005A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		65E2F673285286C4A1C0005A = { isa = PBXFileReference; path = model.glb; sourceTree = "<group>"; };
+		65E2F673285286C4A1C000CA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsGraphicsMeshTree.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		65E2F673285286C4A1C000AA = {
 			isa = PBXGroup;
 			children = (
-				6A2580B41C232F8DD760001A,
-				6A2580B41C232F8DD760003A,
-				6A2580B41C232F8DD760005A,
-				6A2580B41C232F8DD76000BA,
+				65E2F673285286C4A1C0001A,
+				65E2F673285286C4A1C0003A,
+				65E2F673285286C4A1C0005A,
+				65E2F673285286C4A1C000BA,
 			);
 			sourceTree = "<group>";
 		};
-		6A2580B41C232F8DD76000BA = {
+		65E2F673285286C4A1C000BA = {
 			isa = PBXGroup;
 			children = (
-				6A2580B41C232F8DD76000CA,
+				65E2F673285286C4A1C000CA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6A2580B41C232F8DD76000DA = {
+		65E2F673285286C4A1C000DA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6A2580B41C232F8DD76000EA;
+			buildConfigurationList = 65E2F673285286C4A1C000EA;
 			buildPhases = (
-				6A2580B41C232F8DD760011A,
-				6A2580B41C232F8DD760012A,
+				65E2F673285286C4A1C0011A,
+				65E2F673285286C4A1C0012A,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "tsGraphicsMeshTree";
 			productName = "tsGraphicsMeshTree";
-			productReference = 6A2580B41C232F8DD76000CA;
+			productReference = 65E2F673285286C4A1C000CA;
 			productType = "com.apple.product-type.application";
 		};
-		6A2580B41C232F8DD760006A = {
+		65E2F673285286C4A1C0006A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 6A2580B41C232F8DD760007A;
+			buildConfigurationList = 65E2F673285286C4A1C0007A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 6A2580B41C232F8DD76000AA;
-			productRefGroup = 6A2580B41C232F8DD76000BA;
+			mainGroup = 65E2F673285286C4A1C000AA;
+			productRefGroup = 65E2F673285286C4A1C000BA;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6A2580B41C232F8DD76000DA,
+				65E2F673285286C4A1C000DA,
 			);
 		};
-		6A2580B41C232F8DD760011A = {
+		65E2F673285286C4A1C0011A = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A2580B41C232F8DD760000A,
+				65E2F673285286C4A1C0000A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6A2580B41C232F8DD760012A = {
+		65E2F673285286C4A1C0012A = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A2580B41C232F8DD760002A,
-				6A2580B41C232F8DD760004A,
+				65E2F673285286C4A1C0002A,
+				65E2F673285286C4A1C0004A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6A2580B41C232F8DD760008A = {
+		65E2F673285286C4A1C0008A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -140,7 +140,7 @@
 			};
 			name = Debug;
 		};
-		6A2580B41C232F8DD760009A = {
+		65E2F673285286C4A1C0009A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -202,7 +202,7 @@
 			};
 			name = Release;
 		};
-		6A2580B41C232F8DD76000FA = {
+		65E2F673285286C4A1C000FA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsGraphicsMeshTree";
@@ -244,7 +244,7 @@
 			};
 			name = Debug;
 		};
-		6A2580B41C232F8DD760010A = {
+		65E2F673285286C4A1C0010A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsGraphicsMeshTree";
@@ -286,24 +286,24 @@
 			};
 			name = Release;
 		};
-		6A2580B41C232F8DD760007A = {
+		65E2F673285286C4A1C0007A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6A2580B41C232F8DD760008A,
-				6A2580B41C232F8DD760009A,
+				65E2F673285286C4A1C0008A,
+				65E2F673285286C4A1C0009A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6A2580B41C232F8DD76000EA = {
+		65E2F673285286C4A1C000EA = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6A2580B41C232F8DD76000FA,
-				6A2580B41C232F8DD760010A,
+				65E2F673285286C4A1C000FA,
+				65E2F673285286C4A1C0010A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 6A2580B41C232F8DD760006A;
+	rootObject = 65E2F673285286C4A1C0006A;
 }

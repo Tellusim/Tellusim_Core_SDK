@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "603B35F1F6F5E0DD3870011A"
+				BlueprintIdentifier = "6E5B4A4AA297B7F4EAD0011A"
 				BuildableName = "tsGraphicsParallax2D"
 				BlueprintName = "tsGraphicsParallax2D"
 				ReferencedContainer = "container:parallax_2d_ios.xcodeproj"/>

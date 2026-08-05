@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "61F542D16034EB1A6B1000BA"
+				BlueprintIdentifier = "641C082CF73C6F0C997000BA"
 				BuildableName = "tsPlatformTracing"
 				BlueprintName = "tsPlatformTracing"
 				ReferencedContainer = "container:tracing_ios.xcodeproj"/>

@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6B48B54BAE78FF4AFF7000BA"
+				BlueprintIdentifier = "6ABE51FB513F546475F000BA"
 				BuildableName = "tsPlatformClipping"
 				BlueprintName = "tsPlatformClipping"
 				ReferencedContainer = "container:clipping_ios.xcodeproj"/>

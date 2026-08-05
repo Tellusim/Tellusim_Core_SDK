@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6E02223FDBEDB9AEAF5000BA"
+				BlueprintIdentifier = "62F44FE06C5BFCFE6C7000BA"
 				BuildableName = "tsInterfaceControlButton"
 				BlueprintName = "tsInterfaceControlButton"
 				ReferencedContainer = "container:button_ios.xcodeproj"/>

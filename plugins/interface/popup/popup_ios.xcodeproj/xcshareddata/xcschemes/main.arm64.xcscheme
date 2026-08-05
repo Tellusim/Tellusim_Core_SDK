@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "602EDD1B8B163E41CAD000BA"
+				BlueprintIdentifier = "667FAAC0535689EB1BC000BA"
 				BuildableName = "tsInterfaceControlPopup"
 				BlueprintName = "tsInterfaceControlPopup"
 				ReferencedContainer = "container:popup_ios.xcodeproj"/>

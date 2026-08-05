@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6F479214D263EC2A530000BA"
+				BlueprintIdentifier = "61E22A70E950DCA0ADA000BA"
 				BuildableName = "tsPlatformStencil"
 				BlueprintName = "tsPlatformStencil"
 				ReferencedContainer = "container:stencil_ios.xcodeproj"/>

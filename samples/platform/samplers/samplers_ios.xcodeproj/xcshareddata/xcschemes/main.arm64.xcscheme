@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6E3CA9B6B0D69A4B0EA000FA"
+				BlueprintIdentifier = "6360AFC39528592206B000FA"
 				BuildableName = "tsPlatformSamplers"
 				BlueprintName = "tsPlatformSamplers"
 				ReferencedContainer = "container:samplers_ios.xcodeproj"/>

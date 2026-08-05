@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6BD2FF60F76DF11FC11000DA"
+				BlueprintIdentifier = "656E94EA1A69545894A000DA"
 				BuildableName = "tsMTLRuntime"
 				BlueprintName = "tsMTLRuntime"
 				ReferencedContainer = "container:mtl_runtime_ios.xcodeproj"/>

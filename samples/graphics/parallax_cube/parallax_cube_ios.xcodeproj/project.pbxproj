@@ -3,79 +3,79 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		66E110CE32C9BFCB6E40000A = { isa = PBXBuildFile; fileRef = 66E110CE32C9BFCB6E40001A; };
-		66E110CE32C9BFCB6E40001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		66E110CE32C9BFCB6E40002A = { isa = PBXBuildFile; fileRef = 66E110CE32C9BFCB6E40003A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		66E110CE32C9BFCB6E40003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
-		66E110CE32C9BFCB6E40004A = { isa = PBXBuildFile; fileRef = 66E110CE32C9BFCB6E40005A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		66E110CE32C9BFCB6E40005A = { isa = PBXFileReference; path = height.ktx; sourceTree = "<group>"; };
-		66E110CE32C9BFCB6E4000CA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsGraphicsParallaxCube.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		66E110CE32C9BFCB6E4000AA = {
+		6B47DA0B68BE40D85B10000A = { isa = PBXBuildFile; fileRef = 6B47DA0B68BE40D85B10001A; };
+		6B47DA0B68BE40D85B10001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		6B47DA0B68BE40D85B10002A = { isa = PBXBuildFile; fileRef = 6B47DA0B68BE40D85B10003A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		6B47DA0B68BE40D85B10003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
+		6B47DA0B68BE40D85B10004A = { isa = PBXBuildFile; fileRef = 6B47DA0B68BE40D85B10005A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		6B47DA0B68BE40D85B10005A = { isa = PBXFileReference; path = height.ktx; sourceTree = "<group>"; };
+		6B47DA0B68BE40D85B1000CA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsGraphicsParallaxCube.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B47DA0B68BE40D85B1000AA = {
 			isa = PBXGroup;
 			children = (
-				66E110CE32C9BFCB6E40001A,
-				66E110CE32C9BFCB6E40003A,
-				66E110CE32C9BFCB6E40005A,
-				66E110CE32C9BFCB6E4000BA,
+				6B47DA0B68BE40D85B10001A,
+				6B47DA0B68BE40D85B10003A,
+				6B47DA0B68BE40D85B10005A,
+				6B47DA0B68BE40D85B1000BA,
 			);
 			sourceTree = "<group>";
 		};
-		66E110CE32C9BFCB6E4000BA = {
+		6B47DA0B68BE40D85B1000BA = {
 			isa = PBXGroup;
 			children = (
-				66E110CE32C9BFCB6E4000CA,
+				6B47DA0B68BE40D85B1000CA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		66E110CE32C9BFCB6E4000DA = {
+		6B47DA0B68BE40D85B1000DA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 66E110CE32C9BFCB6E4000EA;
+			buildConfigurationList = 6B47DA0B68BE40D85B1000EA;
 			buildPhases = (
-				66E110CE32C9BFCB6E40011A,
-				66E110CE32C9BFCB6E40012A,
+				6B47DA0B68BE40D85B10011A,
+				6B47DA0B68BE40D85B10012A,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "tsGraphicsParallaxCube";
 			productName = "tsGraphicsParallaxCube";
-			productReference = 66E110CE32C9BFCB6E4000CA;
+			productReference = 6B47DA0B68BE40D85B1000CA;
 			productType = "com.apple.product-type.application";
 		};
-		66E110CE32C9BFCB6E40006A = {
+		6B47DA0B68BE40D85B10006A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 66E110CE32C9BFCB6E40007A;
+			buildConfigurationList = 6B47DA0B68BE40D85B10007A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 66E110CE32C9BFCB6E4000AA;
-			productRefGroup = 66E110CE32C9BFCB6E4000BA;
+			mainGroup = 6B47DA0B68BE40D85B1000AA;
+			productRefGroup = 6B47DA0B68BE40D85B1000BA;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				66E110CE32C9BFCB6E4000DA,
+				6B47DA0B68BE40D85B1000DA,
 			);
 		};
-		66E110CE32C9BFCB6E40011A = {
+		6B47DA0B68BE40D85B10011A = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66E110CE32C9BFCB6E40000A,
+				6B47DA0B68BE40D85B10000A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		66E110CE32C9BFCB6E40012A = {
+		6B47DA0B68BE40D85B10012A = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66E110CE32C9BFCB6E40002A,
-				66E110CE32C9BFCB6E40004A,
+				6B47DA0B68BE40D85B10002A,
+				6B47DA0B68BE40D85B10004A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		66E110CE32C9BFCB6E40008A = {
+		6B47DA0B68BE40D85B10008A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -140,7 +140,7 @@
 			};
 			name = Debug;
 		};
-		66E110CE32C9BFCB6E40009A = {
+		6B47DA0B68BE40D85B10009A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -202,7 +202,7 @@
 			};
 			name = Release;
 		};
-		66E110CE32C9BFCB6E4000FA = {
+		6B47DA0B68BE40D85B1000FA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsGraphicsParallaxCube";
@@ -244,7 +244,7 @@
 			};
 			name = Debug;
 		};
-		66E110CE32C9BFCB6E40010A = {
+		6B47DA0B68BE40D85B10010A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsGraphicsParallaxCube";
@@ -286,24 +286,24 @@
 			};
 			name = Release;
 		};
-		66E110CE32C9BFCB6E40007A = {
+		6B47DA0B68BE40D85B10007A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				66E110CE32C9BFCB6E40008A,
-				66E110CE32C9BFCB6E40009A,
+				6B47DA0B68BE40D85B10008A,
+				6B47DA0B68BE40D85B10009A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		66E110CE32C9BFCB6E4000EA = {
+		6B47DA0B68BE40D85B1000EA = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				66E110CE32C9BFCB6E4000FA,
-				66E110CE32C9BFCB6E40010A,
+				6B47DA0B68BE40D85B1000FA,
+				6B47DA0B68BE40D85B10010A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 66E110CE32C9BFCB6E40006A;
+	rootObject = 6B47DA0B68BE40D85B10006A;
 }

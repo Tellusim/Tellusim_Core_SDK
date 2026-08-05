@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6774AD4030967FB654E000DA"
+				BlueprintIdentifier = "6E21E88C83C4C3A7C9F000DA"
 				BuildableName = "tsGraphicsMeshlet"
 				BlueprintName = "tsGraphicsMeshlet"
 				ReferencedContainer = "container:meshlet_ios.xcodeproj"/>

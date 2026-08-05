@@ -1,5 +1,8 @@
 TESTS = \
+	boolean \
+	fracture \
 	reduce \
-	refine
+	refine \
+	split
 
 include ../Makefile.ios

@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "669BA055A705C740333000BA"
+				BlueprintIdentifier = "63A01F4861C49809CD7000BA"
 				BuildableName = "tsPlatformTable"
 				BlueprintName = "tsPlatformTable"
 				ReferencedContainer = "container:table_ios.xcodeproj"/>

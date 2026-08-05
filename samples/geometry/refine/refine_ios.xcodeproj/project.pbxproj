@@ -3,79 +3,79 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		6166BDA584C9BDBA2AC0000A = { isa = PBXBuildFile; fileRef = 6166BDA584C9BDBA2AC0001A; };
-		6166BDA584C9BDBA2AC0001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		6166BDA584C9BDBA2AC0002A = { isa = PBXBuildFile; fileRef = 6166BDA584C9BDBA2AC0003A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6166BDA584C9BDBA2AC0003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
-		6166BDA584C9BDBA2AC0004A = { isa = PBXBuildFile; fileRef = 6166BDA584C9BDBA2AC0005A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6166BDA584C9BDBA2AC0005A = { isa = PBXFileReference; path = model.fbx; sourceTree = "<group>"; };
-		6166BDA584C9BDBA2AC000CA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsGeometryRefine.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6166BDA584C9BDBA2AC000AA = {
+		648FAC0D822529D86020000A = { isa = PBXBuildFile; fileRef = 648FAC0D822529D86020001A; };
+		648FAC0D822529D86020001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		648FAC0D822529D86020002A = { isa = PBXBuildFile; fileRef = 648FAC0D822529D86020003A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		648FAC0D822529D86020003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
+		648FAC0D822529D86020004A = { isa = PBXBuildFile; fileRef = 648FAC0D822529D86020005A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		648FAC0D822529D86020005A = { isa = PBXFileReference; path = model.fbx; sourceTree = "<group>"; };
+		648FAC0D822529D8602000CA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsGeometryRefine.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		648FAC0D822529D8602000AA = {
 			isa = PBXGroup;
 			children = (
-				6166BDA584C9BDBA2AC0001A,
-				6166BDA584C9BDBA2AC0003A,
-				6166BDA584C9BDBA2AC0005A,
-				6166BDA584C9BDBA2AC000BA,
+				648FAC0D822529D86020001A,
+				648FAC0D822529D86020003A,
+				648FAC0D822529D86020005A,
+				648FAC0D822529D8602000BA,
 			);
 			sourceTree = "<group>";
 		};
-		6166BDA584C9BDBA2AC000BA = {
+		648FAC0D822529D8602000BA = {
 			isa = PBXGroup;
 			children = (
-				6166BDA584C9BDBA2AC000CA,
+				648FAC0D822529D8602000CA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6166BDA584C9BDBA2AC000DA = {
+		648FAC0D822529D8602000DA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6166BDA584C9BDBA2AC000EA;
+			buildConfigurationList = 648FAC0D822529D8602000EA;
 			buildPhases = (
-				6166BDA584C9BDBA2AC0011A,
-				6166BDA584C9BDBA2AC0012A,
+				648FAC0D822529D86020011A,
+				648FAC0D822529D86020012A,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "tsGeometryRefine";
 			productName = "tsGeometryRefine";
-			productReference = 6166BDA584C9BDBA2AC000CA;
+			productReference = 648FAC0D822529D8602000CA;
 			productType = "com.apple.product-type.application";
 		};
-		6166BDA584C9BDBA2AC0006A = {
+		648FAC0D822529D86020006A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 6166BDA584C9BDBA2AC0007A;
+			buildConfigurationList = 648FAC0D822529D86020007A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 6166BDA584C9BDBA2AC000AA;
-			productRefGroup = 6166BDA584C9BDBA2AC000BA;
+			mainGroup = 648FAC0D822529D8602000AA;
+			productRefGroup = 648FAC0D822529D8602000BA;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6166BDA584C9BDBA2AC000DA,
+				648FAC0D822529D8602000DA,
 			);
 		};
-		6166BDA584C9BDBA2AC0011A = {
+		648FAC0D822529D86020011A = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6166BDA584C9BDBA2AC0000A,
+				648FAC0D822529D86020000A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6166BDA584C9BDBA2AC0012A = {
+		648FAC0D822529D86020012A = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6166BDA584C9BDBA2AC0002A,
-				6166BDA584C9BDBA2AC0004A,
+				648FAC0D822529D86020002A,
+				648FAC0D822529D86020004A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6166BDA584C9BDBA2AC0008A = {
+		648FAC0D822529D86020008A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -140,7 +140,7 @@
 			};
 			name = Debug;
 		};
-		6166BDA584C9BDBA2AC0009A = {
+		648FAC0D822529D86020009A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -202,7 +202,7 @@
 			};
 			name = Release;
 		};
-		6166BDA584C9BDBA2AC000FA = {
+		648FAC0D822529D8602000FA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsGeometryRefine";
@@ -244,7 +244,7 @@
 			};
 			name = Debug;
 		};
-		6166BDA584C9BDBA2AC0010A = {
+		648FAC0D822529D86020010A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsGeometryRefine";
@@ -286,24 +286,24 @@
 			};
 			name = Release;
 		};
-		6166BDA584C9BDBA2AC0007A = {
+		648FAC0D822529D86020007A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6166BDA584C9BDBA2AC0008A,
-				6166BDA584C9BDBA2AC0009A,
+				648FAC0D822529D86020008A,
+				648FAC0D822529D86020009A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6166BDA584C9BDBA2AC000EA = {
+		648FAC0D822529D8602000EA = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6166BDA584C9BDBA2AC000FA,
-				6166BDA584C9BDBA2AC0010A,
+				648FAC0D822529D8602000FA,
+				648FAC0D822529D86020010A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 6166BDA584C9BDBA2AC0006A;
+	rootObject = 648FAC0D822529D86020006A;
 }

@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "690AC9C26C8E6561610000DA"
+				BlueprintIdentifier = "6041529E404E2333B7D000DA"
 				BuildableName = "tsGraphicsMorph"
 				BlueprintName = "tsGraphicsMorph"
 				ReferencedContainer = "container:morph_ios.xcodeproj"/>

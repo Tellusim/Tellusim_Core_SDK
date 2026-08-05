@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6A3450C57AC263E6B6B000DA"
+				BlueprintIdentifier = "63FA7FF1F77E3C3AC37000DA"
 				BuildableName = "tsInterfaceControlColor"
 				BlueprintName = "tsInterfaceControlColor"
 				ReferencedContainer = "container:color_ios.xcodeproj"/>

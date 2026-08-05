@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6B3B9AC73CA7AF95DF6000BA"
+				BlueprintIdentifier = "6693B01D8C0E769AC4D000BA"
 				BuildableName = "tsPlatformDynamic"
 				BlueprintName = "tsPlatformDynamic"
 				ReferencedContainer = "container:dynamic_ios.xcodeproj"/>

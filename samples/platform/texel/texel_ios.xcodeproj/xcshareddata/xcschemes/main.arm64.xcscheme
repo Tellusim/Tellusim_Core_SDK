@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6960BF548FBFD290816000DA"
+				BlueprintIdentifier = "6EF2CBBDF0D735EC4AA000DA"
 				BuildableName = "tsPlatformTexel"
 				BlueprintName = "tsPlatformTexel"
 				ReferencedContainer = "container:texel_ios.xcodeproj"/>

@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6D39EF9CDF03B740D5D000BA"
+				BlueprintIdentifier = "6B14DFCBDF4B2D464AC000BA"
 				BuildableName = "tsInterfaceManipulator"
 				BlueprintName = "tsInterfaceManipulator"
 				ReferencedContainer = "container:manipulator_ios.xcodeproj"/>

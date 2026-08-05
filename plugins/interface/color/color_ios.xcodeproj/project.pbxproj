@@ -3,79 +3,79 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		6A3450C57AC263E6B6B0000A = { isa = PBXBuildFile; fileRef = 6A3450C57AC263E6B6B0001A; };
-		6A3450C57AC263E6B6B0001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		6A3450C57AC263E6B6B0002A = { isa = PBXBuildFile; fileRef = 6A3450C57AC263E6B6B0003A; };
-		6A3450C57AC263E6B6B0003A = { isa = PBXFileReference; path = Plugins.cpp; sourceTree = "<group>"; };
-		6A3450C57AC263E6B6B0004A = { isa = PBXBuildFile; fileRef = 6A3450C57AC263E6B6B0005A; };
-		6A3450C57AC263E6B6B0005A = { isa = PBXFileReference; path = source/TellusimControlColor.cpp; sourceTree = "<group>"; };
-		6A3450C57AC263E6B6B000CA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsInterfaceControlColor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6A3450C57AC263E6B6B000AA = {
+		63FA7FF1F77E3C3AC370000A = { isa = PBXBuildFile; fileRef = 63FA7FF1F77E3C3AC370001A; };
+		63FA7FF1F77E3C3AC370001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		63FA7FF1F77E3C3AC370002A = { isa = PBXBuildFile; fileRef = 63FA7FF1F77E3C3AC370003A; };
+		63FA7FF1F77E3C3AC370003A = { isa = PBXFileReference; path = Plugins.cpp; sourceTree = "<group>"; };
+		63FA7FF1F77E3C3AC370004A = { isa = PBXBuildFile; fileRef = 63FA7FF1F77E3C3AC370005A; };
+		63FA7FF1F77E3C3AC370005A = { isa = PBXFileReference; path = source/TellusimControlColor.cpp; sourceTree = "<group>"; };
+		63FA7FF1F77E3C3AC37000CA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsInterfaceControlColor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		63FA7FF1F77E3C3AC37000AA = {
 			isa = PBXGroup;
 			children = (
-				6A3450C57AC263E6B6B0001A,
-				6A3450C57AC263E6B6B0003A,
-				6A3450C57AC263E6B6B0005A,
-				6A3450C57AC263E6B6B000BA,
+				63FA7FF1F77E3C3AC370001A,
+				63FA7FF1F77E3C3AC370003A,
+				63FA7FF1F77E3C3AC370005A,
+				63FA7FF1F77E3C3AC37000BA,
 			);
 			sourceTree = "<group>";
 		};
-		6A3450C57AC263E6B6B000BA = {
+		63FA7FF1F77E3C3AC37000BA = {
 			isa = PBXGroup;
 			children = (
-				6A3450C57AC263E6B6B000CA,
+				63FA7FF1F77E3C3AC37000CA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6A3450C57AC263E6B6B000DA = {
+		63FA7FF1F77E3C3AC37000DA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6A3450C57AC263E6B6B000EA;
+			buildConfigurationList = 63FA7FF1F77E3C3AC37000EA;
 			buildPhases = (
-				6A3450C57AC263E6B6B0011A,
-				6A3450C57AC263E6B6B0012A,
+				63FA7FF1F77E3C3AC370011A,
+				63FA7FF1F77E3C3AC370012A,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "tsInterfaceControlColor";
 			productName = "tsInterfaceControlColor";
-			productReference = 6A3450C57AC263E6B6B000CA;
+			productReference = 63FA7FF1F77E3C3AC37000CA;
 			productType = "com.apple.product-type.application";
 		};
-		6A3450C57AC263E6B6B0006A = {
+		63FA7FF1F77E3C3AC370006A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 6A3450C57AC263E6B6B0007A;
+			buildConfigurationList = 63FA7FF1F77E3C3AC370007A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 6A3450C57AC263E6B6B000AA;
-			productRefGroup = 6A3450C57AC263E6B6B000BA;
+			mainGroup = 63FA7FF1F77E3C3AC37000AA;
+			productRefGroup = 63FA7FF1F77E3C3AC37000BA;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6A3450C57AC263E6B6B000DA,
+				63FA7FF1F77E3C3AC37000DA,
 			);
 		};
-		6A3450C57AC263E6B6B0011A = {
+		63FA7FF1F77E3C3AC370011A = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A3450C57AC263E6B6B0000A,
-				6A3450C57AC263E6B6B0002A,
-				6A3450C57AC263E6B6B0004A,
+				63FA7FF1F77E3C3AC370000A,
+				63FA7FF1F77E3C3AC370002A,
+				63FA7FF1F77E3C3AC370004A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6A3450C57AC263E6B6B0012A = {
+		63FA7FF1F77E3C3AC370012A = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6A3450C57AC263E6B6B0008A = {
+		63FA7FF1F77E3C3AC370008A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -140,7 +140,7 @@
 			};
 			name = Debug;
 		};
-		6A3450C57AC263E6B6B0009A = {
+		63FA7FF1F77E3C3AC370009A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -202,7 +202,7 @@
 			};
 			name = Release;
 		};
-		6A3450C57AC263E6B6B000FA = {
+		63FA7FF1F77E3C3AC37000FA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsInterfaceControlColor";
@@ -244,7 +244,7 @@
 			};
 			name = Debug;
 		};
-		6A3450C57AC263E6B6B0010A = {
+		63FA7FF1F77E3C3AC370010A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsInterfaceControlColor";
@@ -286,24 +286,24 @@
 			};
 			name = Release;
 		};
-		6A3450C57AC263E6B6B0007A = {
+		63FA7FF1F77E3C3AC370007A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6A3450C57AC263E6B6B0008A,
-				6A3450C57AC263E6B6B0009A,
+				63FA7FF1F77E3C3AC370008A,
+				63FA7FF1F77E3C3AC370009A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6A3450C57AC263E6B6B000EA = {
+		63FA7FF1F77E3C3AC37000EA = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6A3450C57AC263E6B6B000FA,
-				6A3450C57AC263E6B6B0010A,
+				63FA7FF1F77E3C3AC37000FA,
+				63FA7FF1F77E3C3AC370010A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 6A3450C57AC263E6B6B0006A;
+	rootObject = 63FA7FF1F77E3C3AC370006A;
 }

@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "696E125D5A809CDE96A000BA"
+				BlueprintIdentifier = "6442097A15FD3928FF7000BA"
 				BuildableName = "tsParallelSpatialGrid"
 				BlueprintName = "tsParallelSpatialGrid"
 				ReferencedContainer = "container:spatial_grid_ios.xcodeproj"/>

@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "64AFC8E4EA0586388B1000DA"
+				BlueprintIdentifier = "63B210C40DF85625263000DA"
 				BuildableName = "tsGraphicsMeshTracing"
 				BlueprintName = "tsGraphicsMeshTracing"
 				ReferencedContainer = "container:mesh_tracing_ios.xcodeproj"/>

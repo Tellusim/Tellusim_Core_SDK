@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "61761C0022FB0D7E003000BA"
+				BlueprintIdentifier = "6009009AC423E7A7BE8000BA"
 				BuildableName = "tsParallelSpatialTree"
 				BlueprintName = "tsParallelSpatialTree"
 				ReferencedContainer = "container:spatial_tree_ios.xcodeproj"/>

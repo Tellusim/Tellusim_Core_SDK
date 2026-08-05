@@ -3,79 +3,79 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		6AC763D22633C9B13060000A = { isa = PBXBuildFile; fileRef = 6AC763D22633C9B13060001A; };
-		6AC763D22633C9B13060001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		6AC763D22633C9B13060002A = { isa = PBXBuildFile; fileRef = 6AC763D22633C9B13060003A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6AC763D22633C9B13060003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
-		6AC763D22633C9B13060004A = { isa = PBXBuildFile; fileRef = 6AC763D22633C9B13060005A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6AC763D22633C9B13060005A = { isa = PBXFileReference; path = main.h; sourceTree = "<group>"; };
-		6AC763D22633C9B1306000CA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsManualHelloSplatting.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6AC763D22633C9B1306000AA = {
+		60969A842F02B008E4E0000A = { isa = PBXBuildFile; fileRef = 60969A842F02B008E4E0001A; };
+		60969A842F02B008E4E0001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		60969A842F02B008E4E0002A = { isa = PBXBuildFile; fileRef = 60969A842F02B008E4E0003A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		60969A842F02B008E4E0003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
+		60969A842F02B008E4E0004A = { isa = PBXBuildFile; fileRef = 60969A842F02B008E4E0005A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		60969A842F02B008E4E0005A = { isa = PBXFileReference; path = main.h; sourceTree = "<group>"; };
+		60969A842F02B008E4E000CA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsManualHelloSplatting.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		60969A842F02B008E4E000AA = {
 			isa = PBXGroup;
 			children = (
-				6AC763D22633C9B13060001A,
-				6AC763D22633C9B13060003A,
-				6AC763D22633C9B13060005A,
-				6AC763D22633C9B1306000BA,
+				60969A842F02B008E4E0001A,
+				60969A842F02B008E4E0003A,
+				60969A842F02B008E4E0005A,
+				60969A842F02B008E4E000BA,
 			);
 			sourceTree = "<group>";
 		};
-		6AC763D22633C9B1306000BA = {
+		60969A842F02B008E4E000BA = {
 			isa = PBXGroup;
 			children = (
-				6AC763D22633C9B1306000CA,
+				60969A842F02B008E4E000CA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6AC763D22633C9B1306000DA = {
+		60969A842F02B008E4E000DA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6AC763D22633C9B1306000EA;
+			buildConfigurationList = 60969A842F02B008E4E000EA;
 			buildPhases = (
-				6AC763D22633C9B13060011A,
-				6AC763D22633C9B13060012A,
+				60969A842F02B008E4E0011A,
+				60969A842F02B008E4E0012A,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "tsManualHelloSplatting";
 			productName = "tsManualHelloSplatting";
-			productReference = 6AC763D22633C9B1306000CA;
+			productReference = 60969A842F02B008E4E000CA;
 			productType = "com.apple.product-type.application";
 		};
-		6AC763D22633C9B13060006A = {
+		60969A842F02B008E4E0006A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 6AC763D22633C9B13060007A;
+			buildConfigurationList = 60969A842F02B008E4E0007A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 6AC763D22633C9B1306000AA;
-			productRefGroup = 6AC763D22633C9B1306000BA;
+			mainGroup = 60969A842F02B008E4E000AA;
+			productRefGroup = 60969A842F02B008E4E000BA;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6AC763D22633C9B1306000DA,
+				60969A842F02B008E4E000DA,
 			);
 		};
-		6AC763D22633C9B13060011A = {
+		60969A842F02B008E4E0011A = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6AC763D22633C9B13060000A,
+				60969A842F02B008E4E0000A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6AC763D22633C9B13060012A = {
+		60969A842F02B008E4E0012A = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6AC763D22633C9B13060002A,
-				6AC763D22633C9B13060004A,
+				60969A842F02B008E4E0002A,
+				60969A842F02B008E4E0004A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6AC763D22633C9B13060008A = {
+		60969A842F02B008E4E0008A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -140,7 +140,7 @@
 			};
 			name = Debug;
 		};
-		6AC763D22633C9B13060009A = {
+		60969A842F02B008E4E0009A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -202,7 +202,7 @@
 			};
 			name = Release;
 		};
-		6AC763D22633C9B1306000FA = {
+		60969A842F02B008E4E000FA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsManualHelloSplatting";
@@ -244,7 +244,7 @@
 			};
 			name = Debug;
 		};
-		6AC763D22633C9B13060010A = {
+		60969A842F02B008E4E0010A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsManualHelloSplatting";
@@ -286,24 +286,24 @@
 			};
 			name = Release;
 		};
-		6AC763D22633C9B13060007A = {
+		60969A842F02B008E4E0007A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6AC763D22633C9B13060008A,
-				6AC763D22633C9B13060009A,
+				60969A842F02B008E4E0008A,
+				60969A842F02B008E4E0009A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6AC763D22633C9B1306000EA = {
+		60969A842F02B008E4E000EA = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6AC763D22633C9B1306000FA,
-				6AC763D22633C9B13060010A,
+				60969A842F02B008E4E000FA,
+				60969A842F02B008E4E0010A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 6AC763D22633C9B13060006A;
+	rootObject = 60969A842F02B008E4E0006A;
 }

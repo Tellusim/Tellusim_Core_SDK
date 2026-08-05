@@ -3,87 +3,87 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		60628667A1A211178C80000A = { isa = PBXBuildFile; fileRef = 60628667A1A211178C80001A; };
-		60628667A1A211178C80001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		60628667A1A211178C80002A = { isa = PBXBuildFile; fileRef = 60628667A1A211178C80003A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		60628667A1A211178C80003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
-		60628667A1A211178C80004A = { isa = PBXBuildFile; fileRef = 60628667A1A211178C80005A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		60628667A1A211178C80005A = { isa = PBXFileReference; path = skinned.glb; sourceTree = "<group>"; };
-		60628667A1A211178C80006A = { isa = PBXBuildFile; fileRef = 60628667A1A211178C80007A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		60628667A1A211178C80007A = { isa = PBXFileReference; path = skinned_body.jpg; sourceTree = "<group>"; };
-		60628667A1A211178C80008A = { isa = PBXBuildFile; fileRef = 60628667A1A211178C80009A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		60628667A1A211178C80009A = { isa = PBXFileReference; path = skinned_head.jpg; sourceTree = "<group>"; };
-		60628667A1A211178C80010A = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsGraphicsSkinned.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		60628667A1A211178C8000EA = {
+		6575175238DC538CDD10000A = { isa = PBXBuildFile; fileRef = 6575175238DC538CDD10001A; };
+		6575175238DC538CDD10001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		6575175238DC538CDD10002A = { isa = PBXBuildFile; fileRef = 6575175238DC538CDD10003A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		6575175238DC538CDD10003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
+		6575175238DC538CDD10004A = { isa = PBXBuildFile; fileRef = 6575175238DC538CDD10005A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		6575175238DC538CDD10005A = { isa = PBXFileReference; path = skinned.glb; sourceTree = "<group>"; };
+		6575175238DC538CDD10006A = { isa = PBXBuildFile; fileRef = 6575175238DC538CDD10007A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		6575175238DC538CDD10007A = { isa = PBXFileReference; path = skinned_body.jpg; sourceTree = "<group>"; };
+		6575175238DC538CDD10008A = { isa = PBXBuildFile; fileRef = 6575175238DC538CDD10009A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		6575175238DC538CDD10009A = { isa = PBXFileReference; path = skinned_head.jpg; sourceTree = "<group>"; };
+		6575175238DC538CDD10010A = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsGraphicsSkinned.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6575175238DC538CDD1000EA = {
 			isa = PBXGroup;
 			children = (
-				60628667A1A211178C80001A,
-				60628667A1A211178C80003A,
-				60628667A1A211178C80005A,
-				60628667A1A211178C80007A,
-				60628667A1A211178C80009A,
-				60628667A1A211178C8000FA,
+				6575175238DC538CDD10001A,
+				6575175238DC538CDD10003A,
+				6575175238DC538CDD10005A,
+				6575175238DC538CDD10007A,
+				6575175238DC538CDD10009A,
+				6575175238DC538CDD1000FA,
 			);
 			sourceTree = "<group>";
 		};
-		60628667A1A211178C8000FA = {
+		6575175238DC538CDD1000FA = {
 			isa = PBXGroup;
 			children = (
-				60628667A1A211178C80010A,
+				6575175238DC538CDD10010A,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		60628667A1A211178C80011A = {
+		6575175238DC538CDD10011A = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 60628667A1A211178C80012A;
+			buildConfigurationList = 6575175238DC538CDD10012A;
 			buildPhases = (
-				60628667A1A211178C80015A,
-				60628667A1A211178C80016A,
+				6575175238DC538CDD10015A,
+				6575175238DC538CDD10016A,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "tsGraphicsSkinned";
 			productName = "tsGraphicsSkinned";
-			productReference = 60628667A1A211178C80010A;
+			productReference = 6575175238DC538CDD10010A;
 			productType = "com.apple.product-type.application";
 		};
-		60628667A1A211178C8000AA = {
+		6575175238DC538CDD1000AA = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 60628667A1A211178C8000BA;
+			buildConfigurationList = 6575175238DC538CDD1000BA;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 60628667A1A211178C8000EA;
-			productRefGroup = 60628667A1A211178C8000FA;
+			mainGroup = 6575175238DC538CDD1000EA;
+			productRefGroup = 6575175238DC538CDD1000FA;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				60628667A1A211178C80011A,
+				6575175238DC538CDD10011A,
 			);
 		};
-		60628667A1A211178C80015A = {
+		6575175238DC538CDD10015A = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				60628667A1A211178C80000A,
+				6575175238DC538CDD10000A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		60628667A1A211178C80016A = {
+		6575175238DC538CDD10016A = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				60628667A1A211178C80002A,
-				60628667A1A211178C80004A,
-				60628667A1A211178C80006A,
-				60628667A1A211178C80008A,
+				6575175238DC538CDD10002A,
+				6575175238DC538CDD10004A,
+				6575175238DC538CDD10006A,
+				6575175238DC538CDD10008A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		60628667A1A211178C8000CA = {
+		6575175238DC538CDD1000CA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -148,7 +148,7 @@
 			};
 			name = Debug;
 		};
-		60628667A1A211178C8000DA = {
+		6575175238DC538CDD1000DA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -210,7 +210,7 @@
 			};
 			name = Release;
 		};
-		60628667A1A211178C80013A = {
+		6575175238DC538CDD10013A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsGraphicsSkinned";
@@ -252,7 +252,7 @@
 			};
 			name = Debug;
 		};
-		60628667A1A211178C80014A = {
+		6575175238DC538CDD10014A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsGraphicsSkinned";
@@ -294,24 +294,24 @@
 			};
 			name = Release;
 		};
-		60628667A1A211178C8000BA = {
+		6575175238DC538CDD1000BA = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				60628667A1A211178C8000CA,
-				60628667A1A211178C8000DA,
+				6575175238DC538CDD1000CA,
+				6575175238DC538CDD1000DA,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		60628667A1A211178C80012A = {
+		6575175238DC538CDD10012A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				60628667A1A211178C80013A,
-				60628667A1A211178C80014A,
+				6575175238DC538CDD10013A,
+				6575175238DC538CDD10014A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 60628667A1A211178C8000AA;
+	rootObject = 6575175238DC538CDD1000AA;
 }

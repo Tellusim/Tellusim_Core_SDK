@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "65204C6BE1B3599A33B000DA"
+				BlueprintIdentifier = "6B41C9416F30C6FE3AD000DA"
 				BuildableName = "tsParallelFluid2D"
 				BlueprintName = "tsParallelFluid2D"
 				ReferencedContainer = "container:fluid_2d_ios.xcodeproj"/>

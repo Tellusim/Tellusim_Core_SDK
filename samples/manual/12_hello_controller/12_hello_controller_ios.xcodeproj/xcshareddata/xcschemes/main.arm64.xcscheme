@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6BF367B58B578219D33000DA"
+				BlueprintIdentifier = "668EEDE034402C2D70E000DA"
 				BuildableName = "tsManualHelloController"
 				BlueprintName = "tsManualHelloController"
 				ReferencedContainer = "container:12_hello_controller_ios.xcodeproj"/>

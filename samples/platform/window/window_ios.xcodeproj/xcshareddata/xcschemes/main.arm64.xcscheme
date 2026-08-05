@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6CA78E9A332BADE22060009A"
+				BlueprintIdentifier = "6CF77A5D4D22177AF3B0009A"
 				BuildableName = "tsPlatformWindow"
 				BlueprintName = "tsPlatformWindow"
 				ReferencedContainer = "container:window_ios.xcodeproj"/>

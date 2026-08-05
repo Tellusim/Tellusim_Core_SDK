@@ -1,0 +1,10 @@
+SRCS = main.cpp \
+	source/TellusimRmlUi.cpp
+
+IPA = tsInterfaceRmlUi
+
+LIBS += -Lextern/lib/ios/$(ARCH) -lrmlui
+
+include ../../Makefile.ios.mk
+
+CFLAGS += -std=c++17

@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "61CA8D5D19D11D82264000DA"
+				BlueprintIdentifier = "6EC7AA0E5AD2AC40150000DA"
 				BuildableName = "tsInterfaceImGui"
 				BlueprintName = "tsInterfaceImGui"
 				ReferencedContainer = "container:imgui_ios.xcodeproj"/>

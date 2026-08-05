@@ -217,6 +217,8 @@ namespace Tellusim {
 	TS_STATIC_ASSERT(TS_AppVersion_41 == (uint32_t)App::Version_41);
 	TS_STATIC_ASSERT(TS_AppVersion_42 == (uint32_t)App::Version_42);
 	TS_STATIC_ASSERT(TS_AppVersion_43 == (uint32_t)App::Version_43);
+	TS_STATIC_ASSERT(TS_AppVersion_44 == (uint32_t)App::Version_44);
+	TS_STATIC_ASSERT(TS_AppVersion_45 == (uint32_t)App::Version_45);
 	TS_STATIC_ASSERT(TS_AppVersion == (uint32_t)App::Version);
 	
 	// Tellusim::Socket::Type
@@ -1419,6 +1421,11 @@ namespace Tellusim {
 	TS_STATIC_ASSERT(TS_TimeMSeconds == (uint32_t)Time::MSeconds);
 	TS_STATIC_ASSERT(TS_TimeUSeconds == (uint32_t)Time::USeconds);
 	
+	// Tellusim::MeshBoolean::Operation
+	TS_STATIC_ASSERT(TS_MeshBooleanOperationOpUnion == (uint32_t)MeshBoolean::OpUnion);
+	TS_STATIC_ASSERT(TS_MeshBooleanOperationOpDifference == (uint32_t)MeshBoolean::OpDifference);
+	TS_STATIC_ASSERT(TS_MeshBooleanOperationOpIntersection == (uint32_t)MeshBoolean::OpIntersection);
+	
 	// Tellusim::Command
 	TS_STATIC_ASSERT(sizeof(TSCommandDrawArraysIndirect) == sizeof(Command::DrawArraysIndirect));
 	TS_STATIC_ASSERT(offsetof(TSCommandDrawArraysIndirect, num_vertices) == offsetof(Command::DrawArraysIndirect, num_vertices));
@@ -1532,15 +1539,30 @@ namespace Tellusim {
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTexture3DSize) == offsetof(Device::Features, maxTexture3DSize));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTextureLayers) == offsetof(Device::Features, maxTextureLayers));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTextureSamples) == offsetof(Device::Features, maxTextureSamples));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxGroupSize) == offsetof(Device::Features, maxGroupSize));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxGroupSizeX) == offsetof(Device::Features, maxGroupSizeX));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxGroupSizeY) == offsetof(Device::Features, maxGroupSizeY));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxGroupSizeZ) == offsetof(Device::Features, maxGroupSizeZ));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxGroupCountX) == offsetof(Device::Features, maxGroupCountX));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxGroupCountY) == offsetof(Device::Features, maxGroupCountY));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxGroupCountZ) == offsetof(Device::Features, maxGroupCountZ));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTaskSize) == offsetof(Device::Features, maxTaskSize));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTaskSizeX) == offsetof(Device::Features, maxTaskSizeX));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTaskSizeY) == offsetof(Device::Features, maxTaskSizeY));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTaskSizeZ) == offsetof(Device::Features, maxTaskSizeZ));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTaskCount) == offsetof(Device::Features, maxTaskCount));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTaskCountX) == offsetof(Device::Features, maxTaskCountX));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTaskCountY) == offsetof(Device::Features, maxTaskCountY));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTaskCountZ) == offsetof(Device::Features, maxTaskCountZ));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTaskMemory) == offsetof(Device::Features, maxTaskMemory));
-	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxTaskMeshes) == offsetof(Device::Features, maxTaskMeshes));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxMeshSize) == offsetof(Device::Features, maxMeshSize));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxMeshSizeX) == offsetof(Device::Features, maxMeshSizeX));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxMeshSizeY) == offsetof(Device::Features, maxMeshSizeY));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxMeshSizeZ) == offsetof(Device::Features, maxMeshSizeZ));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxMeshCount) == offsetof(Device::Features, maxMeshCount));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxMeshCountX) == offsetof(Device::Features, maxMeshCountX));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxMeshCountY) == offsetof(Device::Features, maxMeshCountY));
+	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxMeshCountZ) == offsetof(Device::Features, maxMeshCountZ));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxMeshMemory) == offsetof(Device::Features, maxMeshMemory));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxMeshVertices) == offsetof(Device::Features, maxMeshVertices));
 	TS_STATIC_ASSERT(offsetof(TSDeviceFeatures, maxMeshPrimitives) == offsetof(Device::Features, maxMeshPrimitives));
@@ -8621,23 +8643,23 @@ extern "C" {
 	-(const TSMeshGeometry*)getGeometry {
 		return [[TSMeshGeometry alloc] init_ref:([self ref].getGeometry())];
 	}
-	-(void)setSize: (uint32_t)size {
-		[self ref].setSize(size);
+	-(BOOL)setSize: (uint32_t)size {
+		return [self ref].setSize(size);
 	}
-	-(void)setSize_: (uint32_t)size {
-		[self ref].setSize(size);
+	-(BOOL)setSize_: (uint32_t)size {
+		return [self ref].setSize(size);
 	}
-	-(void)setSize_1: (uint32_t)size discard: (BOOL)discard {
-		[self ref].setSize(size, (bool)discard);
+	-(BOOL)setSize_1: (uint32_t)size discard: (BOOL)discard {
+		return [self ref].setSize(size, (bool)discard);
 	}
-	-(void)setSize_1_: (uint32_t)size discard: (BOOL)discard {
-		[self ref].setSize(size, (bool)discard);
+	-(BOOL)setSize_1_: (uint32_t)size discard: (BOOL)discard {
+		return [self ref].setSize(size, (bool)discard);
 	}
-	-(void)setSize_2: (uint32_t)size discard: (BOOL)discard clear: (BOOL)clear {
-		[self ref].setSize(size, (bool)discard, (bool)clear);
+	-(BOOL)setSize_2: (uint32_t)size discard: (BOOL)discard clear: (BOOL)clear {
+		return [self ref].setSize(size, (bool)discard, (bool)clear);
 	}
-	-(void)setSize_2_: (uint32_t)size discard: (BOOL)discard clear: (BOOL)clear {
-		[self ref].setSize(size, (bool)discard, (bool)clear);
+	-(BOOL)setSize_2_: (uint32_t)size discard: (BOOL)discard clear: (BOOL)clear {
+		return [self ref].setSize(size, (bool)discard, (bool)clear);
 	}
 	-(uint32_t)getSize {
 		return [self ref].getSize();
@@ -9133,23 +9155,23 @@ extern "C" {
 	-(const TSMeshGeometry*)getGeometry {
 		return [[TSMeshGeometry alloc] init_ref:([self ref].getGeometry())];
 	}
-	-(void)setSize: (uint32_t)size {
-		[self ref].setSize(size);
+	-(BOOL)setSize: (uint32_t)size {
+		return [self ref].setSize(size);
 	}
-	-(void)setSize_: (uint32_t)size {
-		[self ref].setSize(size);
+	-(BOOL)setSize_: (uint32_t)size {
+		return [self ref].setSize(size);
 	}
-	-(void)setSize_1: (uint32_t)size discard: (BOOL)discard {
-		[self ref].setSize(size, (bool)discard);
+	-(BOOL)setSize_1: (uint32_t)size discard: (BOOL)discard {
+		return [self ref].setSize(size, (bool)discard);
 	}
-	-(void)setSize_1_: (uint32_t)size discard: (BOOL)discard {
-		[self ref].setSize(size, (bool)discard);
+	-(BOOL)setSize_1_: (uint32_t)size discard: (BOOL)discard {
+		return [self ref].setSize(size, (bool)discard);
 	}
-	-(void)setSize_2: (uint32_t)size discard: (BOOL)discard clear: (BOOL)clear {
-		[self ref].setSize(size, (bool)discard, (bool)clear);
+	-(BOOL)setSize_2: (uint32_t)size discard: (BOOL)discard clear: (BOOL)clear {
+		return [self ref].setSize(size, (bool)discard, (bool)clear);
 	}
-	-(void)setSize_2_: (uint32_t)size discard: (BOOL)discard clear: (BOOL)clear {
-		[self ref].setSize(size, (bool)discard, (bool)clear);
+	-(BOOL)setSize_2_: (uint32_t)size discard: (BOOL)discard clear: (BOOL)clear {
+		return [self ref].setSize(size, (bool)discard, (bool)clear);
 	}
 	-(uint32_t)getSize {
 		return [self ref].getSize();
@@ -9335,6 +9357,12 @@ extern "C" {
 	}
 	-(TSMeshAttribute*)optimizeAttribute_: (TSMeshIndices*)indices {
 		return [[TSMeshAttribute alloc] init_ref:([self ref].optimizeAttribute([indices ref]))];
+	}
+	-(TSMeshAttribute*)optimizeAttribute_1: (TSMeshIndices*)indices threshold: (float32_t)threshold {
+		return [[TSMeshAttribute alloc] init_ref:([self ref].optimizeAttribute([indices ref], threshold))];
+	}
+	-(TSMeshAttribute*)optimizeAttribute_1_: (TSMeshIndices*)indices threshold: (float32_t)threshold {
+		return [[TSMeshAttribute alloc] init_ref:([self ref].optimizeAttribute([indices ref], threshold))];
 	}
 	-(TSMeshAttribute*)toDirect: (const TSMeshIndices*)indices {
 		return [[TSMeshAttribute alloc] init_ref:([self ref].toDirect([indices ref]))];
@@ -36905,6 +36933,24 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 		Tellusim::Color ret = [self ref].getColor();
 		return *(TSColor*)&ret;
 	}
+	-(void)setStateColor: (TS_ControlState)state color: (TSColor)color {
+		[self ref].setStateColor((Tellusim::Control::State)state, *(Tellusim::Color*)&color);
+	}
+	-(void)setStateColor_: (TS_ControlState)state color: (TSColor)color {
+		[self ref].setStateColor((Tellusim::Control::State)state, *(Tellusim::Color*)&color);
+	}
+	-(void)setStateColor_1: (TS_ControlState)state r: (float32_t)r g: (float32_t)g b: (float32_t)b a: (float32_t)a {
+		[self ref].setStateColor((Tellusim::Control::State)state, r, g, b, a);
+	}
+	-(void)setStateColor_1_: (TS_ControlState)state r: (float32_t)r g: (float32_t)g b: (float32_t)b a: (float32_t)a {
+		[self ref].setStateColor((Tellusim::Control::State)state, r, g, b, a);
+	}
+	-(uint32_t)getStateColor: (TS_ControlState)state {
+		return [self ref].getStateColor((Tellusim::Control::State)state);
+	}
+	-(uint32_t)getStateColor_: (TS_ControlState)state {
+		return [self ref].getStateColor((Tellusim::Control::State)state);
+	}
 	-(void)setFilter: (TS_SamplerFilter)filter {
 		[self ref].setFilter((Tellusim::Sampler::Filter)filter);
 	}
@@ -37207,6 +37253,24 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(TSColor)getColor {
 		Tellusim::Color ret = [self ref].getColor();
 		return *(TSColor*)&ret;
+	}
+	-(void)setStateColor: (TS_ControlState)state color: (TSColor)color {
+		[self ref].setStateColor((Tellusim::Control::State)state, *(Tellusim::Color*)&color);
+	}
+	-(void)setStateColor_: (TS_ControlState)state color: (TSColor)color {
+		[self ref].setStateColor((Tellusim::Control::State)state, *(Tellusim::Color*)&color);
+	}
+	-(void)setStateColor_1: (TS_ControlState)state r: (float32_t)r g: (float32_t)g b: (float32_t)b a: (float32_t)a {
+		[self ref].setStateColor((Tellusim::Control::State)state, r, g, b, a);
+	}
+	-(void)setStateColor_1_: (TS_ControlState)state r: (float32_t)r g: (float32_t)g b: (float32_t)b a: (float32_t)a {
+		[self ref].setStateColor((Tellusim::Control::State)state, r, g, b, a);
+	}
+	-(uint32_t)getStateColor: (TS_ControlState)state {
+		return [self ref].getStateColor((Tellusim::Control::State)state);
+	}
+	-(uint32_t)getStateColor_: (TS_ControlState)state {
+		return [self ref].getStateColor((Tellusim::Control::State)state);
 	}
 	-(void)setStrokeStyle: (TSStrokeStyle)style {
 		[self ref].setStrokeStyle(*(Tellusim::StrokeStyle*)&style);
@@ -42966,11 +43030,11 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(BOOL)create_2_: (const TSDevice*)device mode: (TS_CubeFilterMode)mode order: (uint32_t)order size: (uint32_t)size {
 		return [self ref].create([device ref], (Tellusim::CubeFilter::Mode)mode, order, size);
 	}
-	-(BOOL)create_3: (const TSDevice*)device mode: (TS_CubeFilterMode)mode order: (uint32_t)order size: (uint32_t)size groups: (uint32_t)groups {
-		return [self ref].create([device ref], (Tellusim::CubeFilter::Mode)mode, order, size, groups);
+	-(BOOL)create_3: (const TSDevice*)device mode: (TS_CubeFilterMode)mode order: (uint32_t)order size: (uint32_t)size threads: (uint32_t)threads {
+		return [self ref].create([device ref], (Tellusim::CubeFilter::Mode)mode, order, size, threads);
 	}
-	-(BOOL)create_3_: (const TSDevice*)device mode: (TS_CubeFilterMode)mode order: (uint32_t)order size: (uint32_t)size groups: (uint32_t)groups {
-		return [self ref].create([device ref], (Tellusim::CubeFilter::Mode)mode, order, size, groups);
+	-(BOOL)create_3_: (const TSDevice*)device mode: (TS_CubeFilterMode)mode order: (uint32_t)order size: (uint32_t)size threads: (uint32_t)threads {
+		return [self ref].create([device ref], (Tellusim::CubeFilter::Mode)mode, order, size, threads);
 	}
 	-(BOOL)create_4: (const TSDevice*)device flags: (TS_CubeFilterFlags)flags {
 		return [self ref].create([device ref], (Tellusim::CubeFilter::Flags)flags);
@@ -42990,11 +43054,11 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(BOOL)create_6_: (const TSDevice*)device flags: (TS_CubeFilterFlags)flags order: (uint32_t)order size: (uint32_t)size {
 		return [self ref].create([device ref], (Tellusim::CubeFilter::Flags)flags, order, size);
 	}
-	-(BOOL)create_7: (const TSDevice*)device flags: (TS_CubeFilterFlags)flags order: (uint32_t)order size: (uint32_t)size groups: (uint32_t)groups {
-		return [self ref].create([device ref], (Tellusim::CubeFilter::Flags)flags, order, size, groups);
+	-(BOOL)create_7: (const TSDevice*)device flags: (TS_CubeFilterFlags)flags order: (uint32_t)order size: (uint32_t)size threads: (uint32_t)threads {
+		return [self ref].create([device ref], (Tellusim::CubeFilter::Flags)flags, order, size, threads);
 	}
-	-(BOOL)create_7_: (const TSDevice*)device flags: (TS_CubeFilterFlags)flags order: (uint32_t)order size: (uint32_t)size groups: (uint32_t)groups {
-		return [self ref].create([device ref], (Tellusim::CubeFilter::Flags)flags, order, size, groups);
+	-(BOOL)create_7_: (const TSDevice*)device flags: (TS_CubeFilterFlags)flags order: (uint32_t)order size: (uint32_t)size threads: (uint32_t)threads {
+		return [self ref].create([device ref], (Tellusim::CubeFilter::Flags)flags, order, size, threads);
 	}
 	-(BOOL)dispatch: (TSCompute*)compute buffer: (TSBuffer*)buffer offset: (uint32_t)offset texture: (TSTexture*)texture slice: (TSSlice)slice {
 		return [self ref].dispatch([compute ref], [buffer ref], offset, [texture ref], *(Tellusim::Slice*)&slice);
@@ -44231,23 +44295,23 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(BOOL)create_: (const TSDevice*)device mode: (TS_PrefixScanMode)mode {
 		return [self ref].create([device ref], (Tellusim::PrefixScan::Mode)mode);
 	}
-	-(BOOL)create_1: (const TSDevice*)device mode: (TS_PrefixScanMode)mode groups: (uint32_t)groups {
-		return [self ref].create([device ref], (Tellusim::PrefixScan::Mode)mode, groups);
+	-(BOOL)create_1: (const TSDevice*)device mode: (TS_PrefixScanMode)mode threads: (uint32_t)threads {
+		return [self ref].create([device ref], (Tellusim::PrefixScan::Mode)mode, threads);
 	}
-	-(BOOL)create_1_: (const TSDevice*)device mode: (TS_PrefixScanMode)mode groups: (uint32_t)groups {
-		return [self ref].create([device ref], (Tellusim::PrefixScan::Mode)mode, groups);
+	-(BOOL)create_1_: (const TSDevice*)device mode: (TS_PrefixScanMode)mode threads: (uint32_t)threads {
+		return [self ref].create([device ref], (Tellusim::PrefixScan::Mode)mode, threads);
 	}
-	-(BOOL)create_2: (const TSDevice*)device mode: (TS_PrefixScanMode)mode groups: (uint32_t)groups regions: (uint32_t)regions {
-		return [self ref].create([device ref], (Tellusim::PrefixScan::Mode)mode, groups, regions);
+	-(BOOL)create_2: (const TSDevice*)device mode: (TS_PrefixScanMode)mode threads: (uint32_t)threads regions: (uint32_t)regions {
+		return [self ref].create([device ref], (Tellusim::PrefixScan::Mode)mode, threads, regions);
 	}
-	-(BOOL)create_2_: (const TSDevice*)device mode: (TS_PrefixScanMode)mode groups: (uint32_t)groups regions: (uint32_t)regions {
-		return [self ref].create([device ref], (Tellusim::PrefixScan::Mode)mode, groups, regions);
+	-(BOOL)create_2_: (const TSDevice*)device mode: (TS_PrefixScanMode)mode threads: (uint32_t)threads regions: (uint32_t)regions {
+		return [self ref].create([device ref], (Tellusim::PrefixScan::Mode)mode, threads, regions);
 	}
-	-(BOOL)create_3: (const TSDevice*)device mode: (TS_PrefixScanMode)mode groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync**)async {
-		return [self ref].create([device ref], (Tellusim::PrefixScan::Mode)mode, groups, regions, (async) ? [*async pointer] : nullptr);
+	-(BOOL)create_3: (const TSDevice*)device mode: (TS_PrefixScanMode)mode threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync**)async {
+		return [self ref].create([device ref], (Tellusim::PrefixScan::Mode)mode, threads, regions, (async) ? [*async pointer] : nullptr);
 	}
-	-(BOOL)create_3_: (const TSDevice*)device mode: (TS_PrefixScanMode)mode groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync**)async {
-		return [self ref].create([device ref], (Tellusim::PrefixScan::Mode)mode, groups, regions, (async) ? [*async pointer] : nullptr);
+	-(BOOL)create_3_: (const TSDevice*)device mode: (TS_PrefixScanMode)mode threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync**)async {
+		return [self ref].create([device ref], (Tellusim::PrefixScan::Mode)mode, threads, regions, (async) ? [*async pointer] : nullptr);
 	}
 	-(BOOL)create_4: (const TSDevice*)device flags: (TS_PrefixScanFlags)flags {
 		return [self ref].create([device ref], (Tellusim::PrefixScan::Flags)flags);
@@ -44255,23 +44319,23 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(BOOL)create_4_: (const TSDevice*)device flags: (TS_PrefixScanFlags)flags {
 		return [self ref].create([device ref], (Tellusim::PrefixScan::Flags)flags);
 	}
-	-(BOOL)create_5: (const TSDevice*)device flags: (TS_PrefixScanFlags)flags groups: (uint32_t)groups {
-		return [self ref].create([device ref], (Tellusim::PrefixScan::Flags)flags, groups);
+	-(BOOL)create_5: (const TSDevice*)device flags: (TS_PrefixScanFlags)flags threads: (uint32_t)threads {
+		return [self ref].create([device ref], (Tellusim::PrefixScan::Flags)flags, threads);
 	}
-	-(BOOL)create_5_: (const TSDevice*)device flags: (TS_PrefixScanFlags)flags groups: (uint32_t)groups {
-		return [self ref].create([device ref], (Tellusim::PrefixScan::Flags)flags, groups);
+	-(BOOL)create_5_: (const TSDevice*)device flags: (TS_PrefixScanFlags)flags threads: (uint32_t)threads {
+		return [self ref].create([device ref], (Tellusim::PrefixScan::Flags)flags, threads);
 	}
-	-(BOOL)create_6: (const TSDevice*)device flags: (TS_PrefixScanFlags)flags groups: (uint32_t)groups regions: (uint32_t)regions {
-		return [self ref].create([device ref], (Tellusim::PrefixScan::Flags)flags, groups, regions);
+	-(BOOL)create_6: (const TSDevice*)device flags: (TS_PrefixScanFlags)flags threads: (uint32_t)threads regions: (uint32_t)regions {
+		return [self ref].create([device ref], (Tellusim::PrefixScan::Flags)flags, threads, regions);
 	}
-	-(BOOL)create_6_: (const TSDevice*)device flags: (TS_PrefixScanFlags)flags groups: (uint32_t)groups regions: (uint32_t)regions {
-		return [self ref].create([device ref], (Tellusim::PrefixScan::Flags)flags, groups, regions);
+	-(BOOL)create_6_: (const TSDevice*)device flags: (TS_PrefixScanFlags)flags threads: (uint32_t)threads regions: (uint32_t)regions {
+		return [self ref].create([device ref], (Tellusim::PrefixScan::Flags)flags, threads, regions);
 	}
-	-(BOOL)create_7: (const TSDevice*)device flags: (TS_PrefixScanFlags)flags groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync**)async {
-		return [self ref].create([device ref], (Tellusim::PrefixScan::Flags)flags, groups, regions, (async) ? [*async pointer] : nullptr);
+	-(BOOL)create_7: (const TSDevice*)device flags: (TS_PrefixScanFlags)flags threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync**)async {
+		return [self ref].create([device ref], (Tellusim::PrefixScan::Flags)flags, threads, regions, (async) ? [*async pointer] : nullptr);
 	}
-	-(BOOL)create_7_: (const TSDevice*)device flags: (TS_PrefixScanFlags)flags groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync**)async {
-		return [self ref].create([device ref], (Tellusim::PrefixScan::Flags)flags, groups, regions, (async) ? [*async pointer] : nullptr);
+	-(BOOL)create_7_: (const TSDevice*)device flags: (TS_PrefixScanFlags)flags threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync**)async {
+		return [self ref].create([device ref], (Tellusim::PrefixScan::Flags)flags, threads, regions, (async) ? [*async pointer] : nullptr);
 	}
 	-(BOOL)dispatch: (TSCompute*)compute data: (TSBuffer*)data offset: (uint32_t)offset size: (uint32_t)size {
 		return [self ref].dispatch([compute ref], [data ref], offset, size);
@@ -44485,23 +44549,23 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(BOOL)create_: (const TSDevice*)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan*)scan size: (uint32_t)size {
 		return [self ref].create([device ref], (Tellusim::RadixSort::Mode)mode, [scan ref], size);
 	}
-	-(BOOL)create_1: (const TSDevice*)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan*)scan size: (uint32_t)size groups: (uint32_t)groups {
-		return [self ref].create([device ref], (Tellusim::RadixSort::Mode)mode, [scan ref], size, groups);
+	-(BOOL)create_1: (const TSDevice*)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan*)scan size: (uint32_t)size threads: (uint32_t)threads {
+		return [self ref].create([device ref], (Tellusim::RadixSort::Mode)mode, [scan ref], size, threads);
 	}
-	-(BOOL)create_1_: (const TSDevice*)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan*)scan size: (uint32_t)size groups: (uint32_t)groups {
-		return [self ref].create([device ref], (Tellusim::RadixSort::Mode)mode, [scan ref], size, groups);
+	-(BOOL)create_1_: (const TSDevice*)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan*)scan size: (uint32_t)size threads: (uint32_t)threads {
+		return [self ref].create([device ref], (Tellusim::RadixSort::Mode)mode, [scan ref], size, threads);
 	}
-	-(BOOL)create_2: (const TSDevice*)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan*)scan size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions {
-		return [self ref].create([device ref], (Tellusim::RadixSort::Mode)mode, [scan ref], size, groups, regions);
+	-(BOOL)create_2: (const TSDevice*)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan*)scan size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions {
+		return [self ref].create([device ref], (Tellusim::RadixSort::Mode)mode, [scan ref], size, threads, regions);
 	}
-	-(BOOL)create_2_: (const TSDevice*)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan*)scan size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions {
-		return [self ref].create([device ref], (Tellusim::RadixSort::Mode)mode, [scan ref], size, groups, regions);
+	-(BOOL)create_2_: (const TSDevice*)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan*)scan size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions {
+		return [self ref].create([device ref], (Tellusim::RadixSort::Mode)mode, [scan ref], size, threads, regions);
 	}
-	-(BOOL)create_3: (const TSDevice*)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan*)scan size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync**)async {
-		return [self ref].create([device ref], (Tellusim::RadixSort::Mode)mode, [scan ref], size, groups, regions, (async) ? [*async pointer] : nullptr);
+	-(BOOL)create_3: (const TSDevice*)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan*)scan size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync**)async {
+		return [self ref].create([device ref], (Tellusim::RadixSort::Mode)mode, [scan ref], size, threads, regions, (async) ? [*async pointer] : nullptr);
 	}
-	-(BOOL)create_3_: (const TSDevice*)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan*)scan size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync**)async {
-		return [self ref].create([device ref], (Tellusim::RadixSort::Mode)mode, [scan ref], size, groups, regions, (async) ? [*async pointer] : nullptr);
+	-(BOOL)create_3_: (const TSDevice*)device mode: (TS_RadixSortMode)mode scan: (TSPrefixScan*)scan size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync**)async {
+		return [self ref].create([device ref], (Tellusim::RadixSort::Mode)mode, [scan ref], size, threads, regions, (async) ? [*async pointer] : nullptr);
 	}
 	-(BOOL)create_4: (const TSDevice*)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan*)scan size: (uint32_t)size {
 		return [self ref].create([device ref], (Tellusim::RadixSort::Flags)flags, [scan ref], size);
@@ -44509,23 +44573,23 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(BOOL)create_4_: (const TSDevice*)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan*)scan size: (uint32_t)size {
 		return [self ref].create([device ref], (Tellusim::RadixSort::Flags)flags, [scan ref], size);
 	}
-	-(BOOL)create_5: (const TSDevice*)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan*)scan size: (uint32_t)size groups: (uint32_t)groups {
-		return [self ref].create([device ref], (Tellusim::RadixSort::Flags)flags, [scan ref], size, groups);
+	-(BOOL)create_5: (const TSDevice*)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan*)scan size: (uint32_t)size threads: (uint32_t)threads {
+		return [self ref].create([device ref], (Tellusim::RadixSort::Flags)flags, [scan ref], size, threads);
 	}
-	-(BOOL)create_5_: (const TSDevice*)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan*)scan size: (uint32_t)size groups: (uint32_t)groups {
-		return [self ref].create([device ref], (Tellusim::RadixSort::Flags)flags, [scan ref], size, groups);
+	-(BOOL)create_5_: (const TSDevice*)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan*)scan size: (uint32_t)size threads: (uint32_t)threads {
+		return [self ref].create([device ref], (Tellusim::RadixSort::Flags)flags, [scan ref], size, threads);
 	}
-	-(BOOL)create_6: (const TSDevice*)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan*)scan size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions {
-		return [self ref].create([device ref], (Tellusim::RadixSort::Flags)flags, [scan ref], size, groups, regions);
+	-(BOOL)create_6: (const TSDevice*)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan*)scan size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions {
+		return [self ref].create([device ref], (Tellusim::RadixSort::Flags)flags, [scan ref], size, threads, regions);
 	}
-	-(BOOL)create_6_: (const TSDevice*)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan*)scan size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions {
-		return [self ref].create([device ref], (Tellusim::RadixSort::Flags)flags, [scan ref], size, groups, regions);
+	-(BOOL)create_6_: (const TSDevice*)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan*)scan size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions {
+		return [self ref].create([device ref], (Tellusim::RadixSort::Flags)flags, [scan ref], size, threads, regions);
 	}
-	-(BOOL)create_7: (const TSDevice*)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan*)scan size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync**)async {
-		return [self ref].create([device ref], (Tellusim::RadixSort::Flags)flags, [scan ref], size, groups, regions, (async) ? [*async pointer] : nullptr);
+	-(BOOL)create_7: (const TSDevice*)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan*)scan size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync**)async {
+		return [self ref].create([device ref], (Tellusim::RadixSort::Flags)flags, [scan ref], size, threads, regions, (async) ? [*async pointer] : nullptr);
 	}
-	-(BOOL)create_7_: (const TSDevice*)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan*)scan size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync**)async {
-		return [self ref].create([device ref], (Tellusim::RadixSort::Flags)flags, [scan ref], size, groups, regions, (async) ? [*async pointer] : nullptr);
+	-(BOOL)create_7_: (const TSDevice*)device flags: (TS_RadixSortFlags)flags scan: (TSPrefixScan*)scan size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync**)async {
+		return [self ref].create([device ref], (Tellusim::RadixSort::Flags)flags, [scan ref], size, threads, regions, (async) ? [*async pointer] : nullptr);
 	}
 	-(BOOL)dispatch: (TSCompute*)compute data: (TSBuffer*)data keys_offset: (uint32_t)keys_offset data_offset: (uint32_t)data_offset size: (uint32_t)size {
 		return [self ref].dispatch([compute ref], [data ref], keys_offset, data_offset, size);
@@ -44733,23 +44797,23 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(BOOL)create_: (const TSDevice*)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size {
 		return [self ref].create([device ref], (Tellusim::BitonicSort::Mode)mode, size);
 	}
-	-(BOOL)create_1: (const TSDevice*)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size groups: (uint32_t)groups {
-		return [self ref].create([device ref], (Tellusim::BitonicSort::Mode)mode, size, groups);
+	-(BOOL)create_1: (const TSDevice*)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size threads: (uint32_t)threads {
+		return [self ref].create([device ref], (Tellusim::BitonicSort::Mode)mode, size, threads);
 	}
-	-(BOOL)create_1_: (const TSDevice*)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size groups: (uint32_t)groups {
-		return [self ref].create([device ref], (Tellusim::BitonicSort::Mode)mode, size, groups);
+	-(BOOL)create_1_: (const TSDevice*)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size threads: (uint32_t)threads {
+		return [self ref].create([device ref], (Tellusim::BitonicSort::Mode)mode, size, threads);
 	}
-	-(BOOL)create_2: (const TSDevice*)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions {
-		return [self ref].create([device ref], (Tellusim::BitonicSort::Mode)mode, size, groups, regions);
+	-(BOOL)create_2: (const TSDevice*)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions {
+		return [self ref].create([device ref], (Tellusim::BitonicSort::Mode)mode, size, threads, regions);
 	}
-	-(BOOL)create_2_: (const TSDevice*)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions {
-		return [self ref].create([device ref], (Tellusim::BitonicSort::Mode)mode, size, groups, regions);
+	-(BOOL)create_2_: (const TSDevice*)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions {
+		return [self ref].create([device ref], (Tellusim::BitonicSort::Mode)mode, size, threads, regions);
 	}
-	-(BOOL)create_3: (const TSDevice*)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync**)async {
-		return [self ref].create([device ref], (Tellusim::BitonicSort::Mode)mode, size, groups, regions, (async) ? [*async pointer] : nullptr);
+	-(BOOL)create_3: (const TSDevice*)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync**)async {
+		return [self ref].create([device ref], (Tellusim::BitonicSort::Mode)mode, size, threads, regions, (async) ? [*async pointer] : nullptr);
 	}
-	-(BOOL)create_3_: (const TSDevice*)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync**)async {
-		return [self ref].create([device ref], (Tellusim::BitonicSort::Mode)mode, size, groups, regions, (async) ? [*async pointer] : nullptr);
+	-(BOOL)create_3_: (const TSDevice*)device mode: (TS_BitonicSortMode)mode size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync**)async {
+		return [self ref].create([device ref], (Tellusim::BitonicSort::Mode)mode, size, threads, regions, (async) ? [*async pointer] : nullptr);
 	}
 	-(BOOL)create_4: (const TSDevice*)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size {
 		return [self ref].create([device ref], (Tellusim::BitonicSort::Flags)flags, size);
@@ -44757,23 +44821,23 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(BOOL)create_4_: (const TSDevice*)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size {
 		return [self ref].create([device ref], (Tellusim::BitonicSort::Flags)flags, size);
 	}
-	-(BOOL)create_5: (const TSDevice*)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size groups: (uint32_t)groups {
-		return [self ref].create([device ref], (Tellusim::BitonicSort::Flags)flags, size, groups);
+	-(BOOL)create_5: (const TSDevice*)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size threads: (uint32_t)threads {
+		return [self ref].create([device ref], (Tellusim::BitonicSort::Flags)flags, size, threads);
 	}
-	-(BOOL)create_5_: (const TSDevice*)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size groups: (uint32_t)groups {
-		return [self ref].create([device ref], (Tellusim::BitonicSort::Flags)flags, size, groups);
+	-(BOOL)create_5_: (const TSDevice*)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size threads: (uint32_t)threads {
+		return [self ref].create([device ref], (Tellusim::BitonicSort::Flags)flags, size, threads);
 	}
-	-(BOOL)create_6: (const TSDevice*)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions {
-		return [self ref].create([device ref], (Tellusim::BitonicSort::Flags)flags, size, groups, regions);
+	-(BOOL)create_6: (const TSDevice*)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions {
+		return [self ref].create([device ref], (Tellusim::BitonicSort::Flags)flags, size, threads, regions);
 	}
-	-(BOOL)create_6_: (const TSDevice*)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions {
-		return [self ref].create([device ref], (Tellusim::BitonicSort::Flags)flags, size, groups, regions);
+	-(BOOL)create_6_: (const TSDevice*)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions {
+		return [self ref].create([device ref], (Tellusim::BitonicSort::Flags)flags, size, threads, regions);
 	}
-	-(BOOL)create_7: (const TSDevice*)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync**)async {
-		return [self ref].create([device ref], (Tellusim::BitonicSort::Flags)flags, size, groups, regions, (async) ? [*async pointer] : nullptr);
+	-(BOOL)create_7: (const TSDevice*)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync**)async {
+		return [self ref].create([device ref], (Tellusim::BitonicSort::Flags)flags, size, threads, regions, (async) ? [*async pointer] : nullptr);
 	}
-	-(BOOL)create_7_: (const TSDevice*)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync**)async {
-		return [self ref].create([device ref], (Tellusim::BitonicSort::Flags)flags, size, groups, regions, (async) ? [*async pointer] : nullptr);
+	-(BOOL)create_7_: (const TSDevice*)device flags: (TS_BitonicSortFlags)flags size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync**)async {
+		return [self ref].create([device ref], (Tellusim::BitonicSort::Flags)flags, size, threads, regions, (async) ? [*async pointer] : nullptr);
 	}
 	-(BOOL)dispatch: (TSCompute*)compute data: (TSBuffer*)data keys_offset: (uint32_t)keys_offset data_offset: (uint32_t)data_offset size: (uint32_t)size {
 		return [self ref].dispatch([compute ref], [data ref], keys_offset, data_offset, size);
@@ -44924,11 +44988,11 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(BOOL)create_: (const TSDevice*)device sort: (TSRadixSort*)sort {
 		return [self ref].create([device ref], [sort ref]);
 	}
-	-(BOOL)create_1: (const TSDevice*)device sort: (TSRadixSort*)sort groups: (uint32_t)groups {
-		return [self ref].create([device ref], [sort ref], groups);
+	-(BOOL)create_1: (const TSDevice*)device sort: (TSRadixSort*)sort threads: (uint32_t)threads {
+		return [self ref].create([device ref], [sort ref], threads);
 	}
-	-(BOOL)create_1_: (const TSDevice*)device sort: (TSRadixSort*)sort groups: (uint32_t)groups {
-		return [self ref].create([device ref], [sort ref], groups);
+	-(BOOL)create_1_: (const TSDevice*)device sort: (TSRadixSort*)sort threads: (uint32_t)threads {
+		return [self ref].create([device ref], [sort ref], threads);
 	}
 	-(BOOL)dispatch: (TSCompute*)compute data: (TSBuffer*)data offset: (uint32_t)offset size: (uint32_t)size {
 		return [self ref].dispatch([compute ref], [data ref], offset, size);
@@ -45064,23 +45128,23 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(BOOL)create_: (const TSDevice*)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort*)sort size: (uint32_t)size {
 		return [self ref].create([device ref], (Tellusim::SpatialTree::Mode)mode, [sort ref], size);
 	}
-	-(BOOL)create_1: (const TSDevice*)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort*)sort size: (uint32_t)size groups: (uint32_t)groups {
-		return [self ref].create([device ref], (Tellusim::SpatialTree::Mode)mode, [sort ref], size, groups);
+	-(BOOL)create_1: (const TSDevice*)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort*)sort size: (uint32_t)size threads: (uint32_t)threads {
+		return [self ref].create([device ref], (Tellusim::SpatialTree::Mode)mode, [sort ref], size, threads);
 	}
-	-(BOOL)create_1_: (const TSDevice*)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort*)sort size: (uint32_t)size groups: (uint32_t)groups {
-		return [self ref].create([device ref], (Tellusim::SpatialTree::Mode)mode, [sort ref], size, groups);
+	-(BOOL)create_1_: (const TSDevice*)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort*)sort size: (uint32_t)size threads: (uint32_t)threads {
+		return [self ref].create([device ref], (Tellusim::SpatialTree::Mode)mode, [sort ref], size, threads);
 	}
-	-(BOOL)create_2: (const TSDevice*)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort*)sort size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions {
-		return [self ref].create([device ref], (Tellusim::SpatialTree::Mode)mode, [sort ref], size, groups, regions);
+	-(BOOL)create_2: (const TSDevice*)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort*)sort size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions {
+		return [self ref].create([device ref], (Tellusim::SpatialTree::Mode)mode, [sort ref], size, threads, regions);
 	}
-	-(BOOL)create_2_: (const TSDevice*)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort*)sort size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions {
-		return [self ref].create([device ref], (Tellusim::SpatialTree::Mode)mode, [sort ref], size, groups, regions);
+	-(BOOL)create_2_: (const TSDevice*)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort*)sort size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions {
+		return [self ref].create([device ref], (Tellusim::SpatialTree::Mode)mode, [sort ref], size, threads, regions);
 	}
-	-(BOOL)create_3: (const TSDevice*)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort*)sort size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync**)async {
-		return [self ref].create([device ref], (Tellusim::SpatialTree::Mode)mode, [sort ref], size, groups, regions, (async) ? [*async pointer] : nullptr);
+	-(BOOL)create_3: (const TSDevice*)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort*)sort size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync**)async {
+		return [self ref].create([device ref], (Tellusim::SpatialTree::Mode)mode, [sort ref], size, threads, regions, (async) ? [*async pointer] : nullptr);
 	}
-	-(BOOL)create_3_: (const TSDevice*)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort*)sort size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync**)async {
-		return [self ref].create([device ref], (Tellusim::SpatialTree::Mode)mode, [sort ref], size, groups, regions, (async) ? [*async pointer] : nullptr);
+	-(BOOL)create_3_: (const TSDevice*)device mode: (TS_SpatialTreeMode)mode sort: (TSRadixSort*)sort size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync**)async {
+		return [self ref].create([device ref], (Tellusim::SpatialTree::Mode)mode, [sort ref], size, threads, regions, (async) ? [*async pointer] : nullptr);
 	}
 	-(BOOL)create_4: (const TSDevice*)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort*)sort size: (uint32_t)size {
 		return [self ref].create([device ref], (Tellusim::SpatialTree::Flags)flags, [sort ref], size);
@@ -45088,23 +45152,23 @@ TS_CAPI NSString *tsMeshAttachmentTypeFocusDistance = [NSString stringWithUTF8St
 	-(BOOL)create_4_: (const TSDevice*)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort*)sort size: (uint32_t)size {
 		return [self ref].create([device ref], (Tellusim::SpatialTree::Flags)flags, [sort ref], size);
 	}
-	-(BOOL)create_5: (const TSDevice*)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort*)sort size: (uint32_t)size groups: (uint32_t)groups {
-		return [self ref].create([device ref], (Tellusim::SpatialTree::Flags)flags, [sort ref], size, groups);
+	-(BOOL)create_5: (const TSDevice*)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort*)sort size: (uint32_t)size threads: (uint32_t)threads {
+		return [self ref].create([device ref], (Tellusim::SpatialTree::Flags)flags, [sort ref], size, threads);
 	}
-	-(BOOL)create_5_: (const TSDevice*)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort*)sort size: (uint32_t)size groups: (uint32_t)groups {
-		return [self ref].create([device ref], (Tellusim::SpatialTree::Flags)flags, [sort ref], size, groups);
+	-(BOOL)create_5_: (const TSDevice*)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort*)sort size: (uint32_t)size threads: (uint32_t)threads {
+		return [self ref].create([device ref], (Tellusim::SpatialTree::Flags)flags, [sort ref], size, threads);
 	}
-	-(BOOL)create_6: (const TSDevice*)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort*)sort size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions {
-		return [self ref].create([device ref], (Tellusim::SpatialTree::Flags)flags, [sort ref], size, groups, regions);
+	-(BOOL)create_6: (const TSDevice*)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort*)sort size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions {
+		return [self ref].create([device ref], (Tellusim::SpatialTree::Flags)flags, [sort ref], size, threads, regions);
 	}
-	-(BOOL)create_6_: (const TSDevice*)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort*)sort size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions {
-		return [self ref].create([device ref], (Tellusim::SpatialTree::Flags)flags, [sort ref], size, groups, regions);
+	-(BOOL)create_6_: (const TSDevice*)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort*)sort size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions {
+		return [self ref].create([device ref], (Tellusim::SpatialTree::Flags)flags, [sort ref], size, threads, regions);
 	}
-	-(BOOL)create_7: (const TSDevice*)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort*)sort size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync**)async {
-		return [self ref].create([device ref], (Tellusim::SpatialTree::Flags)flags, [sort ref], size, groups, regions, (async) ? [*async pointer] : nullptr);
+	-(BOOL)create_7: (const TSDevice*)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort*)sort size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync**)async {
+		return [self ref].create([device ref], (Tellusim::SpatialTree::Flags)flags, [sort ref], size, threads, regions, (async) ? [*async pointer] : nullptr);
 	}
-	-(BOOL)create_7_: (const TSDevice*)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort*)sort size: (uint32_t)size groups: (uint32_t)groups regions: (uint32_t)regions async: (TSAsync**)async {
-		return [self ref].create([device ref], (Tellusim::SpatialTree::Flags)flags, [sort ref], size, groups, regions, (async) ? [*async pointer] : nullptr);
+	-(BOOL)create_7_: (const TSDevice*)device flags: (TS_SpatialTreeFlags)flags sort: (TSRadixSort*)sort size: (uint32_t)size threads: (uint32_t)threads regions: (uint32_t)regions async: (TSAsync**)async {
+		return [self ref].create([device ref], (Tellusim::SpatialTree::Flags)flags, [sort ref], size, threads, regions, (async) ? [*async pointer] : nullptr);
 	}
 	-(BOOL)dispatch: (TSCompute*)compute hash: (TS_SpatialTreeHash)hash nodes: (TSBuffer*)nodes offset: (uint32_t)offset size: (uint32_t)size {
 		return [self ref].dispatch([compute ref], (Tellusim::SpatialTree::Hash)hash, [nodes ref], offset, size);
@@ -46658,6 +46722,62 @@ TS_CAPI @implementation TSSystem
 	}
 @end
 
+/// Tellusim::MeshBoolean
+TS_CAPI @implementation TSMeshBoolean
+	+(BOOL)intersect: (TSMeshGeometry*)dest src_0: (const TSMeshGeometry*)src_0 src_1: (const TSMeshGeometry*)src_1 op: (TS_MeshBooleanOperation)op {
+		return Tellusim::MeshBoolean::intersect([dest ref], [src_0 ref], [src_1 ref], (Tellusim::MeshBoolean::Operation)op);
+	}
+	+(BOOL)intersect_: (TSMeshGeometry*)dest src_0: (const TSMeshGeometry*)src_0 src_1: (const TSMeshGeometry*)src_1 op: (TS_MeshBooleanOperation)op {
+		return Tellusim::MeshBoolean::intersect([dest ref], [src_0 ref], [src_1 ref], (Tellusim::MeshBoolean::Operation)op);
+	}
+	+(BOOL)intersect_1: (TSMeshGeometry*)dest_0 dest_1: (TSMeshGeometry*)dest_1 src_0: (const TSMeshGeometry*)src_0 src_1: (const TSMeshGeometry*)src_1 op: (TS_MeshBooleanOperation)op {
+		return Tellusim::MeshBoolean::intersect([dest_0 ref], [dest_1 ref], [src_0 ref], [src_1 ref], (Tellusim::MeshBoolean::Operation)op);
+	}
+	+(BOOL)intersect_1_: (TSMeshGeometry*)dest_0 dest_1: (TSMeshGeometry*)dest_1 src_0: (const TSMeshGeometry*)src_0 src_1: (const TSMeshGeometry*)src_1 op: (TS_MeshBooleanOperation)op {
+		return Tellusim::MeshBoolean::intersect([dest_0 ref], [dest_1 ref], [src_0 ref], [src_1 ref], (Tellusim::MeshBoolean::Operation)op);
+	}
+@end
+
+/// Tellusim::MeshFracture
+TS_CAPI @implementation TSMeshFracture
+	+(BOOL)split: (TSMesh*)dest src: (const TSMesh*)src points: (const TSVector3f*)points num_points: (uint32_t)num_points {
+		return Tellusim::MeshFracture::split([dest ref], [src ref], *(const Tellusim::Vector3f**)&points, num_points);
+	}
+	+(BOOL)split_: (TSMesh*)dest src: (const TSMesh*)src points: (const TSVector3f*)points num_points: (uint32_t)num_points {
+		return Tellusim::MeshFracture::split([dest ref], [src ref], *(const Tellusim::Vector3f**)&points, num_points);
+	}
+	+(BOOL)split_1: (TSMesh*)dest src: (const TSMesh*)src points: (const TSVector3f*)points num_points: (uint32_t)num_points texcoord: (TSVector2f)texcoord {
+		return Tellusim::MeshFracture::split([dest ref], [src ref], *(const Tellusim::Vector3f**)&points, num_points, *(Tellusim::Vector2f*)&texcoord);
+	}
+	+(BOOL)split_1_: (TSMesh*)dest src: (const TSMesh*)src points: (const TSVector3f*)points num_points: (uint32_t)num_points texcoord: (TSVector2f)texcoord {
+		return Tellusim::MeshFracture::split([dest ref], [src ref], *(const Tellusim::Vector3f**)&points, num_points, *(Tellusim::Vector2f*)&texcoord);
+	}
+	+(BOOL)split_2: (TSMesh*)dest src: (const TSMesh*)src points: (const TSVector3f*)points num_points: (uint32_t)num_points texcoord: (TSVector2f)texcoord threshold: (float32_t)threshold {
+		return Tellusim::MeshFracture::split([dest ref], [src ref], *(const Tellusim::Vector3f**)&points, num_points, *(Tellusim::Vector2f*)&texcoord, threshold);
+	}
+	+(BOOL)split_2_: (TSMesh*)dest src: (const TSMesh*)src points: (const TSVector3f*)points num_points: (uint32_t)num_points texcoord: (TSVector2f)texcoord threshold: (float32_t)threshold {
+		return Tellusim::MeshFracture::split([dest ref], [src ref], *(const Tellusim::Vector3f**)&points, num_points, *(Tellusim::Vector2f*)&texcoord, threshold);
+	}
+	+(BOOL)split_3: (TSMesh*)dest src: (const TSMesh*)src points: (const TSVector3f*)points num_points: (uint32_t)num_points texcoord: (TSVector2f)texcoord threshold: (float32_t)threshold collapse: (float32_t)collapse {
+		return Tellusim::MeshFracture::split([dest ref], [src ref], *(const Tellusim::Vector3f**)&points, num_points, *(Tellusim::Vector2f*)&texcoord, threshold, collapse);
+	}
+	+(BOOL)split_3_: (TSMesh*)dest src: (const TSMesh*)src points: (const TSVector3f*)points num_points: (uint32_t)num_points texcoord: (TSVector2f)texcoord threshold: (float32_t)threshold collapse: (float32_t)collapse {
+		return Tellusim::MeshFracture::split([dest ref], [src ref], *(const Tellusim::Vector3f**)&points, num_points, *(Tellusim::Vector2f*)&texcoord, threshold, collapse);
+	}
+	+(BOOL)split_4: (TSMesh*)dest src: (const TSMesh*)src points: (const TSVector3f*)points num_points: (uint32_t)num_points texcoord: (TSVector2f)texcoord threshold: (float32_t)threshold collapse: (float32_t)collapse volume: (float32_t)volume {
+		return Tellusim::MeshFracture::split([dest ref], [src ref], *(const Tellusim::Vector3f**)&points, num_points, *(Tellusim::Vector2f*)&texcoord, threshold, collapse, volume);
+	}
+	+(BOOL)split_4_: (TSMesh*)dest src: (const TSMesh*)src points: (const TSVector3f*)points num_points: (uint32_t)num_points texcoord: (TSVector2f)texcoord threshold: (float32_t)threshold collapse: (float32_t)collapse volume: (float32_t)volume {
+		return Tellusim::MeshFracture::split([dest ref], [src ref], *(const Tellusim::Vector3f**)&points, num_points, *(Tellusim::Vector2f*)&texcoord, threshold, collapse, volume);
+	}
+	+(BOOL)split_5: (TSMesh*)dest src: (const TSMesh*)src points: (const TSVector3f*)points num_points: (uint32_t)num_points texcoord: (TSVector2f)texcoord threshold: (float32_t)threshold collapse: (float32_t)collapse volume: (float32_t)volume async: (TSAsync**)async {
+		return Tellusim::MeshFracture::split([dest ref], [src ref], *(const Tellusim::Vector3f**)&points, num_points, *(Tellusim::Vector2f*)&texcoord, threshold, collapse, volume, (async) ? [*async pointer] : nullptr);
+	}
+	+(BOOL)split_5_: (TSMesh*)dest src: (const TSMesh*)src points: (const TSVector3f*)points num_points: (uint32_t)num_points texcoord: (TSVector2f)texcoord threshold: (float32_t)threshold collapse: (float32_t)collapse volume: (float32_t)volume async: (TSAsync**)async {
+		return Tellusim::MeshFracture::split([dest ref], [src ref], *(const Tellusim::Vector3f**)&points, num_points, *(Tellusim::Vector2f*)&texcoord, threshold, collapse, volume, (async) ? [*async pointer] : nullptr);
+	}
+@end
+
 /// Tellusim::MeshGraph
 TS_CAPI @implementation TSMeshGraph
 	+(BOOL)create: (TSMesh*)dest src: (TSMesh*)src max_attributes: (uint32_t)max_attributes max_primitives: (uint32_t)max_primitives {
@@ -46831,6 +46951,28 @@ TS_CAPI @implementation TSMeshSolid
 	+(BOOL)create_8_: (TSMeshGeometry*)dest src: (const TSMeshGeometry*)src ratio: (float32_t)ratio threshold: (float32_t)threshold func: (id<TSMeshSolidProgressCallback>)func position: (uint32_t)position {
 		auto func_ts = Tellusim::makeTSMeshSolidProgressCallback(func);
 		return Tellusim::MeshSolid::create([dest ref], [src ref], ratio, threshold, (func) ? &func_ts : nullptr, position);
+	}
+@end
+
+/// Tellusim::MeshSplit
+TS_CAPI @implementation TSMeshSplit
+	+(BOOL)split: (TSMesh*)front cross: (TSMesh*)cross back: (TSMesh*)back src: (const TSMesh*)src basis: (TSMatrix4x3f)basis {
+		return Tellusim::MeshSplit::split([front ref], [cross ref], [back ref], [src ref], *(Tellusim::Matrix4x3f*)&basis);
+	}
+	+(BOOL)split_: (TSMesh*)front cross: (TSMesh*)cross back: (TSMesh*)back src: (const TSMesh*)src basis: (TSMatrix4x3f)basis {
+		return Tellusim::MeshSplit::split([front ref], [cross ref], [back ref], [src ref], *(Tellusim::Matrix4x3f*)&basis);
+	}
+	+(BOOL)split_1: (TSMeshGeometry*)front cross: (TSMeshGeometry*)cross back: (TSMeshGeometry*)back src: (const TSMeshGeometry*)src basis: (TSMatrix4x3f)basis {
+		return Tellusim::MeshSplit::split([front ref], [cross ref], [back ref], [src ref], *(Tellusim::Matrix4x3f*)&basis);
+	}
+	+(BOOL)split_1_: (TSMeshGeometry*)front cross: (TSMeshGeometry*)cross back: (TSMeshGeometry*)back src: (const TSMeshGeometry*)src basis: (TSMatrix4x3f)basis {
+		return Tellusim::MeshSplit::split([front ref], [cross ref], [back ref], [src ref], *(Tellusim::Matrix4x3f*)&basis);
+	}
+	+(BOOL)split_2: (TSMeshGeometry*)front cross: (TSMeshGeometry*)cross back: (TSMeshGeometry*)back src: (const TSMeshGeometry*)src basis: (TSMatrix4x3f)basis position: (uint32_t)position {
+		return Tellusim::MeshSplit::split([front ref], [cross ref], [back ref], [src ref], *(Tellusim::Matrix4x3f*)&basis, position);
+	}
+	+(BOOL)split_2_: (TSMeshGeometry*)front cross: (TSMeshGeometry*)cross back: (TSMeshGeometry*)back src: (const TSMeshGeometry*)src basis: (TSMatrix4x3f)basis position: (uint32_t)position {
+		return Tellusim::MeshSplit::split([front ref], [cross ref], [back ref], [src ref], *(Tellusim::Matrix4x3f*)&basis, position);
 	}
 @end
 

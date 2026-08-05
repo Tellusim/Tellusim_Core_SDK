@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6A2580B41C232F8DD76000DA"
+				BlueprintIdentifier = "65E2F673285286C4A1C000DA"
 				BuildableName = "tsGraphicsMeshTree"
 				BlueprintName = "tsGraphicsMeshTree"
 				ReferencedContainer = "container:mesh_tree_ios.xcodeproj"/>

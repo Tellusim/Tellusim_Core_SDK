@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "657F367AD8C25DE77FB000BA"
+				BlueprintIdentifier = "6F157A254F6A988332F000BA"
 				BuildableName = "tsPlatformViewports"
 				BlueprintName = "tsPlatformViewports"
 				ReferencedContainer = "container:viewports_ios.xcodeproj"/>

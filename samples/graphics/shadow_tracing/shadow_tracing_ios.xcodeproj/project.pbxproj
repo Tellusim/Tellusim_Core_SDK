@@ -3,83 +3,83 @@
 	classes = { };
 	objectVersion = 45;
 	objects = {
-		6A66877A8EF3157AF430000A = { isa = PBXBuildFile; fileRef = 6A66877A8EF3157AF430001A; };
-		6A66877A8EF3157AF430001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
-		6A66877A8EF3157AF430002A = { isa = PBXBuildFile; fileRef = 6A66877A8EF3157AF430003A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6A66877A8EF3157AF430003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
-		6A66877A8EF3157AF430004A = { isa = PBXBuildFile; fileRef = 6A66877A8EF3157AF430005A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6A66877A8EF3157AF430005A = { isa = PBXFileReference; path = model.glb; sourceTree = "<group>"; };
-		6A66877A8EF3157AF430006A = { isa = PBXBuildFile; fileRef = 6A66877A8EF3157AF430007A; settings = { ATTRIBUTES = ("--decompress"); }; };
-		6A66877A8EF3157AF430007A = { isa = PBXFileReference; path = noise.png; sourceTree = "<group>"; };
-		6A66877A8EF3157AF43000EA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsGraphicsShadowTracing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6A66877A8EF3157AF43000CA = {
+		6FA49015B323952BF000000A = { isa = PBXBuildFile; fileRef = 6FA49015B323952BF000001A; };
+		6FA49015B323952BF000001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		6FA49015B323952BF000002A = { isa = PBXBuildFile; fileRef = 6FA49015B323952BF000003A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		6FA49015B323952BF000003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
+		6FA49015B323952BF000004A = { isa = PBXBuildFile; fileRef = 6FA49015B323952BF000005A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		6FA49015B323952BF000005A = { isa = PBXFileReference; path = model.glb; sourceTree = "<group>"; };
+		6FA49015B323952BF000006A = { isa = PBXBuildFile; fileRef = 6FA49015B323952BF000007A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		6FA49015B323952BF000007A = { isa = PBXFileReference; path = noise.png; sourceTree = "<group>"; };
+		6FA49015B323952BF00000EA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsGraphicsShadowTracing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6FA49015B323952BF00000CA = {
 			isa = PBXGroup;
 			children = (
-				6A66877A8EF3157AF430001A,
-				6A66877A8EF3157AF430003A,
-				6A66877A8EF3157AF430005A,
-				6A66877A8EF3157AF430007A,
-				6A66877A8EF3157AF43000DA,
+				6FA49015B323952BF000001A,
+				6FA49015B323952BF000003A,
+				6FA49015B323952BF000005A,
+				6FA49015B323952BF000007A,
+				6FA49015B323952BF00000DA,
 			);
 			sourceTree = "<group>";
 		};
-		6A66877A8EF3157AF43000DA = {
+		6FA49015B323952BF00000DA = {
 			isa = PBXGroup;
 			children = (
-				6A66877A8EF3157AF43000EA,
+				6FA49015B323952BF00000EA,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6A66877A8EF3157AF43000FA = {
+		6FA49015B323952BF00000FA = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6A66877A8EF3157AF430010A;
+			buildConfigurationList = 6FA49015B323952BF000010A;
 			buildPhases = (
-				6A66877A8EF3157AF430013A,
-				6A66877A8EF3157AF430014A,
+				6FA49015B323952BF000013A,
+				6FA49015B323952BF000014A,
 			);
 			buildRules = ( );
 			dependencies = ( );
 			name = "tsGraphicsShadowTracing";
 			productName = "tsGraphicsShadowTracing";
-			productReference = 6A66877A8EF3157AF43000EA;
+			productReference = 6FA49015B323952BF00000EA;
 			productType = "com.apple.product-type.application";
 		};
-		6A66877A8EF3157AF430008A = {
+		6FA49015B323952BF000008A = {
 			isa = PBXProject;
 			attributes = { BuildIndependentTargetsInParallel = YES; };
-			buildConfigurationList = 6A66877A8EF3157AF430009A;
+			buildConfigurationList = 6FA49015B323952BF000009A;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = ( en, Base );
-			mainGroup = 6A66877A8EF3157AF43000CA;
-			productRefGroup = 6A66877A8EF3157AF43000DA;
+			mainGroup = 6FA49015B323952BF00000CA;
+			productRefGroup = 6FA49015B323952BF00000DA;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6A66877A8EF3157AF43000FA,
+				6FA49015B323952BF00000FA,
 			);
 		};
-		6A66877A8EF3157AF430013A = {
+		6FA49015B323952BF000013A = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A66877A8EF3157AF430000A,
+				6FA49015B323952BF000000A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6A66877A8EF3157AF430014A = {
+		6FA49015B323952BF000014A = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A66877A8EF3157AF430002A,
-				6A66877A8EF3157AF430004A,
-				6A66877A8EF3157AF430006A,
+				6FA49015B323952BF000002A,
+				6FA49015B323952BF000004A,
+				6FA49015B323952BF000006A,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6A66877A8EF3157AF43000AA = {
+		6FA49015B323952BF00000AA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -144,7 +144,7 @@
 			};
 			name = Debug;
 		};
-		6A66877A8EF3157AF43000BA = {
+		6FA49015B323952BF00000BA = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -206,7 +206,7 @@
 			};
 			name = Release;
 		};
-		6A66877A8EF3157AF430011A = {
+		6FA49015B323952BF000011A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsGraphicsShadowTracing";
@@ -248,7 +248,7 @@
 			};
 			name = Debug;
 		};
-		6A66877A8EF3157AF430012A = {
+		6FA49015B323952BF000012A = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "tsGraphicsShadowTracing";
@@ -290,24 +290,24 @@
 			};
 			name = Release;
 		};
-		6A66877A8EF3157AF430009A = {
+		6FA49015B323952BF000009A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6A66877A8EF3157AF43000AA,
-				6A66877A8EF3157AF43000BA,
+				6FA49015B323952BF00000AA,
+				6FA49015B323952BF00000BA,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6A66877A8EF3157AF430010A = {
+		6FA49015B323952BF000010A = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6A66877A8EF3157AF430011A,
-				6A66877A8EF3157AF430012A,
+				6FA49015B323952BF000011A,
+				6FA49015B323952BF000012A,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 	};
-	rootObject = 6A66877A8EF3157AF430008A;
+	rootObject = 6FA49015B323952BF000008A;
 }

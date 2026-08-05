@@ -1,0 +1,309 @@
+{
+	archiveVersion = 1;
+	classes = { };
+	objectVersion = 45;
+	objects = {
+		605DB4F5A11ED8E3AC50000A = { isa = PBXBuildFile; fileRef = 605DB4F5A11ED8E3AC50001A; };
+		605DB4F5A11ED8E3AC50001A = { isa = PBXFileReference; path = main.cpp; sourceTree = "<group>"; };
+		605DB4F5A11ED8E3AC50002A = { isa = PBXBuildFile; fileRef = 605DB4F5A11ED8E3AC50003A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		605DB4F5A11ED8E3AC50003A = { isa = PBXFileReference; path = main.shader; sourceTree = "<group>"; };
+		605DB4F5A11ED8E3AC50004A = { isa = PBXBuildFile; fileRef = 605DB4F5A11ED8E3AC50005A; settings = { ATTRIBUTES = ("--decompress"); }; };
+		605DB4F5A11ED8E3AC50005A = { isa = PBXFileReference; path = model.mesh; sourceTree = "<group>"; };
+		605DB4F5A11ED8E3AC5000CA = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tsGeometryFracture.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		605DB4F5A11ED8E3AC5000AA = {
+			isa = PBXGroup;
+			children = (
+				605DB4F5A11ED8E3AC50001A,
+				605DB4F5A11ED8E3AC50003A,
+				605DB4F5A11ED8E3AC50005A,
+				605DB4F5A11ED8E3AC5000BA,
+			);
+			sourceTree = "<group>";
+		};
+		605DB4F5A11ED8E3AC5000BA = {
+			isa = PBXGroup;
+			children = (
+				605DB4F5A11ED8E3AC5000CA,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		605DB4F5A11ED8E3AC5000DA = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 605DB4F5A11ED8E3AC5000EA;
+			buildPhases = (
+				605DB4F5A11ED8E3AC50011A,
+				605DB4F5A11ED8E3AC50012A,
+			);
+			buildRules = ( );
+			dependencies = ( );
+			name = "tsGeometryFracture";
+			productName = "tsGeometryFracture";
+			productReference = 605DB4F5A11ED8E3AC5000CA;
+			productType = "com.apple.product-type.application";
+		};
+		605DB4F5A11ED8E3AC50006A = {
+			isa = PBXProject;
+			attributes = { BuildIndependentTargetsInParallel = YES; };
+			buildConfigurationList = 605DB4F5A11ED8E3AC50007A;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = ( en, Base );
+			mainGroup = 605DB4F5A11ED8E3AC5000AA;
+			productRefGroup = 605DB4F5A11ED8E3AC5000BA;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				605DB4F5A11ED8E3AC5000DA,
+			);
+		};
+		605DB4F5A11ED8E3AC50011A = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				605DB4F5A11ED8E3AC50000A,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		605DB4F5A11ED8E3AC50012A = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				605DB4F5A11ED8E3AC50002A,
+				605DB4F5A11ED8E3AC50004A,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		605DB4F5A11ED8E3AC50008A = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../../include",
+					"$(PROJECT_DIR)/../../../plugins",
+					"$(PROJECT_DIR)/../../../samples",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"_IOS=1",
+					"DEBUG=1",
+					"TS_DEBUG=1",
+					"$(inherited)",
+				);
+				ENABLE_TESTABILITY = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++11";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_INPUT_FILETYPE = automatic;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEAD_CODE_STRIPPING = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		605DB4F5A11ED8E3AC50009A = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../../include",
+					"$(PROJECT_DIR)/../../../plugins",
+					"$(PROJECT_DIR)/../../../samples",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"_IOS=1",
+					"NDEBUG=1",
+					"$(inherited)",
+				);
+				ENABLE_TESTABILITY = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++11";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_INPUT_FILETYPE = automatic;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				DEAD_CODE_STRIPPING = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		605DB4F5A11ED8E3AC5000FA = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "tsGeometryFracture";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tellusim.tsGeometryFracture;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = metal;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = Default;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../../lib/ios/arm64",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-fobjc-arc",
+					"$(OTHER_CFLAGS)",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-e,_clay_main",
+					"-lTellusim_arm64d",
+					"-framework Foundation",
+					"-framework QuartzCore",
+					"-framework GameController",
+					"-framework UIKit",
+					"-framework Metal",
+				);
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path",
+					"$(inherited)",
+				);
+				IPHONE_OPTIMIZE_OPTIONS = "-skip-PNGs";
+				WARNING_CFLAGS = "-Wno-undefined-var-template";
+				CODE_SIGN_STYLE = Manual;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		605DB4F5A11ED8E3AC50010A = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "tsGeometryFracture";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tellusim.tsGeometryFracture;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = metal;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = Default;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../../lib/ios/arm64",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-fobjc-arc",
+					"$(OTHER_CFLAGS)",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-e,_clay_main",
+					"-lTellusim_arm64",
+					"-framework Foundation",
+					"-framework QuartzCore",
+					"-framework GameController",
+					"-framework UIKit",
+					"-framework Metal",
+				);
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path",
+					"$(inherited)",
+				);
+				IPHONE_OPTIMIZE_OPTIONS = "-skip-PNGs";
+				WARNING_CFLAGS = "-Wno-undefined-var-template";
+				CODE_SIGN_STYLE = Manual;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		605DB4F5A11ED8E3AC50007A = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				605DB4F5A11ED8E3AC50008A,
+				605DB4F5A11ED8E3AC50009A,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		605DB4F5A11ED8E3AC5000EA = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				605DB4F5A11ED8E3AC5000FA,
+				605DB4F5A11ED8E3AC50010A,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+	};
+	rootObject = 605DB4F5A11ED8E3AC50006A;
+}

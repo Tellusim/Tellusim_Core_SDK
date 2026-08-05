@@ -7,7 +7,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "60628667A1A211178C80011A"
+				BlueprintIdentifier = "6575175238DC538CDD10011A"
 				BuildableName = "tsGraphicsSkinned"
 				BlueprintName = "tsGraphicsSkinned"
 				ReferencedContainer = "container:skinned_ios.xcodeproj"/>
