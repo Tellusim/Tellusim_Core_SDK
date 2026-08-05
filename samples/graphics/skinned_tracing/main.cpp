@@ -149,7 +149,7 @@ int32_t main(int32_t argc, char **argv) {
 		bottom_tracing.addIndexBuffer(vertex_model.getNumIndices(), vertex_model.getIndexFormat(), index_buffer);
 		if(!bottom_tracing.create(Tracing::TypeTriangle, Tracing::FlagUpdate | Tracing::FlagFastBuild)) return 1;
 		bottom_tracings.append(bottom_tracing);
-		bottom_build_size += bottom_tracing.getBuildSize();
+		bottom_build_size += max(bottom_tracing.getBuildSize(), bottom_tracing.getUpdateSize());
 		bottom_tracing_size += bottom_tracing.getMemory();
 	}
 	

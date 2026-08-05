@@ -33,6 +33,10 @@ namespace Tellusim {
 			void setColor(const Color &color);
 			TS_INLINE const Color &getColor() const { return color; }
 			
+			/// popup item color
+			void setItemColor(const Color &color);
+			TS_INLINE const Color &getItemColor() const { return item_color; }
+			
 			/// popup stroke style
 			void setStrokeStyle(const StrokeStyle &style);
 			TS_INLINE const StrokeStyle &getStrokeStyle() const { return stroke_style; }
@@ -47,7 +51,7 @@ namespace Tellusim {
 			TS_INLINE const Vector2f &getSpacing() const { return spacing; }
 			
 			/// popup callback
-			using PopupCallback = Function<Align(Control control, ControlPanel popup)>;
+			using PopupCallback = Function<Align(ControlPanel panel)>;
 			
 			/// popups
 			void closePopups();
@@ -55,16 +59,48 @@ namespace Tellusim {
 			void removePopup(const Control &control, bool hierarchy = true);
 			void addPopup(const Control &control, const PopupCallback &func);
 			void addPopup(const Vector2f &position, const PopupCallback &func);
+			void addPopup(Control *parent, const Vector2f &position, const PopupCallback &func);
+			
+			/// button item
+			using ClickedCallback = Function<void()>;
+			void createItem(ControlPanel &panel, const char *text, const ClickedCallback &func, const String &key = String::null);
+			void createItem(ControlPanel &panel, const String &text, const ClickedCallback &func, const String &key = String::null);
+			
+			/// image button item
+			void createItem(ControlPanel &panel, const char *text, const char *texture, const Rect &texcoord, const ClickedCallback &func, const String &key = String::null);
+			void createItem(ControlPanel &panel, const String &text, const char *texture, const Rect &texcoord, const ClickedCallback &func, const String &key = String::null);
+			
+			/// check item
+			using ChangedCallback = Function<void(bool)>;
+			void createItem(ControlPanel &panel, const char *text, bool checked, const ChangedCallback &func, const String &key = String::null);
+			void createItem(ControlPanel &panel, const String &text, bool checked, const ChangedCallback &func, const String &key = String::null);
+			
+			/// popup item
+			void createItemPopup(ControlPanel &panel, const char *text, const PopupCallback &func);
+			void createItemPopup(ControlPanel &panel, const String &text, const PopupCallback &func);
+			
+			/// separator item
+			void createItemSeparator(ControlPanel &panel) const;
+			
+			/// number of popups
+			TS_INLINE uint32_t getNumPopups() const { return popups.size(); }
 			
 		private:
 			
+			/// create control
+			void create();
+			
 			/// create panel
-			ControlPanel create_panel(const Control &control, const Vector2f &position, float32_t scale, const PopupCallback &func);
+			ControlPanel create_panel(Control *parent, const Control &control, const Vector2f &position, float32_t scale, const PopupCallback &func) const;
+			
+			/// create item
+			ControlPanel create_item(Control *parent) const;
 			
 			/// clear popups
-			bool clear_popups(const Control &control);
+			bool clear_popups(ControlRoot &root, const Control &control);
 			
 			/// update control
+			virtual void update_style(const FontStyle &style);
 			virtual bool update(ControlRoot &root, const Rect &region, const Rect &view, uint32_t scale);
 			
 			float32_t radius = 0.0f;					// popup radius
@@ -72,6 +108,8 @@ namespace Tellusim {
 			StrokeStyle stroke_style;					// popup stroke style
 			GradientStyle gradient_style;				// popup gradient style
 			Vector2f spacing = Vector2f::zero;			// popup spacing
+			
+			Color item_color = Color::zero;				// popup item color
 			
 			Map<Control, PopupCallback> callbacks;		// popup callbacks
 			

@@ -69,7 +69,7 @@ namespace Tellusim {
 			Type d00 = dot(v10, v10);
 			Type d01 = dot(v10, v20);
 			Type d11 = dot(v20, v20);
-			Type det = max(d00 * d11 - d01 * d01, 0.0f);
+			Type det = max(d00 * d11 - d01 * d01, Type(0.0f));
 			if(det > 0.0f) {
 				Vector pv0 = p - v0;
 				Type idet = 1.0f / det;
@@ -95,7 +95,7 @@ namespace Tellusim {
 			Type d21 = dot(v20, pv0);
 			Type x = d11 * d20 - d01 * d21;
 			Type y = d00 * d21 - d01 * d20;
-			Type det = max(d00 * d11 - d01 * d01, 0.0f);
+			Type det = max(d00 * d11 - d01 * d01, Type(0.0f));
 			if(x + y <= det) {
 				if(x < 0.0f) {
 					x = 0.0f;

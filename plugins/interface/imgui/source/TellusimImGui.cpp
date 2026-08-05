@@ -1,15 +1,15 @@
 // Copyright (C) 2018-2026, Tellusim Technologies Inc. All rights reserved
 // https://tellusim.com/
 
-#define IMGUI_DEFINE_MATH_OPERATORS
-
 #include <core/TellusimLog.h>
 #include <core/TellusimTime.h>
+#include <core/TellusimBlob.h>
 #include <format/TellusimImage.h>
-#include <platform/TellusimWindow.h>
 #include <platform/TellusimTarget.h>
 #include <platform/TellusimCommand.h>
 #include <platform/TellusimDevice.h>
+
+#define IMGUI_DEFINE_MATH_OPERATORS
 
 #include "../include/TellusimImGui.h"
 
@@ -19,17 +19,56 @@ namespace Tellusim {
 	
 	/*
 	 */
-	TS_ImGui::TS_ImGui(Window &window) {
+	TSImGui::TSImGui() {
+		
+	}
+	
+	TSImGui::TSImGui(Window &window) {
 		init(window);
 	}
 	
-	TS_ImGui::~TS_ImGui() {
+	TSImGui::~TSImGui() {
 		clear();
 	}
 	
 	/*
 	 */
-	bool TS_ImGui::init(Window &w) {
+	void TSImGui::clear() {
+		
+		// destroy ImGui context
+		if(isInitialized()) {
+			ImGui::DestroyContext();
+			initialized = false;
+		}
+		
+		// restore callbacks
+		if(mouse_pressed) window.setMousePressedCallback(mouse_pressed);
+		if(mouse_released) window.setMouseReleasedCallback(mouse_released);
+		if(mouse_changed) window.setMouseChangedCallback(mouse_changed);
+		if(mouse_rotated) window.setMouseRotatedCallback(mouse_rotated);
+		if(keyboard_pressed) window.setKeyboardPressedCallback(keyboard_pressed);
+		if(keyboard_released) window.setKeyboardReleasedCallback(keyboard_released);
+		mouse_pressed.clear();
+		mouse_released.clear();
+		mouse_changed.clear();
+		mouse_rotated.clear();
+		keyboard_pressed.clear();
+		keyboard_released.clear();
+		
+		// clear window
+		window.clearPtr();
+		
+		// clear resources
+		pipeline.clearPtr();
+		sampler.clearPtr();
+		texture.clearPtr();
+	}
+	
+	/*
+	 */
+	bool TSImGui::init(Window &w) {
+		
+		TS_ASSERT(!isInitialized() && "TSImGui::init(): is already initialized");
 		
 		window = w;
 		
@@ -56,31 +95,35 @@ namespace Tellusim {
 		
 		// mouse callbacks
 		window.setMousePressedCallback([this](Window::Button button) {
-			if(initialized) ImGui::GetIO().AddMouseButtonEvent(translate_mouse(button), true);
+			if(isInitialized() && isEnabled()) ImGui::GetIO().AddMouseButtonEvent(translate_mouse(button), true);
 			if(mouse_pressed) mouse_pressed(button);
 		});
 		window.setMouseReleasedCallback([this](Window::Button button) {
-			if(initialized) ImGui::GetIO().AddMouseButtonEvent(translate_mouse(button), false);
+			if(isInitialized() && isEnabled()) ImGui::GetIO().AddMouseButtonEvent(translate_mouse(button), false);
 			if(mouse_released) mouse_released(button);
 		});
 		window.setMouseChangedCallback([this](int32_t x, int32_t y) {
-			if(initialized) ImGui::GetIO().AddMousePosEvent((float32_t)x, ImGui::GetIO().DisplaySize.y - (float32_t)y);
+			if(isInitialized() && isEnabled()) ImGui::GetIO().AddMousePosEvent((float32_t)x, ImGui::GetIO().DisplaySize.y - (float32_t)y);
 			if(mouse_changed) mouse_changed(x, y);
 		});
 		window.setMouseRotatedCallback([this](Window::Axis axis, float32_t delta) {
-			if(initialized && axis == Window::AxisX) ImGui::GetIO().AddMouseWheelEvent(delta, 0.0f);
-			if(initialized && axis == Window::AxisY) ImGui::GetIO().AddMouseWheelEvent(0.0f, delta);
+			if(isInitialized() && isEnabled()) {
+				if(axis == Window::AxisX) ImGui::GetIO().AddMouseWheelEvent(delta, 0.0f);
+				if(axis == Window::AxisY) ImGui::GetIO().AddMouseWheelEvent(0.0f, delta);
+			}
 			if(mouse_rotated) mouse_rotated(axis, delta);
 		});
 		
 		// keyboard callbacks
 		window.setKeyboardPressedCallback([this](uint32_t key, uint32_t code) {
-			if(initialized) ImGui::GetIO().AddKeyEvent(translate_keyboard(key), true);
-			if(initialized && code) ImGui::GetIO().AddInputCharacter(code);
+			if(isInitialized() && isEnabled()) {
+				ImGui::GetIO().AddKeyEvent(translate_keyboard(key), true);
+				if(code) ImGui::GetIO().AddInputCharacter(code);
+			}
 			if(keyboard_pressed) keyboard_pressed(key, code);
 		});
 		window.setKeyboardReleasedCallback([this](uint32_t key) {
-			if(initialized) ImGui::GetIO().AddKeyEvent(translate_keyboard(key), false);
+			if(isInitialized() && isEnabled()) ImGui::GetIO().AddKeyEvent(translate_keyboard(key), false);
 			if(keyboard_released) keyboard_released(key);
 		});
 		
@@ -89,78 +132,19 @@ namespace Tellusim {
 	
 	/*
 	 */
-	void TS_ImGui::clear() {
-		
-		// destroy ImGui context
-		if(initialized) {
-			ImGui::DestroyContext();
-			initialized = false;
-		}
-		
-		// restore callbacks
-		if(mouse_pressed) window.setMousePressedCallback(mouse_pressed);
-		if(mouse_released) window.setMouseReleasedCallback(mouse_released);
-		if(mouse_changed) window.setMouseChangedCallback(mouse_changed);
-		if(mouse_rotated) window.setMouseRotatedCallback(mouse_rotated);
-		if(keyboard_pressed) window.setKeyboardPressedCallback(keyboard_pressed);
-		if(keyboard_released) window.setKeyboardReleasedCallback(keyboard_released);
-		mouse_pressed.clear();
-		mouse_released.clear();
-		mouse_changed.clear();
-		mouse_rotated.clear();
-		keyboard_pressed.clear();
-		keyboard_released.clear();
-		
-		// clear resources
-		pipeline.clearPtr();
-		sampler.clearPtr();
-		texture.clearPtr();
-		
-		// clear window
-		window.clearPtr();
-	}
-	
-	/*
-	 */
-	bool TS_ImGui::create(const Device &device, const Target &target) {
+	bool TSImGui::create(const Device &device, const Target &target) {
 		
 		// check status
-		if(!initialized) {
-			TS_LOG(Error, "TS_ImGui::create(): is not initialized\n");
+		if(!isInitialized()) {
+			TS_LOG(Error, "TSImGui::create(): is not initialized\n");
 			return false;
 		}
 		
 		ImGuiIO &io = ImGui::GetIO();
 		
-		// vertex shader
-		const char *vertex_shader = R"(
-			layout(std140, row_major, binding = 0) uniform Parameters {
-				mat4 projection;
-			};
-			layout(location = 0) in vec4 in_position;
-			layout(location = 1) in vec2 in_texcoord;
-			layout(location = 2) in vec4 in_color;
-			layout(location = 0) out vec2 s_texcoord;
-			layout(location = 1) out vec4 s_color;
-			void main() {
-				gl_Position = projection * in_position;
-				s_texcoord = in_texcoord;
-				s_color = in_color;
-			}
-		)";
-		
-		// fragment shader
-		const char *fragment_shader = R"(
-			layout(binding = 0, set = 1) uniform texture2D in_texture;
-			layout(binding = 0, set = 2) uniform sampler in_sampler;
-			layout(location = 0) in vec2 s_texcoord;
-			layout(location = 1) in vec4 s_color;
-			layout(location = 0) out vec4 out_color;
-			void main() {
-				float)" R"( alpha = texture(sampler2D(in_texture, in_sampler), s_texcoord).x;
-				out_color = s_color * vec4(1.0f, 1.0f, 1.0f, alpha);
-			}
-		)";
+		// ImGui shader source
+		#include "TellusimImGui.blob"
+		String src = Blob(TellusimImGui_blob_src).gets();
 		
 		// create pipeline
 		pipeline = device.createPipeline();
@@ -175,18 +159,20 @@ namespace Tellusim {
 		pipeline.setColorFormat(target.getColorFormat());
 		pipeline.setDepthFormat(target.getDepthFormat());
 		pipeline.setDepthFunc(Pipeline::DepthFuncAlways);
+		pipeline.setMultisample(target.getMultisample());
 		pipeline.setScissorTest(true);
-		if(!pipeline.createShaderGLSL(Shader::TypeVertex, vertex_shader)) return false;
-		if(!pipeline.createShaderGLSL(Shader::TypeFragment, fragment_shader)) return false;
-		if(!pipeline.create()) {
-			TS_LOG(Error, "TS_ImGui::create(): can't create pipeline\n");
+		if(!pipeline.createShaderGLSL(Shader::TypeVertex, src.get(), "VERTEX_SHADER=1") ||
+			!pipeline.createShaderGLSL(Shader::TypeFragment, src.get(), "FRAGMENT_SHADER=1") ||
+			!pipeline.create()) {
+			TS_LOG(Error, "TSImGui::create(): can't create Pipeline\n");
+			pipeline.clearPtr();
 			return false;
 		}
 		
 		// create sampler
 		sampler = device.createSampler(Sampler::FilterPoint, Sampler::WrapModeClamp);
 		if(!sampler) {
-			TS_LOG(Error, "TS_ImGui::create(): can't create sampler\n");
+			TS_LOG(Error, "TSImGui::create(): can't create Sampler\n");
 			return false;
 		}
 		
@@ -196,7 +182,7 @@ namespace Tellusim {
 		uint8_t *data = nullptr;
 		io.Fonts->GetTexDataAsAlpha8(&data, &width, &height);
 		if(!data) {
-			TS_LOG(Error, "TS_ImGui::create(): can't get texture data\n");
+			TS_LOG(Error, "TSImGui::create(): can't get texture data\n");
 			return false;
 		}
 		
@@ -205,7 +191,7 @@ namespace Tellusim {
 		memcpy(image.getData(), data, width * height);
 		texture = device.createTexture(image);
 		if(!texture) {
-			TS_LOG(Error, "TS_ImGui::create(): can't create texture\n");
+			TS_LOG(Error, "TSImGui::create(): can't create Texture\n");
 			return false;
 		}
 		
@@ -217,11 +203,11 @@ namespace Tellusim {
 	
 	/*
 	 */
-	bool TS_ImGui::frame(const Device &device, const Target &target) {
+	bool TSImGui::frame(const Device &device, const Target &target) {
 		
 		// check status
-		if(!initialized) {
-			TS_LOG(Error, "TS_ImGui::frame(): is not initialized\n");
+		if(!isInitialized()) {
+			TS_LOG(Error, "TSImGui::frame(): is not initialized\n");
 			return false;
 		}
 		
@@ -231,7 +217,7 @@ namespace Tellusim {
 		io.DisplaySize = ImVec2((float32_t)target.getWidth(), (float32_t)target.getHeight());
 		
 		// flipped flag
-		flipped = target.isFlipped();
+		is_flipped = target.isFlipped();
 		
 		// delta time
 		float64_t current_time = Time::seconds();
@@ -249,10 +235,10 @@ namespace Tellusim {
 	
 	/*
 	 */
-	void TS_ImGui::render(Command &command) {
+	void TSImGui::render(Command &command) {
 		
 		// check status
-		if(!initialized) return;
+		if(!isInitialized()) return;
 		
 		// end frame
 		ImGui::EndFrame();
@@ -268,7 +254,7 @@ namespace Tellusim {
 		float32_t r = draw->DisplayPos.x + draw->DisplaySize.x;
 		float32_t t = draw->DisplayPos.y;
 		float32_t b = draw->DisplayPos.y + draw->DisplaySize.y;
-		if(flipped) swap(t, b);
+		if(is_flipped) swap(t, b);
 		
 		// set pipeline
 		command.setPipeline(pipeline);
@@ -311,7 +297,13 @@ namespace Tellusim {
 	
 	/*
 	 */
-	int32_t TS_ImGui::translate_mouse(Window::Button button) {
+	void TSImGui::setEnabled(bool enabled) {
+		is_enabled = enabled;
+	}
+	
+	/*
+	 */
+	int32_t TSImGui::translate_mouse(Window::Button button) {
 		if(button == Window::ButtonLeft) return 0;
 		if(button == Window::ButtonLeft2) return 0;
 		if(button == Window::ButtonRight) return 1;
@@ -319,13 +311,13 @@ namespace Tellusim {
 		if(button == Window::ButtonMiddle) return 2;
 		if(button == Window::ButtonMiddle2) return 2;
 		if(button == Window::ButtonBack) return 3;
-		if(button == Window::ButtonBack) return 3;
+		if(button == Window::ButtonBack2) return 3;
 		if(button == Window::ButtonForward) return 4;
-		if(button == Window::ButtonForward) return 4;
+		if(button == Window::ButtonForward2) return 4;
 		return -1;
 	}
 	
-	ImGuiKey TS_ImGui::translate_keyboard(uint32_t key) {
+	ImGuiKey TSImGui::translate_keyboard(uint32_t key) {
 		switch(key) {
 			case Window::KeyEsc: return ImGuiKey_Escape;
 			case Window::KeyTab: return ImGuiKey_Tab;
@@ -380,7 +372,7 @@ namespace Tellusim {
 			case 'g': return ImGuiKey_G;
 			case 'h': return ImGuiKey_H;
 			case 'i': return ImGuiKey_I;
-			case 'j': return ImGuiKey_K;
+			case 'j': return ImGuiKey_J;
 			case 'k': return ImGuiKey_K;
 			case 'l': return ImGuiKey_L;
 			case 'm': return ImGuiKey_M;

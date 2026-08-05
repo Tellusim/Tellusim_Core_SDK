@@ -27,6 +27,12 @@ public class ControlText extends Control {
 	public void setColor(Color color) { set_color(self, color.self); }
 	public void setColor(float r, float g, float b, float a) { set_color_1(self, r, g, b, a); }
 	public Color getColor() { return new Color(get_color(self)); }
+	public void setStateColor(State state, Color color) { set_state_color(self, state.value, color.self); }
+	public void setStateColor(State.Enum state, Color color) { set_state_color(self, state.value, color.self); }
+	public void setStateColor(State state, float r, float g, float b, float a) { set_state_color_1(self, state.value, r, g, b, a); }
+	public void setStateColor(State.Enum state, float r, float g, float b, float a) { set_state_color_1(self, state.value, r, g, b, a); }
+	public int getStateColor(State state) { return get_state_color(self, state.value); }
+	public int getStateColor(State.Enum state) { return get_state_color(self, state.value); }
 	public void setFilter(Sampler.Filter filter) { set_filter(self, filter.value); }
 	public void setFilter(Sampler.Filter.Enum filter) { set_filter(self, filter.value); }
 	public Sampler.Filter getFilter() { return new Sampler.Filter(get_filter(self)); }
@@ -82,6 +88,9 @@ public class ControlText extends Control {
 	private static native void set_color(long self, long color);
 	private static native void set_color_1(long self, float r, float g, float b, float a);
 	private static native long get_color(long self);
+	private static native void set_state_color(long self, int state, long color);
+	private static native void set_state_color_1(long self, int state, float r, float g, float b, float a);
+	private static native int get_state_color(long self, int state);
 	private static native void set_filter(long self, int filter);
 	private static native int get_filter(long self);
 	private static native void set_anisotropy(long self, int anisotropy);

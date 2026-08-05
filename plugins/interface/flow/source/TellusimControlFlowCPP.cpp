@@ -22,10 +22,10 @@ namespace Tellusim {
 	
 	/*
 	 */
-	bool ControlFlowCPP::create(Control *controls_root, Control *tooltip_root) {
+	bool ControlFlowCPP::create(Control *controls_root, Control *base_root) {
 		
 		// create flow
-		if(getParent() && !ControlFlow::create(controls_root, tooltip_root)) {
+		if(getParent() && !ControlFlow::create(controls_root, base_root)) {
 			TS_LOG(Error, "ControlFlowCPP::create(): can't create ControlFlow\n");
 			return false;
 		}
@@ -49,24 +49,24 @@ namespace Tellusim {
 	void ControlFlowCPP::create_types() {
 		
 		float32_t bool_width = 1.5f;
-		float32_t bool_color = 0.8f;
+		float32_t bool_color = 0.7f;
 		float32_t scalar_width = 2.0f;
-		float32_t scalar_color = 0.8f;
+		float32_t scalar_color = 0.7f;
 		float32_t vector_width = 2.0f;
-		float32_t vector_color = 0.8f;
+		float32_t vector_color = 0.7f;
 		float32_t matrix_width = 3.0f;
-		float32_t matrix_color = 0.8f;
+		float32_t matrix_color = 0.7f;
 		float32_t quaternion_width = 3.0f;
-		float32_t quaternion_color = 0.8f;
+		float32_t quaternion_color = 0.7f;
 		float32_t bound_width = 3.0f;
 		float32_t bound_color = 1.0f;
 		float32_t color_width = 2.0f;
 		float32_t color_color = 1.0f;
 		float32_t string_width = 2.0f;
 		float32_t string_color = 1.0f;
-		float32_t base_color = 0.8f;
-		float32_t format_color = 0.8f;
-		float32_t image_color = 0.8f;
+		float32_t base_color = 0.7f;
+		float32_t format_color = 0.7f;
+		float32_t image_color = 0.7f;
 		
 		// flow type
 		flow_type = addType("flow", Color(0.0f, 1.0f, 0.0f, 1.0f), ShapeArrow);
@@ -949,7 +949,7 @@ namespace Tellusim {
 					const String &state = getOutputValue(node, "v2");
 					if(state && state.scanf("Vector2f(%g, %g)", &value.x, &value.y) != 2) {
 						if(state.scanf("Vector2f(%g)", &value.x) == 1 || state.scanf("%g", &value.x) == 1) value.y = value.x;
-						else TS_LOGF(Error, "ControlFlowCPP::vector2f_callback(): can't parse \"%s\"\n", state.get());
+						else TS_LOGF(Warning, "ControlFlowCPP::vector2f_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(value.x);
 					y_slider.setValue(value.y);
@@ -988,7 +988,7 @@ namespace Tellusim {
 					const String &state = getOutputValue(node, "v3");
 					if(state && state.scanf("Vector3f(%g, %g, %g)", &value.x, &value.y, &value.z) != 3) {
 						if(state.scanf("Vector3f(%g)", &value.x) == 1 || state.scanf("%g", &value.x) == 1) value = Vector3f(value.x);
-						else TS_LOGF(Error, "ControlFlowCPP::vector3f_callback(): can't parse \"%s\"\n", state.get());
+						else TS_LOGF(Warning, "ControlFlowCPP::vector3f_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(value.x);
 					y_slider.setValue(value.y);
@@ -1030,7 +1030,7 @@ namespace Tellusim {
 					const String &state = getOutputValue(node, "v4");
 					if(state && state.scanf("Vector4f(%g, %g, %g, %g)", &value.x, &value.y, &value.z, &value.w) != 4) {
 						if(state.scanf("Vector4f(%g)", &value.x) == 1 || state.scanf("%g", &value.x) == 1) value = Vector4f(value.x);
-						else TS_LOGF(Error, "ControlFlowCPP::vector4f_callback(): can't parse \"%s\"\n", state.get());
+						else TS_LOGF(Warning, "ControlFlowCPP::vector4f_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(value.x);
 					y_slider.setValue(value.y);
@@ -1349,7 +1349,7 @@ namespace Tellusim {
 					const String &state = getNodeState(node);
 					if(state && state.scanf("t %g %g r %g s %g %g u %u", &translate.x, &translate.y, &rotate, &scale.x, &scale.y, &uniform) != 6 &&
 						state.scanf("t %g %g r %g s %g %g", &translate.x, &translate.y, &rotate, &scale.x, &scale.y) != 5) {
-						TS_LOGF(Error, "ControlFlowCPP::matrix3x2f_callback(): can't parse \"%s\"\n", state.get());
+						TS_LOGF(Warning, "ControlFlowCPP::matrix3x2f_callback(): can't parse \"%s\"\n", state.get());
 					}
 					controls.rotate_slider.setValue(rotate);
 					controls.scale_sliders[0].setValue(scale.x);
@@ -1441,7 +1441,7 @@ namespace Tellusim {
 					const String &state = getNodeState(node);
 					if(state && state.scanf("t %g %g %g r %g %g %g s %g %g %g u %u", &translate.x, &translate.y, &translate.z, &rotate.x, &rotate.y, &rotate.z, &scale.x, &scale.y, &scale.z, &uniform) != 10 &&
 						state.scanf("t %g %g %g r %g %g %g s %g %g %g", &translate.x, &translate.y, &translate.z, &rotate.x, &rotate.y, &rotate.z, &scale.x, &scale.y, &scale.z) != 9) {
-						TS_LOGF(Error, "ControlFlowCPP::matrix4x3f_callback(): can't parse \"%s\"\n", state.get());
+						TS_LOGF(Warning, "ControlFlowCPP::matrix4x3f_callback(): can't parse \"%s\"\n", state.get());
 					}
 					controls.translate_sliders[0].setValue(translate.x);
 					controls.translate_sliders[1].setValue(translate.y);
@@ -1545,7 +1545,7 @@ namespace Tellusim {
 					const String &state = getNodeState(node);
 					if(state && state.scanf("t %g %g %g r %g %g %g s %g %g %g u %u", &translate.x, &translate.y, &translate.z, &rotate.x, &rotate.y, &rotate.z, &scale.x, &scale.y, &scale.z, &uniform) != 10 &&
 						state.scanf("t %g %g %g r %g %g %g s %g %g %g", &translate.x, &translate.y, &translate.z, &rotate.x, &rotate.y, &rotate.z, &scale.x, &scale.y, &scale.z) != 9) {
-						TS_LOGF(Error, "ControlFlowCPP::matrix4x4f_callback(): can't parse \"%s\"\n", state.get());
+						TS_LOGF(Warning, "ControlFlowCPP::matrix4x4f_callback(): can't parse \"%s\"\n", state.get());
 					}
 					controls.translate_sliders[0].setValue(translate.x);
 					controls.translate_sliders[1].setValue(translate.y);
@@ -1776,7 +1776,7 @@ namespace Tellusim {
 					Vector3f rotate = Vector3f::zero;
 					const String &state = getNodeState(node);
 					if(state && state.scanf("%g %g %g", &rotate.x, &rotate.y, &rotate.z) != 3) {
-						TS_LOGF(Error, "ControlFlowCPP::quaternionf_callback(): can't parse \"%s\"\n", state.get());
+						TS_LOGF(Warning, "ControlFlowCPP::quaternionf_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(rotate.x);
 					y_slider.setValue(rotate.y);
@@ -2110,7 +2110,7 @@ namespace Tellusim {
 					Color color = Color::white;
 					const String &state = getNodeState(node);
 					if(state && state.scanf("%g %g %g %g", &color.r, &color.g, &color.b, &color.a) != 4) {
-						TS_LOGF(Error, "ControlFlowCPP::rgba_callback(): can't parse \"%s\"\n", state.get());
+						TS_LOGF(Warning, "ControlFlowCPP::rgba_callback(): can't parse \"%s\"\n", state.get());
 					}
 					rect.setColor(color);
 					set_color(node, color);
@@ -2914,10 +2914,10 @@ namespace Tellusim {
 		}, ControlSlider::null, edit));
 		
 		// slider released callback
-		// expand slider value and save action
-		slider.setReleasedCallback(makeFunction([this](ControlSlider slider) {
-			if(slider.isChanged()) setChanged();
+		// expand slider value and reset state
+		slider.setReleasedCallback(makeFunction([](ControlSlider slider) {
 			expand_slider(slider);
+			slider.isChanged();
 		}, ControlSlider::null));
 		
 		// edit returned callback
@@ -3077,6 +3077,8 @@ namespace Tellusim {
 			if(type == matrix4x3f_type) return findProto("matrix4x3f");
 			if(type == matrix4x4f_type) return findProto("matrix4x4f");
 		}
+		if(type == color_type) return findProto("rgba");
+		if(type == string_type) return findProto("string");
 		return Maxu32;
 	}
 	
@@ -3427,7 +3429,7 @@ namespace Tellusim {
 				if(output.index == Maxu32) continue;
 				if(output.counter < 2) continue;
 				if(output.name) continue;
-				output.name = String::format("_v%u", num_variables++);
+				output.name = String::format("__%u", num_variables++);
 			}
 			
 			// dynamic variables
@@ -3444,7 +3446,7 @@ namespace Tellusim {
 				if(!has_temp) continue;
 				
 				// temporal outputs
-				String rename = String::format("_v%u", num_variables++);
+				String rename = String::format("__%u", num_variables++);
 				block.value = block.value.replace(name, rename);
 				for(Variable &output : block.outputs) {
 					if(output.index == Maxu32) continue;

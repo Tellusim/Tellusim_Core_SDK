@@ -24,10 +24,10 @@ namespace Tellusim {
 	
 	/*
 	 */
-	bool ControlFlowGLSL::create(Control *controls_root, Control *tooltip_root) {
+	bool ControlFlowGLSL::create(Control *controls_root, Control *base_root) {
 		
 		// create flow
-		if(getParent() && !ControlFlow::create(controls_root, tooltip_root)) {
+		if(getParent() && !ControlFlow::create(controls_root, base_root)) {
 			TS_LOG(Error, "ControlFlowGLSL::create(): can't create ControlFlow\n");
 			return false;
 		}
@@ -62,11 +62,11 @@ namespace Tellusim {
 	void ControlFlowGLSL::create_types() {
 		
 		// any type
-		any_type = addType("any", Color(0.8f, 0.8f, 0.8f, 1.0f), ShapePentagon);
+		any_type = addType("any", Color(0.7f, 0.7f, 0.7f, 1.0f), ShapePentagon);
 		
 		// scalar types
 		float32_t scalar_width = 2.0f;
-		float32_t scalar_color = 0.8f;
+		float32_t scalar_color = 0.7f;
 		int_type = addType("int", Color(scalar_color, 1.0f), ShapeTriangle);
 		float_type = addType("float", Color(scalar_color, 1.0f), ShapeCircle);
 		setTypeEditMode(int_type, ControlEdit::EditModeSigned);
@@ -76,7 +76,7 @@ namespace Tellusim {
 		
 		// vector types
 		float32_t vector_width = 2.0f;
-		float32_t vector_color = 0.8f;
+		float32_t vector_color = 0.7f;
 		vec2_type = addType("vec2", Color(0.0f, vector_color, vector_color, 1.0f), ShapeCircle);
 		vec3_type = addType("vec3", Color(vector_color, 0.0f, vector_color, 1.0f), ShapeCircle);
 		vec4_type = addType("vec4", Color(vector_color, vector_color, 0.0f, 1.0f), ShapeCircle);
@@ -92,7 +92,7 @@ namespace Tellusim {
 		
 		// matrix types
 		float32_t matrix_width = 3.0f;
-		float32_t matrix_color = 0.8f;
+		float32_t matrix_color = 0.7f;
 		mat2_type = addType("mat2", Color(0.3f, matrix_color, matrix_color, 1.0f), ShapeHash);
 		mat3_type = addType("mat3", Color(matrix_color, 0.3f, matrix_color, 1.0f), ShapeHash);
 		mat4_type = addType("mat4", Color(matrix_color, matrix_color, 0.3f, 1.0f), ShapeHash);
@@ -152,7 +152,7 @@ namespace Tellusim {
 		TS_DECLARE_UNARY_PROTO("normalize", "Normalize", "normalize($a)", "", "Unit vector in the same direction")
 		TS_DECLARE_UNARY_PROTO("inverse", "Inverse", "inverse($a)", "", "Inverse of the matrix")
 		TS_DECLARE_UNARY_PROTO("transpose", "Transpose", "transpose($a)", "", "Transpose of the matrix")
-		TS_DECLARE_UNARY_PROTO("deterinant", "Determinant", "deterinant($a)", "", "Determinant of the matrix")
+		TS_DECLARE_UNARY_PROTO("determinant", "Determinant", "determinant($a)", "", "Determinant of the matrix")
 		TS_DECLARE_UNARY_PROTO("exp", "Exp", "exp($a)", "", "Natural exponentiation of the parameter")
 		TS_DECLARE_UNARY_PROTO("log", "Log", "log($a)", "", "Natural logarithm of the parameter")
 		TS_DECLARE_UNARY_PROTO("exp2", "Exp2", "exp2($a)", "", "2 raised to the power of the parameter")
@@ -310,7 +310,8 @@ namespace Tellusim {
 		{
 			uint32_t proto = addProto("frag_coord", "FragCoord");
 			setProtoColor(proto, glsl_color);
-			addProtoOutput(proto, "v", "V4", "gl_FragCoord", vec4_type, true);
+			addProtoOutput(proto, "v4", "V4", "gl_FragCoord", vec4_type, true);
+			addProtoOutput(proto, "v2", "V2", "gl_FragCoord.xy", vec2_type, true);
 			addProtoOutput(proto, "x", "X", "gl_FragCoord.x", float_type, true);
 			addProtoOutput(proto, "y", "Y", "gl_FragCoord.y", float_type, true);
 			addProtoOutput(proto, "z", "Z", "gl_FragCoord.z", float_type, true);
@@ -596,7 +597,7 @@ namespace Tellusim {
 					const String &state = getOutputValue(node, "v2");
 					if(state && state.scanf("vec2(%g, %g)", &value.x, &value.y) != 2) {
 						if(state.scanf("vec2(%g)", &value.x) == 1 || state.scanf("%g", &value.x) == 1) value.y = value.x;
-						else TS_LOGF(Error, "ControlFlowGLSL::vec2_callback(): can't parse \"%s\"\n", state.get());
+						else if(!state.begins("in_")) TS_LOGF(Warning, "ControlFlowGLSL::vec2_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(value.x);
 					y_slider.setValue(value.y);
@@ -635,7 +636,7 @@ namespace Tellusim {
 					const String &state = getOutputValue(node, "v3");
 					if(state && state.scanf("vec3(%g, %g, %g)", &value.x, &value.y, &value.z) != 3) {
 						if(state.scanf("vec3(%g)", &value.x) == 1 || state.scanf("%g", &value.x) == 1) value = Vector3f(value.x);
-						else TS_LOGF(Error, "ControlFlowGLSL::vec3_callback(): can't parse \"%s\"\n", state.get());
+						else if(!state.begins("in_")) TS_LOGF(Warning, "ControlFlowGLSL::vec3_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(value.x);
 					y_slider.setValue(value.y);
@@ -677,7 +678,7 @@ namespace Tellusim {
 					const String &state = getOutputValue(node, "v4");
 					if(state && state.scanf("vec4(%g, %g, %g, %g)", &value.x, &value.y, &value.z, &value.w) != 4) {
 						if(state.scanf("vec4(%g)", &value.x) == 1 || state.scanf("%g", &value.x) == 1) value = Vector4f(value.x);
-						else TS_LOGF(Error, "ControlFlowGLSL::vec4_callback(): can't parse \"%s\"\n", state.get());
+						else if(!state.begins("in_")) TS_LOGF(Warning, "ControlFlowGLSL::vec4_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(value.x);
 					y_slider.setValue(value.y);
@@ -773,7 +774,7 @@ namespace Tellusim {
 					const String &state = getOutputValue(node, "v2");
 					if(state && state.scanf("ivec2(%d, %d)", &value.x, &value.y) != 2) {
 						if(state.scanf("ivec2(%d)", &value.x) == 1 || state.scanf("%d", &value.x) == 1) value.y = value.x;
-						else TS_LOGF(Error, "ControlFlowGLSL::ivec2_callback(): can't parse \"%s\"\n", state.get());
+						else if(!state.begins("in_")) TS_LOGF(Warning, "ControlFlowGLSL::ivec2_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(value.x);
 					y_slider.setValue(value.y);
@@ -812,7 +813,7 @@ namespace Tellusim {
 					const String &state = getOutputValue(node, "v3");
 					if(state && state.scanf("ivec3(%d, %d, %d)", &value.x, &value.y, &value.z) != 3) {
 						if(state.scanf("ivec3(%d)", &value.x) == 1 || state.scanf("%d", &value.x) == 1) value = Vector3i(value.x);
-						else TS_LOGF(Error, "ControlFlowGLSL::ivec3_callback(): can't parse \"%s\"\n", state.get());
+						else if(!state.begins("in_")) TS_LOGF(Warning, "ControlFlowGLSL::ivec3_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(value.x);
 					y_slider.setValue(value.y);
@@ -854,7 +855,7 @@ namespace Tellusim {
 					const String &state = getOutputValue(node, "v4");
 					if(state && state.scanf("ivec4(%d, %d, %d, %d)", &value.x, &value.y, &value.z, &value.w) != 4) {
 						if(state.scanf("ivec4(%d)", &value.x) == 1 || state.scanf("%d", &value.x) == 1) value = Vector4i(value.x);
-						else TS_LOGF(Error, "ControlFlowGLSL::ivec4_callback(): can't parse \"%s\"\n", state.get());
+						else if(!state.begins("in_")) TS_LOGF(Warning, "ControlFlowGLSL::ivec4_callback(): can't parse \"%s\"\n", state.get());
 					}
 					x_slider.setValue(value.x);
 					y_slider.setValue(value.y);
@@ -979,7 +980,7 @@ namespace Tellusim {
 					const String &state = getNodeState(node);
 					if(state && state.scanf("r %g s %g %g u %u", &rotate, &scale.x, &scale.y, &uniform) != 4 &&
 						state.scanf("r %g s %g %g", &rotate, &scale.x, &scale.y) != 3) {
-						TS_LOGF(Error, "ControlFlowGLSL::mat2_callback(): can't parse \"%s\"\n", state.get());
+						TS_LOGF(Warning, "ControlFlowGLSL::mat2_callback(): can't parse \"%s\"\n", state.get());
 					}
 					controls.rotate_slider.setValue(rotate);
 					controls.scale_sliders[0].setValue(scale.x);
@@ -1059,7 +1060,7 @@ namespace Tellusim {
 					const String &state = getNodeState(node);
 					if(state && state.scanf("t %g %g r %g s %g %g u %u", &translate.x, &translate.y, &rotate, &scale.x, &scale.y, &uniform) != 6 &&
 						state.scanf("t %g %g r %g s %g %g", &translate.x, &translate.y, &rotate, &scale.x, &scale.y) != 5) {
-						TS_LOGF(Error, "ControlFlowGLSL::mat32_callback(): can't parse \"%s\"\n", state.get());
+						TS_LOGF(Warning, "ControlFlowGLSL::mat32_callback(): can't parse \"%s\"\n", state.get());
 					}
 					controls.rotate_slider.setValue(rotate);
 					controls.scale_sliders[0].setValue(scale.x);
@@ -1140,7 +1141,7 @@ namespace Tellusim {
 					const String &state = getNodeState(node);
 					if(state && state.scanf("r %g %g %g s %g %g %g u %u", &rotate.x, &rotate.y, &rotate.z, &scale.x, &scale.y, &scale.z, &uniform) != 7 &&
 						state.scanf("r %g %g %g s %g %g %g", &rotate.x, &rotate.y, &rotate.z, &scale.x, &scale.y, &scale.z) != 6) {
-						TS_LOGF(Error, "ControlFlowGLSL::mat3_callback(): can't parse \"%s\"\n", state.get());
+						TS_LOGF(Warning, "ControlFlowGLSL::mat3_callback(): can't parse \"%s\"\n", state.get());
 					}
 					controls.rotate_sliders[0].setValue(rotate.x);
 					controls.rotate_sliders[1].setValue(rotate.y);
@@ -1165,8 +1166,8 @@ namespace Tellusim {
 		{
 			uint32_t proto = addProto("mat4", "Mat4");
 			setProtoColor(proto, tool_color);
-			addProtoOutput(proto, "m3", "", "mat3(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0)", mat3_type, true);
 			addProtoOutput(proto, "m4", "", "mat4(1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0)", mat4_type, true);
+			addProtoOutput(proto, "m3", "", "mat3(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0)", mat3_type, true);
 			setProtoOutputAttachCallback(proto, 0, text_output_callback);
 			setProtoOutputAttachCallback(proto, 1, text_output_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
@@ -1206,10 +1207,10 @@ namespace Tellusim {
 					Matrix4x4f m = Matrix4x4f::compose(Vector3f(controls.translate_sliders[0].getValuef32(), controls.translate_sliders[1].getValuef32(), controls.translate_sliders[2].getValuef32()),
 						Quaternionf::rotateZYX(controls.rotate_sliders[0].getValuef32(), controls.rotate_sliders[1].getValuef32(), controls.rotate_sliders[2].getValuef32()),
 						Vector3f(controls.scale_sliders[0].getValuef32(), controls.scale_sliders[1].getValuef32(), controls.scale_sliders[2].getValuef32()));
-					setOutputValue(node, "m3", String::format("mat3(%g, %g, %g, %g, %g, %g, %g, %g, %g)",
-						m.m00, m.m01, m.m02, m.m10, m.m11, m.m12, m.m20, m.m21, m.m22));
 					setOutputValue(node, "m4", String::format("mat4(%g, %g, %g, %g, %g, %g, %g, %g, %g, %g, %g, %g, %g, %g, %g, %g)",
 						m.m00, m.m01, m.m02, m.m03, m.m10, m.m11, m.m12, m.m13, m.m20, m.m21, m.m22, m.m23, m.m30, m.m31, m.m32, m.m33));
+					setOutputValue(node, "m3", String::format("mat3(%g, %g, %g, %g, %g, %g, %g, %g, %g)",
+						m.m00, m.m01, m.m02, m.m10, m.m11, m.m12, m.m20, m.m21, m.m22));
 					setNodeState(node, String::format("t %g %g %g r %g %g %g s %g %g %g u %u",
 						controls.translate_sliders[0].getValuef32(), controls.translate_sliders[1].getValuef32(), controls.translate_sliders[2].getValuef32(),
 						controls.rotate_sliders[0].getValuef32(), controls.rotate_sliders[1].getValuef32(), controls.rotate_sliders[2].getValuef32(),
@@ -1238,7 +1239,7 @@ namespace Tellusim {
 					const String &state = getNodeState(node);
 					if(state && state.scanf("t %g %g %g r %g %g %g s %g %g %g u %u", &translate.x, &translate.y, &translate.z, &rotate.x, &rotate.y, &rotate.z, &scale.x, &scale.y, &scale.z, &uniform) != 10 &&
 						state.scanf("t %g %g %g r %g %g %g s %g %g %g", &translate.x, &translate.y, &translate.z, &rotate.x, &rotate.y, &rotate.z, &scale.x, &scale.y, &scale.z) != 9) {
-						TS_LOGF(Error, "ControlFlowGLSL::mat4_callback(): can't parse \"%s\"\n", state.get());
+						TS_LOGF(Warning, "ControlFlowGLSL::mat4_callback(): can't parse \"%s\"\n", state.get());
 					}
 					controls.translate_sliders[0].setValue(translate.x);
 					controls.translate_sliders[1].setValue(translate.y);
@@ -1269,8 +1270,8 @@ namespace Tellusim {
 		{
 			uint32_t proto = addProto("mat43", "Mat43");
 			setProtoColor(proto, tool_color);
-			addProtoOutput(proto, "m3", "", "mat3(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0)", mat3_type, true);
 			addProtoOutput(proto, "m43", "", "mat3x4(1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)", mat43_type, true);
+			addProtoOutput(proto, "m3", "", "mat3(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0)", mat3_type, true);
 			setProtoOutputAttachCallback(proto, 0, text_output_callback);
 			setProtoOutputAttachCallback(proto, 1, text_output_callback);
 			setProtoCreateCallback(proto, [this](ControlFlow *flow, ControlGrid grid, uint32_t node) {
@@ -1310,10 +1311,10 @@ namespace Tellusim {
 					Matrix4x3f m = Matrix4x3f::compose(Vector3f(controls.translate_sliders[0].getValuef32(), controls.translate_sliders[1].getValuef32(), controls.translate_sliders[2].getValuef32()),
 						Quaternionf::rotateZYX(controls.rotate_sliders[0].getValuef32(), controls.rotate_sliders[1].getValuef32(), controls.rotate_sliders[2].getValuef32()),
 						Vector3f(controls.scale_sliders[0].getValuef32(), controls.scale_sliders[1].getValuef32(), controls.scale_sliders[2].getValuef32()));
-					setOutputValue(node, "m3", String::format("mat3(%g, %g, %g, %g, %g, %g, %g, %g, %g)",
-						m.m00, m.m01, m.m02, m.m10, m.m11, m.m12, m.m20, m.m21, m.m22));
 					setOutputValue(node, "m43", String::format("mat3x4(%g, %g, %g, %g, %g, %g, %g, %g, %g, %g, %g, %g)",
 						m.m00, m.m01, m.m02, m.m03, m.m10, m.m11, m.m12, m.m13, m.m20, m.m21, m.m22, m.m23));
+					setOutputValue(node, "m3", String::format("mat3(%g, %g, %g, %g, %g, %g, %g, %g, %g)",
+						m.m00, m.m01, m.m02, m.m10, m.m11, m.m12, m.m20, m.m21, m.m22));
 					setNodeState(node, String::format("t %g %g %g r %g %g %g s %g %g %g u %u",
 						controls.translate_sliders[0].getValuef32(), controls.translate_sliders[1].getValuef32(), controls.translate_sliders[2].getValuef32(),
 						controls.rotate_sliders[0].getValuef32(), controls.rotate_sliders[1].getValuef32(), controls.rotate_sliders[2].getValuef32(),
@@ -1342,7 +1343,7 @@ namespace Tellusim {
 					const String &state = getNodeState(node);
 					if(state && state.scanf("t %g %g %g r %g %g %g s %g %g %g u %u", &translate.x, &translate.y, &translate.z, &rotate.x, &rotate.y, &rotate.z, &scale.x, &scale.y, &scale.z, &uniform) != 10 &&
 						state.scanf("t %g %g %g r %g %g %g s %g %g %g", &translate.x, &translate.y, &translate.z, &rotate.x, &rotate.y, &rotate.z, &scale.x, &scale.y, &scale.z) != 9) {
-						TS_LOGF(Error, "ControlFlowGLSL::mat43_callback(): can't parse \"%s\"\n", state.get());
+						TS_LOGF(Warning, "ControlFlowGLSL::mat43_callback(): can't parse \"%s\"\n", state.get());
 					}
 					controls.translate_sliders[0].setValue(translate.x);
 					controls.translate_sliders[1].setValue(translate.y);
@@ -1787,9 +1788,9 @@ namespace Tellusim {
 			setProtoInputInfo(proto, "angle", "Rotation angle in radians");
 		}
 		
-		// project proto
+		// projection proto
 		{
-			uint32_t proto = addProto("project", "Project");
+			uint32_t proto = addProto("projection", "Projection");
 			setProtoColor(proto, tool_color);
 			addProtoInput(proto, "a", "A", "1.0", any_type);
 			addProtoInput(proto, "b", "B", "0.0", any_type);
@@ -1969,7 +1970,7 @@ namespace Tellusim {
 					Color color = Color::white;
 					const String &state = getNodeState(node);
 					if(state && state.scanf("%g %g %g %g", &color.r, &color.g, &color.b, &color.a) != 4) {
-						TS_LOGF(Error, "ControlFlowGLSL::rgba_callback(): can't parse \"%s\"\n", state.get());
+						TS_LOGF(Warning, "ControlFlowGLSL::rgba_callback(): can't parse \"%s\"\n", state.get());
 					}
 					rect.setColor(color);
 					set_color(node, color);
@@ -2598,10 +2599,10 @@ namespace Tellusim {
 				String value;
 				String macros;
 				uint32_t type = getInputType(node, "texcoord");
-				if(type == float_type) macros = "1_SHADER=1";
-				else if(type == vec2_type) macros = "2_SHADER=1";
-				else if(type == vec3_type) macros = "3_SHADER=1";
-				else if(type == vec4_type) macros = "4_SHADER=1";
+				if(type == float_type) macros = "1_SHADER=1; HASH_SHADER=1";
+				else if(type == vec2_type) macros = "2_SHADER=1; HASH_SHADER=1";
+				else if(type == vec3_type) macros = "3_SHADER=1; HASH_SHADER=1";
+				else if(type == vec4_type) macros = "4_SHADER=1; HASH_SHADER=1";
 				if(macros) {
 					String texcoord;
 					const String &state = getNodeState(node);
@@ -2764,7 +2765,7 @@ namespace Tellusim {
 				} else if(type == vec3_type) {
 					value += "\tvec3 texcoord = ($texcoord) * ($tile);\n";
 					if(has_matrix) value += "\tmat3 matrix = $matrix;\n";
-					else if(has_period) value += "\tmat3 matrix = mat3(0.0, 0.0, 2.0, 0.0, 2.0, -2.0, 0.0, 0.0);\n";
+					else if(has_period) value += "\tmat3 matrix = mat3(0.0, 0.0, 2.0, 0.0, 2.0, 0.0, -2.0, 0.0, 0.0);\n";
 					else value += "\tmat3 matrix = mat3(1.119847, -1.635496, 0.266637, 0.580474, 0.688591, 1.785747, -1.552093, -0.922494, 0.86024);\n";
 				}
 				if(has_dv) {
@@ -3092,10 +3093,10 @@ namespace Tellusim {
 		}, ControlSlider::null, edit));
 		
 		// slider released callback
-		// expand slider value and save action
-		slider.setReleasedCallback(makeFunction([this](ControlSlider slider) {
-			if(slider.isChanged()) setChanged();
+		// expand slider value and reset state
+		slider.setReleasedCallback(makeFunction([](ControlSlider slider) {
 			expand_slider(slider);
+			slider.isChanged();
 		}, ControlSlider::null));
 		
 		// edit returned callback
@@ -3266,8 +3267,12 @@ namespace Tellusim {
 			if(type == float_type) return findProto("float");
 			if(type == vec2_type) return findProto("vec2");
 			if(type == vec3_type && name.contains("color")) return findProto("rgba");
+			if(type == vec3_type && name.contains("diffuse")) return findProto("rgba");
+			if(type == vec3_type && name.contains("specular")) return findProto("rgba");
 			if(type == vec3_type) return findProto("vec3");
 			if(type == vec4_type && name.contains("color")) return findProto("rgba");
+			if(type == vec4_type && name.contains("diffuse")) return findProto("rgba");
+			if(type == vec4_type && name.contains("specular")) return findProto("rgba");
 			if(type == vec4_type) return findProto("vec4");
 			if(type == ivec2_type) return findProto("ivec2");
 			if(type == ivec3_type) return findProto("ivec3");
@@ -3357,7 +3362,7 @@ namespace Tellusim {
 	
 	/*
 	 */
-	String ControlFlowGLSL::getSource(uint32_t node_index, Flags flags) {
+	String ControlFlowGLSL::getSource(uint32_t node_index, Flags flags, uint32_t output_index) {
 		
 		String ret;
 		
@@ -3402,7 +3407,7 @@ namespace Tellusim {
 			for(uint32_t i = 0; i < getNumOutputs(block.index); i++) {
 				
 				// target node output
-				if(block.index == node_index && (flags & FlagOutputs)) {
+				if(block.index == node_index && ((flags & FlagOutputs) || output_index == i)) {
 					Variable &output = block.outputs[i];
 					if(output.index == Maxu32) {
 						output.type = getGLSLTypeName(getOutputType(block.index, i));
@@ -3481,7 +3486,7 @@ namespace Tellusim {
 				if(output.index == Maxu32) continue;
 				if(output.counter < 2) continue;
 				if(output.name) continue;
-				output.name = String::format("_v%u", num_variables++);
+				output.name = String::format("__%u", num_variables++);
 			}
 			
 			// dynamic variables
@@ -3498,7 +3503,7 @@ namespace Tellusim {
 				if(!has_temp) continue;
 				
 				// temporal outputs
-				String rename = String::format("_v%u", num_variables++);
+				String rename = String::format("__%u", num_variables++);
 				block.value = block.value.replace(name, rename);
 				for(Variable &output : block.outputs) {
 					if(output.index == Maxu32) continue;
@@ -3588,10 +3593,12 @@ namespace Tellusim {
 				
 				// create input variable
 				for(uint32_t i = 0; i < output.names.size(); i++) {
+					const String &name = output.names[i];
 					const String &type = output.types[i];
+					if(name == output.name) continue;
 					if(type == "any") continue;
 					ret += type; ret += " ";
-					ret += output.names[i]; ret += " = ";
+					ret += name; ret += " = ";
 					if(output.type == type) ret += output.name;
 					else ret += String::format("%s(%s)", type.get(), output.name.get());
 					ret += ";\n";

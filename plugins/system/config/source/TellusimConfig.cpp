@@ -171,7 +171,7 @@ namespace Tellusim {
 	void Config::set(const char *name, bool value) {
 		AtomicLock atomic(lock);
 		Xml xml = set_xml(name);
-		if(xml.getDataBool() == value && !hasFlag(FlagForce)) return;
+		if(xml.getDataBool() == value && !hasFlag(FlagComplete)) return;
 		xml.setData(value);
 		changed = true;
 	}
@@ -179,7 +179,7 @@ namespace Tellusim {
 	void Config::set(const char *name, int32_t value) {
 		AtomicLock atomic(lock);
 		Xml xml = set_xml(name);
-		if(xml.getDatai32() == value && !hasFlag(FlagForce)) return;
+		if(xml.getDatai32() == value && !hasFlag(FlagComplete)) return;
 		xml.setData(value);
 		changed = true;
 	}
@@ -187,7 +187,7 @@ namespace Tellusim {
 	void Config::set(const char *name, uint32_t value) {
 		AtomicLock atomic(lock);
 		Xml xml = set_xml(name);
-		if(xml.getDatau32() == value && !hasFlag(FlagForce)) return;
+		if(xml.getDatau32() == value && !hasFlag(FlagComplete)) return;
 		xml.setData(value);
 		changed = true;
 	}
@@ -195,7 +195,7 @@ namespace Tellusim {
 	void Config::set(const char *name, float32_t value) {
 		AtomicLock atomic(lock);
 		Xml xml = set_xml(name);
-		if(xml.getDataf32() == value && !hasFlag(FlagForce)) return;
+		if(xml.getDataf32() == value && !hasFlag(FlagComplete)) return;
 		xml.setData(value);
 		changed = true;
 	}
@@ -203,7 +203,7 @@ namespace Tellusim {
 	void Config::set(const char *name, float64_t value) {
 		AtomicLock atomic(lock);
 		Xml xml = set_xml(name);
-		if(xml.getDataf64() == value && !hasFlag(FlagForce)) return;
+		if(xml.getDataf64() == value && !hasFlag(FlagComplete)) return;
 		xml.setData(value);
 		changed = true;
 	}
@@ -211,7 +211,7 @@ namespace Tellusim {
 	void Config::set(const char *name, const char *value) {
 		AtomicLock atomic(lock);
 		Xml xml = set_xml(name);
-		if(xml.getData() == value && !hasFlag(FlagForce)) return;
+		if(xml.getData() == value && !hasFlag(FlagComplete)) return;
 		xml.setData(String(value));
 		changed = true;
 	}
@@ -219,7 +219,7 @@ namespace Tellusim {
 	void Config::set(const char *name, const String &value) {
 		AtomicLock atomic(lock);
 		Xml xml = set_xml(name);
-		if(xml.getData() == value && !hasFlag(FlagForce)) return;
+		if(xml.getData() == value && !hasFlag(FlagComplete)) return;
 		xml.setData(value);
 		changed = true;
 	}

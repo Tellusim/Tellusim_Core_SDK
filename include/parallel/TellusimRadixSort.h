@@ -70,10 +70,10 @@ namespace Tellusim {
 			/// create radix sort
 			/// \param scan Prefix scan.
 			/// \param size Radix sort data size.
-			/// \param groups Radix sort group size.
+			/// \param threads Radix sort group size.
 			/// \param regions Maximum number of multiple regions.
-			bool create(const Device &device, Mode mode, PrefixScan &scan, uint32_t size, uint32_t groups = 256, uint32_t regions = 1, Async *async = nullptr);
-			bool create(const Device &device, Flags flags, PrefixScan &scan, uint32_t size, uint32_t groups = 256, uint32_t regions = 1, Async *async = nullptr);
+			bool create(const Device &device, Mode mode, PrefixScan &scan, uint32_t size, uint32_t threads = 256, uint32_t regions = 1, Async *async = nullptr);
+			bool create(const Device &device, Flags flags, PrefixScan &scan, uint32_t size, uint32_t threads = 256, uint32_t regions = 1, Async *async = nullptr);
 			
 			/// dispatch single in-place radix sort
 			/// \param data Buffer of uint32_t data elements to sort.
