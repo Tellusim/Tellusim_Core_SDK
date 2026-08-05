@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{f9205701-6348-f717-c446-43a51d4e9841}</ProjectGuid>
+		<ProjectGuid>{10addcce-6b17-b118-c5d9-1678e469b12d}</ProjectGuid>
 		<ProjectName>cube_filter</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

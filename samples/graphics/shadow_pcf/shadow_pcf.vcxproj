@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{7dcd9549-3807-08d1-8426-1d287da53344}</ProjectGuid>
+		<ProjectGuid>{d2cbca3e-8896-0350-4a5f-d9d5f079eeec}</ProjectGuid>
 		<ProjectName>shadow_pcf</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

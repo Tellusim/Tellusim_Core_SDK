@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{d101487c-e9d3-ff3d-b780-7bb4c7b250f9}</ProjectGuid>
+		<ProjectGuid>{c60f6335-89f3-c77c-ebbf-029cb495240e}</ProjectGuid>
 		<ProjectName>ze_runtime</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

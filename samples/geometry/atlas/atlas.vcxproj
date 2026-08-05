@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{d3b3e0d5-5836-2732-b224-5cc40bcb23a7}</ProjectGuid>
+		<ProjectGuid>{8e27fe9b-2964-eabe-22f7-8ab65026725a}</ProjectGuid>
 		<ProjectName>atlas</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{401d8fee-798d-1ce8-0e68-1987b0335998}</ProjectGuid>
+		<ProjectGuid>{36de6d3d-ffad-f4d2-9cb5-b542fee42015}</ProjectGuid>
 		<ProjectName>object_tree</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

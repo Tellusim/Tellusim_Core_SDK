@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{c992d55b-eeeb-c87f-728b-1fd6c4a2f279}</ProjectGuid>
+		<ProjectGuid>{46ffb70a-c6f0-863a-8fe2-81d527322902}</ProjectGuid>
 		<ProjectName>04_hello_raster</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

@@ -19,7 +19,7 @@ POSTFIX = $(POSTFIX)d
 CFLAGS = $(CFLAGS) -I$(TSROOT)\include
 CFLAGS = $(CFLAGS) -I$(TSROOT)\samples
 LDFLAGS = $(LDFLAGS) -L$(TSROOT)\source
-LDFLAGS = $(LDFLAGS) -L$(TSROOT)\lib\windows\$(VSVERSION)$(ARCH)
+LDFLAGS = $(LDFLAGS) -L$(TSROOT)\lib\windows\vs$(VSVERSION)$(ARCH)
 LDFLAGS = $(LDFLAGS) Tellusim_$(ARCH)$(POSTFIX).lib
 
 #

@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{f7d67b0e-622e-9c5d-28bf-b224eacd78f2}</ProjectGuid>
+		<ProjectGuid>{9f7276eb-5a2a-7119-4711-efc4f36460af}</ProjectGuid>
 		<ProjectName>skinned_tree</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

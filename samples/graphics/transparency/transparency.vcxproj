@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{b12cb9bc-e8ef-031e-b116-713c39ad2e5e}</ProjectGuid>
+		<ProjectGuid>{126a9dc3-b9f5-3cab-aa10-327ec5d8d696}</ProjectGuid>
 		<ProjectName>transparency</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

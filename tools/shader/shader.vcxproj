@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{ab0f9429-46fa-8a74-93e0-8e267351d03a}</ProjectGuid>
+		<ProjectGuid>{45263832-5d27-6be5-51ce-e5ed4070d827}</ProjectGuid>
 		<ProjectName>shader</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

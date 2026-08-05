@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{aaa177a8-d295-3920-d15f-b530f153dc49}</ProjectGuid>
+		<ProjectGuid>{bdc777c3-186d-1d86-7dae-781cb784a3ed}</ProjectGuid>
 		<ProjectName>fourier_2d</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{63399683-b2a9-2ac1-38d5-18eb4d54e9d8}</ProjectGuid>
+		<ProjectGuid>{f83ba127-d533-c256-559e-ffa8b9d35383}</ProjectGuid>
 		<ProjectName>encoder_astc</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

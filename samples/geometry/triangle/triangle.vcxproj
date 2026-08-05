@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{3539fbad-434b-9587-0d86-08554a044018}</ProjectGuid>
+		<ProjectGuid>{f5dd6bc4-6bcc-a482-0101-f55986f2ca97}</ProjectGuid>
 		<ProjectName>triangle</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

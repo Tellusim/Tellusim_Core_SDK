@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{c923102a-9f14-c78d-6963-66baa530a315}</ProjectGuid>
+		<ProjectGuid>{dc05a325-2348-3a08-15c0-a2563b1b592b}</ProjectGuid>
 		<ProjectName>polynomial</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

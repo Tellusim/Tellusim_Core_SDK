@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{bdc3b8ed-434e-5b9f-5615-aee2bccc94e3}</ProjectGuid>
+		<ProjectGuid>{f3e39322-efe5-8c4d-c20d-c8c7ab50a8a8}</ProjectGuid>
 		<ProjectName>d3d11_swap_chain</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

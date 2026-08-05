@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{0d76f9b7-f870-c69f-b910-89a08a28c770}</ProjectGuid>
+		<ProjectGuid>{de69231e-04c2-0981-670d-e98e4f6d1005}</ProjectGuid>
 		<ProjectName>traversal</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

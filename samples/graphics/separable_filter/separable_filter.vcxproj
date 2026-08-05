@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{340ac2a5-ba44-1941-8e5a-1c2de20dea93}</ProjectGuid>
+		<ProjectGuid>{4b99efd6-f11e-217e-d44f-e90d60b751ec}</ProjectGuid>
 		<ProjectName>separable_filter</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

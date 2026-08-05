@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{723a9f73-4223-7a2b-799b-e157b1f03a4f}</ProjectGuid>
+		<ProjectGuid>{cc24d0ee-1238-db7f-9caf-7fee676aeeb3}</ProjectGuid>
 		<ProjectName>pool</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

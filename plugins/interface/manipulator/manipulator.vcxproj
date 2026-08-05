@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{8e2caf7f-88b0-5557-75c8-67245e2595f2}</ProjectGuid>
+		<ProjectGuid>{192c19d0-250d-e7b0-7c19-8b97a4fd15d3}</ProjectGuid>
 		<ProjectName>manipulator</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

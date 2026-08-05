@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{53f231e8-1d57-4049-88d3-17148ce831dd}</ProjectGuid>
+		<ProjectGuid>{963578c8-3e11-c866-8a48-3677db95beb9}</ProjectGuid>
 		<ProjectName>fence</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{467dff44-b7d1-3e7d-2003-eb575fef7699}</ProjectGuid>
+		<ProjectGuid>{93d261ea-74be-f50e-534d-99f8772e84c8}</ProjectGuid>
 		<ProjectName>05_hello_tracing</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

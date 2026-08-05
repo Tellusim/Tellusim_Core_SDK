@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{c3f74a48-cd09-1e80-84dd-a6781c220ff9}</ProjectGuid>
+		<ProjectGuid>{eade91aa-845a-5103-b8c2-f72f118cf795}</ProjectGuid>
 		<ProjectName>blending</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

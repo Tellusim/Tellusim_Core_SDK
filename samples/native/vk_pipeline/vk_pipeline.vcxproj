@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{f6bbd481-8a66-9a8f-f415-4b1f7a9f1762}</ProjectGuid>
+		<ProjectGuid>{91c4bfdb-7d28-57c0-d52c-3e1652e8d88d}</ProjectGuid>
 		<ProjectName>vk_pipeline</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

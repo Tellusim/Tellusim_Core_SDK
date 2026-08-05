@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{2717783f-9769-838d-2aa5-c1532b89f53e}</ProjectGuid>
+		<ProjectGuid>{7d837dd3-06d2-219f-aac4-90ebbbce86f6}</ProjectGuid>
 		<ProjectName>random</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

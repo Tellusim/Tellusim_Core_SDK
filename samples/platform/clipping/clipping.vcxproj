@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{36b2fa46-bab5-b53d-8d93-e8212445787e}</ProjectGuid>
+		<ProjectGuid>{c484b819-ed18-a331-dda4-c85f1e1d066b}</ProjectGuid>
 		<ProjectName>clipping</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{cb07dc88-ab5b-64fe-9f4d-0fcd8c1e4def}</ProjectGuid>
+		<ProjectGuid>{9278aa01-8e2a-be05-a9cc-f7a53b994c9f}</ProjectGuid>
 		<ProjectName>opengl</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

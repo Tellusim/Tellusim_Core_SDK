@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{37cbdeb4-a829-a6b4-ff15-1545b891b1e1}</ProjectGuid>
+		<ProjectGuid>{746d6994-ec5e-87bf-0ea4-6186b1cb1485}</ProjectGuid>
 		<ProjectName>tensor_torch</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

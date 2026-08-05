@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{c9014a9b-67f2-49a2-867a-f18eda24ba95}</ProjectGuid>
+		<ProjectGuid>{11f2771f-649b-4bff-b1c4-b58a48057e90}</ProjectGuid>
 		<ProjectName>svg</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

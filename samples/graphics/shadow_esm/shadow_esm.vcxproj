@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{94b2ca42-f826-2f97-f6ee-df219d3f5d7f}</ProjectGuid>
+		<ProjectGuid>{48aea0ae-94e5-4cc2-82b9-a92ab1d636a7}</ProjectGuid>
 		<ProjectName>shadow_esm</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

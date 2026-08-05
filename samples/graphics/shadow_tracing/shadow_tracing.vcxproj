@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{4a03e8cd-e012-3ffa-b888-d1365ae850be}</ProjectGuid>
+		<ProjectGuid>{0798b39e-5c1b-1c5c-a68a-313e7399be26}</ProjectGuid>
 		<ProjectName>shadow_tracing</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

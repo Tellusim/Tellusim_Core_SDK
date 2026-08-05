@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{083fb546-28e7-a22c-28f8-2db0772900d5}</ProjectGuid>
+		<ProjectGuid>{b24b903f-aaa9-ef00-aeb3-0809ed473f05}</ProjectGuid>
 		<ProjectName>openxr</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

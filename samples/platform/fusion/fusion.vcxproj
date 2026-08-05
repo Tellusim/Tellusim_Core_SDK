@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{3dfa7579-7d47-7554-5c32-82a54efab2ec}</ProjectGuid>
+		<ProjectGuid>{0270668f-6dfb-bc51-97d4-8b2edb127ad5}</ProjectGuid>
 		<ProjectName>fusion</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

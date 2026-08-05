@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{769e56f4-06a8-28e1-4735-50c3872052d0}</ProjectGuid>
+		<ProjectGuid>{4aa5605e-a24b-c12f-03d6-71e78c20ae96}</ProjectGuid>
 		<ProjectName>barycentric</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

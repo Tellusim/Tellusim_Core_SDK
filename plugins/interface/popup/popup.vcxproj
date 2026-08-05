@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{d41a7c20-3d0a-12df-e319-f6538a4e72cd}</ProjectGuid>
+		<ProjectGuid>{10b4d71d-f482-b55b-8f4e-5754186b985b}</ProjectGuid>
 		<ProjectName>popup</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

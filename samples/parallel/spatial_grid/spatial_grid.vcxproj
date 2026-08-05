@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{595375d3-ab8a-8656-e6e6-29ce4eb860aa}</ProjectGuid>
+		<ProjectGuid>{d31a2541-8fc9-4102-57fc-f6b7ee07d428}</ProjectGuid>
 		<ProjectName>spatial_grid</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

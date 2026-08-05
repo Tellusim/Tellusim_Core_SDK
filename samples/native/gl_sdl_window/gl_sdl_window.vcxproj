@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{4943fbf7-ebb4-88c2-5577-e2156756e42a}</ProjectGuid>
+		<ProjectGuid>{24df15c9-7f3b-08a7-28e2-69e22f62fcd8}</ProjectGuid>
 		<ProjectName>gl_sdl_window</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

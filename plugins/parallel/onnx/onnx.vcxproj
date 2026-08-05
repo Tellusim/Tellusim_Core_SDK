@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{5c9e1d11-f3ca-93bd-fd42-c836a9c0411d}</ProjectGuid>
+		<ProjectGuid>{747683d5-8c01-d41e-b288-32a92b165435}</ProjectGuid>
 		<ProjectName>onnx</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

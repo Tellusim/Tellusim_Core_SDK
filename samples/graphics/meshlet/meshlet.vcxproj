@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{69a54db9-3444-1070-bf7d-a2f8cd6b3458}</ProjectGuid>
+		<ProjectGuid>{66551a57-57e5-26e5-1e6e-eeb0f70c3499}</ProjectGuid>
 		<ProjectName>meshlet</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

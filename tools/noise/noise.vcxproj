@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{b80f0bf5-1868-62a9-b50a-5717b7b1e90b}</ProjectGuid>
+		<ProjectGuid>{d8824081-7e53-917a-4ed9-c098ba297e77}</ProjectGuid>
 		<ProjectName>noise</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

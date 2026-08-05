@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{ec85fcf0-9d43-646a-c52c-6c4dd7e4c8fe}</ProjectGuid>
+		<ProjectGuid>{3a650a8c-331e-d798-5705-6a100341969d}</ProjectGuid>
 		<ProjectName>imgui</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

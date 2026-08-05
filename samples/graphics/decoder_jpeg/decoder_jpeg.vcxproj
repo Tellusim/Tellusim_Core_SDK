@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{08818e8c-00e1-03a0-569b-a04db891747d}</ProjectGuid>
+		<ProjectGuid>{7aab1071-d0fa-406f-4dfb-86131b0bd395}</ProjectGuid>
 		<ProjectName>decoder_jpeg</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

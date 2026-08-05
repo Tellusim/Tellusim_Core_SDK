@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{794436d1-5f13-5e04-3212-df475cf7db3e}</ProjectGuid>
+		<ProjectGuid>{6f474605-a8ba-621e-ce31-af812239140f}</ProjectGuid>
 		<ProjectName>plotter</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

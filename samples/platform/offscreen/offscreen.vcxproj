@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{4b5872b0-bfa9-48b0-9203-796b70cc92af}</ProjectGuid>
+		<ProjectGuid>{517c48fa-5019-f888-9a59-8411a262e7e5}</ProjectGuid>
 		<ProjectName>offscreen</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

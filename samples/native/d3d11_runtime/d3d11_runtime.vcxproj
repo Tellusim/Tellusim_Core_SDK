@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{83d233c6-fc26-0f0a-313e-307acf395b0a}</ProjectGuid>
+		<ProjectGuid>{e0946b1c-33ea-92c1-6b47-08ec5026128a}</ProjectGuid>
 		<ProjectName>d3d11_runtime</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

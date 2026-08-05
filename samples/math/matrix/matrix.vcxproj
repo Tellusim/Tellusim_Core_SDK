@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{1f87e184-4cb0-4a99-869d-cbaa677017a0}</ProjectGuid>
+		<ProjectGuid>{dea00629-4e03-9b84-282c-b555be50eb66}</ProjectGuid>
 		<ProjectName>matrix</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

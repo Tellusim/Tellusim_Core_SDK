@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{12a9ef1e-dff4-edc3-700c-e7580b93a537}</ProjectGuid>
+		<ProjectGuid>{f9c9a927-17c6-1430-6eb2-664b1fed7769}</ProjectGuid>
 		<ProjectName>08_hello_canvas</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

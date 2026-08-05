@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{8027d155-d74c-c2e2-e95c-bc35a49c37df}</ProjectGuid>
+		<ProjectGuid>{a455b9d3-db11-4a3d-bf89-e51242573961}</ProjectGuid>
 		<ProjectName>reduce</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>

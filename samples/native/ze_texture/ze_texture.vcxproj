@@ -19,7 +19,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{8582e7a6-82e4-aa6f-82a8-90724a23d06c}</ProjectGuid>
+		<ProjectGuid>{407b657e-6c4c-497e-5b9f-b03fe54c18d1}</ProjectGuid>
 		<ProjectName>ze_texture</ProjectName>
 		<ConfigurationType>Application</ConfigurationType>
 		<LocalDebuggerEnvironment>Path=..\..\..\bin;%Path%;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
