@@ -184,7 +184,7 @@ namespace Tellusim {
 			/// retain pointer
 			void retain() {
 				if(ptr) {
-					if(counter) (*counter)++;
+					if(counter) (*counter) += 1;
 					else counter = new uint32_t(1);
 				}
 			}
@@ -193,7 +193,7 @@ namespace Tellusim {
 			void release() {
 				if(counter) {
 					TS_ASSERT((*counter & CounterMask) && "SmartPtr::release(): counter underflow");
-					if((--(*counter) & CounterMask) == 0) {
+					if((((*counter) -= 1) & CounterMask) == 0) {
 						if(!(*counter & (uint32_t)DestroyBit)) Destructor::destructor(ptr);
 						ptr = nullptr;
 						delete counter;

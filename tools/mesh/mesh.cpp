@@ -9,7 +9,6 @@
 #include <core/TellusimTime.h>
 #include <core/TellusimAsync.h>
 #include <format/TellusimParser.h>
-#include <format/TellusimParser.h>
 #include <format/TellusimImage.h>
 #include <format/TellusimMesh.h>
 #include <geometry/TellusimAtlas.h>

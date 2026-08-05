@@ -23,8 +23,8 @@ namespace Tellusim {
 			enum Flags {
 				FlagNone = 0,
 				FlagLocal		= (1 << 0),		// create local config
-				FlagForce		= (1 << 1),		// write default values
-				FlagReadOnly	= (1 << 2),		// readonly config access
+				FlagReadOnly	= (1 << 1),		// readonly config access
+				FlagComplete	= (1 << 2),		// write all values including defaults
 				DefaultFlags	= FlagNone,
 			};
 			

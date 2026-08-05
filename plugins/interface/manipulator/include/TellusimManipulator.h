@@ -200,7 +200,7 @@ namespace Tellusim {
 			float64_t mode_steps[NumModes] = {};		// mode steps
 			
 			Color enabled_color = Color::white;			// enabled color
-			Color disabled_color = Color(0.7f);			// diabled color
+			Color disabled_color = Color(0.7f);			// disabled color
 			Color axis_colors[NumAxes];					// axis colors
 			
 			Matrix4x4f camera_projection;				// camera projection

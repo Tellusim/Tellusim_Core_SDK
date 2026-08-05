@@ -589,7 +589,7 @@
 			"source": "samples/interface/controls/main.cpp",
 			"project": "samples/interface/controls/controls"
 		},
-		"interface_svg_plugins": {
+		"interface_svg": {
 			"title": "SVG",
 			"image": "images/plugins/interface_svg.png",
 			"text": "This plugin enables SVG images support for Control widgets.<br><a href=\"https://docs.tellusim.com/core/plugins/interface/svg\" target=\"_blank\">docs.tellusim.com/core/plugins/interface/svg</a>",
@@ -723,6 +723,24 @@
 			"exec": "main",
 			"source": "samples/interface/control/main.cpp",
 			"project": "samples/interface/control/control"
+		},
+		"interface_imgui": {
+			"title": "ImGui",
+			"image": "images/plugins/interface_imgui.png",
+			"text": "Dear ImGui backend.<br><a href=\"https://docs.tellusim.com/core/plugins/interface/imgui\" target=\"_blank\">docs.tellusim.com/core/plugins/interface/imgui</a>",
+			"path": "plugins/interface/imgui",
+			"exec": "main",
+			"source": "plugins/interface/imgui/main.cpp",
+			"project": "plugins/interface/imgui/imgui"
+		},
+		"interface_rmlui": {
+			"title": "RmlUi",
+			"image": "images/plugins/interface_rmlui.png",
+			"text": "RmlUi HTML/CSS User Interface library backend. Supports advanced features including layers, blurs, shadows, gradients, and masks.",
+			"path": "plugins/interface/rmlui",
+			"exec": "main",
+			"source": "plugins/interface/rmlui/main.cpp",
+			"project": "plugins/interface/rmlui/rmlui"
 		}
 	},
 	"Parallel": {
@@ -775,7 +793,7 @@
 		"parallel_radix_sort": {
 			"title": "Parallel Radix Sort",
 			"image": "images/parallel/parallel_radix_sort.png",
-			"text": "Multiple independent sorting algorithms can be dispatched in parallel. There is no overhead in comparision with the single array sort. Additionally, dispatch parameters can be fetched from the indirect buffer.<br>'1' shows the input data.<br>'2' activates global sort.",
+			"text": "Multiple independent sorting algorithms can be dispatched in parallel. There is no overhead in comparison with the single array sort. Additionally, dispatch parameters can be fetched from the indirect buffer.<br>'1' shows the input data.<br>'2' activates global sort.",
 			"path": "samples/parallel/radix_sort",
 			"exec": "main",
 			"source": "samples/parallel/radix_sort/main.cpp",
@@ -801,10 +819,37 @@
 		}
 	},
 	"Geometry": {
+		"geometry_fracture": {
+			"title": "Mesh Fracture",
+			"image": "images/geometry/geometry_fracture.png",
+			"text": "Fractures mesh geometry using Voronoi cell decomposition. Creates realistic fragment separation with customizable parameters.<br><a href=\"https://docs.tellusim.com/core/meshes/meshfracture\" target=\"_blank\">https://docs.tellusim.com/core/meshes/meshfracture</a>",
+			"path": "samples/geometry/fracture",
+			"exec": "main",
+			"source": "samples/geometry/fracture/main.cpp",
+			"project": "samples/geometry/fracture/fracture"
+		},
+		"geometry_boolean": {
+			"title": "Mesh Boolean",
+			"image": "images/geometry/geometry_boolean.png",
+			"text": "Fast and robust MeshBoolean operations. Supports union, difference, and intersection operations between 3D meshes with high precision and performance.<br><a href=\"https://docs.tellusim.com/core/meshes/meshboolean\" target=\"_blank\">https://docs.tellusim.com/core/meshes/meshboolean</a>",
+			"path": "samples/geometry/boolean",
+			"exec": "main",
+			"source": "samples/geometry/boolean/main.cpp",
+			"project": "samples/geometry/boolean/boolean"
+		},
+		"geometry_split": {
+			"title": "Mesh Split",
+			"image": "images/geometry/geometry_split.png",
+			"text": "Mesh to plane split algorithm. Efficiently splits meshes along specified plane with automatic vertex welding and topology preservation.<br><a href=\"https://docs.tellusim.com/core/meshes/meshsplit\" target=\"_blank\">https://docs.tellusim.com/core/meshes/meshsplit</a>",
+			"path": "samples/geometry/split",
+			"exec": "main",
+			"source": "samples/geometry/split/main.cpp",
+			"project": "samples/geometry/split/split"
+		},
 		"geometry_reduce": {
 			"title": "Mesh Reduce",
 			"image": "images/geometry/geometry_reduce.png",
-			"text": "MeshReduce is a simple way to simplify input mesh geometry. Simplification preserves all Mesh Attributes, and it is compatible with Skinning Animation.<br>'1' shows the original geometry.",
+			"text": "MeshReduce is a simple way to simplify input mesh geometry. Simplification preserves all Mesh Attributes, and it is compatible with Skinning Animation.<br><a href=\"https://docs.tellusim.com/core/meshes/meshreduce\" target=\"_blank\">https://docs.tellusim.com/core/meshes/meshreduce</a>",
 			"path": "samples/geometry/reduce",
 			"exec": "main",
 			"source": "samples/geometry/reduce/main.cpp",
@@ -813,7 +858,7 @@
 		"geometry_refine": {
 			"title": "Mesh Refine",
 			"image": "images/geometry/geometry_refine.png",
-			"text": "MeshRefine refines geometry mesh using Catmull-Clark (for quadrilaterals) or Loop (for triangles) subdivision algorithms. The Crease Attribute allows additional control over the subdivision process.<br>'1' shows the original geometry.",
+			"text": "MeshRefine refines geometry mesh using Catmull-Clark (for quadrilaterals) or Loop (for triangles) subdivision algorithms. The Crease Attribute allows additional control over the subdivision process.<br><a href=\"https://docs.tellusim.com/core/meshes/meshrefine\" target=\"_blank\">https://docs.tellusim.com/core/meshes/meshrefine</a>",
 			"path": "samples/geometry/refine",
 			"exec": "main",
 			"source": "samples/geometry/refine/main.cpp",
@@ -875,6 +920,15 @@
 			"exec": "main",
 			"source": "plugins/platform/opengles/main.cpp",
 			"project": "plugins/platform/opengles/opengles"
+		},
+		"platform_opencl": {
+			"title": "Native OpenCL Plugin",
+			"image": "images/plugins/platform_opencl.jpg",
+			"text": "Create dynamic geometry with OpenCL and render with Vulkan / Direct3D / OpenGL.<br><a href=\"https://docs.tellusim.com/core/plugins/platform/opencl\" target=\"_blank\">docs.tellusim.com/core/plugins/platform/opencl</a>",
+			"path": "plugins/platform/opencl",
+			"exec": "main",
+			"source": "plugins/platform/opencl/main.cpp",
+			"project": "plugins/platform/opencl/opencl"
 		}
 	},
 	"Languages": {

@@ -703,6 +703,23 @@ Custom Controls can be created by simple ControlBase class inheritance. The Cont
 
 [![Custom Control](utils/browser/images/interface/interface_control.png)](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/samples/interface/control/)
 
+---
+
+## [ImGui](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/plugins/interface/imgui/)
+
+Dear ImGui backend.  
+[docs.tellusim.com/core/plugins/interface/imgui](https://docs.tellusim.com/core/plugins/interface/imgui)
+
+[![ImGui](utils/browser/images/plugins/interface_imgui.png)](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/plugins/interface/imgui/)
+
+---
+
+## [RmlUi](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/plugins/interface/rmlui/)
+
+RmlUi HTML/CSS User Interface library backend. Supports advanced features including layers, blurs, shadows, gradients, and masks.
+
+[![RmlUi](utils/browser/images/plugins/interface_rmlui.png)](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/plugins/interface/rmlui/)
+
 # Parallel
 
 ## [Parallel TensorGraph from PyTorch](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/samples/parallel/tensor_torch/)
@@ -739,7 +756,7 @@ Simple 2D fluid simulation based on Fast Fourier Transformation.
 
 ## [Parallel Radix Sort](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/samples/parallel/radix_sort/)
 
-Multiple independent sorting algorithms can be dispatched in parallel. There is no overhead in comparision with the single array sort. Additionally, dispatch parameters can be fetched from the indirect buffer.  
+Multiple independent sorting algorithms can be dispatched in parallel. There is no overhead in comparison with the single array sort. Additionally, dispatch parameters can be fetched from the indirect buffer.  
 '1' shows the input data.  
 '2' activates global sort.
 
@@ -763,10 +780,37 @@ Simple physics simulation with collisions based on the SpatialTree class. The Sp
 
 # Geometry
 
+## [Mesh Fracture](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/samples/geometry/fracture/)
+
+Fractures mesh geometry using Voronoi cell decomposition. Creates realistic fragment separation with customizable parameters.  
+[https://docs.tellusim.com/core/meshes/meshfracture](https://docs.tellusim.com/core/meshes/meshfracture)
+
+[![Mesh Fracture](utils/browser/images/geometry/geometry_fracture.png)](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/samples/geometry/fracture/)
+
+---
+
+## [Mesh Boolean](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/samples/geometry/boolean/)
+
+Fast and robust MeshBoolean operations. Supports union, difference, and intersection operations between 3D meshes with high precision and performance.  
+[https://docs.tellusim.com/core/meshes/meshboolean](https://docs.tellusim.com/core/meshes/meshboolean)
+
+[![Mesh Boolean](utils/browser/images/geometry/geometry_boolean.png)](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/samples/geometry/boolean/)
+
+---
+
+## [Mesh Split](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/samples/geometry/split/)
+
+Mesh to plane split algorithm. Efficiently splits meshes along specified plane with automatic vertex welding and topology preservation.  
+[https://docs.tellusim.com/core/meshes/meshsplit](https://docs.tellusim.com/core/meshes/meshsplit)
+
+[![Mesh Split](utils/browser/images/geometry/geometry_split.png)](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/samples/geometry/split/)
+
+---
+
 ## [Mesh Reduce](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/samples/geometry/reduce/)
 
 MeshReduce is a simple way to simplify input mesh geometry. Simplification preserves all Mesh Attributes, and it is compatible with Skinning Animation.  
-'1' shows the original geometry.
+[https://docs.tellusim.com/core/meshes/meshreduce](https://docs.tellusim.com/core/meshes/meshreduce)
 
 [![Mesh Reduce](utils/browser/images/geometry/geometry_reduce.png)](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/samples/geometry/reduce/)
 
@@ -775,7 +819,7 @@ MeshReduce is a simple way to simplify input mesh geometry. Simplification prese
 ## [Mesh Refine](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/samples/geometry/refine/)
 
 MeshRefine refines geometry mesh using Catmull-Clark (for quadrilaterals) or Loop (for triangles) subdivision algorithms. The Crease Attribute allows additional control over the subdivision process.  
-'1' shows the original geometry.
+[https://docs.tellusim.com/core/meshes/meshrefine](https://docs.tellusim.com/core/meshes/meshrefine)
 
 [![Mesh Refine](utils/browser/images/geometry/geometry_refine.png)](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/samples/geometry/refine/)
 
@@ -832,6 +876,15 @@ This plugin provides access to all OpenGLES core functions. OpenGLES API calls c
 [docs.tellusim.com/core/plugins/platform/opengles](https://docs.tellusim.com/core/plugins/platform/opengles)
 
 [![Native OpenGLES runtime](utils/browser/images/plugins/platform_opengles.png)](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/plugins/platform/opengles/)
+
+---
+
+## [Native OpenCL Plugin](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/plugins/platform/opencl/)
+
+Create dynamic geometry with OpenCL and render with Vulkan / Direct3D / OpenGL.  
+[docs.tellusim.com/core/plugins/platform/opencl](https://docs.tellusim.com/core/plugins/platform/opencl)
+
+[![Native OpenCL Plugin](utils/browser/images/plugins/platform_opencl.jpg)](https://github.com/Tellusim/Tellusim_Core_SDK/tree/main/plugins/platform/opencl/)
 
 # Languages
 
