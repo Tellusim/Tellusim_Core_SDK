@@ -2449,8 +2449,8 @@ namespace Tellusim {
 	TS_JSAPI MeshGeometry *tsMeshIndices_getGeometry_1(MeshIndices &self) {
 		return new MeshGeometry(self.getGeometry());
 	}
-	TS_JSAPI void tsMeshIndices_setSize(MeshIndices &self, uint32_t size, bool discard, bool clear) {
-		self.setSize(size, discard, clear);
+	TS_JSAPI bool tsMeshIndices_setSize(MeshIndices &self, uint32_t size, bool discard, bool clear) {
+		return self.setSize(size, discard, clear);
 	}
 	TS_JSAPI uint32_t tsMeshIndices_getSize(const MeshIndices &self) {
 		return self.getSize();
@@ -2685,8 +2685,8 @@ namespace Tellusim {
 	TS_JSAPI MeshGeometry *tsMeshAttribute_getGeometry_1(MeshAttribute &self) {
 		return new MeshGeometry(self.getGeometry());
 	}
-	TS_JSAPI void tsMeshAttribute_setSize(MeshAttribute &self, uint32_t size, bool discard, bool clear) {
-		self.setSize(size, discard, clear);
+	TS_JSAPI bool tsMeshAttribute_setSize(MeshAttribute &self, uint32_t size, bool discard, bool clear) {
+		return self.setSize(size, discard, clear);
 	}
 	TS_JSAPI uint32_t tsMeshAttribute_getSize(const MeshAttribute &self) {
 		return self.getSize();
@@ -2751,8 +2751,8 @@ namespace Tellusim {
 	TS_JSAPI bool tsMeshAttribute_unpackAttributes(const MeshAttribute &self, MeshAttribute &attribute_0, MeshAttribute &attribute_1) {
 		return self.unpackAttributes(attribute_0, attribute_1);
 	}
-	TS_JSAPI MeshAttribute *tsMeshAttribute_optimizeAttribute(const MeshAttribute &self, MeshIndices &indices) {
-		return new MeshAttribute(self.optimizeAttribute(indices));
+	TS_JSAPI MeshAttribute *tsMeshAttribute_optimizeAttribute(const MeshAttribute &self, MeshIndices &indices, float32_t threshold) {
+		return new MeshAttribute(self.optimizeAttribute(indices, threshold));
 	}
 	TS_JSAPI MeshAttribute *tsMeshAttribute_toDirect(const MeshAttribute &self, const MeshIndices &indices) {
 		return new MeshAttribute(self.toDirect(indices));
@@ -7937,6 +7937,12 @@ namespace Tellusim {
 	TS_JSAPI uint32_t tsDeviceFeatures_get_maxTextureSamples(const Device::Features &self) {
 		return self.maxTextureSamples;
 	}
+	TS_JSAPI void tsDeviceFeatures_set_maxGroupSize(Device::Features &self, uint32_t maxGroupSize) {
+		self.maxGroupSize = maxGroupSize;
+	}
+	TS_JSAPI uint32_t tsDeviceFeatures_get_maxGroupSize(const Device::Features &self) {
+		return self.maxGroupSize;
+	}
 	TS_JSAPI void tsDeviceFeatures_set_maxGroupSizeX(Device::Features &self, uint32_t maxGroupSizeX) {
 		self.maxGroupSizeX = maxGroupSizeX;
 	}
@@ -7973,11 +7979,53 @@ namespace Tellusim {
 	TS_JSAPI uint32_t tsDeviceFeatures_get_maxGroupCountZ(const Device::Features &self) {
 		return self.maxGroupCountZ;
 	}
+	TS_JSAPI void tsDeviceFeatures_set_maxTaskSize(Device::Features &self, uint32_t maxTaskSize) {
+		self.maxTaskSize = maxTaskSize;
+	}
+	TS_JSAPI uint32_t tsDeviceFeatures_get_maxTaskSize(const Device::Features &self) {
+		return self.maxTaskSize;
+	}
+	TS_JSAPI void tsDeviceFeatures_set_maxTaskSizeX(Device::Features &self, uint32_t maxTaskSizeX) {
+		self.maxTaskSizeX = maxTaskSizeX;
+	}
+	TS_JSAPI uint32_t tsDeviceFeatures_get_maxTaskSizeX(const Device::Features &self) {
+		return self.maxTaskSizeX;
+	}
+	TS_JSAPI void tsDeviceFeatures_set_maxTaskSizeY(Device::Features &self, uint32_t maxTaskSizeY) {
+		self.maxTaskSizeY = maxTaskSizeY;
+	}
+	TS_JSAPI uint32_t tsDeviceFeatures_get_maxTaskSizeY(const Device::Features &self) {
+		return self.maxTaskSizeY;
+	}
+	TS_JSAPI void tsDeviceFeatures_set_maxTaskSizeZ(Device::Features &self, uint32_t maxTaskSizeZ) {
+		self.maxTaskSizeZ = maxTaskSizeZ;
+	}
+	TS_JSAPI uint32_t tsDeviceFeatures_get_maxTaskSizeZ(const Device::Features &self) {
+		return self.maxTaskSizeZ;
+	}
 	TS_JSAPI void tsDeviceFeatures_set_maxTaskCount(Device::Features &self, uint32_t maxTaskCount) {
 		self.maxTaskCount = maxTaskCount;
 	}
 	TS_JSAPI uint32_t tsDeviceFeatures_get_maxTaskCount(const Device::Features &self) {
 		return self.maxTaskCount;
+	}
+	TS_JSAPI void tsDeviceFeatures_set_maxTaskCountX(Device::Features &self, uint32_t maxTaskCountX) {
+		self.maxTaskCountX = maxTaskCountX;
+	}
+	TS_JSAPI uint32_t tsDeviceFeatures_get_maxTaskCountX(const Device::Features &self) {
+		return self.maxTaskCountX;
+	}
+	TS_JSAPI void tsDeviceFeatures_set_maxTaskCountY(Device::Features &self, uint32_t maxTaskCountY) {
+		self.maxTaskCountY = maxTaskCountY;
+	}
+	TS_JSAPI uint32_t tsDeviceFeatures_get_maxTaskCountY(const Device::Features &self) {
+		return self.maxTaskCountY;
+	}
+	TS_JSAPI void tsDeviceFeatures_set_maxTaskCountZ(Device::Features &self, uint32_t maxTaskCountZ) {
+		self.maxTaskCountZ = maxTaskCountZ;
+	}
+	TS_JSAPI uint32_t tsDeviceFeatures_get_maxTaskCountZ(const Device::Features &self) {
+		return self.maxTaskCountZ;
 	}
 	TS_JSAPI void tsDeviceFeatures_set_maxTaskMemory(Device::Features &self, uint32_t maxTaskMemory) {
 		self.maxTaskMemory = maxTaskMemory;
@@ -7985,11 +8033,53 @@ namespace Tellusim {
 	TS_JSAPI uint32_t tsDeviceFeatures_get_maxTaskMemory(const Device::Features &self) {
 		return self.maxTaskMemory;
 	}
-	TS_JSAPI void tsDeviceFeatures_set_maxTaskMeshes(Device::Features &self, uint32_t maxTaskMeshes) {
-		self.maxTaskMeshes = maxTaskMeshes;
+	TS_JSAPI void tsDeviceFeatures_set_maxMeshSize(Device::Features &self, uint32_t maxMeshSize) {
+		self.maxMeshSize = maxMeshSize;
 	}
-	TS_JSAPI uint32_t tsDeviceFeatures_get_maxTaskMeshes(const Device::Features &self) {
-		return self.maxTaskMeshes;
+	TS_JSAPI uint32_t tsDeviceFeatures_get_maxMeshSize(const Device::Features &self) {
+		return self.maxMeshSize;
+	}
+	TS_JSAPI void tsDeviceFeatures_set_maxMeshSizeX(Device::Features &self, uint32_t maxMeshSizeX) {
+		self.maxMeshSizeX = maxMeshSizeX;
+	}
+	TS_JSAPI uint32_t tsDeviceFeatures_get_maxMeshSizeX(const Device::Features &self) {
+		return self.maxMeshSizeX;
+	}
+	TS_JSAPI void tsDeviceFeatures_set_maxMeshSizeY(Device::Features &self, uint32_t maxMeshSizeY) {
+		self.maxMeshSizeY = maxMeshSizeY;
+	}
+	TS_JSAPI uint32_t tsDeviceFeatures_get_maxMeshSizeY(const Device::Features &self) {
+		return self.maxMeshSizeY;
+	}
+	TS_JSAPI void tsDeviceFeatures_set_maxMeshSizeZ(Device::Features &self, uint32_t maxMeshSizeZ) {
+		self.maxMeshSizeZ = maxMeshSizeZ;
+	}
+	TS_JSAPI uint32_t tsDeviceFeatures_get_maxMeshSizeZ(const Device::Features &self) {
+		return self.maxMeshSizeZ;
+	}
+	TS_JSAPI void tsDeviceFeatures_set_maxMeshCount(Device::Features &self, uint32_t maxMeshCount) {
+		self.maxMeshCount = maxMeshCount;
+	}
+	TS_JSAPI uint32_t tsDeviceFeatures_get_maxMeshCount(const Device::Features &self) {
+		return self.maxMeshCount;
+	}
+	TS_JSAPI void tsDeviceFeatures_set_maxMeshCountX(Device::Features &self, uint32_t maxMeshCountX) {
+		self.maxMeshCountX = maxMeshCountX;
+	}
+	TS_JSAPI uint32_t tsDeviceFeatures_get_maxMeshCountX(const Device::Features &self) {
+		return self.maxMeshCountX;
+	}
+	TS_JSAPI void tsDeviceFeatures_set_maxMeshCountY(Device::Features &self, uint32_t maxMeshCountY) {
+		self.maxMeshCountY = maxMeshCountY;
+	}
+	TS_JSAPI uint32_t tsDeviceFeatures_get_maxMeshCountY(const Device::Features &self) {
+		return self.maxMeshCountY;
+	}
+	TS_JSAPI void tsDeviceFeatures_set_maxMeshCountZ(Device::Features &self, uint32_t maxMeshCountZ) {
+		self.maxMeshCountZ = maxMeshCountZ;
+	}
+	TS_JSAPI uint32_t tsDeviceFeatures_get_maxMeshCountZ(const Device::Features &self) {
+		return self.maxMeshCountZ;
 	}
 	TS_JSAPI void tsDeviceFeatures_set_maxMeshMemory(Device::Features &self, uint32_t maxMeshMemory) {
 		self.maxMeshMemory = maxMeshMemory;
@@ -12647,6 +12737,15 @@ namespace Tellusim {
 	TS_JSAPI const Color *tsControlText_getColor(const ControlText &self) {
 		return new Color(self.getColor());
 	}
+	TS_JSAPI void tsControlText_setStateColor(ControlText &self, uint32_t state, const Color &color) {
+		self.setStateColor((Control::State)state, color);
+	}
+	TS_JSAPI void tsControlText_setStateColor_1(ControlText &self, uint32_t state, float32_t r, float32_t g, float32_t b, float32_t a) {
+		self.setStateColor((Control::State)state, r, g, b, a);
+	}
+	TS_JSAPI uint32_t tsControlText_getStateColor(const ControlText &self, uint32_t state) {
+		return self.getStateColor((Control::State)state);
+	}
 	TS_JSAPI void tsControlText_setFilter(ControlText &self, uint32_t filter) {
 		self.setFilter((Sampler::Filter)filter);
 	}
@@ -12830,6 +12929,15 @@ namespace Tellusim {
 	}
 	TS_JSAPI const Color *tsControlRect_getColor(const ControlRect &self) {
 		return new Color(self.getColor());
+	}
+	TS_JSAPI void tsControlRect_setStateColor(ControlRect &self, uint32_t state, const Color &color) {
+		self.setStateColor((Control::State)state, color);
+	}
+	TS_JSAPI void tsControlRect_setStateColor_1(ControlRect &self, uint32_t state, float32_t r, float32_t g, float32_t b, float32_t a) {
+		self.setStateColor((Control::State)state, r, g, b, a);
+	}
+	TS_JSAPI uint32_t tsControlRect_getStateColor(const ControlRect &self, uint32_t state) {
+		return self.getStateColor((Control::State)state);
 	}
 	TS_JSAPI void tsControlRect_setStrokeStyle(ControlRect &self, const StrokeStyle &style) {
 		self.setStrokeStyle(style);
@@ -15512,11 +15620,11 @@ namespace Tellusim {
 	TS_JSAPI uint32_t tsCubeFilter_getHarmonics(const CubeFilter &self) {
 		return self.getHarmonics();
 	}
-	TS_JSAPI bool tsCubeFilter_create(CubeFilter &self, const Device &device, uint32_t mode, uint32_t order, uint32_t size, uint32_t groups) {
-		return self.create(device, (CubeFilter::Mode)mode, order, size, groups);
+	TS_JSAPI bool tsCubeFilter_create(CubeFilter &self, const Device &device, uint32_t mode, uint32_t order, uint32_t size, uint32_t threads) {
+		return self.create(device, (CubeFilter::Mode)mode, order, size, threads);
 	}
-	TS_JSAPI bool tsCubeFilter_create_1(CubeFilter &self, const Device &device, uint32_t flags, uint32_t order, uint32_t size, uint32_t groups) {
-		return self.create(device, (CubeFilter::Flags)flags, order, size, groups);
+	TS_JSAPI bool tsCubeFilter_create_1(CubeFilter &self, const Device &device, uint32_t flags, uint32_t order, uint32_t size, uint32_t threads) {
+		return self.create(device, (CubeFilter::Flags)flags, order, size, threads);
 	}
 	TS_JSAPI bool tsCubeFilter_dispatch(const CubeFilter &self, Compute &compute, Buffer &buffer, uint32_t offset, Texture &texture, const Slice &slice) {
 		return self.dispatch(compute, buffer, offset, texture, slice);
@@ -16191,11 +16299,11 @@ namespace Tellusim {
 	TS_JSAPI uint32_t tsPrefixScan_getMaxRegions(const PrefixScan &self) {
 		return self.getMaxRegions();
 	}
-	TS_JSAPI bool tsPrefixScan_create(PrefixScan &self, const Device &device, uint32_t mode, uint32_t groups, uint32_t regions, Async *async) {
-		return self.create(device, (PrefixScan::Mode)mode, groups, regions, async);
+	TS_JSAPI bool tsPrefixScan_create(PrefixScan &self, const Device &device, uint32_t mode, uint32_t threads, uint32_t regions, Async *async) {
+		return self.create(device, (PrefixScan::Mode)mode, threads, regions, async);
 	}
-	TS_JSAPI bool tsPrefixScan_create_1(PrefixScan &self, const Device &device, uint32_t flags, uint32_t groups, uint32_t regions, Async *async) {
-		return self.create(device, (PrefixScan::Flags)flags, groups, regions, async);
+	TS_JSAPI bool tsPrefixScan_create_1(PrefixScan &self, const Device &device, uint32_t flags, uint32_t threads, uint32_t regions, Async *async) {
+		return self.create(device, (PrefixScan::Flags)flags, threads, regions, async);
 	}
 	TS_JSAPI bool tsPrefixScan_dispatch(PrefixScan &self, Compute &compute, Buffer &data, uint32_t offset, uint32_t size, uint32_t stride) {
 		return self.dispatch(compute, data, offset, size, stride);
@@ -16312,11 +16420,11 @@ namespace Tellusim {
 	TS_JSAPI Buffer *tsRadixSort_getDataBuffer(const RadixSort &self) {
 		return new Buffer(self.getDataBuffer());
 	}
-	TS_JSAPI bool tsRadixSort_create(RadixSort &self, const Device &device, uint32_t mode, PrefixScan &scan, uint32_t size, uint32_t groups, uint32_t regions, Async *async) {
-		return self.create(device, (RadixSort::Mode)mode, scan, size, groups, regions, async);
+	TS_JSAPI bool tsRadixSort_create(RadixSort &self, const Device &device, uint32_t mode, PrefixScan &scan, uint32_t size, uint32_t threads, uint32_t regions, Async *async) {
+		return self.create(device, (RadixSort::Mode)mode, scan, size, threads, regions, async);
 	}
-	TS_JSAPI bool tsRadixSort_create_1(RadixSort &self, const Device &device, uint32_t flags, PrefixScan &scan, uint32_t size, uint32_t groups, uint32_t regions, Async *async) {
-		return self.create(device, (RadixSort::Flags)flags, scan, size, groups, regions, async);
+	TS_JSAPI bool tsRadixSort_create_1(RadixSort &self, const Device &device, uint32_t flags, PrefixScan &scan, uint32_t size, uint32_t threads, uint32_t regions, Async *async) {
+		return self.create(device, (RadixSort::Flags)flags, scan, size, threads, regions, async);
 	}
 	TS_JSAPI bool tsRadixSort_dispatch(RadixSort &self, Compute &compute, Buffer &data, uint32_t keys_offset, uint32_t data_offset, uint32_t size, uint32_t flags, uint32_t bits) {
 		return self.dispatch(compute, data, keys_offset, data_offset, size, (RadixSort::Flags)flags, bits);
@@ -16421,11 +16529,11 @@ namespace Tellusim {
 	TS_JSAPI uint32_t tsBitonicSort_getMaxRegions(const BitonicSort &self) {
 		return self.getMaxRegions();
 	}
-	TS_JSAPI bool tsBitonicSort_create(BitonicSort &self, const Device &device, uint32_t mode, uint32_t size, uint32_t groups, uint32_t regions, Async *async) {
-		return self.create(device, (BitonicSort::Mode)mode, size, groups, regions, async);
+	TS_JSAPI bool tsBitonicSort_create(BitonicSort &self, const Device &device, uint32_t mode, uint32_t size, uint32_t threads, uint32_t regions, Async *async) {
+		return self.create(device, (BitonicSort::Mode)mode, size, threads, regions, async);
 	}
-	TS_JSAPI bool tsBitonicSort_create_1(BitonicSort &self, const Device &device, uint32_t flags, uint32_t size, uint32_t groups, uint32_t regions, Async *async) {
-		return self.create(device, (BitonicSort::Flags)flags, size, groups, regions, async);
+	TS_JSAPI bool tsBitonicSort_create_1(BitonicSort &self, const Device &device, uint32_t flags, uint32_t size, uint32_t threads, uint32_t regions, Async *async) {
+		return self.create(device, (BitonicSort::Flags)flags, size, threads, regions, async);
 	}
 	TS_JSAPI bool tsBitonicSort_dispatch(BitonicSort &self, Compute &compute, Buffer &data, uint32_t keys_offset, uint32_t data_offset, uint32_t size, uint32_t flags) {
 		return self.dispatch(compute, data, keys_offset, data_offset, size, (BitonicSort::Flags)flags);
@@ -16518,8 +16626,8 @@ namespace Tellusim {
 	TS_JSAPI RadixSort *tsSpatialGrid_getRadixSort(const SpatialGrid &self) {
 		return new RadixSort(self.getRadixSort());
 	}
-	TS_JSAPI bool tsSpatialGrid_create(SpatialGrid &self, const Device &device, RadixSort &sort, uint32_t groups) {
-		return self.create(device, sort, groups);
+	TS_JSAPI bool tsSpatialGrid_create(SpatialGrid &self, const Device &device, RadixSort &sort, uint32_t threads) {
+		return self.create(device, sort, threads);
 	}
 	TS_JSAPI bool tsSpatialGrid_dispatch(SpatialGrid &self, Compute &compute, Buffer &data, uint32_t offset, uint32_t size, uint32_t bits) {
 		return self.dispatch(compute, data, offset, size, bits);
@@ -16743,11 +16851,11 @@ namespace Tellusim {
 	TS_JSAPI Buffer *tsSpatialTree_getCounterBuffer(const SpatialTree &self) {
 		return new Buffer(self.getCounterBuffer());
 	}
-	TS_JSAPI bool tsSpatialTree_create(SpatialTree &self, const Device &device, uint32_t mode, RadixSort &sort, uint32_t size, uint32_t groups, uint32_t regions, Async *async) {
-		return self.create(device, (SpatialTree::Mode)mode, sort, size, groups, regions, async);
+	TS_JSAPI bool tsSpatialTree_create(SpatialTree &self, const Device &device, uint32_t mode, RadixSort &sort, uint32_t size, uint32_t threads, uint32_t regions, Async *async) {
+		return self.create(device, (SpatialTree::Mode)mode, sort, size, threads, regions, async);
 	}
-	TS_JSAPI bool tsSpatialTree_create_1(SpatialTree &self, const Device &device, uint32_t flags, RadixSort &sort, uint32_t size, uint32_t groups, uint32_t regions, Async *async) {
-		return self.create(device, (SpatialTree::Flags)flags, sort, size, groups, regions, async);
+	TS_JSAPI bool tsSpatialTree_create_1(SpatialTree &self, const Device &device, uint32_t flags, RadixSort &sort, uint32_t size, uint32_t threads, uint32_t regions, Async *async) {
+		return self.create(device, (SpatialTree::Flags)flags, sort, size, threads, regions, async);
 	}
 	TS_JSAPI bool tsSpatialTree_dispatch(SpatialTree &self, Compute &compute, uint32_t hash, Buffer &nodes, uint32_t offset, uint32_t size, uint32_t flags) {
 		return self.dispatch(compute, (SpatialTree::Hash)hash, nodes, offset, size, (SpatialTree::Flags)flags);
@@ -17529,6 +17637,19 @@ namespace Tellusim {
 		return System::open(command);
 	}
 	
+	// Tellusim::MeshBoolean
+	TS_JSAPI bool tsMeshBoolean_intersect(MeshGeometry &dest, const MeshGeometry &src_0, const MeshGeometry &src_1, uint32_t op) {
+		return MeshBoolean::intersect(dest, src_0, src_1, (MeshBoolean::Operation)op);
+	}
+	TS_JSAPI bool tsMeshBoolean_intersect_1(MeshGeometry &dest_0, MeshGeometry &dest_1, const MeshGeometry &src_0, const MeshGeometry &src_1, uint32_t op) {
+		return MeshBoolean::intersect(dest_0, dest_1, src_0, src_1, (MeshBoolean::Operation)op);
+	}
+	
+	// Tellusim::MeshFracture
+	TS_JSAPI bool tsMeshFracture_split(Mesh &dest, const Mesh &src, const Vector3f *points, uint32_t num_points, const Vector2f &texcoord, float32_t threshold, float32_t collapse, float32_t volume, Async *async) {
+		return MeshFracture::split(dest, src, points, num_points, texcoord, threshold, collapse, volume, async);
+	}
+	
 	// Tellusim::MeshGraph
 	static bool mesh_graph_progress_callback(uint32_t progress) {
 		return EM_ASM_INT({ return tsMeshGraph.progress_callback($0); }, progress) != 0;
@@ -17570,6 +17691,14 @@ namespace Tellusim {
 	TS_JSAPI bool tsMeshSolid_create_1(MeshGeometry &dest, const MeshGeometry &src, float32_t ratio, float32_t threshold, bool func, uint32_t position) {
 		auto func_ts = makeFunction(mesh_solid_progress_callback);
 		return MeshSolid::create(dest, src, ratio, threshold, (func) ? &func_ts : nullptr, position);
+	}
+	
+	// Tellusim::MeshSplit
+	TS_JSAPI bool tsMeshSplit_split(Mesh &front, Mesh &cross, Mesh &back, const Mesh &src, const Matrix4x3f &basis) {
+		return MeshSplit::split(front, cross, back, src, basis);
+	}
+	TS_JSAPI bool tsMeshSplit_split_1(MeshGeometry &front, MeshGeometry &cross, MeshGeometry &back, const MeshGeometry &src, const Matrix4x3f &basis, uint32_t position) {
+		return MeshSplit::split(front, cross, back, src, basis, position);
 	}
 	
 	} /* extern "C" */

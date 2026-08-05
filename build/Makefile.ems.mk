@@ -31,7 +31,7 @@ endif
 #
 CFLAGS += -std=c++11 -Wall -Wfloat-conversion -Os -ffast-math -fvisibility=hidden
 CFLAGS += -D_EMSCRIPTEN=1 -DTS_CORE=1 -I$(TSROOT)/include -I$(TSROOT)/plugins
-CFLAGS += -Wno-undefined-var-template -Wno-nontrivial-memcall
+CFLAGS += -Wno-undefined-var-template -Wno-nontrivial-memcall -Wno-unused-template
 CFLAGS += --use-port=emdawnwebgpu
 LDFLAGS += -s EXPORTED_RUNTIME_METHODS="['ccall','requestFullscreen']"
 LDFLAGS += -s STACK_SIZE=32MB -s TOTAL_MEMORY=256MB -s ALLOW_MEMORY_GROWTH=1

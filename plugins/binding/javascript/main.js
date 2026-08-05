@@ -126,7 +126,7 @@ function main(ts, app) {
 	});
 	
 	let title = window.platform_name + ' Tellusim::JavaScript';
-	if(!window.create(title, ts.Window.Flags.DefaultFlags | ts.Window.Flags.VerticalSync) || !window.setHidden(false)) return;
+	if(!window.create(title, ts.Window.Flags.Default | ts.Window.Flags.VerticalSync) || !window.setHidden(false)) return;
 	
 	// create device
 	let device = new ts.Device(window);

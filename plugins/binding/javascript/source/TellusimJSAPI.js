@@ -521,7 +521,9 @@ tsApp.Values = Object.freeze({
 	Version_41 : 20250816,
 	Version_42 : 20251102,
 	Version_43 : 20251220,
-	Version : 20251220,
+	Version_44 : 20260625,
+	Version_45 : 20260702,
+	Version : 20260702,
 });
 tsApp.prototype['clear'] = tsApp.prototype.clear = function() {
 	if(arguments.length == 0) return _tsApp_clear(this.self);
@@ -570,8 +572,8 @@ tsApp.prototype['isArgument'] = tsApp.prototype.isArgument = function() {
 };
 tsApp.prototype['create'] = tsApp.prototype.create = function() {
 	if(arguments.length == 2) return _tsApp_create(this.self, arguments[0], arguments[1]);
-	if(arguments.length == 1) return _tsApp_create(this.self, arguments[0], 20251220);
-	if(arguments.length == 0) return _tsApp_create(this.self, 0, 20251220);
+	if(arguments.length == 1) return _tsApp_create(this.self, arguments[0], 20260702);
+	if(arguments.length == 0) return _tsApp_create(this.self, 0, 20260702);
 	throw 'invalid App.create() arguments';
 };
 tsApp['setPlatform'] = tsApp.setPlatform = function() {
@@ -1969,7 +1971,7 @@ tsImage.Flags = Object.freeze({
 	Normalize : 256,
 	Gamma : 512,
 	SRGB : 1024,
-	NumFlags : 11,
+	Num : 11,
 });
 tsImage.Filter = Object.freeze({
 	Unknown : 0,
@@ -3412,7 +3414,8 @@ tsMeshAttribute.prototype['unpackAttributes'] = tsMeshAttribute.prototype.unpack
 	throw 'invalid MeshAttribute.unpackAttributes() arguments';
 };
 tsMeshAttribute.prototype['optimizeAttribute'] = tsMeshAttribute.prototype.optimizeAttribute = function() {
-	if(arguments.length == 1 && arguments[0] instanceof tsMeshIndices) return ts_new(tsMeshAttribute, _tsMeshAttribute_optimizeAttribute(this.self, arguments[0].self));
+	if(arguments.length == 2 && arguments[0] instanceof tsMeshIndices) return ts_new(tsMeshAttribute, _tsMeshAttribute_optimizeAttribute(this.self, arguments[0].self, arguments[1]));
+	if(arguments.length == 1 && arguments[0] instanceof tsMeshIndices) return ts_new(tsMeshAttribute, _tsMeshAttribute_optimizeAttribute(this.self, arguments[0].self, 0.0));
 	throw 'invalid MeshAttribute.optimizeAttribute() arguments';
 };
 tsMeshAttribute.prototype['toDirect'] = tsMeshAttribute.prototype.toDirect = function() {
@@ -5873,8 +5876,8 @@ tsBuffer.Flags = Object.freeze({
 	Index : 262144,
 	Texel : 524288,
 	Accel : 1048576,
-	DefaultFlags : 0,
-	NumFlags : 21,
+	Default : 0,
+	Num : 21,
 });
 tsBuffer.prototype['getPlatform'] = tsBuffer.prototype.getPlatform = function() {
 	if(arguments.length == 0) return _tsBuffer_getPlatform(this.self);
@@ -7099,8 +7102,8 @@ tsFence.Flags = Object.freeze({
 	Signaled : 2,
 	Shared : 4,
 	Extern : 8,
-	DefaultFlags : 0,
-	NumFlags : 4,
+	Default : 0,
+	Num : 4,
 });
 tsFence.prototype['getPlatform'] = tsFence.prototype.getPlatform = function() {
 	if(arguments.length == 0) return _tsFence_getPlatform(this.self);
@@ -7875,8 +7878,8 @@ tsTexture.Flags = Object.freeze({
 	ClearZero : 1048576,
 	ClearNormal : 2097152,
 	Multisample : 458752,
-	DefaultFlags : 0,
-	NumFlags : 22,
+	Default : 0,
+	Num : 22,
 });
 tsTexture.prototype['getPlatform'] = tsTexture.prototype.getPlatform = function() {
 	if(arguments.length == 0) return _tsTexture_getPlatform(this.self);
@@ -8412,8 +8415,8 @@ tsTracing.Flags = Object.freeze({
 	Transparent : 8,
 	FastBuild : 16,
 	FastTrace : 32,
-	DefaultFlags : 0,
-	NumFlags : 6,
+	Default : 0,
+	Num : 6,
 });
 tsTracing.Values = Object.freeze({
 	InstanceSize : 64,
@@ -9182,6 +9185,9 @@ Object.defineProperty(tsDevice.Features.prototype, 'maxTextureLayers', { get: ts
 tsDevice.Features.prototype['set_maxTextureSamples'] = tsDevice.Features.prototype.set_maxTextureSamples = function(v) { _tsDeviceFeatures_set_maxTextureSamples(this.self, v); };
 tsDevice.Features.prototype['get_maxTextureSamples'] = tsDevice.Features.prototype.get_maxTextureSamples = function() { return _tsDeviceFeatures_get_maxTextureSamples(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'maxTextureSamples', { get: tsDevice.Features.prototype.get_maxTextureSamples, set: tsDevice.Features.prototype.set_maxTextureSamples });
+tsDevice.Features.prototype['set_maxGroupSize'] = tsDevice.Features.prototype.set_maxGroupSize = function(v) { _tsDeviceFeatures_set_maxGroupSize(this.self, v); };
+tsDevice.Features.prototype['get_maxGroupSize'] = tsDevice.Features.prototype.get_maxGroupSize = function() { return _tsDeviceFeatures_get_maxGroupSize(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'maxGroupSize', { get: tsDevice.Features.prototype.get_maxGroupSize, set: tsDevice.Features.prototype.set_maxGroupSize });
 tsDevice.Features.prototype['set_maxGroupSizeX'] = tsDevice.Features.prototype.set_maxGroupSizeX = function(v) { _tsDeviceFeatures_set_maxGroupSizeX(this.self, v); };
 tsDevice.Features.prototype['get_maxGroupSizeX'] = tsDevice.Features.prototype.get_maxGroupSizeX = function() { return _tsDeviceFeatures_get_maxGroupSizeX(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'maxGroupSizeX', { get: tsDevice.Features.prototype.get_maxGroupSizeX, set: tsDevice.Features.prototype.set_maxGroupSizeX });
@@ -9200,15 +9206,57 @@ Object.defineProperty(tsDevice.Features.prototype, 'maxGroupCountY', { get: tsDe
 tsDevice.Features.prototype['set_maxGroupCountZ'] = tsDevice.Features.prototype.set_maxGroupCountZ = function(v) { _tsDeviceFeatures_set_maxGroupCountZ(this.self, v); };
 tsDevice.Features.prototype['get_maxGroupCountZ'] = tsDevice.Features.prototype.get_maxGroupCountZ = function() { return _tsDeviceFeatures_get_maxGroupCountZ(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'maxGroupCountZ', { get: tsDevice.Features.prototype.get_maxGroupCountZ, set: tsDevice.Features.prototype.set_maxGroupCountZ });
+tsDevice.Features.prototype['set_maxTaskSize'] = tsDevice.Features.prototype.set_maxTaskSize = function(v) { _tsDeviceFeatures_set_maxTaskSize(this.self, v); };
+tsDevice.Features.prototype['get_maxTaskSize'] = tsDevice.Features.prototype.get_maxTaskSize = function() { return _tsDeviceFeatures_get_maxTaskSize(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'maxTaskSize', { get: tsDevice.Features.prototype.get_maxTaskSize, set: tsDevice.Features.prototype.set_maxTaskSize });
+tsDevice.Features.prototype['set_maxTaskSizeX'] = tsDevice.Features.prototype.set_maxTaskSizeX = function(v) { _tsDeviceFeatures_set_maxTaskSizeX(this.self, v); };
+tsDevice.Features.prototype['get_maxTaskSizeX'] = tsDevice.Features.prototype.get_maxTaskSizeX = function() { return _tsDeviceFeatures_get_maxTaskSizeX(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'maxTaskSizeX', { get: tsDevice.Features.prototype.get_maxTaskSizeX, set: tsDevice.Features.prototype.set_maxTaskSizeX });
+tsDevice.Features.prototype['set_maxTaskSizeY'] = tsDevice.Features.prototype.set_maxTaskSizeY = function(v) { _tsDeviceFeatures_set_maxTaskSizeY(this.self, v); };
+tsDevice.Features.prototype['get_maxTaskSizeY'] = tsDevice.Features.prototype.get_maxTaskSizeY = function() { return _tsDeviceFeatures_get_maxTaskSizeY(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'maxTaskSizeY', { get: tsDevice.Features.prototype.get_maxTaskSizeY, set: tsDevice.Features.prototype.set_maxTaskSizeY });
+tsDevice.Features.prototype['set_maxTaskSizeZ'] = tsDevice.Features.prototype.set_maxTaskSizeZ = function(v) { _tsDeviceFeatures_set_maxTaskSizeZ(this.self, v); };
+tsDevice.Features.prototype['get_maxTaskSizeZ'] = tsDevice.Features.prototype.get_maxTaskSizeZ = function() { return _tsDeviceFeatures_get_maxTaskSizeZ(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'maxTaskSizeZ', { get: tsDevice.Features.prototype.get_maxTaskSizeZ, set: tsDevice.Features.prototype.set_maxTaskSizeZ });
 tsDevice.Features.prototype['set_maxTaskCount'] = tsDevice.Features.prototype.set_maxTaskCount = function(v) { _tsDeviceFeatures_set_maxTaskCount(this.self, v); };
 tsDevice.Features.prototype['get_maxTaskCount'] = tsDevice.Features.prototype.get_maxTaskCount = function() { return _tsDeviceFeatures_get_maxTaskCount(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'maxTaskCount', { get: tsDevice.Features.prototype.get_maxTaskCount, set: tsDevice.Features.prototype.set_maxTaskCount });
+tsDevice.Features.prototype['set_maxTaskCountX'] = tsDevice.Features.prototype.set_maxTaskCountX = function(v) { _tsDeviceFeatures_set_maxTaskCountX(this.self, v); };
+tsDevice.Features.prototype['get_maxTaskCountX'] = tsDevice.Features.prototype.get_maxTaskCountX = function() { return _tsDeviceFeatures_get_maxTaskCountX(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'maxTaskCountX', { get: tsDevice.Features.prototype.get_maxTaskCountX, set: tsDevice.Features.prototype.set_maxTaskCountX });
+tsDevice.Features.prototype['set_maxTaskCountY'] = tsDevice.Features.prototype.set_maxTaskCountY = function(v) { _tsDeviceFeatures_set_maxTaskCountY(this.self, v); };
+tsDevice.Features.prototype['get_maxTaskCountY'] = tsDevice.Features.prototype.get_maxTaskCountY = function() { return _tsDeviceFeatures_get_maxTaskCountY(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'maxTaskCountY', { get: tsDevice.Features.prototype.get_maxTaskCountY, set: tsDevice.Features.prototype.set_maxTaskCountY });
+tsDevice.Features.prototype['set_maxTaskCountZ'] = tsDevice.Features.prototype.set_maxTaskCountZ = function(v) { _tsDeviceFeatures_set_maxTaskCountZ(this.self, v); };
+tsDevice.Features.prototype['get_maxTaskCountZ'] = tsDevice.Features.prototype.get_maxTaskCountZ = function() { return _tsDeviceFeatures_get_maxTaskCountZ(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'maxTaskCountZ', { get: tsDevice.Features.prototype.get_maxTaskCountZ, set: tsDevice.Features.prototype.set_maxTaskCountZ });
 tsDevice.Features.prototype['set_maxTaskMemory'] = tsDevice.Features.prototype.set_maxTaskMemory = function(v) { _tsDeviceFeatures_set_maxTaskMemory(this.self, v); };
 tsDevice.Features.prototype['get_maxTaskMemory'] = tsDevice.Features.prototype.get_maxTaskMemory = function() { return _tsDeviceFeatures_get_maxTaskMemory(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'maxTaskMemory', { get: tsDevice.Features.prototype.get_maxTaskMemory, set: tsDevice.Features.prototype.set_maxTaskMemory });
-tsDevice.Features.prototype['set_maxTaskMeshes'] = tsDevice.Features.prototype.set_maxTaskMeshes = function(v) { _tsDeviceFeatures_set_maxTaskMeshes(this.self, v); };
-tsDevice.Features.prototype['get_maxTaskMeshes'] = tsDevice.Features.prototype.get_maxTaskMeshes = function() { return _tsDeviceFeatures_get_maxTaskMeshes(this.self); };
-Object.defineProperty(tsDevice.Features.prototype, 'maxTaskMeshes', { get: tsDevice.Features.prototype.get_maxTaskMeshes, set: tsDevice.Features.prototype.set_maxTaskMeshes });
+tsDevice.Features.prototype['set_maxMeshSize'] = tsDevice.Features.prototype.set_maxMeshSize = function(v) { _tsDeviceFeatures_set_maxMeshSize(this.self, v); };
+tsDevice.Features.prototype['get_maxMeshSize'] = tsDevice.Features.prototype.get_maxMeshSize = function() { return _tsDeviceFeatures_get_maxMeshSize(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'maxMeshSize', { get: tsDevice.Features.prototype.get_maxMeshSize, set: tsDevice.Features.prototype.set_maxMeshSize });
+tsDevice.Features.prototype['set_maxMeshSizeX'] = tsDevice.Features.prototype.set_maxMeshSizeX = function(v) { _tsDeviceFeatures_set_maxMeshSizeX(this.self, v); };
+tsDevice.Features.prototype['get_maxMeshSizeX'] = tsDevice.Features.prototype.get_maxMeshSizeX = function() { return _tsDeviceFeatures_get_maxMeshSizeX(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'maxMeshSizeX', { get: tsDevice.Features.prototype.get_maxMeshSizeX, set: tsDevice.Features.prototype.set_maxMeshSizeX });
+tsDevice.Features.prototype['set_maxMeshSizeY'] = tsDevice.Features.prototype.set_maxMeshSizeY = function(v) { _tsDeviceFeatures_set_maxMeshSizeY(this.self, v); };
+tsDevice.Features.prototype['get_maxMeshSizeY'] = tsDevice.Features.prototype.get_maxMeshSizeY = function() { return _tsDeviceFeatures_get_maxMeshSizeY(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'maxMeshSizeY', { get: tsDevice.Features.prototype.get_maxMeshSizeY, set: tsDevice.Features.prototype.set_maxMeshSizeY });
+tsDevice.Features.prototype['set_maxMeshSizeZ'] = tsDevice.Features.prototype.set_maxMeshSizeZ = function(v) { _tsDeviceFeatures_set_maxMeshSizeZ(this.self, v); };
+tsDevice.Features.prototype['get_maxMeshSizeZ'] = tsDevice.Features.prototype.get_maxMeshSizeZ = function() { return _tsDeviceFeatures_get_maxMeshSizeZ(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'maxMeshSizeZ', { get: tsDevice.Features.prototype.get_maxMeshSizeZ, set: tsDevice.Features.prototype.set_maxMeshSizeZ });
+tsDevice.Features.prototype['set_maxMeshCount'] = tsDevice.Features.prototype.set_maxMeshCount = function(v) { _tsDeviceFeatures_set_maxMeshCount(this.self, v); };
+tsDevice.Features.prototype['get_maxMeshCount'] = tsDevice.Features.prototype.get_maxMeshCount = function() { return _tsDeviceFeatures_get_maxMeshCount(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'maxMeshCount', { get: tsDevice.Features.prototype.get_maxMeshCount, set: tsDevice.Features.prototype.set_maxMeshCount });
+tsDevice.Features.prototype['set_maxMeshCountX'] = tsDevice.Features.prototype.set_maxMeshCountX = function(v) { _tsDeviceFeatures_set_maxMeshCountX(this.self, v); };
+tsDevice.Features.prototype['get_maxMeshCountX'] = tsDevice.Features.prototype.get_maxMeshCountX = function() { return _tsDeviceFeatures_get_maxMeshCountX(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'maxMeshCountX', { get: tsDevice.Features.prototype.get_maxMeshCountX, set: tsDevice.Features.prototype.set_maxMeshCountX });
+tsDevice.Features.prototype['set_maxMeshCountY'] = tsDevice.Features.prototype.set_maxMeshCountY = function(v) { _tsDeviceFeatures_set_maxMeshCountY(this.self, v); };
+tsDevice.Features.prototype['get_maxMeshCountY'] = tsDevice.Features.prototype.get_maxMeshCountY = function() { return _tsDeviceFeatures_get_maxMeshCountY(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'maxMeshCountY', { get: tsDevice.Features.prototype.get_maxMeshCountY, set: tsDevice.Features.prototype.set_maxMeshCountY });
+tsDevice.Features.prototype['set_maxMeshCountZ'] = tsDevice.Features.prototype.set_maxMeshCountZ = function(v) { _tsDeviceFeatures_set_maxMeshCountZ(this.self, v); };
+tsDevice.Features.prototype['get_maxMeshCountZ'] = tsDevice.Features.prototype.get_maxMeshCountZ = function() { return _tsDeviceFeatures_get_maxMeshCountZ(this.self); };
+Object.defineProperty(tsDevice.Features.prototype, 'maxMeshCountZ', { get: tsDevice.Features.prototype.get_maxMeshCountZ, set: tsDevice.Features.prototype.set_maxMeshCountZ });
 tsDevice.Features.prototype['set_maxMeshMemory'] = tsDevice.Features.prototype.set_maxMeshMemory = function(v) { _tsDeviceFeatures_set_maxMeshMemory(this.self, v); };
 tsDevice.Features.prototype['get_maxMeshMemory'] = tsDevice.Features.prototype.get_maxMeshMemory = function() { return _tsDeviceFeatures_get_maxMeshMemory(this.self); };
 Object.defineProperty(tsDevice.Features.prototype, 'maxMeshMemory', { get: tsDevice.Features.prototype.get_maxMeshMemory, set: tsDevice.Features.prototype.set_maxMeshMemory });
@@ -9310,15 +9358,30 @@ tsDevice.Features.prototype['toString'] = tsDevice.Features.prototype.toString =
 	ret += '\nmaxTexture3DSize: ' + this.maxTexture3DSize;
 	ret += '\nmaxTextureLayers: ' + this.maxTextureLayers;
 	ret += '\nmaxTextureSamples: ' + this.maxTextureSamples;
+	ret += '\nmaxGroupSize: ' + this.maxGroupSize;
 	ret += '\nmaxGroupSizeX: ' + this.maxGroupSizeX;
 	ret += '\nmaxGroupSizeY: ' + this.maxGroupSizeY;
 	ret += '\nmaxGroupSizeZ: ' + this.maxGroupSizeZ;
 	ret += '\nmaxGroupCountX: ' + this.maxGroupCountX;
 	ret += '\nmaxGroupCountY: ' + this.maxGroupCountY;
 	ret += '\nmaxGroupCountZ: ' + this.maxGroupCountZ;
+	ret += '\nmaxTaskSize: ' + this.maxTaskSize;
+	ret += '\nmaxTaskSizeX: ' + this.maxTaskSizeX;
+	ret += '\nmaxTaskSizeY: ' + this.maxTaskSizeY;
+	ret += '\nmaxTaskSizeZ: ' + this.maxTaskSizeZ;
 	ret += '\nmaxTaskCount: ' + this.maxTaskCount;
+	ret += '\nmaxTaskCountX: ' + this.maxTaskCountX;
+	ret += '\nmaxTaskCountY: ' + this.maxTaskCountY;
+	ret += '\nmaxTaskCountZ: ' + this.maxTaskCountZ;
 	ret += '\nmaxTaskMemory: ' + this.maxTaskMemory;
-	ret += '\nmaxTaskMeshes: ' + this.maxTaskMeshes;
+	ret += '\nmaxMeshSize: ' + this.maxMeshSize;
+	ret += '\nmaxMeshSizeX: ' + this.maxMeshSizeX;
+	ret += '\nmaxMeshSizeY: ' + this.maxMeshSizeY;
+	ret += '\nmaxMeshSizeZ: ' + this.maxMeshSizeZ;
+	ret += '\nmaxMeshCount: ' + this.maxMeshCount;
+	ret += '\nmaxMeshCountX: ' + this.maxMeshCountX;
+	ret += '\nmaxMeshCountY: ' + this.maxMeshCountY;
+	ret += '\nmaxMeshCountZ: ' + this.maxMeshCountZ;
 	ret += '\nmaxMeshMemory: ' + this.maxMeshMemory;
 	ret += '\nmaxMeshVertices: ' + this.maxMeshVertices;
 	ret += '\nmaxMeshPrimitives: ' + this.maxMeshPrimitives;
@@ -11911,8 +11974,8 @@ tsWindow.Flags = Object.freeze({
 	ColorRGBu10Au2n : 65536,
 	ColorRGBAf16 : 131072,
 	Multisample : 7168,
-	DefaultFlags : 59,
-	NumFlags : 18,
+	Default : 59,
+	Num : 18,
 });
 tsWindow.Cursor = Object.freeze({
 	Arrow : 0,
@@ -15171,6 +15234,15 @@ tsControlText.prototype['getColor'] = tsControlText.prototype.getColor = functio
 	throw 'invalid ControlText.getColor() arguments';
 };
 Object.defineProperty(tsControlText.prototype, 'color', { get: tsControlText.prototype.getColor });
+tsControlText.prototype['setStateColor'] = tsControlText.prototype.setStateColor = function() {
+	if(arguments.length == 5) return _tsControlText_setStateColor_1(this.self, arguments[0], arguments[1], arguments[2], arguments[3], arguments[4]);
+	if(arguments.length == 2 && arguments[1] instanceof tsColor) return _tsControlText_setStateColor(this.self, arguments[0], arguments[1].self);
+	throw 'invalid ControlText.setStateColor() arguments';
+};
+tsControlText.prototype['getStateColor'] = tsControlText.prototype.getStateColor = function() {
+	if(arguments.length == 1) return _tsControlText_getStateColor(this.self, arguments[0]);
+	throw 'invalid ControlText.getStateColor() arguments';
+};
 tsControlText.prototype['setFilter'] = tsControlText.prototype.setFilter = function() {
 	if(arguments.length == 1) return _tsControlText_setFilter(this.self, arguments[0]);
 	throw 'invalid ControlText.setFilter() arguments';
@@ -15377,6 +15449,15 @@ tsControlRect.prototype['getColor'] = tsControlRect.prototype.getColor = functio
 	throw 'invalid ControlRect.getColor() arguments';
 };
 Object.defineProperty(tsControlRect.prototype, 'color', { get: tsControlRect.prototype.getColor });
+tsControlRect.prototype['setStateColor'] = tsControlRect.prototype.setStateColor = function() {
+	if(arguments.length == 5) return _tsControlRect_setStateColor_1(this.self, arguments[0], arguments[1], arguments[2], arguments[3], arguments[4]);
+	if(arguments.length == 2 && arguments[1] instanceof tsColor) return _tsControlRect_setStateColor(this.self, arguments[0], arguments[1].self);
+	throw 'invalid ControlRect.setStateColor() arguments';
+};
+tsControlRect.prototype['getStateColor'] = tsControlRect.prototype.getStateColor = function() {
+	if(arguments.length == 1) return _tsControlRect_getStateColor(this.self, arguments[0]);
+	throw 'invalid ControlRect.getStateColor() arguments';
+};
 tsControlRect.prototype['setStrokeStyle'] = tsControlRect.prototype.setStrokeStyle = function() {
 	if(arguments.length == 1 && arguments[0] instanceof tsStrokeStyle) return _tsControlRect_setStrokeStyle(this.self, arguments[0].self);
 	throw 'invalid ControlRect.setStrokeStyle() arguments';
@@ -17685,8 +17766,8 @@ tsDialogMessage.Flags = Object.freeze({
 	Mouse : 512,
 	YesNo : 3,
 	OkCancel : 12,
-	DefaultFlags : 4,
-	NumFlags : 10,
+	Default : 4,
+	Num : 10,
 });
 tsDialogMessage.Result = Object.freeze({
 	Close : 0,
@@ -17781,8 +17862,8 @@ tsDialogFileOpen.Flags = Object.freeze({
 	None : 0,
 	Hidden : 1,
 	Mouse : 2,
-	DefaultFlags : 0,
-	NumFlags : 2,
+	Default : 0,
+	Num : 2,
 });
 tsDialogFileOpen.Result = Object.freeze({
 	Cancel : 0,
@@ -17886,8 +17967,8 @@ tsDialogFileSave.Flags = Object.freeze({
 	Hidden : 1,
 	Overwrite : 2,
 	Mouse : 4,
-	DefaultFlags : 2,
-	NumFlags : 3,
+	Default : 2,
+	Num : 3,
 });
 tsDialogFileSave.Result = Object.freeze({
 	Cancel : 0,
@@ -17989,8 +18070,8 @@ tsDialogDirectory.prototype['getInternalPtr'] = tsDialogDirectory.prototype.getI
 tsDialogDirectory.Flags = Object.freeze({
 	None : 0,
 	Mouse : 1,
-	DefaultFlags : 0,
-	NumFlags : 1,
+	Default : 0,
+	Num : 1,
 });
 tsDialogDirectory.Result = Object.freeze({
 	Cancel : 0,
@@ -18081,8 +18162,8 @@ tsDialogProgress.prototype['getInternalPtr'] = tsDialogProgress.prototype.getInt
 tsDialogProgress.Flags = Object.freeze({
 	None : 0,
 	Mouse : 1,
-	DefaultFlags : 0,
-	NumFlags : 1,
+	Default : 0,
+	Num : 1,
 });
 tsDialogProgress.Result = Object.freeze({
 	Cancel : 0,
@@ -18173,8 +18254,8 @@ tsDialogColor.Flags = Object.freeze({
 	None : 0,
 	Alpha : 1,
 	Mouse : 2,
-	DefaultFlags : 0,
-	NumFlags : 2,
+	Default : 0,
+	Num : 2,
 });
 tsDialogColor.Result = Object.freeze({
 	Cancel : 0,
@@ -18267,8 +18348,8 @@ tsDialogMenu.prototype['getInternalPtr'] = tsDialogMenu.prototype.getInternalPtr
 tsDialogMenu.Flags = Object.freeze({
 	None : 0,
 	Mouse : 1,
-	DefaultFlags : 0,
-	NumFlags : 1,
+	Default : 0,
+	Num : 1,
 });
 tsDialogMenu.Result = Object.freeze({
 	Cancel : 0,
@@ -18796,8 +18877,8 @@ tsMeshModel.Flags = Object.freeze({
 	BufferAddress : 32768,
 	BufferTexel : 65536,
 	Meshlets : 1920,
-	DefaultFlags : 10,
-	NumFlags : 17,
+	Default : 10,
+	Num : 17,
 });
 tsMeshModel.Meshlet = function() {
 	return ts_bind(tsMeshModel.Meshlet, this, tsMeshModelMeshlet_new());
@@ -19057,7 +19138,7 @@ tsSeparableFilter.Flags = Object.freeze({
 	None : 0,
 	Repeat : 1,
 	Zero : 2,
-	DefaultFlags : 0,
+	Default : 0,
 });
 tsSeparableFilter.prototype['clear'] = tsSeparableFilter.prototype.clear = function() {
 	if(arguments.length == 0) return _tsSeparableFilter_clear(this.self);
@@ -21022,6 +21103,33 @@ tsSystem.open = function() {
 	throw 'invalid open() arguments';
 };
 
+// Tellusim::MeshBoolean
+let tsMeshBoolean = {};
+Module['MeshBoolean'] = tsMeshBoolean;
+tsMeshBoolean.Operation = Object.freeze({
+	OpUnion : 0,
+	OpDifference : 1,
+	OpIntersection : 2,
+});
+tsMeshBoolean.intersect = function() {
+	if(arguments.length == 5 && arguments[0] instanceof tsMeshGeometry && arguments[1] instanceof tsMeshGeometry && arguments[2] instanceof tsMeshGeometry && arguments[3] instanceof tsMeshGeometry) return _tsMeshBoolean_intersect_1(arguments[0].self, arguments[1].self, arguments[2].self, arguments[3].self, arguments[4]);
+	if(arguments.length == 4 && arguments[0] instanceof tsMeshGeometry && arguments[1] instanceof tsMeshGeometry && arguments[2] instanceof tsMeshGeometry) return _tsMeshBoolean_intersect(arguments[0].self, arguments[1].self, arguments[2].self, arguments[3]);
+	throw 'invalid intersect() arguments';
+};
+
+// Tellusim::MeshFracture
+let tsMeshFracture = {};
+Module['MeshFracture'] = tsMeshFracture;
+tsMeshFracture.split = function() {
+	if(arguments.length == 9 && arguments[0] instanceof tsMesh && arguments[1] instanceof tsMesh && arguments[2] instanceof tsVector3f && arguments[4] instanceof tsVector2f && arguments[8] instanceof tsAsync) return _tsMeshFracture_split(arguments[0].self, arguments[1].self, arguments[2].self, arguments[3], arguments[4].self, arguments[5], arguments[6], arguments[7], arguments[8].self);
+	if(arguments.length == 8 && arguments[0] instanceof tsMesh && arguments[1] instanceof tsMesh && arguments[2] instanceof tsVector3f && arguments[4] instanceof tsVector2f) return _tsMeshFracture_split(arguments[0].self, arguments[1].self, arguments[2].self, arguments[3], arguments[4].self, arguments[5], arguments[6], arguments[7], 0);
+	if(arguments.length == 7 && arguments[0] instanceof tsMesh && arguments[1] instanceof tsMesh && arguments[2] instanceof tsVector3f && arguments[4] instanceof tsVector2f) return _tsMeshFracture_split(arguments[0].self, arguments[1].self, arguments[2].self, arguments[3], arguments[4].self, arguments[5], arguments[6], 1e-3, 0);
+	if(arguments.length == 6 && arguments[0] instanceof tsMesh && arguments[1] instanceof tsMesh && arguments[2] instanceof tsVector3f && arguments[4] instanceof tsVector2f) return _tsMeshFracture_split(arguments[0].self, arguments[1].self, arguments[2].self, arguments[3], arguments[4].self, arguments[5], 1e-3, 1e-3, 0);
+	if(arguments.length == 5 && arguments[0] instanceof tsMesh && arguments[1] instanceof tsMesh && arguments[2] instanceof tsVector3f && arguments[4] instanceof tsVector2f) return _tsMeshFracture_split(arguments[0].self, arguments[1].self, arguments[2].self, arguments[3], arguments[4].self, 1e-3, 1e-3, 1e-3, 0);
+	if(arguments.length == 4 && arguments[0] instanceof tsMesh && arguments[1] instanceof tsMesh && arguments[2] instanceof tsVector3f && tsVector2f.one().self instanceof tsVector2f) return _tsMeshFracture_split(arguments[0].self, arguments[1].self, arguments[2].self, arguments[3], tsVector2f.one().self, 1e-3, 1e-3, 1e-3, 0);
+	throw 'invalid split() arguments';
+};
+
 // Tellusim::MeshGraph
 let tsMeshGraph = {};
 Module['MeshGraph'] = tsMeshGraph;
@@ -21077,4 +21185,14 @@ tsMeshSolid.create = function() {
 	if(arguments.length == 3 && arguments[0] instanceof tsMesh && arguments[1] instanceof tsMesh) return _tsMeshSolid_create(arguments[0].self, arguments[1].self, arguments[2], 0.9, (0 !== undefined) ? true : false);
 	if(arguments.length == 2 && arguments[0] instanceof tsMesh && arguments[1] instanceof tsMesh) return _tsMeshSolid_create(arguments[0].self, arguments[1].self, 1.0, 0.9, (0 !== undefined) ? true : false);
 	throw 'invalid create() arguments';
+};
+
+// Tellusim::MeshSplit
+let tsMeshSplit = {};
+Module['MeshSplit'] = tsMeshSplit;
+tsMeshSplit.split = function() {
+	if(arguments.length == 6 && arguments[0] instanceof tsMeshGeometry && arguments[1] instanceof tsMeshGeometry && arguments[2] instanceof tsMeshGeometry && arguments[3] instanceof tsMeshGeometry && arguments[4] instanceof tsMatrix4x3f) return _tsMeshSplit_split_1(arguments[0].self, arguments[1].self, arguments[2].self, arguments[3].self, arguments[4].self, arguments[5]);
+	if(arguments.length == 5 && arguments[0] instanceof tsMesh && arguments[1] instanceof tsMesh && arguments[2] instanceof tsMesh && arguments[3] instanceof tsMesh && arguments[4] instanceof tsMatrix4x3f) return _tsMeshSplit_split(arguments[0].self, arguments[1].self, arguments[2].self, arguments[3].self, arguments[4].self);
+	if(arguments.length == 5 && arguments[0] instanceof tsMeshGeometry && arguments[1] instanceof tsMeshGeometry && arguments[2] instanceof tsMeshGeometry && arguments[3] instanceof tsMeshGeometry && arguments[4] instanceof tsMatrix4x3f) return _tsMeshSplit_split_1(arguments[0].self, arguments[1].self, arguments[2].self, arguments[3].self, arguments[4].self, tsBase.Maxu32);
+	throw 'invalid split() arguments';
 };

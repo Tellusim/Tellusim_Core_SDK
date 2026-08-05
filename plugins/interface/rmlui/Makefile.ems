@@ -1,0 +1,10 @@
+SRCS = main.cpp \
+	source/TellusimRmlUi.cpp
+
+ASSETS = data
+
+LIBS += -Lextern/lib/emscripten/bc -lrmlui
+
+include ../../Makefile.ems.mk
+
+CFLAGS += -std=c++17
