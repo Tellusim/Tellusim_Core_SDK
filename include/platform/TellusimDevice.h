@@ -135,6 +135,7 @@ namespace Tellusim {
 				uint32_t maxTextureLayers;		// maximum texture layers
 				uint32_t maxTextureSamples;		// maximum texture samples
 				
+				uint32_t maxGroupSize;			// maximum compute shader group size
 				uint32_t maxGroupSizeX;			// maximum compute shader group size X
 				uint32_t maxGroupSizeY;			// maximum compute shader group size Y
 				uint32_t maxGroupSizeZ;			// maximum compute shader group size Z
@@ -142,10 +143,24 @@ namespace Tellusim {
 				uint32_t maxGroupCountY;		// maximum compute shader group count Y
 				uint32_t maxGroupCountZ;		// maximum compute shader group count Z
 				
-				uint32_t maxTaskCount;			// maximum task shader count
+				uint32_t maxTaskSize;			// maximum task shader group size
+				uint32_t maxTaskSizeX;			// maximum task shader group size X
+				uint32_t maxTaskSizeY;			// maximum task shader group size Y
+				uint32_t maxTaskSizeZ;			// maximum task shader group size Z
+				uint32_t maxTaskCount;			// maximum task shader group count
+				uint32_t maxTaskCountX;			// maximum task shader group count X
+				uint32_t maxTaskCountY;			// maximum task shader group count Y
+				uint32_t maxTaskCountZ;			// maximum task shader group count Z
 				uint32_t maxTaskMemory;			// maximum task shader memory
-				uint32_t maxTaskMeshes;			// maximum task shader meshes
 				
+				uint32_t maxMeshSize;			// maximum mesh shader group size
+				uint32_t maxMeshSizeX;			// maximum mesh shader group size X
+				uint32_t maxMeshSizeY;			// maximum mesh shader group size Y
+				uint32_t maxMeshSizeZ;			// maximum mesh shader group size Z
+				uint32_t maxMeshCount;			// maximum mesh shader group count
+				uint32_t maxMeshCountX;			// maximum mesh shader group count X
+				uint32_t maxMeshCountY;			// maximum mesh shader group count Y
+				uint32_t maxMeshCountZ;			// maximum mesh shader group count Z
 				uint32_t maxMeshMemory;			// maximum mesh shader memory
 				uint32_t maxMeshVertices;		// maximum mesh shader vertices
 				uint32_t maxMeshPrimitives;		// maximum mesh shader primitives

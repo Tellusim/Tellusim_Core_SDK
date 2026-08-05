@@ -130,9 +130,9 @@ public class MeshAttribute extends BaseMeshAttribute {
 	public void setGeometry(MeshGeometry geometry) { set_geometry(self, geometry.self, true); }
 	public void setGeometry(MeshGeometry geometry, boolean check) { set_geometry(self, geometry.self, check); }
 	public MeshGeometry getGeometry() { return new MeshGeometry(get_geometry(self)); }
-	public void setSize(int size) { set_size(self, size, true, false); }
-	public void setSize(int size, boolean discard) { set_size(self, size, discard, false); }
-	public void setSize(int size, boolean discard, boolean clear) { set_size(self, size, discard, clear); }
+	public boolean setSize(int size) { return set_size(self, size, true, false); }
+	public boolean setSize(int size, boolean discard) { return set_size(self, size, discard, false); }
+	public boolean setSize(int size, boolean discard, boolean clear) { return set_size(self, size, discard, clear); }
 	public int getSize() { return get_size(self); }
 	public int getStride() { return get_stride(self); }
 	public long getBytes() { return get_bytes(self); }
@@ -163,7 +163,8 @@ public class MeshAttribute extends BaseMeshAttribute {
 	public boolean packAttributes(MeshAttribute attribute_0, MeshAttribute attribute_1, Format format) { return pack_attributes(self, attribute_0.self, attribute_1.self, format.value); }
 	public boolean packAttributes(MeshAttribute attribute_0, MeshAttribute attribute_1, Format.Enum format) { return pack_attributes(self, attribute_0.self, attribute_1.self, format.value); }
 	public boolean unpackAttributes(MeshAttribute attribute_0, MeshAttribute attribute_1) { return unpack_attributes(self, attribute_0.self, attribute_1.self); }
-	public MeshAttribute optimizeAttribute(MeshIndices indices) { return new MeshAttribute(optimize_attribute(self, indices.self)); }
+	public MeshAttribute optimizeAttribute(MeshIndices indices) { return new MeshAttribute(optimize_attribute(self, indices.self, 0.0f)); }
+	public MeshAttribute optimizeAttribute(MeshIndices indices, float threshold) { return new MeshAttribute(optimize_attribute(self, indices.self, threshold)); }
 	public MeshAttribute toDirect(MeshIndices indices) { return new MeshAttribute(to_direct(self, indices.self)); }
 	public MeshAttribute toFormat(Format format) { return new MeshAttribute(to_format(self, format.value)); }
 	public MeshAttribute toFormat(Format.Enum format) { return new MeshAttribute(to_format(self, format.value)); }
@@ -224,7 +225,7 @@ public class MeshAttribute extends BaseMeshAttribute {
 	private static native void set_geometry(long self, long geometry, boolean check);
 	private static native long get_geometry(long self);
 	private static native long get_geometry_1(long self);
-	private static native void set_size(long self, int size, boolean discard, boolean clear);
+	private static native boolean set_size(long self, int size, boolean discard, boolean clear);
 	private static native int get_size(long self);
 	private static native int get_stride(long self);
 	private static native long get_bytes(long self);
@@ -246,7 +247,7 @@ public class MeshAttribute extends BaseMeshAttribute {
 	private static native boolean morph_attribute(long self, long attribute, float k);
 	private static native boolean pack_attributes(long self, long attribute_0, long attribute_1, int format);
 	private static native boolean unpack_attributes(long self, long attribute_0, long attribute_1);
-	private static native long optimize_attribute(long self, long indices);
+	private static native long optimize_attribute(long self, long indices, float threshold);
 	private static native long to_direct(long self, long indices);
 	private static native long to_format(long self, int format);
 	private static native long to_type(long self, int type);

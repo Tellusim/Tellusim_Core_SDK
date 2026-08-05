@@ -131,20 +131,20 @@ public class BitonicSort {
 	public int getMaxRegions() { return get_max_regions(self); }
 	public boolean create(Device device, Mode mode, int size) { return create_(self, device.self, mode.value, size, 256, 1, 0); }
 	public boolean create(Device device, Mode.Enum mode, int size) { return create_(self, device.self, mode.value, size, 256, 1, 0); }
-	public boolean create(Device device, Mode mode, int size, int groups) { return create_(self, device.self, mode.value, size, groups, 1, 0); }
-	public boolean create(Device device, Mode.Enum mode, int size, int groups) { return create_(self, device.self, mode.value, size, groups, 1, 0); }
-	public boolean create(Device device, Mode mode, int size, int groups, int regions) { return create_(self, device.self, mode.value, size, groups, regions, 0); }
-	public boolean create(Device device, Mode.Enum mode, int size, int groups, int regions) { return create_(self, device.self, mode.value, size, groups, regions, 0); }
-	public boolean create(Device device, Mode mode, int size, int groups, int regions, Async async) { return create_(self, device.self, mode.value, size, groups, regions, async.self); }
-	public boolean create(Device device, Mode.Enum mode, int size, int groups, int regions, Async async) { return create_(self, device.self, mode.value, size, groups, regions, async.self); }
+	public boolean create(Device device, Mode mode, int size, int threads) { return create_(self, device.self, mode.value, size, threads, 1, 0); }
+	public boolean create(Device device, Mode.Enum mode, int size, int threads) { return create_(self, device.self, mode.value, size, threads, 1, 0); }
+	public boolean create(Device device, Mode mode, int size, int threads, int regions) { return create_(self, device.self, mode.value, size, threads, regions, 0); }
+	public boolean create(Device device, Mode.Enum mode, int size, int threads, int regions) { return create_(self, device.self, mode.value, size, threads, regions, 0); }
+	public boolean create(Device device, Mode mode, int size, int threads, int regions, Async async) { return create_(self, device.self, mode.value, size, threads, regions, async.self); }
+	public boolean create(Device device, Mode.Enum mode, int size, int threads, int regions, Async async) { return create_(self, device.self, mode.value, size, threads, regions, async.self); }
 	public boolean create(Device device, Flags flags, int size) { return create_1(self, device.self, flags.value, size, 256, 1, 0); }
 	public boolean create(Device device, Flags.Enum flags, int size) { return create_1(self, device.self, flags.value, size, 256, 1, 0); }
-	public boolean create(Device device, Flags flags, int size, int groups) { return create_1(self, device.self, flags.value, size, groups, 1, 0); }
-	public boolean create(Device device, Flags.Enum flags, int size, int groups) { return create_1(self, device.self, flags.value, size, groups, 1, 0); }
-	public boolean create(Device device, Flags flags, int size, int groups, int regions) { return create_1(self, device.self, flags.value, size, groups, regions, 0); }
-	public boolean create(Device device, Flags.Enum flags, int size, int groups, int regions) { return create_1(self, device.self, flags.value, size, groups, regions, 0); }
-	public boolean create(Device device, Flags flags, int size, int groups, int regions, Async async) { return create_1(self, device.self, flags.value, size, groups, regions, async.self); }
-	public boolean create(Device device, Flags.Enum flags, int size, int groups, int regions, Async async) { return create_1(self, device.self, flags.value, size, groups, regions, async.self); }
+	public boolean create(Device device, Flags flags, int size, int threads) { return create_1(self, device.self, flags.value, size, threads, 1, 0); }
+	public boolean create(Device device, Flags.Enum flags, int size, int threads) { return create_1(self, device.self, flags.value, size, threads, 1, 0); }
+	public boolean create(Device device, Flags flags, int size, int threads, int regions) { return create_1(self, device.self, flags.value, size, threads, regions, 0); }
+	public boolean create(Device device, Flags.Enum flags, int size, int threads, int regions) { return create_1(self, device.self, flags.value, size, threads, regions, 0); }
+	public boolean create(Device device, Flags flags, int size, int threads, int regions, Async async) { return create_1(self, device.self, flags.value, size, threads, regions, async.self); }
+	public boolean create(Device device, Flags.Enum flags, int size, int threads, int regions, Async async) { return create_1(self, device.self, flags.value, size, threads, regions, async.self); }
 	public boolean dispatch(Compute compute, Buffer data, int keys_offset, int data_offset, int size) { return dispatch_(self, compute.self, data.self, keys_offset, data_offset, size, Flags.None.value); }
 	public boolean dispatch(Compute compute, Buffer data, int keys_offset, int data_offset, int size, Flags flags) { return dispatch_(self, compute.self, data.self, keys_offset, data_offset, size, flags.value); }
 	public boolean dispatch(Compute compute, Buffer data, int keys_offset, int data_offset, int size, Flags.Enum flags) { return dispatch_(self, compute.self, data.self, keys_offset, data_offset, size, flags.value); }
@@ -180,8 +180,8 @@ public class BitonicSort {
 	private static native int get_group_size(long self);
 	private static native int get_sort_elements(long self);
 	private static native int get_max_regions(long self);
-	private static native boolean create_(long self, long device, int mode, int size, int groups, int regions, long async);
-	private static native boolean create_1(long self, long device, int flags, int size, int groups, int regions, long async);
+	private static native boolean create_(long self, long device, int mode, int size, int threads, int regions, long async);
+	private static native boolean create_1(long self, long device, int flags, int size, int threads, int regions, long async);
 	private static native boolean dispatch_(long self, long compute, long data, int keys_offset, int data_offset, int size, int flags);
 	private static native boolean dispatch_1(long self, long compute, long data, int count, int[] keys_offsets, int[] data_offsets, int[] sizes, int flags);
 	private static native boolean dispatch_indirect(long self, long compute, long data, long dispatch, int offset, int flags);
