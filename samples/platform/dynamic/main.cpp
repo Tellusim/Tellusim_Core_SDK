@@ -60,6 +60,7 @@ int32_t main(int32_t argc, char **argv) {
 	pipeline.setColorFormat(window.getColorFormat());
 	pipeline.setDepthFormat(window.getDepthFormat());
 	pipeline.setDepthFunc(Pipeline::DepthFuncLessEqual);
+	pipeline.setScissorTest(true);
 	if(!pipeline.loadShaderGLSL(Shader::TypeVertex, "main.shader", "VERTEX_SHADER=1")) return 1;
 	if(!pipeline.loadShaderGLSL(Shader::TypeFragment, "main.shader", "FRAGMENT_SHADER=1")) return 1;
 	if(!pipeline.create()) return 1;
@@ -103,6 +104,10 @@ int32_t main(int32_t argc, char **argv) {
 			if(target.isFlipped()) common_parameters.projection = Matrix4x4f::scale(1.0f, -1.0f, 1.0f) * common_parameters.projection;
 			
 			command.setUniform(0, common_parameters);
+			
+			// viewport parameters
+			if(window.getKeyboardKey('v')) command.setViewport(0, Viewport(window.getWidth() / 3.0f, window.getHeight() / 3.0f, window.getWidth() / 2.0f, window.getHeight() / 2.0f));
+			if(window.getKeyboardKey('s')) command.setScissor(0, Scissor(window.getWidth() / 3, window.getHeight() / 3, window.getWidth() / 2, window.getHeight() / 2));
 			
 			// draw objects
 			for(int32_t y = -height; y <= height; y++) {

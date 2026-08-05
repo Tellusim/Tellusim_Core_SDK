@@ -2937,6 +2937,20 @@ namespace Tellusim {
 	TS_PYAPI extern PyTypeObject PYSystem_Type;
 	TS_PYAPI extern Array<PyMethodDef> PYSystem_methods;
 	
+	/// Tellusim::MeshBoolean
+	struct PYMeshBoolean {
+		PyObject_HEAD
+	};
+	TS_PYAPI extern PyTypeObject PYMeshBoolean_Type;
+	TS_PYAPI extern Array<PyMethodDef> PYMeshBoolean_methods;
+	
+	/// Tellusim::MeshFracture
+	struct PYMeshFracture {
+		PyObject_HEAD
+	};
+	TS_PYAPI extern PyTypeObject PYMeshFracture_Type;
+	TS_PYAPI extern Array<PyMethodDef> PYMeshFracture_methods;
+	
 	/// Tellusim::MeshGraph
 	struct PYMeshGraph {
 		PyObject_HEAD
@@ -2964,6 +2978,13 @@ namespace Tellusim {
 	};
 	TS_PYAPI extern PyTypeObject PYMeshSolid_Type;
 	TS_PYAPI extern Array<PyMethodDef> PYMeshSolid_methods;
+	
+	/// Tellusim::MeshSplit
+	struct PYMeshSplit {
+		PyObject_HEAD
+	};
+	TS_PYAPI extern PyTypeObject PYMeshSplit_Type;
+	TS_PYAPI extern Array<PyMethodDef> PYMeshSplit_methods;
 	
 	/// Tellusim API
 	bool pyInitAPI(Tellusim::Array<PyMethodDef> &methods);

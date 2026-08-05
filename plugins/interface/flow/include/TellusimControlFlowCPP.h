@@ -21,7 +21,7 @@ namespace Tellusim {
 			virtual ~ControlFlowCPP();
 			
 			/// create flow
-			virtual bool create(Control *controls_root = nullptr, Control *tooltip_root = nullptr);
+			virtual bool create(Control *controls_root = nullptr, Control *base_root = nullptr);
 			
 			/// create source for the node
 			String getSource(uint32_t node);
@@ -222,8 +222,8 @@ namespace Tellusim {
 			
 			ColorCreateCallback color_create_func;	// color callback
 			
-			Color cpp_color = Color(1.0f, 1.0f, 1.0f, 0.75f);
-			Color tool_color = Color(0.3f, 0.6f, 1.0f, 0.75f);
+			Color cpp_color = Color(0.9f, 0.9f, 0.9f, 0.75f);
+			Color tool_color = Color(0.4f, 0.5f, 0.9f, 0.75f);
 	};
 }
 

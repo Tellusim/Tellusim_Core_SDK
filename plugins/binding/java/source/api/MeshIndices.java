@@ -109,9 +109,9 @@ public class MeshIndices {
 	public void setGeometry(MeshGeometry geometry) { set_geometry(self, geometry.self, true); }
 	public void setGeometry(MeshGeometry geometry, boolean check) { set_geometry(self, geometry.self, check); }
 	public MeshGeometry getGeometry() { return new MeshGeometry(get_geometry(self)); }
-	public void setSize(int size) { set_size(self, size, true, false); }
-	public void setSize(int size, boolean discard) { set_size(self, size, discard, false); }
-	public void setSize(int size, boolean discard, boolean clear) { set_size(self, size, discard, clear); }
+	public boolean setSize(int size) { return set_size(self, size, true, false); }
+	public boolean setSize(int size, boolean discard) { return set_size(self, size, discard, false); }
+	public boolean setSize(int size, boolean discard, boolean clear) { return set_size(self, size, discard, clear); }
 	public int getSize() { return get_size(self); }
 	public int getStride() { return get_stride(self); }
 	public long getBytes() { return get_bytes(self); }
@@ -198,7 +198,7 @@ public class MeshIndices {
 	private static native void set_geometry(long self, long geometry, boolean check);
 	private static native long get_geometry(long self);
 	private static native long get_geometry_1(long self);
-	private static native void set_size(long self, int size, boolean discard, boolean clear);
+	private static native boolean set_size(long self, int size, boolean discard, boolean clear);
 	private static native int get_size(long self);
 	private static native int get_stride(long self);
 	private static native long get_bytes(long self);

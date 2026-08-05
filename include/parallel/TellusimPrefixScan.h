@@ -62,10 +62,10 @@ namespace Tellusim {
 			uint32_t getMaxRegions() const;
 			
 			/// create prefix scan
-			/// \param groups Prefix scan group size.
+			/// \param threads Prefix scan group size.
 			/// \param regions Maximum number of multiple regions.
-			bool create(const Device &device, Mode mode, uint32_t groups = 256, uint32_t regions = 1, Async *async = nullptr);
-			bool create(const Device &device, Flags flags, uint32_t groups = 256, uint32_t regions = 1, Async *async = nullptr);
+			bool create(const Device &device, Mode mode, uint32_t threads = 256, uint32_t regions = 1, Async *async = nullptr);
+			bool create(const Device &device, Flags flags, uint32_t threads = 256, uint32_t regions = 1, Async *async = nullptr);
 			
 			/// dispatch single in-place prefix scan
 			/// \param data Buffer of uint32_t elements to scan.

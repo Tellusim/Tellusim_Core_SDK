@@ -87,16 +87,16 @@ public class CubeFilter {
 	public boolean create(Device device, Mode.Enum mode, int order) { return create_(self, device.self, mode.value, order, 1024, 256); }
 	public boolean create(Device device, Mode mode, int order, int size) { return create_(self, device.self, mode.value, order, size, 256); }
 	public boolean create(Device device, Mode.Enum mode, int order, int size) { return create_(self, device.self, mode.value, order, size, 256); }
-	public boolean create(Device device, Mode mode, int order, int size, int groups) { return create_(self, device.self, mode.value, order, size, groups); }
-	public boolean create(Device device, Mode.Enum mode, int order, int size, int groups) { return create_(self, device.self, mode.value, order, size, groups); }
+	public boolean create(Device device, Mode mode, int order, int size, int threads) { return create_(self, device.self, mode.value, order, size, threads); }
+	public boolean create(Device device, Mode.Enum mode, int order, int size, int threads) { return create_(self, device.self, mode.value, order, size, threads); }
 	public boolean create(Device device, Flags flags) { return create_1(self, device.self, flags.value, 3, 1024, 256); }
 	public boolean create(Device device, Flags.Enum flags) { return create_1(self, device.self, flags.value, 3, 1024, 256); }
 	public boolean create(Device device, Flags flags, int order) { return create_1(self, device.self, flags.value, order, 1024, 256); }
 	public boolean create(Device device, Flags.Enum flags, int order) { return create_1(self, device.self, flags.value, order, 1024, 256); }
 	public boolean create(Device device, Flags flags, int order, int size) { return create_1(self, device.self, flags.value, order, size, 256); }
 	public boolean create(Device device, Flags.Enum flags, int order, int size) { return create_1(self, device.self, flags.value, order, size, 256); }
-	public boolean create(Device device, Flags flags, int order, int size, int groups) { return create_1(self, device.self, flags.value, order, size, groups); }
-	public boolean create(Device device, Flags.Enum flags, int order, int size, int groups) { return create_1(self, device.self, flags.value, order, size, groups); }
+	public boolean create(Device device, Flags flags, int order, int size, int threads) { return create_1(self, device.self, flags.value, order, size, threads); }
+	public boolean create(Device device, Flags.Enum flags, int order, int size, int threads) { return create_1(self, device.self, flags.value, order, size, threads); }
 	public boolean dispatch(Compute compute, Buffer buffer, int offset, Texture texture, Slice slice) { return dispatch_(self, compute.self, buffer.self, offset, texture.self, slice.self); }
 	public boolean dispatch(Compute compute, Buffer buffer, int offset, Texture texture) { return dispatch_1(self, compute.self, buffer.self, offset, texture.self); }
 	public boolean dispatch(Compute compute, Texture texture, Slice slice, Buffer buffer, int offset) { return dispatch_2(self, compute.self, texture.self, slice.self, buffer.self, offset); }
@@ -124,8 +124,8 @@ public class CubeFilter {
 	private static native int get_max_order(long self);
 	private static native int get_max_size(long self);
 	private static native int get_harmonics(long self);
-	private static native boolean create_(long self, long device, int mode, int order, int size, int groups);
-	private static native boolean create_1(long self, long device, int flags, int order, int size, int groups);
+	private static native boolean create_(long self, long device, int mode, int order, int size, int threads);
+	private static native boolean create_1(long self, long device, int flags, int order, int size, int threads);
 	private static native boolean dispatch_(long self, long compute, long buffer, int offset, long texture, long slice);
 	private static native boolean dispatch_1(long self, long compute, long buffer, int offset, long texture);
 	private static native boolean dispatch_2(long self, long compute, long texture, long slice, long buffer, int offset);

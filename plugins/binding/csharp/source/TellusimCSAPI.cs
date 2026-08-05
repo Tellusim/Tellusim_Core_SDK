@@ -439,7 +439,9 @@ namespace Tellusim {
 		public const uint Version_41 = 20250816;
 		public const uint Version_42 = 20251102;
 		public const uint Version_43 = 20251220;
-		public const uint Version = 20251220;
+		public const uint Version_44 = 20260625;
+		public const uint Version_45 = 20260702;
+		public const uint Version = 20260702;
 		public App(string[] args) { self = new HandleRef(this, tsApp_new(args.Length + 1, Base.getArgs(args))); owner = true; }
 		public App(App ptr) { self = new HandleRef(this, ptr.getSelfPtr()); }
 		public App(IntPtr ptr) { self = new HandleRef(this, ptr); owner = true; }
@@ -2277,7 +2279,7 @@ namespace Tellusim {
 		public string getFormatName() { return Base.getCString(tsMeshIndices_getFormatName(self)); }
 		public void setGeometry(MeshGeometry geometry, bool check = true) { tsMeshIndices_setGeometry(self, geometry.getSelf(), check); }
 		public MeshGeometry getGeometry() { return new MeshGeometry(tsMeshIndices_getGeometry_c(self)); }
-		public void setSize(uint size, bool discard = true, bool clear = false) { tsMeshIndices_setSize(self, size, discard, clear); }
+		public bool setSize(uint size, bool discard = true, bool clear = false) { return tsMeshIndices_setSize(self, size, discard, clear); }
 		public uint getSize() { return tsMeshIndices_getSize(self); }
 		public uint getStride() { return tsMeshIndices_getStride(self); }
 		public ulong getBytes() { return tsMeshIndices_getBytes(self); }
@@ -2347,7 +2349,7 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern IntPtr tsMeshIndices_getFormatName(HandleRef self);
 		[DllImport(Base.Import)] private static extern void tsMeshIndices_setGeometry(HandleRef self, HandleRef geometry, bool check);
 		[DllImport(Base.Import)] private static extern IntPtr tsMeshIndices_getGeometry_c(HandleRef self);
-		[DllImport(Base.Import)] private static extern void tsMeshIndices_setSize(HandleRef self, uint size, bool discard, bool clear);
+		[DllImport(Base.Import)] private static extern bool tsMeshIndices_setSize(HandleRef self, uint size, bool discard, bool clear);
 		[DllImport(Base.Import)] private static extern uint tsMeshIndices_getSize(HandleRef self);
 		[DllImport(Base.Import)] private static extern uint tsMeshIndices_getStride(HandleRef self);
 		[DllImport(Base.Import)] private static extern ulong tsMeshIndices_getBytes(HandleRef self);
@@ -2447,7 +2449,7 @@ namespace Tellusim {
 		public MeshIndices getIndices() { return new MeshIndices(tsMeshAttribute_getIndices_c(self)); }
 		public void setGeometry(MeshGeometry geometry, bool check = true) { tsMeshAttribute_setGeometry(self, geometry.getSelf(), check); }
 		public MeshGeometry getGeometry() { return new MeshGeometry(tsMeshAttribute_getGeometry_c(self)); }
-		public void setSize(uint size, bool discard = true, bool clear = false) { tsMeshAttribute_setSize(self, size, discard, clear); }
+		public bool setSize(uint size, bool discard = true, bool clear = false) { return tsMeshAttribute_setSize(self, size, discard, clear); }
 		public uint getSize() { return tsMeshAttribute_getSize(self); }
 		public uint getStride() { return tsMeshAttribute_getStride(self); }
 		public ulong getBytes() { return tsMeshAttribute_getBytes(self); }
@@ -2483,7 +2485,7 @@ namespace Tellusim {
 		public bool morphAttribute(MeshAttribute attribute, float k) { return tsMeshAttribute_morphAttribute(self, attribute.getSelf(), k); }
 		public bool packAttributes(MeshAttribute attribute_0, MeshAttribute attribute_1, Format format) { return tsMeshAttribute_packAttributes(self, attribute_0.getSelf(), attribute_1.getSelf(), format); }
 		public bool unpackAttributes(MeshAttribute attribute_0, MeshAttribute attribute_1) { return tsMeshAttribute_unpackAttributes(self, attribute_0.getSelf(), attribute_1.getSelf()); }
-		public MeshAttribute optimizeAttribute(MeshIndices indices) { return new MeshAttribute(tsMeshAttribute_optimizeAttribute(self, indices.getSelf())); }
+		public MeshAttribute optimizeAttribute(MeshIndices indices, float threshold = 0.0f) { return new MeshAttribute(tsMeshAttribute_optimizeAttribute(self, indices.getSelf(), threshold)); }
 		public MeshAttribute toDirect(MeshIndices indices) { return new MeshAttribute(tsMeshAttribute_toDirect(self, indices.getSelf())); }
 		public MeshAttribute toFormat(Format format) { return new MeshAttribute(tsMeshAttribute_toFormat(self, format)); }
 		public MeshAttribute toType(Type type) { return new MeshAttribute(tsMeshAttribute_toType(self, type)); }
@@ -2544,7 +2546,7 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern IntPtr tsMeshAttribute_getIndices_c(HandleRef self);
 		[DllImport(Base.Import)] private static extern void tsMeshAttribute_setGeometry(HandleRef self, HandleRef geometry, bool check);
 		[DllImport(Base.Import)] private static extern IntPtr tsMeshAttribute_getGeometry_c(HandleRef self);
-		[DllImport(Base.Import)] private static extern void tsMeshAttribute_setSize(HandleRef self, uint size, bool discard, bool clear);
+		[DllImport(Base.Import)] private static extern bool tsMeshAttribute_setSize(HandleRef self, uint size, bool discard, bool clear);
 		[DllImport(Base.Import)] private static extern uint tsMeshAttribute_getSize(HandleRef self);
 		[DllImport(Base.Import)] private static extern uint tsMeshAttribute_getStride(HandleRef self);
 		[DllImport(Base.Import)] private static extern ulong tsMeshAttribute_getBytes(HandleRef self);
@@ -2564,7 +2566,7 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern bool tsMeshAttribute_morphAttribute(HandleRef self, HandleRef attribute, float k);
 		[DllImport(Base.Import)] private static extern bool tsMeshAttribute_packAttributes(HandleRef self, HandleRef attribute_0, HandleRef attribute_1, Format format);
 		[DllImport(Base.Import)] private static extern bool tsMeshAttribute_unpackAttributes(HandleRef self, HandleRef attribute_0, HandleRef attribute_1);
-		[DllImport(Base.Import)] private static extern IntPtr tsMeshAttribute_optimizeAttribute(HandleRef self, HandleRef indices);
+		[DllImport(Base.Import)] private static extern IntPtr tsMeshAttribute_optimizeAttribute(HandleRef self, HandleRef indices, float threshold);
 		[DllImport(Base.Import)] private static extern IntPtr tsMeshAttribute_toDirect(HandleRef self, HandleRef indices);
 		[DllImport(Base.Import)] private static extern IntPtr tsMeshAttribute_toFormat(HandleRef self, Format format);
 		[DllImport(Base.Import)] private static extern IntPtr tsMeshAttribute_toType(HandleRef self, Type type);
@@ -9318,15 +9320,30 @@ namespace Tellusim {
 			public uint maxTexture3DSize;
 			public uint maxTextureLayers;
 			public uint maxTextureSamples;
+			public uint maxGroupSize;
 			public uint maxGroupSizeX;
 			public uint maxGroupSizeY;
 			public uint maxGroupSizeZ;
 			public uint maxGroupCountX;
 			public uint maxGroupCountY;
 			public uint maxGroupCountZ;
+			public uint maxTaskSize;
+			public uint maxTaskSizeX;
+			public uint maxTaskSizeY;
+			public uint maxTaskSizeZ;
 			public uint maxTaskCount;
+			public uint maxTaskCountX;
+			public uint maxTaskCountY;
+			public uint maxTaskCountZ;
 			public uint maxTaskMemory;
-			public uint maxTaskMeshes;
+			public uint maxMeshSize;
+			public uint maxMeshSizeX;
+			public uint maxMeshSizeY;
+			public uint maxMeshSizeZ;
+			public uint maxMeshCount;
+			public uint maxMeshCountX;
+			public uint maxMeshCountY;
+			public uint maxMeshCountZ;
 			public uint maxMeshMemory;
 			public uint maxMeshVertices;
 			public uint maxMeshPrimitives;
@@ -9401,15 +9418,30 @@ namespace Tellusim {
 				ret += System.String.Format("maxTexture3DSize: {0}\n", maxTexture3DSize);
 				ret += System.String.Format("maxTextureLayers: {0}\n", maxTextureLayers);
 				ret += System.String.Format("maxTextureSamples: {0}\n", maxTextureSamples);
+				ret += System.String.Format("maxGroupSize: {0}\n", maxGroupSize);
 				ret += System.String.Format("maxGroupSizeX: {0}\n", maxGroupSizeX);
 				ret += System.String.Format("maxGroupSizeY: {0}\n", maxGroupSizeY);
 				ret += System.String.Format("maxGroupSizeZ: {0}\n", maxGroupSizeZ);
 				ret += System.String.Format("maxGroupCountX: {0}\n", maxGroupCountX);
 				ret += System.String.Format("maxGroupCountY: {0}\n", maxGroupCountY);
 				ret += System.String.Format("maxGroupCountZ: {0}\n", maxGroupCountZ);
+				ret += System.String.Format("maxTaskSize: {0}\n", maxTaskSize);
+				ret += System.String.Format("maxTaskSizeX: {0}\n", maxTaskSizeX);
+				ret += System.String.Format("maxTaskSizeY: {0}\n", maxTaskSizeY);
+				ret += System.String.Format("maxTaskSizeZ: {0}\n", maxTaskSizeZ);
 				ret += System.String.Format("maxTaskCount: {0}\n", maxTaskCount);
+				ret += System.String.Format("maxTaskCountX: {0}\n", maxTaskCountX);
+				ret += System.String.Format("maxTaskCountY: {0}\n", maxTaskCountY);
+				ret += System.String.Format("maxTaskCountZ: {0}\n", maxTaskCountZ);
 				ret += System.String.Format("maxTaskMemory: {0}\n", maxTaskMemory);
-				ret += System.String.Format("maxTaskMeshes: {0}\n", maxTaskMeshes);
+				ret += System.String.Format("maxMeshSize: {0}\n", maxMeshSize);
+				ret += System.String.Format("maxMeshSizeX: {0}\n", maxMeshSizeX);
+				ret += System.String.Format("maxMeshSizeY: {0}\n", maxMeshSizeY);
+				ret += System.String.Format("maxMeshSizeZ: {0}\n", maxMeshSizeZ);
+				ret += System.String.Format("maxMeshCount: {0}\n", maxMeshCount);
+				ret += System.String.Format("maxMeshCountX: {0}\n", maxMeshCountX);
+				ret += System.String.Format("maxMeshCountY: {0}\n", maxMeshCountY);
+				ret += System.String.Format("maxMeshCountZ: {0}\n", maxMeshCountZ);
 				ret += System.String.Format("maxMeshMemory: {0}\n", maxMeshMemory);
 				ret += System.String.Format("maxMeshVertices: {0}\n", maxMeshVertices);
 				ret += System.String.Format("maxMeshPrimitives: {0}\n", maxMeshPrimitives);
@@ -13580,6 +13612,9 @@ namespace Tellusim {
 		public void setColor(in Color color) { tsControlText_setColor_cC(self, in color); }
 		public void setColor(float r, float g, float b, float a) { tsControlText_setColor_ffff(self, r, g, b, a); }
 		public Color getColor() { return tsControlText_getColor(self); }
+		public void setStateColor(State state, in Color color) { tsControlText_setStateColor_CScC(self, state, in color); }
+		public void setStateColor(State state, float r, float g, float b, float a) { tsControlText_setStateColor_CSffff(self, state, r, g, b, a); }
+		public uint getStateColor(State state) { return tsControlText_getStateColor(self, state); }
 		public void setFilter(Sampler.Filter filter) { tsControlText_setFilter(self, filter); }
 		public Sampler.Filter getFilter() { return tsControlText_getFilter(self); }
 		public void setAnisotropy(uint anisotropy) { tsControlText_setAnisotropy(self, anisotropy); }
@@ -13639,6 +13674,9 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern void tsControlText_setColor_cC(HandleRef self, in Color color);
 		[DllImport(Base.Import)] private static extern void tsControlText_setColor_ffff(HandleRef self, float r, float g, float b, float a);
 		[DllImport(Base.Import)] private static extern Color tsControlText_getColor(HandleRef self);
+		[DllImport(Base.Import)] private static extern void tsControlText_setStateColor_CScC(HandleRef self, State state, in Color color);
+		[DllImport(Base.Import)] private static extern void tsControlText_setStateColor_CSffff(HandleRef self, State state, float r, float g, float b, float a);
+		[DllImport(Base.Import)] private static extern uint tsControlText_getStateColor(HandleRef self, State state);
 		[DllImport(Base.Import)] private static extern void tsControlText_setFilter(HandleRef self, Sampler.Filter filter);
 		[DllImport(Base.Import)] private static extern Sampler.Filter tsControlText_getFilter(HandleRef self);
 		[DllImport(Base.Import)] private static extern void tsControlText_setAnisotropy(HandleRef self, uint anisotropy);
@@ -13718,6 +13756,9 @@ namespace Tellusim {
 		public void setColor(in Color color) { tsControlRect_setColor_cC(self, in color); }
 		public void setColor(float r, float g, float b, float a) { tsControlRect_setColor_ffff(self, r, g, b, a); }
 		public Color getColor() { return tsControlRect_getColor(self); }
+		public void setStateColor(State state, in Color color) { tsControlRect_setStateColor_CScC(self, state, in color); }
+		public void setStateColor(State state, float r, float g, float b, float a) { tsControlRect_setStateColor_CSffff(self, state, r, g, b, a); }
+		public uint getStateColor(State state) { return tsControlRect_getStateColor(self, state); }
 		public void setStrokeStyle(in StrokeStyle style) { tsControlRect_setStrokeStyle(self, in style); }
 		public StrokeStyle getStrokeStyleConst() { return tsControlRect_getStrokeStyleConst(self); }
 		public StrokeStyle getStrokeStyle() { return tsControlRect_getStrokeStyle_c(self); }
@@ -13756,48 +13797,48 @@ namespace Tellusim {
 		public void setInsideCallback(InsideCallback func, IntPtr data = new IntPtr()) {
 			ControlRect.InsideCallback_ func_ = null;
 			if(func != null) func_ = (IntPtr a0_, float x_, float y_, IntPtr data_) => { return func(new ControlRect(a0_), x_, y_, data_); };
-			if(func_ != null) InsideCallback_56 = GCHandle.Alloc(func_);
+			if(func_ != null) InsideCallback_59 = GCHandle.Alloc(func_);
 			tsControlRect_setInsideCallback(self, Base.getFunc(func_), data);
 		}
 		public void setPressedCallback(PressedCallback func, IntPtr data = new IntPtr()) {
 			ControlRect.PressedCallback_ func_ = null;
 			if(func != null) func_ = (IntPtr a0_, float x_, float y_, IntPtr data_) => { func(new ControlRect(a0_), x_, y_, data_); };
-			if(func_ != null) PressedCallback_58 = GCHandle.Alloc(func_);
+			if(func_ != null) PressedCallback_61 = GCHandle.Alloc(func_);
 			tsControlRect_setPressedCallback(self, Base.getFunc(func_), data);
 		}
 		public void setReleasedCallback(ReleasedCallback func, IntPtr data = new IntPtr()) {
 			ControlRect.ReleasedCallback_ func_ = null;
 			if(func != null) func_ = (IntPtr a0_, float x_, float y_, IntPtr data_) => { func(new ControlRect(a0_), x_, y_, data_); };
-			if(func_ != null) ReleasedCallback_60 = GCHandle.Alloc(func_);
+			if(func_ != null) ReleasedCallback_63 = GCHandle.Alloc(func_);
 			tsControlRect_setReleasedCallback(self, Base.getFunc(func_), data);
 		}
 		public void setClickedCallback(ClickedCallback func, IntPtr data = new IntPtr()) {
 			ControlRect.ClickedCallback_ func_ = null;
 			if(func != null) func_ = (IntPtr a0_, IntPtr data_) => { func(new ControlRect(a0_), data_); };
-			if(func_ != null) ClickedCallback_62 = GCHandle.Alloc(func_);
+			if(func_ != null) ClickedCallback_65 = GCHandle.Alloc(func_);
 			tsControlRect_setClickedCallback(self, Base.getFunc(func_), data);
 		}
 		public void setClicked2Callback(ClickedCallback func, IntPtr data = new IntPtr()) {
 			ControlRect.ClickedCallback_ func_ = null;
 			if(func != null) func_ = (IntPtr a0_, IntPtr data_) => { func(new ControlRect(a0_), data_); };
-			if(func_ != null) ClickedCallback_63 = GCHandle.Alloc(func_);
+			if(func_ != null) ClickedCallback_66 = GCHandle.Alloc(func_);
 			tsControlRect_setClicked2Callback(self, Base.getFunc(func_), data);
 		}
 		public void setClickedRightCallback(ClickedCallback func, IntPtr data = new IntPtr()) {
 			ControlRect.ClickedCallback_ func_ = null;
 			if(func != null) func_ = (IntPtr a0_, IntPtr data_) => { func(new ControlRect(a0_), data_); };
-			if(func_ != null) ClickedCallback_64 = GCHandle.Alloc(func_);
+			if(func_ != null) ClickedCallback_67 = GCHandle.Alloc(func_);
 			tsControlRect_setClickedRightCallback(self, Base.getFunc(func_), data);
 		}
 		public CanvasRect getCanvasRect() { return new CanvasRect(tsControlRect_getCanvasRect(self)); }
 		public CanvasMesh getCanvasMesh() { return new CanvasMesh(tsControlRect_getCanvasMesh(self)); }
 		private GCHandle DrawCallback_12;
-		private GCHandle InsideCallback_56;
-		private GCHandle PressedCallback_58;
-		private GCHandle ReleasedCallback_60;
-		private GCHandle ClickedCallback_62;
-		private GCHandle ClickedCallback_63;
-		private GCHandle ClickedCallback_64;
+		private GCHandle InsideCallback_59;
+		private GCHandle PressedCallback_61;
+		private GCHandle ReleasedCallback_63;
+		private GCHandle ClickedCallback_65;
+		private GCHandle ClickedCallback_66;
+		private GCHandle ClickedCallback_67;
 		public override string ToString() { return "Tellusim.ControlRect: Valid: " + tsControlRect_isValidPtr(self) + "; Owner: " + tsControlRect_isOwnerPtr(self) + "; Const: " + tsControlRect_isConstPtr(self) + "; Count: " + tsControlRect_getCountPtr(self) + "; Internal: 0x" + tsControlRect_getInternalPtr(self).ToString("x8") + "; Self: 0x" + self.Handle.ToString("x8") + "; Owner: " + owner; }
 		public static implicit operator bool(ControlRect ptr) { return (ptr != null && tsControlRect_isValidPtr(ptr.getSelf())); }
 		[DllImport(Base.Import)] private static extern IntPtr tsControlRect_new();
@@ -13835,6 +13876,9 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern void tsControlRect_setColor_cC(HandleRef self, in Color color);
 		[DllImport(Base.Import)] private static extern void tsControlRect_setColor_ffff(HandleRef self, float r, float g, float b, float a);
 		[DllImport(Base.Import)] private static extern Color tsControlRect_getColor(HandleRef self);
+		[DllImport(Base.Import)] private static extern void tsControlRect_setStateColor_CScC(HandleRef self, State state, in Color color);
+		[DllImport(Base.Import)] private static extern void tsControlRect_setStateColor_CSffff(HandleRef self, State state, float r, float g, float b, float a);
+		[DllImport(Base.Import)] private static extern uint tsControlRect_getStateColor(HandleRef self, State state);
 		[DllImport(Base.Import)] private static extern void tsControlRect_setStrokeStyle(HandleRef self, in StrokeStyle style);
 		[DllImport(Base.Import)] private static extern StrokeStyle tsControlRect_getStrokeStyleConst(HandleRef self);
 		[DllImport(Base.Import)] private static extern StrokeStyle tsControlRect_getStrokeStyle_c(HandleRef self);
@@ -16258,8 +16302,8 @@ namespace Tellusim {
 		public uint getMaxOrder() { return tsCubeFilter_getMaxOrder(self); }
 		public uint getMaxSize() { return tsCubeFilter_getMaxSize(self); }
 		public uint getHarmonics() { return tsCubeFilter_getHarmonics(self); }
-		public bool create(Device device, Mode mode, uint order = 3, uint size = 1024, uint groups = 256) { return tsCubeFilter_create_cDCFMuuu(self, device.getSelf(), mode, order, size, groups); }
-		public bool create(Device device, Flags flags, uint order = 3, uint size = 1024, uint groups = 256) { return tsCubeFilter_create_cDCFFuuu(self, device.getSelf(), flags, order, size, groups); }
+		public bool create(Device device, Mode mode, uint order = 3, uint size = 1024, uint threads = 256) { return tsCubeFilter_create_cDCFMuuu(self, device.getSelf(), mode, order, size, threads); }
+		public bool create(Device device, Flags flags, uint order = 3, uint size = 1024, uint threads = 256) { return tsCubeFilter_create_cDCFFuuu(self, device.getSelf(), flags, order, size, threads); }
 		public bool dispatch(Compute compute, Buffer buffer, uint offset, Texture texture, in Slice slice) { return tsCubeFilter_dispatch_cCBuTcS(self, compute.getSelf(), buffer.getSelf(), offset, texture.getSelf(), in slice); }
 		public bool dispatch(Compute compute, Buffer buffer, uint offset, Texture texture) { return tsCubeFilter_dispatch_cCBuT(self, compute.getSelf(), buffer.getSelf(), offset, texture.getSelf()); }
 		public bool dispatch(Compute compute, Texture texture, in Slice slice, Buffer buffer, uint offset) { return tsCubeFilter_dispatch_cCTcSBu(self, compute.getSelf(), texture.getSelf(), in slice, buffer.getSelf(), offset); }
@@ -16289,8 +16333,8 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern uint tsCubeFilter_getMaxOrder(HandleRef self);
 		[DllImport(Base.Import)] private static extern uint tsCubeFilter_getMaxSize(HandleRef self);
 		[DllImport(Base.Import)] private static extern uint tsCubeFilter_getHarmonics(HandleRef self);
-		[DllImport(Base.Import)] private static extern bool tsCubeFilter_create_cDCFMuuu(HandleRef self, HandleRef device, Mode mode, uint order, uint size, uint groups);
-		[DllImport(Base.Import)] private static extern bool tsCubeFilter_create_cDCFFuuu(HandleRef self, HandleRef device, Flags flags, uint order, uint size, uint groups);
+		[DllImport(Base.Import)] private static extern bool tsCubeFilter_create_cDCFMuuu(HandleRef self, HandleRef device, Mode mode, uint order, uint size, uint threads);
+		[DllImport(Base.Import)] private static extern bool tsCubeFilter_create_cDCFFuuu(HandleRef self, HandleRef device, Flags flags, uint order, uint size, uint threads);
 		[DllImport(Base.Import)] private static extern bool tsCubeFilter_dispatch_cCBuTcS(HandleRef self, HandleRef compute, HandleRef buffer, uint offset, HandleRef texture, in Slice slice);
 		[DllImport(Base.Import)] private static extern bool tsCubeFilter_dispatch_cCBuT(HandleRef self, HandleRef compute, HandleRef buffer, uint offset, HandleRef texture);
 		[DllImport(Base.Import)] private static extern bool tsCubeFilter_dispatch_cCTcSBu(HandleRef self, HandleRef compute, HandleRef texture, in Slice slice, HandleRef buffer, uint offset);
@@ -16906,13 +16950,13 @@ namespace Tellusim {
 		public uint getScanElements() { return tsPrefixScan_getScanElements(self); }
 		public uint getMaxElements() { return tsPrefixScan_getMaxElements(self); }
 		public uint getMaxRegions() { return tsPrefixScan_getMaxRegions(self); }
-		public bool create(Device device, Mode mode, uint groups = 256, uint regions = 1, in Async async = null) {
+		public bool create(Device device, Mode mode, uint threads = 256, uint regions = 1, in Async async = null) {
 			IntPtr async_ = (async != null) ? async.getSelfPtr() : IntPtr.Zero;
-			return tsPrefixScan_create_cDPSMuuA(self, device.getSelf(), mode, groups, regions, ref async_);
+			return tsPrefixScan_create_cDPSMuuA(self, device.getSelf(), mode, threads, regions, ref async_);
 		}
-		public bool create(Device device, Flags flags, uint groups = 256, uint regions = 1, in Async async = null) {
+		public bool create(Device device, Flags flags, uint threads = 256, uint regions = 1, in Async async = null) {
 			IntPtr async_ = (async != null) ? async.getSelfPtr() : IntPtr.Zero;
-			return tsPrefixScan_create_cDPSFuuA(self, device.getSelf(), flags, groups, regions, ref async_);
+			return tsPrefixScan_create_cDPSFuuA(self, device.getSelf(), flags, threads, regions, ref async_);
 		}
 		public bool dispatch(Compute compute, Buffer data, uint offset, uint size, uint stride = 1) { return tsPrefixScan_dispatch_CBuuu(self, compute.getSelf(), data.getSelf(), offset, size, stride); }
 		public bool dispatch(Compute compute, Buffer data, uint count, uint[] offsets, uint[] sizes, Flags flags = Flags.None, uint stride = 1) { return tsPrefixScan_dispatch_CBuupupPSFu(self, compute.getSelf(), data.getSelf(), count, offsets, sizes, flags, stride); }
@@ -16941,8 +16985,8 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern uint tsPrefixScan_getScanElements(HandleRef self);
 		[DllImport(Base.Import)] private static extern uint tsPrefixScan_getMaxElements(HandleRef self);
 		[DllImport(Base.Import)] private static extern uint tsPrefixScan_getMaxRegions(HandleRef self);
-		[DllImport(Base.Import)] private static extern bool tsPrefixScan_create_cDPSMuuA(HandleRef self, HandleRef device, Mode mode, uint groups, uint regions, ref IntPtr async);
-		[DllImport(Base.Import)] private static extern bool tsPrefixScan_create_cDPSFuuA(HandleRef self, HandleRef device, Flags flags, uint groups, uint regions, ref IntPtr async);
+		[DllImport(Base.Import)] private static extern bool tsPrefixScan_create_cDPSMuuA(HandleRef self, HandleRef device, Mode mode, uint threads, uint regions, ref IntPtr async);
+		[DllImport(Base.Import)] private static extern bool tsPrefixScan_create_cDPSFuuA(HandleRef self, HandleRef device, Flags flags, uint threads, uint regions, ref IntPtr async);
 		[DllImport(Base.Import)] private static extern bool tsPrefixScan_dispatch_CBuuu(HandleRef self, HandleRef compute, HandleRef data, uint offset, uint size, uint stride);
 		[DllImport(Base.Import)] private static extern bool tsPrefixScan_dispatch_CBuupupPSFu(HandleRef self, HandleRef compute, HandleRef data, uint count, uint[] offsets, uint[] sizes, Flags flags, uint stride);
 		[DllImport(Base.Import)] private static extern bool tsPrefixScan_dispatchIndirect_CBBuPSFuu(HandleRef self, HandleRef compute, HandleRef data, HandleRef dispatch, uint offset, Flags flags, uint max_size, uint stride);
@@ -17009,13 +17053,13 @@ namespace Tellusim {
 		public uint getMaxRegions() { return tsRadixSort_getMaxRegions(self); }
 		public PrefixScan getPrefixScan() { return new PrefixScan(tsRadixSort_getPrefixScan(self)); }
 		public Buffer getDataBuffer() { return new Buffer(tsRadixSort_getDataBuffer(self)); }
-		public bool create(Device device, Mode mode, PrefixScan scan, uint size, uint groups = 256, uint regions = 1, in Async async = null) {
+		public bool create(Device device, Mode mode, PrefixScan scan, uint size, uint threads = 256, uint regions = 1, in Async async = null) {
 			IntPtr async_ = (async != null) ? async.getSelfPtr() : IntPtr.Zero;
-			return tsRadixSort_create_cDRSMPSuuuA(self, device.getSelf(), mode, scan.getSelf(), size, groups, regions, ref async_);
+			return tsRadixSort_create_cDRSMPSuuuA(self, device.getSelf(), mode, scan.getSelf(), size, threads, regions, ref async_);
 		}
-		public bool create(Device device, Flags flags, PrefixScan scan, uint size, uint groups = 256, uint regions = 1, in Async async = null) {
+		public bool create(Device device, Flags flags, PrefixScan scan, uint size, uint threads = 256, uint regions = 1, in Async async = null) {
 			IntPtr async_ = (async != null) ? async.getSelfPtr() : IntPtr.Zero;
-			return tsRadixSort_create_cDRSFPSuuuA(self, device.getSelf(), flags, scan.getSelf(), size, groups, regions, ref async_);
+			return tsRadixSort_create_cDRSFPSuuuA(self, device.getSelf(), flags, scan.getSelf(), size, threads, regions, ref async_);
 		}
 		public bool dispatch(Compute compute, Buffer data, uint keys_offset, uint data_offset, uint size, Flags flags = Flags.None, uint bits = 32) { return tsRadixSort_dispatch_CBuuuRSFu(self, compute.getSelf(), data.getSelf(), keys_offset, data_offset, size, flags, bits); }
 		public bool dispatch(Compute compute, Buffer data, uint count, uint[] keys_offsets, uint[] data_offsets, uint[] sizes, Flags flags = Flags.None, uint bits = 32) { return tsRadixSort_dispatch_CBuupupupRSFu(self, compute.getSelf(), data.getSelf(), count, keys_offsets, data_offsets, sizes, flags, bits); }
@@ -17048,8 +17092,8 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern uint tsRadixSort_getMaxRegions(HandleRef self);
 		[DllImport(Base.Import)] private static extern IntPtr tsRadixSort_getPrefixScan(HandleRef self);
 		[DllImport(Base.Import)] private static extern IntPtr tsRadixSort_getDataBuffer(HandleRef self);
-		[DllImport(Base.Import)] private static extern bool tsRadixSort_create_cDRSMPSuuuA(HandleRef self, HandleRef device, Mode mode, HandleRef scan, uint size, uint groups, uint regions, ref IntPtr async);
-		[DllImport(Base.Import)] private static extern bool tsRadixSort_create_cDRSFPSuuuA(HandleRef self, HandleRef device, Flags flags, HandleRef scan, uint size, uint groups, uint regions, ref IntPtr async);
+		[DllImport(Base.Import)] private static extern bool tsRadixSort_create_cDRSMPSuuuA(HandleRef self, HandleRef device, Mode mode, HandleRef scan, uint size, uint threads, uint regions, ref IntPtr async);
+		[DllImport(Base.Import)] private static extern bool tsRadixSort_create_cDRSFPSuuuA(HandleRef self, HandleRef device, Flags flags, HandleRef scan, uint size, uint threads, uint regions, ref IntPtr async);
 		[DllImport(Base.Import)] private static extern bool tsRadixSort_dispatch_CBuuuRSFu(HandleRef self, HandleRef compute, HandleRef data, uint keys_offset, uint data_offset, uint size, Flags flags, uint bits);
 		[DllImport(Base.Import)] private static extern bool tsRadixSort_dispatch_CBuupupupRSFu(HandleRef self, HandleRef compute, HandleRef data, uint count, uint[] keys_offsets, uint[] data_offsets, uint[] sizes, Flags flags, uint bits);
 		[DllImport(Base.Import)] private static extern bool tsRadixSort_dispatchIndirect_CBBuRSFuu(HandleRef self, HandleRef compute, HandleRef data, HandleRef dispatch, uint offset, Flags flags, uint bits, uint max_size);
@@ -17111,13 +17155,13 @@ namespace Tellusim {
 		public uint getGroupSize() { return tsBitonicSort_getGroupSize(self); }
 		public uint getSortElements() { return tsBitonicSort_getSortElements(self); }
 		public uint getMaxRegions() { return tsBitonicSort_getMaxRegions(self); }
-		public bool create(Device device, Mode mode, uint size, uint groups = 256, uint regions = 1, in Async async = null) {
+		public bool create(Device device, Mode mode, uint size, uint threads = 256, uint regions = 1, in Async async = null) {
 			IntPtr async_ = (async != null) ? async.getSelfPtr() : IntPtr.Zero;
-			return tsBitonicSort_create_cDBSMuuuA(self, device.getSelf(), mode, size, groups, regions, ref async_);
+			return tsBitonicSort_create_cDBSMuuuA(self, device.getSelf(), mode, size, threads, regions, ref async_);
 		}
-		public bool create(Device device, Flags flags, uint size, uint groups = 256, uint regions = 1, in Async async = null) {
+		public bool create(Device device, Flags flags, uint size, uint threads = 256, uint regions = 1, in Async async = null) {
 			IntPtr async_ = (async != null) ? async.getSelfPtr() : IntPtr.Zero;
-			return tsBitonicSort_create_cDBSFuuuA(self, device.getSelf(), flags, size, groups, regions, ref async_);
+			return tsBitonicSort_create_cDBSFuuuA(self, device.getSelf(), flags, size, threads, regions, ref async_);
 		}
 		public bool dispatch(Compute compute, Buffer data, uint keys_offset, uint data_offset, uint size, Flags flags = Flags.None) { return tsBitonicSort_dispatch_CBuuuBSF(self, compute.getSelf(), data.getSelf(), keys_offset, data_offset, size, flags); }
 		public bool dispatch(Compute compute, Buffer data, uint count, uint[] keys_offsets, uint[] data_offsets, uint[] sizes, Flags flags = Flags.None) { return tsBitonicSort_dispatch_CBuupupupBSF(self, compute.getSelf(), data.getSelf(), count, keys_offsets, data_offsets, sizes, flags); }
@@ -17146,8 +17190,8 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern uint tsBitonicSort_getGroupSize(HandleRef self);
 		[DllImport(Base.Import)] private static extern uint tsBitonicSort_getSortElements(HandleRef self);
 		[DllImport(Base.Import)] private static extern uint tsBitonicSort_getMaxRegions(HandleRef self);
-		[DllImport(Base.Import)] private static extern bool tsBitonicSort_create_cDBSMuuuA(HandleRef self, HandleRef device, Mode mode, uint size, uint groups, uint regions, ref IntPtr async);
-		[DllImport(Base.Import)] private static extern bool tsBitonicSort_create_cDBSFuuuA(HandleRef self, HandleRef device, Flags flags, uint size, uint groups, uint regions, ref IntPtr async);
+		[DllImport(Base.Import)] private static extern bool tsBitonicSort_create_cDBSMuuuA(HandleRef self, HandleRef device, Mode mode, uint size, uint threads, uint regions, ref IntPtr async);
+		[DllImport(Base.Import)] private static extern bool tsBitonicSort_create_cDBSFuuuA(HandleRef self, HandleRef device, Flags flags, uint size, uint threads, uint regions, ref IntPtr async);
 		[DllImport(Base.Import)] private static extern bool tsBitonicSort_dispatch_CBuuuBSF(HandleRef self, HandleRef compute, HandleRef data, uint keys_offset, uint data_offset, uint size, Flags flags);
 		[DllImport(Base.Import)] private static extern bool tsBitonicSort_dispatch_CBuupupupBSF(HandleRef self, HandleRef compute, HandleRef data, uint count, uint[] keys_offsets, uint[] data_offsets, uint[] sizes, Flags flags);
 		[DllImport(Base.Import)] private static extern bool tsBitonicSort_dispatchIndirect_CBBuBSF(HandleRef self, HandleRef compute, HandleRef data, HandleRef dispatch, uint offset, Flags flags);
@@ -17194,7 +17238,7 @@ namespace Tellusim {
 		public bool isCreated() { return tsSpatialGrid_isCreated(self); }
 		public uint getGroupSize() { return tsSpatialGrid_getGroupSize(self); }
 		public RadixSort getRadixSort() { return new RadixSort(tsSpatialGrid_getRadixSort(self)); }
-		public bool create(Device device, RadixSort sort, uint groups = 256) { return tsSpatialGrid_create(self, device.getSelf(), sort.getSelf(), groups); }
+		public bool create(Device device, RadixSort sort, uint threads = 256) { return tsSpatialGrid_create(self, device.getSelf(), sort.getSelf(), threads); }
 		public bool dispatch(Compute compute, Buffer data, uint offset, uint size, uint bits = 32) { return tsSpatialGrid_dispatch(self, compute.getSelf(), data.getSelf(), offset, size, bits); }
 		public bool dispatchIndirect(Compute compute, Buffer data, Buffer dispatch, uint offset, uint max_size = Base.Maxu32) { return tsSpatialGrid_dispatchIndirect(self, compute.getSelf(), data.getSelf(), dispatch.getSelf(), offset, max_size); }
 		public override string ToString() { return "Tellusim.SpatialGrid: Valid: " + tsSpatialGrid_isValidPtr(self) + "; Owner: " + tsSpatialGrid_isOwnerPtr(self) + "; Const: " + tsSpatialGrid_isConstPtr(self) + "; Count: " + tsSpatialGrid_getCountPtr(self) + "; Internal: 0x" + tsSpatialGrid_getInternalPtr(self).ToString("x8") + "; Self: 0x" + self.Handle.ToString("x8") + "; Owner: " + owner; }
@@ -17217,7 +17261,7 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern bool tsSpatialGrid_isCreated(HandleRef self);
 		[DllImport(Base.Import)] private static extern uint tsSpatialGrid_getGroupSize(HandleRef self);
 		[DllImport(Base.Import)] private static extern IntPtr tsSpatialGrid_getRadixSort(HandleRef self);
-		[DllImport(Base.Import)] private static extern bool tsSpatialGrid_create(HandleRef self, HandleRef device, HandleRef sort, uint groups);
+		[DllImport(Base.Import)] private static extern bool tsSpatialGrid_create(HandleRef self, HandleRef device, HandleRef sort, uint threads);
 		[DllImport(Base.Import)] private static extern bool tsSpatialGrid_dispatch(HandleRef self, HandleRef compute, HandleRef data, uint offset, uint size, uint bits);
 		[DllImport(Base.Import)] private static extern bool tsSpatialGrid_dispatchIndirect(HandleRef self, HandleRef compute, HandleRef data, HandleRef dispatch, uint offset, uint max_size);
 		[StructLayout(LayoutKind.Sequential)] public struct DispatchParameters {
@@ -17298,13 +17342,13 @@ namespace Tellusim {
 		public Buffer getHashBuffer() { return new Buffer(tsSpatialTree_getHashBuffer(self)); }
 		public Buffer getParentsBuffer() { return new Buffer(tsSpatialTree_getParentsBuffer(self)); }
 		public Buffer getCounterBuffer() { return new Buffer(tsSpatialTree_getCounterBuffer(self)); }
-		public bool create(Device device, Mode mode, RadixSort sort, uint size, uint groups = 256, uint regions = 1, in Async async = null) {
+		public bool create(Device device, Mode mode, RadixSort sort, uint size, uint threads = 256, uint regions = 1, in Async async = null) {
 			IntPtr async_ = (async != null) ? async.getSelfPtr() : IntPtr.Zero;
-			return tsSpatialTree_create_cDSTMRSuuuA(self, device.getSelf(), mode, sort.getSelf(), size, groups, regions, ref async_);
+			return tsSpatialTree_create_cDSTMRSuuuA(self, device.getSelf(), mode, sort.getSelf(), size, threads, regions, ref async_);
 		}
-		public bool create(Device device, Flags flags, RadixSort sort, uint size, uint groups = 256, uint regions = 1, in Async async = null) {
+		public bool create(Device device, Flags flags, RadixSort sort, uint size, uint threads = 256, uint regions = 1, in Async async = null) {
 			IntPtr async_ = (async != null) ? async.getSelfPtr() : IntPtr.Zero;
-			return tsSpatialTree_create_cDSTFRSuuuA(self, device.getSelf(), flags, sort.getSelf(), size, groups, regions, ref async_);
+			return tsSpatialTree_create_cDSTFRSuuuA(self, device.getSelf(), flags, sort.getSelf(), size, threads, regions, ref async_);
 		}
 		public bool dispatch(Compute compute, Hash hash, Buffer nodes, uint offset, uint size, Flags flags = Flags.None) { return tsSpatialTree_dispatch_CSTHBuuSTF(self, compute.getSelf(), hash, nodes.getSelf(), offset, size, flags); }
 		public bool dispatch(Compute compute, Hash hash, Buffer nodes, uint count, uint[] offsets, uint[] sizes, Flags flags = Flags.None) { return tsSpatialTree_dispatch_CSTHBuupupSTF(self, compute.getSelf(), hash, nodes.getSelf(), count, offsets, sizes, flags); }
@@ -17336,8 +17380,8 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern IntPtr tsSpatialTree_getHashBuffer(HandleRef self);
 		[DllImport(Base.Import)] private static extern IntPtr tsSpatialTree_getParentsBuffer(HandleRef self);
 		[DllImport(Base.Import)] private static extern IntPtr tsSpatialTree_getCounterBuffer(HandleRef self);
-		[DllImport(Base.Import)] private static extern bool tsSpatialTree_create_cDSTMRSuuuA(HandleRef self, HandleRef device, Mode mode, HandleRef sort, uint size, uint groups, uint regions, ref IntPtr async);
-		[DllImport(Base.Import)] private static extern bool tsSpatialTree_create_cDSTFRSuuuA(HandleRef self, HandleRef device, Flags flags, HandleRef sort, uint size, uint groups, uint regions, ref IntPtr async);
+		[DllImport(Base.Import)] private static extern bool tsSpatialTree_create_cDSTMRSuuuA(HandleRef self, HandleRef device, Mode mode, HandleRef sort, uint size, uint threads, uint regions, ref IntPtr async);
+		[DllImport(Base.Import)] private static extern bool tsSpatialTree_create_cDSTFRSuuuA(HandleRef self, HandleRef device, Flags flags, HandleRef sort, uint size, uint threads, uint regions, ref IntPtr async);
 		[DllImport(Base.Import)] private static extern bool tsSpatialTree_dispatch_CSTHBuuSTF(HandleRef self, HandleRef compute, Hash hash, HandleRef nodes, uint offset, uint size, Flags flags);
 		[DllImport(Base.Import)] private static extern bool tsSpatialTree_dispatch_CSTHBuupupSTF(HandleRef self, HandleRef compute, Hash hash, HandleRef nodes, uint count, uint[] offsets, uint[] sizes, Flags flags);
 		[DllImport(Base.Import)] private static extern bool tsSpatialTree_dispatchIndirect_CSTHBBuuSTF(HandleRef self, HandleRef compute, Hash hash, HandleRef nodes, HandleRef dispatch, uint offset, uint max_size, Flags flags);
@@ -18177,6 +18221,28 @@ namespace Tellusim {
 		[DllImport(Base.Import)] private static extern bool tsSystem_open_cS(HandleRef command);
 	}
 	
+	// Tellusim::MeshBoolean
+	public static class MeshBoolean {
+		public enum Operation : uint {
+			OpUnion,
+			OpDifference,
+			OpIntersection,
+		}
+		public static bool intersect(MeshGeometry dest, MeshGeometry src_0, MeshGeometry src_1, Operation op) { return tsMeshBoolean_intersect_MGcMGcMGMBO(dest.getSelf(), src_0.getSelf(), src_1.getSelf(), op); }
+		public static bool intersect(MeshGeometry dest_0, MeshGeometry dest_1, MeshGeometry src_0, MeshGeometry src_1, Operation op) { return tsMeshBoolean_intersect_MGMGcMGcMGMBO(dest_0.getSelf(), dest_1.getSelf(), src_0.getSelf(), src_1.getSelf(), op); }
+		[DllImport(Base.Import)] private static extern bool tsMeshBoolean_intersect_MGcMGcMGMBO(HandleRef dest, HandleRef src_0, HandleRef src_1, Operation op);
+		[DllImport(Base.Import)] private static extern bool tsMeshBoolean_intersect_MGMGcMGcMGMBO(HandleRef dest_0, HandleRef dest_1, HandleRef src_0, HandleRef src_1, Operation op);
+	}
+	
+	// Tellusim::MeshFracture
+	public static class MeshFracture {
+		public static bool split(Mesh dest, Mesh src, Vector3f[] points, in Vector2f texcoord, float threshold = 1e-3f, float collapse = 1e-3f, float volume = 1e-3f, in Async async = null) {
+			IntPtr async_ = (async != null) ? async.getSelfPtr() : IntPtr.Zero;
+			return tsMeshFracture_split_McMcV3ucV2fffA(dest.getSelf(), src.getSelf(), ref points, (uint)points.Length, in texcoord, threshold, collapse, volume, ref async_);
+		}
+		[DllImport(Base.Import)] private static extern bool tsMeshFracture_split_McMcV3ucV2fffA(HandleRef dest, HandleRef src, ref Vector3f[] points, uint num_points, in Vector2f texcoord, float threshold, float collapse, float volume, ref IntPtr async);
+	}
+	
 	// Tellusim::MeshGraph
 	public static class MeshGraph {
 		public delegate bool ProgressCallback(uint progress, IntPtr data_);
@@ -18229,6 +18295,14 @@ namespace Tellusim {
 		private static GCHandle ProgressCallback_1;
 		[DllImport(Base.Import)] private static extern bool tsMeshSolid_create_McMffcMSPC(HandleRef dest, HandleRef src, float ratio, float threshold, IntPtr func, IntPtr data_);
 		[DllImport(Base.Import)] private static extern bool tsMeshSolid_create_MGcMGffcMSPCu(HandleRef dest, HandleRef src, float ratio, float threshold, IntPtr func, uint position, IntPtr data_);
+	}
+	
+	// Tellusim::MeshSplit
+	public static class MeshSplit {
+		public static bool split(Mesh front, Mesh cross, Mesh back, Mesh src, in Matrix4x3f basis) { return tsMeshSplit_split_MMMcMcM43(front.getSelf(), cross.getSelf(), back.getSelf(), src.getSelf(), in basis); }
+		public static bool split(MeshGeometry front, MeshGeometry cross, MeshGeometry back, MeshGeometry src, in Matrix4x3f basis, uint position = Base.Maxu32) { return tsMeshSplit_split_MGMGMGcMGcM43u(front.getSelf(), cross.getSelf(), back.getSelf(), src.getSelf(), in basis, position); }
+		[DllImport(Base.Import)] private static extern bool tsMeshSplit_split_MMMcMcM43(HandleRef front, HandleRef cross, HandleRef back, HandleRef src, in Matrix4x3f basis);
+		[DllImport(Base.Import)] private static extern bool tsMeshSplit_split_MGMGMGcMGcM43u(HandleRef front, HandleRef cross, HandleRef back, HandleRef src, in Matrix4x3f basis, uint position);
 	}
 	
 } /* namespace Tellusim */

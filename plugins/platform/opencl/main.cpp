@@ -137,6 +137,10 @@ int32_t main(int32_t argc, char **argv) {
 		D3D12Buffer d3d12_position_buffer = D3D12Buffer(position_buffer);
 		if(!d3d12_position_buffer) return 1;
 		position_buffer_handle = d3d12_position_buffer.getInteropHandle();
+	} else if(position_buffer.getPlatform() == PlatformD3D11) {
+		D3D11Buffer d3d11_position_buffer = D3D11Buffer(position_buffer);
+		if(!d3d11_position_buffer) return 1;
+		position_buffer_handle = d3d11_position_buffer.getInteropHandle();
 	} else {
 		return 1;
 	}

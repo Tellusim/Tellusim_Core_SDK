@@ -12,20 +12,29 @@ namespace Tellusim {
 	/*
 	 */
 	ControlPopup::ControlPopup(Control *parent) : ControlBase(parent) {
-		
-		// root control
-		ControlRoot root = getRoot();
-		uint32_t font_size = root.getFontSize() + 4;
-		
-		// popup parameters
-		radius = (float32_t)font_size * 0.5f;
-		color = Color(0.12f, 1.0f);
-		
-		getParent().lowerChild(*this);
+		create();
 	}
 	
 	ControlPopup::~ControlPopup() {
 		
+	}
+	
+	/*
+	 */
+	void ControlPopup::create() {
+		
+		ControlRoot root = getRoot();
+		
+		// default parameters
+		update_style(root.getFontStyle());
+		setColor(Color(0.12f, 0.12f, 0.12f, 1.0f));
+		setItemColor(Color(0.2f, 0.3f, 0.4f, 0.9f));
+		setSpacing(1.0f, 1.0f);
+		
+		// lower control
+		getParent().lowerChild(*this);
+		
+		ControlBase::create();
 	}
 	
 	/*
@@ -56,6 +65,12 @@ namespace Tellusim {
 	
 	/*
 	 */
+	void ControlPopup::setItemColor(const Color &c) {
+		item_color = c;
+	}
+	
+	/*
+	 */
 	void ControlPopup::closePopups() {
 		close_popups = true;
 	}
@@ -78,8 +93,13 @@ namespace Tellusim {
 	}
 	
 	void ControlPopup::addPopup(const Vector2f &position, const PopupCallback &func) {
+		Control parent = getRoot(true);
+		addPopup(&parent, position, func);
+	}
+	
+	void ControlPopup::addPopup(Control *parent, const Vector2f &position, const PopupCallback &func) {
 		Popup &popup = popups.append();
-		popup.panel = create_panel(Control::null, position, 1.0f, func);
+		popup.panel = create_panel(parent, Control::null, position, 1.0f, func);
 		popup.control = popup.panel;
 		popup.time = Time::current();
 		close_popups = false;
@@ -87,11 +107,165 @@ namespace Tellusim {
 	
 	/*
 	 */
-	ControlPanel ControlPopup::create_panel(const Control &control, const Vector2f &position, float32_t scale, const PopupCallback &func) {
+	void ControlPopup::createItem(ControlPanel &popup_panel, const char *text, const ClickedCallback &func, const String &key) {
+		
+		// popup item
+		ControlPanel panel = create_item(&popup_panel);
+		panel.setColumns(2);
+		
+		// item text
+		ControlText item_text(&panel, text);
+		item_text.setAlign(Control::AlignLeft | Control::AlignExpandX);
+		
+		// item hotkey
+		if(key) {
+			ControlText key_text(&panel, key);
+			key_text.setFontColor(Color::gray);
+			key_text.setAlign(Control::AlignRight);
+			key_text.setMargin(getRadius() * 2.0f, 0.0f, 0.0f, 0.0f);
+		}
+		
+		// item callback
+		panel.setClickedCallback(makeFunction([this](ControlRect rect, ClickedCallback func) {
+			closePopups();
+			func.run();
+		}, ControlRect::null, func));
+	}
+	
+	void ControlPopup::createItem(ControlPanel &popup_panel, const String &text, const ClickedCallback &func, const String &key) {
+		createItem(popup_panel, text.get(), func, key);
+	}
+	
+	/*
+	 */
+	void ControlPopup::createItem(ControlPanel &popup_panel, const char *text, const char *texture, const Rect &texcoord, const ClickedCallback &func, const String &key) {
+		
+		// popup item
+		ControlPanel panel = create_item(&popup_panel);
+		panel.setColumns(3);
+		
+		// item image
+		ControlRect item_rect(&panel, texture);
+		float32_t margin = floor(getRadius() * 0.5f);
+		item_rect.setMargin(-margin, margin, -margin, -margin);
+		item_rect.setSize(getRadius() * 2.0f, getRadius() * 2.0f);
+		item_rect.setBlend(Pipeline::BlendOpAdd, Pipeline::BlendFuncSrcAlpha, Pipeline::BlendFuncInvSrcAlpha);
+		item_rect.setTextureScale(0.0f, 0.0f);
+		item_rect.setTexCoord(texcoord);
+		
+		// item text
+		ControlText item_text(&panel, text);
+		item_text.setAlign(Control::AlignLeft | Control::AlignExpandX | Control::AlignCenterY);
+		
+		// item hotkey
+		if(key) {
+			ControlText key_text(&panel, key);
+			key_text.setFontColor(Color::gray);
+			key_text.setAlign(Control::AlignRight);
+			key_text.setMargin(getRadius() * 2.0f, 0.0f, 0.0f, 0.0f);
+		}
+		
+		// item callback
+		panel.setClickedCallback(makeFunction([this](ControlRect rect, ClickedCallback func) {
+			closePopups();
+			func.run();
+		}, ControlRect::null, func));
+	}
+	
+	void ControlPopup::createItem(ControlPanel &popup_panel, const String &text, const char *texture, const Rect &texcoord, const ClickedCallback &func, const String &key) {
+		createItem(popup_panel, text.get(), texture, texcoord, func, key);
+	}
+	
+	/*
+	 */
+	void ControlPopup::createItem(ControlPanel &popup_panel, const char *text, bool checked, const ChangedCallback &func, const String &key) {
+		
+		// popup item
+		ControlPanel panel = create_item(&popup_panel);
+		panel.setColumns(3);
+		
+		// check text
+		ControlText check_text(&panel, (checked) ? "&#10004;" : "");
+		check_text.setAlign(Control::AlignLeft);
+		check_text.setSize(getRadius() * 2.0f, 0.0f);
+		
+		// item text
+		ControlText item_text(&panel, text);
+		item_text.setAlign(Control::AlignLeft | Control::AlignExpandX);
+		
+		// item hotkey
+		if(key) {
+			ControlText key_text(&panel, key);
+			key_text.setFontColor(Color::gray);
+			key_text.setAlign(Control::AlignRight);
+			key_text.setMargin(getRadius() * 2.0f, 0.0f, 0.0f, 0.0f);
+		}
+		
+		// item callback
+		panel.setClickedCallback(makeFunction([this](ControlRect rect, ChangedCallback func, bool checked) {
+			closePopups();
+			func.run(!checked);
+		}, ControlRect::null, func, checked));
+	}
+	
+	void ControlPopup::createItem(ControlPanel &popup_panel, const String &text, bool checked, const ChangedCallback &func, const String &key) {
+		createItem(popup_panel, text.get(), checked, func, key);
+	}
+	
+	/*
+	 */
+	void ControlPopup::createItemPopup(ControlPanel &popup_panel, const char *text, const PopupCallback &func) {
+		
+		// popup item
+		ControlPanel panel = create_item(&popup_panel);
+		panel.setColumns(2);
+		
+		// item text
+		ControlText item_text(&panel, text);
+		item_text.setAlign(Control::AlignLeft | Control::AlignExpandX);
+		
+		// arrow text
+		ControlText arrow_text(&panel, "&#9654;");
+		arrow_text.setAlign(Control::AlignRight);
+		arrow_text.setMargin(getRadius() * 2.0f, 0.0f, 0.0f, 0.0f);
+		
+		// create popup
+		addPopup(panel, makeFunction([this](ControlPanel panel, PopupCallback func) {
+			panel.setPosition(0.0f, floor(getRadius() * 3.75f));
+			return func(panel);
+		}, ControlPanel::null, func));
+	}
+	
+	void ControlPopup::createItemPopup(ControlPanel &popup_panel, const String &text, const PopupCallback &func) {
+		createItemPopup(popup_panel, text.get(), func);
+	}
+	
+	/*
+	 */
+	void ControlPopup::createItemSeparator(ControlPanel &popup_panel) const {
+		
+		// check the last child
+		uint32_t num_children = popup_panel.getNumChildren();
+		if(num_children && popup_panel.getChild(num_children - 1).isRect()) return;
+		
+		// root parameters
+		const ControlRoot root = getRoot();
+		Color color = root.getFontStyle().color;
+		
+		// create line
+		ControlRect rect(&popup_panel);
+		rect.setSize(1.0f, 1.0f);
+		rect.setAlign(Control::AlignExpandX);
+		rect.setMargin(0.0f, floor(getRadius() * 0.5f));
+		rect.setColor(color);
+	}
+	
+	/*
+	 */
+	ControlPanel ControlPopup::create_panel(Control *parent, const Control &control, const Vector2f &position, float32_t scale, const PopupCallback &func) const {
 		
 		// create popup panel at local root
-		Control parent = (control) ? control.getRoot(true) : getRoot(true);
-		ControlPanel popup_panel = ControlPanel(&parent);
+		ControlPanel popup_panel = ControlPanel(parent);
 		popup_panel.setCallback(true);
 		
 		// popup size
@@ -105,7 +279,7 @@ namespace Tellusim {
 		popup_panel.setGradientStyle(getGradientStyle());
 		
 		// popup callback
-		Align align = func(control, popup_panel);
+		Align align = func(popup_panel);
 		
 		// popup layout
 		Vector3f popup_position = Vector3f(position, 0.0f);
@@ -138,9 +312,29 @@ namespace Tellusim {
 		return popup_panel;
 	}
 	
+	ControlPanel ControlPopup::create_item(Control *parent) const {
+		
+		// create item panel
+		ControlPanel item_panel = ControlPanel(parent);
+		item_panel.setCallback(true);
+		
+		// item size
+		item_panel.setAlign(Control::AlignExpandX);
+		item_panel.setRadius(floor(getRadius() * 0.5f));
+		item_panel.setMargin(getRadius(), floor(getRadius() * 0.75f));
+		
+		// item color
+		item_panel.setColor(Color(0.2f, 0.3f, 0.4f, 0.9f));
+		item_panel.setStateColor(Control::StateNormal, Color(1.0f, 0.0f));
+		item_panel.setStateColor(Control::StateFocused, Color(1.0f, 1.0f));
+		item_panel.setStateColor(Control::StatePressed, Color(1.0f, 1.0f));
+		
+		return item_panel;
+	}
+	
 	/*
 	 */
-	bool ControlPopup::clear_popups(const Control &control) {
+	bool ControlPopup::clear_popups(ControlRoot &root, const Control &control) {
 		
 		bool ret = false;
 		
@@ -156,7 +350,7 @@ namespace Tellusim {
 				Popup &popup = popups[i - 1];
 				if(!close_popups && (popup.control == control || popup.panel == control || popup.panel.isChild(control, true))) {
 					popup.time = time;
-				} else if(close_popups || time - popup.time > delay) {
+				} else if(close_popups || ((popups.size() > 1 || root.getMouseButtons()) && time - popup.time > delay)) {
 					if(i < popups.size() && popup.panel.isChild(popups[i].control, true)) continue;
 					Control parent = popup.panel.getParent();
 					parent.removeChild(popup.panel);
@@ -184,6 +378,11 @@ namespace Tellusim {
 	
 	/*
 	 */
+	void ControlPopup::update_style(const FontStyle &style) {
+		uint32_t font_size = style.size + 4;
+		setRadius(floor(font_size * 0.5f));
+	}
+	
 	bool ControlPopup::update(ControlRoot &root, const Rect &region, const Rect &view, uint32_t scale) {
 		
 		bool ret = false;
@@ -193,8 +392,8 @@ namespace Tellusim {
 		if(!focused_control) {
 			focused_control = root.getCurrentControl();
 			if(!focused_control) {
-				if(root.getMouseButtons()) {
-					ret |= clear_popups(focused_control);
+				if(close_popups || root.getMouseButtons()) {
+					ret |= clear_popups(root, focused_control);
 				}
 				return ret;
 			}
@@ -233,22 +432,26 @@ namespace Tellusim {
 					}
 					Popup &popup = popups.append();
 					popup.control = focused_control;
-					popup.panel = create_panel(focused_control, focused_offset, 1.0f / area_iscale, it->data);
+					ControlRoot focused_root = focused_control.getRoot(true);
+					popup.panel = create_panel(&focused_root, focused_control, focused_offset, 1.0f / area_iscale, it->data);
 					popup.time = Time::current();
 					ret = true;
 				}
-				clear_popups(focused_control);
+				clear_popups(root, focused_control);
 			} else {
-				ret |= clear_popups(focused_control);
+				ret |= clear_popups(root, focused_control);
 				popup_control = focused_control;
 				popup_time = time;
 			}
 		}
 		else {
-			ret |= clear_popups(focused_control);
+			ret |= clear_popups(root, focused_control);
 			popup_control = Control::null;
 			popup_time = 0;
 		}
+		
+		// clear mouse align
+		if(popups) root.setMouseAlign(Control::AlignNone);
 		
 		return ret;
 	}

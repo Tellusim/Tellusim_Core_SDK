@@ -147,7 +147,7 @@ namespace Tellusim {
 			if(desktop.getHeight() >= 1440) scale = 1.5f;
 			if(desktop.getHeight() >= 2160) scale = 2.0f;
 		#endif
-		if(app.getArgument("scale")) scale = clamp(app.getArgument("scale").tof32(), 1.0f, 4.0f);
+		if(app.isArgument("scale")) scale = clamp(app.getArgument("scale").tof32(), 1.0f, 4.0f);
 		float32_t iscale = 1.0f / scale;
 		
 		// get dialog size
