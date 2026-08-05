@@ -13,6 +13,7 @@ ifeq "$(shell uname -s)" "Linux"
 		vk_pipeline \
 		vk_runtime \
 		vk_sdl_window \
+		vk_spirv \
 		vk_swap_chain
 else ifeq "$(shell uname -s)" "Darwin"
 	TESTS = \
