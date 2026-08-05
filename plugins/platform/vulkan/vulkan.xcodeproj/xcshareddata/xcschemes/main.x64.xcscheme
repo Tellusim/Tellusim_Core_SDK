@@ -6,7 +6,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "635E815C2C9FF32CD97000BA"
+				BlueprintIdentifier = "6EDFA5228F24F7CD52D000BA"
 				BuildableName = "main.x64"
 				BlueprintName = "main.x64"
 				ReferencedContainer = "container:vulkan.xcodeproj"/>

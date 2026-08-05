@@ -6,7 +6,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "603B359573CC43DB59F0009A"
+				BlueprintIdentifier = "6F2280052A8569F3CF00009A"
 				BuildableName = "main.x64"
 				BlueprintName = "main.x64"
 				ReferencedContainer = "container:clipping.xcodeproj"/>

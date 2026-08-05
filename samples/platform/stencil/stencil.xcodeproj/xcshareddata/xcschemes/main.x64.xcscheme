@@ -6,7 +6,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "65B97BDE2221F3D60D30009A"
+				BlueprintIdentifier = "65AA9D361FF9FBB770D0009A"
 				BuildableName = "main.x64"
 				BlueprintName = "main.x64"
 				ReferencedContainer = "container:stencil.xcodeproj"/>

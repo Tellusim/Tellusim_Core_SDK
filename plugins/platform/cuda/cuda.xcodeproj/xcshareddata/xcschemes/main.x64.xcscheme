@@ -6,7 +6,7 @@
 		<BuildableProductRunnable>
 			<BuildableReference
 				BuildableIdentifier = "primary"
-				BlueprintIdentifier = "6BC2473EBF64BE343FB000BA"
+				BlueprintIdentifier = "6CF067FD80ECEF4CF76000BA"
 				BuildableName = "main.x64"
 				BlueprintName = "main.x64"
 				ReferencedContainer = "container:cuda.xcodeproj"/>
